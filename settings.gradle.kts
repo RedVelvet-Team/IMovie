@@ -15,6 +15,11 @@ dependencyResolutionManagement {
 
 rootProject.name = "IMovie"
 include(":app")
-include(":data")
-include(":presentation")
-include(":domain")
+include(":entities")
+include(":firebase")
+include(":local")
+include(":remote")
+include(":repository")
+include(":ui")
+include(":usecase")
+include(":viewmodels")
