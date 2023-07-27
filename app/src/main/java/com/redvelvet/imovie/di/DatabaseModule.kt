@@ -18,7 +18,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
 
-    private const val DATABASE_NAME = "movies"
+    private const val DATABASE_NAME = "movies_database"
 
     @Singleton
     @Provides
@@ -34,7 +34,7 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideMovieDao(database: MovieDatabase) = database.movieDao
+    fun provideMovieDao(database: MovieDatabase) = database.getMovieDao()
 
     @Singleton
     @Provides
