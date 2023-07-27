@@ -1,4 +1,4 @@
 package com.redvelvet.repository
 
-class Repo {
+interface FirebaseDataSource {
 }
