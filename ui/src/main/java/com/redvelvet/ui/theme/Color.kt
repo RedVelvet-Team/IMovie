@@ -2,10 +2,20 @@ package com.redvelvet.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+//Brand Colors
+val Purple100 = Color(0xFF6C5DD3)
+val Purple80 = Color(0xCC6C5DD3)
+val Purple60 = Color(0x996C5DD3)
+val Purple40 = Color(0xFFC4BEFF)
+val Purple20 = Color(0xFFDDDAFE)
+val Purple10 = Color(0x1A6C5DD3)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+//Background Colors
+val Primary = Color(0xFF11142D)
+val Secondary = Color(0xFF20233C)
+val OnSecondary = Color(0xFF414357)
+
+//Font Colors
+val FontPrimary = Color(0xDEFFFFFF)
+val FontSecondary = Color(0xB2FFFFFF)
+val FontAccent = Color(0x61FFFFFF)
