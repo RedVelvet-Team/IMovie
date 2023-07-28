@@ -4,8 +4,9 @@ import com.redvelvet.usecase.MovieRepository
 import javax.inject.Inject
 
 class MovieRepositoryImp @Inject constructor(
-    val localDataSource: LocalDataSource,
-    val remoteDataSource: RemoteDataSource
+    private val localDataSource: LocalDataSource,
+    private val remoteDataSource: RemoteDataSource,
+    private val firebaseDataSource: FirebaseDataSource
 ) : MovieRepository {
 
 }

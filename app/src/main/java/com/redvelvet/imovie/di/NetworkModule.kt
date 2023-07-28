@@ -1,5 +1,7 @@
 package com.redvelvet.imovie.di
 
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.redvelvet.remote.MovieApiService
 import dagger.Module
 import dagger.Provides
@@ -9,7 +11,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -17,6 +18,14 @@ import javax.inject.Singleton
 object NetworkModule {
 
     private const val BASE_URL = ""
+
+    @Singleton
+    @Provides
+    fun provideFirebaseFireStore(): FirebaseFirestore = FirebaseFirestore.getInstance()
+
+    @Singleton
+    @Provides
+    fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 
     @Singleton
     @Provides

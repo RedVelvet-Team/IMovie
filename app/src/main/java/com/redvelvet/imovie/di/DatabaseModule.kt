@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
+import com.redvelvet.local.room.MovieDao
 import com.redvelvet.local.room.MovieDatabase
 import dagger.Module
 import dagger.Provides
@@ -34,7 +35,7 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideMovieDao(database: MovieDatabase) = database.getMovieDao()
+    fun provideMovieDao(database: MovieDatabase): MovieDao = database.getMovieDao()
 
     @Singleton
     @Provides
