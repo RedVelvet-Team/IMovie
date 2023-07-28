@@ -12,4 +12,5 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 dependencies{
     implementation(project(":entities"))
+    implementation("com.google.code.gson:gson:2.10.1")
 }
