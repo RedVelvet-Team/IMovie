@@ -87,6 +87,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-core")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0-alpha01")
 }
 kapt {
     correctErrorTypes = true

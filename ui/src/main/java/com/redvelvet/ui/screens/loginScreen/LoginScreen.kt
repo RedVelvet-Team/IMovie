@@ -56,7 +56,7 @@ fun LoginScreen(viewModel: LoginViewModel = hiltViewModel()) {
     val uiState by viewModel.state.collectAsState()
     val context = LocalContext.current
     val imageBitmap: ImageBitmap =
-        ImageBitmap.imageResource(context.resources, R.drawable.login_screen)
+        ImageBitmap.imageResource(context.resources, R.drawable.login)
 
     val sheetState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberStandardBottomSheetState(SheetValue.Expanded)
@@ -68,7 +68,8 @@ fun LoginScreen(viewModel: LoginViewModel = hiltViewModel()) {
         sheetContainerColor = Color(0xFF11142D),
         sheetShape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
         sheetShadowElevation = 0.dp,
-        sheetPeekHeight = 32.dp
+        sheetPeekHeight = 32.dp,
+        sheetSwipeEnabled = false
     ) {
         Image(
             bitmap = imageBitmap,
@@ -81,7 +82,6 @@ fun LoginScreen(viewModel: LoginViewModel = hiltViewModel()) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginContent(uiState: LoginUiState, viewModel: LoginViewModel) {
     Column(
@@ -168,7 +168,16 @@ fun LoginContent(uiState: LoginUiState, viewModel: LoginViewModel) {
             enabled = !uiState.isLoading,
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Purple100)
-        ) { Text("SIGN IN", Modifier.padding(vertical = 8.dp)) }
+        ) {
+            Text(
+                "Login",
+                Modifier.padding(vertical = 8.dp),
+                fontSize = 14.sp,
+                fontFamily = Montserrat,
+                fontWeight = FontWeight.SemiBold,
+                color = FontPrimary
+            )
+        }
         Spacer(modifier = Modifier.height(24.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
