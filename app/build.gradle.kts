@@ -56,14 +56,10 @@ dependencies {
     implementation("androidx.test:monitor:1.6.1")
     testImplementation("org.testng:testng:6.9.6")
     androidTestImplementation("org.testng:testng:6.9.6")
-    //noinspection GradleDependency
-    //navigation
-    val nav_version = "2.6.0"
-    implementation("androidx.navigation:navigation-compose:$nav_version")
     //hilt
     implementation("com.google.dagger:hilt-android:2.46.1")
     kapt("com.google.dagger:hilt-compiler:2.46.1")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0-alpha01")
+    implementation("androidx.hilt:hilt-work:1.0.0")
     //firebase
     implementation(platform("com.google.firebase:firebase-bom:32.2.0"))
     //fire store
