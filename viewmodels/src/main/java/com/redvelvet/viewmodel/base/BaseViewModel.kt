@@ -1,4 +1,4 @@
-package com.redvelvet.viewmodel.base
+package com.redvelvet.viewmodel
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -8,6 +8,8 @@ abstract class BaseViewModel<UiState : BaseUiState>(state: UiState) : ViewModel(
 
     protected val _state = MutableStateFlow(state)
     val state = _state.asStateFlow()
+
+
 
 //    fun <T> tryToExecute(
 //        function: suspend () -> T,
