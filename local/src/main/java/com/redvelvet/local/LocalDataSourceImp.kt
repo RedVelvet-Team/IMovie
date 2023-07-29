@@ -2,16 +2,14 @@ package com.redvelvet.local
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
-import com.redvelvet.local.room.MovieDao
+import com.redvelvet.local.util.PreferencesKeys
 import com.redvelvet.repository.LocalDataSource
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class LocalDataSourceImp @Inject constructor(
     private val dataStore: DataStore<Preferences>,
-    private val movieDao: MovieDao,
 ) : LocalDataSource {
 
     // region user
@@ -46,11 +44,5 @@ class LocalDataSourceImp @Inject constructor(
     }
     //endregion
 
-
-    private  object PreferencesKeys {
-        val IsLoggedByAccount   = booleanPreferencesKey("is_logged_by_account")
-        val IsLoggedByGuest     = booleanPreferencesKey("is_logged_by_guest")
-        val IsFirstTimeUsingApp = booleanPreferencesKey("is_first_time_using_app")
-    }
 
 }

@@ -7,8 +7,8 @@ import javax.inject.Inject
 
 
 class FirebaseDataSourceImp @Inject constructor(
-    private val firestore: FirebaseFirestore,
+    private val fireStore: FirebaseFirestore,
     private val auth: FirebaseAuth
-): FirebaseDataSource {
+) : FirebaseDataSource {
 
 }
