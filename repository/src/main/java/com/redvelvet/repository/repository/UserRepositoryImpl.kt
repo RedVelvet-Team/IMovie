@@ -4,7 +4,7 @@ import com.redvelvet.repository.source.LocalDataSource
 import com.redvelvet.usecase.repository.UserRepository
 import javax.inject.Inject
 
-class UserRepositoryImp @Inject constructor(
+class UserRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSource,
 ) : UserRepository {
     override suspend fun setIsLoggedByAccount(isLogged: Boolean) {
