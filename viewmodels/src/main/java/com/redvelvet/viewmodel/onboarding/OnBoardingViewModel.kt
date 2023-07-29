@@ -16,7 +16,7 @@ class OnBoardingViewModel @Inject constructor(
 
     fun setNotFirstTimeUseApp() {
         viewModelScope.launch(Dispatchers.IO) {
-            setUserNotFirstTimeUseApp.invoke()
+            setUserNotFirstTimeUseApp.invoke(false)
             _state.update {
                 it.copy(
                     saved = true,
