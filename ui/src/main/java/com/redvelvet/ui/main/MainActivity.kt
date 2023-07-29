@@ -1,4 +1,4 @@
-package com.redvelvet.ui
+package com.redvelvet.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.redvelvet.ui.MovieApp
 import com.redvelvet.ui.theme.IMovieTheme
 import dagger.hilt.android.AndroidEntryPoint
 
