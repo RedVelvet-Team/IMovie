@@ -1,9 +1,10 @@
 package com.redvelvet.usecase.usecase.user
 
 import com.redvelvet.usecase.repository.UserRepository
+import javax.inject.Inject
 
-class CheckUserIsGuestUseCaseImpl (private val userRepository: UserRepository) : CheckUserIsGuestUseCase {
-    override suspend fun invoke(): Boolean {
+class CheckUserIsGuestUseCaseImpl @Inject constructor (private val userRepository: UserRepository) {
+     suspend fun invoke(): Boolean {
         return userRepository.getIsLoggedByGuest()
     }
 }

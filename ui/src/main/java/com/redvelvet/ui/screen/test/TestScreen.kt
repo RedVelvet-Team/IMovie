@@ -11,7 +11,7 @@ import androidx.navigation.NavController
 
 @Composable
 fun TestScreen(
-    navController: NavController
+    navController: NavController,
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),

@@ -8,5 +8,4 @@ class CheckUserFirstTimeUseAppUseCaseImpl @Inject constructor(private val userRe
     suspend fun invoke(): Boolean {
         return userRepository.getIsFirstTimeUsingApp()
     }
-
 }

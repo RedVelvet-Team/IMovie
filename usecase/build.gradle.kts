@@ -15,4 +15,5 @@ dependencies {
     implementation(project(":entities"))
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("com.google.dagger:dagger:2.46.1")
+    testImplementation("org.testng:testng:6.9.6")
 }

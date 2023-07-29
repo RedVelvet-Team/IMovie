@@ -1,10 +1,10 @@
 package com.redvelvet.usecase.usecase.user
 
 import com.redvelvet.usecase.repository.UserRepository
+import javax.inject.Inject
 
-class SetUserNotFirstTimeUseAppUseCaseImpl(private val userRepository: UserRepository) :
-    SetUserNotFirstTimeUseAppUseCase {
-    override suspend fun invoke() {
+class SetUserNotFirstTimeUseAppUseCaseImpl @Inject constructor(private val userRepository: UserRepository) {
+    suspend fun invoke() {
         userRepository.setIsFirstTimeUsingApp(false)
     }
 }
