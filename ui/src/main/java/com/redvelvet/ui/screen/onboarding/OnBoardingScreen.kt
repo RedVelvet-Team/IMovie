@@ -39,6 +39,7 @@ fun OnBoardingScreen(
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(Primary, darkIcons = false)
     OnBoardingContent {
+        viewModel.setNotFirstTimeUseApp()
         if (state.saved)
             navController.navigate(MovieDestination.Login.route)
     }
