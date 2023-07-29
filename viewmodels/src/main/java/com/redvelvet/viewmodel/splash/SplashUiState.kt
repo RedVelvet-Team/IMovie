@@ -1,4 +1,4 @@
-package com.redvelvet.viewmodel
+package com.redvelvet.viewmodel.splash
 
 import com.redvelvet.viewmodel.BaseUiState
 

@@ -21,26 +21,29 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.theme.Primary
-import com.redvelvet.viewmodel.SplashUiState
-import com.redvelvet.viewmodel.SplashViewModel
+import com.redvelvet.viewmodel.splash.SplashUiState
+import com.redvelvet.viewmodel.splash.SplashViewModel
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen(navController: NavController, viewModel: SplashViewModel = hiltViewModel()) {
+fun SplashScreen(
+    navController: NavController,
+    viewModel: SplashViewModel = hiltViewModel()
+) {
     val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(Primary, darkIcons = false)
     val event = object : SplashUiEvent {
         override fun navigateToHome() {
-            navigateTo(navController,MovieDestination.Home.route)
+            navigateTo(navController, MovieDestination.Home.route)
         }
 
         override fun navigateToOnBoarding() {
-            navigateTo(navController,MovieDestination.OnBoarding.route)
+            navigateTo(navController, MovieDestination.OnBoarding.route)
         }
 
         override fun navigateToLogin() {
-            navigateTo(navController,MovieDestination.Login.route)
+            navigateTo(navController, MovieDestination.Login.route)
         }
     }
 
@@ -83,7 +86,7 @@ private fun SplashContent(
     }
 }
 
-private fun navigateTo(navController: NavController,route: String){
+private fun navigateTo(navController: NavController, route: String) {
     navController.navigate(route) {
         popUpTo(MovieDestination.Splash.route) {
             inclusive = true

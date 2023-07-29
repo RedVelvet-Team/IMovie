@@ -1,4 +1,4 @@
-package com.redvelvet.viewmodel
+package com.redvelvet.viewmodel.splash
 
 import androidx.lifecycle.viewModelScope
 import com.redvelvet.usecase.usecase.user.CheckUserFirstTimeUseAppUseCaseImpl
