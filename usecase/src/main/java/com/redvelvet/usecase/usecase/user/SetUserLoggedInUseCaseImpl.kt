@@ -1,9 +1,9 @@
 package com.redvelvet.usecase.usecase.user
 
 import com.redvelvet.usecase.repository.UserRepository
-import javax.inject.Inject
 
-class SetUserLoggedInUseCaseImpl @Inject constructor() : SetUserLoggedInUseCase {
+
+class SetUserLoggedInUseCaseImpl  :SetUserLoggedInUseCase {
     override suspend fun invoke(userRepository: UserRepository) {
         userRepository.setIsLoggedByAccount(true)
     }
