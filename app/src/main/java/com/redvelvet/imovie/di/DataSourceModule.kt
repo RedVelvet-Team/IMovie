@@ -1,11 +1,11 @@
 package com.redvelvet.imovie.di
 
 import com.redvelvet.firebase.FirebaseDataSourceImp
-import com.redvelvet.local.LocalDataSourceImp
-import com.redvelvet.remote.RemoteDataSourceImp
-import com.redvelvet.repository.FirebaseDataSource
-import com.redvelvet.repository.LocalDataSource
-import com.redvelvet.repository.RemoteDataSource
+import com.redvelvet.local.source.LocalDataSourceImp
+import com.redvelvet.remote.source.RemoteDataSourceImp
+import com.redvelvet.repository.source.FirebaseDataSource
+import com.redvelvet.repository.source.LocalDataSource
+import com.redvelvet.repository.source.RemoteDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

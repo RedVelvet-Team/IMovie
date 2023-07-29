@@ -1,6 +1,6 @@
-package com.redvelvet.repository
+package com.redvelvet.usecase.repository
 
-interface LocalDataSource {
+interface UserRepository {
     suspend fun setIsLoggedByAccount(isLogged: Boolean)
     suspend fun getIsLoggedByAccount(): Boolean
 

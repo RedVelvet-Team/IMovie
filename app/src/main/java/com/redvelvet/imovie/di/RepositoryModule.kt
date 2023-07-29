@@ -1,7 +1,7 @@
 package com.redvelvet.imovie.di
 
-import com.redvelvet.repository.MovieRepositoryImp
-import com.redvelvet.usecase.MovieRepository
+import com.redvelvet.repository.repository.MovieRepositoryImp
+import com.redvelvet.usecase.repository.MovieRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

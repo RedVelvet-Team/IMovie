@@ -2,7 +2,7 @@ package com.redvelvet.firebase
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.redvelvet.repository.FirebaseDataSource
+import com.redvelvet.repository.source.FirebaseDataSource
 import javax.inject.Inject
 
 

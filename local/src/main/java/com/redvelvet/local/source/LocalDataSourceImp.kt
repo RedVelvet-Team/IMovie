@@ -1,10 +1,10 @@
-package com.redvelvet.local
+package com.redvelvet.local.source
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import com.redvelvet.local.util.PreferencesKeys
-import com.redvelvet.repository.LocalDataSource
+import com.redvelvet.repository.source.LocalDataSource
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
