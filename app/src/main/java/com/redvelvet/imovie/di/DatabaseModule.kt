@@ -37,13 +37,16 @@ object DatabaseModule {
     @Provides
     fun provideMovieDao(database: MovieDatabase): MovieDao = database.getMovieDao()
 
+
+    private const val PREFERENCES_NAME = "com.redvelvet.imovie.user_preference"
+
     @Singleton
     @Provides
     fun provideUserDataStore(
         @ApplicationContext context: Context
     ): DataStore<Preferences> {
         return PreferenceDataStoreFactory.create {
-            context.preferencesDataStoreFile("com.redvelvet.imovie.user_preference")
+            context.preferencesDataStoreFile(PREFERENCES_NAME)
         }
     }
 }

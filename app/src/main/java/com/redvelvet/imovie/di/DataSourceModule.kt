@@ -10,21 +10,24 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class DataSourceModule {
-
+    @Singleton
     @Binds
     abstract fun bindLocalDataSource(
         localDataSourceImp: LocalDataSourceImp
     ): LocalDataSource
 
+    @Singleton
     @Binds
     abstract fun bindFirebaseDataSource(
         firebaseDataSourceImp: FirebaseDataSourceImp
     ): FirebaseDataSource
 
+    @Singleton
     @Binds
     abstract fun bindRemoteDataSource(
         remoteDataSourceImp: RemoteDataSourceImp
