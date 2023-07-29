@@ -10,7 +10,9 @@ java {
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
-dependencies{
+dependencies {
     implementation(project(":entities"))
     implementation("com.google.code.gson:gson:2.10.1")
+    //hilt
+    implementation("com.google.dagger:hilt-android:2.46.1")
 }
