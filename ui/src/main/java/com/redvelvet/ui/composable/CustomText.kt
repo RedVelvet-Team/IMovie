@@ -1,4 +1,4 @@
-package com.redvelvet.ui.screens.onboarding.composable
+package com.redvelvet.ui.composable
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -10,12 +10,12 @@ import com.redvelvet.ui.theme.Typography
 @Composable
 fun CustomText(
     name: String,
-    modifier: Modifier,
+    modifier: Modifier=Modifier,
     style: TextStyle = Typography.headlineLarge,
 ) {
     Text(
         text = name,
-        style = Typography.headlineLarge,
+        style = style,
         modifier = modifier,
         textAlign = TextAlign.Center,
     )

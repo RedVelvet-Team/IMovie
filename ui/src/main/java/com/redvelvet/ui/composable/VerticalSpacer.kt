@@ -1,4 +1,4 @@
-package com.redvelvet.ui.screens.onboarding.composable
+package com.redvelvet.ui.composable
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height

@@ -1,4 +1,4 @@
-package com.redvelvet.viewmodel
+package com.redvelvet.viewmodel.base
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

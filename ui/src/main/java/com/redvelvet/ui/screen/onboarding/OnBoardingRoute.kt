@@ -1,4 +1,4 @@
-package com.redvelvet.ui.screens.onboarding
+package com.redvelvet.ui.screen.onboarding
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
