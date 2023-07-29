@@ -40,9 +40,9 @@ fun OnBoardingScreen(
     systemUiController.setSystemBarsColor(Primary, darkIcons = false)
     OnBoardingContent {
         viewModel.setNotFirstTimeUseApp()
-        if (state.saved)
-            navController.navigate(MovieDestination.Login.route)
     }
+    if (state.saved)
+        navController.navigate(MovieDestination.Login.route)
 }
 
 @Composable
