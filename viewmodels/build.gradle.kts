@@ -39,7 +39,6 @@ android {
 
 dependencies {
     implementation(project(":usecase"))
-    implementation(project(":entities"))
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     testImplementation("junit:junit:4.13.2")
