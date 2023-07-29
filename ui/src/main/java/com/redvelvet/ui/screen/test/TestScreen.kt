@@ -18,7 +18,7 @@ fun TestScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-
+        Text(text = "Test")
     }
-    Text(text = "Test")
+
 }
