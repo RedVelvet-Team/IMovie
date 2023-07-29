@@ -11,7 +11,3 @@ fun NavGraphBuilder.onBoardingRoute(navController: NavController) {
         OnBoardingScreen(navController = navController)
     }
 }
-
-fun NavController.navToOnBoarding() {
-    navigate(MovieDestination.OnBoarding.route)
-}

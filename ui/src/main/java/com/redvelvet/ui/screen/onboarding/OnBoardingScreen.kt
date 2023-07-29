@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.CustomButton
 import com.redvelvet.ui.composable.CustomText
@@ -25,6 +26,7 @@ import com.redvelvet.ui.composable.WallPaper
 import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.theme.FontPrimary
 import com.redvelvet.ui.theme.FontSecondary
+import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.viewmodel.onboarding.OnBoardingViewModel
 
@@ -34,6 +36,8 @@ fun OnBoardingScreen(
     viewModel: OnBoardingViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setSystemBarsColor(Primary, darkIcons = false)
     OnBoardingContent {
         if (state.saved)
             navController.navigate(MovieDestination.Login.route)

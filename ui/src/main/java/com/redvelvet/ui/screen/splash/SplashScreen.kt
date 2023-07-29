@@ -4,6 +4,7 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -19,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
+import com.redvelvet.ui.composable.WallPaper
 import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.theme.Primary
 import com.redvelvet.viewmodel.splash.SplashUiState
@@ -56,12 +58,12 @@ private fun SplashContent(
     event: SplashUiEvent
 ) {
     val rotationDegree = remember { Animatable(0f) }
-    LaunchedEffect(key1 = Unit) {
+    LaunchedEffect(key1 = state) {
         rotationDegree.animateTo(
             targetValue = 360f,
             animationSpec = tween(durationMillis = 850)
         )
-        delay(1500)
+        delay(1000)
         if (state.isFirstTimeUseApp) {
             event.navigateToOnBoarding()
             return@LaunchedEffect
@@ -71,18 +73,20 @@ private fun SplashContent(
             return@LaunchedEffect
         }
         event.navigateToLogin()
-
     }
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceEvenly
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.vector_logo),
-            contentDescription = null,
-            modifier = Modifier.rotate(rotationDegree.value)
-        )
+    Box(modifier = Modifier.fillMaxSize()) {
+        WallPaper(id = R.drawable.wallpaper)
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.vector_logo),
+                contentDescription = null,
+                modifier = Modifier.rotate(rotationDegree.value)
+            )
+        }
     }
 }
 
