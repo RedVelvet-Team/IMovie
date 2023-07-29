@@ -3,12 +3,13 @@ package com.redvelvet.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import com.redvelvet.ui.screen.splash.SplashScreen
+import com.redvelvet.ui.screen.onboarding.onBoardingRoute
+import com.redvelvet.ui.screen.splash.splashRoute
 
 @Composable
 fun MovieNavGraph(navController: NavHostController) {
     NavHost(navController = navController, startDestination = MovieDestination.Splash.route) {
-        composable(MovieDestination.Splash.route) { SplashScreen(navController = navController) }
+        splashRoute(navController)
+        onBoardingRoute(navController)
     }
 }
