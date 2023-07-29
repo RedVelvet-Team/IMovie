@@ -2,5 +2,5 @@ package com.redvelvet.usecase.usecase.user
 
 
 interface CheckUserFirstTimeUseAppUseCase {
-    suspend fun invoke(): Boolean
+    suspend operator fun invoke(): Boolean
 }
