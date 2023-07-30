@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.redvelvet.ui.MovieApp
+import com.redvelvet.ui.screen.home.HomeScreen
 import com.redvelvet.ui.theme.IMovieTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,7 +22,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MovieApp()
+                    //MovieApp()
+                    HomeScreen()
                 }
             }
         }
