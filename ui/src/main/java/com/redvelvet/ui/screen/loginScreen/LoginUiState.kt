@@ -1,4 +1,4 @@
-package com.redvelvet.ui.screens.loginScreen
+package com.redvelvet.ui.screen.loginScreen
 
 
 data class LoginUiState(
