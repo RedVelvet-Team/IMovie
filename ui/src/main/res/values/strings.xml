@@ -11,4 +11,14 @@
     <string name="no_search_results">" No Search Results "</string>
     <string name="search_in_movie">Search in Movie</string>
     <string name="search_for_your_favorite_movies">Search for your favorite movies and\nTV shows that you love.</string>
+    <string name="show_and_hide_password_icon">Show and hide password icon</string>
+    <string name="person_icon">person icon</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="or">OR</string>
+    <string name="continue_as_a_guest">Continue as a guest</string>
+    <string name="login_to_your_account">Login to your account</string>
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="login_image">Login Image</string>
 </resources>
