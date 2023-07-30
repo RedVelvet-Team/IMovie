@@ -11,8 +11,8 @@ import kotlinx.coroutines.launch
 
 abstract class BaseViewModel<UiState : BaseUiState>(state: UiState) : ViewModel() {
 
-    private val _state = MutableStateFlow(state)
-    protected val state = _state.asStateFlow()
+    protected val _state = MutableStateFlow(state)
+    val state = _state.asStateFlow()
 
     fun <T> tryToExecute(
         function: suspend () -> T,
