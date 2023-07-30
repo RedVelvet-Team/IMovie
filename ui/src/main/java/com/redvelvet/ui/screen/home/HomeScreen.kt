@@ -19,7 +19,7 @@ import com.redvelvet.ui.composable.ItemsSection
 import com.redvelvet.ui.composable.VerticalSpacer
 import com.redvelvet.ui.theme.Primary
 
-@Preview(
+/*@Preview(
     showSystemUi = true,
     showBackground = true,
     device = "spec:orientation=landscape,width=360dp,height=800dp"
@@ -27,7 +27,7 @@ import com.redvelvet.ui.theme.Primary
 @Composable
 fun PreviewHomeScreenHorizontal(){
     HomeScreenContent(paddingValues = PaddingValues(16.dp))
-}
+}*/
 
 @Preview(
     showSystemUi = true,
@@ -71,7 +71,7 @@ fun HomeScreenContent(paddingValues: PaddingValues) {
                     image = R.drawable.baseline_do_disturb_alt_24,
                     hasName = true,
                     name = "Guardians of the Galaxy vol. 3",
-                    hasDateAndCountry = true,
+                    hasDateAndCountry = false,
                     date = "22/05/2023",
                     country = "US"
                 )
