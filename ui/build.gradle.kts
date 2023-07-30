@@ -75,6 +75,7 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.46.1")
     kapt("com.google.dagger:hilt-compiler:2.46.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0-alpha01")
+    implementation("androidx.hilt:hilt-work:1.0.0")
     //coil
     implementation("io.coil-kt:coil-compose:2.4.0")
     //constraint
@@ -85,5 +86,7 @@ dependencies {
     implementation("com.airbnb.android:lottie-compose:6.1.0")
     //viewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+    //permissions
+    implementation("com.google.accompanist:accompanist-permissions:0.31.3-beta")
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0-alpha01")
 }
