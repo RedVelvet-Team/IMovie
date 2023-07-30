@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 
 class SetUserLoggedInUseCaseImpl @Inject constructor (private val userRepository: UserRepository) {
-    suspend fun invoke() {
-        userRepository.setIsLoggedByAccount(true)
+    suspend fun invoke(isLoggedIn:Boolean) {
+        userRepository.setIsLoggedByAccount(isLoggedIn)
     }
 }

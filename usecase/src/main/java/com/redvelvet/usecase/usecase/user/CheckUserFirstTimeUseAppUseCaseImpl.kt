@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 
 class CheckUserFirstTimeUseAppUseCaseImpl @Inject constructor(private val userRepository: UserRepository) {
-    suspend fun invoke(): Boolean {
+    suspend operator fun invoke(): Boolean {
         return userRepository.getIsFirstTimeUsingApp()
     }
 }

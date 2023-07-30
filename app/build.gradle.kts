@@ -96,12 +96,10 @@ dependencies {
     // optional - Multiprocess support
     implementation("androidx.work:work-multiprocess:$work_version")
 
-    api(project(":entities"))
     api(project(":firebase"))
     api(project(":local"))
     api(project(":remote"))
     api(project(":repository"))
     api(project(":ui"))
-    api(project(":usecase"))
     api(project(":viewmodels"))
 }
