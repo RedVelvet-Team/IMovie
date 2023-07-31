@@ -21,6 +21,7 @@ import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.navigation.MovieDestination
+import com.redvelvet.ui.screen.home.navigateToHome
 import com.redvelvet.ui.screen.onboarding.navigateToOnBoarding
 import com.redvelvet.ui.theme.Primary
 import com.redvelvet.viewmodel.splash.SplashUiState
@@ -37,7 +38,11 @@ fun SplashScreen(
     systemUiController.setSystemBarsColor(Primary, darkIcons = false)
     val event = object : SplashUiEvent {
         override fun navigateToHome() {
-//            navigateTo(navController, MovieDestination.Home.route)
+            navController.navigateToHome {
+                popUpTo(MovieDestination.Splash.route) {
+                    inclusive = true
+                }
+            }
         }
 
         override fun navigateToOnBoarding() {
@@ -49,7 +54,7 @@ fun SplashScreen(
         }
 
         override fun navigateToLogin() {
-//            navigateTo(navController, MovieDestination.Login.route)
+    //            navigateTo(navController, MovieDestination.Login.route)
         }
     }
     SplashContent(state, event)
