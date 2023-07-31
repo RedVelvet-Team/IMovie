@@ -1,5 +1,6 @@
-package com.redvelvet.remote
+package com.redvelvet.remote.util.interceptor
 
+import com.redvelvet.remote.BuildConfig
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.Request
