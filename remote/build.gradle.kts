@@ -18,17 +18,20 @@ android {
         consumerProguardFiles("consumer-rules.pro")
 
 
-        val localProperties = Properties()
-        val localPropertiesFile = rootProject.file("local.properties")
+//        val localProperties = Properties()
+//        val localPropertiesFile = rootProject.file("local.properties")
 
-        if (localPropertiesFile.exists()) {
-            localPropertiesFile.reader(charset("UTF-8")).use { reader ->
-                localProperties.load(reader)
-            }
-        }
+        val properties = Properties()
+        properties.load(project.rootProject.file("local.properties").inputStream())
 
-        buildConfigField("String", "API_KEY", localProperties.getProperty("API_KEY") ?: "\"\"")
-        buildConfigField("String", "BASE_URL", localProperties.getProperty("BASE_URL") ?: "\"\"")
+//        if (localPropertiesFile.exists()) {
+//            localPropertiesFile.reader(charset("UTF-8")).use { reader ->
+//                localProperties.load(reader)
+//            }
+//        }
+
+        buildConfigField("String", "API_KEY", properties.getProperty("apikey"))
+        buildConfigField("String", "BASE_URL", properties.getProperty("baseUrl"))
 
     }
 
