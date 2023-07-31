@@ -1,6 +1,7 @@
 package com.redvelvet.viewmodel.splash
 
-import com.redvelvet.viewmodel.BaseUiState
+import com.redvelvet.viewmodel.base.BaseUiState
+
 
 data class SplashUiState(
     val isLogged: Boolean = false,
