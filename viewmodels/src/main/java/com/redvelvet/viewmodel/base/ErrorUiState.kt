@@ -1,6 +1,6 @@
 package com.redvelvet.viewmodel.base
 
-import com.redvelvet.entities.ErrorType
+import com.redvelvet.entities.error.ErrorType
 
 sealed class ErrorUiState{
     object NullData: ErrorUiState()

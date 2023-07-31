@@ -1,8 +1,8 @@
 package com.redvelvet.repository
 
-import com.redvelvet.entities.ErrorType
+import com.redvelvet.entities.error.ErrorType
 
-fun RemoteError.toErrorType(): ErrorType{
+fun RemoteError.toErrorType(): ErrorType {
     return when(this){
         is RemoteError.Network -> ErrorType.Network
         is RemoteError.NullData -> ErrorType.NullData
