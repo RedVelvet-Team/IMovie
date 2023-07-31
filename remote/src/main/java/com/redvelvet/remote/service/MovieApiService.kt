@@ -1,6 +1,5 @@
 package com.redvelvet.remote.service
 
-import com.redvelvet.remote.response.BaseResponse
 import com.redvelvet.remote.dto.auth.GuestSessionDto
 import com.redvelvet.remote.dto.auth.LoginRequest
 import com.redvelvet.remote.dto.auth.SessionDto
@@ -30,5 +29,5 @@ interface MovieApiService {
 
     @FormUrlEncoded
     @HTTP(method = "DELETE", path = "authentication/session", hasBody = true)
-    suspend fun deleteUserSession(@Field("session_id") sessionId: String): Response<BaseResponse>
+    suspend fun deleteUserSession(@Field("session_id") sessionId: String): Response<TokenDto>
 }
