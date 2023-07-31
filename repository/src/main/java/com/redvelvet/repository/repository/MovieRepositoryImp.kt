@@ -1,8 +1,10 @@
 package com.redvelvet.repository.repository
 
+import com.redvelvet.repository.RemoteError
 import com.redvelvet.repository.source.FirebaseDataSource
 import com.redvelvet.repository.source.LocalDataSource
 import com.redvelvet.repository.source.RemoteDataSource
+import com.redvelvet.repository.toErrorType
 import com.redvelvet.usecase.repository.MovieRepository
 import javax.inject.Inject
 
@@ -12,4 +14,12 @@ class MovieRepositoryImp @Inject constructor(
     private val firebaseDataSource: FirebaseDataSource
 ) : MovieRepository {
 
+
+    private fun <T> wrapRemoteRequest(function: suspend () -> T): suspend () -> T {
+        try {
+            return function
+        }catch (e: RemoteError){
+            throw e.toErrorType()
+        }
+    }
 }

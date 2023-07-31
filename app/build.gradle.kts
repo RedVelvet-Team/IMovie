@@ -102,4 +102,5 @@ dependencies {
     api(project(":repository"))
     api(project(":ui"))
     api(project(":viewmodels"))
+    implementation(project(":usecase"))
 }

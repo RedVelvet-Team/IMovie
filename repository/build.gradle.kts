@@ -38,7 +38,8 @@ android {
 }
 
 dependencies {
-    api(project(":usecase"))
+    implementation(project(":usecase"))
+
     implementation("androidx.core:core-ktx:1.10.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
