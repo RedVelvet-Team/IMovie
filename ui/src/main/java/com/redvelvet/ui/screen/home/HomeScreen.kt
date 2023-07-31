@@ -26,16 +26,6 @@ import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.home.HomeUiState
 import com.redvelvet.viewmodel.home.HomeViewModel
 
-/*@Preview(
-    showSystemUi = true,
-    showBackground = true,
-    device = "spec:orientation=landscape,width=360dp,height=800dp"
-)
-@Composable
-fun PreviewHomeScreenHorizontal(){
-    HomeScreenContent(paddingValues = PaddingValues(16.dp))
-}*/
-
 @Preview(
     showSystemUi = true,
     showBackground = true,
@@ -46,7 +36,6 @@ fun PreviewHomeScreenVertical() {
     val navController = rememberNavController()
     HomeScreen(navController)
 }
-
 
 @Composable
 fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltViewModel()) {

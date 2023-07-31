@@ -1,6 +1,6 @@
 package com.redvelvet.viewmodel.home
 
-import com.redvelvet.viewmodel.BaseUiState
+import com.redvelvet.viewmodel.base.BaseUiState
 
 data class HomeUiState(
     val popularMovie: MovieUiState? = null,
@@ -13,7 +13,7 @@ data class HomeUiState(
     val topRatedSeries: List<SeriesUiState> = emptyList(),
     val isLoading: Boolean = false,
     val error: String? = null,
-):BaseUiState
+): BaseUiState
 
 data class MovieUiState(
     val movieImage: String,
