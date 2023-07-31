@@ -9,5 +9,4 @@ data class LoginRequest(
     val password: String?,
     @SerializedName("request_token")
     val requestToken: String?
-
 )

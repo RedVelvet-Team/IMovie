@@ -1,8 +1,8 @@
-package com.redvelvet.remote.dto
+package com.redvelvet.remote.response
 
 import com.google.gson.annotations.SerializedName
 
-data class BaseResponse(
+data class BaseResponse<T>(
     @SerializedName("status_code")
     val statusCode: Int?,
     @SerializedName("status_message")
@@ -10,5 +10,6 @@ data class BaseResponse(
     @SerializedName("success")
     val success: Boolean?,
     @SerializedName("list_id")
-    val listId: Int?
+    val listId: Int?,
+    val result: T?,
 )
