@@ -7,6 +7,5 @@ data class TokenDto(
     val expiresAt: String?,
     @SerializedName("request_token")
     val requestToken: String?,
-    @SerializedName("success")
     val success: Boolean?
 )
