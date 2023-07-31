@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.FontAccent
 import com.redvelvet.ui.theme.Typography
@@ -25,7 +26,7 @@ import com.redvelvet.ui.theme.Typography
 
 @Composable
 fun ItemBasicCard(
-    image: Int,
+    image: String,
     hasName: Boolean = false,
     name: String = "",
     hasDateAndCountry: Boolean = false,
@@ -42,7 +43,7 @@ fun ItemBasicCard(
             colors = CardDefaults.cardColors(containerColor = Color.White)
         ) {
             Image(
-                painter = painterResource(id = image),
+                painter = rememberAsyncImagePainter(model = image),
                 contentDescription = stringResource(R.string.poster),
                 modifier = Modifier.fillMaxSize()
             )

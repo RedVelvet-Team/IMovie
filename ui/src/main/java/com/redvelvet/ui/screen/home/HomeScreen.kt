@@ -6,18 +6,25 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.redvelvet.ui.R
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.redvelvet.ui.composable.CustomTabLayout
 import com.redvelvet.ui.composable.CustomTopAppBar
 import com.redvelvet.ui.composable.ItemsSection
 import com.redvelvet.ui.composable.VerticalSpacer
 import com.redvelvet.ui.theme.Primary
+import com.redvelvet.ui.theme.spacing
+import com.redvelvet.viewmodel.home.HomeUiState
+import com.redvelvet.viewmodel.home.HomeViewModel
 
 /*@Preview(
     showSystemUi = true,
@@ -36,68 +43,67 @@ fun PreviewHomeScreenHorizontal(){
 )
 @Composable
 fun PreviewHomeScreenVertical() {
-    HomeScreen()
+    val navController = rememberNavController()
+    HomeScreen(navController)
 }
 
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltViewModel()) {
+    val state by viewModel.state.collectAsState()
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         CustomTopAppBar("FlixMovie", hasBackArrow = false)
     }, bottomBar = {
-                   //TODO @Hassan Ayman
+        //TODO @Hassan Ayman
     },
         containerColor = Primary
     ) { paddingValues ->
-        HomeScreenContent(paddingValues)
+        HomeScreenContent(paddingValues, state)
     }
 }
 
 @Composable
-fun HomeScreenContent(paddingValues: PaddingValues) {
+fun HomeScreenContent(paddingValues: PaddingValues, state: HomeUiState) {
     Column(
         modifier = Modifier
             .padding(top = 64.dp)
             .fillMaxWidth()
     ) {
         CustomTabLayout()
-        VerticalSpacer(space = 16)
-
-        LazyColumn{
+        LazyColumn(contentPadding = PaddingValues(vertical = MaterialTheme.spacing.spacing16)) {
+            item {
+                ItemsSection(
+                    label = "Popular Movies",
+                    images = listOf(state.popularMovie?.movieImage!!),
+                    hasName = true,
+                    name = listOf(state.popularMovie?.movieName!!),
+                    hasDateAndCountry = false,
+                    date = listOf(state.popularMovie?.movieDate!!),
+                    country = listOf(state.popularMovie?.countryOfMovie!!)
+                )
+            }
             item {
                 VerticalSpacer(space = 24)
                 ItemsSection(
-                    label = "Popular Movies",
-                    image = R.drawable.baseline_do_disturb_alt_24,
-                    hasName = true,
-                    name = "Guardians of the Galaxy vol. 3",
-                    hasDateAndCountry = false,
-                    date = "22/05/2023",
-                    country = "US"
-                )
-            }
-            item{
-                VerticalSpacer(space = 24)
-                ItemsSection(
                     label = "Up Coming",
-                    image = R.drawable.baseline_do_disturb_alt_24,
+                    images = state.upComingMovies.map { it.movieImage },
                     hasName = true,
-                    name = "Guardians of the Galaxy vol. 3",
+                    name = state.upComingMovies.map { it.movieName },
                     hasDateAndCountry = true,
-                    date = "22/05/2023",
-                    country = "US"
+                    date = state.upComingMovies.map { it.movieDate },
+                    country = state.upComingMovies.map { it.countryOfMovie }
                 )
             }
-            item{
+            item {
                 VerticalSpacer(space = 24)
                 ItemsSection(
                     label = "Top Rated",
-                    image = R.drawable.baseline_do_disturb_alt_24,
+                    images = state.upComingMovies.map { it.movieImage },
                     hasName = true,
-                    name = "Guardians of the Galaxy vol. 3",
+                    name = state.upComingMovies.map { it.movieName },
                     hasDateAndCountry = true,
-                    date = "22/05/2023",
-                    country = "US"
+                    date = state.upComingMovies.map { it.movieDate },
+                    country = state.upComingMovies.map { it.countryOfMovie }
                 )
             }
         }
