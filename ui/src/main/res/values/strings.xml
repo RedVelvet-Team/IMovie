@@ -23,4 +23,9 @@
     <string name="login_image">Login Image</string>
     <string name="signup">Sign Up</string>
     <string name="poster">movie poster image</string>
+    <string name="library_title_screen">Library</string>
+    <string name="library_logo">library logo</string>
+    <string name="login_require_header">Login Required</string>
+    <string name="login_require_description">Use your account to enjoy the best app experience.</string>
+    <string name="login_require_button">Login</string>
 </resources>
