@@ -1,0 +1,28 @@
+package com.redvelvet.repository.util
+
+sealed class RemoteError : Exception() {
+    data object NullData : RemoteError()
+    data object  Network: RemoteError()
+    data object AuthenticationFailed : RemoteError()
+    data object InvalidApiKey : RemoteError()
+    data object ServiceOffline : RemoteError()
+    data object SuspendedApiKey : RemoteError()
+    data object InternalError : RemoteError()
+    data object AuthenticationFailed2 : RemoteError()
+    data object Failed : RemoteError()
+    data object DeviceDenied : RemoteError()
+    data object SessionDenied : RemoteError()
+    data object BackendTimeout : RemoteError()
+    data object UsernamePasswordRequired : RemoteError()
+    data object InvalidUsernamePassword : RemoteError()
+    data object AccountDisabled : RemoteError()
+    data object EmailNotVerified : RemoteError()
+    data object InvalidRequestToken : RemoteError()
+    data object InvalidToken : RemoteError()
+    data object InsufficientPermissions : RemoteError()
+    data object ResourcePrivate : RemoteError()
+    data object ConnectionError : RemoteError()
+    data object InvalidId : RemoteError()
+    data object MaintenanceMode : RemoteError()
+    data object InvalidInput : RemoteError()
+}

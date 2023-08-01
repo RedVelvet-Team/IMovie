@@ -2,7 +2,7 @@ package com.redvelvet.viewmodel.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.redvelvet.entities.ErrorType
+import com.redvelvet.entities.error.ErrorType
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

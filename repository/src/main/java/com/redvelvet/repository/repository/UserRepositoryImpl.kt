@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSource,
-) : UserRepository {
+) : UserRepository, BaseRepository() {
     override suspend fun setIsLoggedByAccount(isLogged: Boolean) {
         localDataSource.setIsLoggedByAccount(isLogged)
     }
