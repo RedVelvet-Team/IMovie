@@ -1,10 +1,10 @@
 package com.redvelvet.remote.service
 
-import com.redvelvet.remote.dto.auth.DeleteSessionDto
-import com.redvelvet.remote.dto.auth.GuestSessionDto
-import com.redvelvet.remote.dto.auth.LoginRequest
-import com.redvelvet.remote.dto.auth.SessionDto
-import com.redvelvet.remote.dto.auth.TokenDto
+import com.redvelvet.repository.dto.auth.DeleteSessionDto
+import com.redvelvet.repository.dto.auth.GuestSessionDto
+import com.redvelvet.repository.dto.auth.LoginRequest
+import com.redvelvet.repository.dto.auth.SessionDto
+import com.redvelvet.repository.dto.auth.TokenDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
