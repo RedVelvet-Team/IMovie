@@ -1,4 +1,4 @@
-package com.redvelvet.ui.screen.loginScreen
+package com.redvelvet.viewmodel.login
 
 
 import androidx.lifecycle.ViewModel
