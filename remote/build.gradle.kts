@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.utils.loadPropertyFromResources
 import java.util.Properties
 
 plugins {
@@ -18,12 +17,10 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
 
-        val apiProperties = Properties()
-        apiProperties.load(project.rootProject.file("local.properties").inputStream())
-
-
-        val apiKey = apiProperties.getProperty("base_url") ?: "YOUR_DEFAULT_API_KEY"
-        buildConfigField("String", "BASE_URL", "\"$apiKey\"")
+        val properties = Properties()
+        properties.load(project.rootProject.file("local.properties").inputStream())
+        buildConfigField("String", "API_KEY", properties.getProperty("apikey"))
+        buildConfigField("String", "BASE_URL", properties.getProperty("baseUrl"))
 
     }
 
@@ -43,11 +40,11 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+    buildFeatures {
+        buildConfig = true
+    }
     kapt {
         correctErrorTypes = true
-    }
-    buildFeatures{
-        buildConfig = true
     }
 }
 
