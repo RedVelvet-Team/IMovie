@@ -1,15 +1,15 @@
 package com.redvelvet.viewmodel.base
 
-import com.redvelvet.entities.ErrorType
+import com.redvelvet.entities.error.ErrorType
 
 sealed class ErrorUiState{
-    object NullData: ErrorUiState()
-    object Network: ErrorUiState()
-    object Server : ErrorUiState()
-    object UnAuthorized : ErrorUiState()
-    object InvalidUsernameOrPassword : ErrorUiState()
-    object EmailNotVerified : ErrorUiState()
-    object InvalidInput : ErrorUiState()
+    data object NullData: ErrorUiState()
+    data object Network: ErrorUiState()
+    data object Server : ErrorUiState()
+    data object UnAuthorized : ErrorUiState()
+    data object InvalidUsernameOrPassword : ErrorUiState()
+    data object EmailNotVerified : ErrorUiState()
+    data object InvalidInput : ErrorUiState()
 }
 
 fun ErrorType.toErrorUiState(): ErrorUiState{
