@@ -10,7 +10,7 @@ import com.redvelvet.ui.screen.splash.splashRoute
 
 @Composable
 fun MovieNavGraph(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = MovieDestination.Splash.route) {
+    NavHost(navController = navController, startDestination = MovieDestination.OnBoarding.route) {
         splashRoute(navController)
         onBoardingRoute(navController)
         searchRoute(navController)

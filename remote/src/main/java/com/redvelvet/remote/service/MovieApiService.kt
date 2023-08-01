@@ -14,7 +14,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface MovieApiService {
-    @GET("authentication/token/new")
+    @GET("authentication/token/ne")
     suspend fun getNewRequestToken(): Response<TokenDto>
 
     @FormUrlEncoded
