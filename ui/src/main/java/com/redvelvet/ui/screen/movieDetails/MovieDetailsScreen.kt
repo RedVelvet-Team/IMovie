@@ -56,14 +56,9 @@ fun MovieDetailsScreen(
                 .zIndex(1f)
                 .verticalScroll(rememberScrollState())
         ) {
-            MediaDetailsForegroundContent(
-                state,
-                uiEvent
-            )
+            MediaDetailsForegroundContent(state, uiEvent)
         }
-        CustomMediaDetailsTopAppBar(
-            uiEvent
-        )
+        CustomMediaDetailsTopAppBar(uiEvent)
     }
 }
 

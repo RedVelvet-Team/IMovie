@@ -2,6 +2,7 @@ package com.redvelvet.ui.screen.movieDetails.mediaComposable
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -53,115 +54,13 @@ fun MediaDetailsForegroundContent(
             .background(color = Primary)
             .padding(top = MaterialTheme.spacing.spacing24)
     ) {
-        PlayMedia(
-            icon = R.drawable.play_media,
-            description = R.string.movies_details_play,
-            onMediaPlay = {},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = MaterialTheme.spacing.spacing127
-                )
-        )
-        PlayMedia(
-            icon = R.drawable.play_media,
-            description = R.string.movies_details_play,
-            onMediaPlay = {},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = MaterialTheme.spacing.spacing127
-                )
-        )
-        PlayMedia(
-            icon = R.drawable.play_media,
-            description = R.string.movies_details_play,
-            onMediaPlay = {},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = MaterialTheme.spacing.spacing127
-                )
-        )
-        PlayMedia(
-            icon = R.drawable.play_media,
-            description = R.string.movies_details_play,
-            onMediaPlay = {},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = MaterialTheme.spacing.spacing127
-                )
-        )
-        PlayMedia(
-            icon = R.drawable.play_media,
-            description = R.string.movies_details_play,
-            onMediaPlay = {},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = MaterialTheme.spacing.spacing127
-                )
-        )
-        PlayMedia(
-            icon = R.drawable.play_media,
-            description = R.string.movies_details_play,
-            onMediaPlay = {},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = MaterialTheme.spacing.spacing127
-                )
-        )
-        PlayMedia(
-            icon = R.drawable.play_media,
-            description = R.string.movies_details_play,
-            onMediaPlay = {},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = MaterialTheme.spacing.spacing127
-                )
-        )
-        PlayMedia(
-            icon = R.drawable.play_media,
-            description = R.string.movies_details_play,
-            onMediaPlay = {},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = MaterialTheme.spacing.spacing127
-                )
-        )
-        PlayMedia(
-            icon = R.drawable.play_media,
-            description = R.string.movies_details_play,
-            onMediaPlay = {},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = MaterialTheme.spacing.spacing127
-                )
-        )
-        PlayMedia(
-            icon = R.drawable.play_media,
-            description = R.string.movies_details_play,
-            onMediaPlay = {},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = MaterialTheme.spacing.spacing127
-                )
-        )
-        PlayMedia(
-            icon = R.drawable.play_media,
-            description = R.string.movies_details_play,
-            onMediaPlay = {},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = MaterialTheme.spacing.spacing127
-                )
-        )
+        MediaInfoCard()
+    }
+}
+
+@Composable
+fun MediaInfoCard() {
+    Row {
+
     }
 }

@@ -2,7 +2,11 @@ package com.redvelvet.ui.navigation
 
 import com.redvelvet.ui.R
 
-sealed class MovieDestination(val route: String) {
+sealed class MovieDestination(
+    val route: String,
+    val iconFilled: Int? = null,
+    val iconOutline: Int? = null
+) {
     data object Testing : MovieDestination("test")
     data object Splash : MovieDestination("splash")
     data object OnBoarding : MovieDestination("onBoarding")
@@ -36,6 +40,7 @@ sealed class MovieDestination(val route: String) {
         R.drawable.icon_game_filled,
         R.drawable.icon_game
     )
+
     data object MovieDetails : MovieDestination("movie_details")
 
 }
