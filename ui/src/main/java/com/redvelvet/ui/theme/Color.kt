@@ -12,6 +12,7 @@ val Purple10 = Color(0x1A6C5DD3)
 
 //Background Colors
 val Primary = Color(0xFF11142D)
+val OnPrimary = Color(0xFFFFFFFF)
 val Secondary = Color(0xFF20233C)
 val OnSecondary = Color(0xFF414357)
 

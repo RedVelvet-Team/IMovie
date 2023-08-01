@@ -6,14 +6,16 @@ import androidx.navigation.compose.NavHost
 import com.redvelvet.ui.screen.home.homeRoute
 import com.redvelvet.ui.screen.onboarding.onBoardingRoute
 import com.redvelvet.ui.screen.search.searchRoute
+import com.redvelvet.ui.screen.seeAllUpcoming.seeAllUpcomingListRoute
 import com.redvelvet.ui.screen.splash.splashRoute
 
 @Composable
 fun MovieNavGraph(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = MovieDestination.Home.route) {
+    NavHost(navController = navController, startDestination = MovieDestination.SeeAllUpcoming.route) {
         splashRoute(navController)
         onBoardingRoute(navController)
         searchRoute(navController)
         homeRoute(navController)
+        seeAllUpcomingListRoute(navController)
     }
 }
