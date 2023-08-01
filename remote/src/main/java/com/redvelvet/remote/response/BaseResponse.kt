@@ -3,13 +3,14 @@ package com.redvelvet.remote.response
 import com.google.gson.annotations.SerializedName
 
 data class BaseResponse<T>(
-    @SerializedName("status_code")
-    val statusCode: Int?,
-    @SerializedName("status_message")
-    val statusMessage: String?,
-    @SerializedName("success")
     val success: Boolean?,
-    @SerializedName("list_id")
-    val listId: Int?,
-    val result: T?,
+    @SerializedName("status_code")
+    val code: Int?,
+    @SerializedName("status_message")
+    val message: String?,
+    val page: Int?,
+    val results: T?,
+    val totalPages: Int? = 0,
+    @SerializedName("total_results")
+    val totalResults: Int? = 0
 )
