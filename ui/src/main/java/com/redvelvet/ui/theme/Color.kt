@@ -19,3 +19,5 @@ val OnSecondary = Color(0xFF414357)
 val FontPrimary = Color(0xDEFFFFFF)
 val FontSecondary = Color(0xB2FFFFFF)
 val FontAccent = Color(0x61FFFFFF)
+
+val Background = Color(0xFF11142D)
