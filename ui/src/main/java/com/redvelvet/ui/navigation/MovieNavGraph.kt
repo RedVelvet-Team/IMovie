@@ -7,6 +7,7 @@ import com.redvelvet.ui.screen.home.homeRoute
 import com.redvelvet.ui.screen.movieDetails.movieDetailsRoute
 import com.redvelvet.ui.screen.onboarding.onBoardingRoute
 import com.redvelvet.ui.screen.search.searchRoute
+import com.redvelvet.ui.screen.seeAllUpcoming.seeAllUpcomingListRoute
 import com.redvelvet.ui.screen.splash.splashRoute
 
 @Composable
@@ -17,5 +18,6 @@ fun MovieNavGraph(navController: NavHostController) {
         searchRoute(navController)
         homeRoute(navController)
         movieDetailsRoute(navController)
+        seeAllUpcomingListRoute(navController)
     }
 }

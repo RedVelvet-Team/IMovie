@@ -5,6 +5,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.redvelvet.remote.util.interceptor.AuthorizationInterceptor
+import com.redvelvet.remote.BuildConfig
 import com.redvelvet.remote.service.MovieApiService
 import dagger.Module
 import dagger.Provides
@@ -41,7 +43,7 @@ object NetworkModule {
             .create(MovieApiService::class.java)
     }
 
-    private const val BASE_URL = ""
+    private const val BASE_URL = BuildConfig.BASE_URL
 
     @Singleton
     @Provides
@@ -67,9 +69,13 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideOkHttpClient(
-        loggingInterceptor: HttpLoggingInterceptor
+        loggingInterceptor: HttpLoggingInterceptor,
+        authorizationInterceptor: AuthorizationInterceptor,
     ): OkHttpClient = OkHttpClient.Builder()
-        .apply { addInterceptor(loggingInterceptor) }
+        .apply {
+            addInterceptor(loggingInterceptor)
+            addInterceptor(authorizationInterceptor)
+        }
         .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
         .readTimeout(TIMEOUT, TimeUnit.SECONDS)
         .build()
@@ -81,4 +87,8 @@ object NetworkModule {
             level = HttpLoggingInterceptor.Level.BODY
         }
     }
+
+    @Singleton
+    @Provides
+    fun provideAuthInterceptor() = AuthorizationInterceptor()
 }
