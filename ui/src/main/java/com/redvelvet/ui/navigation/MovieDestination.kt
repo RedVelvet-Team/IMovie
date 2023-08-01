@@ -4,8 +4,8 @@ import com.redvelvet.ui.R
 
 sealed class MovieDestination(
     val route: String,
-    val iconFilled: Int? = null,
-    val iconOutline: Int? = null
+    val isSelected: Int? = null,
+    val isUnSelected: Int? = null
 ) {
     data object Testing : MovieDestination("test")
     data object Splash : MovieDestination("splash")
