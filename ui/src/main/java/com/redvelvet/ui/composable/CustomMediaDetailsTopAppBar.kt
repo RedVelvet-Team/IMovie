@@ -1,11 +1,10 @@
 package com.redvelvet.ui.composable
 
 import androidx.compose.runtime.Composable
+import com.redvelvet.ui.movieDetails.MovieDetailsUiEvent
 
 @Composable
 fun CustomMediaDetailsTopAppBar(
-    onBack: () -> Unit,
-    onMediaFavorite: () -> Unit,
-    onMediaSave: () -> Unit
+    uiEvent: MovieDetailsUiEvent
 ) {
 }

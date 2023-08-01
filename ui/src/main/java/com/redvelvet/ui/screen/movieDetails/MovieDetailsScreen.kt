@@ -18,6 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.redvelvet.ui.composable.CustomMediaDetailsTopAppBar
+import com.redvelvet.ui.movieDetails.MovieDetailsUiEvent
 import com.redvelvet.ui.screen.movieDetails.mediaComposable.MediaDetailsBackgroundContent
 import com.redvelvet.ui.screen.movieDetails.mediaComposable.MediaDetailsForegroundContent
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsViewModel
@@ -29,71 +30,25 @@ import com.redvelvet.viewmodel.movieDetails.MovieDetailsViewModel
 )
 @Composable
 fun PreviewMovieDetailsScreen() {
-    MovieDetailsScreen(rememberNavController())
+    val uiEvent: MovieDetailsUiEvent? = null
+    MovieDetailsScreen(rememberNavController(), uiEvent!!)
 }
 
 
 @Composable
-fun MovieDetailsScreen(navController: NavController, viewModel: MovieDetailsViewModel = hiltViewModel()) {
+fun MovieDetailsScreen(
+    navController: NavController,
+    uiEvent: MovieDetailsUiEvent,
+    viewModel: MovieDetailsViewModel = hiltViewModel()
+) {
     val state by viewModel.state.collectAsState()
-
-    val context = LocalContext.current
-    val onMovieFavorite = {
-        displayTestToast(context, "favorite")
-    }
-    val onMovieSave = {
-        displayTestToast(context, "save")
-    }
-    val onBack = {
-        displayTestToast(context, "back")
-    }
-    val onMoviePlay = {
-        displayTestToast(context, "play")
-    }
-    val onMovieCategory = {
-        displayTestToast(context, "category")
-    }
-    val onDescriptionMore = {
-        displayTestToast(context, "more")
-    }
-    val onTopCastSeeAll = {
-        displayTestToast(context, "top cast see all")
-    }
-    val onCast = {
-        displayTestToast(context, "cast")
-    }
-    val onMovieKeyword = {
-        displayTestToast(context, "keyword")
-    }
-    val onSimilarMovieSeeAll = {
-        displayTestToast(context, "similar movie see all")
-    }
-    val onRecommendedMovieSeeAll = {
-        displayTestToast(context, "recommended movie see all")
-    }
-    val onMovie = {
-        displayTestToast(context, "movie")
-    }
-    val onMovieImagesSeeAll = {
-        displayTestToast(context, "movie images see all")
-    }
-    val onMovieImage = {
-        displayTestToast(context, "movie image")
-    }
-    val onMovieReviewsSeeAll = {
-        displayTestToast(context, "movie Reviews see all")
-    }
-    val onMovieReview = {
-        displayTestToast(context, "movie review")
-    }
-
     Box(
         modifier = Modifier
             .fillMaxSize()
     ) {
         MediaDetailsBackgroundContent(
             state.movieDetails?.movieImage ?: "",
-            onMoviePlay,
+            uiEvent,
         )
         Column(
             modifier = Modifier
@@ -103,24 +58,11 @@ fun MovieDetailsScreen(navController: NavController, viewModel: MovieDetailsView
         ) {
             MediaDetailsForegroundContent(
                 state,
-                onMovieCategory,
-                onDescriptionMore,
-                onTopCastSeeAll,
-                onCast,
-                onMovieKeyword,
-                onSimilarMovieSeeAll,
-                onRecommendedMovieSeeAll,
-                onMovie,
-                onMovieImagesSeeAll,
-                onMovieImage,
-                onMovieReviewsSeeAll,
-                onMovieReview,
+                uiEvent
             )
         }
         CustomMediaDetailsTopAppBar(
-            onBack,
-            onMovieFavorite,
-            onMovieSave,
+            uiEvent
         )
     }
 }

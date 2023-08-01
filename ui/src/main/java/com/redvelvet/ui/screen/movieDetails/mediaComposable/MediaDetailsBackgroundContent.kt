@@ -12,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.BackgroundMediaImage
 import com.redvelvet.ui.composable.PlayMedia
+import com.redvelvet.ui.movieDetails.MovieDetailsUiEvent
 import com.redvelvet.ui.screen.movieDetails.MovieDetailsScreen
 import com.redvelvet.ui.theme.spacing
 
@@ -22,13 +23,14 @@ import com.redvelvet.ui.theme.spacing
 )
 @Composable
 fun PreviewMovieDetailsScreen() {
-    MovieDetailsScreen(rememberNavController())
+    val uiEvent: MovieDetailsUiEvent? = null
+    MovieDetailsScreen(rememberNavController(), uiEvent!!)
 }
 
 @Composable
 fun MediaDetailsBackgroundContent(
     mediaImage: String,
-    onMediaPlay: () -> Unit
+    uiEvent: MovieDetailsUiEvent
 ) {
     Box {
         BackgroundMediaImage(
@@ -40,7 +42,7 @@ fun MediaDetailsBackgroundContent(
         PlayMedia(
             icon = R.drawable.play_media,
             description = R.string.movies_details_play,
-            onMediaPlay = onMediaPlay,
+            onMediaPlay = { uiEvent.onPlayTrailer() },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(

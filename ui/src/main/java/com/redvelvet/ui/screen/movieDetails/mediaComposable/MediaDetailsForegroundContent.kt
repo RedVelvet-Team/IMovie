@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.PlayMedia
+import com.redvelvet.ui.movieDetails.MovieDetailsUiEvent
 import com.redvelvet.ui.screen.movieDetails.MovieDetailsScreen
 import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.radius
@@ -29,24 +30,14 @@ import com.redvelvet.viewmodel.movieDetails.MovieDetailsScreenUiState
 )
 @Composable
 fun PreviewMovieDetailsScreen1() {
-    MovieDetailsScreen(rememberNavController())
+    val uiEvent: MovieDetailsUiEvent? = null
+    MovieDetailsScreen(rememberNavController(), uiEvent!!)
 }
 
 @Composable
 fun MediaDetailsForegroundContent(
     state: MovieDetailsScreenUiState,
-    onMediaCategory: () -> Unit,
-    onDescriptionMore: () -> Unit,
-    onTopCastSeeAll: () -> Unit,
-    onCast: () -> Unit,
-    onMediaKeyword: () -> Unit,
-    onSimilarMovieSeeAll: () -> Unit,
-    onRecommendedMediaSeeAll: () -> Unit,
-    onMedia: () -> Unit,
-    onMediaImagesSeeAll: () -> Unit,
-    onMediaImage: () -> Unit,
-    onMediaReviewsSeeAll: () -> Unit,
-    onMediaReview: () -> Unit
+    uiEvent: MovieDetailsUiEvent,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
