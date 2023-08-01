@@ -1,4 +1,4 @@
-package com.redvelvet.remote.dto.movie
+package com.redvelvet.repository.dto.movie
 
 import com.google.gson.annotations.SerializedName
 

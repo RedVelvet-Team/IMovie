@@ -1,16 +1,22 @@
 package com.redvelvet.remote.source
 
-import com.redvelvet.remote.response.BaseResponse
 import com.redvelvet.remote.service.MovieApiService
 import com.redvelvet.remote.util.RemoteErrorMap.remoteErrorMap
-import com.redvelvet.repository.RemoteError
+import com.redvelvet.repository.dto.BaseResponse
+import com.redvelvet.repository.dto.auth.TokenDto
 import com.redvelvet.repository.source.RemoteDataSource
+import com.redvelvet.repository.util.RemoteError
 import retrofit2.Response
 import javax.inject.Inject
 
 class RemoteDataSourceImp @Inject constructor(
     private val movieApiService: MovieApiService
 ) : RemoteDataSource {
+
+    override suspend fun getNewRequestToken(): Response<TokenDto> {
+        return movieApiService.getNewRequestToken()
+    }
+
     private suspend fun <T> wrapResponse(
         function: suspend () -> Response<BaseResponse<T>>
     ): T {

@@ -1,6 +1,6 @@
 package com.redvelvet.remote.util
 
-import com.redvelvet.repository.RemoteError
+import com.redvelvet.repository.util.RemoteError
 
 object RemoteErrorMap {
     val remoteErrorMap = mapOf(

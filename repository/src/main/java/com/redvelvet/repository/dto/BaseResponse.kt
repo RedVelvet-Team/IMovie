@@ -1,4 +1,4 @@
-package com.redvelvet.remote.response
+package com.redvelvet.repository.dto
 
 import com.google.gson.annotations.SerializedName
 

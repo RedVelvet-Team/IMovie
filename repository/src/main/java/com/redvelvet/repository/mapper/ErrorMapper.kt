@@ -1,6 +1,7 @@
-package com.redvelvet.repository
+package com.redvelvet.repository.mapper
 
 import com.redvelvet.entities.error.ErrorType
+import com.redvelvet.repository.util.RemoteError
 
 fun RemoteError.toErrorType(): ErrorType {
     return when(this){
