@@ -12,4 +12,9 @@
     <string name="search_in_movie">Search in Movie</string>
     <string name="search_for_your_favorite_movies">Search for your favorite movies and\nTV shows that you love.</string>
     <string name="poster">movie poster image</string>
+    <string name="library_title_screen">Library</string>
+    <string name="library_logo">library logo</string>
+    <string name="login_require_header">Login Required</string>
+    <string name="login_require_description">Use your account to enjoy the best app experience.</string>
+    <string name="login_require_button">Login</string>
 </resources>
