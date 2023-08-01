@@ -21,4 +21,6 @@
     <string name="login_to_your_account">Login to your account</string>
     <string name="welcome_back">Welcome Back!</string>
     <string name="login_image">Login Image</string>
+    <string name="signup">Sign Up</string>
+    <string name="poster">movie poster image</string>
 </resources>
