@@ -7,5 +7,6 @@ sealed class MovieDestination(val route: String) {
     data object Login : MovieDestination("login")
     data object Home : MovieDestination("home")
     data object Search : MovieDestination("search")
+    data object MovieDetails : MovieDestination("movie_details")
 
 }
