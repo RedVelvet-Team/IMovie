@@ -8,15 +8,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.zIndex
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.redvelvet.ui.composable.CustomMediaDetailsTopAppBar
 import com.redvelvet.ui.screen.movieDetails.mediaComposable.MediaDetailsBackgroundContent
 import com.redvelvet.ui.screen.movieDetails.mediaComposable.MediaDetailsForegroundContent
+import com.redvelvet.viewmodel.home.HomeViewModel
+import com.redvelvet.viewmodel.movieDetails.MovieDetailsViewModel
 
 @Preview(
     showSystemUi = true,
@@ -28,8 +33,11 @@ fun PreviewMovieDetailsScreen() {
     MovieDetailsScreen(rememberNavController())
 }
 
+
 @Composable
-fun MovieDetailsScreen(navController: NavController) {
+fun MovieDetailsScreen(navController: NavController, viewModel: MovieDetailsViewModel = hiltViewModel()) {
+    val state by viewModel.state.collectAsState()
+
     val context = LocalContext.current
     val movieImage = "https://i.ibb.co/Rg0Rczw/movie-image.jpg"
     val onMovieFavorite = {
