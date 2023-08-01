@@ -9,4 +9,13 @@ interface LocalDataSource {
 
     suspend fun setIsFirstTimeUsingApp(isFirstTime: Boolean)
     suspend fun getIsFirstTimeUsingApp(): Boolean
+
+    suspend fun setToken(value: String)
+
+    fun getToken(): String?
+
+    suspend fun setSessionId(value: String)
+
+    fun getSessionId(): String?
+
 }
