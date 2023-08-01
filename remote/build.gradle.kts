@@ -17,19 +17,8 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
 
-
-//        val localProperties = Properties()
-//        val localPropertiesFile = rootProject.file("local.properties")
-
         val properties = Properties()
         properties.load(project.rootProject.file("local.properties").inputStream())
-
-//        if (localPropertiesFile.exists()) {
-//            localPropertiesFile.reader(charset("UTF-8")).use { reader ->
-//                localProperties.load(reader)
-//            }
-//        }
-
         buildConfigField("String", "API_KEY", properties.getProperty("apikey"))
         buildConfigField("String", "BASE_URL", properties.getProperty("baseUrl"))
 
