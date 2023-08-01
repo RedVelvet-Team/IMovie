@@ -12,4 +12,7 @@
     <string name="search_in_movie">Search in Movie</string>
     <string name="search_for_your_favorite_movies">Search for your favorite movies and\nTV shows that you love.</string>
     <string name="poster">movie poster image</string>
+    <string name="movies_details_background_image">movies details background image</string>
+    <string name="movies_details_play">play movie trailer</string>
+
 </resources>
