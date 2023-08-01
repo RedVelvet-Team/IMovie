@@ -14,8 +14,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.redvelvet.ui.screen.movieDetails.homeComposable.MovieDetailsBackgroundContent
-import com.redvelvet.ui.screen.movieDetails.homeComposable.MovieDetailsForegroundContent
+import com.redvelvet.ui.composable.CustomMediaDetailsTopAppBar
+import com.redvelvet.ui.screen.movieDetails.mediaComposable.MediaDetailsBackgroundContent
+import com.redvelvet.ui.screen.movieDetails.mediaComposable.MediaDetailsForegroundContent
 
 @Preview(
     showSystemUi = true,
@@ -84,11 +85,8 @@ fun MovieDetailsScreen(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        MovieDetailsBackgroundContent(
+        MediaDetailsBackgroundContent(
             movieImage,
-            onMovieFavorite,
-            onMovieSave,
-            onBack,
             onMoviePlay,
         )
         Column(
@@ -97,7 +95,7 @@ fun MovieDetailsScreen(navController: NavController) {
                 .zIndex(1f)
                 .verticalScroll(rememberScrollState())
         ) {
-            MovieDetailsForegroundContent(
+            MediaDetailsForegroundContent(
                 onMovieCategory,
                 onDescriptionMore,
                 onTopCastSeeAll,
@@ -112,8 +110,14 @@ fun MovieDetailsScreen(navController: NavController) {
                 onMovieReview,
             )
         }
+        CustomMediaDetailsTopAppBar(
+            onBack,
+            onMovieFavorite,
+            onMovieSave,
+        )
     }
 }
+
 
 private fun displayTestToast(context: Context, message: String) {
     Toast.makeText(context, "$message Clicked", Toast.LENGTH_SHORT).show()
