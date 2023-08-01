@@ -19,6 +19,7 @@ import com.redvelvet.ui.screen.movieDetails.MovieDetailsScreen
 import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.radius
 import com.redvelvet.ui.theme.spacing
+import com.redvelvet.viewmodel.movieDetails.MovieDetailsScreenUiState
 
 
 @Preview(
@@ -33,6 +34,7 @@ fun PreviewMovieDetailsScreen1() {
 
 @Composable
 fun MediaDetailsForegroundContent(
+    state: MovieDetailsScreenUiState,
     onMediaCategory: () -> Unit,
     onDescriptionMore: () -> Unit,
     onTopCastSeeAll: () -> Unit,

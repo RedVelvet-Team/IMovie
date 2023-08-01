@@ -20,7 +20,6 @@ import androidx.navigation.compose.rememberNavController
 import com.redvelvet.ui.composable.CustomMediaDetailsTopAppBar
 import com.redvelvet.ui.screen.movieDetails.mediaComposable.MediaDetailsBackgroundContent
 import com.redvelvet.ui.screen.movieDetails.mediaComposable.MediaDetailsForegroundContent
-import com.redvelvet.viewmodel.home.HomeViewModel
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsViewModel
 
 @Preview(
@@ -39,7 +38,6 @@ fun MovieDetailsScreen(navController: NavController, viewModel: MovieDetailsView
     val state by viewModel.state.collectAsState()
 
     val context = LocalContext.current
-    val movieImage = "https://i.ibb.co/Rg0Rczw/movie-image.jpg"
     val onMovieFavorite = {
         displayTestToast(context, "favorite")
     }
@@ -94,7 +92,7 @@ fun MovieDetailsScreen(navController: NavController, viewModel: MovieDetailsView
             .fillMaxSize()
     ) {
         MediaDetailsBackgroundContent(
-            movieImage,
+            state.movieDetails?.movieImage ?: "",
             onMoviePlay,
         )
         Column(
@@ -104,6 +102,7 @@ fun MovieDetailsScreen(navController: NavController, viewModel: MovieDetailsView
                 .verticalScroll(rememberScrollState())
         ) {
             MediaDetailsForegroundContent(
+                state,
                 onMovieCategory,
                 onDescriptionMore,
                 onTopCastSeeAll,
