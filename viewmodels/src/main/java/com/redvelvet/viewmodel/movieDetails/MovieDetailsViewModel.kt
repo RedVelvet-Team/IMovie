@@ -1,20 +1,47 @@
 package com.redvelvet.viewmodel.movieDetails
 
-import com.redvelvet.viewmodel.base.BaseViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.redvelvet.entities.error.ErrorType
+import com.redvelvet.usecase.usecase.movie.GetMovieFullDetailsUseCase
+import com.redvelvet.viewmodel.base.ErrorUiState
+import com.redvelvet.viewmodel.base.toErrorUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
+    private val getMovieFullDetailsUseCase: GetMovieFullDetailsUseCase
+) : ViewModel() {
 
-) : BaseViewModel<MovieDetailsScreenUiState>(MovieDetailsScreenUiState()) {
+    private val _state: MutableStateFlow<MovieDetailsUiState> = MutableStateFlow(MovieDetailsUiState())
+    val state = _state.asStateFlow()
 
     init {
-        fakeData()
+        getData()
     }
 
-    private fun fakeData() {
+    private fun getData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                _state.update {
+                    MovieDetailsUiState(data = listOf(getMovieFullDetailsUseCase(5585)),isLoading = false)
+                }
+            } catch (e: ErrorType) {
+                _state.update {
+                    MovieDetailsUiState(data = emptyList(),isLoading = false, isError = Pair(true,e.message.toString()))
+                }
+            }
+        }
+    }
+
+    /*private fun fakeData() {
         _state.update {
             it.copy(
                 movieDetails = MovieDetailsScreenUiState.MovieDetailsUiState(
@@ -175,6 +202,8 @@ class MovieDetailsViewModel @Inject constructor(
                 ),
             )
         }
-    }
+    }*/
+
+
 
 }

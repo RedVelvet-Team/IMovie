@@ -1,4 +1,4 @@
-package com.redvelvet.ui.movieDetails
+package com.redvelvet.ui.screen.movieDetails
 
 interface MovieDetailsUiEvent {
     fun onMovieFavorite(id: Int)

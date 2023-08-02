@@ -11,6 +11,8 @@ sealed class MovieDestination(
     data object Splash : MovieDestination("splash")
     data object OnBoarding : MovieDestination("onBoarding")
     data object Login : MovieDestination("login")
+    data object SeeAllUpcoming : MovieDestination("seeAllUpcoming")
+
     data object Home : MovieDestination(
         "home",
         R.drawable.icon_home_filled,
