@@ -3,7 +3,7 @@ package com.redvelvet.viewmodel.home
 import com.redvelvet.viewmodel.base.BaseUiState
 
 data class HomeUiState(
-    val popularMovie: MovieUiState? = null,
+    val popularMovies: List<MovieUiState> = emptyList(),
     val nowPlayingMovies: List<MovieUiState> = emptyList(),
     val upComingMovies: List<MovieUiState> = emptyList(),
     val topRatedMovies: List<MovieUiState> = emptyList(),
