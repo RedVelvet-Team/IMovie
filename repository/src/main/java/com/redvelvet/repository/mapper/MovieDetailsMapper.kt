@@ -14,5 +14,10 @@ fun MovieImagesDTO.toDomain(): MovieImages{
     )
 }
 
-
+fun MovieKeyWordsDTO.toDomain(): MovieKeyWords{
+    return MovieKeyWords(
+        id = this.id,
+        keywords = this.keywords.map { MovieKeyWords.Keyword(it.id,it.name) }
+    )
+}
 
