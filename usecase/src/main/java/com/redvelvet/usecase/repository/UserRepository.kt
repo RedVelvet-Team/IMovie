@@ -1,6 +1,7 @@
 package com.redvelvet.usecase.repository
 
 import com.redvelvet.entities.auth.Guest
+import com.redvelvet.entities.auth.Token
 
 interface UserRepository {
     suspend fun setIsLoggedByAccount(isLogged: Boolean)
@@ -13,4 +14,5 @@ interface UserRepository {
     suspend fun getIsFirstTimeUsingApp(): Boolean
 
     suspend fun createGuestSession(): Guest
+    suspend fun createToken(): Token
 }

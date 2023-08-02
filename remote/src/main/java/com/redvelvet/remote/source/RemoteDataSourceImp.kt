@@ -5,6 +5,7 @@ import com.redvelvet.remote.service.MovieApiService
 import com.redvelvet.remote.util.RemoteErrorMap.remoteErrorMap
 import com.redvelvet.repository.dto.ErrorResponseDto
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
+import com.redvelvet.repository.dto.auth.response.TokenDto
 import com.redvelvet.repository.source.RemoteDataSource
 import com.redvelvet.repository.util.RemoteError
 import retrofit2.Response
@@ -17,6 +18,12 @@ class RemoteDataSourceImp @Inject constructor(
     override suspend fun createGuestSession(): GuestSessionDto {
         return wrapApiResponse {
             movieApiService.createGuestSession()
+        }
+    }
+
+    override suspend fun createToken(): TokenDto {
+        return wrapApiResponse {
+            movieApiService.getNewRequestToken()
         }
     }
 

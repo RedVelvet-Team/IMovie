@@ -1,7 +1,9 @@
 package com.redvelvet.repository.repository
 
 import com.redvelvet.entities.auth.Guest
+import com.redvelvet.entities.auth.Token
 import com.redvelvet.repository.mapper.toGuest
+import com.redvelvet.repository.mapper.toToken
 import com.redvelvet.repository.source.LocalDataSource
 import com.redvelvet.repository.source.RemoteDataSource
 import com.redvelvet.usecase.repository.UserRepository
@@ -30,6 +32,12 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun createGuestSession(): Guest {
         return wrapRemoteResponse {
             remoteDataSource.createGuestSession().toGuest()
+        }
+    }
+
+    override suspend fun createToken(): Token {
+        return wrapRemoteResponse {
+            remoteDataSource.createToken().toToken()
         }
     }
 }
