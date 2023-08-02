@@ -10,6 +10,6 @@ interface RemoteDataSource {
     suspend fun createToken(): TokenDto
     suspend fun validateUserWithLogin(userName: String, password: String, token: String): TokenDto
     suspend fun createUserSession(token: String): SessionDto
-    suspend fun deleteUserSession(token: String): SessionDto
+    suspend fun deleteUserSession(sessionId: String): SessionDto
     //endregion
 }

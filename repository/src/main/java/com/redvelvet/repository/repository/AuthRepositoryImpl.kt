@@ -38,18 +38,23 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun validateUserWithLogin(userName: String, password: String): Token {
+    override suspend fun validateUserWithLogin(
+        userName: String,
+        password: String,
+        token: String
+    ): Token {
         return wrapRemoteResponse {
             remoteDataSource.validateUserWithLogin(
                 userName = userName,
-                password = password
+                password = password,
+                token = token
             ).toToken()
         }
     }
 
-    override suspend fun createUserSession(): Session {
+    override suspend fun createUserSession(token: String): Session {
         return wrapRemoteResponse {
-            remoteDataSource.createUserSession().toSession().also { session ->
+            remoteDataSource.createUserSession(token).toSession().also { session ->
                 saveUserSessionId(session.sessionId.toString())
                 setIsLoggedInByAccount(true)
                 setIsLoggedInByGuest(false)
@@ -61,9 +66,9 @@ class AuthRepositoryImpl @Inject constructor(
         dataStoreDataSource.setUserSessionId(id = id)
     }
 
-    override suspend fun deleteUserSession(): Session {
+    override suspend fun deleteUserSession(sessionId: String): Session {
         return wrapRemoteResponse {
-            remoteDataSource.deleteUserSession().toSession().also {
+            remoteDataSource.deleteUserSession(sessionId).toSession().also {
                 setIsLoggedInByAccount(false)
             }
         }
