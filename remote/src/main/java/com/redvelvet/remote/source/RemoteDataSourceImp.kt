@@ -16,7 +16,7 @@ import javax.inject.Inject
 class RemoteDataSourceImp @Inject constructor(
     private val movieApiService: MovieApiService
 ) : RemoteDataSource {
-
+    //region auth
     override suspend fun createGuestSession(): GuestSessionDto {
         return wrapApiResponse {
             movieApiService.createGuestSession()
@@ -29,29 +29,34 @@ class RemoteDataSourceImp @Inject constructor(
         }
     }
 
-    override suspend fun validateUserWithLogin(userName: String, password: String): TokenDto {
+    override suspend fun validateUserWithLogin(
+        userName: String,
+        password: String,
+        token: String
+    ): TokenDto {
         return wrapApiResponse {
             movieApiService.validateRequestTokenWithLogin(
                 loginRequest = LoginRequest(
                     username = userName,
                     password = password,
-                    requestToken = "7038d4ecc2a4954967a940d7e51884fce93cf7c0",
+                    requestToken = token,
                 )
             )
         }
     }
 
-    override suspend fun createUserSession(): SessionDto {
+    override suspend fun createUserSession(token: String): SessionDto {
         return wrapApiResponse {
-            movieApiService.createUserSession("7038d4ecc2a4954967a940d7e51884fce93cf7c0")
+            movieApiService.createUserSession(token)
         }
     }
 
-    override suspend fun deleteUserSession(): SessionDto {
+    override suspend fun deleteUserSession(token: String): SessionDto {
         return wrapApiResponse {
-            movieApiService.deleteUserSession("a9bcdcd489216364660a1de0d0a11c3302616710")
+            movieApiService.deleteUserSession(token)
         }
     }
+    //endregion
 
 
     private suspend fun <T> wrapApiResponse(
@@ -72,8 +77,10 @@ class RemoteDataSourceImp @Inject constructor(
             throw RemoteError.Network
         }
     }
+
+    private fun getErrorCodeFromJson(json: String): Int? {
+        return Gson().fromJson(json, ErrorResponseDto::class.java).code ?: 0
+    }
+
 }
 
-private fun getErrorCodeFromJson(json: String): Int? {
-    return Gson().fromJson(json, ErrorResponseDto::class.java).code ?: 0
-}

@@ -14,6 +14,7 @@ import retrofit2.http.HTTP
 import retrofit2.http.POST
 
 interface MovieApiService {
+    //region auth
     @GET("authentication/token/new")
     suspend fun getNewRequestToken(): Response<TokenDto>
 
@@ -30,4 +31,5 @@ interface MovieApiService {
     @FormUrlEncoded
     @HTTP(method = "DELETE", path = "authentication/session", hasBody = true)
     suspend fun deleteUserSession(@Field("session_id") sessionId: String): Response<SessionDto>
+    //endregion
 }
