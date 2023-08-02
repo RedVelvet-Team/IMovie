@@ -62,13 +62,13 @@ fun HomeScreenContent(paddingValues: PaddingValues, state: HomeUiState) {
         LazyColumn(contentPadding = PaddingValues(vertical = MaterialTheme.spacing.spacing16)) {
             item {
                 ItemsSection(
-                    label = "Popular Movies",
-                    images = listOf(state.popularMovie?.movieImage!!),
+                    label = "Now Playing",
+                    images = state.nowPlayingMovies.map { it.movieImage },
                     hasName = true,
-                    name = listOf(state.popularMovie?.movieName!!),
-                    hasDateAndCountry = false,
-                    date = listOf(state.popularMovie?.movieDate!!),
-                    country = listOf(state.popularMovie?.countryOfMovie!!)
+                    name = state.nowPlayingMovies.map { it.movieName },
+                    hasDateAndCountry = true,
+                    date = state.nowPlayingMovies.map { it.movieDate },
+                    country = state.nowPlayingMovies.map { it.countryOfMovie }
                 )
             }
             item {
