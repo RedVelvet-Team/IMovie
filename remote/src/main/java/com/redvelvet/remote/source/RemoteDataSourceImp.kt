@@ -1,9 +1,11 @@
 package com.redvelvet.remote.source
 
+import android.util.Log
 import com.google.gson.Gson
 import com.redvelvet.remote.service.MovieApiService
 import com.redvelvet.remote.util.RemoteErrorMap.remoteErrorMap
 import com.redvelvet.repository.dto.ErrorResponseDto
+import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
 import com.redvelvet.repository.source.RemoteDataSource
@@ -27,6 +29,18 @@ class RemoteDataSourceImp @Inject constructor(
         }
     }
 
+    override suspend fun validateUserWithLogin(userName: String, password: String): TokenDto {
+        return wrapApiResponse {
+            movieApiService.validateRequestTokenWithLogin(
+                loginRequest = LoginRequest(
+                    username = userName,
+                    password = password,
+                    requestToken = "7038d4ecc2a4954967a940d7e51884fce93cf7c0",
+                )
+            )
+        }
+    }
+
 
     private suspend fun <T> wrapApiResponse(
         request: suspend () -> Response<T>
@@ -39,6 +53,7 @@ class RemoteDataSourceImp @Inject constructor(
                 throw remoteErrorMap[getErrorCodeFromJson(response.errorBody()?.string() ?: "")]!!
             }
         } catch (e: Exception) {
+            Log.e("KAMELOO", e.message.toString())
             throw RemoteError.Network
         }
     }

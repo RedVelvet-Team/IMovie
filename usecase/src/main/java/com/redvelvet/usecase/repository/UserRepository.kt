@@ -15,4 +15,5 @@ interface UserRepository {
 
     suspend fun createGuestSession(): Guest
     suspend fun createToken(): Token
+    suspend fun validateUserWithLogin(userName:String,password:String): Token
 }

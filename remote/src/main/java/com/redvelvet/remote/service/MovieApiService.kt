@@ -16,7 +16,6 @@ interface MovieApiService {
     @GET("authentication/token/new")
     suspend fun getNewRequestToken(): Response<TokenDto>
 
-    @FormUrlEncoded
     @POST("authentication/token/validate_with_login")
     suspend fun validateRequestTokenWithLogin(@Body loginRequest: LoginRequest): Response<TokenDto>
 
