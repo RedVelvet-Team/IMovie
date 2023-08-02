@@ -49,8 +49,8 @@ The Movie Android App is a user-friendly mobile application that allows users to
 - Kotlin
 - Jetpack Compose
 - Kotlin DSL
-- kotlin courotine
-- Clean Architechture by component.
+- kotlin coroutine
+- Clean Architecture by component.
 - Jetpack Room Database
 - Firebase firestore
 - Retrofit
