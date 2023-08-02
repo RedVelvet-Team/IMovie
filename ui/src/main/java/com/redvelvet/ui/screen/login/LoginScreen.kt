@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,8 +24,10 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -48,10 +51,16 @@ import com.redvelvet.ui.composable.SpacerHorizontal
 import com.redvelvet.ui.composable.SpacerVertical
 import com.redvelvet.ui.composable.TextLoginScreen
 import com.redvelvet.ui.composable.UserNameTextField
+import com.redvelvet.ui.navigation.MovieDestination
+import com.redvelvet.ui.screen.home.navigateToHome
 import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.Purple100
+import com.redvelvet.viewmodel.login.LoginInteraction
+import com.redvelvet.viewmodel.login.LoginUiEvent
 import com.redvelvet.viewmodel.login.LoginUiState
 import com.redvelvet.viewmodel.login.LoginViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -60,16 +69,31 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.state.collectAsState()
+    val scope = rememberCoroutineScope()
+    LaunchedEffect(key1 = Unit) {
+        scope.launch {
+            viewModel.uiEvent.collectLatest {
+                when (it) {
+                    is LoginUiEvent.NavigateTomHomeScreen -> navController.navigateToHome {
+                        popUpTo(MovieDestination.Login.route) {
+                            inclusive = true
+                        }
+                    }
+                }
+            }
+        }
+    }
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(Primary, darkIcons = false)
-    LoginScreenContent(uiState, viewModel)
+    LoginScreenContent(uiState, viewModel,viewModel)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun LoginScreenContent(
     uiState: LoginUiState,
-    viewModel: LoginViewModel
+    viewModel: LoginViewModel,
+    interaction: LoginInteraction,
 ) {
     val context = LocalContext.current
     val imageBitmap: ImageBitmap =
@@ -94,7 +118,8 @@ private fun LoginScreenContent(
                     contentDescription = stringResource(R.string.login_image),
                     modifier = Modifier
                         .height(365.dp)
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .clickable { interaction.onClickLogin() },
                     contentScale = ContentScale.FillBounds
                 )
             }

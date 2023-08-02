@@ -1,7 +1,7 @@
-package com.redvelvet.ui.screen.login
+package com.redvelvet.viewmodel.login
 
 
-interface LoginUIEvent {
+interface LoginInteraction {
     fun onClickLogin()
     fun onClickGuest()
     fun onClickSignUp()

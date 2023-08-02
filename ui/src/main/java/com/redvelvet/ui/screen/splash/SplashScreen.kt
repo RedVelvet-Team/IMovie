@@ -22,6 +22,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.home.navigateToHome
+import com.redvelvet.ui.screen.login.navigateToLogin
 import com.redvelvet.ui.screen.onboarding.navigateToOnBoarding
 import com.redvelvet.ui.theme.Primary
 import com.redvelvet.viewmodel.splash.SplashUiState
@@ -54,7 +55,11 @@ fun SplashScreen(
         }
 
         override fun navigateToLogin() {
-    //            navigateTo(navController, MovieDestination.Login.route)
+            navController.navigateToLogin {
+                popUpTo(MovieDestination.Splash.route) {
+                    inclusive = true
+                }
+            }
         }
     }
     SplashContent(state, event)

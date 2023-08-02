@@ -1,7 +1,9 @@
 package com.redvelvet.imovie.di
 
+import com.redvelvet.repository.repository.AuthRepositoryImpl
 import com.redvelvet.repository.repository.MovieRepositoryImp
 import com.redvelvet.repository.repository.UserRepositoryImpl
+import com.redvelvet.usecase.repository.AuthRepository
 import com.redvelvet.usecase.repository.MovieRepository
 import com.redvelvet.usecase.repository.UserRepository
 import dagger.Binds
@@ -24,4 +26,10 @@ abstract class RepositoryModule {
     abstract fun bindUserRepository(
         userRepositoryImpl: UserRepositoryImpl
     ): UserRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindAuthRepository(
+        authRepositoryImpl: AuthRepositoryImpl
+    ): AuthRepository
 }

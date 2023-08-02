@@ -5,14 +5,20 @@ import androidx.lifecycle.viewModelScope
 import com.redvelvet.entities.error.ErrorType
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-abstract class BaseViewModel<UiState : BaseUiState>(state: UiState) : ViewModel() {
+abstract class BaseViewModel<UiState : BaseUiState, UiEvent>(state: UiState) :
+    ViewModel() {
 
     protected val _state = MutableStateFlow(state)
     val state = _state.asStateFlow()
+
+    protected val _event = MutableSharedFlow<UiEvent>()
+    val event = _event.asSharedFlow()
 
     fun <T> tryToExecute(
         execute: suspend () -> T,
@@ -27,6 +33,12 @@ abstract class BaseViewModel<UiState : BaseUiState>(state: UiState) : ViewModel(
             } catch (e: ErrorType) {
                 onError(e.toErrorUiState())
             }
+        }
+    }
+
+    protected fun sendUiEvent(uiEvent: UiEvent) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _event.emit(uiEvent)
         }
     }
 }
