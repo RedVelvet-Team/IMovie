@@ -4,7 +4,6 @@ import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -55,7 +54,6 @@ import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.home.navigateToHome
 import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.Purple100
-import com.redvelvet.viewmodel.login.LoginInteraction
 import com.redvelvet.viewmodel.login.LoginUiEvent
 import com.redvelvet.viewmodel.login.LoginUiState
 import com.redvelvet.viewmodel.login.LoginViewModel
@@ -72,7 +70,7 @@ fun LoginScreen(
     val scope = rememberCoroutineScope()
     LaunchedEffect(key1 = Unit) {
         scope.launch {
-            viewModel.uiEvent.collectLatest {
+            viewModel.event.collectLatest {
                 when (it) {
                     is LoginUiEvent.NavigateTomHomeScreen -> navController.navigateToHome {
                         popUpTo(MovieDestination.Login.route) {
@@ -85,7 +83,7 @@ fun LoginScreen(
     }
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(Primary, darkIcons = false)
-    LoginScreenContent(uiState, viewModel,viewModel)
+    LoginScreenContent(uiState, viewModel)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -93,7 +91,6 @@ fun LoginScreen(
 private fun LoginScreenContent(
     uiState: LoginUiState,
     viewModel: LoginViewModel,
-    interaction: LoginInteraction,
 ) {
     val context = LocalContext.current
     val imageBitmap: ImageBitmap =
@@ -118,8 +115,7 @@ private fun LoginScreenContent(
                     contentDescription = stringResource(R.string.login_image),
                     modifier = Modifier
                         .height(365.dp)
-                        .fillMaxWidth()
-                        .clickable { interaction.onClickLogin() },
+                        .fillMaxWidth(),
                     contentScale = ContentScale.FillBounds
                 )
             }
@@ -177,7 +173,7 @@ private fun LoginContentPortrait(uiState: LoginUiState, viewModel: LoginViewMode
         SpacerVertical(height = 24.dp)
 
         Button(
-            onClick = { viewModel.createSession() },
+            onClick = { },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),
@@ -211,7 +207,7 @@ private fun LoginContentPortrait(uiState: LoginUiState, viewModel: LoginViewMode
 
         SpacerVertical(height = 24.dp)
 
-        GuestOrSignUp(!uiState.isLoading, viewModel::createGuestSessionAndSave)
+        GuestOrSignUp(!uiState.isLoading, {})
         if (uiState.isLoading) {
             ProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
         }
@@ -261,7 +257,7 @@ private fun LoginContentLandscape(uiState: LoginUiState, viewModel: LoginViewMod
         SpacerVertical(height = 8.dp)
 
         Button(
-            onClick = { viewModel.createSession() },
+            onClick = { },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
@@ -280,7 +276,7 @@ private fun LoginContentLandscape(uiState: LoginUiState, viewModel: LoginViewMod
 
         SpacerVertical(height = 8.dp)
 
-        GuestOrSignUp(!uiState.isLoading, viewModel::createGuestSessionAndSave)
+        GuestOrSignUp(!uiState.isLoading, {})
 
         if (uiState.isLoading) {
             ProgressIndicator(modifier = Modifier)
