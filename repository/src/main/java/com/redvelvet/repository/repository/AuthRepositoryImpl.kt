@@ -18,11 +18,17 @@ class AuthRepositoryImpl @Inject constructor(
     //region auth
     override suspend fun createGuestSession(): Guest {
         return wrapRemoteResponse {
-            remoteDataSource.createGuestSession().toGuest()
+            remoteDataSource.createGuestSession().toGuest().also { guest ->
+                saveGuestSession(
+                    id = guest.guestSessionId.toString(),
+                    expDate = guest.expiresAt.toString()
+                )
+                setIsLoggedInByGuest(true)
+            }
         }
     }
 
-    override suspend fun saveGuestSession(id: String, expDate: String) {
+    private suspend fun saveGuestSession(id: String, expDate: String) {
         dataStoreDataSource.setGuestSession(id, expDate)
     }
 
@@ -43,24 +49,34 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun createUserSession(): Session {
         return wrapRemoteResponse {
-            remoteDataSource.createUserSession().toSession()
+            remoteDataSource.createUserSession().toSession().also { session ->
+                saveUserSessionId(session.sessionId.toString())
+                setIsLoggedInByAccount(true)
+                setIsLoggedInByGuest(false)
+            }
         }
+    }
+
+    private suspend fun saveUserSessionId(id: String) {
+        dataStoreDataSource.setUserSessionId(id = id)
     }
 
     override suspend fun deleteUserSession(): Session {
         return wrapRemoteResponse {
-            remoteDataSource.deleteUserSession().toSession()
+            remoteDataSource.deleteUserSession().toSession().also {
+                setIsLoggedInByAccount(false)
+            }
         }
     }
     //endregion
 
     //region user
-    override suspend fun setIsLoggedInByGuest(isLogged: Boolean) {
-        dataStoreDataSource.setIsLoggedByGuest(isLogged)
+    private suspend fun setIsLoggedInByGuest(isLogged: Boolean) {
+        dataStoreDataSource.setIsLoggedInByGuest(isLogged)
     }
 
-    override suspend fun setIsLoggedInByAccount(isLogged: Boolean) {
-        dataStoreDataSource.setIsLoggedByAccount(isLogged)
+    private suspend fun setIsLoggedInByAccount(isLogged: Boolean) {
+        dataStoreDataSource.setIsLoggedInByAccount(isLogged)
     }
     //endregion
 }

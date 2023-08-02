@@ -2,11 +2,11 @@ package com.redvelvet.repository.source
 
 interface DataStoreDataSource {
     // region user
-    suspend fun setIsLoggedByAccount(isLogged: Boolean)
-    suspend fun getIsLoggedByAccount(): Boolean
+    suspend fun setIsLoggedInByAccount(isLogged: Boolean)
+    suspend fun getIsLoggedInByAccount(): Boolean
 
-    suspend fun setIsLoggedByGuest(isLogged: Boolean)
-    suspend fun getIsLoggedByGuest(): Boolean
+    suspend fun setIsLoggedInByGuest(isLogged: Boolean)
+    suspend fun getIsLoggedInByGuest(): Boolean
 
     suspend fun setIsFirstTimeUsingApp(isFirstTime: Boolean)
     suspend fun getIsFirstTimeUsingApp(): Boolean

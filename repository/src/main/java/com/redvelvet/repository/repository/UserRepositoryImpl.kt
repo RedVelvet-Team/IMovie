@@ -8,9 +8,9 @@ class UserRepositoryImpl @Inject constructor(
     private val dataStoreDataSource: DataStoreDataSource,
 ) : UserRepository, BaseRepository() {
     //region user
-    override suspend fun getIsLoggedInByAccount() = dataStoreDataSource.getIsLoggedByAccount()
+    override suspend fun getIsLoggedInByAccount() = dataStoreDataSource.getIsLoggedInByAccount()
 
-    override suspend fun getIsLoggedInByGuest() = dataStoreDataSource.getIsLoggedByGuest()
+    override suspend fun getIsLoggedInByGuest() = dataStoreDataSource.getIsLoggedInByGuest()
 
     override suspend fun setIsFirstTimeUsingApp(isFirstTime: Boolean) {
         dataStoreDataSource.setIsFirstTimeUsingApp(isFirstTime)
@@ -31,6 +31,5 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun getUserSessionId(): String {
         return dataStoreDataSource.getUserSessionId().toString()
     }
-
     //endregion
 }

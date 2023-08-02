@@ -6,8 +6,6 @@ import com.redvelvet.entities.auth.Token
 
 interface AuthRepository {
     //region auth
-    suspend fun setIsLoggedInByAccount(isLogged: Boolean)
-    suspend fun setIsLoggedInByGuest(isLogged: Boolean)
     suspend fun createGuestSession(): Guest
 
     suspend fun createToken(): Token
@@ -17,7 +15,5 @@ interface AuthRepository {
     suspend fun createUserSession(): Session
 
     suspend fun deleteUserSession(): Session
-
-    suspend fun saveGuestSession(id: String, expDate: String)
     //endregion
 }

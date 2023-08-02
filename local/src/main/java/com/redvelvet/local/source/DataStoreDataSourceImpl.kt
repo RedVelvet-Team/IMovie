@@ -13,23 +13,23 @@ class DataStoreDataSourceImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>,
 ) : DataStoreDataSource {
     // region user
-    override suspend fun setIsLoggedByAccount(isLogged: Boolean) {
+    override suspend fun setIsLoggedInByAccount(isLogged: Boolean) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.IsLoggedByAccount] = isLogged
         }
     }
 
-    override suspend fun getIsLoggedByAccount(): Boolean {
+    override suspend fun getIsLoggedInByAccount(): Boolean {
         return dataStore.data.first()[PreferencesKeys.IsLoggedByAccount] ?: false
     }
 
-    override suspend fun setIsLoggedByGuest(isLogged: Boolean) {
+    override suspend fun setIsLoggedInByGuest(isLogged: Boolean) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.IsLoggedByGuest] = isLogged
         }
     }
 
-    override suspend fun getIsLoggedByGuest(): Boolean {
+    override suspend fun getIsLoggedInByGuest(): Boolean {
         return dataStore.data.first()[PreferencesKeys.IsLoggedByGuest] ?: false
     }
 
