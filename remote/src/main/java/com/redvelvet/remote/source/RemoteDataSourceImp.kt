@@ -47,6 +47,12 @@ class RemoteDataSourceImp @Inject constructor(
         }
     }
 
+    override suspend fun deleteUserSession(): SessionDto {
+        return wrapApiResponse {
+            movieApiService.deleteUserSession("7038d4ecc2a4954967a940d7e51884fce93cf7c0")
+        }
+    }
+
 
     private suspend fun <T> wrapApiResponse(
         request: suspend () -> Response<T>

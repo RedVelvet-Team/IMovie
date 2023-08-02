@@ -18,4 +18,5 @@ interface UserRepository {
     suspend fun createToken(): Token
     suspend fun validateUserWithLogin(userName:String,password:String): Token
     suspend fun createUserSession(): Session
+    suspend fun deleteUserSession(): Session
 }

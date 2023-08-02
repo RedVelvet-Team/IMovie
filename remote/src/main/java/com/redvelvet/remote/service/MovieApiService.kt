@@ -25,8 +25,6 @@ interface MovieApiService {
 
     @GET("authentication/guest_session/new")
     suspend fun createGuestSession(): Response<GuestSessionDto>
-
-    @FormUrlEncoded
     @DELETE("authentication/session")
     suspend fun deleteUserSession(@Field("session_id") sessionId: String): Response<SessionDto>
 }

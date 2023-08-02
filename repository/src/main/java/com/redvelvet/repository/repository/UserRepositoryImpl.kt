@@ -57,4 +57,10 @@ class UserRepositoryImpl @Inject constructor(
             remoteDataSource.createUserSession().toSession()
         }
     }
+
+    override suspend fun deleteUserSession(): Session {
+        return wrapRemoteResponse {
+            remoteDataSource.deleteUserSession().toSession()
+        }
+    }
 }
