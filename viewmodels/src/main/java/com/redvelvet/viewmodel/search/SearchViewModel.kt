@@ -35,7 +35,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onChangeSearchTextFiled(query: String) {
-        _state.update { it.copy(inputText = query.toString(), isLoading = true) }
+        _state.update { it.copy(inputText = query, isLoading = true) }
         viewModelScope.launch {
             when (_state.value.mediaType) {
                 SearchMedia.MOVIE -> onSearchForMovie()
