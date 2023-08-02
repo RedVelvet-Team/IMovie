@@ -44,9 +44,9 @@ class LocalDataSourceImp @Inject constructor(
         return dataStore.data.first()[PreferencesKeys.IsFirstTimeUsingApp] ?: true
     }
 
-    override suspend fun setToken(value: String) {
+    override suspend fun setToken(token: String) {
         dataStore.edit { preferences ->
-            preferences[PreferencesKeys.Token] = value
+            preferences[PreferencesKeys.Token] = token
         }
 
     }
@@ -57,14 +57,38 @@ class LocalDataSourceImp @Inject constructor(
         }
     }
 
-    override suspend fun setSessionId(value: String) {
+    override suspend fun setSessionId(id: String) {
         dataStore.edit { preferences ->
-            preferences[PreferencesKeys.SessionId] = value
+            preferences[PreferencesKeys.SessionId] = id
         }
     }
 
     override fun getSessionId(): String? {
         return runBlocking { dataStore.data.first()[PreferencesKeys.SessionId] }
+    }
+
+    override suspend fun setGuestSessionId(id: String) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.GuestSessionId] = id
+        }
+    }
+
+    override fun getGuestSessionId(): String? {
+        return runBlocking {
+            dataStore.data.first()[PreferencesKeys.GuestSessionId]
+        }
+    }
+
+    override suspend fun setGuestSessionExpDate(expiresAt: String) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.GuestSessionExpDate] = expiresAt
+        }
+    }
+
+    override fun getGuestSessionExpDate(): String? {
+        return runBlocking {
+            dataStore.data.first()[PreferencesKeys.GuestSessionExpDate]
+        }
     }
 
     //endregion
