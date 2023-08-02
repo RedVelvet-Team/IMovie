@@ -23,16 +23,16 @@ class SearchViewModel @Inject constructor(
     private val getTvShowsSearchResultUseCase: GetTvShowsSearchResultUseCase,
 ) : BaseViewModel<SearchUiState>(SearchUiState()), SearchListener {
 
-    val query = MutableStateFlow("")
-
-    init {
-        viewModelScope.launch {
-            query.onEach {
-                _state.update { it.copy(isLoading = true) }
-            }.debounce(500)
-                .collect { onChangeSearchTextFiled(it) }
-        }
-    }
+//    val query = MutableStateFlow("")
+//
+//    init {
+//        viewModelScope.launch {
+//            query.onEach {
+//                _state.update { it.copy(isLoading = true) }
+//            }.debounce(500)
+//                .collect { onChangeSearchTextFiled(it) }
+//        }
+//    }
 
     fun onChangeSearchTextFiled(query: String) {
         _state.update { it.copy(inputText = query, isLoading = true) }

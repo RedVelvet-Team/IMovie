@@ -8,14 +8,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.FontAccent
+import com.redvelvet.ui.theme.FontSecondary
 import com.redvelvet.ui.theme.Secondary
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.dimens
@@ -24,11 +26,13 @@ import com.redvelvet.ui.theme.dimens
 @Composable
 fun SearchBox(
     modifier: Modifier = Modifier,
+    query: String,
+    onChangeQuery: (String) -> Unit,
 ) {
     SearchBar(
         modifier = modifier.fillMaxWidth(),
-        query = "",
-        onQueryChange = {},
+        query = query,
+        onQueryChange = {onChangeQuery(it)},
         onSearch = {},
         active = false,
         onActiveChange = {},
@@ -40,7 +44,8 @@ fun SearchBox(
             )
         },
         shape = RoundedCornerShape(MaterialTheme.dimens.dimens16),
-        colors = SearchBarDefaults.colors(containerColor = Secondary),
+        colors = SearchBarDefaults.colors(containerColor = Secondary,
+            inputFieldColors = TextFieldDefaults.colors(focusedTextColor = FontSecondary)),
         placeholder ={
             Text(
             text = stringResource(R.string.search_place_holder),
