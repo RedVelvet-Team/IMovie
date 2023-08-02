@@ -207,7 +207,7 @@ private fun LoginContentPortrait(uiState: LoginUiState, viewModel: LoginViewMode
 
         SpacerVertical(height = 24.dp)
 
-        GuestOrSignUp(!uiState.isLoading, {})
+        GuestOrSignUp(!uiState.isLoading, viewModel::loginByGuest)
         if (uiState.isLoading) {
             ProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
         }
@@ -276,7 +276,7 @@ private fun LoginContentLandscape(uiState: LoginUiState, viewModel: LoginViewMod
 
         SpacerVertical(height = 8.dp)
 
-        GuestOrSignUp(!uiState.isLoading, {})
+        GuestOrSignUp(!uiState.isLoading, viewModel::loginByGuest)
 
         if (uiState.isLoading) {
             ProgressIndicator(modifier = Modifier)
