@@ -3,6 +3,7 @@ package com.redvelvet.viewmodel.search
 import com.redvelvet.entities.movie.Movie
 import com.redvelvet.entities.people.People
 import com.redvelvet.entities.tv.TvShow
+import com.redvelvet.viewmodel.base.BaseUiState
 import com.redvelvet.viewmodel.base.ErrorUiState
 
 data class SearchUiState(
@@ -13,7 +14,7 @@ data class SearchUiState(
     val searchPeopleResult: List<MediaUiState> = emptyList(),
     val searchResult: List<MediaUiState> = emptyList(),
     val isEmpty: Boolean = false,
-    )
+    ):BaseUiState
 
 data class MediaUiState(
     val mediaID: Int?,
