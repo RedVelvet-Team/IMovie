@@ -15,7 +15,6 @@ class LoginViewModel @Inject constructor(
     private val loginByGuestUseCase: LoginByGuestUseCase,
     private val authenticationUserLoginUseCase: AuthenticationUserLoginUseCase,
 ) : BaseViewModel<LoginUiState, LoginUiEvent>(LoginUiState()) {
-
     fun loginByGuest() {
         _state.update {
             it.copy(
