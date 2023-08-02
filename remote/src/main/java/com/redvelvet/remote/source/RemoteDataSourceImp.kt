@@ -4,7 +4,6 @@ import com.google.gson.Gson
 import com.redvelvet.remote.service.MovieApiService
 import com.redvelvet.remote.util.RemoteErrorMap.remoteErrorMap
 import com.redvelvet.repository.dto.ErrorResponseDto
-import com.redvelvet.repository.dto.movie.MovieDto
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
 import com.redvelvet.repository.dto.movie.details.MovieRecommendationsDTO
@@ -21,7 +20,7 @@ class RemoteDataSourceImp @Inject constructor(
 ) : RemoteDataSource {
 
     //region Movie Details
-    override suspend fun getMovieDetailsById(movieId: String): MovieDto {
+    override suspend fun getMovieDetailsById(movieId: String): MovieDetailsDTO {
         return wrapApiResponse {
             movieApiService.getMovieDetailsById(movieId)
         }

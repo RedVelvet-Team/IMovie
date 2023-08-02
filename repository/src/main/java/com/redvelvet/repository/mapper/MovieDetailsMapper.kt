@@ -1,11 +1,13 @@
 package com.redvelvet.repository.mapper
 
+import com.redvelvet.entities.movie.details.MovieDetails
 import com.redvelvet.entities.movie.details.MovieImages
 import com.redvelvet.entities.movie.details.MovieKeyWords
 import com.redvelvet.entities.movie.details.MovieRecommendations
 import com.redvelvet.entities.movie.details.MovieReviews
 import com.redvelvet.entities.movie.details.MovieSimilar
 import com.redvelvet.entities.movie.details.MovieTopCast
+import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
 import com.redvelvet.repository.dto.movie.details.MovieRecommendationsDTO
@@ -66,5 +68,31 @@ fun MovieTopCastDto.toDomain(): MovieTopCast {
                 profilePath = it.profilePath
             )
         }
+    )
+}
+
+fun MovieDetailsDTO.toMovieDetails(): MovieDetails {
+    return MovieDetails(
+        genres = genres.map { MovieDetails.Genre(it.id, it.name) },
+        homepage = homepage,
+        id = id,
+        originalTitle = originalTitle,
+        overview = overview,
+        posterPath = posterPath,
+        productionCountries = productionCountries.map {
+            MovieDetails.ProductionCountry(
+                it.iso31661,
+                it.name
+            )
+        },
+        releaseDate = releaseDate,
+        revenue = revenue,
+        runtime = "$runtime min",
+        spokenLanguages = spokenLanguages.map { MovieDetails.SpokenLanguage(it.englishName) },
+        status = status,
+        tagline = tagline,
+        title = title,
+        video = video,
+        voteAverage = voteAverage,
     )
 }

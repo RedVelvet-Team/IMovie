@@ -5,7 +5,6 @@ import com.redvelvet.repository.dto.auth.GuestSessionDto
 import com.redvelvet.repository.dto.auth.LoginRequest
 import com.redvelvet.repository.dto.auth.SessionDto
 import com.redvelvet.repository.dto.auth.TokenDto
-import com.redvelvet.repository.dto.movie.MovieDto
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
 import com.redvelvet.repository.dto.movie.details.MovieRecommendationsDTO
@@ -43,7 +42,7 @@ interface MovieApiService {
 
     //region Movie Detials
     @GET("/movie/{movie_id}")
-    suspend fun getMovieDetailsById(@Path("movie_id") movieId: String): Response<MovieDto>
+    suspend fun getMovieDetailsById(@Path("movie_id") movieId: String): Response<MovieDetailsDTO>
     @GET("/movie/{movie_id}/images")
     suspend fun getMovieImagesByID(@Path("movie_id") movieId: String):Response<MovieImagesDTO>
     @GET("/movie/{movie_id}/keywords")
