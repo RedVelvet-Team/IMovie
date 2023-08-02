@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlin.reflect.KFunction0
 
 abstract class BaseViewModel<UiState : BaseUiState>(state: UiState) : ViewModel() {
 
@@ -16,7 +17,7 @@ abstract class BaseViewModel<UiState : BaseUiState>(state: UiState) : ViewModel(
 
     fun <T> tryToExecute(
         function: suspend () -> T,
-        onSuccess: (T) -> Unit,
+        onSuccess:(T)-> Unit,
         onError: (error: ErrorUiState) -> Unit,
         dispatcher: CoroutineDispatcher = Dispatchers.IO
     ) {
