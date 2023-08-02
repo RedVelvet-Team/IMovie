@@ -7,3 +7,4 @@ data class SessionDto(
     val sessionId: String?,
     val success: Boolean?
 )
+

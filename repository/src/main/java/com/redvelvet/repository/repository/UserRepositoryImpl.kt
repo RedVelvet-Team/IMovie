@@ -1,8 +1,10 @@
 package com.redvelvet.repository.repository
 
 import com.redvelvet.entities.auth.Guest
+import com.redvelvet.entities.auth.Session
 import com.redvelvet.entities.auth.Token
 import com.redvelvet.repository.mapper.toGuest
+import com.redvelvet.repository.mapper.toSession
 import com.redvelvet.repository.mapper.toToken
 import com.redvelvet.repository.source.LocalDataSource
 import com.redvelvet.repository.source.RemoteDataSource
@@ -47,6 +49,12 @@ class UserRepositoryImpl @Inject constructor(
                 userName = userName,
                 password = password
             ).toToken()
+        }
+    }
+
+    override suspend fun createUserSession(): Session {
+        return wrapRemoteResponse {
+            remoteDataSource.createUserSession().toSession()
         }
     }
 }

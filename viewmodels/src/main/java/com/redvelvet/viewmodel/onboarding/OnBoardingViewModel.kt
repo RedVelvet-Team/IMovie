@@ -3,7 +3,7 @@ package com.redvelvet.viewmodel.onboarding
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.redvelvet.usecase.usecase.auth.CreateGuestSessionUseCase
-import com.redvelvet.usecase.usecase.auth.ValidateUserWithLoginUseCase
+import com.redvelvet.usecase.usecase.auth.CreateUserSessionUseCase
 import com.redvelvet.usecase.usecase.user.SetUserNotFirstTimeUseAppUseCaseImpl
 import com.redvelvet.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,22 +16,17 @@ import javax.inject.Inject
 class OnBoardingViewModel @Inject constructor(
     private val setUserNotFirstTimeUseApp: SetUserNotFirstTimeUseAppUseCaseImpl,
     private val createGuestSessionUseCase: CreateGuestSessionUseCase,
-    private val validateUserWithLoginUseCase: ValidateUserWithLoginUseCase,
+    private val createUserSessionUseCase: CreateUserSessionUseCase,
 ) : BaseViewModel<OnBoardingUiState>(OnBoardingUiState()) {
 
     init {
-//        createGuestSession()
-        validate()
+        createGuestSession()
+        createUserSession()
     }
 
-    private fun validate() {
+    private fun createUserSession() {
         tryToExecute(
-            function = {
-                validateUserWithLoginUseCase(
-                    userName = "Kamel_ElSayed",
-                    password = "23820018Ka",
-                )
-            },
+            function = { createUserSessionUseCase() },
             onSuccess = { Log.i("KAMELOO", it.toString()) },
             onError = { Log.i("KAMELOO", it.toString()) },
         )
