@@ -21,31 +21,31 @@ class MovieRepositoryImp @Inject constructor(
 ) : MovieRepository, BaseRepository() {
 
     //region Movie Details
-    override suspend fun getMovieDetailsById(movieId: String): MovieDetails {
+    override suspend fun getMovieDetailsById(movieId: Int): MovieDetails {
         return remoteDataSource.getMovieDetailsById(movieId).toDomain()
     }
 
-    override suspend fun getMovieImagesByID(movieId: String): MovieImages {
+    override suspend fun getMovieImagesByID(movieId: Int): MovieImages {
         return remoteDataSource.getMovieImagesByID(movieId).toDomain()
     }
 
-    override suspend fun getMovieKeyWordsByID(movieId: String): MovieKeyWords {
+    override suspend fun getMovieKeyWordsByID(movieId: Int): MovieKeyWords {
         return remoteDataSource.getMovieKeyWordsByID(movieId).toDomain()
     }
 
-    override suspend fun getMovieRecommendationsByID(movieId: String): MovieRecommendations {
+    override suspend fun getMovieRecommendationsByID(movieId: Int): MovieRecommendations {
         return remoteDataSource.getMovieRecommendationsByID(movieId).toDomain()
     }
 
-    override suspend fun getMovieReviewsByID(movieId: String): MovieReviews {
+    override suspend fun getMovieReviewsByID(movieId: Int): MovieReviews {
         return remoteDataSource.getMovieReviewsByID(movieId).toDomain()
     }
 
-    override suspend fun getMovieSimilarByID(movieId: String): MovieSimilar {
+    override suspend fun getMovieSimilarByID(movieId: Int): MovieSimilar {
         return remoteDataSource.getMovieSimilarByID(movieId).toDomain()
     }
 
-    override suspend fun getMovieTopCastByID(movieId: String): MovieTopCast {
+    override suspend fun getMovieTopCastByID(movieId: Int): MovieTopCast {
         return remoteDataSource.getMovieTopCastByID(movieId).toDomain()
     }
     //endregion
