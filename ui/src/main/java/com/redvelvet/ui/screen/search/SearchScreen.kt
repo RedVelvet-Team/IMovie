@@ -11,15 +11,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.composable.InitialContentInSearch
 import com.redvelvet.ui.composable.SearchBox
 import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.dimens
+import com.redvelvet.viewmodel.search.SearchViewModel
 
 @Composable
-fun SearchScreen(navController: NavController) {
+fun SearchScreen(
+    navController: NavController,
+    viewModel: SearchViewModel = hiltViewModel()
+) {
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(Primary, darkIcons = false)
     SearchContent()
@@ -32,7 +37,7 @@ private fun SearchContent() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color= Primary)
+            .background(color = Primary)
             .padding(MaterialTheme.dimens.dimens16)
     ) {
         SearchBox()
