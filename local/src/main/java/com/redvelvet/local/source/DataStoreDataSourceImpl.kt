@@ -73,5 +73,17 @@ class DataStoreDataSourceImpl @Inject constructor(
             dataStore.data.first()[PreferencesKeys.GuestSessionExpDate]
         }
     }
+
+    override suspend fun setToken(token: String) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.Token] = token
+        }
+    }
+
+    override suspend fun getToken(): String? {
+        return runBlocking {
+            dataStore.data.first()[PreferencesKeys.Token]
+        }
+    }
     //endregion
 }

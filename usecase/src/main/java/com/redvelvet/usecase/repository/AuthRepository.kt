@@ -15,5 +15,7 @@ interface AuthRepository {
     suspend fun createUserSession(token: String): Session
 
     suspend fun deleteUserSession(sessionId: String): Session
+
+    suspend fun getToken(): String
     //endregion
 }

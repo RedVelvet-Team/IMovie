@@ -22,5 +22,9 @@ interface DataStoreDataSource {
     fun getGuestSessionId(): String?
 
     fun getGuestSessionExpDate(): String?
+
+    suspend fun setToken(token: String)
+
+    suspend fun getToken(): String?
     //endregion
 }
