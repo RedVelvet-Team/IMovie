@@ -15,14 +15,14 @@ abstract class BaseViewModel<UiState : BaseUiState>(state: UiState) : ViewModel(
     val state = _state.asStateFlow()
 
     fun <T> tryToExecute(
-        function: suspend () -> T,
+        execute: suspend () -> T,
         onSuccess: (T) -> Unit,
         onError: (error: ErrorUiState) -> Unit,
         dispatcher: CoroutineDispatcher = Dispatchers.IO
     ) {
         viewModelScope.launch(dispatcher) {
             try {
-                val result = function()
+                val result = execute()
                 onSuccess(result)
             } catch (e: ErrorType) {
                 onError(e.toErrorUiState())

@@ -153,7 +153,7 @@ private fun LoginContentPortrait(uiState: LoginUiState, viewModel: LoginViewMode
         SpacerVertical(height = 24.dp)
 
         Button(
-            onClick = { viewModel.onLoginClicked() },
+            onClick = { viewModel.createSession() },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),
@@ -187,7 +187,7 @@ private fun LoginContentPortrait(uiState: LoginUiState, viewModel: LoginViewMode
 
         SpacerVertical(height = 24.dp)
 
-        GuestOrSignUp(!uiState.isLoading, viewModel::onGuestClicked)
+        GuestOrSignUp(!uiState.isLoading, viewModel::createGuestSession)
         if (uiState.isLoading) {
             ProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
         }
@@ -237,7 +237,7 @@ private fun LoginContentLandscape(uiState: LoginUiState, viewModel: LoginViewMod
         SpacerVertical(height = 8.dp)
 
         Button(
-            onClick = { viewModel.onLoginClicked() },
+            onClick = { viewModel.createSession() },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
@@ -256,7 +256,7 @@ private fun LoginContentLandscape(uiState: LoginUiState, viewModel: LoginViewMod
 
         SpacerVertical(height = 8.dp)
 
-        GuestOrSignUp(!uiState.isLoading, viewModel::onGuestClicked)
+        GuestOrSignUp(!uiState.isLoading, viewModel::createGuestSession)
 
         if (uiState.isLoading) {
             ProgressIndicator(modifier = Modifier)

@@ -31,10 +31,20 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getIsFirstTimeUsingApp() = localDataSource.getIsFirstTimeUsingApp()
+
     override suspend fun createGuestSession(): Guest {
         return wrapRemoteResponse {
             remoteDataSource.createGuestSession().toGuest()
         }
+    }
+
+    override suspend fun getGuestSessionFromLocal() {
+        localDataSource.getGuestSessionId()
+    }
+
+    override suspend fun saveGuestSession(id: String, expDate: String) {
+        localDataSource.setGuestSessionId(id)
+        localDataSource.setGuestSessionExpDate(expDate)
     }
 
     override suspend fun createToken(): Token {

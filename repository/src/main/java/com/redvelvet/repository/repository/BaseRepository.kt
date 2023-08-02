@@ -5,8 +5,8 @@ import com.redvelvet.repository.util.RemoteError
 
 open class BaseRepository {
     protected suspend fun <T> wrapRemoteResponse(response: suspend () -> T): T {
-        try {
-            return response()
+        return try {
+            response()
         } catch (e: RemoteError) {
             throw e.toErrorType()
         }
