@@ -14,6 +14,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.redvelvet.ui.R
+import com.redvelvet.ui.theme.FontAccent
+import com.redvelvet.ui.theme.Secondary
 
 @Composable
 fun UserNameTextField(
@@ -27,7 +29,7 @@ fun UserNameTextField(
         modifier = modifier.fillMaxWidth(),
         value = value,
         onValueChange = { onClick(it) },
-        label = { Text(text) },
+        label = { Text(text = text, color = FontAccent) },
         singleLine = true,
         leadingIcon = {
             Icon(
@@ -41,13 +43,13 @@ fun UserNameTextField(
             focusedTextColor = Color.White,
             unfocusedTextColor = Color.White,
             disabledTextColor = Color.White,
-            focusedContainerColor = Color(0xFF20233C),
-            unfocusedContainerColor = Color(0xFF20233C),
-            disabledContainerColor = Color(0xFF20233C),
+            focusedContainerColor = Secondary,
+            unfocusedContainerColor = Secondary,
+            disabledContainerColor = Secondary,
             focusedBorderColor = Color.Transparent,
             unfocusedBorderColor = Color.Transparent,
             disabledBorderColor = Color.Transparent,
             cursorColor = Color.White
-        )
+        ),
     )
 }

@@ -1,4 +1,4 @@
-package com.redvelvet.ui.screen.loginScreen
+package com.redvelvet.ui.screen.login
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
