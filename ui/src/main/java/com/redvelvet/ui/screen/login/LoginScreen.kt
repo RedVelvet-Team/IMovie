@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomSheetScaffold
-import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -64,29 +63,28 @@ fun LoginScreen(
     val uiState by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(Primary, darkIcons = false)
+    LoginScreenContent(uiState, viewModel)
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun LoginScreenContent(
+    uiState: LoginUiState,
+    viewModel: LoginViewModel
+) {
     val context = LocalContext.current
     val imageBitmap: ImageBitmap =
         ImageBitmap.imageResource(context.resources, R.drawable.login)
     val sheetState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberStandardBottomSheetState(SheetValue.Expanded)
     )
-    LoginScreenInit(uiState, imageBitmap, sheetState, viewModel)
-}
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun LoginScreenInit(
-    uiState: LoginUiState,
-    imageBitmap: ImageBitmap,
-    sheetState: BottomSheetScaffoldState,
-    viewModel: LoginViewModel
-) {
     when (LocalConfiguration.current.orientation) {
         Configuration.ORIENTATION_PORTRAIT -> {
             BottomSheetScaffold(
                 sheetContent = { LoginContentPortrait(uiState, viewModel) },
                 scaffoldState = sheetState,
-                sheetContainerColor = Color(0xFF11142D),
+                sheetContainerColor = Primary,
                 sheetShape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
                 sheetShadowElevation = 0.dp,
                 sheetPeekHeight = 32.dp,
@@ -145,7 +143,6 @@ private fun LoginContentPortrait(uiState: LoginUiState, viewModel: LoginViewMode
             text = stringResource(R.string.username),
             onClick = { viewModel.onUserNameChanged(it) })
 
-
         SpacerVertical(height = 24.dp)
 
         PasswordTextField(value = uiState.password,
@@ -154,6 +151,7 @@ private fun LoginContentPortrait(uiState: LoginUiState, viewModel: LoginViewMode
             onClick = { viewModel.onPasswordChanged(it) })
 
         SpacerVertical(height = 24.dp)
+
         Button(
             onClick = { viewModel.onLoginClicked() },
             modifier = Modifier
@@ -170,7 +168,9 @@ private fun LoginContentPortrait(uiState: LoginUiState, viewModel: LoginViewMode
                 size = 14.sp
             )
         }
+
         SpacerVertical(height = 24.dp)
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
@@ -184,7 +184,9 @@ private fun LoginContentPortrait(uiState: LoginUiState, viewModel: LoginViewMode
             )
             CustomDivider(modifier = Modifier.weight(1f))
         }
+
         SpacerVertical(height = 24.dp)
+
         GuestOrSignUp(!uiState.isLoading, viewModel::onGuestClicked)
         if (uiState.isLoading) {
             ProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
@@ -207,7 +209,9 @@ private fun LoginContentLandscape(uiState: LoginUiState, viewModel: LoginViewMod
             fontWeight = FontWeight.SemiBold,
             size = 18.sp
         )
+
         SpacerVertical(height = 4.dp)
+
         TextLoginScreen(
             modifier = Modifier,
             text = stringResource(R.string.login_to_your_account),
@@ -223,7 +227,6 @@ private fun LoginContentLandscape(uiState: LoginUiState, viewModel: LoginViewMod
             isError = uiState.userNameHelperText.isNotEmpty(),
             text = stringResource(R.string.username),
             onClick = { viewModel.onUserNameChanged(it) })
-
 
         PasswordTextField(value = uiState.password,
             modifier = Modifier.padding(horizontal = 16.dp),
@@ -250,6 +253,7 @@ private fun LoginContentLandscape(uiState: LoginUiState, viewModel: LoginViewMod
                 size = 14.sp
             )
         }
+
         SpacerVertical(height = 8.dp)
 
         GuestOrSignUp(!uiState.isLoading, viewModel::onGuestClicked)
@@ -261,7 +265,10 @@ private fun LoginContentLandscape(uiState: LoginUiState, viewModel: LoginViewMod
 }
 
 @Composable
-fun GuestOrSignUp(isLoading: Boolean, onGuestClicked: () -> Unit) {
+private fun GuestOrSignUp(
+    isLoading: Boolean,
+    onGuestClicked: () -> Unit,
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
