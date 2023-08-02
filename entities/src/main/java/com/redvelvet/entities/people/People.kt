@@ -5,6 +5,5 @@ data class People(
     val name :String,
     val profileImage :String,
     val birthday: String,
-    val popularity: Double,
     val country : String
     )

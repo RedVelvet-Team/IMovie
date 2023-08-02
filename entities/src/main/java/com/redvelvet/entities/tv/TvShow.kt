@@ -6,5 +6,4 @@ data class TvShow(
     val image:String,
     val country: String?,
     val releaseDate: String?,
-    val popularity: Double,
     )
