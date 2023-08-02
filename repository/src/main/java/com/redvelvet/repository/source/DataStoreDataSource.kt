@@ -1,6 +1,7 @@
 package com.redvelvet.repository.source
 
 interface DataStoreDataSource {
+    // region user
     suspend fun setIsLoggedByAccount(isLogged: Boolean)
     suspend fun getIsLoggedByAccount(): Boolean
 
@@ -9,21 +10,17 @@ interface DataStoreDataSource {
 
     suspend fun setIsFirstTimeUsingApp(isFirstTime: Boolean)
     suspend fun getIsFirstTimeUsingApp(): Boolean
+    //endregion
 
-    suspend fun setToken(token: String)
+    // region auth
+    suspend fun setUserSessionId(id: String)
 
-    fun getToken(): String?
+    fun getUserSessionId(): String?
 
-    suspend fun setSessionId(id: String)
-
-    fun getSessionId(): String?
-
-    suspend fun setGuestSessionId(id: String)
+    suspend fun setGuestSession(id: String, expDate: String)
 
     fun getGuestSessionId(): String?
 
-    suspend fun setGuestSessionExpDate(expiresAt: String)
-
     fun getGuestSessionExpDate(): String?
-
+    //endregion
 }
