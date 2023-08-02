@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.FontAccent
 import com.redvelvet.ui.theme.Typography
@@ -28,10 +29,10 @@ import com.redvelvet.ui.theme.Typography
 fun ItemBasicCard(
     image: String,
     hasName: Boolean = false,
-    name: String = "",
+    name: String = "No Name",
     hasDateAndCountry: Boolean = false,
-    date: String = "",
-    country: String = ""
+    date: String = "2023-08-03",
+    country: String = "Germany"
 ) {
     Column(
         modifier = Modifier.width(104.dp)

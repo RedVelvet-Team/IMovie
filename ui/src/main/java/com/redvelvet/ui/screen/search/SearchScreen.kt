@@ -29,6 +29,7 @@ import com.redvelvet.ui.composable.ItemBasicCard
 import com.redvelvet.ui.composable.SearchBox
 import com.redvelvet.ui.theme.FontSecondary
 import com.redvelvet.ui.theme.Primary
+import com.redvelvet.ui.theme.Purple100
 import com.redvelvet.ui.theme.Secondary
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.dimens
@@ -92,7 +93,7 @@ fun CategoryChip(text: String, isSelected: Boolean, onClickChip : ()-> Unit) {
     Text(
         modifier = Modifier
             .clip(RoundedCornerShape(MaterialTheme.radius.radius8))
-            .background(color = if (isSelected) Primary else Secondary)
+            .background(color = if (isSelected) Purple100 else Secondary)
             .padding(
                 vertical = MaterialTheme.spacing.spacing8,
                 horizontal = MaterialTheme.spacing.spacing16
@@ -132,12 +133,12 @@ fun CustomLazyVerticalGrid(
         ) {
             items(mediaUiStates.size) {
                 val mediaUiState = mediaUiStates[it]
-                val BASE_URL = "https://api.themoviedb.org/3/"
-                Log.d("banan", BASE_URL + mediaUiState.mediaImage)
+                val BASE_URL = "https://image.tmdb.org/t/p/w500"
+                Log.d("banan",  mediaUiState.mediaName)
                 ItemBasicCard(
                     image = BASE_URL + mediaUiState.mediaImage,
                     hasName = true,
-                    name = mediaUiState.mediaName,
+                    name = mediaUiState.mediaName ,
                     hasDateAndCountry = mediaUiState.mediaReleaseDate.isNotEmpty(),
                     date = mediaUiState.mediaReleaseDate,
                     country = mediaUiState.mediaCountry
