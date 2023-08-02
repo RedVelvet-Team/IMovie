@@ -17,6 +17,8 @@ class MovieRepositoryImp @Inject constructor(
         query: String,
         page: Int?
     ): List<SearchResult> {
-        return remoteDataSource.multiSearch(query, page).toEntity()
+        return wrapRemoteResponse {
+            remoteDataSource.multiSearch(query, page).toEntity()
+        }
     }
 }
