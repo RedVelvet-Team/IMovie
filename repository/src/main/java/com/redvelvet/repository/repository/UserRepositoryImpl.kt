@@ -1,5 +1,7 @@
 package com.redvelvet.repository.repository
 
+import com.redvelvet.entities.auth.Guest
+import com.redvelvet.repository.mapper.toGuest
 import com.redvelvet.repository.source.LocalDataSource
 import com.redvelvet.repository.source.RemoteDataSource
 import com.redvelvet.usecase.repository.UserRepository
@@ -25,4 +27,9 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getIsFirstTimeUsingApp() = localDataSource.getIsFirstTimeUsingApp()
+    override suspend fun createGuestSession(): Guest {
+        return wrapRemoteResponse {
+            remoteDataSource.createGuestSession().toGuest()
+        }
+    }
 }

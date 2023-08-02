@@ -3,7 +3,7 @@ package com.redvelvet.remote.util
 import com.redvelvet.repository.util.RemoteError
 
 object RemoteErrorMap {
-      val remoteErrorMap = mapOf(
+    val remoteErrorMap = mapOf(
         3 to RemoteError.AuthenticationFailed,
         7 to RemoteError.InvalidApiKey,
         9 to RemoteError.ServiceOffline,
