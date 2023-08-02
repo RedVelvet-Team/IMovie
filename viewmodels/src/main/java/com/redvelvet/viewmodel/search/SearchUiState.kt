@@ -11,18 +11,18 @@ data class SearchUiState(
     val isLoading: Boolean = false,
     val error: ErrorUiState? = null,
     val mediaType: SearchMedia = SearchMedia.ALL,
-    val inputText: String? = "",
+    val inputText: String = "",
     val searchPeopleResult: List<MediaUiState> = emptyList(),
     val searchResult: List<MediaUiState> = emptyList(),
     val isEmpty: Boolean = false,
 ) : BaseUiState
 
 data class MediaUiState(
-    val mediaID: Int?,
-    val mediaName: String?,
-    val mediaImage: String?,
-    val mediaReleaseDate: String?,
-    val mediaCountry: String?,
+    val mediaID: Int = 0,
+    val mediaName: String = "",
+    val mediaImage: String = "",
+    val mediaReleaseDate: String = "",
+    val mediaCountry: String ="",
 )
 
 enum class SearchMedia {
@@ -34,40 +34,40 @@ enum class SearchMedia {
 
 fun SearchResult.toMediaUiState(): MediaUiState {
     return MediaUiState(
-        mediaID = id,
-        mediaName = name,
-        mediaImage = this.posterPath,
-        mediaReleaseDate = this.releaseDate,
-        mediaCountry = this.originCountry
+        mediaID = id ?:0,
+        mediaName = name ?:"",
+        mediaImage = posterPath?:"",
+        mediaReleaseDate = releaseDate?:"",
+        mediaCountry = originCountry?:""
     )
 }
 
-fun People.toMediaUiState(): MediaUiState {
-    return MediaUiState(
-        mediaID = id,
-        mediaName = name,
-        mediaImage = profileImage,
-        mediaReleaseDate = birthday,
-        mediaCountry = country
-    )
-}
+//fun People.toMediaUiState(): MediaUiState {
+//    return MediaUiState(
+//        mediaID = id,
+//        mediaName = name,
+//        mediaImage = profileImage,
+//        mediaReleaseDate = birthday,
+//        mediaCountry = country
+//    )
+//}
 
-fun TvShow.toMediaUiState(): MediaUiState {
-    return MediaUiState(
-        mediaID = id,
-        mediaName = name,
-        mediaImage = image,
-        mediaReleaseDate = releaseDate,
-        mediaCountry = country
-    )
-}
-
-fun Movie.toMediaUiState(): MediaUiState {
-    return MediaUiState(
-        mediaID = id,
-        mediaName = name,
-        mediaImage = image,
-        mediaReleaseDate = releaseDate,
-        mediaCountry = country
-    )
-}
+//fun TvShow.toMediaUiState(): MediaUiState {
+//    return MediaUiState(
+//        mediaID = id,
+//        mediaName = name,
+//        mediaImage = image,
+//        mediaReleaseDate = releaseDate?:"",
+//        mediaCountry = country?:""
+//    )
+//}
+//
+//fun Movie.toMediaUiState(): MediaUiState {
+//    return MediaUiState(
+//        mediaID = id,
+//        mediaName = name,
+//        mediaImage = image,
+//        mediaReleaseDate = releaseDate,
+//        mediaCountry = country
+//    )
+//}
