@@ -17,7 +17,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.redvelvet.ui.R
-import com.redvelvet.ui.theme.FontAccent
 
 @Composable
 fun PasswordTextField(
@@ -31,7 +30,7 @@ fun PasswordTextField(
         modifier = modifier.fillMaxWidth(),
         value = value,
         onValueChange = { onClick(it) },
-        label = { Text(text = text, color = FontAccent) },
+        label = { Text(text = text) },
         singleLine = true,
         visualTransformation = PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
