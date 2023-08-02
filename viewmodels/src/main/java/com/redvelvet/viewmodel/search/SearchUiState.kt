@@ -2,6 +2,7 @@ package com.redvelvet.viewmodel.search
 
 import com.redvelvet.entities.movie.Movie
 import com.redvelvet.entities.people.People
+import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.entities.tv.TvShow
 import com.redvelvet.viewmodel.base.BaseUiState
 import com.redvelvet.viewmodel.base.ErrorUiState
@@ -14,13 +15,12 @@ data class SearchUiState(
     val searchPeopleResult: List<MediaUiState> = emptyList(),
     val searchResult: List<MediaUiState> = emptyList(),
     val isEmpty: Boolean = false,
-    ):BaseUiState
+) : BaseUiState
 
 data class MediaUiState(
     val mediaID: Int?,
     val mediaName: String?,
     val mediaImage: String?,
-    val mediaPopularity: Double?,
     val mediaReleaseDate: String?,
     val mediaCountry: String?,
 )
@@ -32,37 +32,42 @@ enum class SearchMedia {
     PEOPLE
 }
 
+fun SearchResult.toMediaUiState(): MediaUiState {
+    return MediaUiState(
+        mediaID = id,
+        mediaName = name,
+        mediaImage = this.posterPath,
+        mediaReleaseDate = this.releaseDate,
+        mediaCountry = this.originCountry
+    )
+}
 
-internal fun People.toUiState(): MediaUiState {
+fun People.toMediaUiState(): MediaUiState {
     return MediaUiState(
         mediaID = id,
         mediaName = name,
         mediaImage = profileImage,
         mediaReleaseDate = birthday,
-        mediaPopularity =  popularity,
         mediaCountry = country
     )
-
 }
 
-internal fun TvShow.toUiState(): MediaUiState {
+fun TvShow.toMediaUiState(): MediaUiState {
     return MediaUiState(
         mediaID = id,
         mediaName = name,
         mediaImage = image,
-        mediaPopularity =popularity ,
         mediaReleaseDate = releaseDate,
         mediaCountry = country
-        )
+    )
 }
 
-internal fun Movie.toUiState(): MediaUiState {
+fun Movie.toMediaUiState(): MediaUiState {
     return MediaUiState(
         mediaID = id,
         mediaName = name,
         mediaImage = image,
-        mediaPopularity = popularity,
         mediaReleaseDate = releaseDate,
         mediaCountry = country
-        )
+    )
 }
