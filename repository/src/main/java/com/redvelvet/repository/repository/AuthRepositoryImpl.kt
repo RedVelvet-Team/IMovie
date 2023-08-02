@@ -15,23 +15,15 @@ class AuthRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val dataStoreDataSource: DataStoreDataSource,
 ) : BaseRepository(), AuthRepository {
+    //region auth
     override suspend fun createGuestSession(): Guest {
         return wrapRemoteResponse {
             remoteDataSource.createGuestSession().toGuest()
         }
     }
 
-    override suspend fun getGuestSessionIdFromLocal(): String {
-        return dataStoreDataSource.getGuestSessionId().toString()
-    }
-
-    override suspend fun getGuestSessionExpDateFromLocal(): String {
-        return dataStoreDataSource.getGuestSessionExpDate().toString()
-    }
-
     override suspend fun saveGuestSession(id: String, expDate: String) {
-        dataStoreDataSource.setGuestSessionId(id)
-        dataStoreDataSource.setGuestSessionExpDate(expDate)
+        dataStoreDataSource.setGuestSession(id, expDate)
     }
 
     override suspend fun createToken(): Token {
@@ -60,4 +52,15 @@ class AuthRepositoryImpl @Inject constructor(
             remoteDataSource.deleteUserSession().toSession()
         }
     }
+    //endregion
+
+    //region user
+    override suspend fun setIsLoggedInByGuest(isLogged: Boolean) {
+        dataStoreDataSource.setIsLoggedByGuest(isLogged)
+    }
+
+    override suspend fun setIsLoggedInByAccount(isLogged: Boolean) {
+        dataStoreDataSource.setIsLoggedByAccount(isLogged)
+    }
+    //endregion
 }
