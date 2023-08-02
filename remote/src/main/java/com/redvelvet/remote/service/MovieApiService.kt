@@ -41,7 +41,7 @@ interface MovieApiService {
     suspend fun deleteUserSession(@Field("session_id") sessionId: String): Response<DeleteSessionDto>
 
 
-    //region Movie
+    //region Movie Detials
     @GET("/movie/{movie_id}")
     suspend fun getMovieDetailsById(@Path("movie_id") movieId: String): Response<MovieDto>
     @GET("/movie/{movie_id}/images")
