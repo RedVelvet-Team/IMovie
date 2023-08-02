@@ -1,4 +1,4 @@
-package com.redvelvet.repository.dto.auth
+package com.redvelvet.repository.dto.auth.request
 
 import com.google.gson.annotations.SerializedName
 

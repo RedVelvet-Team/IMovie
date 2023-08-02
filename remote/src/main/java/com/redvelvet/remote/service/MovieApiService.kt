@@ -1,9 +1,9 @@
 package com.redvelvet.remote.service
 
-import com.redvelvet.repository.dto.auth.GuestSessionDto
-import com.redvelvet.repository.dto.auth.LoginRequest
-import com.redvelvet.repository.dto.auth.SessionDto
-import com.redvelvet.repository.dto.auth.TokenDto
+import com.redvelvet.repository.dto.auth.response.GuestSessionDto
+import com.redvelvet.repository.dto.auth.request.LoginRequest
+import com.redvelvet.repository.dto.auth.response.SessionDto
+import com.redvelvet.repository.dto.auth.response.TokenDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
