@@ -71,7 +71,7 @@ fun MovieTopCastDto.toDomain(): MovieTopCast {
     )
 }
 
-fun MovieDetailsDTO.toMovieDetails(): MovieDetails {
+fun MovieDetailsDTO.toDomain(): MovieDetails {
     return MovieDetails(
         genres = genres.map { MovieDetails.Genre(it.id, it.name) },
         homepage = homepage,
