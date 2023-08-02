@@ -1,5 +1,12 @@
 package com.redvelvet.usecase.usecase.user
 
-interface SetUserNotFirstTimeUseAppUseCase {
-    suspend operator fun invoke()
+import com.redvelvet.usecase.repository.UserRepository
+import javax.inject.Inject
+
+class SetUserNotFirstTimeUseAppUseCase @Inject constructor(
+    private val userRepository: UserRepository
+) {
+    suspend fun invoke() {
+        userRepository.setIsFirstTimeUsingApp(false)
+    }
 }
