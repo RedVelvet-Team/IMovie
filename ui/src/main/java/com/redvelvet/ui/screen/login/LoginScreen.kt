@@ -54,7 +54,6 @@ import com.redvelvet.viewmodel.login.LoginUiState
 import com.redvelvet.viewmodel.login.LoginViewModel
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     navController: NavController,
@@ -187,7 +186,7 @@ private fun LoginContentPortrait(uiState: LoginUiState, viewModel: LoginViewMode
 
         SpacerVertical(height = 24.dp)
 
-        GuestOrSignUp(!uiState.isLoading, viewModel::createGuestSession)
+        GuestOrSignUp(!uiState.isLoading, viewModel::createGuestSessionAndSave)
         if (uiState.isLoading) {
             ProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
         }
@@ -256,7 +255,7 @@ private fun LoginContentLandscape(uiState: LoginUiState, viewModel: LoginViewMod
 
         SpacerVertical(height = 8.dp)
 
-        GuestOrSignUp(!uiState.isLoading, viewModel::createGuestSession)
+        GuestOrSignUp(!uiState.isLoading, viewModel::createGuestSessionAndSave)
 
         if (uiState.isLoading) {
             ProgressIndicator(modifier = Modifier)

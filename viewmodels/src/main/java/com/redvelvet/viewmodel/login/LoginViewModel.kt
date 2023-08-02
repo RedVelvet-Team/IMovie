@@ -1,12 +1,10 @@
 package com.redvelvet.viewmodel.login
 
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.redvelvet.usecase.usecase.auth.CreateGuestSessionUseCase
 import com.redvelvet.usecase.usecase.auth.CreateTokenUseCase
 import com.redvelvet.usecase.usecase.auth.CreateUserSessionUseCase
-import com.redvelvet.usecase.usecase.auth.GetGuestSessionFromLocalUseCase
 import com.redvelvet.usecase.usecase.auth.SaveGuestSessionUseCase
 import com.redvelvet.usecase.usecase.auth.ValidateUserWithLoginUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
@@ -23,7 +21,6 @@ class LoginViewModel @Inject constructor(
     private val validateUserWithLoginUseCase: ValidateUserWithLoginUseCase,
     private val createUserSessionUseCase: CreateUserSessionUseCase,
     private val saveGuestSessionUseCase: SaveGuestSessionUseCase,
-    private val getGuestSessionFromLocalUseCase: GetGuestSessionFromLocalUseCase,
 ) : BaseViewModel<LoginUiState>(LoginUiState()) {
     fun onUserNameChanged(userName: String) {
         val isValidUserName = true
@@ -48,7 +45,7 @@ class LoginViewModel @Inject constructor(
     }
 
     fun createSession() {
-        createRequestToken()
+//        createRequestToken()
         val userName = _state.value.userName
         val password = _state.value.password
         validateUserWithLogin(userName, password)
@@ -136,7 +133,7 @@ class LoginViewModel @Inject constructor(
         )
     }
 
-    fun createGuestSession() {
+    fun createGuestSessionAndSave() {
         tryToExecute(
             execute = {
                 _state.update {
@@ -176,14 +173,6 @@ class LoginViewModel @Inject constructor(
                 id = id,
                 expDate = expDate
             )
-            get()
-        }
-    }
-
-    private fun get() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val guest = getGuestSessionFromLocalUseCase()
-            Log.i("KAMELOO", guest.toString())
         }
     }
 }

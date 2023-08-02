@@ -38,8 +38,12 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getGuestSessionFromLocal(): String {
+    override suspend fun getGuestSessionIdFromLocal(): String {
         return localDataSource.getGuestSessionId().toString()
+    }
+
+    override suspend fun getGuestSessionExpDateFromLocal(): String {
+        return localDataSource.getGuestSessionExpDate().toString()
     }
 
     override suspend fun saveGuestSession(id: String, expDate: String) {
