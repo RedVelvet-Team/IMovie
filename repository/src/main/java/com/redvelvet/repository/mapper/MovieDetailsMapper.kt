@@ -5,11 +5,13 @@ import com.redvelvet.entities.movie.details.MovieKeyWords
 import com.redvelvet.entities.movie.details.MovieRecommendations
 import com.redvelvet.entities.movie.details.MovieReviews
 import com.redvelvet.entities.movie.details.MovieSimilar
+import com.redvelvet.entities.movie.details.MovieTopCast
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
 import com.redvelvet.repository.dto.movie.details.MovieRecommendationsDTO
 import com.redvelvet.repository.dto.movie.details.MovieReviewsDTO
 import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
+import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
 
 fun MovieImagesDTO.toDomain(): MovieImages {
     return MovieImages(backdrops = this.backdrops.map { MovieImages.Backdrop(it.filePath) },
@@ -53,4 +55,16 @@ fun MovieSimilarDTO.toDomain(): MovieSimilar {
             id = it.id, title = it.title, posterPath = it.posterPath
         )
     })
+}
+
+fun MovieTopCastDto.toDomain(): MovieTopCast {
+    return MovieTopCast(id = this.id,
+        cast = this.cast.map {
+            MovieTopCast.Cast(
+                id = it.id,
+                name = it.name,
+                profilePath = it.profilePath
+            )
+        }
+    )
 }
