@@ -19,6 +19,7 @@ object RemoteErrorMap {
         31 to RemoteError.AccountDisabled,
         32 to RemoteError.EmailNotVerified,
         33 to RemoteError.InvalidRequestToken,
+        34 to RemoteError.BadRequest,
         35 to RemoteError.InvalidToken,
         36 to RemoteError.InsufficientPermissions,
         39 to RemoteError.ResourcePrivate,
