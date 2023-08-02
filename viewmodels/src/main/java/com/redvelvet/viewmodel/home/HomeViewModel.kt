@@ -17,7 +17,7 @@ class HomeViewModel @Inject constructor(
     private fun fakeData() {
         _state.update {
             it.copy(
-                popularMovie = fakeList()[1],
+                popularMovies = fakeList(),
                 nowPlayingMovies = fakeList(),
                 upComingMovies = fakeList(),
                 topRatedMovies = fakeList(),
