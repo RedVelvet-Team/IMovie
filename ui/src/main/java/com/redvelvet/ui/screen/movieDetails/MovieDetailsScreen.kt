@@ -11,14 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.redvelvet.ui.composable.CustomMediaDetailsTopAppBar
-import com.redvelvet.ui.movieDetails.MovieDetailsUiEvent
 import com.redvelvet.ui.screen.movieDetails.mediaComposable.MediaDetailsBackgroundContent
 import com.redvelvet.ui.screen.movieDetails.mediaComposable.MediaDetailsForegroundContent
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsViewModel
