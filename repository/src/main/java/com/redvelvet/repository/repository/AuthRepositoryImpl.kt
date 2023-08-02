@@ -47,7 +47,7 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun validateUserWithLogin(
         userName: String,
         password: String,
-        token: String
+        token: String,
     ): Token {
         return wrapRemoteResponse {
             remoteDataSource.validateUserWithLogin(
