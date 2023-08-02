@@ -17,7 +17,6 @@ class SplashViewModel @Inject constructor(
     private val checkUserUserIsLoggedInUseCase: CheckUserLoggedInUseCaseImpl,
     private val checkUserIsGuestUseCase: CheckUserIsGuestUseCaseImpl
 ) : BaseViewModel<SplashUiState>(SplashUiState()) {
-
     init {
         getUserStatus()
     }
