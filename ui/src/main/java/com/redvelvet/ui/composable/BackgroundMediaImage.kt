@@ -19,7 +19,7 @@ fun BackgroundMediaImage(
     AsyncImage(
         modifier = modifier,
         model = ImageRequest.Builder(LocalContext.current).data(image)
-            .crossfade(true).scale(Scale.FILL).build(),
+            .crossfade(true).scale(Scale.FIT).build(),
         placeholder = painterResource(placeholder),
         contentDescription = stringResource(contentDescription),
     )
