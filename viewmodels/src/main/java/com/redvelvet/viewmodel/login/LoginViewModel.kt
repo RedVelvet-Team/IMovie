@@ -2,13 +2,18 @@ package com.redvelvet.viewmodel.login
 
 
 import android.util.Log
+import androidx.lifecycle.viewModelScope
 import com.redvelvet.usecase.usecase.auth.CreateGuestSessionUseCase
 import com.redvelvet.usecase.usecase.auth.CreateTokenUseCase
 import com.redvelvet.usecase.usecase.auth.CreateUserSessionUseCase
+import com.redvelvet.usecase.usecase.auth.GetGuestSessionFromLocalUseCase
+import com.redvelvet.usecase.usecase.auth.SaveGuestSessionUseCase
 import com.redvelvet.usecase.usecase.auth.ValidateUserWithLoginUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,6 +22,8 @@ class LoginViewModel @Inject constructor(
     private val createTokenUseCase: CreateTokenUseCase,
     private val validateUserWithLoginUseCase: ValidateUserWithLoginUseCase,
     private val createUserSessionUseCase: CreateUserSessionUseCase,
+    private val saveGuestSessionUseCase: SaveGuestSessionUseCase,
+    private val getGuestSessionFromLocalUseCase: GetGuestSessionFromLocalUseCase,
 ) : BaseViewModel<LoginUiState>(LoginUiState()) {
     fun onUserNameChanged(userName: String) {
         val isValidUserName = true
@@ -139,10 +146,9 @@ class LoginViewModel @Inject constructor(
                         success = false,
                     )
                 }
-                val response = createGuestSessionUseCase()
-                Log.i("KAMELOO", response.toString())
+                createGuestSessionUseCase()
             },
-            onSuccess = {
+            onSuccess = { guest ->
                 _state.update {
                     it.copy(
                         isLoading = false,
@@ -150,6 +156,7 @@ class LoginViewModel @Inject constructor(
                         success = true,
                     )
                 }
+                saveGuestSession(guest.guestSessionId.toString(), guest.expiresAt.toString())
             },
             onError = { error ->
                 _state.update {
@@ -161,5 +168,22 @@ class LoginViewModel @Inject constructor(
                 }
             },
         )
+    }
+
+    private fun saveGuestSession(id: String, expDate: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            saveGuestSessionUseCase(
+                id = id,
+                expDate = expDate
+            )
+            get()
+        }
+    }
+
+    private fun get() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val guest = getGuestSessionFromLocalUseCase()
+            Log.i("KAMELOO", guest.toString())
+        }
     }
 }
