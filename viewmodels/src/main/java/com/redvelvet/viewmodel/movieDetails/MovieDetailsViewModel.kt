@@ -29,7 +29,7 @@ class MovieDetailsViewModel @Inject constructor(
     private fun getData() {
         _state.update { MovieDetailsScreenUiState(isLoading = true, isError = Pair(false, "")) }
         viewModelScope.launch {
-        delay(2000)
+            delay(2000)
             try {
 //                _state.update {
 //                    MovieDetailsScreenUiState(
@@ -58,7 +58,7 @@ class MovieDetailsViewModel @Inject constructor(
     private fun fakeData(): MovieDetailsScreenUiState.MovieFullDetailsUiState {
         return MovieDetailsScreenUiState.MovieFullDetailsUiState(
             details = MovieDetailsScreenUiState.MovieDetailsUiState(
-                genres = listOf("Action", "Adventure", "Fantasy"),
+                genres = listOf("Action", "Adventure", "Fantasy","Action", "Adventure", "Fantasy"),
                 homepage = "https://www.starwars.com/films/star-wars-episode-iv-a-new-hope",
                 id = 11,
                 originalTitle = "Star Wars",
@@ -75,8 +75,35 @@ class MovieDetailsViewModel @Inject constructor(
                 video = false,
                 voteAverage = 8.2
             ),
+            topCast = listOf(
+                MovieDetailsScreenUiState.MovieTopCastUiState(
+                    castId = 1,
+                    castName = "Halle Bailey",
+                    castImage = "https://image.tmdb.org/t/p/w500/hLtxNK8eeWZkFSeaAASFWm15Qv0.jpg"
+                ),
+                MovieDetailsScreenUiState.MovieTopCastUiState(
+                    castId = 2,
+                    castName = "JonahHauer-King",
+                    castImage = "https://image.tmdb.org/t/p/w500/1GOW1cejmE8D8T6PRikYlGmUae0.jpg"
+                ),
+                MovieDetailsScreenUiState.MovieTopCastUiState(
+                    castId = 3,
+                    castName = "Daveed Diggs",
+                    castImage = "https://image.tmdb.org/t/p/w500/82rxrGxOqQW2NjKsIiNbDYHFfmb.jpg"
+                ),
+                MovieDetailsScreenUiState.MovieTopCastUiState(
+                    castId = 4,
+                    castName = "Awkwafina",
+                    castImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg"
+                ),
+                MovieDetailsScreenUiState.MovieTopCastUiState(
+                    castId = 5,
+                    castName = "hLtxNK8ee",
+                    castImage = "https://image.tmdb.org/t/p/w500/1GOW1cejmE8D8T6PRikYlGmUae0.jpg"
+                ),
+            ),
             images = MovieDetailsScreenUiState.MovieImagesUiState(
-                test = "test"
+                image = "test"
             ),
             keyWords = MovieDetailsScreenUiState.MovieKeyWordsUiState(
                 test = "test"
@@ -90,9 +117,6 @@ class MovieDetailsViewModel @Inject constructor(
             similar = MovieDetailsScreenUiState.MovieSimilarUiState(
                 test = "test"
             ),
-            topCast = MovieDetailsScreenUiState.MovieTopCastUiState(
-                test = "test"
-            )
         )
     }
 }

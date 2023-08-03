@@ -9,12 +9,12 @@ data class MovieDetailsScreenUiState(
 ) : BaseUiState {
     data class MovieFullDetailsUiState(
         val details: MovieDetailsUiState,
+        val topCast: List<MovieTopCastUiState>,
         val images: MovieImagesUiState,
         val keyWords: MovieKeyWordsUiState,
         val recommendations: MovieRecommendationsUiState,
         val reviews: MovieReviewsUiState,
         val similar: MovieSimilarUiState,
-        val topCast: MovieTopCastUiState
     )
 
     data class MovieDetailsUiState(
@@ -36,8 +36,14 @@ data class MovieDetailsScreenUiState(
         val voteAverage: Double = 0.0,
     )
 
+    data class MovieTopCastUiState(
+        val castId: Int = 0,
+        val castName: String = "",
+        val castImage: String = ""
+    )
+
     data class MovieImagesUiState(
-        val test: String = ""
+        val image: String = ""
     )
 
     data class MovieKeyWordsUiState(
@@ -53,10 +59,6 @@ data class MovieDetailsScreenUiState(
     )
 
     data class MovieSimilarUiState(
-        val test: String = ""
-    )
-
-    data class MovieTopCastUiState(
         val test: String = ""
     )
 

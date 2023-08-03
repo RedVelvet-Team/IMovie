@@ -2,17 +2,18 @@ package com.redvelvet.viewmodel.movieDetails
 
 import com.redvelvet.entities.movie.details.MovieDetails
 import com.redvelvet.entities.movie.details.MovieFullDetails
+import com.redvelvet.entities.movie.details.MovieTopCast
 
 
 fun MovieFullDetails.toMovieFullDetailsScreenUiState(): MovieDetailsScreenUiState.MovieFullDetailsUiState {
     return MovieDetailsScreenUiState.MovieFullDetailsUiState(
         details = this.details.toMovieDetailsUiState(),
+        topCast = this.topCast.cast.toTopCastUiState(),
         images = MovieDetailsScreenUiState.MovieImagesUiState(),
         keyWords = MovieDetailsScreenUiState.MovieKeyWordsUiState(),
         recommendations = MovieDetailsScreenUiState.MovieRecommendationsUiState(),
         reviews = MovieDetailsScreenUiState.MovieReviewsUiState(),
         similar = MovieDetailsScreenUiState.MovieSimilarUiState(),
-        topCast = MovieDetailsScreenUiState.MovieTopCastUiState()
     )
 
 }
@@ -36,4 +37,15 @@ fun MovieDetails.toMovieDetailsUiState(): MovieDetailsScreenUiState.MovieDetails
         video = this.video,
         voteAverage = this.voteAverage,
     )
+}
+
+fun List<MovieTopCast.Cast>.toTopCastUiState(): List<MovieDetailsScreenUiState.MovieTopCastUiState> {
+    return this.map {
+        MovieDetailsScreenUiState.MovieTopCastUiState(
+            castId = it.id,
+            castName = it.name,
+            castImage = "https://image.tmdb.org/t/p/w500" + it.profilePath
+        )
+    }
+
 }
