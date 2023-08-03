@@ -1,6 +1,7 @@
 package com.redvelvet.ui.screen.login
 
 import android.content.res.Configuration
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -94,6 +95,9 @@ private fun LoginScreenContent(
     interaction: LoginInteraction,
 ) {
     val context = LocalContext.current
+    uiState.error?.let {
+        Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+    }
     val imageBitmap: ImageBitmap =
         ImageBitmap.imageResource(context.resources, R.drawable.login)
     val sheetState = rememberBottomSheetScaffoldState(

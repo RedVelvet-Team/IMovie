@@ -29,4 +29,6 @@
     <string name="login_require_description">Use your account to enjoy the best app experience.</string>
     <string name="login_require_button">Login</string>
     <string name="upcoming">Upcoming\n</string>
+    <string name="hide_password">Hide password</string>
+    <string name="show_password">Show password</string>
 </resources>
