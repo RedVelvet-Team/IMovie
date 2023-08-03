@@ -2,6 +2,7 @@ package com.redvelvet.viewmodel.search
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.usecase.usecase.search.GetMoviesSearchResultUseCase
 import com.redvelvet.usecase.usecase.search.GetPeopleSearchResultUseCase
 import com.redvelvet.usecase.usecase.search.GetSearchResultUseCase
@@ -43,76 +44,51 @@ class SearchViewModel @Inject constructor(
     /// region Search for All
     private fun onSearchForAll() {
         tryToExecute(
-            function = {
-                getSearchResultUseCase(_state.value.inputText ?: "")
-                    .map { it.toMediaUiState() }
-            },
-            onSuccess = ::onGetAllSuccess,
+            function = { getSearchResultUseCase(_state.value.inputText) },
+            onSuccess = ::onGetSuccess,
             onError = ::onGetError
         )
     }
-    private fun onGetAllSuccess(result: List<SearchCardUiState>) {
-        _state.update { it.copy(searchResult = result, selectedMediaType = SearchMedia.ALL) }
-        Log.v("hassan", state.value.toString())
-    }
-
     /// endregion
 
     /// region Search for movie
     private fun onSearchForMovie() {
         tryToExecute(
             function = {
-                getMoviesSearchResultUseCase(_state.value.inputText ?: "")
-                    .map {
-                        it.toMediaUiState()
-                    }
-            },
-            onSuccess = ::onGetMovieSuccess,
+                getMoviesSearchResultUseCase(_state.value.inputText) },
+            onSuccess = ::onGetSuccess,
             onError = ::onGetError
         )
     }
-
-    private fun onGetMovieSuccess(result: List<SearchCardUiState>) {
-        _state.update { it.copy(searchResult = result, selectedMediaType = SearchMedia.MOVIE) }
-    }
-
     /// endregion
 
     /// region Search for TvShow
     private fun onSearchForTvShow() {
         tryToExecute(
             function = {
-                getTvShowsSearchResultUseCase(_state.value.inputText ?: "")
-                    .map { it.toMediaUiState() }
+                getTvShowsSearchResultUseCase(_state.value.inputText)
             },
-            onSuccess = ::onGetTvSuccess,
+            onSuccess = ::onGetSuccess,
             onError = ::onGetError
         )
     }
-
-    private fun onGetTvSuccess(result: List<SearchCardUiState>) {
-        _state.update { it.copy(searchResult = result, selectedMediaType = SearchMedia.TV) }
-    }
-
     /// endregion
 
     /// region Search for Person
     private fun onSearchForPerson() {
         tryToExecute(
             function = {
-                getPeopleSearchResultUseCase(_state.value.inputText ?: "")
-                    .map { it.toMediaUiState() }
-            },
-            onSuccess = ::onGetPersonSuccess,
+                getPeopleSearchResultUseCase(_state.value.inputText) },
+            onSuccess = ::onGetSuccess,
             onError = ::onGetError
         )
     }
+    /// endregion
 
-    private fun onGetPersonSuccess(result: List<SearchCardUiState>) {
-        _state.update { it.copy(searchResult = result, selectedMediaType = SearchMedia.PEOPLE) }
+    private fun onGetSuccess(result: List<SearchResult>) {
+        _state.update { it -> it.copy(searchResult = result.map { it.toMediaUiState() }) }
     }
 
-    /// endregion
     private fun onGetError(error: ErrorUiState) {
         _state.update { it.copy(error = error) }
     }
