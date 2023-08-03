@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -22,11 +24,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.redvelvet.ui.R
+import com.redvelvet.ui.composable.InitialContentInSearch
 import com.redvelvet.ui.composable.ItemBasicCard
 import com.redvelvet.ui.composable.SearchBox
+import com.redvelvet.ui.composable.StatusImage
+import com.redvelvet.ui.composable.StatusText
 import com.redvelvet.ui.theme.FontSecondary
 import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.Purple100
@@ -70,8 +78,30 @@ private fun SearchContent(
             .padding(MaterialTheme.dimens.dimens16)
     ) {
         SearchBox(query = state.inputText ?: "", onChangeQuery = onChangeQuery)
-        CategoryChips()
-        CustomLazyVerticalGrid(mediaUiStates = state.searchResult)
+        if (!state.isEmpty) {
+            CategoryChips()
+            CustomLazyVerticalGrid(mediaUiStates = state.searchResult)
+        }else{
+            InitialContentInSearch()
+        }
+            if(state.searchResult.isEmpty()){
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            StatusImage(
+                modifier = Modifier.fillMaxWidth(),
+                painter = painterResource(id = R.drawable.vector_not_found),
+                contentDescription = stringResource(R.string.no_search_results)
+            )
+            Spacer( modifier = Modifier.height(MaterialTheme.spacing.spacing32))
+            StatusText(
+                statusTitle = stringResource(R.string.not_found),
+                statusDescription = stringResource(R.string.no_results)
+            )
+        }
+    }
     }
 }
 
@@ -111,7 +141,6 @@ fun CategoryChip(text: String, isSelected: Boolean, onClickChip: () -> Unit) {
         text = text,
         style = Typography.bodyMedium,
         color = FontSecondary,
-
         )
 }
 
@@ -120,11 +149,9 @@ fun CustomLazyVerticalGrid(
     modifier: Modifier = Modifier,
     mediaUiStates: List<MediaUiState>
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Primary)
-    ) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .background(Primary)) {
         LazyVerticalGrid(
             contentPadding = PaddingValues(
                 horizontal = MaterialTheme.spacing.spacing16,

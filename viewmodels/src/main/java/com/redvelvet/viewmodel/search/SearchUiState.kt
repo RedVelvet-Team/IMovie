@@ -14,7 +14,7 @@ data class SearchUiState(
     val inputText: String = "",
     val searchPeopleResult: List<MediaUiState> = emptyList(),
     val searchResult: List<MediaUiState> = emptyList(),
-    val isEmpty: Boolean = false,
+    val isEmpty: Boolean = true,
 ) : BaseUiState
 
 data class MediaUiState(

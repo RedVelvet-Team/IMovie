@@ -35,7 +35,7 @@ class SearchViewModel @Inject constructor(
 //    }
 
     fun onChangeSearchTextFiled(query: String) {
-        _state.update { it.copy(inputText = query, isLoading = true) }
+        _state.update { it.copy(inputText = query, isLoading = true, isEmpty = false) }
         viewModelScope.launch {
             when (_state.value.mediaType) {
                 SearchMedia.MOVIE -> onSearchForMovie()
@@ -46,50 +46,33 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun onSearchForMovie() {
-        tryToExecute(
-            function = {
-                getMoviesSearchResultUseCase(
-                    _state.value.inputText ?: ""
-                ).map { it.toMediaUiState() }
-            },
-            onSuccess = ::onGetMovieSuccess,
-            onError = ::onGetError
-        )
-    }
-
-    private fun onSearchForPerson() {
-        tryToExecute(
-            function = {
-                getPeopleSearchResultUseCase(
-                    _state.value.inputText ?: ""
-                ).map { it.toMediaUiState() }
-            },
-            onSuccess = ::onGetPersonSuccess,
-            onError = ::onGetError
-        )
-    }
-
-    private fun onSearchForTvShow() {
-        tryToExecute(
-            function = {
-                getTvShowsSearchResultUseCase(
-                    _state.value.inputText ?: ""
-                ).map { it.toMediaUiState() }
-            },
-            onSuccess = ::onGetTvSuccess,
-            onError = ::onGetError
-        )
-    }
-
+    /// region Search for All
     private fun onSearchForAll() {
         tryToExecute(
             function = {
-                getSearchResultUseCase(
-                    _state.value.inputText ?: ""
-                ).map { it.toMediaUiState() }
+                getSearchResultUseCase(_state.value.inputText ?: "")
+                    .map { it.toMediaUiState() }
             },
             onSuccess = ::onGetAllSuccess,
+            onError = ::onGetError
+        )
+    }
+    private fun onGetAllSuccess(result: List<MediaUiState>) {
+        _state.update { it.copy(searchResult = result, mediaType = SearchMedia.ALL) }
+    }
+
+    /// endregion
+
+    /// region Search for movie
+    private fun onSearchForMovie() {
+        tryToExecute(
+            function = {
+                getMoviesSearchResultUseCase(_state.value.inputText ?: "")
+                    .map {
+                        it.toMediaUiState()
+                    }
+            },
+            onSuccess = ::onGetMovieSuccess,
             onError = ::onGetError
         )
     }
@@ -98,23 +81,48 @@ class SearchViewModel @Inject constructor(
         _state.update { it.copy(searchResult = result, mediaType = SearchMedia.MOVIE) }
     }
 
-    private fun onGetPersonSuccess(result: List<MediaUiState>) {
-        _state.update { it.copy(searchResult = result, mediaType = SearchMedia.PEOPLE) }
+    /// endregion
+
+    /// region Search for TvShow
+    private fun onSearchForTvShow() {
+        tryToExecute(
+            function = {
+                getTvShowsSearchResultUseCase(_state.value.inputText ?: "")
+                    .map { it.toMediaUiState() }
+            },
+            onSuccess = ::onGetTvSuccess,
+            onError = ::onGetError
+        )
     }
 
     private fun onGetTvSuccess(result: List<MediaUiState>) {
         _state.update { it.copy(searchResult = result, mediaType = SearchMedia.TV) }
     }
 
-    private fun onGetAllSuccess(result: List<MediaUiState>) {
-        _state.update { it.copy(searchResult = result, mediaType = SearchMedia.ALL) }
+    /// endregion
+
+    /// region Search for Person
+    private fun onSearchForPerson() {
+        tryToExecute(
+            function = {
+                getPeopleSearchResultUseCase(_state.value.inputText ?: "")
+                    .map { it.toMediaUiState() }
+            },
+            onSuccess = ::onGetPersonSuccess,
+            onError = ::onGetError
+        )
     }
 
+    private fun onGetPersonSuccess(result: List<MediaUiState>) {
+        _state.update { it.copy(searchResult = result, mediaType = SearchMedia.PEOPLE) }
+    }
 
+    /// endregion
     private fun onGetError(error: ErrorUiState) {
         _state.update { it.copy(error = error) }
     }
 
+    /// region listeners
     override fun onClickClear() {
         TODO("Not yet implemented")
     }
@@ -138,4 +146,5 @@ class SearchViewModel @Inject constructor(
     override fun onClickItem(id: Int) {
         TODO("Not yet implemented")
     }
+    ///endregion
 }
