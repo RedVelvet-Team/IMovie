@@ -7,10 +7,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,7 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -57,8 +57,6 @@ fun SearchScreen(
         onChangeQuery = viewModel::onChangeSearchTextFiled,
         onChangeCategory = viewModel::onChangeCategory
     )
-
-
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -72,13 +70,20 @@ private fun SearchContent(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Primary)
-            .padding(horizontal = MaterialTheme.dimens.dimens16)
     ) {
-        SearchBox(query = state.inputText ?: "", onChangeQuery = onChangeQuery)
+        SearchBox(
+            query = state.inputText,
+            onChangeQuery = onChangeQuery,
+            modifier = Modifier.padding(
+                top = MaterialTheme.dimens.dimens36,
+                start = MaterialTheme.spacing.spacing16,
+                end = MaterialTheme.spacing.spacing16
+            )
+        )
         CategoryChips(state.mediaType, onChangeCategory)
         if (!state.searchResult.isEmpty()) {
             CustomLazyVerticalGrid(mediaUiStates = state.searchResult)
-        }else{
+        } else {
             InitialContentInSearch()
         }
     }
@@ -87,26 +92,58 @@ private fun SearchContent(
 @Composable
 fun CategoryChips(mediaType: SearchMedia, onChangeCategory: (SearchMedia) -> Unit) {
     Text(
-        modifier = Modifier.padding(vertical = MaterialTheme.spacing.spacing16),
+        modifier = Modifier.padding(
+            top = MaterialTheme.spacing.spacing16,
+            start = MaterialTheme.spacing.spacing16
+        ),
         text = "Categories",
-        style = Typography.bodyMedium,
+        style = Typography.displayMedium,
         color = FontSecondary
     )
-    Row(
+    LazyRow(
+        contentPadding = PaddingValues(
+            start = MaterialTheme.spacing.spacing16,
+            end = MaterialTheme.spacing.spacing16,
+            top = MaterialTheme.spacing.spacing8,
+        ),
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                end = MaterialTheme.spacing.spacing24,
-                top = MaterialTheme.spacing.spacing8,
-                bottom = MaterialTheme.spacing.spacing8
-            ),
-        horizontalArrangement = Arrangement.SpaceBetween
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),
     ) {
-        CategoryChip(onClickChip = onChangeCategory, text = "All", type = SearchMedia.ALL, selectedType = mediaType)
-        CategoryChip(onClickChip = onChangeCategory, text = "Movie", type = SearchMedia.MOVIE, selectedType = mediaType)
-        CategoryChip(onClickChip = onChangeCategory, text = "Person", type = SearchMedia.PEOPLE, selectedType = mediaType)
-        CategoryChip(onClickChip = onChangeCategory, text = "Tv Show", type = SearchMedia.TV, selectedType = mediaType)
+        item {
+            CategoryChip(
+                onClickChip = onChangeCategory,
+                text = "All",
+                type = SearchMedia.ALL,
+                selectedType = mediaType
+            )
+        }
+        item {
+            CategoryChip(
+                onClickChip = onChangeCategory,
+                text = "Movie",
+                type = SearchMedia.MOVIE,
+                selectedType = mediaType
+            )
+        }
+        item {
+            CategoryChip(
+                onClickChip = onChangeCategory,
+                text = "Person",
+                type = SearchMedia.PEOPLE,
+                selectedType = mediaType
+            )
+        }
+        item {
+            CategoryChip(
+                onClickChip = onChangeCategory,
+                text = "Tv Show",
+                type = SearchMedia.TV,
+                selectedType = mediaType
+            )
+        }
     }
+
 }
 
 @Composable
@@ -116,7 +153,8 @@ fun CategoryChip(
     type: SearchMedia,
     selectedType: SearchMedia,
 ) {
-    val color by  animateColorAsState(targetValue = if (type == selectedType) Purple100 else Secondary,
+    val color by animateColorAsState(
+        targetValue = if (type == selectedType) Purple100 else Secondary,
         label = ""
     )
     Text(
@@ -129,9 +167,9 @@ fun CategoryChip(
                 horizontal = MaterialTheme.spacing.spacing16
             ),
         text = text,
-        style = Typography.bodyMedium,
+        style = Typography.headlineSmall.copy(fontWeight = FontWeight.Normal),
         color = FontSecondary,
-        )
+    )
 }
 
 @Composable
@@ -139,35 +177,33 @@ fun CustomLazyVerticalGrid(
     modifier: Modifier = Modifier,
     mediaUiStates: List<MediaUiState>
 ) {
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(Primary)) {
-        LazyVerticalGrid(
-            contentPadding = PaddingValues(
-                top = MaterialTheme.spacing.spacing16,
-                bottom = 100.dp
-            ),
-            columns = GridCells.Fixed(3),
-            horizontalArrangement = Arrangement.spacedBy(
-                MaterialTheme.spacing.spacing8,
-                Alignment.CenterHorizontally
-            ),
-            verticalArrangement = Arrangement.spacedBy(
-                MaterialTheme.spacing.spacing16,
-                Alignment.CenterVertically
+    LazyVerticalGrid(
+        contentPadding = PaddingValues(
+            top = MaterialTheme.spacing.spacing24,
+            bottom = MaterialTheme.spacing.spacing80,
+            start = MaterialTheme.spacing.spacing16,
+            end = MaterialTheme.spacing.spacing16
+        ),
+        columns = GridCells.Fixed(3),
+        horizontalArrangement = Arrangement.spacedBy(
+            MaterialTheme.spacing.spacing8,
+            Alignment.CenterHorizontally
+        ),
+        verticalArrangement = Arrangement.spacedBy(
+            MaterialTheme.spacing.spacing16,
+            Alignment.CenterVertically
+        )
+    ) {
+        items(mediaUiStates.size) {
+            val mediaUiState = mediaUiStates[it]
+            ItemBasicCard(
+                image = mediaUiState.getFullImage(),
+                hasName = true,
+                name = mediaUiState.mediaName,
+                hasDateAndCountry = !mediaUiState.isPerson(),
+                date = mediaUiState.mediaReleaseDate,
+                country = mediaUiState.mediaCountry
             )
-        ) {
-            items(mediaUiStates.size) {
-                val mediaUiState = mediaUiStates[it]
-                ItemBasicCard(
-                    image = mediaUiState.getFullImage(),
-                    hasName = true,
-                    name = mediaUiState.mediaName,
-                    hasDateAndCountry = !mediaUiState.isPerson(),
-                    date = mediaUiState.mediaReleaseDate,
-                    country = mediaUiState.mediaCountry
-                )
-            }
         }
     }
 }

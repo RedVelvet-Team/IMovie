@@ -8,13 +8,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.FontAccent
 import com.redvelvet.ui.theme.FontSecondary
@@ -44,14 +43,16 @@ fun SearchBox(
             )
         },
         shape = RoundedCornerShape(MaterialTheme.dimens.dimens16),
-        colors = SearchBarDefaults.colors(containerColor = Secondary,
-            inputFieldColors = TextFieldDefaults.colors(focusedTextColor = FontSecondary)),
-        placeholder ={
+        colors = SearchBarDefaults.colors(
+            containerColor = Secondary,
+            inputFieldColors = TextFieldDefaults.colors(focusedTextColor = FontSecondary)
+        ),
+        placeholder = {
             Text(
-            text = stringResource(R.string.search_place_holder),
-            style = Typography.bodyMedium,
-            color = FontAccent,
-        )
-        }
+                text = stringResource(R.string.search_place_holder),
+                style = Typography.labelMedium.copy(fontWeight = FontWeight.Normal),
+                color = FontAccent,
+            )
+        },
     ){}
 }
