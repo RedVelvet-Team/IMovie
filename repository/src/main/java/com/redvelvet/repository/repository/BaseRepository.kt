@@ -4,9 +4,9 @@ import com.redvelvet.repository.mapper.toErrorType
 import com.redvelvet.repository.util.RemoteError
 
 open class BaseRepository {
-    protected fun <T> wrapRemoteResponse(response: suspend () -> T): suspend () -> T {
-        try {
-            return response
+    protected suspend fun <T> wrapRemoteResponse(response: suspend () -> T): T {
+        return try {
+            response()
         } catch (e: RemoteError) {
             throw e.toErrorType()
         }

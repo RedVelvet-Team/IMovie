@@ -1,4 +1,4 @@
-package com.redvelvet.ui.home
+package com.redvelvet.ui.screen.home
 
 interface HomeUiEvent {
     fun onClickSeeAll()

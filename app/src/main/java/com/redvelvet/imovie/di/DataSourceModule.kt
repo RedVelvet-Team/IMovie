@@ -1,8 +1,10 @@
 package com.redvelvet.imovie.di
 
 import com.redvelvet.firebase.FirebaseDataSourceImp
+import com.redvelvet.local.source.DataStoreDataSourceImpl
 import com.redvelvet.local.source.LocalDataSourceImp
 import com.redvelvet.remote.source.RemoteDataSourceImp
+import com.redvelvet.repository.source.DataStoreDataSource
 import com.redvelvet.repository.source.FirebaseDataSource
 import com.redvelvet.repository.source.LocalDataSource
 import com.redvelvet.repository.source.RemoteDataSource
@@ -32,4 +34,10 @@ abstract class DataSourceModule {
     abstract fun bindRemoteDataSource(
         remoteDataSourceImp: RemoteDataSourceImp
     ): RemoteDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindDataSourceDataSource(
+        dataStoreDataSourceImpl: DataStoreDataSourceImpl
+    ): DataStoreDataSource
 }

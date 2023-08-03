@@ -6,20 +6,25 @@ import com.redvelvet.repository.dto.auth.LoginRequest
 import com.redvelvet.repository.dto.auth.SessionDto
 import com.redvelvet.repository.dto.auth.TokenDto
 import com.redvelvet.repository.dto.movie.details.*
+
+import com.redvelvet.repository.dto.auth.request.LoginRequest
+import com.redvelvet.repository.dto.auth.response.GuestSessionDto
+import com.redvelvet.repository.dto.auth.response.SessionDto
+import com.redvelvet.repository.dto.auth.response.TokenDto
 import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.HTTP
 import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface MovieApiService {
-    @GET("authentication/token/ne")
+    //region auth
+    @GET("authentication/token/new")
     suspend fun getNewRequestToken(): Response<TokenDto>
 
-    @FormUrlEncoded
     @POST("authentication/token/validate_with_login")
     suspend fun validateRequestTokenWithLogin(@Body loginRequest: LoginRequest): Response<TokenDto>
 
@@ -31,6 +36,9 @@ interface MovieApiService {
     suspend fun createGuestSession(): Response<GuestSessionDto>
 
     @FormUrlEncoded
+    @HTTP(method = "DELETE", path = "authentication/session", hasBody = true)
+    suspend fun deleteUserSession(@Field("session_id") sessionId: String): Response<SessionDto>
+    //endregion
     @DELETE("authentication/session")
     suspend fun deleteUserSession(@Field("session_id") sessionId: String): Response<DeleteSessionDto>
 

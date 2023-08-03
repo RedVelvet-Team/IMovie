@@ -4,6 +4,10 @@ import com.google.gson.Gson
 import com.redvelvet.remote.service.MovieApiService
 import com.redvelvet.remote.util.RemoteErrorMap.remoteErrorMap
 import com.redvelvet.repository.dto.ErrorResponseDto
+import com.redvelvet.repository.dto.auth.request.LoginRequest
+import com.redvelvet.repository.dto.auth.response.GuestSessionDto
+import com.redvelvet.repository.dto.auth.response.SessionDto
+import com.redvelvet.repository.dto.auth.response.TokenDto
 import com.redvelvet.repository.dto.movie.details.*
 import com.redvelvet.repository.source.RemoteDataSource
 import com.redvelvet.repository.util.RemoteError
@@ -13,6 +17,49 @@ import javax.inject.Inject
 class RemoteDataSourceImp @Inject constructor(
     private val movieApiService: MovieApiService
 ) : RemoteDataSource {
+    //region auth
+    override suspend fun createGuestSession(): GuestSessionDto {
+        return wrapApiResponse {
+            movieApiService.createGuestSession()
+        }
+    }
+
+    override suspend fun createToken(): TokenDto {
+        return wrapApiResponse {
+            movieApiService.getNewRequestToken()
+        }
+    }
+
+    override suspend fun validateUserWithLogin(
+        userName: String,
+        password: String,
+        requestToken: String
+    ): TokenDto {
+        return wrapApiResponse {
+            movieApiService.validateRequestTokenWithLogin(
+                loginRequest = LoginRequest(
+                    username = userName,
+                    password = password,
+                    requestToken = requestToken,
+                )
+            )
+        }
+    }
+
+    override suspend fun createUserSession(token: String): SessionDto {
+        return wrapApiResponse {
+            movieApiService.createUserSession(token)
+        }
+    }
+
+    override suspend fun deleteUserSession(sessionId: String): SessionDto {
+        return wrapApiResponse {
+            movieApiService.deleteUserSession(sessionId)
+        }
+    }
+    //endregion
+
+
 
     //region Movie Details
     override suspend fun getMovieDetailsById(movieId: Int): MovieDetailsDTO {
@@ -56,13 +103,17 @@ class RemoteDataSourceImp @Inject constructor(
     private suspend fun <T> wrapApiResponse(
         request: suspend () -> Response<T>
     ): T {
-        try {
+        return try {
             val response = request()
             if (response.isSuccessful) {
-                return response.body() ?: throw RemoteError.NullData
+                response.body() ?: throw RemoteError.NullData
             } else {
-                throw remoteErrorMap[getErrorCodeFromJson(response.errorBody()?.string() ?: "")]!!
+                val errorCode: Int? =
+                    getErrorCodeFromJson(response.errorBody()?.string().toString())
+                throw remoteErrorMap[errorCode ?: 0]!!
             }
+        } catch (e: RemoteError) {
+            throw e
         } catch (e: Exception) {
             throw RemoteError.Network
         }
@@ -70,6 +121,9 @@ class RemoteDataSourceImp @Inject constructor(
 
 }
 
-private fun getErrorCodeFromJson(json: String): Int {
-    return Gson().fromJson(json, ErrorResponseDto::class.java).code ?: 0
-}
+    private fun getErrorCodeFromJson(json: String): Int? {
+        return Gson().fromJson(json, ErrorResponseDto::class.java).code ?: 0
+    }
+
+
+

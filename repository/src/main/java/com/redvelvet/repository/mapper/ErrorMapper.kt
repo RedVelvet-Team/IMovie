@@ -4,7 +4,7 @@ import com.redvelvet.entities.error.ErrorType
 import com.redvelvet.repository.util.RemoteError
 
 fun RemoteError.toErrorType(): ErrorType {
-    return when(this){
+    return when (this) {
         is RemoteError.Network -> ErrorType.Network
         is RemoteError.NullData -> ErrorType.NullData
         is RemoteError.InvalidUsernamePassword -> ErrorType.InvalidUsernameOrPassword
@@ -12,6 +12,7 @@ fun RemoteError.toErrorType(): ErrorType {
         is RemoteError.InvalidInput -> ErrorType.InvalidInput
         is RemoteError.AuthenticationFailed -> ErrorType.UnAuthorized
         is RemoteError.AuthenticationFailed2 -> ErrorType.UnAuthorized
+        is RemoteError.BadRequest -> ErrorType.BadRequest
         else -> ErrorType.Server
     }
 }

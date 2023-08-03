@@ -1,12 +1,21 @@
 package com.redvelvet.usecase.repository
 
 interface UserRepository {
-    suspend fun setIsLoggedByAccount(isLogged: Boolean)
-    suspend fun getIsLoggedByAccount(): Boolean
+    //region user
+    suspend fun getIsLoggedInByAccount(): Boolean
 
-    suspend fun setIsLoggedByGuest(isLogged: Boolean)
-    suspend fun getIsLoggedByGuest(): Boolean
+    suspend fun getIsLoggedInByGuest(): Boolean
 
     suspend fun setIsFirstTimeUsingApp(isFirstTime: Boolean)
+
     suspend fun getIsFirstTimeUsingApp(): Boolean
+    //endregion
+
+    //region auth
+    suspend fun getGuestSessionExpDateFromLocal(): String
+
+    suspend fun getGuestSessionIdFromLocal(): String
+
+    suspend fun getUserSessionId(): String
+    //endregion
 }

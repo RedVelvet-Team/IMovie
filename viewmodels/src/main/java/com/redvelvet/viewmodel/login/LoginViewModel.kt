@@ -1,39 +1,188 @@
 package com.redvelvet.viewmodel.login
 
 
-import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import com.redvelvet.entities.auth.Guest
+import com.redvelvet.entities.auth.Session
+import com.redvelvet.usecase.usecase.auth.AuthenticationUserLoginUseCase
+import com.redvelvet.usecase.usecase.auth.LoginByGuestUseCase
+import com.redvelvet.usecase.usecase.auth.ValidationUseCase
+import com.redvelvet.viewmodel.base.BaseViewModel
+import com.redvelvet.viewmodel.base.ErrorUiState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.update
+import javax.inject.Inject
 
-class LoginViewModel: ViewModel(){
-     private val _state: MutableStateFlow<LoginUiState> = MutableStateFlow(LoginUiState())
-     val state: StateFlow<LoginUiState> = _state.asStateFlow()
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val loginByGuestUseCase: LoginByGuestUseCase,
+    private val authenticationUserLoginUseCase: AuthenticationUserLoginUseCase,
+    private val validation: ValidationUseCase,
+) : BaseViewModel<LoginUiState, LoginUiEvent>(LoginUiState()), LoginInteraction {
 
-     fun onUserNameChanged(userName: String) {
-          val isValidUserName = true
-          _state.value = _state.value.copy(
-               userName = userName,
-               userNameHelperText = if (isValidUserName) "" else "Invalid username.",
-               isValidForm = isValidUserName && _state.value.password.isNotEmpty()
-          )
-     }
+    //region guest
+    private fun loginByGuest() {
+        _state.update {
+            it.copy(
+                isLoading = true,
+                error = null,
+            )
+        }
+        tryToExecute(
+            execute = loginByGuestUseCase::invoke,
+            onSuccess = ::onLoginByGuestSuccess,
+            onError = ::onLoginByGuestFailed,
+        )
+    }
 
-     fun onPasswordChanged(password: String) {
-          val isValidPassword = true
-          _state.value = _state.value.copy(
-               password = password,
-               passwordHelperText = if (isValidPassword) "" else "Invalid password. Password should have at least 6 characters.",
-               isValidForm = isValidPassword && _state.value.userName.isNotEmpty()
-          )
-     }
+    private fun onLoginByGuestSuccess(guest: Guest) {
+        _state.update {
+            it.copy(
+                isLoading = false,
+                error = null,
+            )
+        }
+        sendUiEvent(LoginUiEvent.NavigateTomHomeScreen)
+    }
 
-     fun onLoginClicked() {
-          val userName = _state.value.userName
-          val password = _state.value.password
-     }
+    private fun onLoginByGuestFailed(error: ErrorUiState) {
+        _state.update {
+            it.copy(
+                isLoading = false,
+                error = error.message,
+            )
+        }
+    }
+    //endregion
 
-     fun onGuestClicked() {
+    //region auth
+    private fun loginByUserNameAndPassword(userName: String, password: String) {
+        _state.update {
+            it.copy(
+                isLoading = true,
+                error = null,
+            )
+        }
+        tryToExecute(
+            execute = { authenticationUserLoginUseCase.invoke(userName, password) },
+            onSuccess = ::onLoginNameAndPasswordSuccess,
+            onError = ::onLoginByNameAndPasswordFailed,
+        )
+    }
 
-     }
+    private fun onLoginNameAndPasswordSuccess(session: Session) {
+        _state.update {
+            it.copy(
+                isLoading = false,
+                error = null,
+            )
+        }
+        sendUiEvent(LoginUiEvent.NavigateTomHomeScreen)
+    }
+
+    private fun onLoginByNameAndPasswordFailed(error: ErrorUiState) {
+        _state.update {
+            it.copy(
+                isLoading = false,
+                error = error.message,
+            )
+        }
+    }
+    //endregion
+
+    //region signup
+    private fun signUp() {
+        _state.update {
+            it.copy(
+                isLoading = false,
+                error = null,
+            )
+        }
+        sendUiEvent(LoginUiEvent.NavigateToSignUpScreen)
+    }
+    //endregion
+
+    //region interaction
+    override fun onClickLogin() {
+        if (validation(state.value.userName, state.value.password)) {
+            loginByUserNameAndPassword(state.value.userName, state.value.password)
+            return
+        }
+        updateInputErrorStatus()
+    }
+
+    //region error input status
+    private fun updateInputErrorStatus() {
+        updateInputNameError()
+        updateInputPasswordError()
+        updateNameAndPasswordStatus()
+    }
+
+    private fun updateInputNameError(): Boolean {
+        return validation.nameIsEmpty(state.value.userName).also { isEmpty ->
+            takeIf { isEmpty }?._state?.update {
+                it.copy(
+                    isUserNameEmpty = true,
+                    isPasswordEmpty = false,
+                )
+            }
+        }
+    }
+
+    private fun updateInputPasswordError(): Boolean {
+        return validation.passwordIsEmpty(state.value.password).also { isEmpty ->
+            takeIf { isEmpty }?._state?.update {
+                it.copy(
+                    isUserNameEmpty = false,
+                    isPasswordEmpty = true,
+                )
+            }
+        }
+    }
+
+    private fun updateNameAndPasswordStatus(): Boolean {
+        return updateInputNameError() && updateInputPasswordError().also { areEmpty ->
+            takeIf { areEmpty }?._state?.update {
+                it.copy(
+                    isUserNameEmpty = true,
+                    isPasswordEmpty = true,
+                )
+            }
+        }
+    }
+    //endregion
+
+
+    override fun onClickGuest() {
+        loginByGuest()
+    }
+
+
+    override fun onClickSignUp() {
+        signUp()
+    }
+
+
+    override fun onUserNameChanged(userName: String) {
+        _state.update {
+            it.copy(
+                userName = userName,
+                isUserNameEmpty = false,
+                isLoading = false,
+                error = null
+            )
+        }
+    }
+
+
+    override fun onPasswordChanged(password: String) {
+        _state.update {
+            it.copy(
+                password = password,
+                isLoading = false,
+                error = null,
+                isPasswordEmpty = false
+            )
+        }
+    }
+    //endregion
 }
