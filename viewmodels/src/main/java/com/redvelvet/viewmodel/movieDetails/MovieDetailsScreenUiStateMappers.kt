@@ -2,6 +2,7 @@ package com.redvelvet.viewmodel.movieDetails
 
 import com.redvelvet.entities.movie.details.MovieDetails
 import com.redvelvet.entities.movie.details.MovieFullDetails
+import com.redvelvet.entities.movie.details.MovieKeyWords
 import com.redvelvet.entities.movie.details.MovieTopCast
 
 
@@ -9,8 +10,8 @@ fun MovieFullDetails.toMovieFullDetailsScreenUiState(): MovieDetailsScreenUiStat
     return MovieDetailsScreenUiState.MovieFullDetailsUiState(
         details = this.details.toMovieDetailsUiState(),
         topCast = this.topCast.cast.toTopCastUiState(),
+        keyWords = this.keyWords.keywords.toMovieKeyWordsUiState(),
         images = MovieDetailsScreenUiState.MovieImagesUiState(),
-        keyWords = MovieDetailsScreenUiState.MovieKeyWordsUiState(),
         recommendations = MovieDetailsScreenUiState.MovieRecommendationsUiState(),
         reviews = MovieDetailsScreenUiState.MovieReviewsUiState(),
         similar = MovieDetailsScreenUiState.MovieSimilarUiState(),
@@ -45,6 +46,16 @@ fun List<MovieTopCast.Cast>.toTopCastUiState(): List<MovieDetailsScreenUiState.M
             castId = it.id,
             castName = it.name,
             castImage = "https://image.tmdb.org/t/p/w500" + it.profilePath
+        )
+    }
+
+}
+
+fun List<MovieKeyWords.Keyword>.toMovieKeyWordsUiState(): List<MovieDetailsScreenUiState.MovieKeyWordsUiState> {
+    return this.map {
+        MovieDetailsScreenUiState.MovieKeyWordsUiState(
+            keywordId = it.id,
+            keywordString = it.name,
         )
     }
 

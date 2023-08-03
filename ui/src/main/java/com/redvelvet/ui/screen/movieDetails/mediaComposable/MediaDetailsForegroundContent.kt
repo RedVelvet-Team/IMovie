@@ -81,6 +81,7 @@ fun MediaDetailsForegroundContent(
             MovieDetailsMoreInfoSection(it, uiEvent)
         }
         SpacerVertical(height = MaterialTheme.spacing.spacing24)
+
     }
 
 }

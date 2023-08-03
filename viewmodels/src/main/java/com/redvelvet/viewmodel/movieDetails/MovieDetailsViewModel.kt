@@ -58,7 +58,7 @@ class MovieDetailsViewModel @Inject constructor(
     private fun fakeData(): MovieDetailsScreenUiState.MovieFullDetailsUiState {
         return MovieDetailsScreenUiState.MovieFullDetailsUiState(
             details = MovieDetailsScreenUiState.MovieDetailsUiState(
-                genres = listOf("Action", "Adventure", "Fantasy","Action", "Adventure", "Fantasy"),
+                genres = listOf("Action", "Adventure", "Fantasy", "Action", "Adventure", "Fantasy"),
                 homepage = "https://www.starwars.com/films/star-wars-episode-iv-a-new-hope",
                 id = 11,
                 originalTitle = "Star Wars",
@@ -105,8 +105,28 @@ class MovieDetailsViewModel @Inject constructor(
             images = MovieDetailsScreenUiState.MovieImagesUiState(
                 image = "test"
             ),
-            keyWords = MovieDetailsScreenUiState.MovieKeyWordsUiState(
-                test = "test"
+
+            keyWords = listOf(
+                MovieDetailsScreenUiState.MovieKeyWordsUiState(
+                    keywordId = 1,
+                    keywordString = "test 1"
+                ),
+                MovieDetailsScreenUiState.MovieKeyWordsUiState(
+                    keywordId = 2,
+                    keywordString = "test 2"
+                ),
+                MovieDetailsScreenUiState.MovieKeyWordsUiState(
+                    keywordId = 3,
+                    keywordString = "test 3"
+                ),
+                MovieDetailsScreenUiState.MovieKeyWordsUiState(
+                    keywordId = 4,
+                    keywordString = "test 4"
+                ),
+                MovieDetailsScreenUiState.MovieKeyWordsUiState(
+                    keywordId = 5,
+                    keywordString = "test 5"
+                ),
             ),
             recommendations = MovieDetailsScreenUiState.MovieRecommendationsUiState(
                 test = "test"

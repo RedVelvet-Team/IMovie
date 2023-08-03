@@ -104,21 +104,6 @@ private fun fakeData(): MovieDetailsScreenUiState.MovieFullDetailsUiState {
             video = false,
             voteAverage = 8.2
         ),
-        images = MovieDetailsScreenUiState.MovieImagesUiState(
-            image = "test"
-        ),
-        keyWords = MovieDetailsScreenUiState.MovieKeyWordsUiState(
-            test = "test"
-        ),
-        recommendations = MovieDetailsScreenUiState.MovieRecommendationsUiState(
-            test = "test"
-        ),
-        reviews = MovieDetailsScreenUiState.MovieReviewsUiState(
-            test = "test"
-        ),
-        similar = MovieDetailsScreenUiState.MovieSimilarUiState(
-            test = "test"
-        ),
         topCast = listOf(
             MovieDetailsScreenUiState.MovieTopCastUiState(
                 castId = 1,
@@ -145,6 +130,42 @@ private fun fakeData(): MovieDetailsScreenUiState.MovieFullDetailsUiState {
                 castName = "hLtxNK8ee",
                 castImage = "https://image.tmdb.org/t/p/w500/1GOW1cejmE8D8T6PRikYlGmUae0.jpg"
             ),
+        ),
+
+        keyWords = listOf(
+            MovieDetailsScreenUiState.MovieKeyWordsUiState(
+                keywordId = 1,
+                keywordString = "test 1"
+            ),
+            MovieDetailsScreenUiState.MovieKeyWordsUiState(
+                keywordId = 2,
+                keywordString = "test 2"
+            ),
+            MovieDetailsScreenUiState.MovieKeyWordsUiState(
+                keywordId = 3,
+                keywordString = "test 3"
+            ),
+            MovieDetailsScreenUiState.MovieKeyWordsUiState(
+                keywordId = 4,
+                keywordString = "test 4"
+            ),
+            MovieDetailsScreenUiState.MovieKeyWordsUiState(
+                keywordId = 5,
+                keywordString = "test 5"
+            ),
+        ),
+        images = MovieDetailsScreenUiState.MovieImagesUiState(
+            image = "test"
+        ),
+
+        recommendations = MovieDetailsScreenUiState.MovieRecommendationsUiState(
+            test = "test"
+        ),
+        reviews = MovieDetailsScreenUiState.MovieReviewsUiState(
+            test = "test"
+        ),
+        similar = MovieDetailsScreenUiState.MovieSimilarUiState(
+            test = "test"
         ),
     )
 }
