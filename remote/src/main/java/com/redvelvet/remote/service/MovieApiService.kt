@@ -5,13 +5,7 @@ import com.redvelvet.repository.dto.auth.GuestSessionDto
 import com.redvelvet.repository.dto.auth.LoginRequest
 import com.redvelvet.repository.dto.auth.SessionDto
 import com.redvelvet.repository.dto.auth.TokenDto
-import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
-import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
-import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
-import com.redvelvet.repository.dto.movie.details.MovieRecommendationsDTO
-import com.redvelvet.repository.dto.movie.details.MovieReviewsDTO
-import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
-import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
+import com.redvelvet.repository.dto.movie.details.*
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -42,19 +36,19 @@ interface MovieApiService {
 
 
     //region Movie Detials
-    @GET("/movie/{movie_id}")
+    @GET("movie/{movie_id}")
     suspend fun getMovieDetailsById(@Path("movie_id") movieId: Int): Response<MovieDetailsDTO>
-    @GET("/movie/{movie_id}/images")
+    @GET("movie/{movie_id}/images")
     suspend fun getMovieImagesByID(@Path("movie_id") movieId: Int):Response<MovieImagesDTO>
-    @GET("/movie/{movie_id}/keywords")
+    @GET("movie/{movie_id}/keywords")
     suspend fun getMovieKeyWordsByID(@Path("movie_id") movieId: Int):Response<MovieKeyWordsDTO>
-    @GET("/movie/{movie_id}/recommendations")
+    @GET("movie/{movie_id}/recommendations")
     suspend fun getMovieRecommendationsByID(@Path("movie_id") movieId: Int):Response<MovieRecommendationsDTO>
-    @GET("/movie/{movie_id}/reviews")
+    @GET("movie/{movie_id}/reviews")
     suspend fun getMovieReviewsByID(@Path("movie_id") movieId: Int):Response<MovieReviewsDTO>
-    @GET("/movie/{movie_id}/similar")
+    @GET("movie/{movie_id}/similar")
     suspend fun getMovieSimilarByID(@Path("movie_id") movieId: Int):Response<MovieSimilarDTO>
-    @GET("/movie/{movie_id}/credits")
-    suspend fun getMovieTopCastByID(@Path("movie_id") movieId: Int):Response<MovieTopCastDto>
+    @GET("movie/{movie_id}/credits")
+    suspend fun getMovieTopCastByID(@Path("movie_id") movieId: Int):Response<MovieTopCastDTO>
     //endregion
 }
