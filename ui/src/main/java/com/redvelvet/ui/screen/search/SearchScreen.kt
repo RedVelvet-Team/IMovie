@@ -37,7 +37,8 @@ import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.radius
 import com.redvelvet.ui.theme.spacing
-import com.redvelvet.viewmodel.search.MediaUiState
+import com.redvelvet.viewmodel.search.CategoryUiState
+import com.redvelvet.viewmodel.search.SearchCardUiState
 import com.redvelvet.viewmodel.search.SearchMedia
 import com.redvelvet.viewmodel.search.SearchUiState
 import com.redvelvet.viewmodel.search.SearchViewModel
@@ -53,23 +54,22 @@ fun SearchScreen(
 
     val state by viewModel.state.collectAsState()
     SearchContent(
-        state,
         onChangeQuery = viewModel::onChangeSearchTextFiled,
-        onChangeCategory = viewModel::onChangeCategory
+        onChangeCategory = viewModel::onChangeCategory,
+        state
     )
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 private fun SearchContent(
-    state: SearchUiState,
     onChangeQuery: (String) -> Unit,
     onChangeCategory: KFunction1<SearchMedia, Unit>,
+    state: SearchUiState,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Primary)
     ) {
         SearchBox(
             query = state.inputText,
@@ -80,9 +80,9 @@ private fun SearchContent(
                 end = MaterialTheme.spacing.spacing16
             )
         )
-        CategoryChips(state.mediaType, onChangeCategory)
-        if (!state.searchResult.isEmpty()) {
-            CustomLazyVerticalGrid(mediaUiStates = state.searchResult)
+        CategoryChips(onChangeCategory, state.selectedMediaType, state.getCategories())
+        if (state.searchResult.isNotEmpty()) {
+            CustomLazyVerticalGrid(searchCardUiStates = state.searchResult)
         } else {
             InitialContentInSearch()
         }
@@ -90,7 +90,11 @@ private fun SearchContent(
 }
 
 @Composable
-fun CategoryChips(mediaType: SearchMedia, onChangeCategory: (SearchMedia) -> Unit) {
+fun CategoryChips(
+    onChangeCategory: (SearchMedia) -> Unit,
+    selectedType: SearchMedia,
+    categories: List<CategoryUiState>
+) {
     Text(
         modifier = Modifier.padding(
             top = MaterialTheme.spacing.spacing16,
@@ -102,48 +106,23 @@ fun CategoryChips(mediaType: SearchMedia, onChangeCategory: (SearchMedia) -> Uni
     )
     LazyRow(
         contentPadding = PaddingValues(
-            start = MaterialTheme.spacing.spacing16,
-            end = MaterialTheme.spacing.spacing16,
-            top = MaterialTheme.spacing.spacing8,
+            horizontal = MaterialTheme.spacing.spacing16,
+            vertical = MaterialTheme.spacing.spacing8,
         ),
         modifier = Modifier
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),
     ) {
-        item {
+        items(categories.size) {
+            val category = categories[it]
             CategoryChip(
-                onClickChip = onChangeCategory,
-                text = "All",
-                type = SearchMedia.ALL,
-                selectedType = mediaType
-            )
-        }
-        item {
-            CategoryChip(
-                onClickChip = onChangeCategory,
-                text = "Movie",
-                type = SearchMedia.MOVIE,
-                selectedType = mediaType
-            )
-        }
-        item {
-            CategoryChip(
-                onClickChip = onChangeCategory,
-                text = "Person",
-                type = SearchMedia.PEOPLE,
-                selectedType = mediaType
-            )
-        }
-        item {
-            CategoryChip(
-                onClickChip = onChangeCategory,
-                text = "Tv Show",
-                type = SearchMedia.TV,
-                selectedType = mediaType
+                onChangeCategory,
+                text = category.text,
+                type = category.type,
+                selectedType = selectedType
             )
         }
     }
-
 }
 
 @Composable
@@ -175,11 +154,11 @@ fun CategoryChip(
 @Composable
 fun CustomLazyVerticalGrid(
     modifier: Modifier = Modifier,
-    mediaUiStates: List<MediaUiState>
+    searchCardUiStates: List<SearchCardUiState>
 ) {
     LazyVerticalGrid(
         contentPadding = PaddingValues(
-            top = MaterialTheme.spacing.spacing24,
+            top = MaterialTheme.spacing.spacing16,
             bottom = MaterialTheme.spacing.spacing80,
             start = MaterialTheme.spacing.spacing16,
             end = MaterialTheme.spacing.spacing16
@@ -194,19 +173,16 @@ fun CustomLazyVerticalGrid(
             Alignment.CenterVertically
         )
     ) {
-        items(mediaUiStates.size) {
-            val mediaUiState = mediaUiStates[it]
+        items(searchCardUiStates.size) {
+            val mediaUiState = searchCardUiStates[it]
             ItemBasicCard(
                 image = mediaUiState.getFullImage(),
                 hasName = true,
-                name = mediaUiState.mediaName,
+                name = mediaUiState.name,
                 hasDateAndCountry = !mediaUiState.isPerson(),
-                date = mediaUiState.mediaReleaseDate,
-                country = mediaUiState.mediaCountry
+                date = mediaUiState.releaseDate,
+                country = mediaUiState.country
             )
         }
     }
 }
-
-
-

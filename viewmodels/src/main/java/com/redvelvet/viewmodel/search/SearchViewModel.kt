@@ -22,22 +22,11 @@ class SearchViewModel @Inject constructor(
     private val getTvShowsSearchResultUseCase: GetTvShowsSearchResultUseCase,
 ) : BaseViewModel<SearchUiState>(SearchUiState()), SearchListener {
 
-//    val query = MutableStateFlow("")
-//
-//    init {
-//        viewModelScope.launch {
-//            query.onEach {
-//                _state.update { it.copy(isLoading = true) }
-//            }.debounce(500)
-//                .collect { onChangeSearchTextFiled(it) }
-//        }
-//    }
-
     fun onChangeSearchTextFiled(query: String) {
         _state.update { it.copy(inputText = query, isLoading = true, isEmpty = false) }
         viewModelScope.launch {
             _state.debounce(1000).collect{
-                when (it.mediaType) {
+                when (it.selectedMediaType) {
                     SearchMedia.MOVIE -> onSearchForMovie()
                     SearchMedia.PEOPLE -> onSearchForPerson()
                     SearchMedia.TV -> onSearchForTvShow()
@@ -48,7 +37,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onChangeCategory(type: SearchMedia){
-        _state.update { it.copy(mediaType = type) }
+        _state.update { it.copy(selectedMediaType = type) }
     }
 
     /// region Search for All
@@ -62,8 +51,8 @@ class SearchViewModel @Inject constructor(
             onError = ::onGetError
         )
     }
-    private fun onGetAllSuccess(result: List<MediaUiState>) {
-        _state.update { it.copy(searchResult = result, mediaType = SearchMedia.ALL) }
+    private fun onGetAllSuccess(result: List<SearchCardUiState>) {
+        _state.update { it.copy(searchResult = result, selectedMediaType = SearchMedia.ALL) }
         Log.v("hassan", state.value.toString())
     }
 
@@ -83,8 +72,8 @@ class SearchViewModel @Inject constructor(
         )
     }
 
-    private fun onGetMovieSuccess(result: List<MediaUiState>) {
-        _state.update { it.copy(searchResult = result, mediaType = SearchMedia.MOVIE) }
+    private fun onGetMovieSuccess(result: List<SearchCardUiState>) {
+        _state.update { it.copy(searchResult = result, selectedMediaType = SearchMedia.MOVIE) }
     }
 
     /// endregion
@@ -101,8 +90,8 @@ class SearchViewModel @Inject constructor(
         )
     }
 
-    private fun onGetTvSuccess(result: List<MediaUiState>) {
-        _state.update { it.copy(searchResult = result, mediaType = SearchMedia.TV) }
+    private fun onGetTvSuccess(result: List<SearchCardUiState>) {
+        _state.update { it.copy(searchResult = result, selectedMediaType = SearchMedia.TV) }
     }
 
     /// endregion
@@ -119,8 +108,8 @@ class SearchViewModel @Inject constructor(
         )
     }
 
-    private fun onGetPersonSuccess(result: List<MediaUiState>) {
-        _state.update { it.copy(searchResult = result, mediaType = SearchMedia.PEOPLE) }
+    private fun onGetPersonSuccess(result: List<SearchCardUiState>) {
+        _state.update { it.copy(searchResult = result, selectedMediaType = SearchMedia.PEOPLE) }
     }
 
     /// endregion

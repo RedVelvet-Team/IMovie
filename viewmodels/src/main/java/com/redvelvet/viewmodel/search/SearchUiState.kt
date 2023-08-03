@@ -7,23 +7,38 @@ import com.redvelvet.viewmodel.base.ErrorUiState
 data class SearchUiState(
     val isLoading: Boolean = false,
     val error: ErrorUiState? = null,
-    val mediaType: SearchMedia = SearchMedia.ALL,
+    val selectedMediaType: SearchMedia = SearchMedia.ALL,
     val inputText: String = "",
-    val searchResult: List<MediaUiState> = emptyList(),
+    val searchResult: List<SearchCardUiState> = emptyList(),
     val isEmpty: Boolean = true,
-) : BaseUiState
 
-data class MediaUiState(
-    val mediaID: Int = 0,
-    val mediaName: String = "",
-    val mediaImage: String = "",
-    val mediaType: String = "",
-    val mediaReleaseDate: String = "",
-    val mediaCountry: String ="",
-){
-    fun getFullImage() = "https://image.tmdb.org/t/p/w500$mediaImage"
-    fun isPerson() = mediaCountry.isEmpty() && mediaReleaseDate.isEmpty()
+    ) : BaseUiState {
+    fun getCategories(): List<CategoryUiState> {
+        return listOf(
+            CategoryUiState(text = "All", type = SearchMedia.ALL),
+            CategoryUiState(text = "Movie", type = SearchMedia.MOVIE),
+            CategoryUiState(text = "Person", type = SearchMedia.PEOPLE),
+            CategoryUiState(text = "Tv show", type = SearchMedia.TV),
+        )
+    }
 }
+
+data class SearchCardUiState(
+    val id: Int = 0,
+    val name: String = "",
+    val image: String = "",
+    val type: String = "",
+    val releaseDate: String = "",
+    val country: String = "",
+) {
+    fun getFullImage() = "https://image.tmdb.org/t/p/w500$image"
+    fun isPerson() = country.isEmpty() && releaseDate.isEmpty()
+}
+
+data class CategoryUiState(
+    val text: String = "",
+    val type: SearchMedia = SearchMedia.ALL
+)
 
 enum class SearchMedia {
     ALL,
@@ -32,14 +47,14 @@ enum class SearchMedia {
     PEOPLE
 }
 
-fun SearchResult.toMediaUiState(): MediaUiState {
-    return MediaUiState(
-        mediaID = id ?:0,
-        mediaName = getMediaName() ?:"",
-        mediaImage = getImage()?:"",
-        mediaType = mediaType ?: "",
-        mediaReleaseDate = getDate()?:"",
-        mediaCountry = language?:""
+fun SearchResult.toMediaUiState(): SearchCardUiState {
+    return SearchCardUiState(
+        id = id ?: 0,
+        name = getMediaName() ?: "",
+        image = getImage() ?: "",
+        type = mediaType ?: "",
+        releaseDate = getDate() ?: "",
+        country = language ?: ""
     )
 }
 
