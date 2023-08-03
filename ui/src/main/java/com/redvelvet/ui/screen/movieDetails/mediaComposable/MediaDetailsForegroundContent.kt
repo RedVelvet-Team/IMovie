@@ -1,37 +1,22 @@
 package com.redvelvet.ui.screen.movieDetails.mediaComposable
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
-import com.redvelvet.ui.composable.CircularImageAvatar
-import com.redvelvet.ui.composable.ItemsSection
-import com.redvelvet.ui.composable.LabeledValueVertical
-import com.redvelvet.ui.composable.LongExpandedText
-import com.redvelvet.ui.composable.MediaInfoCard
-import com.redvelvet.ui.composable.MediaInfoCardData
-import com.redvelvet.ui.composable.MediaRateRow
 import com.redvelvet.ui.screen.movieDetails.MovieDetailsUiEvent
 import com.redvelvet.ui.composable.SpacerVertical
 import com.redvelvet.ui.screen.movieDetails.MovieDetailsScreen
 import com.redvelvet.ui.screen.movieDetails.MovieEventsTest
-import com.redvelvet.ui.theme.OnPrimary
-import com.redvelvet.ui.theme.OnSecondary
 import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.radius
 import com.redvelvet.ui.theme.spacing
@@ -81,7 +66,10 @@ fun MediaDetailsForegroundContent(
             MovieDetailsMoreInfoSection(it, uiEvent)
         }
         SpacerVertical(height = MaterialTheme.spacing.spacing24)
+        state.data?.keyWords?.let {
+            KeyWordsSection(it, uiEvent)
+        }
+        SpacerVertical(height = MaterialTheme.spacing.spacing24)
 
     }
-
 }
