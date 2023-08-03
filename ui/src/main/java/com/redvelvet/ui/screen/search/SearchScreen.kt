@@ -49,12 +49,20 @@ fun SearchScreen(
     systemUiController.setSystemBarsColor(Primary, darkIcons = false)
 
     val state by viewModel.state.collectAsState()
-    SearchContent(state, onChangeQuery = viewModel::onChangeSearchTextFiled)
+    SearchContent(
+        state,
+        onChangeQuery = viewModel::onChangeSearchTextFiled,
+    )
+
+
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-private fun SearchContent(state: SearchUiState, onChangeQuery: (String) -> Unit) {
+private fun SearchContent(
+    state: SearchUiState,
+    onChangeQuery: (String) -> Unit,
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -68,7 +76,8 @@ private fun SearchContent(state: SearchUiState, onChangeQuery: (String) -> Unit)
 }
 
 @Composable
-fun CategoryChips() {
+fun CategoryChips(
+) {
     Text(
         modifier = Modifier.padding(vertical = MaterialTheme.spacing.spacing16),
         text = "Categories",
@@ -81,15 +90,15 @@ fun CategoryChips() {
             .padding(end = MaterialTheme.spacing.spacing24),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        CategoryChip(text = "All", isSelected = true ) {}
-        CategoryChip(text = "Movie", isSelected = false) {}
-        CategoryChip(text = "Person", isSelected = false) {}
-        CategoryChip(text = "Tv Show", isSelected = false) {}
+        CategoryChip(text = "All", isSelected = true) {  }
+        CategoryChip(text = "Movie", isSelected = false) { }
+        CategoryChip(text = "Person", isSelected = false) {  }
+        CategoryChip(text = "Tv Show", isSelected = false) {  }
     }
 }
 
 @Composable
-fun CategoryChip(text: String, isSelected: Boolean, onClickChip : ()-> Unit) {
+fun CategoryChip(text: String, isSelected: Boolean, onClickChip: () -> Unit) {
     Text(
         modifier = Modifier
             .clip(RoundedCornerShape(MaterialTheme.radius.radius8))
@@ -98,12 +107,12 @@ fun CategoryChip(text: String, isSelected: Boolean, onClickChip : ()-> Unit) {
                 vertical = MaterialTheme.spacing.spacing8,
                 horizontal = MaterialTheme.spacing.spacing16
             )
-            .clickable { onClickChip },
+            .clickable { onClickChip() },
         text = text,
         style = Typography.bodyMedium,
         color = FontSecondary,
 
-    )
+        )
 }
 
 @Composable
@@ -134,11 +143,11 @@ fun CustomLazyVerticalGrid(
             items(mediaUiStates.size) {
                 val mediaUiState = mediaUiStates[it]
                 val BASE_URL = "https://image.tmdb.org/t/p/w500"
-                Log.d("banan",  mediaUiState.mediaName)
+                Log.d("banan", mediaUiState.mediaName)
                 ItemBasicCard(
                     image = BASE_URL + mediaUiState.mediaImage,
                     hasName = true,
-                    name = mediaUiState.mediaName ,
+                    name = mediaUiState.mediaName,
                     hasDateAndCountry = mediaUiState.mediaReleaseDate.isNotEmpty(),
                     date = mediaUiState.mediaReleaseDate,
                     country = mediaUiState.mediaCountry

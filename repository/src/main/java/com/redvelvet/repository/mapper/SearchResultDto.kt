@@ -2,9 +2,9 @@ package com.redvelvet.repository.mapper
 
 import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.repository.dto.search.BaseSearchDto
-import com.redvelvet.repository.dto.search.SearchResultDto
+import com.redvelvet.repository.dto.search.MultiSearchResultDto
 
-fun SearchResultDto.toEntity(): SearchResult {
+fun MultiSearchResultDto.toEntity(): SearchResult {
     return SearchResult(
         id = this.id,
         mediaType = this.mediaType,
@@ -16,5 +16,5 @@ fun SearchResultDto.toEntity(): SearchResult {
 }
 
 fun BaseSearchDto.toEntity(): List<SearchResult> {
-    return this.searchResultDtos?.mapNotNull { it?.toEntity() } ?: emptyList()
+    return this.multiSearchResultDtos?.mapNotNull { it?.toEntity() } ?: emptyList()
 }

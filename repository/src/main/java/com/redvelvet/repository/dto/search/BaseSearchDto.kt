@@ -6,7 +6,7 @@ data class BaseSearchDto(
     @SerializedName("page")
     val page: Int?,
     @SerializedName("results")
-    val searchResultDtos: List<SearchResultDto?>?,
+    val multiSearchResultDtos: List<MultiSearchResultDto?>?,
     @SerializedName("total_pages")
     val totalPages: Int?,
     @SerializedName("total_results")
