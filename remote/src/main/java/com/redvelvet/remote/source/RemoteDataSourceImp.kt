@@ -4,13 +4,7 @@ import com.google.gson.Gson
 import com.redvelvet.remote.service.MovieApiService
 import com.redvelvet.remote.util.RemoteErrorMap.remoteErrorMap
 import com.redvelvet.repository.dto.ErrorResponseDto
-import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
-import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
-import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
-import com.redvelvet.repository.dto.movie.details.MovieRecommendationsDTO
-import com.redvelvet.repository.dto.movie.details.MovieReviewsDTO
-import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
-import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
+import com.redvelvet.repository.dto.movie.details.*
 import com.redvelvet.repository.source.RemoteDataSource
 import com.redvelvet.repository.util.RemoteError
 import retrofit2.Response
@@ -52,7 +46,7 @@ class RemoteDataSourceImp @Inject constructor(
             movieApiService.getMovieSimilarByID(movieId)
         }    }
 
-    override suspend fun getMovieTopCastByID(movieId: Int): MovieTopCastDto {
+    override suspend fun getMovieTopCastByID(movieId: Int): MovieTopCastDTO {
         return wrapApiResponse {
             movieApiService.getMovieTopCastByID(movieId)
         }
@@ -73,6 +67,7 @@ class RemoteDataSourceImp @Inject constructor(
             throw RemoteError.Network
         }
     }
+
 }
 
 private fun getErrorCodeFromJson(json: String): Int {
