@@ -1,12 +1,6 @@
 package com.redvelvet.remote.service
 
-import com.redvelvet.repository.dto.auth.DeleteSessionDto
-import com.redvelvet.repository.dto.auth.GuestSessionDto
-import com.redvelvet.repository.dto.auth.LoginRequest
-import com.redvelvet.repository.dto.auth.SessionDto
-import com.redvelvet.repository.dto.auth.TokenDto
 import com.redvelvet.repository.dto.movie.details.*
-
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
@@ -39,8 +33,6 @@ interface MovieApiService {
     @HTTP(method = "DELETE", path = "authentication/session", hasBody = true)
     suspend fun deleteUserSession(@Field("session_id") sessionId: String): Response<SessionDto>
     //endregion
-    @DELETE("authentication/session")
-    suspend fun deleteUserSession(@Field("session_id") sessionId: String): Response<DeleteSessionDto>
 
 
     //region Movie Detials

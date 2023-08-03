@@ -31,9 +31,7 @@ class RemoteDataSourceImp @Inject constructor(
     }
 
     override suspend fun validateUserWithLogin(
-        userName: String,
-        password: String,
-        requestToken: String
+        userName: String, password: String, requestToken: String
     ): TokenDto {
         return wrapApiResponse {
             movieApiService.validateRequestTokenWithLogin(
@@ -60,7 +58,6 @@ class RemoteDataSourceImp @Inject constructor(
     //endregion
 
 
-
     //region Movie Details
     override suspend fun getMovieDetailsById(movieId: Int): MovieDetailsDTO {
         return wrapApiResponse {
@@ -71,27 +68,32 @@ class RemoteDataSourceImp @Inject constructor(
     override suspend fun getMovieImagesByID(movieId: Int): MovieImagesDTO {
         return wrapApiResponse {
             movieApiService.getMovieImagesByID(movieId)
-        }    }
+        }
+    }
 
     override suspend fun getMovieKeyWordsByID(movieId: Int): MovieKeyWordsDTO {
         return wrapApiResponse {
             movieApiService.getMovieKeyWordsByID(movieId)
-        }    }
+        }
+    }
 
     override suspend fun getMovieRecommendationsByID(movieId: Int): MovieRecommendationsDTO {
         return wrapApiResponse {
             movieApiService.getMovieRecommendationsByID(movieId)
-        }    }
+        }
+    }
 
     override suspend fun getMovieReviewsByID(movieId: Int): MovieReviewsDTO {
         return wrapApiResponse {
             movieApiService.getMovieReviewsByID(movieId)
-        }    }
+        }
+    }
 
     override suspend fun getMovieSimilarByID(movieId: Int): MovieSimilarDTO {
         return wrapApiResponse {
             movieApiService.getMovieSimilarByID(movieId)
-        }    }
+        }
+    }
 
     override suspend fun getMovieTopCastByID(movieId: Int): MovieTopCastDTO {
         return wrapApiResponse {
@@ -118,12 +120,7 @@ class RemoteDataSourceImp @Inject constructor(
             throw RemoteError.Network
         }
     }
-
-}
-
-    private fun getErrorCodeFromJson(json: String): Int? {
+    private fun getErrorCodeFromJson(json: String): Int {
         return Gson().fromJson(json, ErrorResponseDto::class.java).code ?: 0
     }
-
-
-
+}

@@ -1,12 +1,12 @@
 package com.redvelvet.viewmodel.movieDetails
 
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.redvelvet.entities.error.ErrorType
 import com.redvelvet.usecase.usecase.movie.GetMovieFullDetailsUseCase
+import com.redvelvet.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -16,11 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
     private val getMovieFullDetailsUseCase: GetMovieFullDetailsUseCase
-) : ViewModel() {
+) : BaseViewModel<MovieDetailsScreenUiState,Unit>(MovieDetailsScreenUiState()) {
 
-    private val _state: MutableStateFlow<MovieDetailsScreenUiState> =
-        MutableStateFlow(MovieDetailsScreenUiState())
-    val state = _state.asStateFlow()
 
     init {
         getData()

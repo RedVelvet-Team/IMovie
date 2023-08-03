@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
+
 abstract class BaseViewModel<UiState : BaseUiState, UiEvent>(state: UiState) :
     ViewModel() {
 
