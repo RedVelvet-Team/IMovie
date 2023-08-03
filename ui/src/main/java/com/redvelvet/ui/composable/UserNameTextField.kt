@@ -48,7 +48,8 @@ fun UserNameTextField(
             focusedBorderColor = Color.Transparent,
             unfocusedBorderColor = Color.Transparent,
             disabledBorderColor = Color.Transparent,
-            cursorColor = Color.White
+            cursorColor = Color.White,
+            errorBorderColor = Color.Red,
         ),
     )
 }

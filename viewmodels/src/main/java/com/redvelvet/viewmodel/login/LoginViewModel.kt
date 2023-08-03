@@ -15,6 +15,8 @@ class LoginViewModel @Inject constructor(
     private val loginByGuestUseCase: LoginByGuestUseCase,
     private val authenticationUserLoginUseCase: AuthenticationUserLoginUseCase,
 ) : BaseViewModel<LoginUiState, LoginUiEvent>(LoginUiState()), LoginInteraction {
+
+    //region guest
     private fun loginByGuest() {
         _state.update {
             it.copy(
@@ -47,38 +49,52 @@ class LoginViewModel @Inject constructor(
             )
         }
     }
+    //endregion
 
-    fun onUserNameChanged(userName: String) {
-        val isValidUserName = true
-        _state.update {
-            it.copy(
-                userName = userName,
-                userNameHelperText = if (isValidUserName) "" else "Invalid username.",
-                isValidForm = isValidUserName && _state.value.password.isNotEmpty()
-            )
-        }
-    }
 
-    fun onPasswordChanged(password: String) {
-        val isValidPassword = true
-        _state.update {
-            it.copy(
-                password = password,
-                passwordHelperText = if (isValidPassword) "" else "Invalid password",
-                isValidForm = isValidPassword && _state.value.userName.isNotEmpty()
-            )
-        }
-    }
-
+    //region interaction
     override fun onClickLogin() {
 
     }
 
     override fun onClickGuest() {
-        loginByGuest()
+        if (state.value.userName.isEmpty() || state.value.password.isEmpty())
+            _state.update {
+                it.copy(
+                    isPasswordEmpty = true,
+                    isUserNameEmpty = true,
+                )
+            }
+        else {
+            _state.update {
+                it.copy(
+                    isPasswordEmpty = false,
+                    isUserNameEmpty = false,
+                )
+            }
+            loginByGuest()
+        }
+
     }
 
     override fun onClickSignUp() {
 
     }
+
+    override fun onUserNameChanged(userName: String) {
+        _state.update {
+            it.copy(
+                userName = userName,
+            )
+        }
+    }
+
+    override fun onPasswordChanged(password: String) {
+        _state.update {
+            it.copy(
+                password = password,
+            )
+        }
+    }
+    //endregion
 }

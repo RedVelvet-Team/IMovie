@@ -163,16 +163,19 @@ private fun LoginContentPortrait(
         SpacerVertical(height = 24.dp)
         UserNameTextField(
             value = uiState.userName,
-            isError = uiState.userNameHelperText.isNotEmpty(),
+            isError = uiState.isUserNameEmpty,
             text = stringResource(R.string.username),
-            onClick = { })
+            onClick = interaction::onUserNameChanged
+        )
 
         SpacerVertical(height = 24.dp)
 
-        PasswordTextField(value = uiState.password,
-            isError = uiState.passwordHelperText.isNotEmpty(),
+        PasswordTextField(
+            value = uiState.password,
+            isError = uiState.isPasswordEmpty,
             text = stringResource(R.string.password),
-            onClick = { })
+            onClick = interaction::onPasswordChanged
+        )
 
         SpacerVertical(height = 24.dp)
 
@@ -251,15 +254,18 @@ private fun LoginContentLandscape(
         UserNameTextField(
             modifier = Modifier.padding(horizontal = 16.dp),
             value = uiState.userName,
-            isError = uiState.userNameHelperText.isNotEmpty(),
+            isError = uiState.isUserNameEmpty,
             text = stringResource(R.string.username),
-            onClick = { })
+            onClick = interaction::onUserNameChanged
+        )
 
-        PasswordTextField(value = uiState.password,
+        PasswordTextField(
+            value = uiState.password,
             modifier = Modifier.padding(horizontal = 16.dp),
-            isError = uiState.passwordHelperText.isNotEmpty(),
+            isError = uiState.isPasswordEmpty,
             text = stringResource(R.string.password),
-            onClick = { })
+            onClick = interaction::onPasswordChanged
+        )
 
         SpacerVertical(height = 8.dp)
 
