@@ -89,5 +89,5 @@ dependencies {
     //permissions
     implementation("com.google.accompanist:accompanist-permissions:0.31.3-beta")
     //web view
-    implementation("com.google.accompanist:accompanist-webview:0.31.6-rc")
+    implementation("com.google.accompanist:accompanist-webview:0.28.0")
 }

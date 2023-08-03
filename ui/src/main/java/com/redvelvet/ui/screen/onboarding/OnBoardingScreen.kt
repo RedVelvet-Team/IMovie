@@ -33,7 +33,6 @@ import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.viewmodel.onboarding.OnBoardingUiEvent
 import com.redvelvet.viewmodel.onboarding.OnBoardingViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -46,7 +45,7 @@ fun OnBoardingScreen(
     val systemUiController = rememberSystemUiController()
     val scope = rememberCoroutineScope()
     LaunchedEffect(key1 = Unit) {
-        scope.launch(Dispatchers.IO) {
+        scope.launch {
             viewModel.event.collectLatest { event ->
                 when (event) {
                     OnBoardingUiEvent.NavigateToLogin -> {

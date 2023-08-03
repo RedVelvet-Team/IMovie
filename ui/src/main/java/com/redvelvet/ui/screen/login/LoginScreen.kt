@@ -53,13 +53,13 @@ import com.redvelvet.ui.composable.TextLoginScreen
 import com.redvelvet.ui.composable.UserNameTextField
 import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.home.navigateToHome
+import com.redvelvet.ui.screen.signup.navigateToSignUp
 import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.Purple100
 import com.redvelvet.viewmodel.login.LoginInteraction
 import com.redvelvet.viewmodel.login.LoginUiEvent
 import com.redvelvet.viewmodel.login.LoginUiState
 import com.redvelvet.viewmodel.login.LoginViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -74,16 +74,20 @@ fun LoginScreen(
     val uiState by viewModel.state.collectAsState()
     val scope = rememberCoroutineScope()
     LaunchedEffect(key1 = Unit) {
-        scope.launch(Dispatchers.IO) {
-            viewModel.event.collectLatest {event->
+        scope.launch {
+            viewModel.event.collectLatest { event ->
                 when (event) {
-                    is LoginUiEvent.NavigateTomHomeScreen -> navController.navigateToHome {
-                        popUpTo(MovieDestination.Login.route) {
-                            inclusive = true
+                    is LoginUiEvent.NavigateTomHomeScreen -> {
+                        navController.navigateToHome {
+                            popUpTo(MovieDestination.Login.route) {
+                                inclusive = true
+                            }
                         }
                     }
 
-                    is LoginUiEvent.NavigateToSignUpScreen -> TODO()
+                    is LoginUiEvent.NavigateToSignUpScreen -> {
+                        navController.navigateToSignUp()
+                    }
                 }
             }
         }
