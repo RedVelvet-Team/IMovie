@@ -56,7 +56,7 @@ fun SearchScreen(
     SearchContent(
         onChangeQuery = viewModel::onChangeSearchTextFiled,
         onChangeCategory = viewModel::onChangeCategory,
-        state
+        state = state
     )
 }
 
