@@ -10,10 +10,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.redvelvet.ui.theme.FontSecondary
 import com.redvelvet.ui.theme.OnSecondary
 import com.redvelvet.ui.theme.Typography
+import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.radius
 import com.redvelvet.ui.theme.spacing
 
@@ -21,7 +21,7 @@ import com.redvelvet.ui.theme.spacing
 fun GenreButton(genre: String) {
     Button(
         modifier = Modifier
-            .height(24.dp)
+            .height(MaterialTheme.dimens.dimens24)
             .padding(end = MaterialTheme.spacing.spacing4),
         onClick = {},
         colors = ButtonDefaults.buttonColors(OnSecondary),

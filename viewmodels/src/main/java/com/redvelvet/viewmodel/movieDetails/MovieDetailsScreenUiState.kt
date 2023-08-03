@@ -28,7 +28,7 @@ data class MovieDetailsScreenUiState(
         val releaseDate: String = "",
         val revenue: Int = 0,
         val runtime: String = "",
-        val spokenLanguages: List<String> = emptyList(),
+        val spokenLanguages: String = "",
         val status: String = "",
         val tagline: String = "",
         val title: String = "",

@@ -34,4 +34,7 @@
     <string name="upcoming">Upcoming\n</string>
     <string name="movie_time">movie time</string>
     <string name="movie_language">movie language</string>
+    <string name="rated_star">rated star</string>
+
+
 </resources>

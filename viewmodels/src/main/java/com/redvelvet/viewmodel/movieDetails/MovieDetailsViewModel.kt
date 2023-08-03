@@ -68,7 +68,7 @@ class MovieDetailsViewModel @Inject constructor(
                 releaseDate = "1977-05-25",
                 revenue = 775398007,
                 runtime = "121",
-                spokenLanguages = listOf("English"),
+                spokenLanguages = "English, Arabic",
                 status = "Released",
                 tagline = "A long time ago in a galaxy far, far away...",
                 title = "Star Wars",

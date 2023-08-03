@@ -16,5 +16,6 @@ interface MovieDetailsUiEvent {
     fun onMovieImage(id: Int)
     fun onMovieReviewsSeeAll()
     fun onMovieReview(id: Int)
+    fun onRateMedia(rate: Double)
 
 }

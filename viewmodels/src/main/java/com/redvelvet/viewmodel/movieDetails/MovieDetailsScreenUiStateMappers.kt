@@ -29,7 +29,7 @@ fun MovieDetails.toMovieDetailsUiState(): MovieDetailsScreenUiState.MovieDetails
         releaseDate = this.releaseDate,
         revenue = this.revenue,
         runtime = this.runtime,
-        spokenLanguages = this.spokenLanguages.map { it.englishName },
+        spokenLanguages = this.spokenLanguages.joinToString(", ") { it.englishName },
         status = this.status,
         tagline = this.tagline,
         title = this.title,

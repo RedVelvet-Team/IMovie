@@ -22,3 +22,5 @@ val FontSecondary = Color(0xB2FFFFFF)
 val FontAccent = Color(0x61FFFFFF)
 
 val Background = Color(0xFF11142D)
+
+val RateStarColor = Color(0xFFEEC24A)

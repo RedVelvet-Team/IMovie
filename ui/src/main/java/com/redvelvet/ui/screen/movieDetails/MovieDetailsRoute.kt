@@ -67,6 +67,10 @@ class MovieEventsTest : MovieDetailsUiEvent {
         TODO("Not yet implemented")
     }
 
+    override fun onRateMedia(rate: Double) {
+        TODO("Not yet implemented")
+    }
+
 }
 
 fun NavGraphBuilder.movieDetailsRoute(navController: NavController) {
