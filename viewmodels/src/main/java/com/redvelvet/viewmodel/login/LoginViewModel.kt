@@ -89,27 +89,51 @@ class LoginViewModel @Inject constructor(
 
     //region interaction
     override fun onClickLogin() {
-        if (state.value.userName.isEmpty())
-            _state.update {
-                it.copy(
-                    isUserNameEmpty = true,
-                )
-            }
-        else if (state.value.password.isEmpty()) {
-            _state.update {
-                it.copy(
-                    isPasswordEmpty = true,
-                )
-            }
-        } else if (state.value.password.isEmpty() && state.value.userName.isEmpty()) {
-            _state.update {
-                it.copy(
-                    isPasswordEmpty = true,
-                    isUserNameEmpty = true,
-                )
-            }
-        } else {
+        if (nameAndPasswordAreCorrect())
             loginByUserNameAndPassword(state.value.userName, state.value.password)
+    }
+
+    private fun nameIsEmpty(): Boolean {
+        return state.value.userName.isEmpty()
+    }
+
+    private fun passwordIsEmpty(): Boolean {
+        return state.value.password.isEmpty()
+    }
+
+    private fun nameAndPasswordAreCorrect(): Boolean {
+        return if (nameIsEmpty() && passwordIsEmpty()) {
+            _state.update {
+                it.copy(
+                    isUserNameEmpty = true,
+                    isPasswordEmpty = true,
+                )
+            }
+            false
+        } else if (nameIsEmpty()) {
+            _state.update {
+                it.copy(
+                    isUserNameEmpty = true,
+                    isPasswordEmpty = false,
+                )
+            }
+            false
+        } else if (passwordIsEmpty()) {
+            _state.update {
+                it.copy(
+                    isPasswordEmpty = true,
+                    isUserNameEmpty = false,
+                )
+            }
+            false
+        } else {
+            _state.update {
+                it.copy(
+                    isUserNameEmpty = false,
+                    isPasswordEmpty = false,
+                )
+            }
+            true
         }
     }
 
