@@ -27,7 +27,7 @@ class SplashViewModel @Inject constructor(
             val isLogged = checkUserUserIsLoggedInUseCase()
             val isGuest = checkUserIsGuestUseCase()
             val isFirstTimeUseApp = checkUserFirstTimeUseAppUseCase()
-            delay(1000)
+            delay(500)
             _state.update {
                 it.copy(
                     isLogged = isLogged,
@@ -35,7 +35,6 @@ class SplashViewModel @Inject constructor(
                     isFirstTimeUseApp = isFirstTimeUseApp
                 )
             }
-            state.value
             checkUserStatus()
         }
     }
