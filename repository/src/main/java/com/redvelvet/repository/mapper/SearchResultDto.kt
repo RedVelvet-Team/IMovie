@@ -9,9 +9,12 @@ fun MultiSearchResultDto.toEntity(): SearchResult {
         id = this.id,
         mediaType = this.mediaType,
         name = this.name,
-        originCountry = this.originCountry?.firstOrNull(),
+        language = this.originalLanguage,
         posterPath = this.posterPath,
-        releaseDate = this.releaseDate
+        releaseDate = this.releaseDate,
+        firstAirDate = this.firstAirDate,
+        originalName = this.title,
+        profilePath = this.profilePath
     )
 }
 
