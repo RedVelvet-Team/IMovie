@@ -1,17 +1,15 @@
 package com.redvelvet.ui.screen.search
 
 import android.annotation.SuppressLint
-import android.util.Log
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -24,17 +22,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.InitialContentInSearch
 import com.redvelvet.ui.composable.ItemBasicCard
 import com.redvelvet.ui.composable.SearchBox
-import com.redvelvet.ui.composable.StatusImage
-import com.redvelvet.ui.composable.StatusText
 import com.redvelvet.ui.theme.FontSecondary
 import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.Purple100
@@ -44,9 +38,10 @@ import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.radius
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.search.MediaUiState
+import com.redvelvet.viewmodel.search.SearchMedia
 import com.redvelvet.viewmodel.search.SearchUiState
 import com.redvelvet.viewmodel.search.SearchViewModel
-import java.util.function.BooleanSupplier
+import kotlin.reflect.KFunction1
 
 @Composable
 fun SearchScreen(
@@ -60,6 +55,7 @@ fun SearchScreen(
     SearchContent(
         state,
         onChangeQuery = viewModel::onChangeSearchTextFiled,
+        onChangeCategory = viewModel::onChangeCategory
     )
 
 
@@ -70,44 +66,26 @@ fun SearchScreen(
 private fun SearchContent(
     state: SearchUiState,
     onChangeQuery: (String) -> Unit,
+    onChangeCategory: KFunction1<SearchMedia, Unit>,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Primary)
-            .padding(MaterialTheme.dimens.dimens16)
+            .padding(horizontal = MaterialTheme.dimens.dimens16)
     ) {
         SearchBox(query = state.inputText ?: "", onChangeQuery = onChangeQuery)
-        if (!state.isEmpty) {
-            CategoryChips()
+        CategoryChips(state.mediaType, onChangeCategory)
+        if (!state.searchResult.isEmpty()) {
             CustomLazyVerticalGrid(mediaUiStates = state.searchResult)
         }else{
             InitialContentInSearch()
         }
-            if(state.searchResult.isEmpty()){
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            StatusImage(
-                modifier = Modifier.fillMaxWidth(),
-                painter = painterResource(id = R.drawable.vector_not_found),
-                contentDescription = stringResource(R.string.no_search_results)
-            )
-            Spacer( modifier = Modifier.height(MaterialTheme.spacing.spacing32))
-            StatusText(
-                statusTitle = stringResource(R.string.not_found),
-                statusDescription = stringResource(R.string.no_results)
-            )
-        }
-    }
     }
 }
 
 @Composable
-fun CategoryChips(
-) {
+fun CategoryChips(mediaType: SearchMedia, onChangeCategory: (SearchMedia) -> Unit) {
     Text(
         modifier = Modifier.padding(vertical = MaterialTheme.spacing.spacing16),
         text = "Categories",
@@ -117,27 +95,39 @@ fun CategoryChips(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(end = MaterialTheme.spacing.spacing24),
+            .padding(
+                end = MaterialTheme.spacing.spacing24,
+                top = MaterialTheme.spacing.spacing8,
+                bottom = MaterialTheme.spacing.spacing8
+            ),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        CategoryChip(text = "All", isSelected = true) {  }
-        CategoryChip(text = "Movie", isSelected = false) { }
-        CategoryChip(text = "Person", isSelected = false) {  }
-        CategoryChip(text = "Tv Show", isSelected = false) {  }
+        CategoryChip(onClickChip = onChangeCategory, text = "All", type = SearchMedia.ALL, selectedType = mediaType)
+        CategoryChip(onClickChip = onChangeCategory, text = "Movie", type = SearchMedia.MOVIE, selectedType = mediaType)
+        CategoryChip(onClickChip = onChangeCategory, text = "Person", type = SearchMedia.PEOPLE, selectedType = mediaType)
+        CategoryChip(onClickChip = onChangeCategory, text = "Tv Show", type = SearchMedia.TV, selectedType = mediaType)
     }
 }
 
 @Composable
-fun CategoryChip(text: String, isSelected: Boolean, onClickChip: () -> Unit) {
+fun CategoryChip(
+    onClickChip: (SearchMedia) -> Unit,
+    text: String,
+    type: SearchMedia,
+    selectedType: SearchMedia,
+) {
+    val color by  animateColorAsState(targetValue = if (type == selectedType) Purple100 else Secondary,
+        label = ""
+    )
     Text(
         modifier = Modifier
             .clip(RoundedCornerShape(MaterialTheme.radius.radius8))
-            .background(color = if (isSelected) Purple100 else Secondary)
+            .background(color = color)
+            .clickable { onClickChip(type) }
             .padding(
                 vertical = MaterialTheme.spacing.spacing8,
                 horizontal = MaterialTheme.spacing.spacing16
-            )
-            .clickable { onClickChip() },
+            ),
         text = text,
         style = Typography.bodyMedium,
         color = FontSecondary,
@@ -154,8 +144,8 @@ fun CustomLazyVerticalGrid(
         .background(Primary)) {
         LazyVerticalGrid(
             contentPadding = PaddingValues(
-                horizontal = MaterialTheme.spacing.spacing16,
-                vertical = MaterialTheme.spacing.spacing24
+                top = MaterialTheme.spacing.spacing16,
+                bottom = 100.dp
             ),
             columns = GridCells.Fixed(3),
             horizontalArrangement = Arrangement.spacedBy(
@@ -169,13 +159,11 @@ fun CustomLazyVerticalGrid(
         ) {
             items(mediaUiStates.size) {
                 val mediaUiState = mediaUiStates[it]
-                val BASE_URL = "https://image.tmdb.org/t/p/w500"
-                Log.d("banan", mediaUiState.mediaName)
                 ItemBasicCard(
-                    image = BASE_URL + mediaUiState.mediaImage,
+                    image = mediaUiState.getFullImage(),
                     hasName = true,
                     name = mediaUiState.mediaName,
-                    hasDateAndCountry = mediaUiState.mediaReleaseDate.isNotEmpty(),
+                    hasDateAndCountry = !mediaUiState.isPerson(),
                     date = mediaUiState.mediaReleaseDate,
                     country = mediaUiState.mediaCountry
                 )
