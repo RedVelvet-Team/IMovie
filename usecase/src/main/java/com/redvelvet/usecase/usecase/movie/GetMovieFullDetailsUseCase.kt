@@ -5,7 +5,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class GetMovieFullDetailsUseCase @Inject private constructor(
+class GetMovieFullDetailsUseCase @Inject constructor(
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
     private val getMovieImagesUseCase: GetMovieImagesUseCase,
     private val getMovieKeyWordUseCase: GetMovieKeyWordUseCase,

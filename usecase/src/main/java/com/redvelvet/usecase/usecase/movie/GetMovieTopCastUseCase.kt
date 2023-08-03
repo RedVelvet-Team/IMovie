@@ -4,7 +4,7 @@ import com.redvelvet.entities.movie.details.MovieTopCast
 import com.redvelvet.usecase.repository.MovieRepository
 import javax.inject.Inject
 
-internal class GetMovieTopCastUseCase @Inject constructor(
+class GetMovieTopCastUseCase @Inject constructor(
     private val movieRepository: MovieRepository
 ) {
     suspend operator fun invoke(movieId:Int): MovieTopCast {
