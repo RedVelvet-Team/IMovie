@@ -7,6 +7,7 @@ import com.redvelvet.usecase.usecase.user.CheckUserLoggedInUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,16 +17,17 @@ class SplashViewModel @Inject constructor(
     private val checkUserFirstTimeUseAppUseCase: CheckUserFirstTimeUseAppUseCase,
     private val checkUserUserIsLoggedInUseCase: CheckUserLoggedInUseCase,
     private val checkUserIsGuestUseCase: CheckUserIsGuestUseCase
-) : BaseViewModel<SplashUiState,Unit>(SplashUiState()) {
+) : BaseViewModel<SplashUiState, SplashUiEvent>(SplashUiState()) {
     init {
-        getUserStatus()
+        prepareUserStatus()
     }
 
-    private fun getUserStatus() {
+    private fun prepareUserStatus() {
         viewModelScope.launch(Dispatchers.IO) {
             val isLogged = checkUserUserIsLoggedInUseCase()
             val isGuest = checkUserIsGuestUseCase()
             val isFirstTimeUseApp = checkUserFirstTimeUseAppUseCase()
+            delay(1000)
             _state.update {
                 it.copy(
                     isLogged = isLogged,
@@ -33,6 +35,18 @@ class SplashViewModel @Inject constructor(
                     isFirstTimeUseApp = isFirstTimeUseApp
                 )
             }
+            checkUserFirstTimeUseApp()
+            checkUserIsLoggedIn()
+        }
+    }
+
+    private fun checkUserFirstTimeUseApp() {
+        sendUiEvent(SplashUiEvent.NavigateToOnBoarding).takeIf { state.value.isFirstTimeUseApp }
+    }
+
+    private fun checkUserIsLoggedIn() {
+        sendUiEvent(SplashUiEvent.NavigateToHome).takeIf {
+            state.value.isGuest || state.value.isLogged
         }
     }
 }

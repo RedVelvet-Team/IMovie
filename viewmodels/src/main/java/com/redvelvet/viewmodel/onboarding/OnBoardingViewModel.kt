@@ -12,7 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
     private val setUserNotFirstTimeUseApp: SetUserNotFirstTimeUseAppUseCase,
-) : BaseViewModel<OnBoardingUiState, Unit>(OnBoardingUiState()) {
+) : BaseViewModel<OnBoardingUiState, OnBoardingUiEvent>(OnBoardingUiState()) {
 
     fun setNotFirstTimeUseApp() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -22,6 +22,7 @@ class OnBoardingViewModel @Inject constructor(
                     saved = true,
                 )
             }
+            sendUiEvent(OnBoardingUiEvent.NavigateToLogin)
         }
     }
 }

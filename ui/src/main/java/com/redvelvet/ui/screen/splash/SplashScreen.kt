@@ -12,6 +12,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -25,9 +26,12 @@ import com.redvelvet.ui.screen.home.navigateToHome
 import com.redvelvet.ui.screen.login.navigateToLogin
 import com.redvelvet.ui.screen.onboarding.navigateToOnBoarding
 import com.redvelvet.ui.theme.Primary
+import com.redvelvet.viewmodel.splash.SplashUiEvent
 import com.redvelvet.viewmodel.splash.SplashUiState
 import com.redvelvet.viewmodel.splash.SplashViewModel
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Composable
 fun SplashScreen(
@@ -37,38 +41,44 @@ fun SplashScreen(
     val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(Primary, darkIcons = false)
-    val event = object : SplashUiEvent {
-        override fun navigateToHome() {
-            navController.navigateToHome {
-                popUpTo(MovieDestination.Splash.route) {
-                    inclusive = true
-                }
-            }
-        }
+    val scope = rememberCoroutineScope()
+    LaunchedEffect(key1 = Unit) {
+        scope.launch(Dispatchers.IO) {
+            viewModel.event.collectLatest { event ->
+                when (event) {
+                    is SplashUiEvent.NavigateToHome -> {
+                        navController.navigateToHome {
+                            popUpTo(MovieDestination.Splash.route) {
+                                inclusive = true
+                            }
+                        }
+                    }
 
-        override fun navigateToOnBoarding() {
-            navController.navigateToOnBoarding {
-                popUpTo(MovieDestination.Splash.route) {
-                    inclusive = true
-                }
-            }
-        }
+                    is SplashUiEvent.NavigateToOnBoarding -> {
+                        navController.navigateToOnBoarding {
+                            popUpTo(MovieDestination.Splash.route) {
+                                inclusive = true
+                            }
+                        }
+                    }
 
-        override fun navigateToLogin() {
-            navController.navigateToLogin {
-                popUpTo(MovieDestination.Splash.route) {
-                    inclusive = true
+                    else -> {
+                        navController.navigateToLogin {
+                            popUpTo(MovieDestination.Splash.route) {
+                                inclusive = true
+                            }
+                        }
+                    }
                 }
             }
         }
     }
-    SplashContent(state, event)
+    SplashContent(state)
 }
 
 @Composable
 private fun SplashContent(
     state: SplashUiState,
-    event: SplashUiEvent
 ) {
     val rotationDegree = remember { Animatable(0f) }
     LaunchedEffect(key1 = state) {
@@ -76,16 +86,6 @@ private fun SplashContent(
             targetValue = 360f,
             animationSpec = tween(durationMillis = 850)
         )
-        delay(1000)
-        if (state.isFirstTimeUseApp) {
-            event.navigateToOnBoarding()
-            return@LaunchedEffect
-        }
-        if (state.isLogged || state.isGuest) {
-            event.navigateToHome()
-            return@LaunchedEffect
-        }
-        event.navigateToLogin()
     }
     Column(
         modifier = Modifier

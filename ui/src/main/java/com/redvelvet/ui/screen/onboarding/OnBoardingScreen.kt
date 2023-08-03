@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -24,11 +26,16 @@ import com.redvelvet.ui.composable.CustomButton
 import com.redvelvet.ui.composable.CustomText
 import com.redvelvet.ui.composable.WallPaper
 import com.redvelvet.ui.navigation.MovieDestination
+import com.redvelvet.ui.screen.login.navigateToLogin
 import com.redvelvet.ui.theme.FontPrimary
 import com.redvelvet.ui.theme.FontSecondary
 import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.Typography
+import com.redvelvet.viewmodel.onboarding.OnBoardingUiEvent
 import com.redvelvet.viewmodel.onboarding.OnBoardingViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Composable
 fun OnBoardingScreen(
@@ -37,12 +44,26 @@ fun OnBoardingScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
+    val scope = rememberCoroutineScope()
+    LaunchedEffect(key1 = Unit) {
+        scope.launch(Dispatchers.IO) {
+            viewModel.event.collectLatest { event ->
+                when (event) {
+                    OnBoardingUiEvent.NavigateToLogin -> {
+                        navController.navigateToLogin {
+                            popUpTo(MovieDestination.OnBoarding.route) {
+                                inclusive = true
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     systemUiController.setSystemBarsColor(Primary, darkIcons = false)
     OnBoardingContent {
         viewModel.setNotFirstTimeUseApp()
     }
-    if (state.saved)
-        navController.navigate(MovieDestination.Login.route)
 }
 
 @Composable

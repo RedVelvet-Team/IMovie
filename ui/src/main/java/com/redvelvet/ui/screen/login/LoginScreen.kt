@@ -59,6 +59,7 @@ import com.redvelvet.viewmodel.login.LoginInteraction
 import com.redvelvet.viewmodel.login.LoginUiEvent
 import com.redvelvet.viewmodel.login.LoginUiState
 import com.redvelvet.viewmodel.login.LoginViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -73,9 +74,9 @@ fun LoginScreen(
     val uiState by viewModel.state.collectAsState()
     val scope = rememberCoroutineScope()
     LaunchedEffect(key1 = Unit) {
-        scope.launch {
-            viewModel.event.collectLatest {
-                when (it) {
+        scope.launch(Dispatchers.IO) {
+            viewModel.event.collectLatest {event->
+                when (event) {
                     is LoginUiEvent.NavigateTomHomeScreen -> navController.navigateToHome {
                         popUpTo(MovieDestination.Login.route) {
                             inclusive = true
