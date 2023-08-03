@@ -8,7 +8,7 @@ interface RemoteDataSource {
     //region auth
     suspend fun createGuestSession(): GuestSessionDto
     suspend fun createToken(): TokenDto
-    suspend fun validateUserWithLogin(userName: String, password: String, token: String): TokenDto
+    suspend fun validateUserWithLogin(userName: String, password: String, requestToken: String): TokenDto
     suspend fun createUserSession(token: String): SessionDto
     suspend fun deleteUserSession(sessionId: String): SessionDto
     //endregion

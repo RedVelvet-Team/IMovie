@@ -32,14 +32,14 @@ class RemoteDataSourceImp @Inject constructor(
     override suspend fun validateUserWithLogin(
         userName: String,
         password: String,
-        token: String
+        requestToken: String
     ): TokenDto {
         return wrapApiResponse {
             movieApiService.validateRequestTokenWithLogin(
                 loginRequest = LoginRequest(
                     username = userName,
                     password = password,
-                    requestToken = token,
+                    requestToken = requestToken,
                 )
             )
         }

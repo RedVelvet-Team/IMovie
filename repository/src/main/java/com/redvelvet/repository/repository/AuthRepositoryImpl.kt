@@ -34,26 +34,20 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun createToken(): Token {
         return wrapRemoteResponse {
-            remoteDataSource.createToken().toToken().also { token ->
-                saveToken(token = token.requestToken.toString())
-            }
+            remoteDataSource.createToken().toToken()
         }
-    }
-
-    private suspend fun saveToken(token: String) {
-        dataStoreDataSource.setToken(token = token)
     }
 
     override suspend fun validateUserWithLogin(
         userName: String,
         password: String,
-        token: String,
+        requestToken: String,
     ): Token {
         return wrapRemoteResponse {
             remoteDataSource.validateUserWithLogin(
                 userName = userName,
                 password = password,
-                token = token
+                requestToken = requestToken
             ).toToken()
         }
     }
@@ -78,10 +72,6 @@ class AuthRepositoryImpl @Inject constructor(
                 setIsLoggedInByAccount(false)
             }
         }
-    }
-
-    override suspend fun getToken(): String {
-        return dataStoreDataSource.getToken().toString()
     }
     //endregion
 

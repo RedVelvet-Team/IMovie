@@ -180,7 +180,7 @@ private fun LoginContentPortrait(
         SpacerVertical(height = 24.dp)
 
         Button(
-            onClick = { },
+            onClick = { interaction.onClickLogin() },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),
@@ -270,7 +270,7 @@ private fun LoginContentLandscape(
         SpacerVertical(height = 8.dp)
 
         Button(
-            onClick = { },
+            onClick = { interaction.onClickLogin() },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)

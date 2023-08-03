@@ -2,6 +2,7 @@ package com.redvelvet.viewmodel.login
 
 
 import com.redvelvet.entities.auth.Guest
+import com.redvelvet.entities.auth.Session
 import com.redvelvet.usecase.usecase.auth.AuthenticationUserLoginUseCase
 import com.redvelvet.usecase.usecase.auth.LoginByGuestUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
@@ -51,30 +52,69 @@ class LoginViewModel @Inject constructor(
     }
     //endregion
 
+    //region auth
+    private fun loginByUserNameAndPassword(userName: String, password: String) {
+        _state.update {
+            it.copy(
+                isLoading = true,
+                error = null,
+            )
+        }
+        tryToExecute(
+            execute = { authenticationUserLoginUseCase.invoke(userName, password) },
+            onSuccess = ::onLoginNameAndPasswordSuccess,
+            onError = ::onLoginByNameAndPasswordFailed,
+        )
+    }
+
+    private fun onLoginNameAndPasswordSuccess(session: Session) {
+        _state.update {
+            it.copy(
+                isLoading = false,
+                error = null,
+            )
+        }
+        sendUiEvent(LoginUiEvent.NavigateTomHomeScreen)
+    }
+
+    private fun onLoginByNameAndPasswordFailed(error: ErrorUiState) {
+        _state.update {
+            it.copy(
+                isLoading = false,
+                error = error.message,
+            )
+        }
+    }
+    //endregion
 
     //region interaction
     override fun onClickLogin() {
-
-    }
-
-    override fun onClickGuest() {
-        if (state.value.userName.isEmpty() || state.value.password.isEmpty())
+        if (state.value.userName.isEmpty())
+            _state.update {
+                it.copy(
+                    isUserNameEmpty = true,
+                )
+            }
+        else if (state.value.password.isEmpty()) {
+            _state.update {
+                it.copy(
+                    isPasswordEmpty = true,
+                )
+            }
+        } else if (state.value.password.isEmpty() && state.value.userName.isEmpty()) {
             _state.update {
                 it.copy(
                     isPasswordEmpty = true,
                     isUserNameEmpty = true,
                 )
             }
-        else {
-            _state.update {
-                it.copy(
-                    isPasswordEmpty = false,
-                    isUserNameEmpty = false,
-                )
-            }
-            loginByGuest()
+        } else {
+            loginByUserNameAndPassword(state.value.userName, state.value.password)
         }
+    }
 
+    override fun onClickGuest() {
+        loginByGuest()
     }
 
     override fun onClickSignUp() {

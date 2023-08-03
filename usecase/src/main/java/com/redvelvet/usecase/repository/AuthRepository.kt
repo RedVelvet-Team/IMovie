@@ -10,12 +10,10 @@ interface AuthRepository {
 
     suspend fun createToken(): Token
 
-    suspend fun validateUserWithLogin(userName: String, password: String, token: String): Token
+    suspend fun validateUserWithLogin(userName: String, password: String, requestToken: String): Token
 
     suspend fun createUserSession(token: String): Session
 
     suspend fun deleteUserSession(sessionId: String): Session
-
-    suspend fun getToken(): String
     //endregion
 }
