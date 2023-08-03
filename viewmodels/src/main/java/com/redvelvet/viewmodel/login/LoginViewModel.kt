@@ -87,6 +87,18 @@ class LoginViewModel @Inject constructor(
     }
     //endregion
 
+    //region signup
+    private fun signUp() {
+        _state.update {
+            it.copy(
+                isLoading = false,
+                error = null,
+            )
+        }
+        sendUiEvent(LoginUiEvent.NavigateToSignUpScreen)
+    }
+    //endregion
+
     //region interaction
     override fun onClickLogin() {
         if (validationLoginWithNameAndPassword())
@@ -94,30 +106,30 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun nameIsEmpty(): Boolean {
-        return state.value.userName.isEmpty().also {isCorrect->
-            _state.update {
+        return state.value.userName.isEmpty().also { isEmpty ->
+            takeIf { isEmpty }?._state?.update {
                 it.copy(
                     isUserNameEmpty = true,
                     isPasswordEmpty = false,
                 )
-            }.takeIf { isCorrect }
+            }
         }
     }
 
     private fun passwordIsEmpty(): Boolean {
-        return state.value.password.isEmpty().also {isCorrect->
-            _state.update {
+        return state.value.password.isEmpty().also { isEmpty ->
+            takeIf { isEmpty }?._state?.update {
                 it.copy(
                     isUserNameEmpty = false,
                     isPasswordEmpty = true,
                 )
-            }.takeIf { isCorrect }
+            }
         }
     }
 
     private fun nameAndPasswordAreEmpty(): Boolean {
-        return nameIsEmpty() && passwordIsEmpty().also {
-            _state.update {
+        return nameIsEmpty() && passwordIsEmpty().also { areEmpty ->
+            takeIf { areEmpty }?._state?.update {
                 it.copy(
                     isUserNameEmpty = true,
                     isPasswordEmpty = true,
@@ -127,36 +139,46 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun validationLoginWithNameAndPassword(): Boolean {
-        return (nameAndPasswordAreEmpty() || nameIsEmpty() || passwordIsEmpty()).also { noError ->
-            _state.update {
-                it.copy(
-                    isUserNameEmpty = false,
-                    isPasswordEmpty = false,
-                )
-            }.takeIf { noError }
-        }
+        return (nameAndPasswordAreEmpty() || nameIsEmpty() || passwordIsEmpty())
+            .not()
+            .also { noError ->
+                takeIf { noError }?._state?.update {
+                    it.copy(
+                        isUserNameEmpty = false,
+                        isPasswordEmpty = false,
+                    )
+                }
+            }
     }
+
 
     override fun onClickGuest() {
         loginByGuest()
     }
 
+
     override fun onClickSignUp() {
-        sendUiEvent(LoginUiEvent.NavigateToSignUpScreen)
+        signUp()
     }
+
 
     override fun onUserNameChanged(userName: String) {
         _state.update {
             it.copy(
                 userName = userName,
+                isLoading = false,
+                error = null
             )
         }
     }
+
 
     override fun onPasswordChanged(password: String) {
         _state.update {
             it.copy(
                 password = password,
+                isLoading = false,
+                error = null
             )
         }
     }

@@ -42,12 +42,11 @@ class SplashViewModel @Inject constructor(
 
     //region check user status
     private fun checkUserStatus() {
-        checkUserFirstTimeUseApp()
-        checkUserIsLoggedIn()
+        checkUserFirstTimeUseApp() ?: checkUserIsLoggedIn()
     }
 
-    private fun checkUserFirstTimeUseApp() {
-        takeIf {
+    private fun checkUserFirstTimeUseApp(): Unit? {
+        return takeIf {
             state.value.isFirstTimeUseApp
         }?.sendUiEvent(SplashUiEvent.NavigateToOnBoarding)
     }
