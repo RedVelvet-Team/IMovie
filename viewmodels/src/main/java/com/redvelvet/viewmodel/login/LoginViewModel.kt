@@ -94,24 +94,24 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun nameIsEmpty(): Boolean {
-        return state.value.userName.isEmpty().also {
+        return state.value.userName.isEmpty().also {isCorrect->
             _state.update {
                 it.copy(
                     isUserNameEmpty = true,
                     isPasswordEmpty = false,
                 )
-            }
+            }.takeIf { isCorrect }
         }
     }
 
     private fun passwordIsEmpty(): Boolean {
-        return state.value.password.isEmpty().also {
+        return state.value.password.isEmpty().also {isCorrect->
             _state.update {
                 it.copy(
                     isUserNameEmpty = false,
                     isPasswordEmpty = true,
                 )
-            }
+            }.takeIf { isCorrect }
         }
     }
 

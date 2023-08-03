@@ -61,7 +61,7 @@ fun SplashScreen(
                         }
                     }
 
-                    else -> {
+                    is SplashUiEvent.NavigateToLogin -> {
                         navController.navigateToLogin {
                             popUpTo(MovieDestination.Splash.route) {
                                 inclusive = true
