@@ -1,28 +1,35 @@
 package com.redvelvet.repository.repository
 
-import com.redvelvet.repository.source.LocalDataSource
-import com.redvelvet.repository.source.RemoteDataSource
+import com.redvelvet.repository.source.DataStoreDataSource
 import com.redvelvet.usecase.repository.UserRepository
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
-    private val localDataSource: LocalDataSource,
-    private val remoteDataSource: RemoteDataSource,
+    private val dataStoreDataSource: DataStoreDataSource,
 ) : UserRepository, BaseRepository() {
-    override suspend fun setIsLoggedByAccount(isLogged: Boolean) {
-        localDataSource.setIsLoggedByAccount(isLogged)
-    }
+    //region user
+    override suspend fun getIsLoggedInByAccount() = dataStoreDataSource.getIsLoggedInByAccount()
 
-    override suspend fun getIsLoggedByAccount() = localDataSource.getIsLoggedByAccount()
+    override suspend fun getIsLoggedInByGuest() = dataStoreDataSource.getIsLoggedInByGuest()
 
-    override suspend fun setIsLoggedByGuest(isLogged: Boolean) {
-        localDataSource.setIsLoggedByGuest(isLogged)
-    }
-
-    override suspend fun getIsLoggedByGuest() = localDataSource.getIsLoggedByGuest()
     override suspend fun setIsFirstTimeUsingApp(isFirstTime: Boolean) {
-        localDataSource.setIsFirstTimeUsingApp(isFirstTime)
+        dataStoreDataSource.setIsFirstTimeUsingApp(isFirstTime)
     }
 
-    override suspend fun getIsFirstTimeUsingApp() = localDataSource.getIsFirstTimeUsingApp()
+    override suspend fun getIsFirstTimeUsingApp() = dataStoreDataSource.getIsFirstTimeUsingApp()
+    //endregion
+
+    //region auth
+    override suspend fun getGuestSessionIdFromLocal(): String {
+        return dataStoreDataSource.getGuestSessionId().toString()
+    }
+
+    override suspend fun getGuestSessionExpDateFromLocal(): String {
+        return dataStoreDataSource.getGuestSessionExpDate().toString()
+    }
+
+    override suspend fun getUserSessionId(): String {
+        return dataStoreDataSource.getUserSessionId().toString()
+    }
+    //endregion
 }

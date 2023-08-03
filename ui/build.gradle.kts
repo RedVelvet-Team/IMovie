@@ -88,5 +88,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
     //permissions
     implementation("com.google.accompanist:accompanist-permissions:0.31.3-beta")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0-alpha01")
+    //web view
+    implementation("com.google.accompanist:accompanist-webview:0.28.0")
 }

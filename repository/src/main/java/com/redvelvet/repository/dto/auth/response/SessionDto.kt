@@ -1,4 +1,4 @@
-package com.redvelvet.repository.dto.auth
+package com.redvelvet.repository.dto.auth.response
 
 import com.google.gson.annotations.SerializedName
 
@@ -7,3 +7,4 @@ data class SessionDto(
     val sessionId: String?,
     val success: Boolean?
 )
+
