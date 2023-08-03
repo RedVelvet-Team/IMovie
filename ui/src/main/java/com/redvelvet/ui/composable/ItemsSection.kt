@@ -16,23 +16,31 @@ fun ItemsSection(
     name: List<String> = emptyList(),
     hasDateAndCountry: Boolean = false,
     date: List<String> = emptyList(),
-    country: List<String> = emptyList()
+    country: List<String> = emptyList(),
+    hasCustomList: Boolean = false,
+    customListItemComposable: @Composable ((index:Int,image: String) -> Unit)? = null,
+    onClickSeeAll: () -> Unit = {}
 ) {
-    SectionHeader(label)
+    SectionHeader(label, onClickSeeAll = onClickSeeAll)
     VerticalSpacer(space = 8)
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),
         contentPadding = PaddingValues(horizontal = MaterialTheme.spacing.spacing16)
     ) {
         itemsIndexed(images) { index, image ->
-            ItemBasicCard(
-                image = image,
-                hasName = hasName,
-                name = name[index],
-                hasDateAndCountry = hasDateAndCountry,
-                date = date[index],
-                country = country[index]
-            )
+            if (hasCustomList) {
+                customListItemComposable!!(index, image)
+            } else {
+                ItemBasicCard(
+                    image = image,
+                    hasName = hasName,
+                    name = name[index],
+                    hasDateAndCountry = hasDateAndCountry,
+                    date = date[index],
+                    country = country[index],
+                )
+            }
         }
+
     }
 }

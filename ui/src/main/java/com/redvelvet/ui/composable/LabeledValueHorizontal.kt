@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import com.redvelvet.ui.theme.FontSecondary
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.spacing
@@ -23,7 +24,9 @@ fun LabeledValueHorizontal(movieTime: String, icon: Int, iconDescription: Int) {
         Text(
             text = movieTime,
             style = Typography.labelSmall,
-            color = FontSecondary
+            color = FontSecondary,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
         )
     }
 }

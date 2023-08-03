@@ -33,7 +33,7 @@ fun LongExpandedText(overview: String) {
             withStyle(
                 style = SpanStyle(
                     fontFamily = FontFamily.Monospace,
-                    fontWeight = FontWeight.Medium,
+                    fontWeight = FontWeight.Bold,
                     fontSize = 12.sp,
                     color = FontPrimary,
                 )

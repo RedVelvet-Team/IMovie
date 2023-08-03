@@ -14,13 +14,15 @@ fun BackgroundMediaImage(
     image: String,
     placeholder: Int,
     contentDescription: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    scale: Scale = Scale.FILL,
 ) {
     AsyncImage(
         modifier = modifier,
         model = ImageRequest.Builder(LocalContext.current).data(image)
-            .crossfade(true).scale(Scale.FIT).build(),
+            .crossfade(true).scale(scale).build(),
         placeholder = painterResource(placeholder),
         contentDescription = stringResource(contentDescription),
     )
 }
+
