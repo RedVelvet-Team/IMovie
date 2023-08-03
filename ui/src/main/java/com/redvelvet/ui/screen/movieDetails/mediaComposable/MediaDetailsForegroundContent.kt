@@ -68,66 +68,14 @@ fun MediaDetailsForegroundContent(
             .padding(top = MaterialTheme.spacing.spacing24),
     ) {
         state.data?.details?.let {
-            Column(
-                modifier = Modifier
-                    .padding(start = MaterialTheme.spacing.spacing16)
-            ) {
-                MediaInfoCard(
-                    data = MediaInfoCardData(
-                        it.posterPath,
-                        it.originalTitle,
-                        it.genres,
-                        hasTime = true,
-                        hasDate = false,
-                        it.runtime,
-                        it.spokenLanguages,
-                    ),
-                    onGenreClick = { uiEvent.onMovieCategory("") }
-                )
-                SpacerVertical(height = MaterialTheme.spacing.spacing24)
-                MediaRateRow(it.voteAverage.toString(), { uiEvent.onRateMedia(5.5) })
-                SpacerVertical(height = MaterialTheme.spacing.spacing24)
-                Box(
-                    modifier = Modifier
-                        .padding(end = MaterialTheme.spacing.spacing16)
-                ) {
-                    LongExpandedText(it.overview)
-                }
-            }
+            MovieDetailsInfoSection(it, uiEvent)
         }
         SpacerVertical(height = MaterialTheme.spacing.spacing24)
         state.data?.topCast?.let {
-            ItemsSection(
-                label = "Top Cast",
-                images = it.map { it2 -> it2.castImage },
-                hasName = true,
-                name = it.map { it2 -> it2.castName },
-                hasCustomList = true,
-                customListItemComposable = { index, image ->
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier
-                            .clickable { uiEvent.onCast(it[index].castId) }
-                    ) {
-                        CircularImageAvatar(imageUrl = image)
-                        SpacerVertical(height = MaterialTheme.spacing.spacing4)
-                        Box(
-                            modifier = Modifier
-                                .width(70.dp)
-                        ) {
-                            Text(
-                                text = it[index].castName,
-                                style = MaterialTheme.typography.bodySmall,
-                                color = OnSecondary,
-                                overflow = TextOverflow.Ellipsis,
-                                maxLines = 1
-                            )
-                        }
-                    }
-                },
-            )
+            TopCastSection(it, uiEvent)
         }
     }
 
 }
+
 
