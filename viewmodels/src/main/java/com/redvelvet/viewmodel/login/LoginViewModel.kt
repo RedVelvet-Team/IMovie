@@ -89,51 +89,51 @@ class LoginViewModel @Inject constructor(
 
     //region interaction
     override fun onClickLogin() {
-        if (nameAndPasswordAreCorrect())
+        if (validationLoginWithNameAndPassword())
             loginByUserNameAndPassword(state.value.userName, state.value.password)
     }
 
     private fun nameIsEmpty(): Boolean {
-        return state.value.userName.isEmpty()
+        return state.value.userName.isEmpty().also {
+            _state.update {
+                it.copy(
+                    isUserNameEmpty = true,
+                    isPasswordEmpty = false,
+                )
+            }
+        }
     }
 
     private fun passwordIsEmpty(): Boolean {
-        return state.value.password.isEmpty()
+        return state.value.password.isEmpty().also {
+            _state.update {
+                it.copy(
+                    isUserNameEmpty = false,
+                    isPasswordEmpty = true,
+                )
+            }
+        }
     }
 
-    private fun nameAndPasswordAreCorrect(): Boolean {
-        return if (nameIsEmpty() && passwordIsEmpty()) {
+    private fun nameAndPasswordAreEmpty(): Boolean {
+        return nameIsEmpty() && passwordIsEmpty().also {
             _state.update {
                 it.copy(
                     isUserNameEmpty = true,
                     isPasswordEmpty = true,
                 )
             }
-            false
-        } else if (nameIsEmpty()) {
-            _state.update {
-                it.copy(
-                    isUserNameEmpty = true,
-                    isPasswordEmpty = false,
-                )
-            }
-            false
-        } else if (passwordIsEmpty()) {
-            _state.update {
-                it.copy(
-                    isPasswordEmpty = true,
-                    isUserNameEmpty = false,
-                )
-            }
-            false
-        } else {
+        }
+    }
+
+    private fun validationLoginWithNameAndPassword(): Boolean {
+        return (nameAndPasswordAreEmpty() || nameIsEmpty() || passwordIsEmpty()).also { noError ->
             _state.update {
                 it.copy(
                     isUserNameEmpty = false,
                     isPasswordEmpty = false,
                 )
-            }
-            true
+            }.takeIf { noError }
         }
     }
 
