@@ -175,15 +175,15 @@ private fun LoginContentPortrait(
         UserNameTextField(
             value = uiState.userName,
             isError = uiState.isUserNameEmpty,
+            errorMessage = stringResource(R.string.invalid_user_name),
             text = stringResource(R.string.username),
             onClick = interaction::onUserNameChanged
         )
-
-        SpacerVertical(height = 24.dp)
-
+        SpacerVertical(height = 4.dp)
         PasswordTextField(
             value = uiState.password,
             isError = uiState.isPasswordEmpty,
+            errorMessage = stringResource(R.string.invalid_password),
             text = stringResource(R.string.password),
             onClick = interaction::onPasswordChanged
         )
@@ -267,14 +267,18 @@ private fun LoginContentLandscape(
             value = uiState.userName,
             isError = uiState.isUserNameEmpty,
             text = stringResource(R.string.username),
+            errorMessage = stringResource(R.string.invalid_user_name),
             onClick = interaction::onUserNameChanged
         )
+
+        SpacerVertical(height = 4.dp)
 
         PasswordTextField(
             value = uiState.password,
             modifier = Modifier.padding(horizontal = 16.dp),
             isError = uiState.isPasswordEmpty,
             text = stringResource(R.string.password),
+            errorMessage = stringResource(R.string.invalid_password),
             onClick = interaction::onPasswordChanged
         )
 

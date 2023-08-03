@@ -31,4 +31,6 @@
     <string name="upcoming">Upcoming\n</string>
     <string name="hide_password">Hide password</string>
     <string name="show_password">Show password</string>
+    <string name="invalid_user_name">Invalid userName</string>
+    <string name="invalid_password">Invalid password</string>
 </resources>

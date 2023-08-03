@@ -32,6 +32,7 @@ fun PasswordTextField(
     value: String,
     isError: Boolean,
     text: String,
+    errorMessage: String = "",
     onClick: (String) -> Unit,
 ) {
     var isPasswordVisible by remember { mutableStateOf(false) }
@@ -41,6 +42,13 @@ fun PasswordTextField(
         onValueChange = { onClick(it) },
         label = { Text(text = text) },
         singleLine = true,
+        supportingText = {
+            if (isError)
+                Text(
+                    text = errorMessage,
+                    color = Color.Red
+                )
+        },
         visualTransformation = if (isPasswordVisible) VisualTransformation.None
         else PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),

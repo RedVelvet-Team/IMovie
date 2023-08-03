@@ -22,6 +22,7 @@ fun UserNameTextField(
     value: String,
     isError: Boolean,
     text: String,
+    errorMessage: String = "",
     onClick: (String) -> Unit,
 ) {
     OutlinedTextField(
@@ -30,6 +31,13 @@ fun UserNameTextField(
         onValueChange = { onClick(it) },
         label = { Text(text = text) },
         singleLine = true,
+        supportingText = {
+            if(isError)
+            Text(
+                text = errorMessage,
+                color = Color.Red
+            )
+        },
         leadingIcon = {
             Icon(
                 Icons.Default.Person,
