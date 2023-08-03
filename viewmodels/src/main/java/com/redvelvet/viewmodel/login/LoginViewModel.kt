@@ -142,7 +142,7 @@ class LoginViewModel @Inject constructor(
     }
 
     override fun onClickSignUp() {
-
+        sendUiEvent(LoginUiEvent.NavigateToSignUpScreen)
     }
 
     override fun onUserNameChanged(userName: String) {

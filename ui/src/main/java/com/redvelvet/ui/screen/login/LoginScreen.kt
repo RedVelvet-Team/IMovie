@@ -81,6 +81,8 @@ fun LoginScreen(
                             inclusive = true
                         }
                     }
+
+                    is LoginUiEvent.NavigateToSignUpScreen -> TODO()
                 }
             }
         }
@@ -218,7 +220,7 @@ private fun LoginContentPortrait(
 
         SpacerVertical(height = 24.dp)
 
-        GuestOrSignUp(!uiState.isLoading, interaction::onClickGuest)
+        GuestOrSignUp(!uiState.isLoading, interaction::onClickGuest, interaction::onClickSignUp)
         if (uiState.isLoading) {
             ProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
         }
@@ -293,7 +295,7 @@ private fun LoginContentLandscape(
 
         SpacerVertical(height = 8.dp)
 
-        GuestOrSignUp(!uiState.isLoading, interaction::onClickGuest)
+        GuestOrSignUp(!uiState.isLoading, interaction::onClickGuest, interaction::onClickSignUp)
 
         if (uiState.isLoading) {
             ProgressIndicator(modifier = Modifier)
@@ -305,6 +307,7 @@ private fun LoginContentLandscape(
 private fun GuestOrSignUp(
     isLoading: Boolean,
     onGuestClicked: () -> Unit,
+    onSignUpClicked: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -325,9 +328,9 @@ private fun GuestOrSignUp(
             )
         }
         SpacerHorizontal(width = 8.dp)
-        //TODO onSignUpClicked()
+
         Button(
-            onClick = {},
+            onClick = onSignUpClicked,
             modifier = Modifier
                 .fillMaxWidth(0.9f)
                 .height(56.dp),
