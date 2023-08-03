@@ -5,14 +5,14 @@ import com.google.gson.annotations.SerializedName
 
 data class MovieKeyWordsDTO(
     @SerializedName("id")
-    val id: Int,
+    val id: Int?,
     @SerializedName("keywords")
     val keywords: List<Keyword>
 ) {
     data class Keyword(
         @SerializedName("id")
-        val id: Int,
+        val id: Int?,
         @SerializedName("name")
-        val name: String
+        val name: String?
     )
 }
