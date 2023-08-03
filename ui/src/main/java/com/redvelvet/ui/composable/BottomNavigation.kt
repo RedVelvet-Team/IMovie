@@ -24,6 +24,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.theme.Background
+import com.redvelvet.ui.theme.Primary
 
 @Composable
 fun currentDestination(navController: NavHostController): NavDestination? {
@@ -51,7 +52,7 @@ fun BottomNavBar(navController: NavHostController, visibility: Boolean) {
                 .fillMaxWidth()
                 .height(70.dp)
                 .background(Background)
-                .shadow(elevation = 2.dp, spotColor = Color.White, clip = false),
+                .shadow(elevation = 0.5.dp, spotColor = Color.White, clip = false),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
