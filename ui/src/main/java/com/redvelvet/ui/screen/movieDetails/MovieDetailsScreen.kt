@@ -1,7 +1,6 @@
 package com.redvelvet.ui.screen.movieDetails
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,15 +41,15 @@ fun PreviewMovieDetailsScreen() {
 fun MovieDetailsScreen(
     navController: NavController,
     uiEvent: MovieDetailsUiEvent,
-//    viewModel: MovieDetailsViewModel = hiltViewModel()
+    viewModel: MovieDetailsViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-//    val state by viewModel.state.collectAsState()
-    val state = MovieDetailsScreenUiState(
+    val state by viewModel.state.collectAsState()
+    /*val state = MovieDetailsScreenUiState(
         data = fakeData(),
         isLoading = false,
         isError = Pair(false, "")
-    )
+    )*/
     if (state.isLoading && !state.isError.first) {
         LoadingState()
     }
