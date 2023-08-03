@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.redvelvet.ui.composable.CircularImageAvatar
 import com.redvelvet.ui.composable.ItemsSection
+import com.redvelvet.ui.composable.LabeledValueVertical
 import com.redvelvet.ui.composable.LongExpandedText
 import com.redvelvet.ui.composable.MediaInfoCard
 import com.redvelvet.ui.composable.MediaInfoCardData
@@ -29,6 +30,7 @@ import com.redvelvet.ui.screen.movieDetails.MovieDetailsUiEvent
 import com.redvelvet.ui.composable.SpacerVertical
 import com.redvelvet.ui.screen.movieDetails.MovieDetailsScreen
 import com.redvelvet.ui.screen.movieDetails.MovieEventsTest
+import com.redvelvet.ui.theme.OnPrimary
 import com.redvelvet.ui.theme.OnSecondary
 import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.radius
@@ -75,9 +77,10 @@ fun MediaDetailsForegroundContent(
             TopCastSection(it, uiEvent)
         }
         SpacerVertical(height = MaterialTheme.spacing.spacing24)
-
+        state.data?.details?.let {
+            MovieDetailsMoreInfoSection(it, uiEvent)
+        }
+        SpacerVertical(height = MaterialTheme.spacing.spacing24)
     }
 
 }
-
-
