@@ -74,6 +74,8 @@ fun MediaDetailsForegroundContent(
         state.data?.topCast?.let {
             TopCastSection(it, uiEvent)
         }
+        SpacerVertical(height = MaterialTheme.spacing.spacing24)
+
     }
 
 }
