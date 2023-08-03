@@ -1,5 +1,6 @@
 package com.redvelvet.viewmodel.search
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.redvelvet.usecase.usecase.search.GetMoviesSearchResultUseCase
 import com.redvelvet.usecase.usecase.search.GetPeopleSearchResultUseCase
@@ -8,9 +9,7 @@ import com.redvelvet.usecase.usecase.search.GetTvShowsSearchResultUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,13 +36,19 @@ class SearchViewModel @Inject constructor(
     fun onChangeSearchTextFiled(query: String) {
         _state.update { it.copy(inputText = query, isLoading = true, isEmpty = false) }
         viewModelScope.launch {
-            when (_state.value.mediaType) {
-                SearchMedia.MOVIE -> onSearchForMovie()
-                SearchMedia.PEOPLE -> onSearchForPerson()
-                SearchMedia.TV -> onSearchForTvShow()
-                SearchMedia.ALL -> onSearchForAll()
+            _state.debounce(1000).collect{
+                when (it.mediaType) {
+                    SearchMedia.MOVIE -> onSearchForMovie()
+                    SearchMedia.PEOPLE -> onSearchForPerson()
+                    SearchMedia.TV -> onSearchForTvShow()
+                    SearchMedia.ALL -> onSearchForAll()
+                }
             }
         }
+    }
+
+    fun onChangeCategory(type: SearchMedia){
+        _state.update { it.copy(mediaType = type) }
     }
 
     /// region Search for All
@@ -59,6 +64,7 @@ class SearchViewModel @Inject constructor(
     }
     private fun onGetAllSuccess(result: List<MediaUiState>) {
         _state.update { it.copy(searchResult = result, mediaType = SearchMedia.ALL) }
+        Log.v("hassan", state.value.toString())
     }
 
     /// endregion
