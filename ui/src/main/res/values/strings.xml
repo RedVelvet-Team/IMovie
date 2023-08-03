@@ -32,8 +32,9 @@
     <string name="login_require_description">Use your account to enjoy the best app experience.</string>
     <string name="login_require_button">Login</string>
     <string name="upcoming">Upcoming\n</string>
-    <string name="movie_time">movie time</string>
-    <string name="movie_language">movie language</string>
+    <string name="media_time">media time</string>
+    <string name="media_date">media date</string>
+    <string name="media_language">media language</string>
     <string name="rated_star">rated star</string>
 
 

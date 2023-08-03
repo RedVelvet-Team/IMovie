@@ -22,8 +22,8 @@ import com.redvelvet.ui.theme.spacing
 fun MediaRateRow(mediaRate: String, onRateMedia: () -> Unit) {
     Row {
         Row(
-            verticalAlignment = Alignment.Bottom,
-            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.rated_star),
@@ -35,7 +35,7 @@ fun MediaRateRow(mediaRate: String, onRateMedia: () -> Unit) {
                 BodyMediumText("$mediaRate/")
                 Text(
                     text = "10",
-                    style = Typography.labelMedium,
+                    style = Typography.labelSmall,
                     color = FontSecondary
                 )
                 BodyMediumText(" Rating")
@@ -43,8 +43,8 @@ fun MediaRateRow(mediaRate: String, onRateMedia: () -> Unit) {
         }
         SpacerHorizontal(width = MaterialTheme.spacing.spacing16)
         Row(
-            verticalAlignment = Alignment.Bottom,
-            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
             modifier = Modifier
                 .clickable { onRateMedia() }
         ) {
