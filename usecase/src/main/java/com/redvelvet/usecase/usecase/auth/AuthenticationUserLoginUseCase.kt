@@ -6,29 +6,18 @@ import javax.inject.Inject
 
 class AuthenticationUserLoginUseCase @Inject constructor(
     private val authRepository: AuthRepository,
+    private val createRequestTokenUseCase: CreateRequestTokenUseCase,
+    private val validateUserWithUserNameAndPasswordUseCase:
+    ValidateUserWithUserNameAndPasswordUseCase,
 ) {
     suspend operator fun invoke(userName: String, password: String): Session {
-        val token = createToken()
-        validateTokenWithUserNameAndPassword(
+        val tokenRequest = createRequestTokenUseCase()
+        validateUserWithUserNameAndPasswordUseCase(
             userName = userName,
             password = password,
-            requestToken = token.requestToken.toString()
+            requestToken = tokenRequest
         )
-        return authRepository.createUserSession(token = token.requestToken.toString())
-    }
-
-    private suspend fun createToken() = authRepository.createToken()
-
-    private suspend fun validateTokenWithUserNameAndPassword(
-        userName: String,
-        password: String,
-        requestToken: String,
-    ) {
-        authRepository.validateUserWithLogin(
-            userName = userName,
-            password = password,
-            requestToken = requestToken,
-        )
+        return authRepository.createUserSession(token = tokenRequest)
     }
 
 }
