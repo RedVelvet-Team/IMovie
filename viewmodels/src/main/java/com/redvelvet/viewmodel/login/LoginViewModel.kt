@@ -14,8 +14,8 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val loginByGuestUseCase: LoginByGuestUseCase,
     private val authenticationUserLoginUseCase: AuthenticationUserLoginUseCase,
-) : BaseViewModel<LoginUiState, LoginUiEvent>(LoginUiState()) {
-    fun loginByGuest() {
+) : BaseViewModel<LoginUiState, LoginUiEvent>(LoginUiState()), LoginInteraction {
+    private fun loginByGuest() {
         _state.update {
             it.copy(
                 isLoading = true,
@@ -68,5 +68,17 @@ class LoginViewModel @Inject constructor(
                 isValidForm = isValidPassword && _state.value.userName.isNotEmpty()
             )
         }
+    }
+
+    override fun onClickLogin() {
+
+    }
+
+    override fun onClickGuest() {
+        loginByGuest()
+    }
+
+    override fun onClickSignUp() {
+
     }
 }

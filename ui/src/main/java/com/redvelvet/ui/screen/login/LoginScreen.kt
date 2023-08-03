@@ -54,6 +54,7 @@ import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.home.navigateToHome
 import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.Purple100
+import com.redvelvet.viewmodel.login.LoginInteraction
 import com.redvelvet.viewmodel.login.LoginUiEvent
 import com.redvelvet.viewmodel.login.LoginUiState
 import com.redvelvet.viewmodel.login.LoginViewModel
@@ -66,6 +67,8 @@ fun LoginScreen(
     navController: NavController,
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setSystemBarsColor(Primary, darkIcons = false)
     val uiState by viewModel.state.collectAsState()
     val scope = rememberCoroutineScope()
     LaunchedEffect(key1 = Unit) {
@@ -81,8 +84,6 @@ fun LoginScreen(
             }
         }
     }
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(Primary, darkIcons = false)
     LoginScreenContent(uiState, viewModel)
 }
 
@@ -90,7 +91,7 @@ fun LoginScreen(
 @Composable
 private fun LoginScreenContent(
     uiState: LoginUiState,
-    viewModel: LoginViewModel,
+    interaction: LoginInteraction,
 ) {
     val context = LocalContext.current
     val imageBitmap: ImageBitmap =
@@ -102,7 +103,7 @@ private fun LoginScreenContent(
     when (LocalConfiguration.current.orientation) {
         Configuration.ORIENTATION_PORTRAIT -> {
             BottomSheetScaffold(
-                sheetContent = { LoginContentPortrait(uiState, viewModel) },
+                sheetContent = { LoginContentPortrait(uiState, interaction) },
                 scaffoldState = sheetState,
                 sheetContainerColor = Primary,
                 sheetShape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
@@ -123,7 +124,7 @@ private fun LoginScreenContent(
 
         else -> {
             Row {
-                LoginContentLandscape(uiState = uiState, viewModel = viewModel)
+                LoginContentLandscape(uiState = uiState, interaction = interaction)
                 Image(
                     bitmap = imageBitmap,
                     contentDescription = stringResource(R.string.login_image),
@@ -138,7 +139,10 @@ private fun LoginScreenContent(
 }
 
 @Composable
-private fun LoginContentPortrait(uiState: LoginUiState, viewModel: LoginViewModel) {
+private fun LoginContentPortrait(
+    uiState: LoginUiState,
+    interaction: LoginInteraction
+) {
     Column(
         modifier = Modifier.padding(top = 0.dp, start = 24.dp, end = 24.dp, bottom = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -161,14 +165,14 @@ private fun LoginContentPortrait(uiState: LoginUiState, viewModel: LoginViewMode
             value = uiState.userName,
             isError = uiState.userNameHelperText.isNotEmpty(),
             text = stringResource(R.string.username),
-            onClick = { viewModel.onUserNameChanged(it) })
+            onClick = { })
 
         SpacerVertical(height = 24.dp)
 
         PasswordTextField(value = uiState.password,
             isError = uiState.passwordHelperText.isNotEmpty(),
             text = stringResource(R.string.password),
-            onClick = { viewModel.onPasswordChanged(it) })
+            onClick = { })
 
         SpacerVertical(height = 24.dp)
 
@@ -207,7 +211,7 @@ private fun LoginContentPortrait(uiState: LoginUiState, viewModel: LoginViewMode
 
         SpacerVertical(height = 24.dp)
 
-        GuestOrSignUp(!uiState.isLoading, viewModel::loginByGuest)
+        GuestOrSignUp(!uiState.isLoading, interaction::onClickGuest)
         if (uiState.isLoading) {
             ProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
         }
@@ -215,7 +219,10 @@ private fun LoginContentPortrait(uiState: LoginUiState, viewModel: LoginViewMode
 }
 
 @Composable
-private fun LoginContentLandscape(uiState: LoginUiState, viewModel: LoginViewModel) {
+private fun LoginContentLandscape(
+    uiState: LoginUiState,
+    interaction: LoginInteraction,
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth(0.5f)
@@ -246,13 +253,13 @@ private fun LoginContentLandscape(uiState: LoginUiState, viewModel: LoginViewMod
             value = uiState.userName,
             isError = uiState.userNameHelperText.isNotEmpty(),
             text = stringResource(R.string.username),
-            onClick = { viewModel.onUserNameChanged(it) })
+            onClick = { })
 
         PasswordTextField(value = uiState.password,
             modifier = Modifier.padding(horizontal = 16.dp),
             isError = uiState.passwordHelperText.isNotEmpty(),
             text = stringResource(R.string.password),
-            onClick = { viewModel.onPasswordChanged(it) })
+            onClick = { })
 
         SpacerVertical(height = 8.dp)
 
@@ -276,7 +283,7 @@ private fun LoginContentLandscape(uiState: LoginUiState, viewModel: LoginViewMod
 
         SpacerVertical(height = 8.dp)
 
-        GuestOrSignUp(!uiState.isLoading, viewModel::loginByGuest)
+        GuestOrSignUp(!uiState.isLoading, interaction::onClickGuest)
 
         if (uiState.isLoading) {
             ProgressIndicator(modifier = Modifier)
