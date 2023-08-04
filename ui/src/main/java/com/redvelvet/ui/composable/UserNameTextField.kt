@@ -33,10 +33,10 @@ fun UserNameTextField(
         singleLine = true,
         supportingText = {
             if(isError)
-            Text(
-                text = errorMessage,
-                color = Color.Red
-            )
+                Text(
+                    text = errorMessage,
+                    color = Color.Red
+                )
         },
         leadingIcon = {
             Icon(
