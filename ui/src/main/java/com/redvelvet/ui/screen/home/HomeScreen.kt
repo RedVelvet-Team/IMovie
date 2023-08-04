@@ -55,7 +55,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltView
 fun HomeScreenContent(paddingValues: PaddingValues, state: HomeUiState) {
     Column(
         modifier = Modifier
-            .padding(top = 64.dp)
+            .padding(top = MaterialTheme.spacing.spacing64)
             .fillMaxWidth()
     ) {
         HomeTabLayout()
