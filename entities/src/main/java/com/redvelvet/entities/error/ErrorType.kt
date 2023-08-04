@@ -4,6 +4,7 @@ sealed class ErrorType : Exception() {
     data object NullData : ErrorType()
     data object Network : ErrorType()
     data object Server : ErrorType()
+    data object BadRequest : ErrorType()
     data object UnAuthorized : ErrorType()
     data object InvalidUsernameOrPassword : ErrorType()
     data object EmailNotVerified : ErrorType()

@@ -8,7 +8,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
 
-) : BaseViewModel<HomeUiState>(HomeUiState()) {
+) : BaseViewModel<HomeUiState, Unit>(HomeUiState()) {
 
     init {
         fakeData()

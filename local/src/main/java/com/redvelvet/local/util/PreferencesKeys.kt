@@ -9,4 +9,6 @@ object PreferencesKeys {
     val IsFirstTimeUsingApp = booleanPreferencesKey("is_first_time_using_app")
     val Token = stringPreferencesKey("token")
     val SessionId = stringPreferencesKey("session_id")
+    val GuestSessionId = stringPreferencesKey("guest_session_id")
+    val GuestSessionExpDate = stringPreferencesKey("guest_exp_date_session")
 }

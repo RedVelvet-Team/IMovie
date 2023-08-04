@@ -2,7 +2,7 @@ package com.redvelvet.repository.util
 
 sealed class RemoteError : Exception() {
     data object NullData : RemoteError()
-    data object  Network: RemoteError()
+    data object Network : RemoteError()
     data object AuthenticationFailed : RemoteError()
     data object InvalidApiKey : RemoteError()
     data object ServiceOffline : RemoteError()
@@ -25,4 +25,5 @@ sealed class RemoteError : Exception() {
     data object InvalidId : RemoteError()
     data object MaintenanceMode : RemoteError()
     data object InvalidInput : RemoteError()
+    data object BadRequest : RemoteError()
 }

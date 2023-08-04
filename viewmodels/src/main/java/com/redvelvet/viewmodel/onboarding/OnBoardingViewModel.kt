@@ -1,7 +1,7 @@
 package com.redvelvet.viewmodel.onboarding
 
 import androidx.lifecycle.viewModelScope
-import com.redvelvet.usecase.usecase.user.SetUserNotFirstTimeUseAppUseCaseImpl
+import com.redvelvet.usecase.usecase.user.SetUserNotFirstTimeUseAppUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -11,18 +11,18 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
-    private val setUserNotFirstTimeUseApp: SetUserNotFirstTimeUseAppUseCaseImpl,
-) : BaseViewModel<OnBoardingUiState>(OnBoardingUiState()) {
+    private val setUserNotFirstTimeUseApp: SetUserNotFirstTimeUseAppUseCase,
+) : BaseViewModel<OnBoardingUiState, OnBoardingUiEvent>(OnBoardingUiState()) {
 
     fun setNotFirstTimeUseApp() {
         viewModelScope.launch(Dispatchers.IO) {
-            setUserNotFirstTimeUseApp.invoke(false)
+            setUserNotFirstTimeUseApp.invoke()
             _state.update {
                 it.copy(
                     saved = true,
                 )
             }
+            sendUiEvent(OnBoardingUiEvent.NavigateToLogin)
         }
     }
-
 }
