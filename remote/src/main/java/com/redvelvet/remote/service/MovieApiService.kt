@@ -8,7 +8,6 @@ import com.redvelvet.repository.dto.auth.SessionDto
 import com.redvelvet.repository.dto.auth.TokenDto
 import com.redvelvet.repository.dto.movie.MovieDto
 import com.redvelvet.repository.dto.person.PersonDto
-import com.redvelvet.repository.dto.search.BaseSearchDto
 import com.redvelvet.repository.dto.search.MultiSearchResultDto
 import com.redvelvet.repository.dto.series.SeriesDto
 import retrofit2.Response
@@ -62,7 +61,7 @@ interface MovieApiService {
     suspend fun searchTvShows(
         @Query("query") query: String,
         @Query("page") page: Int? = 1,
-    ): Response<BaseResponse<SeriesDto>>
+    ): Response<BaseResponse<List<SeriesDto>>>
 
     // endregion
 }

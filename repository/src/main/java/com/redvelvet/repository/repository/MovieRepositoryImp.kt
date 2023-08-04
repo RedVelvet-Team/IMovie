@@ -6,6 +6,7 @@ import com.redvelvet.repository.source.RemoteDataSource
 import com.redvelvet.usecase.repository.MovieRepository
 import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.repository.mapper.toEntity
+import com.redvelvet.repository.mapper.toSearchResult
 import javax.inject.Inject
 
 class MovieRepositoryImp @Inject constructor(
@@ -20,7 +21,25 @@ class MovieRepositoryImp @Inject constructor(
         page: Int?
     ): List<SearchResult> {
         return wrapRemoteResponse {
-            remoteDataSource.multiSearch(query, page).toEntity()
+            remoteDataSource.multiSearch(query, page).map { it.toEntity() }
+        }
+    }
+
+    override suspend fun searchPeople(query: String, page: Int?): List<SearchResult> {
+        return wrapRemoteResponse {
+            remoteDataSource.searchPeople(query, page).map { it.toSearchResult() }
+        }
+    }
+
+    override suspend fun searchMovie(query: String, page: Int?): List<SearchResult> {
+        return wrapRemoteResponse {
+            remoteDataSource.searchMovie(query, page).map { it.toSearchResult() }
+        }
+    }
+
+    override suspend fun searchTvShows(query: String, page: Int?): List<SearchResult> {
+        return wrapRemoteResponse {
+            remoteDataSource.searchTvShows(query, page).map { it.toSearchResult() }
         }
     }
 
