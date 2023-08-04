@@ -37,8 +37,10 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.CustomDivider
@@ -365,5 +367,12 @@ private fun GuestOrSignUp(
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun previewLoginScreen(){
+    val navController = rememberNavController()
+    LoginScreen(navController = navController)
 }
 
