@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
@@ -21,6 +22,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -29,6 +31,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.BlurredEdgeTreatment
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
@@ -63,8 +66,9 @@ import com.skydoves.cloudy.Cloudy
 )
 @Composable
 fun PreviewHomeScreenVertical() {
-    val navController = rememberNavController()
-    HomeScreen(navController)
+    //val navController = rememberNavController()
+    //HomeScreen(navController)
+    ItemViewPager(listOf(Tata(), Tata(), Tata(), Tata(), Tata()))
 }
 
 @Composable
@@ -158,11 +162,14 @@ data class Tata(
     val dateLang: String = "03/24/2023 (us)"
 )
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SlideShowImage(page: Int, data: List<Tata>) {
     val onScreen = data[page]
     Card(
-        modifier = Modifier.height(210.dp), shape = RoundedCornerShape(corner = CornerSize(16.dp))
+        modifier = Modifier
+            .height(210.dp),
+        shape = RoundedCornerShape(corner = CornerSize(16.dp))
     ) {
         Box(
             modifier = Modifier, contentAlignment = Alignment.BottomCenter
@@ -179,29 +186,49 @@ fun SlideShowImage(page: Int, data: List<Tata>) {
                     .shadow(elevation = 12.dp)
                     .alpha(0.8f)
             ) {
-                Column(
+                Card(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp))
-                        .background(color = FontAccent),
-                    verticalArrangement = Arrangement.Bottom,
-                    horizontalAlignment = Alignment.Start
-                ) {
-                    Text(
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 2.dp),
-                        text = onScreen.name,
-                        style = Typography.labelMedium,
-                        color = Color.White
-                    )
-                    Text(
-                        modifier = Modifier
-                            .padding(horizontal = 12.dp)
-                            .padding(bottom = 4.dp),
-                        text = onScreen.dateLang,
-                        style = Typography.bodySmall,
-                        color = FontAccent
+                        .fillMaxHeight(0.2f)
+                        .fillMaxWidth(),
+                    onClick = {}){
+                    Image(
+                        modifier = Modifier.fillMaxSize()
+                            .blur(
+                                radiusX = 10.dp,
+                                radiusY = 10.dp,
+                                edgeTreatment = BlurredEdgeTreatment.Unbounded)
+                            ,
+                        alignment = Alignment.Center,
+                        painter = painterResource(id = data[page].image),
+                        contentDescription = "blur part of image",
+                        contentScale = ContentScale.Crop
                     )
                 }
+            }
+        }
+        Card(onClick = { /*TODO*/ }) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp))
+                    .background(color = FontAccent),
+                verticalArrangement = Arrangement.Bottom,
+                horizontalAlignment = Alignment.Start
+            ) {
+                Text(
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 2.dp),
+                    text = onScreen.name,
+                    style = Typography.labelMedium,
+                    color = Color.White
+                )
+                Text(
+                    modifier = Modifier
+                        .padding(horizontal = 12.dp)
+                        .padding(bottom = 4.dp),
+                    text = onScreen.dateLang,
+                    style = Typography.bodySmall,
+                    color = FontAccent
+                )
             }
         }
     }
