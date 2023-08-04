@@ -90,4 +90,7 @@ dependencies {
     implementation("com.google.accompanist:accompanist-permissions:0.31.3-beta")
     //web view
     implementation("com.google.accompanist:accompanist-webview:0.28.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0-alpha01")
+
+    implementation("com.github.skydoves:cloudy:0.1.2")
 }
