@@ -60,13 +60,14 @@ private fun SearchContent(
                 end = MaterialTheme.spacing.spacing16
             )
         )
-        CategoriesChips(
-            onChangeCategory,
-            state.selectedMediaType,
-            state.getCategories(),
-            title = "Categories"
-        )
+
         if (state.searchResult.isNotEmpty()) {
+            CategoriesChips(
+                onChangeCategory,
+                state.selectedMediaType,
+                state.getCategories(),
+                title = "Categories"
+            )
             CustomLazyGrid(searchCardUiStates = state.searchResult)
         } else {
             InitialContentInSearch()

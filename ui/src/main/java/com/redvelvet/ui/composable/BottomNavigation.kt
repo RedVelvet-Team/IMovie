@@ -24,7 +24,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.theme.Background
-import com.redvelvet.ui.theme.Primary
 
 @Composable
 fun currentDestination(navController: NavHostController): NavDestination? {
