@@ -4,6 +4,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -18,13 +19,14 @@ import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.OnPrimary
 import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.Typography
+import com.redvelvet.ui.theme.spacing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomTopAppBar(title: String, hasBackArrow: Boolean,modifier:Modifier=Modifier) {
+fun FilxTopAppBar(title: String, hasBackArrow: Boolean, modifier: Modifier = Modifier) {
     Surface(
         modifier = modifier.shadow(
-            elevation = 2.dp,
+            elevation = MaterialTheme.spacing.spacing2,
             spotColor = OnPrimary,
             ambientColor = OnPrimary
         )

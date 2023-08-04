@@ -15,9 +15,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.redvelvet.ui.R
-import com.redvelvet.ui.composable.CustomButton
+import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.CustomText
-import com.redvelvet.ui.composable.CustomTopAppBar
+import com.redvelvet.ui.composable.FilxTopAppBar
 import com.redvelvet.ui.theme.FontPrimary
 import com.redvelvet.ui.theme.FontSecondary
 import com.redvelvet.ui.theme.Primary
@@ -29,7 +29,7 @@ fun LibraryScreen() {
         modifier = Modifier
             .fillMaxSize(),
         topBar = {
-            CustomTopAppBar(
+            FilxTopAppBar(
                 title = stringResource(R.string.library_title_screen),
                 hasBackArrow = false,
                 modifier = Modifier.fillMaxWidth()
@@ -67,7 +67,7 @@ private fun LibraryContent(paddingValues: PaddingValues) {
         Column(
             modifier = Modifier.padding(top = 32.dp)
         ) {
-            CustomButton(
+            PrimaryButton(
                 text = stringResource(R.string.login_require_button),
                 onClick = { /*TODO*/ },
             )
