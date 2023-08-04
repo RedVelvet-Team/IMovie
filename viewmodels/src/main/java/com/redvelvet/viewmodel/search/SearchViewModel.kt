@@ -1,12 +1,8 @@
 package com.redvelvet.viewmodel.search
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.redvelvet.entities.search.SearchResult
-import com.redvelvet.usecase.usecase.search.GetMoviesSearchResultUseCase
-import com.redvelvet.usecase.usecase.search.GetPeopleSearchResultUseCase
 import com.redvelvet.usecase.usecase.search.GetSearchResultUseCase
-import com.redvelvet.usecase.usecase.search.GetTvShowsSearchResultUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,10 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val getMoviesSearchResultUseCase: GetMoviesSearchResultUseCase,
-    private val getPeopleSearchResultUseCase: GetPeopleSearchResultUseCase,
     private val getSearchResultUseCase: GetSearchResultUseCase,
-    private val getTvShowsSearchResultUseCase: GetTvShowsSearchResultUseCase,
 ) : BaseViewModel<SearchUiState>(SearchUiState()), SearchListener {
 
     fun onChangeSearchTextFiled(query: String) {
@@ -55,7 +48,8 @@ class SearchViewModel @Inject constructor(
     private fun onSearchForMovie() {
         tryToExecute(
             function = {
-                getMoviesSearchResultUseCase(_state.value.inputText) },
+                getSearchResultUseCase.searchMovie(_state.value.inputText)
+            },
             onSuccess = ::onGetSuccess,
             onError = ::onGetError
         )
@@ -66,7 +60,7 @@ class SearchViewModel @Inject constructor(
     private fun onSearchForTvShow() {
         tryToExecute(
             function = {
-                getTvShowsSearchResultUseCase(_state.value.inputText)
+                getSearchResultUseCase.searchTvShows(_state.value.inputText)
             },
             onSuccess = ::onGetSuccess,
             onError = ::onGetError
@@ -78,7 +72,8 @@ class SearchViewModel @Inject constructor(
     private fun onSearchForPerson() {
         tryToExecute(
             function = {
-                getPeopleSearchResultUseCase(_state.value.inputText) },
+                getSearchResultUseCase.searchPeople(_state.value.inputText)
+            },
             onSuccess = ::onGetSuccess,
             onError = ::onGetError
         )
