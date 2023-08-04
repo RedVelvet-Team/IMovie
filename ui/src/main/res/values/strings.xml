@@ -23,12 +23,21 @@
     <string name="login_image">Login Image</string>
     <string name="signup">Sign Up</string>
     <string name="poster">movie poster image</string>
+    <string name="movies_details_background_image">movies details background image</string>
+    <string name="movies_details_play">play movie trailer</string>
+
     <string name="library_title_screen">Library</string>
     <string name="library_logo">library logo</string>
     <string name="login_require_header">Login Required</string>
     <string name="login_require_description">Use your account to enjoy the best app experience.</string>
     <string name="login_require_button">Login</string>
     <string name="upcoming">Upcoming\n</string>
+    <string name="media_time">media time</string>
+    <string name="media_date">media date</string>
+    <string name="media_language">media language</string>
+    <string name="rated_star">rated star</string>
+
+
     <string name="hide_password">Hide password</string>
     <string name="show_password">Show password</string>
     <string name="invalid_user_name">Invalid userName</string>
