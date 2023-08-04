@@ -102,8 +102,23 @@ class MovieDetailsViewModel @Inject constructor(
                     castImage = "https://image.tmdb.org/t/p/w500/1GOW1cejmE8D8T6PRikYlGmUae0.jpg"
                 ),
             ),
-            images = MovieDetailsScreenUiState.MovieImagesUiState(
-                image = "test"
+
+            images = listOf(
+                MovieDetailsScreenUiState.MovieImagesUiState(
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                ),
+                MovieDetailsScreenUiState.MovieImagesUiState(
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                ),
+                MovieDetailsScreenUiState.MovieImagesUiState(
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                ),
+                MovieDetailsScreenUiState.MovieImagesUiState(
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                ),
+                MovieDetailsScreenUiState.MovieImagesUiState(
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                ),
             ),
 
             keyWords = listOf(
@@ -128,14 +143,84 @@ class MovieDetailsViewModel @Inject constructor(
                     keywordString = "test 5"
                 ),
             ),
-            recommendations = MovieDetailsScreenUiState.MovieRecommendationsUiState(
-                test = "test"
+
+            recommendations = listOf(
+                MovieDetailsScreenUiState.MovieRecommendationsUiState(
+                    mediaId = 1,
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                    mediaName = "test 1"
+                ),
+                MovieDetailsScreenUiState.MovieRecommendationsUiState(
+                    mediaId = 2,
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                    mediaName = "test 2"
+                ),
+                MovieDetailsScreenUiState.MovieRecommendationsUiState(
+                    mediaId = 3,
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                    mediaName = "test 3"
+                ),
+                MovieDetailsScreenUiState.MovieRecommendationsUiState(
+                    mediaId = 4,
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                    mediaName = "test 4"
+                ),
+                MovieDetailsScreenUiState.MovieRecommendationsUiState(
+                    mediaId = 5,
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                    mediaName = "test 5"
+                ),
             ),
-            reviews = MovieDetailsScreenUiState.MovieReviewsUiState(
-                test = "test"
+
+            reviews = listOf(
+                MovieDetailsScreenUiState.MovieReviewsUiState(
+                    reviewId = 1,
+                    reviewStars = 5.5,
+                    reviewDescription = "Princess Leia is captured and held hostage by the evil Imperial forces in their effort to take over the galactic Empire.",
+                    reviewAuthor = "Taha",
+                    reviewDate = "2021-05-25",
+                ),
+                MovieDetailsScreenUiState.MovieReviewsUiState(
+                    reviewId = 2,
+                    reviewStars = 5.5,
+                    reviewDescription = "Princess Leia is captured and held hostage by the evil Imperial forces in their effort to take over the galactic Empire.",
+                    reviewAuthor = "Saad",
+                    reviewDate = "2011-05-25",
+                ),
+                MovieDetailsScreenUiState.MovieReviewsUiState(
+                    reviewId = 3,
+                    reviewStars = 5.5,
+                    reviewDescription = "Princess Leia is captured and held hostage by the evil Imperial forces in their effort to take over the galactic Empire.",
+                    reviewAuthor = "SeSe",
+                    reviewDate = "2018-06-25",
+                ),
             ),
-            similar = MovieDetailsScreenUiState.MovieSimilarUiState(
-                test = "test"
+            similar = listOf(
+                MovieDetailsScreenUiState.MovieSimilarUiState(
+                    mediaId = 1,
+                    mediaName = "test 1",
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                ),
+                MovieDetailsScreenUiState.MovieSimilarUiState(
+                    mediaId = 2,
+                    mediaName = "test 2",
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                ),
+                MovieDetailsScreenUiState.MovieSimilarUiState(
+                    mediaId = 3,
+                    mediaName = "test 3",
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                ),
+                MovieDetailsScreenUiState.MovieSimilarUiState(
+                    mediaId = 4,
+                    mediaName = "test 4",
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                ),
+                MovieDetailsScreenUiState.MovieSimilarUiState(
+                    mediaId = 5,
+                    mediaName = "test 5",
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                ),
             ),
         )
     }
