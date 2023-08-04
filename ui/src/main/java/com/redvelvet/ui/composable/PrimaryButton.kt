@@ -28,9 +28,7 @@ fun PrimaryButton(
     textColor: Color = FontSecondary
 ) {
     Button(
-        modifier = modifier
-            .height(49.dp)
-            .width(110.dp),
+        modifier = modifier,
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(buttonColor),
         shape = RoundedCornerShape(MaterialTheme.radius.radius16)
