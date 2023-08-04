@@ -29,6 +29,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -172,7 +173,12 @@ fun SlideShowImage(page: Int, data: List<Tata>) {
                 contentDescription = "slide show image",
                 contentScale = ContentScale.FillBounds
             )
-            Cloudy(modifier = Modifier.shadow(elevation = 12.dp)) {
+            Cloudy(
+                radius = 25,
+                modifier = Modifier
+                    .shadow(elevation = 12.dp)
+                    .alpha(0.8f)
+            ) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
