@@ -8,7 +8,7 @@ import androidx.compose.ui.text.style.TextAlign
 import com.redvelvet.ui.theme.Typography
 
 @Composable
-fun CustomText(
+fun OnBoardingText(
     name: String,
     modifier: Modifier=Modifier,
     style: TextStyle = Typography.headlineLarge,

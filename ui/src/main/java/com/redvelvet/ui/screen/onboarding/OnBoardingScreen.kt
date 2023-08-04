@@ -24,7 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
-import com.redvelvet.ui.composable.CustomText
+import com.redvelvet.ui.composable.OnBoardingText
 import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.WallPaper
 import com.redvelvet.ui.navigation.MovieDestination
@@ -93,12 +93,12 @@ private fun OnBoardingContent(
                     width = MaterialTheme.dimens.dimens78
                 ),
             )
-            CustomText(
+            OnBoardingText(
                 name = stringResource(R.string.name_app),
                 modifier = Modifier.padding(vertical = MaterialTheme.spacing.spacing16),
                 style = Typography.headlineLarge.copy(color = FontPrimary),
             )
-            CustomText(
+            OnBoardingText(
                 name = stringResource(R.string.description),
                 style = Typography.titleSmall.copy(color = FontSecondary, lineHeight = 16.sp),
             )
