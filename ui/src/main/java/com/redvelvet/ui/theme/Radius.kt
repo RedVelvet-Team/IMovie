@@ -13,7 +13,7 @@ data class Radius(
     val radius16: Dp = 16.dp,
     val radius20: Dp = 20.dp,
     val radius24: Dp = 24.dp,
-
+    val radius32: Dp = 32.dp
     )
 
 val LocalRadius = compositionLocalOf { Radius() }
