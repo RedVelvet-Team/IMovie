@@ -10,7 +10,7 @@ import androidx.navigation.NavController
 import com.google.accompanist.web.WebView
 import com.google.accompanist.web.rememberWebViewState
 import com.redvelvet.ui.R
-import com.redvelvet.ui.composable.CustomTopAppBar
+import com.redvelvet.ui.composable.FilxTopAppBar
 
 private const val SIGNUP_LINK = "https://www.themoviedb.org/signup"
 
@@ -22,7 +22,7 @@ fun SignUpScreen(
     val state = rememberWebViewState(SIGNUP_LINK)
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
-            CustomTopAppBar(stringResource(id = R.string.signup), hasBackArrow = false)
+            FilxTopAppBar(stringResource(id = R.string.signup), hasBackArrow = false)
         }
     ) {
         WebView(

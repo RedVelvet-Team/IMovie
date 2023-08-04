@@ -22,7 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
-import com.redvelvet.ui.composable.CustomButton
+import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.CustomText
 import com.redvelvet.ui.composable.WallPaper
 import com.redvelvet.ui.navigation.MovieDestination
@@ -99,7 +99,7 @@ private fun OnBoardingContent(
         Column(
             modifier = Modifier.padding(bottom = 64.dp)
         ) {
-            CustomButton(
+            PrimaryButton(
                 text = stringResource(R.string.onboarding_start),
                 onClick = { onStartClick() })
         }

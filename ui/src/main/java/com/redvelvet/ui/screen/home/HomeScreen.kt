@@ -17,8 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.redvelvet.ui.composable.CustomTabLayout
-import com.redvelvet.ui.composable.CustomTopAppBar
+import com.redvelvet.ui.composable.HomeTabLayout
+import com.redvelvet.ui.composable.FilxTopAppBar
 import com.redvelvet.ui.composable.ItemsSection
 import com.redvelvet.ui.composable.VerticalSpacer
 import com.redvelvet.ui.theme.Primary
@@ -41,7 +41,7 @@ fun PreviewHomeScreenVertical() {
 fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltViewModel()) {
     val state by viewModel.state.collectAsState()
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-        CustomTopAppBar("FlixMovie", hasBackArrow = false)
+        FilxTopAppBar("FlixMovie", hasBackArrow = false)
     }, bottomBar = {
         //TODO @Hassan Ayman
     },
@@ -58,7 +58,7 @@ fun HomeScreenContent(paddingValues: PaddingValues, state: HomeUiState) {
             .padding(top = 64.dp)
             .fillMaxWidth()
     ) {
-        CustomTabLayout()
+        HomeTabLayout()
         LazyColumn(contentPadding = PaddingValues(vertical = MaterialTheme.spacing.spacing16)) {
             item {
                 ItemsSection(

@@ -17,9 +17,10 @@ import com.redvelvet.ui.theme.FontSecondary
 import com.redvelvet.ui.theme.Purple100
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.radius
+import com.redvelvet.ui.theme.spacing
 
 @Composable
-fun CustomButton(
+fun PrimaryButton(
     modifier: Modifier = Modifier,
     text: String,
     onClick: () -> Unit,
@@ -27,7 +28,7 @@ fun CustomButton(
     textColor: Color = FontSecondary
 ) {
     Button(
-        modifier = Modifier
+        modifier = modifier
             .height(49.dp)
             .width(110.dp),
         onClick = onClick,
@@ -37,8 +38,8 @@ fun CustomButton(
         Text(
             text = text,
             textAlign = TextAlign.Center,
-            modifier = modifier
-                .padding(4.dp),
+            modifier = Modifier
+                .padding(MaterialTheme.spacing.spacing4),
             style = Typography.bodyMedium.copy(color = textColor)
         )
 

@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
-import com.redvelvet.ui.composable.CustomTopAppBar
+import com.redvelvet.ui.composable.FilxTopAppBar
 import com.redvelvet.ui.composable.ItemBasicCard
 import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.spacing
@@ -30,7 +30,7 @@ fun SeeAllUpcomingListScreen(navController: NavController) {
     systemUiController.setSystemBarsColor(Primary, darkIcons = false)
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = { CustomTopAppBar(stringResource(R.string.upcoming), hasBackArrow = true) },
+        topBar = { FilxTopAppBar(stringResource(R.string.upcoming), hasBackArrow = true) },
         containerColor = Primary
     ) {
         SeeAllUpcomingListContent()
