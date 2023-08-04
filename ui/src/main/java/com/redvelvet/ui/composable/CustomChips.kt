@@ -16,7 +16,7 @@ import com.redvelvet.viewmodel.search.CategoryUiState
 import com.redvelvet.viewmodel.search.SearchMedia
 
 @Composable
-fun CustomChip(
+fun CategoriesChips(
     onChangeCategory: (SearchMedia) -> Unit,
     selectedType: SearchMedia,
     categories: List<CategoryUiState>,
@@ -43,7 +43,7 @@ fun CustomChip(
     ) {
         items(categories.size) {
             val category = categories[it]
-            CategoryCategoryChip(
+            CategoryChip(
                 onChangeCategory,
                 text = category.text,
                 type = category.type,

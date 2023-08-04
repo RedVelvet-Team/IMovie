@@ -1,11 +1,16 @@
 package com.redvelvet.remote.service
 
+import com.redvelvet.repository.dto.BaseResponse
 import com.redvelvet.repository.dto.auth.DeleteSessionDto
 import com.redvelvet.repository.dto.auth.GuestSessionDto
 import com.redvelvet.repository.dto.auth.LoginRequest
 import com.redvelvet.repository.dto.auth.SessionDto
 import com.redvelvet.repository.dto.auth.TokenDto
+import com.redvelvet.repository.dto.movie.MovieDto
+import com.redvelvet.repository.dto.person.PersonDto
 import com.redvelvet.repository.dto.search.BaseSearchDto
+import com.redvelvet.repository.dto.search.MultiSearchResultDto
+import com.redvelvet.repository.dto.series.SeriesDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -34,9 +39,30 @@ interface MovieApiService {
     @DELETE("authentication/session")
     suspend fun deleteUserSession(@Field("session_id") sessionId: String): Response<DeleteSessionDto>
 
+    // region search
     @GET("search/multi")
     suspend fun multiSearch(
         @Query("query") query: String,
         @Query("page") page: Int? = 1,
-    ): Response<BaseSearchDto>
+    ): Response<BaseResponse<List<MultiSearchResultDto>>>
+
+    @GET("search/person")
+    suspend fun searchPeople(
+        @Query("query") query: String,
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<PersonDto>>>
+
+    @GET("search/movie")
+    suspend fun searchMovie(
+        @Query("query") query: String,
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<MovieDto>>>
+
+    @GET("search/tv")
+    suspend fun searchTvShows(
+        @Query("query") query: String,
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<SeriesDto>>
+
+    // endregion
 }

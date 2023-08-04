@@ -21,7 +21,7 @@ import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.search.SearchMedia
 
 @Composable
-fun CategoryCategoryChip(
+fun CategoryChip(
     onClickChip: (SearchMedia) -> Unit,
     text: String,
     type: SearchMedia,

@@ -30,4 +30,5 @@ data class PersonDto(
     @SerializedName("popularity")
     val popularity: Double?,
     @SerializedName("profile_path")
-    val profilePath: String?)
+    val profilePath: String?
+)

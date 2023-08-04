@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.redvelvet.ui.composable.CustomChip
+import com.redvelvet.ui.composable.CategoriesChips
 import com.redvelvet.ui.composable.CustomLazyGrid
 import com.redvelvet.ui.composable.InitialContentInSearch
 import com.redvelvet.ui.composable.SearchBox
@@ -60,7 +60,7 @@ private fun SearchContent(
                 end = MaterialTheme.spacing.spacing16
             )
         )
-        CustomChip(
+        CategoriesChips(
             onChangeCategory,
             state.selectedMediaType,
             state.getCategories(),

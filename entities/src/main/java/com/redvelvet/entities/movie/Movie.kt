@@ -6,4 +6,4 @@ data class Movie(
     val image: String,
     val country: String,
     val releaseDate: String,
-    )
+)

@@ -13,6 +13,8 @@ class MovieRepositoryImp @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val firebaseDataSource: FirebaseDataSource
 ) : MovieRepository, BaseRepository() {
+
+    //region search
     override suspend fun multiSearch(
         query: String,
         page: Int?
@@ -21,4 +23,6 @@ class MovieRepositoryImp @Inject constructor(
             remoteDataSource.multiSearch(query, page).toEntity()
         }
     }
+
+    // endregion
 }
