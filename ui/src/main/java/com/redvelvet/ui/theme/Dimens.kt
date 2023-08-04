@@ -15,6 +15,7 @@ data class Dimens(
     val dimens32: Dp = 32.dp,
     val dimens36: Dp = 36.dp,
     val dimens56: Dp = 56.dp,
+    val dimens70: Dp = 70.dp,
     val dimens193: Dp = 193.dp,
     val dimens365: Dp = 365.dp,
 

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,6 +25,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.theme.Background
+import com.redvelvet.ui.theme.dimens
+import com.redvelvet.ui.theme.spacing
 
 @Composable
 fun currentDestination(navController: NavHostController): NavDestination? {
@@ -49,9 +52,13 @@ fun BottomNavBar(navController: NavHostController, visibility: Boolean) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(70.dp)
+                .height(MaterialTheme.dimens.dimens70)
                 .background(Background)
-                .shadow(elevation = 2.dp, spotColor = Color.White, clip = false),
+                .shadow(
+                    elevation = MaterialTheme.spacing.spacing2,
+                    spotColor = Color.White,
+                    clip = false
+                ),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
