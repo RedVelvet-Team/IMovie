@@ -9,8 +9,9 @@ import androidx.compose.ui.unit.dp
 
 data class Dimens(
     val dimens1: Dp = 1.dp,
+    val dimens2: Dp = 2.dp,
     val dimens8: Dp = 8.dp,
-    val dimens4: Dp = 8.dp,
+    val dimens4: Dp = 4.dp,
     val dimens16: Dp = 16.dp,
     val dimens24: Dp = 24.dp,
     val dimens32: Dp = 32.dp,
@@ -24,8 +25,6 @@ data class Dimens(
     val dimens130: Dp = 130.dp,
     val dimens193: Dp = 193.dp,
     val dimens365: Dp = 365.dp,
-
-
 )
 
 val LocalDimens = compositionLocalOf { Dimens() }
