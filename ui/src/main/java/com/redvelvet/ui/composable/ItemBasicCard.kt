@@ -10,10 +10,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -22,6 +24,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.FontAccent
 import com.redvelvet.ui.theme.Typography
+import com.redvelvet.ui.theme.spacing
 
 
 @Composable
@@ -40,7 +43,7 @@ fun ItemBasicCard(
             modifier = Modifier
                 .width(104.dp)
                 .height(130.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.White)
+            colors = CardDefaults.cardColors(containerColor = White)
         ) {
             Image(
                 painter = rememberAsyncImagePainter(model = image),
@@ -48,20 +51,21 @@ fun ItemBasicCard(
                 modifier = Modifier.fillMaxSize()
             )
         }
-        VerticalSpacer(space = 4)
+        VerticalSpacer(space = MaterialTheme.spacing.spacing4)
         if (hasName) {
             Text(
                 text = name,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                color = Color.White,
+                color = White,
                 style = Typography.labelMedium
             )
         }
-        VerticalSpacer(space = 2)
+        VerticalSpacer(space = MaterialTheme.spacing.spacing2)
         if (hasDateAndCountry) {
             Row(
-                modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = date,
