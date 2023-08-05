@@ -1,8 +1,6 @@
 package com.redvelvet.ui.composable
 
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -12,10 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import com.redvelvet.ui.theme.FontSecondary
-import com.redvelvet.ui.theme.Purple100
 import com.redvelvet.ui.theme.Typography
+import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.radius
 import com.redvelvet.ui.theme.spacing
 
@@ -24,8 +20,8 @@ fun PrimaryButton(
     onClick: () -> Unit,
     text: String,
     modifier: Modifier = Modifier,
-    buttonColor: Color = Purple100,
-    textColor: Color = FontSecondary
+    buttonColor: Color = MaterialTheme.color.brand100,
+    textColor: Color = MaterialTheme.color.fontSecondary
 ) {
     Button(
         modifier = modifier,

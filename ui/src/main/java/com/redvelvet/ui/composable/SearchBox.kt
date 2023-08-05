@@ -13,9 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.redvelvet.ui.R
-import com.redvelvet.ui.theme.FontAccent
 import com.redvelvet.ui.theme.BackgroundSecondary
 import com.redvelvet.ui.theme.Typography
+import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,17 +34,17 @@ fun SearchBox(
             Icon(
                 painter = painterResource(id = R.drawable.icon_search),
                 contentDescription = stringResource(R.string.search_icon),
-                tint = FontAccent
+                tint = MaterialTheme.color.fontAccent
             )
         },
         shape = RoundedCornerShape(MaterialTheme.dimens.dimens16),
         colors = SearchBarDefaults.colors(containerColor = BackgroundSecondary),
-        placeholder ={
+        placeholder = {
             Text(
-            text = stringResource(R.string.search_place_holder),
-            style = Typography.bodyMedium,
-            color = FontAccent,
-        )
+                text = stringResource(R.string.search_place_holder),
+                style = Typography.bodyMedium,
+                color = MaterialTheme.color.fontAccent,
+            )
         }
-    ){}
+    ) {}
 }

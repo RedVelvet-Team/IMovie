@@ -18,8 +18,8 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import com.redvelvet.ui.R
-import com.redvelvet.ui.theme.FontAccent
 import com.redvelvet.ui.theme.Typography
+import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
 
 
@@ -65,14 +65,14 @@ fun ItemBasicCard(
                     text = date,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    color = FontAccent,
+                    color = MaterialTheme.color.fontAccent,
                     style = Typography.labelSmall
                 )
                 Text(
                     text = country,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    color = FontAccent,
+                    color = MaterialTheme.color.fontAccent,
                     style = Typography.labelSmall
                 )
             }
