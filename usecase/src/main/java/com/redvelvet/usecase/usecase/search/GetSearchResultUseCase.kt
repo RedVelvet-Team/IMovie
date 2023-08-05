@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetSearchResultUseCase @Inject constructor(
     private val movieRepository: MovieRepository
 ) {
-    suspend operator fun invoke(query: String): Flow<PagingData<List<SearchResult>>> {
+    suspend operator fun invoke(query: String): Flow<PagingData<SearchResult>> {
         return movieRepository.multiSearch(query)
     }
 

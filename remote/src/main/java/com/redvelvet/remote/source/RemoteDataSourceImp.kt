@@ -1,5 +1,6 @@
 package com.redvelvet.remote.source
 
+import android.util.Log
 import com.google.gson.Gson
 import com.redvelvet.entities.error.ErrorType
 import com.redvelvet.remote.service.MovieApiService
@@ -20,8 +21,12 @@ class RemoteDataSourceImp @Inject constructor(
 
     // region search
     override suspend fun multiSearch(query: String, page: Int?): List<MultiSearchResultDto> {
-        return wrapApiResponse { movieApiService.multiSearch(query, page) }.result
+        Log.v("hassan", "now request in the remote with $query")
+        val result =  wrapApiResponse { movieApiService.multiSearch(query, page) }.result
             ?: throw ErrorType.NullData
+
+        Log.v("hassan", "$result")
+        return result
     }
 
     override suspend fun searchPeople(query: String, page: Int?): List<PersonDto> {

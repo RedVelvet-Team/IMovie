@@ -11,10 +11,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.composable.CategoriesChips
 import com.redvelvet.ui.composable.CustomLazyGrid
-import com.redvelvet.ui.composable.InitialContentInSearch
 import com.redvelvet.ui.composable.SearchBox
 import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.dimens
@@ -24,6 +24,7 @@ import com.redvelvet.viewmodel.search.SearchUiState
 import com.redvelvet.viewmodel.search.SearchViewModel
 import kotlin.reflect.KFunction1
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun SearchScreen(
     navController: NavController,
@@ -33,6 +34,7 @@ fun SearchScreen(
     systemUiController.setSystemBarsColor(Primary, darkIcons = false)
 
     val state by viewModel.state.collectAsState()
+
     SearchContent(
         onChangeQuery = viewModel::onChangeSearchTextFiled,
         onChangeCategory = viewModel::onChangeCategory,
@@ -61,14 +63,14 @@ private fun SearchContent(
             )
         )
 
-//        if (state.searchResult.isNotEmpty()) {
-//            CategoriesChips(
-//                onChangeCategory,
-//                state.selectedMediaType,
-//                state.getCategories(),
-//                title = "Categories"
-//            )
-//            CustomLazyGrid(searchCardUiStates = state.searchResult)
+//        if (!state.isEmpty) {
+            CategoriesChips(
+                onChangeCategory,
+                state.selectedMediaType,
+                state.getCategories(),
+                title = "Categories"
+            )
+            CustomLazyGrid(searchCardUiStates = state.searchResult.collectAsLazyPagingItems())
 //        } else {
 //            InitialContentInSearch()
 //        }

@@ -4,15 +4,16 @@ import androidx.paging.PagingData
 import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.viewmodel.base.BaseUiState
 import com.redvelvet.viewmodel.base.ErrorUiState
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 data class SearchUiState(
     val isLoading: Boolean = false,
     val error: ErrorUiState? = null,
     val selectedMediaType: SearchMedia = SearchMedia.ALL,
     val inputText: String = "",
-    val searchResult: PagingData<List<SearchCardUiState>> = PagingData.empty(),
+    val searchResult: Flow<PagingData<SearchCardUiState>> = flow {  },
     val isEmpty: Boolean = true,
-
     ) : BaseUiState {
     fun getCategories(): List<CategoryUiState> {
         return listOf(

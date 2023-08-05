@@ -35,8 +35,8 @@ abstract class BaseViewModel<UiState : BaseUiState>(state: UiState) : ViewModel(
     }
 
     fun <T : Any> tryToExecutePaging(
-        call: suspend () -> Flow<PagingData<List<T>>>,
-        onSuccess: suspend (PagingData<List<T>>) -> Unit,
+        call: suspend () -> Flow<PagingData<T>>,
+        onSuccess: suspend (PagingData<T>) -> Unit,
         onError: (error: ErrorUiState) -> Unit,
         dispatcher: CoroutineDispatcher = Dispatchers.IO
     ) {

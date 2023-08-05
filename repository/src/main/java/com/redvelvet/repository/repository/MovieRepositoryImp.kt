@@ -1,5 +1,6 @@
 package com.redvelvet.repository.repository
 
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -25,9 +26,10 @@ class MovieRepositoryImp @Inject constructor(
     override suspend fun multiSearch(
         query: String,
         page: Int?
-    ): Flow<PagingData<List<SearchResult>>> {
+    ): Flow<PagingData<SearchResult>> {
+        Log.v("hassan", "send to repo $page")
         return Pager(
-            config = PagingConfig(pageSize = 200, prefetchDistance = 2),
+            config = PagingConfig(pageSize = 4, prefetchDistance = 1),
             pagingSourceFactory = {
                 MultiSearchResultsPageDataSource(
                     query = query,
@@ -36,9 +38,8 @@ class MovieRepositoryImp @Inject constructor(
             }
         ).flow.map { pagingData ->
             pagingData.map { searchResultDto ->
-                searchResultDto.map {
-                    it.toEntity()
-                }
+                Log.v("hassan", "data repo $searchResultDto")
+                searchResultDto.toEntity()
             }
         }
     }

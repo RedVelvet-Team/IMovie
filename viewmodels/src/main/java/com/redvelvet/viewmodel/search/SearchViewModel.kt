@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -29,41 +30,43 @@ class SearchViewModel @Inject constructor(
     private val getSearchResultUseCase: GetSearchResultUseCase,
 ) : BaseViewModel<SearchUiState>(SearchUiState()), SearchListener {
 
+    init {
+        onGetData("q")
+    }
     fun onChangeSearchTextFiled(query: String) {
-        _state.update { it.copy(inputText = query, isLoading = true, isEmpty = false) }
-        viewModelScope.launch {
-            _state.debounce(1000).collect {
-                when (it.selectedMediaType) {
-                    SearchMedia.MOVIE -> {}
-                    SearchMedia.PEOPLE -> {}
-                    SearchMedia.TV -> {}
-                    SearchMedia.ALL -> onGetData()
-                }
-            }
-        }
+//        _state.update { it.copy(inputText = query, isLoading = true, isEmpty = false) }
+//        viewModelScope.launch {
+//            _state.debounce(1000).collect {
+//                onGetData()
+//            }
+//        }
     }
 
-    private fun onGetData() {
+    private fun onGetData(query: String) {
+        Log.v("hassan", "query is sent ${_state.value.toString()}")
         tryToExecutePaging(
-            call = { getSearchResultUseCase(_state.value.inputText).cachedIn(viewModelScope) },
+            call = { getSearchResultUseCase(query).cachedIn(viewModelScope) },
             onSuccess = ::onSuccess,
             onError = ::onError
         )
     }
 
-    private fun onSuccess(pagingData: PagingData<List<SearchResult>>) {
-        val searchResult = pagingData.map { it.map{it.toMediaUiState()} }
+    private fun onSuccess(pagingData: PagingData<SearchResult>) {
+        val searchResult = pagingData.map { it.toMediaUiState() }
         _state.update {
             it.copy(
-                searchResult = searchResult,
+                searchResult = flow { searchResult },
                 isLoading = false,
                 isEmpty = false
             )
         }
+//        Log.v("hassan", _state.value.searchResult..toString())
+        viewModelScope.launch {
+            _state.value.searchResult.collect{Log.v("hassan", "response is getting $it")}
+        }
     }
 
     private fun onError(errorUiState: ErrorUiState) {
-        Log.i("AYA", errorUiState.toString())
         _state.update { it.copy(error = errorUiState, isLoading = false) }
     }
 
