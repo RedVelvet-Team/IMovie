@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
@@ -17,24 +18,33 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
+import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.Purple100
+import com.redvelvet.ui.theme.RoundedShape
 import com.redvelvet.ui.theme.Typography
+import com.redvelvet.ui.theme.spacing
 
 
 @Composable
-fun CustomTabLayout() {
+fun HomeTabLayout() {
     var state by remember { mutableStateOf(0) }
-    val titles = listOf("Movies", "TV Shows")
+    val titles = listOf(
+        stringResource(R.string.movies),
+        stringResource(R.string.tv_shows)
+    )
     Column(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = MaterialTheme.spacing.spacing16)
     ) {
         TabRow(
             selectedTabIndex = state,
-            contentColor = Color.White,
+            contentColor = White,
             containerColor = Primary,
         ) {
             titles.forEachIndexed { index, title ->
@@ -47,7 +57,7 @@ fun CustomTabLayout() {
                                 text = title,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
-                                color = Color.White,
+                                color = White,
                                 style = Typography.headlineSmall
                             )
                         })
@@ -55,9 +65,10 @@ fun CustomTabLayout() {
                         Box(
                             Modifier
                                 .fillMaxWidth(0.6f)
-                                .height(4.dp)
+                                .height(MaterialTheme.spacing.spacing4)
                                 .align(Alignment.BottomCenter)
-                                .background(Purple100, RoundedCornerShape(50))
+                                .background(Purple100)
+                                .clip(RoundedShape.large)
                         )
                     }
                 }

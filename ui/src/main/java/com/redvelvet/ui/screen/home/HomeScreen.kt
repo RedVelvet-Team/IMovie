@@ -12,12 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.redvelvet.ui.composable.CustomTabLayout
+import com.redvelvet.ui.R
+import com.redvelvet.ui.composable.HomeTabLayout
 import com.redvelvet.ui.composable.CustomTopAppBar
 import com.redvelvet.ui.composable.ItemsSection
 import com.redvelvet.ui.composable.VerticalSpacer
@@ -38,13 +39,20 @@ fun PreviewHomeScreenVertical() {
 }
 
 @Composable
-fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltViewModel()) {
+fun HomeScreen(
+    navController: NavController,
+    viewModel: HomeViewModel = hiltViewModel()
+) {
     val state by viewModel.state.collectAsState()
-    Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-        CustomTopAppBar("FlixMovie", hasBackArrow = false)
-    }, bottomBar = {
-        //TODO @Hassan Ayman
-    },
+    Scaffold(modifier = Modifier.fillMaxSize(),
+        topBar = {
+            CustomTopAppBar(
+                stringResource(R.string.flixmovie),
+                hasBackArrow = false
+            )
+        }, bottomBar = {
+            //TODO @Hassan Ayman
+        },
         containerColor = Primary
     ) { paddingValues ->
         HomeScreenContent(paddingValues, state)
@@ -52,17 +60,20 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltView
 }
 
 @Composable
-fun HomeScreenContent(paddingValues: PaddingValues, state: HomeUiState) {
+fun HomeScreenContent(
+    paddingValues: PaddingValues,
+    state: HomeUiState
+) {
     Column(
         modifier = Modifier
-            .padding(top = 64.dp)
+            .padding(top = MaterialTheme.spacing.spacing64)
             .fillMaxWidth()
     ) {
-        CustomTabLayout()
+        HomeTabLayout()
         LazyColumn(contentPadding = PaddingValues(vertical = MaterialTheme.spacing.spacing16)) {
             item {
                 ItemsSection(
-                    label = "Popular Movies",
+                    label = stringResource(R.string.popular_movies),
                     images = listOf(state.popularMovie?.movieImage!!),
                     hasName = true,
                     name = listOf(state.popularMovie?.movieName!!),
@@ -72,9 +83,9 @@ fun HomeScreenContent(paddingValues: PaddingValues, state: HomeUiState) {
                 )
             }
             item {
-                VerticalSpacer(space = 24)
+                VerticalSpacer(space = MaterialTheme.spacing.spacingVertical24)
                 ItemsSection(
-                    label = "Up Coming",
+                    label = stringResource(R.string.up_coming),
                     images = state.upComingMovies.map { it.movieImage },
                     hasName = true,
                     name = state.upComingMovies.map { it.movieName },
@@ -84,9 +95,9 @@ fun HomeScreenContent(paddingValues: PaddingValues, state: HomeUiState) {
                 )
             }
             item {
-                VerticalSpacer(space = 24)
+                VerticalSpacer(space = MaterialTheme.spacing.spacingVertical24)
                 ItemsSection(
-                    label = "Top Rated",
+                    label = stringResource(R.string.top_rated),
                     images = state.upComingMovies.map { it.movieImage },
                     hasName = true,
                     name = state.upComingMovies.map { it.movieName },
