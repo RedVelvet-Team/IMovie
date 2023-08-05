@@ -21,9 +21,9 @@ import com.redvelvet.ui.theme.spacing
 
 @Composable
 fun PrimaryButton(
-    modifier: Modifier = Modifier,
-    text: String,
     onClick: () -> Unit,
+    text: String,
+    modifier: Modifier = Modifier,
     buttonColor: Color = Purple100,
     textColor: Color = FontSecondary
 ) {

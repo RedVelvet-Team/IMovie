@@ -30,12 +30,12 @@ import com.redvelvet.ui.theme.radius
 
 @Composable
 fun PasswordTextField(
+    onClick: (String) -> Unit,
     modifier: Modifier = Modifier,
     value: String,
     isError: Boolean,
     text: String,
     errorMessage: String = "",
-    onClick: (String) -> Unit,
 ) {
     var isPasswordVisible by remember { mutableStateOf(false) }
     OutlinedTextField(

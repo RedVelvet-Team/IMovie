@@ -19,12 +19,12 @@ import com.redvelvet.ui.theme.radius
 
 @Composable
 fun UserNameTextField(
+    onClick: (String) -> Unit,
     modifier: Modifier = Modifier,
     value: String,
     isError: Boolean,
     text: String,
     errorMessage: String = "",
-    onClick: (String) -> Unit,
 ) {
     OutlinedTextField(
         modifier = modifier.fillMaxWidth(),
