@@ -42,6 +42,7 @@ class SplashViewModel @Inject constructor(
     //region check user status
     private fun checkUserStatus() {
         checkUserFirstTimeUseApp() ?: checkUserIsLoggedIn()
+        ?: sendUiEvent(SplashUiEvent.NavigateToLogin)
     }
 
     private fun checkUserFirstTimeUseApp(): Unit? {
@@ -50,10 +51,10 @@ class SplashViewModel @Inject constructor(
         }?.sendUiEvent(SplashUiEvent.NavigateToOnBoarding)
     }
 
-    private fun checkUserIsLoggedIn() {
-        takeIf {
+    private fun checkUserIsLoggedIn(): Unit? {
+        return takeIf {
             state.value.isLogged || state.value.isGuest
-        }?.sendUiEvent(SplashUiEvent.NavigateToHome) ?: sendUiEvent(SplashUiEvent.NavigateToLogin)
+        }?.sendUiEvent(SplashUiEvent.NavigateToHome)
     }
     //endregion
 }
