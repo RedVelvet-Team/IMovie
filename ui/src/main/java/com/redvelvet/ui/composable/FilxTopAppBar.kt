@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
@@ -45,7 +46,7 @@ fun FilxTopAppBar(title: String, hasBackArrow: Boolean, modifier: Modifier = Mod
                             Icon(
                                 imageVector = ImageVector.vectorResource(R.drawable.icon_back),
                                 contentDescription = "Localized description",
-                                tint = MaterialTheme.color.backgroundOnPrimary
+                                tint = MaterialTheme.color.fontSecondary
                             )
                         }
                     }
@@ -54,11 +55,17 @@ fun FilxTopAppBar(title: String, hasBackArrow: Boolean, modifier: Modifier = Mod
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.color.backgroundOnPrimary,
+                containerColor = MaterialTheme.color.backgroundPrimary,
                 titleContentColor = MaterialTheme.color.backgroundOnPrimary,
             ),
 
             )
     }
 
+}
+
+@Composable
+@Preview
+fun PreviewA() {
+    FilxTopAppBar("FlixMovie", true)
 }
