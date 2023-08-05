@@ -19,7 +19,7 @@ fun ItemsSection(
     country: List<String> = emptyList()
 ) {
     SectionHeader(label)
-    VerticalSpacer(space = 8)
+    VerticalSpacer(space = MaterialTheme.spacing.spacing8)
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),
         contentPadding = PaddingValues(horizontal = MaterialTheme.spacing.spacing16)
