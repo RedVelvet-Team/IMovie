@@ -12,9 +12,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
-import com.redvelvet.ui.R
-import com.redvelvet.ui.theme.BackgroundSecondary
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.radius
 
@@ -43,7 +40,7 @@ fun UserNameTextField(
         leadingIcon = {
             Icon(
                 Icons.Default.Person,
-                contentDescription = stringResource(R.string.person_icon)
+                contentDescription = "person icon"
             )
         },
         shape = RoundedCornerShape(MaterialTheme.radius.radius16),

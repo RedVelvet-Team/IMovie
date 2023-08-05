@@ -20,11 +20,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.radius
 
@@ -59,15 +57,15 @@ fun PasswordTextField(
                 Icon(
                     if (isPasswordVisible) Icons.Filled.Visibility
                     else Icons.Filled.VisibilityOff,
-                    contentDescription = if (isPasswordVisible) stringResource(R.string.hide_password)
-                    else stringResource(R.string.show_password)
+                    contentDescription = if (isPasswordVisible) "Hide Password"
+                    else "Show Password"
                 )
             }
         },
         leadingIcon = {
             Icon(
                 Icons.Default.Lock,
-                contentDescription = stringResource(R.string.show_and_hide_password_icon)
+                contentDescription = "show and hide password icon"
             )
         },
         shape = RoundedCornerShape(MaterialTheme.radius.radius16),
