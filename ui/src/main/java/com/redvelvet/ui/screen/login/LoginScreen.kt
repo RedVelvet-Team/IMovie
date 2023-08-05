@@ -43,7 +43,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
-import com.redvelvet.ui.composable.CustomDivider
+import com.redvelvet.ui.composable.LoginDivider
 import com.redvelvet.ui.composable.PasswordTextField
 import com.redvelvet.ui.composable.ProgressIndicator
 import com.redvelvet.ui.composable.UserNameTextField
@@ -224,13 +224,13 @@ private fun LoginContentPortrait(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            CustomDivider(modifier = Modifier.weight(1f))
+            LoginDivider(modifier = Modifier.weight(1f))
             Text(
                 stringResource(R.string.or),
                 color = Color.White,
                 modifier = Modifier.padding(horizontal = MaterialTheme.spacing.spacing8)
             )
-            CustomDivider(modifier = Modifier.weight(1f))
+            LoginDivider(modifier = Modifier.weight(1f))
         }
 
         GuestOrSignUp(!uiState.isLoading, interaction::onClickGuest, interaction::onClickSignUp)

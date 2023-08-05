@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.Color
 import com.redvelvet.ui.theme.spacing
 
 @Composable
-fun CustomDivider(modifier: Modifier = Modifier) {
+fun LoginDivider(modifier: Modifier = Modifier) {
     Divider(
         modifier = modifier,
         color = Color.White.copy(alpha = 0.3f),
