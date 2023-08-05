@@ -1,5 +1,6 @@
 package com.redvelvet.viewmodel.search
 
+import androidx.paging.PagingData
 import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.viewmodel.base.BaseUiState
 import com.redvelvet.viewmodel.base.ErrorUiState
@@ -9,7 +10,7 @@ data class SearchUiState(
     val error: ErrorUiState? = null,
     val selectedMediaType: SearchMedia = SearchMedia.ALL,
     val inputText: String = "",
-    val searchResult: List<SearchCardUiState> = emptyList(),
+    val searchResult: PagingData<List<SearchCardUiState>> = PagingData.empty(),
     val isEmpty: Boolean = true,
 
     ) : BaseUiState {

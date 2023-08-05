@@ -1,14 +1,17 @@
 package com.redvelvet.viewmodel.search
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.flatMap
 import androidx.paging.map
 import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.usecase.usecase.search.GetSearchResultUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,49 +21,89 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val getSearchResultUseCase: GetSearchResultUseCase,
 ) : BaseViewModel<SearchUiState>(SearchUiState()), SearchListener {
-    private val _searchState: MutableStateFlow<PagingData<SearchUiState>> = MutableStateFlow(value = PagingData.empty())
-    val searchState = _searchState.asStateFlow()
 
     fun onChangeSearchTextFiled(query: String) {
         _state.update { it.copy(inputText = query, isLoading = true, isEmpty = false) }
         viewModelScope.launch {
-            _state.debounce(1000).collect{
+            _state.debounce(1000).collect {
                 when (it.selectedMediaType) {
                     SearchMedia.MOVIE -> {}
                     SearchMedia.PEOPLE -> {}
                     SearchMedia.TV -> {}
-                    SearchMedia.ALL -> onSearchForAll()
+                    SearchMedia.ALL -> onGetData()
                 }
             }
         }
     }
 
-    fun onChangeCategory(type: SearchMedia){
+    private fun onGetData() {
+        tryToExecutePaging(
+            call = { getSearchResultUseCase(_state.value.inputText).cachedIn(viewModelScope) },
+            onSuccess = ::onSuccess,
+            onError = ::onError
+        )
+    }
+
+    private fun onSuccess(pagingData: PagingData<List<SearchResult>>) {
+        val searchResult = pagingData.map { it.map{it.toMediaUiState()} }
+        _state.update {
+            it.copy(
+                searchResult = searchResult,
+                isLoading = false,
+                isEmpty = false
+            )
+        }
+    }
+
+    private fun onError(errorUiState: ErrorUiState) {
+        Log.i("AYA", errorUiState.toString())
+        _state.update { it.copy(error = errorUiState, isLoading = false) }
+    }
+
+    fun onChangeCategory(type: SearchMedia) {
         _state.update { it.copy(selectedMediaType = type) }
     }
 
     /// region Search for All
-    private fun onSearchForAll() {
-        viewModelScope.launch {
-            getSearchResultUseCase(_state.value.inputText)
-                .distinctUntilChanged()
-                .cachedIn(viewModelScope)
-                .collect {
-
-                }
-        }
-//        tryToExecute(
-//            function = { getSearchResultUseCase(_state.value.inputText) },
-//            onSuccess = ::onGetSuccess,
-//            onError = ::onGetError
-//        )
-    }
+//    private fun onSearchForAll() {
+//        viewModelScope.launch {
+//            getSearchResultUseCase(_state.value.inputText)
+//                .map { pagingData ->
+//                    pagingData.map {
+//                        it.toSearchCardUiState()
+//                    }  // Map each SearchResult to a SearchCardUiState
+//                }
+//                .map { cardUiStates ->  // Transform the PagingData<SearchCardUiState> to PagingData<SearchUiState>
+//                    cardUiStates.toList().let {
+//                        SearchUiState(
+//                            searchResult = it,
+//                            isLoading = false,
+//                            isEmpty = it.isEmpty()
+//                        )
+//                    }
+//                }
+//                .distinctUntilChanged()
+//                .cachedIn(viewModelScope)
+//                .collect { pagingData ->
+//                    _searchState.value = pagingData
+//                }
+//        }
+////        tryToExecute(
+////            function = { getSearchResultUseCase(_state.value.inputText) },
+////            onSuccess = ::onGetSuccess,
+////            onError = ::onGetError
+////        )
+//    }
+//    private fun List<SearchResult>.toMediaUiState(): List<SearchUiState > {
+//        return map { it.toMediaUiState() }
+//    }
     /// endregion
 
     /// region Search for movie

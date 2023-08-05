@@ -61,17 +61,17 @@ private fun SearchContent(
             )
         )
 
-        if (state.searchResult.isNotEmpty()) {
-            CategoriesChips(
-                onChangeCategory,
-                state.selectedMediaType,
-                state.getCategories(),
-                title = "Categories"
-            )
-            CustomLazyGrid(searchCardUiStates = state.searchResult)
-        } else {
-            InitialContentInSearch()
-        }
+//        if (state.searchResult.isNotEmpty()) {
+//            CategoriesChips(
+//                onChangeCategory,
+//                state.selectedMediaType,
+//                state.getCategories(),
+//                title = "Categories"
+//            )
+//            CustomLazyGrid(searchCardUiStates = state.searchResult)
+//        } else {
+//            InitialContentInSearch()
+//        }
     }
 }
 
