@@ -93,20 +93,20 @@ private fun OnBoardingContent(
         ) {
             Image(
                 painter = painterResource(id = R.drawable.vector_logo),
-                contentDescription = stringResource(R.string.logo),
+                contentDescription = "logo",
                 modifier = Modifier.size(
                     height = MaterialTheme.dimens.dimens78,
                     width = MaterialTheme.dimens.dimens78
                 ),
             )
             Text(
-                text = stringResource(R.string.name_app),
+                text = "FlixMovie",
                 style = Typography.headlineLarge.copy(color = MaterialTheme.color.fontPrimary),
                 modifier = Modifier.padding(vertical = MaterialTheme.spacing.spacing16),
                 textAlign = TextAlign.Center,
             )
             Text(
-                text = stringResource(R.string.description),
+                text = "Enjoy a seamless and user-friendly experience Browse movies effortlessly and watch them instantly online.",
                 style = Typography.titleSmall.copy(color = MaterialTheme.color.fontSecondary),
                 textAlign = TextAlign.Center,
             )
@@ -118,7 +118,7 @@ private fun OnBoardingContent(
                 modifier = Modifier
                     .height(MaterialTheme.dimens.dimens49)
                     .width(MaterialTheme.dimens.dimens100),
-                text = stringResource(R.string.onboarding_start),
+                text = "Start",
                 onClick = { onStartClick() })
         }
     }
