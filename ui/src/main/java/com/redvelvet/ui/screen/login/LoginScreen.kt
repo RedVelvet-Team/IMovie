@@ -36,24 +36,26 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
-import com.redvelvet.ui.composable.LoginDivider
+import com.redvelvet.ui.composable.CustomDivider
 import com.redvelvet.ui.composable.PasswordTextField
 import com.redvelvet.ui.composable.ProgressIndicator
+import com.redvelvet.ui.composable.SpacerHorizontal
+import com.redvelvet.ui.composable.SpacerVertical
+import com.redvelvet.ui.composable.TextLoginScreen
 import com.redvelvet.ui.composable.UserNameTextField
 import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.home.navigateToHome
 import com.redvelvet.ui.screen.signup.navigateToSignUp
-import com.redvelvet.ui.theme.Typography
-import com.redvelvet.ui.theme.color
-import com.redvelvet.ui.theme.dimens
-import com.redvelvet.ui.theme.radius
-import com.redvelvet.ui.theme.spacing
+import com.redvelvet.ui.theme.Primary
+import com.redvelvet.ui.theme.Purple100
 import com.redvelvet.viewmodel.login.LoginInteraction
 import com.redvelvet.viewmodel.login.LoginUiEvent
 import com.redvelvet.viewmodel.login.LoginUiState
@@ -68,7 +70,7 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
     val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
+    systemUiController.setSystemBarsColor(Primary, darkIcons = false)
     val uiState by viewModel.state.collectAsState()
     val scope = rememberCoroutineScope()
     LaunchedEffect(key1 = Unit) {
@@ -114,20 +116,17 @@ private fun LoginScreenContent(
             BottomSheetScaffold(
                 sheetContent = { LoginContentPortrait(uiState, interaction) },
                 scaffoldState = sheetState,
-                sheetContainerColor = MaterialTheme.color.backgroundPrimary,
-                sheetShape = RoundedCornerShape(
-                    topStart = MaterialTheme.radius.radius32,
-                    topEnd = MaterialTheme.radius.radius32
-                ),
-                sheetShadowElevation = MaterialTheme.spacing.spacing0,
-                sheetPeekHeight = MaterialTheme.spacing.spacing32,
+                sheetContainerColor = Primary,
+                sheetShape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
+                sheetShadowElevation = 0.dp,
+                sheetPeekHeight = 32.dp,
                 sheetSwipeEnabled = false
             ) {
                 Image(
                     bitmap = imageBitmap,
-                    contentDescription = "Login Image",
+                    contentDescription = stringResource(R.string.login_image),
                     modifier = Modifier
-                        .height(MaterialTheme.dimens.dimens365)
+                        .height(365.dp)
                         .fillMaxWidth(),
                     contentScale = ContentScale.FillBounds
                 )
@@ -139,9 +138,9 @@ private fun LoginScreenContent(
                 LoginContentLandscape(uiState = uiState, interaction = interaction)
                 Image(
                     bitmap = imageBitmap,
-                    contentDescription = "Login Image",
+                    contentDescription = stringResource(R.string.login_image),
                     modifier = Modifier
-                        .height(MaterialTheme.dimens.dimens365)
+                        .height(365.dp)
                         .fillMaxWidth(),
                     contentScale = ContentScale.FillBounds
                 )
@@ -156,79 +155,75 @@ private fun LoginContentPortrait(
     interaction: LoginInteraction
 ) {
     Column(
-        modifier = Modifier
-            .padding(bottom = MaterialTheme.spacing.spacing12)
-            .padding(horizontal = MaterialTheme.spacing.spacing24),
+        modifier = Modifier.padding(top = 0.dp, start = 24.dp, end = 24.dp, bottom = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "Welcome Back!",
+        TextLoginScreen(
             modifier = Modifier.align(Alignment.Start),
-            style = Typography.headlineMedium,
-            color = MaterialTheme.color.fontPrimary
+            text = stringResource(R.string.welcome_back),
+            fontWeight = FontWeight.SemiBold,
+            size = 18.sp
         )
-        Text(
-            text = "Login to your account",
-            modifier = Modifier
-                .align(Alignment.Start)
-                .padding(top = MaterialTheme.spacing.spacing4),
-            style = Typography.displaySmall,
-            color = MaterialTheme.color.fontPrimary
+        SpacerVertical(height = 4.dp)
+        TextLoginScreen(
+            modifier = Modifier.align(Alignment.Start),
+            text = stringResource(R.string.login_to_your_account),
+            fontWeight = FontWeight.Normal,
+            size = 12.sp
         )
-
+        SpacerVertical(height = 24.dp)
         UserNameTextField(
             value = uiState.userName,
-            modifier = Modifier.padding(top = MaterialTheme.spacing.spacing24),
             isError = uiState.isUserNameEmpty,
-            errorMessage = "Invalid userName",
-            text = "Username",
+            errorMessage = stringResource(R.string.invalid_user_name),
+            text = stringResource(R.string.username),
             onClick = interaction::onUserNameChanged
         )
-
+        SpacerVertical(height = 4.dp)
         PasswordTextField(
             value = uiState.password,
-            modifier = Modifier.padding(
-                top = MaterialTheme.spacing.spacing4,
-                bottom = MaterialTheme.spacing.spacing24
-            ),
             isError = uiState.isPasswordEmpty,
-            errorMessage = "Invalid password",
-            text = "Password",
+            errorMessage = stringResource(R.string.invalid_password),
+            text = stringResource(R.string.password),
             onClick = interaction::onPasswordChanged
         )
+
+        SpacerVertical(height = 24.dp)
 
         Button(
             onClick = { interaction.onClickLogin() },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(MaterialTheme.dimens.dimens56),
+                .height(56.dp),
             enabled = !uiState.isLoading,
-            shape = RoundedCornerShape(MaterialTheme.radius.radius16),
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.color.brand100)
+            shape = RoundedCornerShape(16.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Purple100)
         ) {
-            Text(
-                text = "Login",
-                modifier = Modifier.padding(vertical = MaterialTheme.spacing.spacing8),
-                style = Typography.headlineSmall,
-                color = MaterialTheme.color.fontPrimary
+            TextLoginScreen(
+                modifier = Modifier.padding(vertical = 8.dp),
+                text = stringResource(R.string.login),
+                fontWeight = FontWeight.SemiBold,
+                size = 14.sp
             )
         }
 
+        SpacerVertical(height = 24.dp)
+
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = MaterialTheme.spacing.spacing24),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            LoginDivider(modifier = Modifier.weight(1f))
+            CustomDivider(modifier = Modifier.weight(1f))
             Text(
-                "OR",
+                stringResource(R.string.or),
                 color = Color.White,
-                modifier = Modifier.padding(horizontal = MaterialTheme.spacing.spacing8)
+                modifier = Modifier.padding(horizontal = 8.dp)
             )
-            LoginDivider(modifier = Modifier.weight(1f))
+            CustomDivider(modifier = Modifier.weight(1f))
         }
+
+        SpacerVertical(height = 24.dp)
 
         GuestOrSignUp(!uiState.isLoading, interaction::onClickGuest, interaction::onClickSignUp)
         if (uiState.isLoading) {
@@ -246,69 +241,68 @@ private fun LoginContentLandscape(
         modifier = Modifier
             .fillMaxWidth(0.5f)
             .fillMaxHeight()
-            .background(MaterialTheme.color.backgroundPrimary),
+            .background(Primary),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "Welcome Back!",
-            modifier = Modifier.padding(top = MaterialTheme.spacing.spacing24),
-            style = Typography.headlineMedium,
-            color = MaterialTheme.color.fontPrimary
+        TextLoginScreen(
+            modifier = Modifier.padding(top = 24.dp),
+            text = stringResource(R.string.welcome_back),
+            fontWeight = FontWeight.SemiBold,
+            size = 18.sp
         )
 
-        Text(
-            text = "Login to your account",
-            modifier = Modifier.padding(
-                top = MaterialTheme.spacing.spacing4,
-                bottom = MaterialTheme.spacing.spacing8
-            ),
-            style = Typography.displaySmall,
-            color = MaterialTheme.color.fontPrimary
+        SpacerVertical(height = 4.dp)
+
+        TextLoginScreen(
+            modifier = Modifier,
+            text = stringResource(R.string.login_to_your_account),
+            fontWeight = FontWeight.Normal,
+            size = 12.sp
         )
+
+        SpacerVertical(height = 8.dp)
 
         UserNameTextField(
-            modifier = Modifier.padding(horizontal = MaterialTheme.spacing.spacing16),
+            modifier = Modifier.padding(horizontal = 16.dp),
             value = uiState.userName,
             isError = uiState.isUserNameEmpty,
-            text = "Username",
-            errorMessage = "Invalid Username",
+            text = stringResource(R.string.username),
+            errorMessage = stringResource(R.string.invalid_user_name),
             onClick = interaction::onUserNameChanged
         )
 
+        SpacerVertical(height = 4.dp)
+
         PasswordTextField(
             value = uiState.password,
-            modifier = Modifier
-                .padding(horizontal = MaterialTheme.spacing.spacing16)
-                .padding(
-                    top = MaterialTheme.spacing.spacing4,
-                    bottom = MaterialTheme.spacing.spacing8
-                ),
+            modifier = Modifier.padding(horizontal = 16.dp),
             isError = uiState.isPasswordEmpty,
-            text = "Password",
-            errorMessage = "Invalid Password",
+            text = stringResource(R.string.password),
+            errorMessage = stringResource(R.string.invalid_password),
             onClick = interaction::onPasswordChanged
         )
+
+        SpacerVertical(height = 8.dp)
 
         Button(
             onClick = { interaction.onClickLogin() },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = MaterialTheme.spacing.spacing16)
-                .height(MaterialTheme.dimens.dimens56),
+                .padding(horizontal = 16.dp)
+                .height(56.dp),
             enabled = !uiState.isLoading,
-            shape = RoundedCornerShape(MaterialTheme.radius.radius16),
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.color.brand100)
+            shape = RoundedCornerShape(16.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Purple100)
         ) {
-            Text(
-                text = "Login",
-                modifier = Modifier.padding(
-                    top = MaterialTheme.spacing.spacing8,
-                    bottom = MaterialTheme.spacing.spacing16
-                ),
-                style = Typography.headlineSmall,
-                color = MaterialTheme.color.fontPrimary
+            TextLoginScreen(
+                modifier = Modifier.padding(vertical = 8.dp),
+                text = stringResource(R.string.login),
+                fontWeight = FontWeight.SemiBold,
+                size = 14.sp
             )
         }
+
+        SpacerVertical(height = 8.dp)
 
         GuestOrSignUp(!uiState.isLoading, interaction::onClickGuest, interaction::onClickSignUp)
 
@@ -327,49 +321,39 @@ private fun GuestOrSignUp(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = MaterialTheme.spacing.spacing16),
+            .padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         TextButton(
             onClick = { onGuestClicked() },
             modifier = Modifier
-                .height(MaterialTheme.dimens.dimens56)
-                .border(
-                    MaterialTheme.dimens.dimens1,
-                    MaterialTheme.color.brand100,
-                    shape = MaterialTheme.shapes.medium
-                )
+                .height(56.dp)
+                .border(1.dp, Purple100, shape = MaterialTheme.shapes.medium)
         ) {
-            Text(
-                text = "Continue as a guest",
-                modifier = Modifier.padding(end = MaterialTheme.spacing.spacing8),
-                style = Typography.headlineSmall,
-                color = MaterialTheme.color.fontPrimary
+            TextLoginScreen(
+                text = stringResource(R.string.continue_as_a_guest),
+                fontWeight = FontWeight.SemiBold,
+                size = 14.sp
             )
         }
+        SpacerHorizontal(width = 8.dp)
+
         Button(
             onClick = onSignUpClicked,
             modifier = Modifier
                 .fillMaxWidth(0.9f)
-                .height(MaterialTheme.dimens.dimens56),
+                .height(56.dp),
             enabled = isLoading,
-            shape = RoundedCornerShape(MaterialTheme.radius.radius16),
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.color.brand100)
+            shape = RoundedCornerShape(16.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Purple100)
         ) {
-            Text(
-                modifier = Modifier.padding(vertical = MaterialTheme.spacing.spacing8),
-                text = "Sign Up",
-                style = Typography.headlineSmall,
-                color = MaterialTheme.color.fontPrimary
+            TextLoginScreen(
+                modifier = Modifier.padding(vertical = 8.dp),
+                text = stringResource(R.string.signup),
+                fontWeight = FontWeight.SemiBold,
+                size = 14.sp
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun previewLoginScreen() {
-    val navController = rememberNavController()
-    LoginScreen(navController = navController)
 }
 

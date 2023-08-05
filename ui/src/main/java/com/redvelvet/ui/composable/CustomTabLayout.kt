@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
@@ -20,25 +19,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import com.redvelvet.ui.theme.Primary
+import com.redvelvet.ui.theme.Purple100
 import com.redvelvet.ui.theme.Typography
-import com.redvelvet.ui.theme.color
-import com.redvelvet.ui.theme.dimens
-import com.redvelvet.ui.theme.spacing
 
 
 @Composable
-fun HomeTabLayout() {
+fun CustomTabLayout() {
     var state by remember { mutableStateOf(0) }
     val titles = listOf("Movies", "TV Shows")
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = MaterialTheme.spacing.spacing16)
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
     ) {
         TabRow(
             selectedTabIndex = state,
             contentColor = Color.White,
-            containerColor = MaterialTheme.color.backgroundOnPrimary,
+            containerColor = Primary,
         ) {
             titles.forEachIndexed { index, title ->
                 Box {
@@ -58,9 +55,9 @@ fun HomeTabLayout() {
                         Box(
                             Modifier
                                 .fillMaxWidth(0.6f)
-                                .height(MaterialTheme.dimens.dimens4)
+                                .height(4.dp)
                                 .align(Alignment.BottomCenter)
-                                .background(MaterialTheme.color.brand100, RoundedCornerShape(50))
+                                .background(Purple100, RoundedCornerShape(50))
                         )
                     }
                 }

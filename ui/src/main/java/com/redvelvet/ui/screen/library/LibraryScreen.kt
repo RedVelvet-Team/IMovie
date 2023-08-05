@@ -7,20 +7,21 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.redvelvet.ui.R
-import com.redvelvet.ui.composable.FilxTopAppBar
-import com.redvelvet.ui.composable.PrimaryButton
+import com.redvelvet.ui.composable.CustomButton
+import com.redvelvet.ui.composable.CustomText
+import com.redvelvet.ui.composable.CustomTopAppBar
+import com.redvelvet.ui.theme.FontPrimary
+import com.redvelvet.ui.theme.FontSecondary
+import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.Typography
-import com.redvelvet.ui.theme.color
-import com.redvelvet.ui.theme.spacing
 
 @Composable
 fun LibraryScreen() {
@@ -28,13 +29,13 @@ fun LibraryScreen() {
         modifier = Modifier
             .fillMaxSize(),
         topBar = {
-            FilxTopAppBar(
-                title = "Library",
+            CustomTopAppBar(
+                title = stringResource(R.string.library_title_screen),
                 hasBackArrow = false,
                 modifier = Modifier.fillMaxWidth()
             )
         },
-        containerColor = MaterialTheme.color.backgroundPrimary,
+        containerColor = Primary,
     ) { paddingValues ->
         LibraryContent(paddingValues = paddingValues)
     }
@@ -45,32 +46,29 @@ private fun LibraryContent(paddingValues: PaddingValues) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = MaterialTheme.spacing.spacing58),
+            .padding(horizontal = 58.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Image(
             painter = painterResource(id = R.drawable.library_logo),
-            contentDescription = "library logo"
+            contentDescription = stringResource(R.string.library_logo)
         )
-        Text(
-            text = "Login Required",
-            style = Typography.headlineLarge.copy(color = MaterialTheme.color.fontPrimary),
-            modifier = Modifier.padding(top = MaterialTheme.spacing.spacing32),
-            textAlign = TextAlign.Center,
+        CustomText(
+            name = stringResource(R.string.login_require_header),
+            modifier = Modifier.padding(top = 32.dp),
+            style = Typography.headlineLarge.copy(color = FontPrimary),
         )
-        Text(
-            text = "Use your account to enjoy the best app experience.",
-            style = Typography.titleSmall.copy(color = MaterialTheme.color.fontSecondary),
-            modifier = Modifier.padding(top = MaterialTheme.spacing.spacing4),
-            textAlign = TextAlign.Center,
+        CustomText(
+            name = stringResource(R.string.login_require_description),
+            modifier = Modifier.padding(top = 4.dp),
+            style = Typography.titleSmall.copy(color = FontSecondary),
         )
-
         Column(
-            modifier = Modifier.padding(top = MaterialTheme.spacing.spacing32)
+            modifier = Modifier.padding(top = 32.dp)
         ) {
-            PrimaryButton(
-                text = "Login",
+            CustomButton(
+                text = stringResource(R.string.login_require_button),
                 onClick = { /*TODO*/ },
             )
         }
