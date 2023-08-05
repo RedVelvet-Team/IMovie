@@ -10,14 +10,15 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 
 @Composable
-fun ItemsSection(
+fun <T> ItemsSection(
     label: String,
-    images: List<String>,
+    images: List<T>,
     hasName: Boolean = false,
     name: List<String> = emptyList(),
     hasDateAndCountry: Boolean = false,
@@ -31,8 +32,12 @@ fun ItemsSection(
         contentPadding = PaddingValues(horizontal = MaterialTheme.spacing.spacing16)
     ) {
         itemsIndexed(images) { index, image ->
+            val imagePainter =
+                if (image is Int) painterResource(image) else rememberAsyncImagePainter(
+                    model = image
+                )
             ItemBasicCard(
-                imagePainter = rememberAsyncImagePainter(model = image),
+                imagePainter = imagePainter,
                 modifier = Modifier
                     .width(MaterialTheme.dimens.dimens104)
                     .height(MaterialTheme.dimens.dimens130),
