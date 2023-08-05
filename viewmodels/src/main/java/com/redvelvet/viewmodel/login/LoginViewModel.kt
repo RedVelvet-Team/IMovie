@@ -5,7 +5,7 @@ import com.redvelvet.entities.auth.Guest
 import com.redvelvet.entities.auth.Session
 import com.redvelvet.usecase.usecase.auth.AuthenticationUserLoginUseCase
 import com.redvelvet.usecase.usecase.auth.LoginByGuestUseCase
-import com.redvelvet.usecase.usecase.auth.ValidationUseCase
+import com.redvelvet.usecase.usecase.auth.ValidationLoginUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val loginByGuestUseCase: LoginByGuestUseCase,
     private val authenticationUserLoginUseCase: AuthenticationUserLoginUseCase,
-    private val validation: ValidationUseCase,
+    private val validation: ValidationLoginUseCase,
 ) : BaseViewModel<LoginUiState, LoginUiEvent>(LoginUiState()), LoginInteraction {
 
     //region guest
@@ -118,7 +118,7 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun updateInputNameError(): Boolean {
-        return validation.nameIsEmpty(state.value.userName).also { isEmpty ->
+        return state.value.userName.isEmpty().also { isEmpty ->
             takeIf { isEmpty }?._state?.update {
                 it.copy(
                     isUserNameEmpty = true,
@@ -129,7 +129,7 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun updateInputPasswordError(): Boolean {
-        return validation.passwordIsEmpty(state.value.password).also { isEmpty ->
+        return state.value.password.isEmpty().also { isEmpty ->
             takeIf { isEmpty }?._state?.update {
                 it.copy(
                     isUserNameEmpty = false,

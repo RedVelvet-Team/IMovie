@@ -90,4 +90,8 @@ dependencies {
     implementation("com.google.accompanist:accompanist-permissions:0.31.3-beta")
     //web view
     implementation("com.google.accompanist:accompanist-webview:0.28.0")
+    //workManager
+    val work_version = "2.8.1"
+    // Kotlin + coroutines
+    implementation("androidx.work:work-runtime-ktx:$work_version")
 }

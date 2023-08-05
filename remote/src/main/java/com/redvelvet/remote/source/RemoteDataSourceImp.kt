@@ -14,7 +14,8 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class RemoteDataSourceImp @Inject constructor(
-    private val movieApiService: MovieApiService
+    private val movieApiService: MovieApiService,
+    private val gson: Gson,
 ) : RemoteDataSource {
     //region auth
     override suspend fun createGuestSession(): GuestSessionDto {
@@ -59,6 +60,7 @@ class RemoteDataSourceImp @Inject constructor(
     //endregion
 
 
+    //region wrap response
     private suspend fun <T> wrapApiResponse(
         request: suspend () -> Response<T>
     ): T {
@@ -79,8 +81,9 @@ class RemoteDataSourceImp @Inject constructor(
     }
 
     private fun getErrorCodeFromJson(json: String): Int? {
-        return Gson().fromJson(json, ErrorResponseDto::class.java).code ?: 0
+        return gson.fromJson(json, ErrorResponseDto::class.java).code ?: 0
     }
+    //endregion
 
 }
 
