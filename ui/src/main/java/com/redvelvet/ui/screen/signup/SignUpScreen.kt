@@ -22,7 +22,7 @@ fun SignUpScreen(
     val state = rememberWebViewState(SIGNUP_LINK)
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
-            FilxTopAppBar(stringResource(id = R.string.signup), hasBackArrow = false)
+            FilxTopAppBar("Sign Up", hasBackArrow = false)
         }
     ) {
         WebView(
