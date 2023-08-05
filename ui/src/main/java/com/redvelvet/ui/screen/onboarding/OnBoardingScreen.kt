@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -19,19 +20,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
-import com.redvelvet.ui.composable.OnBoardingText
 import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.WallPaper
 import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.login.navigateToLogin
+import com.redvelvet.ui.theme.BackgroundPrimary
 import com.redvelvet.ui.theme.FontPrimary
 import com.redvelvet.ui.theme.FontSecondary
-import com.redvelvet.ui.theme.BackgroundPrimary
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
@@ -93,14 +93,16 @@ private fun OnBoardingContent(
                     width = MaterialTheme.dimens.dimens78
                 ),
             )
-            OnBoardingText(
-                name = stringResource(R.string.name_app),
-                modifier = Modifier.padding(vertical = MaterialTheme.spacing.spacing16),
+            Text(
+                text = stringResource(R.string.name_app),
                 style = Typography.headlineLarge.copy(color = FontPrimary),
+                modifier = Modifier.padding(vertical = MaterialTheme.spacing.spacing16),
+                textAlign = TextAlign.Center,
             )
-            OnBoardingText(
-                name = stringResource(R.string.description),
-                style = Typography.titleSmall.copy(color = FontSecondary, lineHeight = 16.sp),
+            Text(
+                text = stringResource(R.string.description),
+                style = Typography.titleSmall.copy(color = FontSecondary),
+                textAlign = TextAlign.Center,
             )
         }
         Column(
