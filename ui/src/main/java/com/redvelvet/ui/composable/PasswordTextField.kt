@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -19,21 +20,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.dp
-import com.redvelvet.ui.R
+import com.redvelvet.ui.theme.color
+import com.redvelvet.ui.theme.radius
 
 @Composable
 fun PasswordTextField(
+    onClick: (String) -> Unit,
     modifier: Modifier = Modifier,
     value: String,
     isError: Boolean,
     text: String,
     errorMessage: String = "",
-    onClick: (String) -> Unit,
 ) {
     var isPasswordVisible by remember { mutableStateOf(false) }
     OutlinedTextField(
@@ -57,26 +57,26 @@ fun PasswordTextField(
                 Icon(
                     if (isPasswordVisible) Icons.Filled.Visibility
                     else Icons.Filled.VisibilityOff,
-                    contentDescription = if (isPasswordVisible) stringResource(R.string.hide_password)
-                    else stringResource(R.string.show_password)
+                    contentDescription = if (isPasswordVisible) "Hide Password"
+                    else "Show Password"
                 )
             }
         },
         leadingIcon = {
             Icon(
                 Icons.Default.Lock,
-                contentDescription = stringResource(R.string.show_and_hide_password_icon)
+                contentDescription = "show and hide password icon"
             )
         },
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(MaterialTheme.radius.radius16),
         isError = isError,
         colors = OutlinedTextFieldDefaults.colors(
             focusedTextColor = Color.White,
             unfocusedTextColor = Color.White,
             disabledTextColor = Color.White,
-            focusedContainerColor = Color(0xFF20233C),
-            unfocusedContainerColor = Color(0xFF20233C),
-            disabledContainerColor = Color(0xFF20233C),
+            focusedContainerColor = MaterialTheme.color.backgroundSecondary,
+            unfocusedContainerColor = MaterialTheme.color.backgroundSecondary,
+            disabledContainerColor = MaterialTheme.color.backgroundSecondary,
             focusedBorderColor = Color.Transparent,
             unfocusedBorderColor = Color.Transparent,
             disabledBorderColor = Color.Transparent,
