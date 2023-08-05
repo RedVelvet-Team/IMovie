@@ -51,4 +51,6 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
     //retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    //paging
+    implementation("androidx.paging:paging-common-ktx:3.2.0")
 }

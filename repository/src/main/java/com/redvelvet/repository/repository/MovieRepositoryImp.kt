@@ -1,29 +1,43 @@
 package com.redvelvet.repository.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.redvelvet.entities.search.SearchResult
+import com.redvelvet.repository.mapper.toSearchResult
 import com.redvelvet.repository.source.FirebaseDataSource
 import com.redvelvet.repository.source.LocalDataSource
 import com.redvelvet.repository.source.RemoteDataSource
 import com.redvelvet.usecase.repository.MovieRepository
-import com.redvelvet.entities.search.SearchResult
-import com.redvelvet.repository.mapper.toEntity
-import com.redvelvet.repository.mapper.toSearchResult
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class MovieRepositoryImp @Inject constructor(
     private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource,
-    private val firebaseDataSource: FirebaseDataSource
+    private val firebaseDataSource: FirebaseDataSource,
 ) : MovieRepository, BaseRepository() {
 
     //region search
     override suspend fun multiSearch(
         query: String,
         page: Int?
-    ): List<SearchResult> {
-        return wrapRemoteResponse {
-            remoteDataSource.multiSearch(query, page).map { it.toEntity() }
+    ): Flow<PagingData<List<SearchResult>>> {
+        return  Pager(
+            config = PagingConfig(pageSize = 200, prefetchDistance = 2),
+            pagingSourceFactory = {
+                MultiSearchResultsPageDataSource(query)
+            }
+        ).flow.map { pagingData->
+            pagingData
+
         }
     }
+//        return wrapRemoteResponse {
+//            remoteDataSource.multiSearch(query, page).map { it.toEntity() }
+//        }
+
 
     override suspend fun searchPeople(query: String, page: Int?): List<SearchResult> {
         return wrapRemoteResponse {
