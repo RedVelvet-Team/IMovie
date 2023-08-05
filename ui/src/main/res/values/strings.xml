@@ -33,11 +33,7 @@
     <string name="show_password">Show password</string>
     <string name="invalid_user_name">Invalid userName</string>
     <string name="invalid_password">Invalid password</string>
-    <string name="flixmovie">FlixMovie</string>
-    <string name="popular_movies">Popular Movies</string>
     <string name="movies">Movies</string>
     <string name="tv_shows">TV Shows</string>
-    <string name="up_coming">Up Coming</string>
-    <string name="top_rated">Top Rated</string>
     <string name="localized_description">Localized description</string>
 </resources>
