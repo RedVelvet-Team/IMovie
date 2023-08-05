@@ -21,7 +21,6 @@ import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.FilxTopAppBar
 import com.redvelvet.ui.composable.HomeTabLayout
 import com.redvelvet.ui.composable.ItemsSection
-import com.redvelvet.ui.composable.VerticalSpacer
 import com.redvelvet.ui.theme.BackgroundPrimary
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.home.HomeUiState
@@ -83,9 +82,9 @@ fun HomeScreenContent(
                 )
             }
             item {
-                VerticalSpacer(space = MaterialTheme.spacing.spacing24)
                 ItemsSection(
                     label = stringResource(R.string.up_coming),
+                    headerModifier = Modifier.padding(top = MaterialTheme.spacing.spacing24),
                     images = state.upComingMovies.map { it.movieImage },
                     hasName = true,
                     name = state.upComingMovies.map { it.movieName },
@@ -95,9 +94,9 @@ fun HomeScreenContent(
                 )
             }
             item {
-                VerticalSpacer(space = MaterialTheme.spacing.spacing24)
                 ItemsSection(
                     label = stringResource(R.string.top_rated),
+                    headerModifier = Modifier.padding(top = MaterialTheme.spacing.spacing24),
                     images = state.upComingMovies.map { it.movieImage },
                     hasName = true,
                     name = state.upComingMovies.map { it.movieName },

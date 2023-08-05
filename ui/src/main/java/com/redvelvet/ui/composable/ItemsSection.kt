@@ -19,13 +19,14 @@ import com.redvelvet.ui.theme.spacing
 fun <T> ItemsSection(
     label: String,
     images: List<T>,
+    headerModifier: Modifier = Modifier,
     hasName: Boolean = false,
     name: List<String> = emptyList(),
     hasDateAndCountry: Boolean = false,
     date: List<String> = emptyList(),
     country: List<String> = emptyList()
 ) {
-    SectionHeader(label)
+    SectionHeader(label, modifier = headerModifier)
     LazyRow(
         modifier = Modifier.padding(top = MaterialTheme.spacing.spacing8),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),
