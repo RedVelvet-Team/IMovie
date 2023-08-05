@@ -21,7 +21,7 @@ import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.FilxTopAppBar
 import com.redvelvet.ui.composable.HomeTabLayout
 import com.redvelvet.ui.composable.ItemsSection
-import com.redvelvet.ui.theme.BackgroundPrimary
+import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.home.HomeUiState
 import com.redvelvet.viewmodel.home.HomeViewModel
@@ -52,7 +52,7 @@ fun HomeScreen(
         }, bottomBar = {
             //TODO @Hassan Ayman
         },
-        containerColor = BackgroundPrimary
+        containerColor = MaterialTheme.color.backgroundPrimary
     ) { paddingValues ->
         HomeScreenContent(paddingValues, state)
     }

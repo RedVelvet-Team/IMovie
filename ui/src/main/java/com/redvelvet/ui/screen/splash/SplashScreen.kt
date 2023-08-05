@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -25,7 +26,7 @@ import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.home.navigateToHome
 import com.redvelvet.ui.screen.login.navigateToLogin
 import com.redvelvet.ui.screen.onboarding.navigateToOnBoarding
-import com.redvelvet.ui.theme.BackgroundPrimary
+import com.redvelvet.ui.theme.color
 import com.redvelvet.viewmodel.splash.SplashUiEvent
 import com.redvelvet.viewmodel.splash.SplashUiState
 import com.redvelvet.viewmodel.splash.SplashViewModel
@@ -39,7 +40,7 @@ fun SplashScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(BackgroundPrimary, darkIcons = false)
+    systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
     val scope = rememberCoroutineScope()
     LaunchedEffect(key1 = Unit) {
         scope.launch {
@@ -89,7 +90,7 @@ private fun SplashContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(BackgroundPrimary),
+            .background(MaterialTheme.color.backgroundPrimary),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly
     ) {

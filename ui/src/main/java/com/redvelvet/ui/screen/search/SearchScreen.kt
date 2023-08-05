@@ -13,13 +13,13 @@ import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.composable.InitialContentInSearch
 import com.redvelvet.ui.composable.SearchBox
-import com.redvelvet.ui.theme.BackgroundPrimary
+import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 
 @Composable
 fun SearchScreen(navController: NavController) {
     val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(BackgroundPrimary, darkIcons = false)
+    systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
     SearchContent()
 }
 
@@ -30,7 +30,7 @@ private fun SearchContent() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color= BackgroundPrimary)
+            .background(color = MaterialTheme.color.backgroundPrimary)
             .padding(MaterialTheme.dimens.dimens16)
     ) {
         SearchBox()

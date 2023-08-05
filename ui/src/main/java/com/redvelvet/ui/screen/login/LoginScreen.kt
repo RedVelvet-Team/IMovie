@@ -50,10 +50,8 @@ import com.redvelvet.ui.composable.UserNameTextField
 import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.home.navigateToHome
 import com.redvelvet.ui.screen.signup.navigateToSignUp
-import com.redvelvet.ui.theme.FontPrimary
-import com.redvelvet.ui.theme.BackgroundPrimary
-import com.redvelvet.ui.theme.Purple100
 import com.redvelvet.ui.theme.Typography
+import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.radius
 import com.redvelvet.ui.theme.spacing
@@ -71,7 +69,7 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
     val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(BackgroundPrimary, darkIcons = false)
+    systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
     val uiState by viewModel.state.collectAsState()
     val scope = rememberCoroutineScope()
     LaunchedEffect(key1 = Unit) {
@@ -117,7 +115,7 @@ private fun LoginScreenContent(
             BottomSheetScaffold(
                 sheetContent = { LoginContentPortrait(uiState, interaction) },
                 scaffoldState = sheetState,
-                sheetContainerColor = BackgroundPrimary,
+                sheetContainerColor = MaterialTheme.color.backgroundPrimary,
                 sheetShape = RoundedCornerShape(
                     topStart = MaterialTheme.radius.radius32,
                     topEnd = MaterialTheme.radius.radius32
@@ -168,7 +166,7 @@ private fun LoginContentPortrait(
             text = stringResource(R.string.welcome_back),
             modifier = Modifier.align(Alignment.Start),
             style = Typography.headlineMedium,
-            color = FontPrimary
+            color = MaterialTheme.color.fontPrimary
         )
         Text(
             text = stringResource(R.string.login_to_your_account),
@@ -176,7 +174,7 @@ private fun LoginContentPortrait(
                 .align(Alignment.Start)
                 .padding(top = MaterialTheme.spacing.spacing4),
             style = Typography.displaySmall,
-            color = FontPrimary
+            color = MaterialTheme.color.fontPrimary
         )
 
         UserNameTextField(
@@ -207,13 +205,13 @@ private fun LoginContentPortrait(
                 .height(MaterialTheme.dimens.dimens56),
             enabled = !uiState.isLoading,
             shape = RoundedCornerShape(MaterialTheme.radius.radius16),
-            colors = ButtonDefaults.buttonColors(containerColor = Purple100)
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.color.brand100)
         ) {
             Text(
                 text = stringResource(R.string.login),
                 modifier = Modifier.padding(vertical = MaterialTheme.spacing.spacing8),
                 style = Typography.headlineSmall,
-                color = FontPrimary
+                color = MaterialTheme.color.fontPrimary
             )
         }
 
@@ -249,14 +247,14 @@ private fun LoginContentLandscape(
         modifier = Modifier
             .fillMaxWidth(0.5f)
             .fillMaxHeight()
-            .background(BackgroundPrimary),
+            .background(MaterialTheme.color.backgroundPrimary),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = stringResource(R.string.welcome_back),
             modifier = Modifier.padding(top = MaterialTheme.spacing.spacing24),
             style = Typography.headlineMedium,
-            color = FontPrimary
+            color = MaterialTheme.color.fontPrimary
         )
 
         Text(
@@ -266,7 +264,7 @@ private fun LoginContentLandscape(
                 bottom = MaterialTheme.spacing.spacing8
             ),
             style = Typography.displaySmall,
-            color = FontPrimary
+            color = MaterialTheme.color.fontPrimary
         )
 
         UserNameTextField(
@@ -300,7 +298,7 @@ private fun LoginContentLandscape(
                 .height(MaterialTheme.dimens.dimens56),
             enabled = !uiState.isLoading,
             shape = RoundedCornerShape(MaterialTheme.radius.radius16),
-            colors = ButtonDefaults.buttonColors(containerColor = Purple100)
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.color.brand100)
         ) {
             Text(
                 text = stringResource(R.string.login),
@@ -309,7 +307,7 @@ private fun LoginContentLandscape(
                     bottom = MaterialTheme.spacing.spacing16
                 ),
                 style = Typography.headlineSmall,
-                color = FontPrimary
+                color = MaterialTheme.color.fontPrimary
             )
         }
 
@@ -339,7 +337,7 @@ private fun GuestOrSignUp(
                 .height(MaterialTheme.dimens.dimens56)
                 .border(
                     MaterialTheme.dimens.dimens1,
-                    Purple100,
+                    MaterialTheme.color.brand100,
                     shape = MaterialTheme.shapes.medium
                 )
         ) {
@@ -347,7 +345,7 @@ private fun GuestOrSignUp(
                 text = stringResource(R.string.continue_as_a_guest),
                 modifier = Modifier.padding(end = MaterialTheme.spacing.spacing8),
                 style = Typography.headlineSmall,
-                color = FontPrimary
+                color = MaterialTheme.color.fontPrimary
             )
         }
         Button(
@@ -357,13 +355,13 @@ private fun GuestOrSignUp(
                 .height(MaterialTheme.dimens.dimens56),
             enabled = isLoading,
             shape = RoundedCornerShape(MaterialTheme.radius.radius16),
-            colors = ButtonDefaults.buttonColors(containerColor = Purple100)
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.color.brand100)
         ) {
             Text(
                 modifier = Modifier.padding(vertical = MaterialTheme.spacing.spacing8),
                 text = stringResource(R.string.signup),
                 style = Typography.headlineSmall,
-                color = FontPrimary
+                color = MaterialTheme.color.fontPrimary
             )
         }
     }
@@ -371,7 +369,7 @@ private fun GuestOrSignUp(
 
 @Preview
 @Composable
-fun previewLoginScreen(){
+fun previewLoginScreen() {
     val navController = rememberNavController()
     LoginScreen(navController = navController)
 }
