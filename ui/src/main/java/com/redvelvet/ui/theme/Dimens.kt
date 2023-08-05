@@ -15,8 +15,6 @@ data class Dimens(
     val dimens32: Dp = 32.dp,
     val dimens36: Dp = 36.dp,
     val dimens193: Dp = 193.dp,
-
-
 )
 
 val LocalDimens = compositionLocalOf { Dimens() }
