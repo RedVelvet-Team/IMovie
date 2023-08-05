@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.redvelvet.ui.theme.FontAccent
 import com.redvelvet.ui.theme.Typography
+import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
 
 @Composable
@@ -27,7 +28,7 @@ fun SectionHeader(label:String,modifier: Modifier = Modifier) {
         )
         Text(text = "see all",
             style = Typography.labelSmall,
-            color = FontAccent
+            color = MaterialTheme.color.fontAccent
         )
     }
 }

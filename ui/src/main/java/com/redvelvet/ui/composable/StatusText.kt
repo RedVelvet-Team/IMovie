@@ -8,9 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import com.redvelvet.ui.theme.FontAccent
-import com.redvelvet.ui.theme.FontSecondary
 import com.redvelvet.ui.theme.Typography
+import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
 
 @Composable
@@ -19,12 +18,12 @@ fun StatusText(modifier: Modifier = Modifier, statusTitle: String, statusDescrip
         Text(
             text = statusTitle,
             style = Typography.labelLarge,
-            color = FontSecondary
+            color = MaterialTheme.color.fontSecondary
         )
         Text(
             text = statusDescription,
             style = Typography.displaySmall,
-            color = FontAccent,
+            color = MaterialTheme.color.fontAccent,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = MaterialTheme.spacing.spacing4)
         )

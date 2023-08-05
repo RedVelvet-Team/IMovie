@@ -31,10 +31,8 @@ import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.WallPaper
 import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.login.navigateToLogin
-import com.redvelvet.ui.theme.BackgroundPrimary
-import com.redvelvet.ui.theme.FontPrimary
-import com.redvelvet.ui.theme.FontSecondary
 import com.redvelvet.ui.theme.Typography
+import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.onboarding.OnBoardingUiEvent
@@ -71,7 +69,7 @@ fun OnBoardingScreen(
             }
         }
     }
-    systemUiController.setSystemBarsColor(BackgroundPrimary, darkIcons = false)
+    systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
     OnBoardingContent {
         viewModel.setNotFirstTimeUseApp()
     }
@@ -103,13 +101,13 @@ private fun OnBoardingContent(
             )
             Text(
                 text = stringResource(R.string.name_app),
-                style = Typography.headlineLarge.copy(color = FontPrimary),
+                style = Typography.headlineLarge.copy(color = MaterialTheme.color.fontPrimary),
                 modifier = Modifier.padding(vertical = MaterialTheme.spacing.spacing16),
                 textAlign = TextAlign.Center,
             )
             Text(
                 text = stringResource(R.string.description),
-                style = Typography.titleSmall.copy(color = FontSecondary),
+                style = Typography.titleSmall.copy(color = MaterialTheme.color.fontSecondary),
                 textAlign = TextAlign.Center,
             )
         }

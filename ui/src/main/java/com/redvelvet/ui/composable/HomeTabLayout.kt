@@ -20,11 +20,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
-import com.redvelvet.ui.theme.BackgroundPrimary
-import com.redvelvet.ui.theme.Purple100
 import com.redvelvet.ui.theme.Typography
+import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
+import com.redvelvet.ui.theme.spacing
 
 
 @Composable
@@ -32,12 +31,14 @@ fun HomeTabLayout() {
     var state by remember { mutableStateOf(0) }
     val titles = listOf("Movies", "TV Shows")
     Column(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = MaterialTheme.spacing.spacing16)
     ) {
         TabRow(
             selectedTabIndex = state,
             contentColor = Color.White,
-            containerColor = BackgroundPrimary,
+            containerColor = MaterialTheme.color.backgroundOnPrimary,
         ) {
             titles.forEachIndexed { index, title ->
                 Box {
@@ -59,7 +60,7 @@ fun HomeTabLayout() {
                                 .fillMaxWidth(0.6f)
                                 .height(MaterialTheme.dimens.dimens4)
                                 .align(Alignment.BottomCenter)
-                                .background(Purple100, RoundedCornerShape(50))
+                                .background(MaterialTheme.color.brand100, RoundedCornerShape(50))
                         )
                     }
                 }

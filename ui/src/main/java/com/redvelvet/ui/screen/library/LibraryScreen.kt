@@ -18,10 +18,8 @@ import androidx.compose.ui.text.style.TextAlign
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.FilxTopAppBar
 import com.redvelvet.ui.composable.PrimaryButton
-import com.redvelvet.ui.theme.BackgroundPrimary
-import com.redvelvet.ui.theme.FontPrimary
-import com.redvelvet.ui.theme.FontSecondary
 import com.redvelvet.ui.theme.Typography
+import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
 
 @Composable
@@ -36,7 +34,7 @@ fun LibraryScreen() {
                 modifier = Modifier.fillMaxWidth()
             )
         },
-        containerColor = BackgroundPrimary,
+        containerColor = MaterialTheme.color.backgroundPrimary,
     ) { paddingValues ->
         LibraryContent(paddingValues = paddingValues)
     }
@@ -57,13 +55,13 @@ private fun LibraryContent(paddingValues: PaddingValues) {
         )
         Text(
             text = "Login Required",
-            style = Typography.headlineLarge.copy(color = FontPrimary),
+            style = Typography.headlineLarge.copy(color = MaterialTheme.color.fontPrimary),
             modifier = Modifier.padding(top = MaterialTheme.spacing.spacing32),
             textAlign = TextAlign.Center,
         )
         Text(
             text = "Use your account to enjoy the best app experience.",
-            style = Typography.titleSmall.copy(color = FontSecondary),
+            style = Typography.titleSmall.copy(color = MaterialTheme.color.fontSecondary),
             modifier = Modifier.padding(top = MaterialTheme.spacing.spacing4),
             textAlign = TextAlign.Center,
         )
