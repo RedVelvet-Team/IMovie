@@ -36,7 +36,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -126,7 +125,7 @@ private fun LoginScreenContent(
             ) {
                 Image(
                     bitmap = imageBitmap,
-                    contentDescription = stringResource(R.string.login_image),
+                    contentDescription = "Login Image",
                     modifier = Modifier
                         .height(MaterialTheme.dimens.dimens365)
                         .fillMaxWidth(),
@@ -140,7 +139,7 @@ private fun LoginScreenContent(
                 LoginContentLandscape(uiState = uiState, interaction = interaction)
                 Image(
                     bitmap = imageBitmap,
-                    contentDescription = stringResource(R.string.login_image),
+                    contentDescription = "Login Image",
                     modifier = Modifier
                         .height(MaterialTheme.dimens.dimens365)
                         .fillMaxWidth(),
@@ -163,13 +162,13 @@ private fun LoginContentPortrait(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = stringResource(R.string.welcome_back),
+            text = "Welcome Back!",
             modifier = Modifier.align(Alignment.Start),
             style = Typography.headlineMedium,
             color = MaterialTheme.color.fontPrimary
         )
         Text(
-            text = stringResource(R.string.login_to_your_account),
+            text = "Login to your account",
             modifier = Modifier
                 .align(Alignment.Start)
                 .padding(top = MaterialTheme.spacing.spacing4),
@@ -181,8 +180,8 @@ private fun LoginContentPortrait(
             value = uiState.userName,
             modifier = Modifier.padding(top = MaterialTheme.spacing.spacing24),
             isError = uiState.isUserNameEmpty,
-            errorMessage = stringResource(R.string.invalid_user_name),
-            text = stringResource(R.string.username),
+            errorMessage = "Invalid userName",
+            text = "Username",
             onClick = interaction::onUserNameChanged
         )
 
@@ -193,8 +192,8 @@ private fun LoginContentPortrait(
                 bottom = MaterialTheme.spacing.spacing24
             ),
             isError = uiState.isPasswordEmpty,
-            errorMessage = stringResource(R.string.invalid_password),
-            text = stringResource(R.string.password),
+            errorMessage = "Invalid password",
+            text = "Password",
             onClick = interaction::onPasswordChanged
         )
 
@@ -208,7 +207,7 @@ private fun LoginContentPortrait(
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.color.brand100)
         ) {
             Text(
-                text = stringResource(R.string.login),
+                text = "Login",
                 modifier = Modifier.padding(vertical = MaterialTheme.spacing.spacing8),
                 style = Typography.headlineSmall,
                 color = MaterialTheme.color.fontPrimary
@@ -224,7 +223,7 @@ private fun LoginContentPortrait(
         ) {
             LoginDivider(modifier = Modifier.weight(1f))
             Text(
-                stringResource(R.string.or),
+                "OR",
                 color = Color.White,
                 modifier = Modifier.padding(horizontal = MaterialTheme.spacing.spacing8)
             )
@@ -251,14 +250,14 @@ private fun LoginContentLandscape(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = stringResource(R.string.welcome_back),
+            text = "Welcome Back!",
             modifier = Modifier.padding(top = MaterialTheme.spacing.spacing24),
             style = Typography.headlineMedium,
             color = MaterialTheme.color.fontPrimary
         )
 
         Text(
-            text = stringResource(R.string.login_to_your_account),
+            text = "Login to your account",
             modifier = Modifier.padding(
                 top = MaterialTheme.spacing.spacing4,
                 bottom = MaterialTheme.spacing.spacing8
@@ -271,8 +270,8 @@ private fun LoginContentLandscape(
             modifier = Modifier.padding(horizontal = MaterialTheme.spacing.spacing16),
             value = uiState.userName,
             isError = uiState.isUserNameEmpty,
-            text = stringResource(R.string.username),
-            errorMessage = stringResource(R.string.invalid_user_name),
+            text = "Username",
+            errorMessage = "Invalid Username",
             onClick = interaction::onUserNameChanged
         )
 
@@ -285,8 +284,8 @@ private fun LoginContentLandscape(
                     bottom = MaterialTheme.spacing.spacing8
                 ),
             isError = uiState.isPasswordEmpty,
-            text = stringResource(R.string.password),
-            errorMessage = stringResource(R.string.invalid_password),
+            text = "Password",
+            errorMessage = "Invalid Password",
             onClick = interaction::onPasswordChanged
         )
 
@@ -301,7 +300,7 @@ private fun LoginContentLandscape(
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.color.brand100)
         ) {
             Text(
-                text = stringResource(R.string.login),
+                text = "Login",
                 modifier = Modifier.padding(
                     top = MaterialTheme.spacing.spacing8,
                     bottom = MaterialTheme.spacing.spacing16
@@ -342,7 +341,7 @@ private fun GuestOrSignUp(
                 )
         ) {
             Text(
-                text = stringResource(R.string.continue_as_a_guest),
+                text = "Continue as a guest",
                 modifier = Modifier.padding(end = MaterialTheme.spacing.spacing8),
                 style = Typography.headlineSmall,
                 color = MaterialTheme.color.fontPrimary
@@ -359,7 +358,7 @@ private fun GuestOrSignUp(
         ) {
             Text(
                 modifier = Modifier.padding(vertical = MaterialTheme.spacing.spacing8),
-                text = stringResource(R.string.signup),
+                text = "Sign Up",
                 style = Typography.headlineSmall,
                 color = MaterialTheme.color.fontPrimary
             )

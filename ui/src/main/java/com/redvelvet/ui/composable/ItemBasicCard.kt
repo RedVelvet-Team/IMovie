@@ -40,7 +40,7 @@ fun ItemBasicCard(
         ) {
             Image(
                 painter = imagePainter,
-                contentDescription = stringResource(R.string.poster),
+                contentDescription = "movie poster image",
                 modifier = Modifier.fillMaxSize()
             )
         }

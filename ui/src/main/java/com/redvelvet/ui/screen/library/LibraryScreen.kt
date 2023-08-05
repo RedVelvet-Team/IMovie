@@ -14,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.FilxTopAppBar
@@ -30,7 +29,7 @@ fun LibraryScreen() {
             .fillMaxSize(),
         topBar = {
             FilxTopAppBar(
-                title = stringResource(R.string.library_title_screen),
+                title = "Library",
                 hasBackArrow = false,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -52,16 +51,16 @@ private fun LibraryContent(paddingValues: PaddingValues) {
     ) {
         Image(
             painter = painterResource(id = R.drawable.library_logo),
-            contentDescription = stringResource(R.string.library_logo)
+            contentDescription = "library logo"
         )
         Text(
-            text = stringResource(R.string.login_require_header),
+            text = "Login Required",
             style = Typography.headlineLarge.copy(color = MaterialTheme.color.fontPrimary),
             modifier = Modifier.padding(top = MaterialTheme.spacing.spacing32),
             textAlign = TextAlign.Center,
         )
         Text(
-            text = stringResource(R.string.login_require_description),
+            text = "Use your account to enjoy the best app experience.",
             style = Typography.titleSmall.copy(color = MaterialTheme.color.fontSecondary),
             modifier = Modifier.padding(top = MaterialTheme.spacing.spacing4),
             textAlign = TextAlign.Center,
@@ -71,7 +70,7 @@ private fun LibraryContent(paddingValues: PaddingValues) {
             modifier = Modifier.padding(top = MaterialTheme.spacing.spacing32)
         ) {
             PrimaryButton(
-                text = stringResource(R.string.login_require_button),
+                text = "Login",
                 onClick = { /*TODO*/ },
             )
         }

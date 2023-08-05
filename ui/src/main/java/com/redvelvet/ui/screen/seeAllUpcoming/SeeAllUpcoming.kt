@@ -31,7 +31,7 @@ fun SeeAllUpcomingListScreen(navController: NavController) {
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = { FilxTopAppBar(stringResource(R.string.upcoming), hasBackArrow = true) },
+        topBar = { FilxTopAppBar("Upcoming ", hasBackArrow = true) },
         containerColor = MaterialTheme.color.backgroundPrimary
     ) {
         SeeAllUpcomingListContent()

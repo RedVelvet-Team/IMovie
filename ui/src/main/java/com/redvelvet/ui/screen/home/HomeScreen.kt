@@ -12,12 +12,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.FilxTopAppBar
 import com.redvelvet.ui.composable.HomeTabLayout
 import com.redvelvet.ui.composable.ItemsSection
@@ -46,7 +44,7 @@ fun HomeScreen(
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
             FilxTopAppBar(
-                stringResource(R.string.flixmovie),
+                "FlixMovie",
                 hasBackArrow = false
             )
         }, bottomBar = {
@@ -72,7 +70,7 @@ fun HomeScreenContent(
         LazyColumn(contentPadding = PaddingValues(vertical = MaterialTheme.spacing.spacing16)) {
             item {
                 ItemsSection(
-                    label = stringResource(R.string.popular_movies),
+                    label = "Popular Movies",
                     images = listOf(state.popularMovie?.movieImage!!),
                     hasName = true,
                     name = listOf(state.popularMovie?.movieName!!),
@@ -83,7 +81,7 @@ fun HomeScreenContent(
             }
             item {
                 ItemsSection(
-                    label = stringResource(R.string.up_coming),
+                    label = "Up Coming",
                     headerModifier = Modifier.padding(top = MaterialTheme.spacing.spacing24),
                     images = state.upComingMovies.map { it.movieImage },
                     hasName = true,
@@ -95,7 +93,7 @@ fun HomeScreenContent(
             }
             item {
                 ItemsSection(
-                    label = stringResource(R.string.top_rated),
+                    label = "Top Rated",
                     headerModifier = Modifier.padding(top = MaterialTheme.spacing.spacing24),
                     images = state.upComingMovies.map { it.movieImage },
                     hasName = true,
