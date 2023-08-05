@@ -29,7 +29,6 @@ import com.redvelvet.ui.theme.RoundedShape
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.spacing
 
-
 @Composable
 fun HomeTabLayout() {
     var state by remember { mutableStateOf(0) }
