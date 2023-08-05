@@ -58,7 +58,8 @@ fun IMovieTheme(
     CompositionLocalProvider(
         LocalSpacing provides Spacing(),
         LocalRadius provides Radius(),
-        LocalDimens provides Dimens()
+        LocalDimens provides Dimens(),
+        LocalColors provides Colors()
     ) {
         MaterialTheme(
             colorScheme = colorScheme,
