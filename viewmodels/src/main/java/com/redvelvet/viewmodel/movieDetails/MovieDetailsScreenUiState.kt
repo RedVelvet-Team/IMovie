@@ -58,7 +58,7 @@ data class MovieDetailsScreenUiState(
     )
 
     data class MovieReviewsUiState(
-        val reviewId: Int = 0,
+        val reviewId: String = "",
         val reviewAuthor: String = "",
         val reviewDate: String = "",
         val reviewStars: Double = 0.0,

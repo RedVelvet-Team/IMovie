@@ -5,7 +5,7 @@ data class MovieReviews(
     val results:List<Result>
 ){
     data class Result(
-        val id: Int,
+        val id: String,
         val name: String,
         val username: String,
         val content: String,

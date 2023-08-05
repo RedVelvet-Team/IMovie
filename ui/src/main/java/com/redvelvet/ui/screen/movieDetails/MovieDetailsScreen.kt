@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -55,7 +56,11 @@ fun MovieDetailsScreen(
         LoadingState()
     }
     if (!state.isLoading && state.isError.first) {
-        displayTestToast(context, state.isError.second)
+        Text(
+            text = state.isError.second,
+            modifier = Modifier
+                .fillMaxSize()
+        )
     }
     if (!state.isLoading && !state.isError.first) {
         Box(
@@ -78,11 +83,6 @@ fun MovieDetailsScreen(
         }
     }
 }
-
-private fun displayTestToast(context: Context, message: String) {
-    Toast.makeText(context, "$message Clicked", Toast.LENGTH_SHORT).show()
-}
-
 
 private fun fakeData(): MovieDetailsScreenUiState.MovieFullDetailsUiState {
     return MovieDetailsScreenUiState.MovieFullDetailsUiState(
@@ -203,21 +203,21 @@ private fun fakeData(): MovieDetailsScreenUiState.MovieFullDetailsUiState {
 
         reviews = listOf(
             MovieDetailsScreenUiState.MovieReviewsUiState(
-                reviewId = 1,
+                reviewId = "1",
                 reviewStars = 5.5,
                 reviewDescription = "Princess Leia is captured and held hostage by the evil Imperial forces in their effort to take over the galactic Empire.",
                 reviewAuthor = "Taha",
                 reviewDate = "2021-05-25",
             ),
             MovieDetailsScreenUiState.MovieReviewsUiState(
-                reviewId = 2,
+                reviewId = "2",
                 reviewStars = 5.5,
                 reviewDescription = "Princess Leia is captured and held hostage by the evil Imperial forces in their effort to take over the galactic Empire.",
                 reviewAuthor = "Saad",
                 reviewDate = "2011-05-25",
             ),
             MovieDetailsScreenUiState.MovieReviewsUiState(
-                reviewId = 3,
+                reviewId = "3",
                 reviewStars = 5.5,
                 reviewDescription = "Princess Leia is captured and held hostage by the evil Imperial forces in their effort to take over the galactic Empire.",
                 reviewAuthor = "SeSe",

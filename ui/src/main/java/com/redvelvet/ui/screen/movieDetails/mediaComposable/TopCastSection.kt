@@ -52,5 +52,8 @@ fun TopCastSection(
                 }
             }
         },
+        onClickSeeAll = { uiEvent.onTopCastSeeAll() },
+        onClickItem = { uiEvent.onCast(0) }
+
     )
 }

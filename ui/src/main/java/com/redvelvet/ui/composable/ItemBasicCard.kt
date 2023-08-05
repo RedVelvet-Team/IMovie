@@ -1,6 +1,7 @@
 package com.redvelvet.ui.composable
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,10 +32,13 @@ fun ItemBasicCard(
     name: String = "",
     hasDateAndCountry: Boolean = false,
     date: String = "",
-    country: String = ""
+    country: String = "",
+    onClick: () -> Unit = {}
 ) {
     Column(
-        modifier = Modifier.width(104.dp)
+        modifier = Modifier
+            .width(104.dp)
+            .clickable { onClick() }
     ) {
         Card(
             modifier = Modifier
