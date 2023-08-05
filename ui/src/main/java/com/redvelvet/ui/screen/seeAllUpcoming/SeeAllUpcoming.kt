@@ -14,8 +14,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.FilxTopAppBar
@@ -53,7 +55,7 @@ private fun SeeAllUpcomingListContent() {
         ) {
             items(20) {
                 ItemBasicCard(
-                    image ="",
+                    imagePainter = rememberAsyncImagePainter(model = ""),
                     hasName = true,
                     name = "Al amal",
                     hasDateAndCountry = true,
