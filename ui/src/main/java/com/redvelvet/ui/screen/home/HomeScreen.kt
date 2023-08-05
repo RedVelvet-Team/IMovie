@@ -83,7 +83,7 @@ fun HomeScreenContent(
                 )
             }
             item {
-                VerticalSpacer(space = MaterialTheme.spacing.spacingVertical24)
+                VerticalSpacer(space = MaterialTheme.spacing.spacing24)
                 ItemsSection(
                     label = stringResource(R.string.up_coming),
                     images = state.upComingMovies.map { it.movieImage },
@@ -95,7 +95,7 @@ fun HomeScreenContent(
                 )
             }
             item {
-                VerticalSpacer(space = MaterialTheme.spacing.spacingVertical24)
+                VerticalSpacer(space = MaterialTheme.spacing.spacing24)
                 ItemsSection(
                     label = stringResource(R.string.top_rated),
                     images = state.upComingMovies.map { it.movieImage },
