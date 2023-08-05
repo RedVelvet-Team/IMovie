@@ -17,14 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.redvelvet.ui.navigation.MovieDestination
-import com.redvelvet.ui.theme.Background
+import com.redvelvet.ui.theme.BackgroundPrimary
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 
@@ -53,7 +52,7 @@ fun BottomNavBar(navController: NavHostController, visibility: Boolean) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(MaterialTheme.dimens.dimens70)
-                .background(Background)
+                .background(BackgroundPrimary)
                 .shadow(
                     elevation = MaterialTheme.spacing.spacing2,
                     spotColor = Color.White,

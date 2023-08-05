@@ -2,9 +2,7 @@ package com.redvelvet.ui.screen.search
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -15,13 +13,13 @@ import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.composable.InitialContentInSearch
 import com.redvelvet.ui.composable.SearchBox
-import com.redvelvet.ui.theme.Primary
+import com.redvelvet.ui.theme.BackgroundPrimary
 import com.redvelvet.ui.theme.dimens
 
 @Composable
 fun SearchScreen(navController: NavController) {
     val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(Primary, darkIcons = false)
+    systemUiController.setSystemBarsColor(BackgroundPrimary, darkIcons = false)
     SearchContent()
 }
 
@@ -32,7 +30,7 @@ private fun SearchContent() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color= Primary)
+            .background(color= BackgroundPrimary)
             .padding(MaterialTheme.dimens.dimens16)
     ) {
         SearchBox()

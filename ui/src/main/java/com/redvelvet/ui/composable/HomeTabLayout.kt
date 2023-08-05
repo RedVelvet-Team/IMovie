@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.redvelvet.ui.theme.Primary
+import com.redvelvet.ui.theme.BackgroundPrimary
 import com.redvelvet.ui.theme.Purple100
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.dimens
@@ -37,7 +37,7 @@ fun HomeTabLayout() {
         TabRow(
             selectedTabIndex = state,
             contentColor = Color.White,
-            containerColor = Primary,
+            containerColor = BackgroundPrimary,
         ) {
             titles.forEachIndexed { index, title ->
                 Box {

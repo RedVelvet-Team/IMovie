@@ -20,18 +20,18 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.FilxTopAppBar
 import com.redvelvet.ui.composable.ItemBasicCard
-import com.redvelvet.ui.theme.Primary
+import com.redvelvet.ui.theme.BackgroundPrimary
 import com.redvelvet.ui.theme.spacing
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun SeeAllUpcomingListScreen(navController: NavController) {
     val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(Primary, darkIcons = false)
+    systemUiController.setSystemBarsColor(BackgroundPrimary, darkIcons = false)
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = { FilxTopAppBar(stringResource(R.string.upcoming), hasBackArrow = true) },
-        containerColor = Primary
+        containerColor = BackgroundPrimary
     ) {
         SeeAllUpcomingListContent()
     }
@@ -42,7 +42,7 @@ private fun SeeAllUpcomingListContent() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Primary)
+            .background(BackgroundPrimary)
             .padding(top = MaterialTheme.spacing.spacing64)
     ) {
         LazyVerticalGrid(

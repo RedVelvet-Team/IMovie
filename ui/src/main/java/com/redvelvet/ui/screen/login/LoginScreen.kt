@@ -51,7 +51,7 @@ import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.home.navigateToHome
 import com.redvelvet.ui.screen.signup.navigateToSignUp
 import com.redvelvet.ui.theme.FontPrimary
-import com.redvelvet.ui.theme.Primary
+import com.redvelvet.ui.theme.BackgroundPrimary
 import com.redvelvet.ui.theme.Purple100
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.dimens
@@ -71,7 +71,7 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
     val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(Primary, darkIcons = false)
+    systemUiController.setSystemBarsColor(BackgroundPrimary, darkIcons = false)
     val uiState by viewModel.state.collectAsState()
     val scope = rememberCoroutineScope()
     LaunchedEffect(key1 = Unit) {
@@ -117,7 +117,7 @@ private fun LoginScreenContent(
             BottomSheetScaffold(
                 sheetContent = { LoginContentPortrait(uiState, interaction) },
                 scaffoldState = sheetState,
-                sheetContainerColor = Primary,
+                sheetContainerColor = BackgroundPrimary,
                 sheetShape = RoundedCornerShape(
                     topStart = MaterialTheme.radius.radius32,
                     topEnd = MaterialTheme.radius.radius32
@@ -249,7 +249,7 @@ private fun LoginContentLandscape(
         modifier = Modifier
             .fillMaxWidth(0.5f)
             .fillMaxHeight()
-            .background(Primary),
+            .background(BackgroundPrimary),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(

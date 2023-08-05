@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.redvelvet.ui.R
-import com.redvelvet.ui.theme.Secondary
+import com.redvelvet.ui.theme.BackgroundSecondary
 import com.redvelvet.ui.theme.radius
 
 @Composable
@@ -51,9 +51,9 @@ fun UserNameTextField(
             focusedTextColor = Color.White,
             unfocusedTextColor = Color.White,
             disabledTextColor = Color.White,
-            focusedContainerColor = Secondary,
-            unfocusedContainerColor = Secondary,
-            disabledContainerColor = Secondary,
+            focusedContainerColor = BackgroundSecondary,
+            unfocusedContainerColor = BackgroundSecondary,
+            disabledContainerColor = BackgroundSecondary,
             focusedBorderColor = Color.Transparent,
             unfocusedBorderColor = Color.Transparent,
             disabledBorderColor = Color.Transparent,

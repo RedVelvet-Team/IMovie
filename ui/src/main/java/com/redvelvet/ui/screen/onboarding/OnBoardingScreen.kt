@@ -31,7 +31,7 @@ import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.login.navigateToLogin
 import com.redvelvet.ui.theme.FontPrimary
 import com.redvelvet.ui.theme.FontSecondary
-import com.redvelvet.ui.theme.Primary
+import com.redvelvet.ui.theme.BackgroundPrimary
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
@@ -63,7 +63,7 @@ fun OnBoardingScreen(
             }
         }
     }
-    systemUiController.setSystemBarsColor(Primary, darkIcons = false)
+    systemUiController.setSystemBarsColor(BackgroundPrimary, darkIcons = false)
     OnBoardingContent {
         viewModel.setNotFirstTimeUseApp()
     }

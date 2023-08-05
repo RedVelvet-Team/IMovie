@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -23,8 +24,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.dp
 import com.redvelvet.ui.R
+import com.redvelvet.ui.theme.BackgroundSecondary
+import com.redvelvet.ui.theme.radius
 
 @Composable
 fun PasswordTextField(
@@ -68,15 +70,15 @@ fun PasswordTextField(
                 contentDescription = stringResource(R.string.show_and_hide_password_icon)
             )
         },
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(MaterialTheme.radius.radius16),
         isError = isError,
         colors = OutlinedTextFieldDefaults.colors(
             focusedTextColor = Color.White,
             unfocusedTextColor = Color.White,
             disabledTextColor = Color.White,
-            focusedContainerColor = Color(0xFF20233C),
-            unfocusedContainerColor = Color(0xFF20233C),
-            disabledContainerColor = Color(0xFF20233C),
+            focusedContainerColor = BackgroundSecondary,
+            unfocusedContainerColor = BackgroundSecondary,
+            disabledContainerColor = BackgroundSecondary,
             focusedBorderColor = Color.Transparent,
             unfocusedBorderColor = Color.Transparent,
             disabledBorderColor = Color.Transparent,

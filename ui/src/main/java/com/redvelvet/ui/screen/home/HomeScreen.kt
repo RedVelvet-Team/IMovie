@@ -20,7 +20,7 @@ import com.redvelvet.ui.composable.FilxTopAppBar
 import com.redvelvet.ui.composable.HomeTabLayout
 import com.redvelvet.ui.composable.ItemsSection
 import com.redvelvet.ui.composable.VerticalSpacer
-import com.redvelvet.ui.theme.Primary
+import com.redvelvet.ui.theme.BackgroundPrimary
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.home.HomeUiState
 import com.redvelvet.viewmodel.home.HomeViewModel
@@ -44,7 +44,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltView
     }, bottomBar = {
         //TODO @Hassan Ayman
     },
-        containerColor = Primary
+        containerColor = BackgroundPrimary
     ) { paddingValues ->
         HomeScreenContent(paddingValues, state)
     }

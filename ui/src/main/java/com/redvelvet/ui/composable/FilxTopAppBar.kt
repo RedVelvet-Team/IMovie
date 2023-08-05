@@ -14,10 +14,9 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import com.redvelvet.ui.R
-import com.redvelvet.ui.theme.OnPrimary
-import com.redvelvet.ui.theme.Primary
+import com.redvelvet.ui.theme.BackgroundOnPrimary
+import com.redvelvet.ui.theme.BackgroundPrimary
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.spacing
 
@@ -27,8 +26,8 @@ fun FilxTopAppBar(title: String, hasBackArrow: Boolean, modifier: Modifier = Mod
     Surface(
         modifier = modifier.shadow(
             elevation = MaterialTheme.spacing.spacing2,
-            spotColor = OnPrimary,
-            ambientColor = OnPrimary
+            spotColor = BackgroundOnPrimary,
+            ambientColor = BackgroundOnPrimary
         )
     ) {
         CenterAlignedTopAppBar(
@@ -47,7 +46,7 @@ fun FilxTopAppBar(title: String, hasBackArrow: Boolean, modifier: Modifier = Mod
                             Icon(
                                 imageVector = ImageVector.vectorResource(R.drawable.icon_back),
                                 contentDescription = "Localized description",
-                                tint = OnPrimary
+                                tint = BackgroundOnPrimary
                             )
                         }
                     }
@@ -56,8 +55,8 @@ fun FilxTopAppBar(title: String, hasBackArrow: Boolean, modifier: Modifier = Mod
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = Primary,
-                titleContentColor = OnPrimary,
+                containerColor = BackgroundPrimary,
+                titleContentColor = BackgroundOnPrimary,
             ),
 
             )
