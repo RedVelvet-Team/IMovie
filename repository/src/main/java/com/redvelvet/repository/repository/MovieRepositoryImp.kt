@@ -3,7 +3,9 @@ package com.redvelvet.repository.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.map
 import com.redvelvet.entities.search.SearchResult
+import com.redvelvet.repository.mapper.toEntity
 import com.redvelvet.repository.mapper.toSearchResult
 import com.redvelvet.repository.source.FirebaseDataSource
 import com.redvelvet.repository.source.LocalDataSource
@@ -24,14 +26,20 @@ class MovieRepositoryImp @Inject constructor(
         query: String,
         page: Int?
     ): Flow<PagingData<List<SearchResult>>> {
-        return  Pager(
+        return Pager(
             config = PagingConfig(pageSize = 200, prefetchDistance = 2),
             pagingSourceFactory = {
-                MultiSearchResultsPageDataSource(query)
+                MultiSearchResultsPageDataSource(
+                    query = query,
+                    remoteDataSource = remoteDataSource
+                )
             }
-        ).flow.map { pagingData->
-            pagingData
-
+        ).flow.map { pagingData ->
+            pagingData.map { searchResultDto ->
+                searchResultDto.map {
+                    it.toEntity()
+                }
+            }
         }
     }
 //        return wrapRemoteResponse {

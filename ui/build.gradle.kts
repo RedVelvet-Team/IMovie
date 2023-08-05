@@ -89,4 +89,10 @@ dependencies {
     //permissions
     implementation("com.google.accompanist:accompanist-permissions:0.31.3-beta")
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0-alpha01")
+    //paging 3
+    val paging_version = "3.1.1"
+    //noinspection GradleDependency
+    implementation("androidx.paging:paging-runtime-ktx:$paging_version")
+    implementation("androidx.paging:paging-compose:3.2.0")
+    implementation("androidx.paging:paging-common-ktx:3.1.1")
 }

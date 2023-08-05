@@ -55,4 +55,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version")
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version")
     testImplementation("androidx.lifecycle:lifecycle-runtime-testing:$lifecycle_version")
+    implementation("androidx.paging:paging-common-ktx:3.1.1")
+
 }
