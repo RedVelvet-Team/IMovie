@@ -27,11 +27,11 @@ fun InitialContentInSearch(modifier: Modifier = Modifier) {
         Image(
             modifier = modifier.fillMaxWidth(),
             painter = painterResource(id = R.drawable.vector_serach),
-            contentDescription = stringResource(R.string.no_search_results)
+            contentDescription = " No Search Results "
         )
         StatusText(
-            statusTitle = stringResource(R.string.search_in_movie),
-            statusDescription = stringResource(R.string.search_for_your_favorite_movies),
+            statusTitle = "Search in Movie",
+            statusDescription = "Search for your favorite movies and\nTV shows that you love.",
             modifier = Modifier.padding(top = MaterialTheme.spacing.spacing32)
         )
     }

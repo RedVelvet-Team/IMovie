@@ -33,7 +33,7 @@ fun SearchBox(
         leadingIcon = {
             Icon(
                 painter = painterResource(id = R.drawable.icon_search),
-                contentDescription = stringResource(R.string.search_icon),
+                contentDescription = "Search Icon",
                 tint = MaterialTheme.color.fontAccent
             )
         },
@@ -41,7 +41,7 @@ fun SearchBox(
         colors = SearchBarDefaults.colors(containerColor = BackgroundSecondary),
         placeholder = {
             Text(
-                text = stringResource(R.string.search_place_holder),
+                text = "What do you want to Watch?",
                 style = Typography.bodyMedium,
                 color = MaterialTheme.color.fontAccent,
             )
