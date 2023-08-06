@@ -6,9 +6,9 @@ import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.composable
 import com.redvelvet.ui.navigation.MovieDestination
 
-fun NavGraphBuilder.homeRoute(navController: NavController) {
+fun NavGraphBuilder.homeRoute() {
     composable(route = MovieDestination.Home.route) {
-        HomeScreen(navController = navController)
+        HomeScreen()
     }
 }
 

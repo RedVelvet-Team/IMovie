@@ -22,9 +22,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.WallPaper
@@ -42,14 +41,14 @@ import kotlinx.coroutines.launch
 @Preview()
 @Composable
 fun TestTest() {
-    OnBoardingScreen(navController = rememberNavController())
+    OnBoardingScreen()
 }
 
 @Composable
 fun OnBoardingScreen(
-    navController: NavController,
     viewModel: OnBoardingViewModel = hiltViewModel(),
 ) {
+    val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
     val scope = rememberCoroutineScope()

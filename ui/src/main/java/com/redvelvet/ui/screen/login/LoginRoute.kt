@@ -7,9 +7,9 @@ import androidx.navigation.compose.composable
 import com.redvelvet.ui.navigation.MovieDestination
 
 
-fun NavGraphBuilder.loginRoute(navController: NavController) {
+fun NavGraphBuilder.loginRoute() {
     composable(route = MovieDestination.Login.route) {
-        LoginScreen(navController = navController)
+        LoginScreen()
     }
 }
 

@@ -22,19 +22,20 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 
 @Composable
-fun currentDestination(navController: NavHostController): NavDestination? {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
+fun currentDestination(): NavDestination? {
+    val navBackStackEntry by LocalNavController.current.currentBackStackEntryAsState()
     return navBackStackEntry?.destination
 }
 
 @Composable
-fun BottomNavBar(navController: NavHostController, visibility: Boolean) {
+fun BottomNavBar(visibility: Boolean) {
     val items by remember {
         mutableStateOf(
             listOf(
@@ -64,8 +65,7 @@ fun BottomNavBar(navController: NavHostController, visibility: Boolean) {
             items.forEach { screen ->
                 BottomNavItem(
                     screen = screen,
-                    currentDestination = currentDestination(navController = navController),
-                    navController = navController
+                    currentDestination = currentDestination(),
                 )
             }
         }
@@ -76,8 +76,8 @@ fun BottomNavBar(navController: NavHostController, visibility: Boolean) {
 fun BottomNavItem(
     screen: MovieDestination,
     currentDestination: NavDestination?,
-    navController: NavHostController
 ) {
+    val navController = LocalNavController.current
     val selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
     Icon(
         modifier = Modifier

@@ -14,8 +14,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.redvelvet.ui.composable.FilxTopAppBar
 import com.redvelvet.ui.composable.HomeTabLayout
 import com.redvelvet.ui.composable.ItemsSection
@@ -31,13 +29,11 @@ import com.redvelvet.viewmodel.home.HomeViewModel
 )
 @Composable
 fun PreviewHomeScreenVertical() {
-    val navController = rememberNavController()
-    HomeScreen(navController)
+    HomeScreen()
 }
 
 @Composable
 fun HomeScreen(
-    navController: NavController,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
@@ -48,7 +44,6 @@ fun HomeScreen(
                 hasBackArrow = false
             )
         }, bottomBar = {
-            //TODO @Hassan Ayman
         },
         containerColor = MaterialTheme.color.backgroundPrimary
     ) { paddingValues ->
