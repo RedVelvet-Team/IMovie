@@ -57,11 +57,7 @@ fun OnBoardingScreen(
             viewModel.event.collectLatest { event ->
                 when (event) {
                     OnBoardingUiEvent.NavigateToLogin -> {
-                        navController.navigateToLogin {
-                            popUpTo(MovieDestination.OnBoarding.route) {
-                                inclusive = true
-                            }
-                        }
+                        navController.navigateToLogin()
                     }
                 }
             }

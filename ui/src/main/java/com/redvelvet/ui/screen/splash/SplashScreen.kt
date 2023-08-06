@@ -32,6 +32,10 @@ import com.redvelvet.viewmodel.splash.SplashUiState
 import com.redvelvet.viewmodel.splash.SplashViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import androidx.navigation.NavOptionsBuilder
+import androidx.navigation.NavController
+import androidx.navigation.navOptions
+
 
 @Composable
 fun SplashScreen(
@@ -47,27 +51,15 @@ fun SplashScreen(
             viewModel.event.collectLatest { event ->
                 when (event) {
                     is SplashUiEvent.NavigateToHome -> {
-                        navController.navigateToHome {
-                            popUpTo(MovieDestination.Splash.route) {
-                                inclusive = true
-                            }
-                        }
+                        navController.navigateToHome()
                     }
 
                     is SplashUiEvent.NavigateToOnBoarding -> {
-                        navController.navigateToOnBoarding {
-                            popUpTo(MovieDestination.Splash.route) {
-                                inclusive = true
-                            }
-                        }
+                        navController.navigateToOnBoarding()
                     }
 
                     is SplashUiEvent.NavigateToLogin -> {
-                        navController.navigateToLogin {
-                            popUpTo(MovieDestination.Splash.route) {
-                                inclusive = true
-                            }
-                        }
+                        navController.navigateToLogin()
                     }
                 }
             }
@@ -101,3 +93,9 @@ private fun SplashContent(
         )
     }
 }
+
+
+
+
+
+

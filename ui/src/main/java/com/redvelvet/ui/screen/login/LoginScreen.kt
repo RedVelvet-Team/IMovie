@@ -75,11 +75,7 @@ fun LoginScreen(
             viewModel.event.collectLatest { event ->
                 when (event) {
                     is LoginUiEvent.NavigateTomHomeScreen -> {
-                        navController.navigateToHome {
-                            popUpTo(MovieDestination.Login.route) {
-                                inclusive = true
-                            }
-                        }
+                        navController.navigateToHome()
                     }
 
                     is LoginUiEvent.NavigateToSignUpScreen -> {
