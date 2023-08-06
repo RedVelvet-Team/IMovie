@@ -40,27 +40,25 @@ android {
 
 dependencies {
     implementation(project(":repository"))
-    implementation("androidx.core:core-ktx:1.10.1")
-    implementation(project(mapOf("path" to ":repository")))
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    //hilt
-    implementation("com.google.dagger:hilt-android:2.46.1")
-    kapt("com.google.dagger:hilt-compiler:2.46.1")
-    implementation("androidx.hilt:hilt-work:1.0.0")
+    implementation(Deps.coreKtx)
+    implementation(Deps.junitExt)
+    implementation(Deps.testMonitor)
+    testImplementation(Deps.testng)
+    androidTestImplementation(Deps.testng)
+    testImplementation(Deps.junit)
+    // Hilt
+    implementation(Deps.hiltAndroid)
+    kapt(Deps.hiltCompiler)
+    implementation(Deps.hiltWork)
     //firebase
-    implementation(platform("com.google.firebase:firebase-bom:32.2.0"))
-    implementation("com.google.firebase:firebase-analytics-ktx")
-    implementation("com.google.firebase:firebase-auth-ktx:22.1.0")
-    implementation("com.google.firebase:firebase-firestore-ktx")
-    implementation("com.google.android.gms:play-services-auth:20.6.0")
-    //workManager
-    val work_version = "2.8.1"
-    // Kotlin + coroutines
-    implementation("androidx.work:work-runtime-ktx:$work_version")
-    // optional - Multiprocess support
-    implementation("androidx.work:work-multiprocess:$work_version")
+    implementation(platform(Deps.firebaseBom))
+    implementation(Deps.firebaseAnalytics)
+    implementation(Deps.firebaseAuth)
+    implementation(Deps.firebaseFirestore)
+    implementation(Deps.playServicesAuth)
     //gson
-    implementation("com.google.code.gson:gson:2.10.1")
+    implementation(Deps.gson)
+    //workManager
+    implementation(Deps.workRuntimeKtx)
+    implementation(Deps.workMultiprocess)
 }
