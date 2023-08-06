@@ -13,8 +13,7 @@ private const val SIGNUP_LINK = "https://www.themoviedb.org/signup"
 
 @SuppressLint("SetJavaScriptEnabled", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun SignUpScreen(
-) {
+fun SignUpScreen() {
     val state = rememberWebViewState(SIGNUP_LINK)
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
