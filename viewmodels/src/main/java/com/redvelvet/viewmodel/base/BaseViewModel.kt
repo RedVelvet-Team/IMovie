@@ -1,5 +1,6 @@
 package com.redvelvet.viewmodel.base
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -44,10 +45,9 @@ abstract class BaseViewModel<UiState : BaseUiState>(state: UiState) : ViewModel(
             try {
                 val result = call()
                 delay(1000)
-                launch(Dispatchers.Main) {
-                    result.collect { data ->
-                        onSuccess(data)
-                    }
+                result.collect { data ->
+                    Log.v("hassan", "Data received: $data")
+                    onSuccess(data)
                 }
             } catch (e: ErrorType) {
                 onError(e.toErrorUiState())

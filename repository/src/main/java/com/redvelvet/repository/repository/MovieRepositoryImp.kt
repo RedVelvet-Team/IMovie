@@ -1,19 +1,16 @@
 package com.redvelvet.repository.repository
 
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.map
 import com.redvelvet.entities.search.SearchResult
-import com.redvelvet.repository.mapper.toEntity
 import com.redvelvet.repository.mapper.toSearchResult
+import com.redvelvet.repository.pagingSource.MultiSearchPageSource
 import com.redvelvet.repository.source.FirebaseDataSource
 import com.redvelvet.repository.source.LocalDataSource
 import com.redvelvet.repository.source.RemoteDataSource
 import com.redvelvet.usecase.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class MovieRepositoryImp @Inject constructor(
@@ -23,29 +20,12 @@ class MovieRepositoryImp @Inject constructor(
 ) : MovieRepository, BaseRepository() {
 
     //region search
-    override suspend fun multiSearch(
-        query: String,
-        page: Int?
-    ): Flow<PagingData<SearchResult>> {
-        Log.v("hassan", "send to repo $page")
+    override fun multiSearch(query: String, page: Int?): Flow<PagingData<SearchResult>> {
         return Pager(
-            config = PagingConfig(pageSize = 4, prefetchDistance = 1),
-            pagingSourceFactory = {
-                MultiSearchResultsPageDataSource(
-                    query = query,
-                    remoteDataSource = remoteDataSource
-                )
-            }
-        ).flow.map { pagingData ->
-            pagingData.map { searchResultDto ->
-                Log.v("hassan", "data repo $searchResultDto")
-                searchResultDto.toEntity()
-            }
-        }
+            config = PagingConfig(pageSize = 20),
+            pagingSourceFactory = { MultiSearchPageSource(remoteDataSource, query) }
+        ).flow
     }
-//        return wrapRemoteResponse {
-//            remoteDataSource.multiSearch(query, page).map { it.toEntity() }
-//        }
 
 
     override suspend fun searchPeople(query: String, page: Int?): List<SearchResult> {

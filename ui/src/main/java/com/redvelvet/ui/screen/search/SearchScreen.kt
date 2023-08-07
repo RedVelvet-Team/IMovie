@@ -49,6 +49,7 @@ private fun SearchContent(
     onChangeCategory: KFunction1<SearchMedia, Unit>,
     state: SearchUiState,
 ) {
+
     Column(
         modifier = Modifier
             .fillMaxSize()

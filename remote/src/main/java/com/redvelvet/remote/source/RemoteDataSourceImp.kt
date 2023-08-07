@@ -8,6 +8,7 @@ import com.redvelvet.remote.util.RemoteErrorMap.remoteErrorMap
 import com.redvelvet.repository.dto.ErrorResponseDto
 import com.redvelvet.repository.dto.movie.MovieDto
 import com.redvelvet.repository.dto.person.PersonDto
+import com.redvelvet.repository.dto.search.BaseSearchDto
 import com.redvelvet.repository.dto.search.MultiSearchResultDto
 import com.redvelvet.repository.dto.series.SeriesDto
 import com.redvelvet.repository.source.RemoteDataSource
@@ -22,9 +23,7 @@ class RemoteDataSourceImp @Inject constructor(
     // region search
     override suspend fun multiSearch(query: String, page: Int?): List<MultiSearchResultDto> {
         Log.v("hassan", "now request in the remote with $query")
-        val result =  wrapApiResponse { movieApiService.multiSearch(query, page) }.result
-            ?: throw ErrorType.NullData
-
+        val result =  wrapApiResponse { movieApiService.multiSearch(query, page) }.result?.filterNotNull() ?: emptyList()
         Log.v("hassan", "$result")
         return result
     }
@@ -46,11 +45,6 @@ class RemoteDataSourceImp @Inject constructor(
 
     // endregion
 
-//    private suspend fun <T> wrapApiPagesResponse(
-//        request: suspend () -> Response<BaseResponse<T>>
-//    ): T{
-//        return wrapApiResponse { request }
-//    }
 
     private suspend fun <T> wrapApiResponse(
         request: suspend () -> Response<T>
