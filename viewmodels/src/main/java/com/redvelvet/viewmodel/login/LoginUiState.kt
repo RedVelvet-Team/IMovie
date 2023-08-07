@@ -9,5 +9,5 @@ data class LoginUiState(
     val isUserNameEmpty: Boolean = false,
     val isPasswordEmpty: Boolean = false,
     val isLoading: Boolean = false,
-    val error: String? = null,
+    val error: String? = "",
 ) : BaseUiState
