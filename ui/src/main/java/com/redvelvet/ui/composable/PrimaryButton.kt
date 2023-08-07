@@ -5,12 +5,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
@@ -22,6 +27,8 @@ fun PrimaryButton(
     onClick: () -> Unit,
     text: String,
     modifier: Modifier = Modifier,
+    hasIcon: Boolean = false,
+    iconPainter: Painter = painterResource(id = 0),
     buttonColor: Color = MaterialTheme.color.brand100,
     textColor: Color = MaterialTheme.color.fontSecondary,
     enabled: Boolean = true,
@@ -33,6 +40,13 @@ fun PrimaryButton(
         shape = RoundedCornerShape(MaterialTheme.radius.radius16),
         enabled = enabled
     ) {
+        if (hasIcon) {
+            Icon(
+                iconPainter,
+                contentDescription = null,
+                modifier.padding(end = MaterialTheme.spacing.spacing4)
+            )
+        }
         Text(
             text = text,
             textAlign = TextAlign.Center,
@@ -41,4 +55,15 @@ fun PrimaryButton(
         )
 
     }
+}
+
+@Composable
+@Preview
+fun previewPrimaryButton() {
+    PrimaryButton(
+        onClick = { /*TODO*/ },
+        text = "add to list",
+        hasIcon = true,
+        iconPainter = painterResource(id = R.drawable.icon_add_to_list)
+    )
 }
