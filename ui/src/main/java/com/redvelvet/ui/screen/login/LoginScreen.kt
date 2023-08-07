@@ -1,4 +1,5 @@
 package com.redvelvet.ui.screen.login
+
 import android.content.res.Configuration
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -14,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -34,6 +36,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
@@ -42,12 +45,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
-import com.redvelvet.ui.composable.PasswordTextField
 import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.PrimaryOutlinedButton
 import com.redvelvet.ui.composable.PrimaryTextField
-import com.redvelvet.ui.composable.ProgressIndicator
-import com.redvelvet.ui.composable.UserNameTextField
 import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.home.navigateToHome
 import com.redvelvet.ui.screen.signup.navigateToSignUp
@@ -62,6 +62,7 @@ import com.redvelvet.viewmodel.login.LoginUiState
 import com.redvelvet.viewmodel.login.LoginViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+
 
 @Composable
 fun LoginScreen(
@@ -109,6 +110,7 @@ private fun LoginScreenContent(
     val sheetState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberStandardBottomSheetState(SheetValue.Expanded)
     )
+
     when (LocalConfiguration.current.orientation) {
         Configuration.ORIENTATION_PORTRAIT -> {
             BottomSheetScaffold(
@@ -177,18 +179,24 @@ private fun LoginContentPortrait(
         )
         PrimaryTextField(
             value = uiState.userName,
-            modifier = Modifier.padding(top = MaterialTheme.spacing.spacing24),
+            modifier = Modifier.padding(top = MaterialTheme.spacing.spacing28),
             isError = uiState.isUserNameEmpty,
+            leadingIcon = painterResource(id = R.drawable.icon_user),
             errorMessage = stringResource(R.string.invalid_username),
             text = stringResource(R.string.username),
             onClick = interaction::onUserNameChanged
         )
-        PasswordTextField(
+        val iconPassword = if (uiState.isPasswordVisible) R.drawable.icon_visibility_off
+        else R.drawable.icon_visibility_on
+        PrimaryTextField(
             value = uiState.password,
             modifier = Modifier.padding(
 //                top = MaterialTheme.spacing.spacing12,
-               bottom = MaterialTheme.spacing.spacing24
+                bottom = MaterialTheme.spacing.spacing24
             ),
+            leadingIcon = painterResource(id = R.drawable.icon_password),
+            trailingIcon = painterResource(iconPassword),
+            onClickTrailingIcon = { interaction.onClickEyeIcon() },
             isError = uiState.isPasswordEmpty,
             errorMessage = "Invalid password",
             text = "Password",
@@ -239,7 +247,10 @@ private fun LoginContentPortrait(
         GuestOrSignUp(!uiState.isLoading, { /*interaction::onClickGuest*/ },
             { /*interaction::onClickSignUp*/ })
         if (uiState.isLoading) {
-            ProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+            CircularProgressIndicator(
+                color = Color.White,
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+            )
         }
     }
 }
@@ -273,16 +284,18 @@ private fun LoginContentLandscape(
             color = MaterialTheme.color.fontPrimary
         )
 
-        UserNameTextField(
+        PrimaryTextField(
             modifier = Modifier.padding(horizontal = MaterialTheme.spacing.spacing16),
             value = uiState.userName,
             isError = uiState.isUserNameEmpty,
+            leadingIcon = painterResource(id = R.drawable.icon_user),
             text = "Username",
             errorMessage = "Invalid Username",
             onClick = interaction::onUserNameChanged
         )
-
-        PasswordTextField(
+        val iconPassword = if (uiState.isPasswordVisible) R.drawable.icon_visibility_off
+        else R.drawable.icon_visibility_on
+        PrimaryTextField(
             value = uiState.password,
             modifier = Modifier
                 .padding(horizontal = MaterialTheme.spacing.spacing16)
@@ -290,6 +303,9 @@ private fun LoginContentLandscape(
                     top = MaterialTheme.spacing.spacing4,
                     bottom = MaterialTheme.spacing.spacing8
                 ),
+            leadingIcon = painterResource(id = R.drawable.icon_password),
+            trailingIcon = painterResource(iconPassword),
+            onClickTrailingIcon = { interaction.onClickEyeIcon() },
             isError = uiState.isPasswordEmpty,
             text = "Password",
             errorMessage = "Invalid Password",
@@ -308,20 +324,9 @@ private fun LoginContentLandscape(
             { /*interaction::onClickSignUp*/ })
 
         if (uiState.isLoading) {
-            ProgressIndicator(modifier = Modifier)
+            CircularProgressIndicator(color = Color.White)
         }
     }
-
-//    TextButton(
-//        onClick = { interaction.onClickGuest() },
-//        modifier = Modifier.padding(bottom = MaterialTheme.spacing.spacing32),
-//    ) {
-//        Text(
-//            text = stringResource(id = R.string.continue_as_a_guest),
-//            style = Typography.headlineSmall,
-//            color = MaterialTheme.color.fontSecondary,
-//        )
-//    }
 }
 
 @Composable
@@ -339,13 +344,13 @@ private fun GuestOrSignUp(
         PrimaryOutlinedButton(
             onClick = { onGuestClicked() },
             text = stringResource(R.string.continue_as_a_guest),
-            )
+        )
         PrimaryButton(
             modifier = Modifier.fillMaxWidth(0.9f),
             onClick = onSignUpClicked,
             enabled = isLoading,
             text = stringResource(R.string.sign_up),
-            )
+        )
     }
 }
 

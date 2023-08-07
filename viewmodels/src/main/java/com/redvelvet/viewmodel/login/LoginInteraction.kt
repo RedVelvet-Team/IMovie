@@ -5,5 +5,6 @@ interface LoginInteraction {
     fun onPasswordChanged(password: String)
     fun onClickLogin()
     fun onClickGuest()
+    fun onClickEyeIcon()
 
 }
