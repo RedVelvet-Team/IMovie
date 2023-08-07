@@ -1,6 +1,7 @@
 package com.redvelvet.ui.screen.signup
 
 import android.annotation.SuppressLint
+import android.webkit.WebView
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable

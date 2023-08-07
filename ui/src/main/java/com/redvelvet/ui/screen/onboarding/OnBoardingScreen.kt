@@ -1,4 +1,5 @@
 package com.redvelvet.ui.screen.onboarding
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -8,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -26,6 +26,7 @@ import com.redvelvet.ui.composable.MessageView
 import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.PrimaryOutlinedButton
 import com.redvelvet.ui.composable.WallPaper
+import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.login.navigateToLogin
 import com.redvelvet.ui.screen.signup.navigateToSignUp
 import com.redvelvet.ui.theme.Typography
@@ -36,8 +37,7 @@ import com.redvelvet.viewmodel.onboarding.OnBoardingInteractions
 import com.redvelvet.viewmodel.onboarding.OnBoardingUiEvent
 import com.redvelvet.viewmodel.onboarding.OnBoardingUiState
 import com.redvelvet.viewmodel.onboarding.OnBoardingViewModel
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import com.redvelvet.viewmodel.utils.launchCollectLatest
 
 @Composable
 fun OnBoardingScreen(
@@ -47,22 +47,25 @@ fun OnBoardingScreen(
     val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
     val scope = rememberCoroutineScope()
-    LaunchedEffect(key1 = Unit) {
-        scope.launch {
-            viewModel.event.collectLatest { event ->
-                when (event) {
-                    OnBoardingUiEvent.NavigateToLogin -> navController.navigateToLogin ()
-                    OnBoardingUiEvent.NavigateToSignUpScreen -> navController.navigateToSignUp()
-//                    OnBoardingUiEvent.NavigateTomHomeScreen -> navController.navigateToHome {
-//                        popUpTo(MovieDestination.Login.route) {
-//                            inclusive = true
-//                        }
-//                    }
+    scope.launchCollectLatest(viewModel.event) { event ->
+        when (event) {
+            is OnBoardingUiEvent.NavigateToLogin -> {
+                navController.navigateToLogin {
+                    popUpTo(MovieDestination.Splash.route) {
+                        inclusive = true
+                    }
                 }
+            }
+
+            is OnBoardingUiEvent.NavigateToSignUpScreen -> {
+                navController.navigateToSignUp()
             }
         }
     }
-    systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
+    systemUiController.setSystemBarsColor(
+        MaterialTheme.color.backgroundPrimary,
+        darkIcons = false
+    )
     OnBoardingContent(state = state, viewModel)
 }
 
@@ -103,7 +106,7 @@ private fun OnBoardingContent(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             PrimaryButton(
-                modifier = Modifier.fillMaxWidth()/*.padding(bottom = MaterialTheme.spacing.spacing32)*/,
+                modifier = Modifier.fillMaxWidth(),/*.padding(bottom = MaterialTheme.spacing.spacing32)*/
                 onClick = { interaction.onClickLogin() },
                 enabled = !state.isLoading,
                 text = stringResource(R.string.login),
@@ -121,17 +124,6 @@ private fun OnBoardingContent(
                 text = stringResource(R.string.sign_up),
                 textColor = MaterialTheme.color.brand100
             )
-
-//            TextButton(
-//                onClick = { interaction.onClickGuest() },
-//                modifier = Modifier,
-//            ) {
-//                Text(
-//                    text = stringResource(id = R.string.continue_as_a_guest),
-//                    style = Typography.headlineSmall,
-//                    color = MaterialTheme.color.fontSecondary,
-//                )
-//            }
         }
     }
 }

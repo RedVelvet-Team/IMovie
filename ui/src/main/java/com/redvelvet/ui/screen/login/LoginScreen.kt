@@ -1,4 +1,5 @@
 package com.redvelvet.ui.screen.login
+
 import android.content.res.Configuration
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
@@ -59,6 +60,7 @@ import com.redvelvet.viewmodel.login.LoginInteraction
 import com.redvelvet.viewmodel.login.LoginUiEvent
 import com.redvelvet.viewmodel.login.LoginUiState
 import com.redvelvet.viewmodel.login.LoginViewModel
+import com.redvelvet.viewmodel.utils.launchCollectLatest
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -71,22 +73,17 @@ fun LoginScreen(
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
     val uiState by viewModel.state.collectAsState()
     val scope = rememberCoroutineScope()
-    LaunchedEffect(key1 = Unit) {
-        scope.launch {
-            viewModel.event.collectLatest { event ->
-                when (event) {
-                    is LoginUiEvent.NavigateTomHomeScreen -> {
-                        navController.navigateToHome {
-                            popUpTo(MovieDestination.Login.route) {
-                                inclusive = true
-                            }
-                        }
-                    }
-
-                    is LoginUiEvent.NavigateToSignUpScreen -> {
-                        navController.navigateToSignUp()
+    scope.launchCollectLatest(viewModel.event) { event ->
+        when (event) {
+            is LoginUiEvent.NavigateTomHomeScreen -> {
+                navController.navigateToHome {
+                    popUpTo(MovieDestination.Login.route) {
+                        inclusive = true
                     }
                 }
+            }
+            is LoginUiEvent.NavigateToSignUpScreen -> {
+                navController.navigateToSignUp()
             }
         }
     }
@@ -176,7 +173,8 @@ private fun LoginContentPortrait(
         )
         PrimaryTextField(
             value = uiState.userName,
-            modifier = Modifier.padding(top = MaterialTheme.spacing.spacing24),
+            modifier = Modifier.padding(top = MaterialTheme.spacing.spacing24,
+                bottom = MaterialTheme.spacing.spacing8),
             isError = uiState.isUserNameEmpty,
             leadingIcon = painterResource(id = R.drawable.icon_user),
             errorMessage = stringResource(R.string.invalid_username),
@@ -202,12 +200,15 @@ private fun LoginContentPortrait(
             text = "Forget Password?",
             modifier = Modifier
                 .align(Alignment.End)
-                .padding(top = MaterialTheme.spacing.spacing8),
+                .padding(
+                    top = MaterialTheme.spacing.spacing8,
+                    bottom = MaterialTheme.spacing.spacing20
+                ),
             style = Typography.labelSmall,
             color = MaterialTheme.color.fontSecondary
         )
         PrimaryButton(
-            modifier = Modifier.padding(top = MaterialTheme.spacing.spacing20),
+//            modifier = Modifier.padding(top = MaterialTheme.spacing.spacing20),
             onClick = { interaction.onClickLogin() },
             enabled = !uiState.isLoading,
             text = stringResource(R.string.login),
@@ -244,7 +245,7 @@ private fun LoginContentPortrait(
             text = "continue as a guest",
             textColor = MaterialTheme.color.brand100
         )
-        AnimatedVisibility (uiState.isLoading) {
+        AnimatedVisibility(uiState.isLoading) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
         }
     }

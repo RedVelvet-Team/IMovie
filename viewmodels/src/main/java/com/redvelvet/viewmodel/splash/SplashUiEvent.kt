@@ -1,6 +1,8 @@
 package com.redvelvet.viewmodel.splash
 
-sealed interface SplashUiEvent {
+import com.redvelvet.viewmodel.base.BaseUiEvent
+
+sealed interface SplashUiEvent : BaseUiEvent {
     data object NavigateToHome : SplashUiEvent
     data object NavigateToOnBoarding : SplashUiEvent
     data object NavigateToLogin : SplashUiEvent

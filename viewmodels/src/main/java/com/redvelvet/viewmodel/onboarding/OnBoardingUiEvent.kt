@@ -1,6 +1,8 @@
 package com.redvelvet.viewmodel.onboarding
 
-sealed interface OnBoardingUiEvent {
+import com.redvelvet.viewmodel.base.BaseUiEvent
+
+sealed interface OnBoardingUiEvent : BaseUiEvent {
     data object NavigateToLogin : OnBoardingUiEvent
     data object NavigateToSignUpScreen : OnBoardingUiEvent
 

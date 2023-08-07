@@ -89,6 +89,11 @@ fun PrimaryTextField(
         shape = RoundedCornerShape(MaterialTheme.radius.radius16),
         isError = isError,
         colors = TextFieldDefaults.colors(
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
+            errorContainerColor = MaterialTheme.color.backgroundSecondary,
+            errorIndicatorColor = Color.Transparent,
             focusedTextColor = textColor,
             unfocusedTextColor = textColor,
             disabledTextColor = textColor,

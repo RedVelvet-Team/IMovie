@@ -44,3 +44,5 @@ abstract class BaseViewModel<UiState : BaseUiState, UiEvent>(state: UiState) :
 }
 
 interface BaseUiState
+
+interface BaseUiEvent

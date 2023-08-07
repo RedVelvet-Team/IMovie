@@ -1,6 +1,8 @@
 package com.redvelvet.viewmodel.login
 
-sealed interface LoginUiEvent {
+import com.redvelvet.viewmodel.base.BaseUiEvent
+
+sealed interface LoginUiEvent : BaseUiEvent {
     data object NavigateTomHomeScreen : LoginUiEvent
     data object NavigateToSignUpScreen : LoginUiEvent
 

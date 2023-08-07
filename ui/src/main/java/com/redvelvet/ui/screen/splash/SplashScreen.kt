@@ -30,6 +30,7 @@ import com.redvelvet.ui.theme.color
 import com.redvelvet.viewmodel.splash.SplashUiEvent
 import com.redvelvet.viewmodel.splash.SplashUiState
 import com.redvelvet.viewmodel.splash.SplashViewModel
+import com.redvelvet.viewmodel.utils.launchCollectLatest
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -42,32 +43,26 @@ fun SplashScreen(
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
     val scope = rememberCoroutineScope()
-    LaunchedEffect(key1 = Unit) {
-        scope.launch {
-            viewModel.event.collectLatest { event ->
-                when (event) {
-                    is SplashUiEvent.NavigateToHome -> {
-                        navController.navigateToHome {
-                            popUpTo(MovieDestination.Splash.route) {
-                                inclusive = true
-                            }
-                        }
+    scope.launchCollectLatest(viewModel.event) { event ->
+        when (event) {
+            is SplashUiEvent.NavigateToHome -> {
+                navController.navigateToHome {
+                    popUpTo(MovieDestination.Splash.route) {
+                        inclusive = true
                     }
-
-                    is SplashUiEvent.NavigateToOnBoarding -> {
-                        navController.navigateToOnBoarding {
-                            popUpTo(MovieDestination.Splash.route) {
-                                inclusive = true
-                            }
-                        }
+                }
+            }
+            is SplashUiEvent.NavigateToOnBoarding -> {
+                navController.navigateToOnBoarding {
+                    popUpTo(MovieDestination.Splash.route) {
+                        inclusive = true
                     }
-
-                    is SplashUiEvent.NavigateToLogin -> {
-                        navController.navigateToLogin {
-                            popUpTo(MovieDestination.Splash.route) {
-                                inclusive = true
-                            }
-                        }
+                }
+            }
+            is SplashUiEvent.NavigateToLogin -> {
+                navController.navigateToLogin {
+                    popUpTo(MovieDestination.Splash.route) {
+                        inclusive = true
                     }
                 }
             }
