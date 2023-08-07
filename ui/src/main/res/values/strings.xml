@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">IMovie</string>
+    <string name="search_in_movie">Search in Movie</string>
+    <string name="search_for_anything">Search for your favorite movies and\nTV shows that you love.</string>
+    <string name="no_search_results">" No Search Results "</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="continue_as_a_guest">Continue as a guest</string>
+    <string name="login">Login</string>
+    <string name="flixmovie">FlixMovie</string>
+    <string name="description_about_app_in_onboarding">Enjoy a seamless and user-friendly experience Browse movies effortlessly and watch them instantly online.</string>
 </resources>

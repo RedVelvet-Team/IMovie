@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
@@ -36,14 +37,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
-import com.redvelvet.ui.composable.LoginDivider
 import com.redvelvet.ui.composable.PasswordTextField
+import com.redvelvet.ui.composable.PrimaryButton
+import com.redvelvet.ui.composable.PrimaryOutlinedButton
 import com.redvelvet.ui.composable.ProgressIndicator
 import com.redvelvet.ui.composable.UserNameTextField
 import com.redvelvet.ui.navigation.MovieDestination
@@ -188,8 +191,8 @@ private fun LoginContentPortrait(
         PasswordTextField(
             value = uiState.password,
             modifier = Modifier.padding(
-                top = MaterialTheme.spacing.spacing4,
-                bottom = MaterialTheme.spacing.spacing24
+//                top = MaterialTheme.spacing.spacing12,
+               bottom = MaterialTheme.spacing.spacing24
             ),
             isError = uiState.isPasswordEmpty,
             errorMessage = "Invalid password",
@@ -198,7 +201,7 @@ private fun LoginContentPortrait(
         )
 
         Button(
-            onClick = { interaction.onClickLogin() },
+            onClick = { /*interaction.onClickLogin()*/ },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(MaterialTheme.dimens.dimens56),
@@ -221,16 +224,25 @@ private fun LoginContentPortrait(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            LoginDivider(modifier = Modifier.weight(1f))
+            Divider(
+                modifier = Modifier.weight(1f),
+                color = Color.White.copy(alpha = 0.3f),
+                thickness = MaterialTheme.spacing.spacing2
+            )
             Text(
                 "OR",
                 color = Color.White,
                 modifier = Modifier.padding(horizontal = MaterialTheme.spacing.spacing8)
             )
-            LoginDivider(modifier = Modifier.weight(1f))
+            Divider(
+                modifier = Modifier.weight(1f),
+                color = Color.White.copy(alpha = 0.3f),
+                thickness = MaterialTheme.spacing.spacing2
+            )
         }
 
-        GuestOrSignUp(!uiState.isLoading, interaction::onClickGuest, interaction::onClickSignUp)
+        GuestOrSignUp(!uiState.isLoading, { /*interaction::onClickGuest*/ },
+            { /*interaction::onClickSignUp*/ })
         if (uiState.isLoading) {
             ProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
         }
@@ -289,28 +301,16 @@ private fun LoginContentLandscape(
             onClick = interaction::onPasswordChanged
         )
 
-        Button(
-            onClick = { interaction.onClickLogin() },
+        PrimaryButton(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = MaterialTheme.spacing.spacing16)
-                .height(MaterialTheme.dimens.dimens56),
+                .padding(horizontal = MaterialTheme.spacing.spacing16),
+            onClick = { /*interaction.onClickLogin()*/ },
             enabled = !uiState.isLoading,
-            shape = RoundedCornerShape(MaterialTheme.radius.radius16),
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.color.brand100)
-        ) {
-            Text(
-                text = "Login",
-                modifier = Modifier.padding(
-                    top = MaterialTheme.spacing.spacing8,
-                    bottom = MaterialTheme.spacing.spacing16
-                ),
-                style = Typography.headlineSmall,
-                color = MaterialTheme.color.fontPrimary
-            )
-        }
-
-        GuestOrSignUp(!uiState.isLoading, interaction::onClickGuest, interaction::onClickSignUp)
+            text = stringResource(R.string.login),
+        )
+        GuestOrSignUp(!uiState.isLoading, { /*interaction::onClickGuest*/ },
+            { /*interaction::onClickSignUp*/ })
 
         if (uiState.isLoading) {
             ProgressIndicator(modifier = Modifier)
@@ -330,45 +330,40 @@ private fun GuestOrSignUp(
             .padding(horizontal = MaterialTheme.spacing.spacing16),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        TextButton(
+        PrimaryOutlinedButton(
             onClick = { onGuestClicked() },
-            modifier = Modifier
-                .height(MaterialTheme.dimens.dimens56)
-                .border(
-                    MaterialTheme.dimens.dimens1,
-                    MaterialTheme.color.brand100,
-                    shape = MaterialTheme.shapes.medium
-                )
-        ) {
-            Text(
-                text = "Continue as a guest",
-                modifier = Modifier.padding(end = MaterialTheme.spacing.spacing8),
-                style = Typography.headlineSmall,
-                color = MaterialTheme.color.fontPrimary
+            text = stringResource(R.string.continue_as_a_guest),
             )
-        }
-        Button(
+//        TextButton(
+//            onClick = { onGuestClicked() },
+//            modifier = Modifier
+//                .height(MaterialTheme.dimens.dimens56)
+//                .border(
+//                    MaterialTheme.dimens.dimens1,
+//                    MaterialTheme.color.brand100,
+//                    shape = MaterialTheme.shapes.medium
+//                )
+//        ) {
+//            Text(
+//                text = stringResource(R.string.continue_as_a_guest),
+//                modifier = Modifier.padding(end = MaterialTheme.spacing.spacing8),
+//                style = Typography.headlineSmall,
+//                color = MaterialTheme.color.fontPrimary
+//            )
+//        }
+
+        PrimaryButton(
+            modifier = Modifier.fillMaxWidth(0.9f),
             onClick = onSignUpClicked,
-            modifier = Modifier
-                .fillMaxWidth(0.9f)
-                .height(MaterialTheme.dimens.dimens56),
             enabled = isLoading,
-            shape = RoundedCornerShape(MaterialTheme.radius.radius16),
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.color.brand100)
-        ) {
-            Text(
-                modifier = Modifier.padding(vertical = MaterialTheme.spacing.spacing8),
-                text = "Sign Up",
-                style = Typography.headlineSmall,
-                color = MaterialTheme.color.fontPrimary
+            text = stringResource(R.string.sign_up),
             )
-        }
     }
 }
 
 @Preview
 @Composable
-fun previewLoginScreen() {
+fun PreviewLoginScreen() {
     val navController = rememberNavController()
     LoginScreen(navController = navController)
 }

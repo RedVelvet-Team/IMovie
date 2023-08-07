@@ -29,10 +29,10 @@ import com.redvelvet.ui.theme.radius
 @Composable
 fun PasswordTextField(
     onClick: (String) -> Unit,
-    modifier: Modifier = Modifier,
     value: String,
     isError: Boolean,
     text: String,
+    modifier: Modifier = Modifier,
     errorMessage: String = "",
 ) {
     var isPasswordVisible by remember { mutableStateOf(false) }

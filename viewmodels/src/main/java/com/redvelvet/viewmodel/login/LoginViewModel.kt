@@ -102,13 +102,13 @@ class LoginViewModel @Inject constructor(
     //endregion
 
     //region interaction
-    override fun onClickLogin() {
-        if (validation(state.value.userName, state.value.password)) {
-            loginByUserNameAndPassword(state.value.userName, state.value.password)
-            return
-        }
-        updateInputErrorStatus()
-    }
+//    override fun onClickLogin() {
+//        if (validation(state.value.userName, state.value.password)) {
+//            loginByUserNameAndPassword(state.value.userName, state.value.password)
+//            return
+//        }
+//        updateInputErrorStatus()
+//    }
 
     //region error input status
     private fun updateInputErrorStatus() {
@@ -152,14 +152,14 @@ class LoginViewModel @Inject constructor(
     //endregion
 
 
-    override fun onClickGuest() {
-        loginByGuest()
-    }
+//    override fun onClickGuest() {
+//        loginByGuest()
+//    }
 
 
-    override fun onClickSignUp() {
-        signUp()
-    }
+//    override fun onClickSignUp() {
+//        signUp()
+//    }
 
 
     override fun onUserNameChanged(userName: String) {
