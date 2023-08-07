@@ -1,5 +1,6 @@
 package com.redvelvet.ui.composable
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -40,7 +41,7 @@ fun PrimaryButton(
         shape = RoundedCornerShape(MaterialTheme.radius.radius16),
         enabled = enabled
     ) {
-        if (hasIcon) {
+        AnimatedVisibility(hasIcon) {
             Icon(
                 iconPainter,
                 contentDescription = null,

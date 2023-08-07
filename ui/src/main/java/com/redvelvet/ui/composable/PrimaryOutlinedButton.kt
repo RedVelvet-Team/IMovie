@@ -1,5 +1,6 @@
 package com.redvelvet.ui.composable
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -24,12 +25,12 @@ fun PrimaryOutlinedButton(
     modifier: Modifier = Modifier,
     hasIcon: Boolean = false,
     iconPainter: Painter = painterResource(id = 0),
-    border:BorderStroke = BorderStroke(
+    border: BorderStroke = BorderStroke(
         width = MaterialTheme.dimens.dimens1,
         color = MaterialTheme.color.brand100
     ),
-    enabled : Boolean = true,
-    textColor: Color =  MaterialTheme.color.fontSecondary
+    enabled: Boolean = true,
+    textColor: Color = MaterialTheme.color.fontSecondary
 ) {
     OutlinedButton(
         onClick = onClick,
@@ -37,8 +38,8 @@ fun PrimaryOutlinedButton(
         shape = MaterialTheme.shapes.medium,
         modifier = modifier.height(MaterialTheme.dimens.dimens56),
         enabled = enabled
-    ){
-        if (hasIcon) {
+    ) {
+        AnimatedVisibility(hasIcon) {
             Icon(
                 iconPainter,
                 contentDescription = null,
