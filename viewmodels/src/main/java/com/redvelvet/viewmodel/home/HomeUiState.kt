@@ -3,17 +3,23 @@ package com.redvelvet.viewmodel.home
 import com.redvelvet.viewmodel.base.BaseUiState
 
 data class HomeUiState(
-    val popularMovie: MovieUiState? = null,
-    val nowPlayingMovies: List<MovieUiState> = emptyList(),
-    val upComingMovies: List<MovieUiState> = emptyList(),
-    val topRatedMovies: List<MovieUiState> = emptyList(),
-    val popularSeries: SeriesUiState? = null,
-    val airingTodayMovies: List<SeriesUiState> = emptyList(),
-    val onTvSeries: List<SeriesUiState> = emptyList(),
-    val topRatedSeries: List<SeriesUiState> = emptyList(),
-    val isLoading: Boolean = false,
-    val error: String? = null,
-): BaseUiState
+    val movieCategories: List<MovieCategoryUiState> = emptyList(),
+    val tvShowCategories: List<TvShowCategoryUiState> = emptyList(),
+    val tabLayoutTitles: List<String> = emptyList(),
+    val selectedTabIndex: Int = 0
+) : BaseUiState
+
+data class MovieCategoryUiState(
+    val title: String = "",
+    val movies: List<MovieUiState>,
+    val hasMore: Boolean = false
+)
+
+data class TvShowCategoryUiState(
+    val title: String = "",
+    val tvShows: List<TvShowUiState>,
+    val hasMore: Boolean = false
+)
 
 data class MovieUiState(
     val movieImage: String,
@@ -22,7 +28,7 @@ data class MovieUiState(
     val countryOfMovie: String,
 )
 
-data class SeriesUiState(
+data class TvShowUiState(
     val seriesImage: String,
     val seriesName: String,
     val seriesDate: String,

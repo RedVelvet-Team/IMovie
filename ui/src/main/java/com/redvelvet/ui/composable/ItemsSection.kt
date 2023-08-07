@@ -6,25 +6,23 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import coil.compose.rememberAsyncImagePainter
+import androidx.compose.ui.graphics.painter.Painter
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 
 @Composable
-fun <T> ItemsSection(
+fun ItemsSection(
     label: String,
-    images: List<T>,
+    imagesPainters: List<Painter>,
     headerModifier: Modifier = Modifier,
     hasName: Boolean = false,
-    name: List<String> = emptyList(),
+    names: List<String> = emptyList(),
     hasDateAndCountry: Boolean = false,
-    date: List<String> = emptyList(),
-    country: List<String> = emptyList()
+    dates: List<String> = emptyList(),
+    countries: List<String> = emptyList()
 ) {
     SectionHeader(label, modifier = headerModifier)
     LazyRow(
@@ -32,21 +30,17 @@ fun <T> ItemsSection(
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),
         contentPadding = PaddingValues(horizontal = MaterialTheme.spacing.spacing16)
     ) {
-        itemsIndexed(images) { index, image ->
-            val imagePainter =
-                if (image is Int) painterResource(image) else rememberAsyncImagePainter(
-                    model = image
-                )
+        items(imagesPainters.size) {
             ItemBasicCard(
-                imagePainter = imagePainter,
+                imagePainter = imagesPainters[it],
                 modifier = Modifier
                     .width(MaterialTheme.dimens.dimens104)
                     .height(MaterialTheme.dimens.dimens130),
                 hasName = hasName,
-                name = name[index],
+                name = if(names.isNotEmpty()) names[it] else "",
                 hasDateAndCountry = hasDateAndCountry,
-                date = date[index],
-                country = country[index]
+                date = if(dates.isNotEmpty()) dates[it] else "",
+                country = if(countries.isNotEmpty()) countries[it] else ""
             )
         }
     }
