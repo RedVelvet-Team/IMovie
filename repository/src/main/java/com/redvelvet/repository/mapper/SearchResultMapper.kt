@@ -1,6 +1,9 @@
 package com.redvelvet.repository.mapper
 
+import com.redvelvet.entities.movie.Movie
+import com.redvelvet.entities.people.People
 import com.redvelvet.entities.search.SearchResult
+import com.redvelvet.entities.tv.TvShow
 import com.redvelvet.repository.dto.movie.MovieDto
 import com.redvelvet.repository.dto.person.PersonDto
 import com.redvelvet.repository.dto.search.BaseSearchDto
@@ -21,40 +24,28 @@ fun MultiSearchResultDto.toEntity(): SearchResult {
     )
 }
 
-fun PersonDto.toSearchResult() = SearchResult(
-    id = this.id,
-    mediaType = "person",
-    name = this.name,
-    language = null,
-    posterPath = null,
-    releaseDate = null,
-    firstAirDate = null,
-    originalName = null,
-    profilePath = this.profilePath
+fun PersonDto.toPeopleEntity() = People(
+    id = id ?: 0,
+    name = name.orEmpty(),
+    profileImage = profilePath.orEmpty(),
+    birthday = birthday.orEmpty(),
+    country = placeOfBirth.orEmpty()
 )
 
-fun MovieDto.toSearchResult() = SearchResult(
-    id = this.id,
-    mediaType = "movie",
-    name = this.title,
-    language = this.originalLanguage,
-    posterPath = this.posterPath,
-    releaseDate = this.releaseDate,
-    firstAirDate = null,
-    originalName = this.originalTitle,
-    profilePath = null
+fun MovieDto.toMovieEntity() = Movie(
+    id = id ?: 0,
+    name = originalTitle.orEmpty(),
+    image = posterPath.orEmpty(),
+    country = originalLanguage.orEmpty(),
+    releaseDate = releaseDate.orEmpty(),
 )
 
-fun SeriesDto.toSearchResult() = SearchResult(
-    id = this.id,
-    mediaType = "tv",
-    name = this.name,
-    language = this.originalLanguage,
-    posterPath = this.posterPath,
-    releaseDate = null,
-    firstAirDate = this.firstAirDate,
-    originalName = this.originalName,
-    profilePath = null
+fun SeriesDto.toTvShowEntity() = TvShow(
+    id = id ?: 0,
+    name = name.orEmpty(),
+    image = posterPath.orEmpty(),
+    country = originalLanguage.orEmpty(),
+    releaseDate = firstAirDate.orEmpty(),
 )
 
 fun BaseSearchDto.toEntity(): List<SearchResult> {

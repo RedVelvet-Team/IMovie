@@ -6,20 +6,23 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.redvelvet.entities.search.SearchResult
-import com.redvelvet.usecase.usecase.search.GetSearchResultUseCase
+import com.redvelvet.usecase.usecase.search.GetAllSearchResultUseCase
+import com.redvelvet.usecase.usecase.search.GetSearchMoviesUseCase
+import com.redvelvet.usecase.usecase.search.GetSearchPeopleUseCase
+import com.redvelvet.usecase.usecase.search.GetSearchTvShowUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val getSearchResultUseCase: GetSearchResultUseCase,
+    private val getAllSearchResultUseCase: GetAllSearchResultUseCase,
+    private val getSearchMoviesUseCase: GetSearchMoviesUseCase,
+    private val getSearchPeopleUseCase: GetSearchPeopleUseCase,
+    private val getSearchTvShowUseCase: GetSearchTvShowUseCase,
 ) : BaseViewModel<SearchUiState>(SearchUiState()), SearchListener {
 
     init {
@@ -32,17 +35,16 @@ class SearchViewModel @Inject constructor(
     private fun onGetData(query: String) {
         Log.v("hassan", "query is sent ${_state.value.toString()}")
         tryToExecutePaging(
-            call = { getSearchResultUseCase(query).cachedIn(viewModelScope) },
+            call = { getAllSearchResultUseCase(query).cachedIn(viewModelScope) },
             onSuccess = ::onSuccess,
             onError = ::onError
         )
     }
 
     private fun onSuccess(pagingData: PagingData<SearchResult>) {
-        val res = pagingData.map { it.toMediaUiState() }
         _state.update {
             it.copy(
-                searchResult = flowOf(res),
+                searchResult = flowOf(pagingData.map { it.toMediaUiState() }),
                 isLoading = false,
                 isEmpty = false
             )

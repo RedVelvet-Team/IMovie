@@ -22,10 +22,7 @@ class RemoteDataSourceImp @Inject constructor(
 
     // region search
     override suspend fun multiSearch(query: String, page: Int?): List<MultiSearchResultDto> {
-        Log.v("hassan", "now request in the remote with $query")
-        val result =  wrapApiResponse { movieApiService.multiSearch(query, page) }.result?.filterNotNull() ?: emptyList()
-        Log.v("hassan", "$result")
-        return result
+        return wrapApiResponse { movieApiService.multiSearch(query, page) }.result ?: throw ErrorType.NullData
     }
 
     override suspend fun searchPeople(query: String, page: Int?): List<PersonDto> {

@@ -3,9 +3,14 @@ package com.redvelvet.repository.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.redvelvet.entities.movie.Movie
+import com.redvelvet.entities.people.People
 import com.redvelvet.entities.search.SearchResult
-import com.redvelvet.repository.mapper.toSearchResult
+import com.redvelvet.entities.tv.TvShow
+import com.redvelvet.repository.pagingSource.MoviesSearchPageSource
 import com.redvelvet.repository.pagingSource.MultiSearchPageSource
+import com.redvelvet.repository.pagingSource.PeopleSearchPageSource
+import com.redvelvet.repository.pagingSource.SeriesSearchPageSource
 import com.redvelvet.repository.source.FirebaseDataSource
 import com.redvelvet.repository.source.LocalDataSource
 import com.redvelvet.repository.source.RemoteDataSource
@@ -22,28 +27,31 @@ class MovieRepositoryImp @Inject constructor(
     //region search
     override fun multiSearch(query: String, page: Int?): Flow<PagingData<SearchResult>> {
         return Pager(
-            config = PagingConfig(pageSize = 20),
+            config = PagingConfig(pageSize = page ?: 10),
             pagingSourceFactory = { MultiSearchPageSource(remoteDataSource, query) }
         ).flow
     }
 
 
-    override suspend fun searchPeople(query: String, page: Int?): List<SearchResult> {
-        return wrapRemoteResponse {
-            remoteDataSource.searchPeople(query, page).map { it.toSearchResult() }
-        }
+    override fun searchPeople(query: String, page: Int?): Flow<PagingData<People>> {
+        return Pager(
+            config = PagingConfig(pageSize = page ?: 10),
+            pagingSourceFactory = { PeopleSearchPageSource(remoteDataSource, query) }
+        ).flow
     }
 
-    override suspend fun searchMovie(query: String, page: Int?): List<SearchResult> {
-        return wrapRemoteResponse {
-            remoteDataSource.searchMovie(query, page).map { it.toSearchResult() }
-        }
+    override fun searchMovie(query: String, page: Int?): Flow<PagingData<Movie>> {
+        return Pager(
+            config = PagingConfig(pageSize = page ?: 10),
+            pagingSourceFactory = { MoviesSearchPageSource(remoteDataSource, query) }
+        ).flow
     }
 
-    override suspend fun searchTvShows(query: String, page: Int?): List<SearchResult> {
-        return wrapRemoteResponse {
-            remoteDataSource.searchTvShows(query, page).map { it.toSearchResult() }
-        }
+    override fun searchTvShows(query: String, page: Int?): Flow<PagingData<TvShow>> {
+        return Pager(
+            config = PagingConfig(pageSize = page ?: 10),
+            pagingSourceFactory = { SeriesSearchPageSource(remoteDataSource, query) }
+        ).flow
     }
 
     // endregion
