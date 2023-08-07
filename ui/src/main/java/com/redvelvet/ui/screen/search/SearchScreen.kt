@@ -15,7 +15,7 @@ import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.MessageView
-import com.redvelvet.ui.composable.SearchBox
+import com.redvelvet.ui.composable.PrimaryTextField
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 
@@ -36,7 +36,13 @@ private fun SearchContent() {
             .background(color = MaterialTheme.color.backgroundPrimary)
             .padding(MaterialTheme.dimens.dimens16)
     ) {
-        SearchBox()
+        PrimaryTextField(
+            onClick = {},
+            value = "",
+            isError = false,
+            leadingIcon = painterResource(id = R.drawable.icon_search),
+            text = "What do you want to Watch?"
+        )
         MessageView(
             messageIcon = painterResource(id = R.drawable.vector_serach),
             messageTitle = stringResource(R.string.search_in_movie),

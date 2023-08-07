@@ -176,5 +176,9 @@ class LoginViewModel @Inject constructor(
             )
         }
     }
+
+    override fun onClickEyeIcon() {
+        _state.update { it.copy(isPasswordVisible = !it.isPasswordVisible) }
+    }
     //endregion
 }
