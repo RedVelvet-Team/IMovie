@@ -99,6 +99,7 @@ private fun OnBoardingContent(
                 spacingBetweenTitleAndDescription = MaterialTheme.spacing.spacing16,
             )
         }
+
         Column(
             modifier = Modifier.padding(
                 bottom = MaterialTheme.spacing.spacing64,

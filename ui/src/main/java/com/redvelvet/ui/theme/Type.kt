@@ -8,6 +8,7 @@ import androidx.compose.ui.unit.sp
 
 
 val Typography = Typography(
+
     displayLarge = TextStyle(
         fontFamily = Montserrat,
         fontWeight = FontWeight.Medium,

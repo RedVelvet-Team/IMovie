@@ -1,10 +1,8 @@
 package com.redvelvet.viewmodel.login
 
 
-import com.redvelvet.entities.auth.Guest
 import com.redvelvet.entities.auth.Session
 import com.redvelvet.usecase.usecase.auth.AuthenticationUserLoginUseCase
-import com.redvelvet.usecase.usecase.auth.LoginByGuestUseCase
 import com.redvelvet.usecase.usecase.auth.ValidationLoginUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
@@ -14,45 +12,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loginByGuestUseCase: LoginByGuestUseCase,
     private val authenticationUserLoginUseCase: AuthenticationUserLoginUseCase,
     private val validation: ValidationLoginUseCase,
 ) : BaseViewModel<LoginUiState, LoginUiEvent>(LoginUiState()), LoginInteraction {
 
-    //region guest
-    private fun loginByGuest() {
-        _state.update {
-            it.copy(
-                isLoading = true,
-                error = null,
-            )
-        }
-        tryToExecute(
-            execute = loginByGuestUseCase::invoke,
-            onSuccess = ::onLoginByGuestSuccess,
-            onError = ::onLoginByGuestFailed,
-        )
-    }
-
-    private fun onLoginByGuestSuccess(guest: Guest) {
-        _state.update {
-            it.copy(
-                isLoading = false,
-                error = null,
-            )
-        }
-        sendUiEvent(LoginUiEvent.NavigateTomHomeScreen)
-    }
-
-    private fun onLoginByGuestFailed(error: ErrorUiState) {
-        _state.update {
-            it.copy(
-                isLoading = false,
-                error = error.message,
-            )
-        }
-    }
-    //endregion
 
     //region auth
     private fun loginByUserNameAndPassword(userName: String, password: String) {
@@ -101,14 +64,6 @@ class LoginViewModel @Inject constructor(
     }
     //endregion
 
-    //region interaction
-//    override fun onClickLogin() {
-//        if (validation(state.value.userName, state.value.password)) {
-//            loginByUserNameAndPassword(state.value.userName, state.value.password)
-//            return
-//        }
-//        updateInputErrorStatus()
-//    }
 
     //region error input status
     private fun updateInputErrorStatus() {
@@ -152,15 +107,18 @@ class LoginViewModel @Inject constructor(
     //endregion
 
 
-//    override fun onClickGuest() {
-//        loginByGuest()
-//    }
+    //region interaction
+    override fun onClickLogin() {
+        if (validation(state.value.userName, state.value.password)) {
+            loginByUserNameAndPassword(state.value.userName, state.value.password)
+            return
+        }
+        updateInputErrorStatus()
+    }
 
-
-//    override fun onClickSignUp() {
-//        signUp()
-//    }
-
+    override fun onClickSignUp() {
+        signUp()
+    }
 
     override fun onUserNameChanged(userName: String) {
         _state.update {
@@ -172,7 +130,6 @@ class LoginViewModel @Inject constructor(
             )
         }
     }
-
 
     override fun onPasswordChanged(password: String) {
         _state.update {

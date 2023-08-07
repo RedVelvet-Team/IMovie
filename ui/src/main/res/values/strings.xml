@@ -8,4 +8,8 @@
     <string name="login">Login</string>
     <string name="flixmovie">FlixMovie</string>
     <string name="description_about_app_in_onboarding">Enjoy a seamless and user-friendly experience Browse movies effortlessly and watch them instantly online.</string>
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="login_to_your_account">Login to your account</string>
+    <string name="invalid_username">Invalid userName</string>
+    <string name="username">Username</string>
 </resources>

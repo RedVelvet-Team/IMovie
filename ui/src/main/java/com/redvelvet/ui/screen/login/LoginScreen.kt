@@ -39,6 +39,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -165,29 +166,27 @@ private fun LoginContentPortrait(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Welcome Back!",
+            text = stringResource(R.string.welcome_back),
             modifier = Modifier.align(Alignment.Start),
-            style = Typography.headlineMedium,
+            style = Typography.headlineLarge.copy(fontSize = 24.sp),
             color = MaterialTheme.color.fontPrimary
         )
         Text(
-            text = "Login to your account",
+            text = stringResource(R.string.login_to_your_account),
             modifier = Modifier
                 .align(Alignment.Start)
                 .padding(top = MaterialTheme.spacing.spacing4),
-            style = Typography.displaySmall,
+            style = Typography.bodyMedium.copy(fontSize = 16.sp),
             color = MaterialTheme.color.fontPrimary
         )
-
         UserNameTextField(
             value = uiState.userName,
-            modifier = Modifier.padding(top = MaterialTheme.spacing.spacing24),
+            modifier = Modifier.padding(top = MaterialTheme.spacing.spacing28),
             isError = uiState.isUserNameEmpty,
-            errorMessage = "Invalid userName",
-            text = "Username",
+            errorMessage = stringResource(R.string.invalid_username),
+            text = stringResource(R.string.username),
             onClick = interaction::onUserNameChanged
         )
-
         PasswordTextField(
             value = uiState.password,
             modifier = Modifier.padding(
@@ -334,24 +333,6 @@ private fun GuestOrSignUp(
             onClick = { onGuestClicked() },
             text = stringResource(R.string.continue_as_a_guest),
             )
-//        TextButton(
-//            onClick = { onGuestClicked() },
-//            modifier = Modifier
-//                .height(MaterialTheme.dimens.dimens56)
-//                .border(
-//                    MaterialTheme.dimens.dimens1,
-//                    MaterialTheme.color.brand100,
-//                    shape = MaterialTheme.shapes.medium
-//                )
-//        ) {
-//            Text(
-//                text = stringResource(R.string.continue_as_a_guest),
-//                modifier = Modifier.padding(end = MaterialTheme.spacing.spacing8),
-//                style = Typography.headlineSmall,
-//                color = MaterialTheme.color.fontPrimary
-//            )
-//        }
-
         PrimaryButton(
             modifier = Modifier.fillMaxWidth(0.9f),
             onClick = onSignUpClicked,
