@@ -17,8 +17,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.redvelvet.ui.composable.FilxTopAppBar
-import com.redvelvet.ui.composable.HomeTabLayout
-import com.redvelvet.ui.composable.ItemsSection
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.home.HomeUiState
@@ -66,45 +64,45 @@ fun HomeScreenContent(
             .padding(top = MaterialTheme.spacing.spacing64)
             .fillMaxWidth()
     ) {
-        HomeTabLayout()
-        LazyColumn(contentPadding = PaddingValues(vertical = MaterialTheme.spacing.spacing16)) {
-            item {
-                ItemsSection(
-                    label = "Popular Movies",
-                    images = listOf(state.popularMovie?.movieImage!!),
-                    hasName = true,
-                    name = listOf(state.popularMovie?.movieName!!),
-                    hasDateAndCountry = false,
-                    date = listOf(state.popularMovie?.movieDate!!),
-                    country = listOf(state.popularMovie?.countryOfMovie!!)
-                )
-            }
-            item {
-                ItemsSection(
-                    label = "Up Coming",
-                    headerModifier = Modifier.padding(top = MaterialTheme.spacing.spacing24),
-                    images = state.upComingMovies.map { it.movieImage },
-                    hasName = true,
-                    name = state.upComingMovies.map { it.movieName },
-                    hasDateAndCountry = true,
-                    date = state.upComingMovies.map { it.movieDate },
-                    country = state.upComingMovies.map { it.countryOfMovie }
-                )
-            }
-            item {
-                ItemsSection(
-                    label = "Top Rated",
-                    headerModifier = Modifier.padding(top = MaterialTheme.spacing.spacing24),
-                    images = state.upComingMovies.map { it.movieImage },
-                    hasName = true,
-                    name = state.upComingMovies.map { it.movieName },
-                    hasDateAndCountry = true,
-                    date = state.upComingMovies.map { it.movieDate },
-                    country = state.upComingMovies.map { it.countryOfMovie }
-                )
-            }
-        }
-
+//        HomeTabLayout()
+//        LazyColumn(contentPadding = PaddingValues(vertical = MaterialTheme.spacing.spacing16)) {
+//            item {
+//                ItemsSection(
+//                    label = "Popular Movies",
+//                    images = listOf(state.popularMovie?.movieImage!!),
+//                    hasName = true,
+//                    name = listOf(state.popularMovie?.movieName!!),
+//                    hasDateAndCountry = false,
+//                    date = listOf(state.popularMovie?.movieDate!!),
+//                    country = listOf(state.popularMovie?.countryOfMovie!!)
+//                )
+//            }
+//            item {
+//                ItemsSection(
+//                    label = "Up Coming",
+//                    headerModifier = Modifier.padding(top = MaterialTheme.spacing.spacing24),
+//                    images = state.upComingMovies.map { it.movieImage },
+//                    hasName = true,
+//                    name = state.upComingMovies.map { it.movieName },
+//                    hasDateAndCountry = true,
+//                    date = state.upComingMovies.map { it.movieDate },
+//                    country = state.upComingMovies.map { it.countryOfMovie }
+//                )
+//            }
+//            item {
+//                ItemsSection(
+//                    label = "Top Rated",
+//                    headerModifier = Modifier.padding(top = MaterialTheme.spacing.spacing24),
+//                    images = state.upComingMovies.map { it.movieImage },
+//                    hasName = true,
+//                    name = state.upComingMovies.map { it.movieName },
+//                    hasDateAndCountry = true,
+//                    date = state.upComingMovies.map { it.movieDate },
+//                    country = state.upComingMovies.map { it.countryOfMovie }
+//                )
+//            }
+//        }
+//
     }
 }
 

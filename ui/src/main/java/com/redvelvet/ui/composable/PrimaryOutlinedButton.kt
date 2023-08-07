@@ -36,7 +36,7 @@ fun PrimaryOutlinedButton(
         Text(
             text = text,
             modifier = Modifier.padding(end = MaterialTheme.spacing.spacing8),
-            style = Typography.headlineSmall,
+            style = Typography.headlineMedium,
             color = textColor
         )
 

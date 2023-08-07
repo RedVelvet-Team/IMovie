@@ -1,5 +1,4 @@
 package com.redvelvet.ui.screen.onboarding
-
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -8,8 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -29,8 +26,6 @@ import com.redvelvet.ui.composable.MessageView
 import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.PrimaryOutlinedButton
 import com.redvelvet.ui.composable.WallPaper
-import com.redvelvet.ui.navigation.MovieDestination
-import com.redvelvet.ui.screen.home.navigateToHome
 import com.redvelvet.ui.screen.login.navigateToLogin
 import com.redvelvet.ui.screen.signup.navigateToSignUp
 import com.redvelvet.ui.theme.Typography
@@ -43,7 +38,6 @@ import com.redvelvet.viewmodel.onboarding.OnBoardingUiState
 import com.redvelvet.viewmodel.onboarding.OnBoardingViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-
 
 @Composable
 fun OnBoardingScreen(
@@ -59,11 +53,11 @@ fun OnBoardingScreen(
                 when (event) {
                     OnBoardingUiEvent.NavigateToLogin -> navController.navigateToLogin ()
                     OnBoardingUiEvent.NavigateToSignUpScreen -> navController.navigateToSignUp()
-                    OnBoardingUiEvent.NavigateTomHomeScreen -> navController.navigateToHome {
-                        popUpTo(MovieDestination.Login.route) {
-                            inclusive = true
-                        }
-                    }
+//                    OnBoardingUiEvent.NavigateTomHomeScreen -> navController.navigateToHome {
+//                        popUpTo(MovieDestination.Login.route) {
+//                            inclusive = true
+//                        }
+//                    }
                 }
             }
         }
@@ -102,19 +96,18 @@ private fun OnBoardingContent(
 
         Column(
             modifier = Modifier.padding(
-                bottom = MaterialTheme.spacing.spacing64,
+                bottom = MaterialTheme.spacing.spacing32,
                 start = MaterialTheme.spacing.spacing16,
                 end = MaterialTheme.spacing.spacing16
             ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             PrimaryButton(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()/*.padding(bottom = MaterialTheme.spacing.spacing32)*/,
                 onClick = { interaction.onClickLogin() },
                 enabled = !state.isLoading,
                 text = stringResource(R.string.login),
             )
-
             PrimaryOutlinedButton(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -129,16 +122,16 @@ private fun OnBoardingContent(
                 textColor = MaterialTheme.color.brand100
             )
 
-            TextButton(
-                onClick = { interaction.onClickGuest() },
-                modifier = Modifier.padding(top = MaterialTheme.spacing.spacing44),
-            ) {
-                Text(
-                    text = stringResource(id = R.string.continue_as_a_guest),
-                    style = Typography.headlineSmall,
-                    color = MaterialTheme.color.fontSecondary,
-                )
-            }
+//            TextButton(
+//                onClick = { interaction.onClickGuest() },
+//                modifier = Modifier,
+//            ) {
+//                Text(
+//                    text = stringResource(id = R.string.continue_as_a_guest),
+//                    style = Typography.headlineSmall,
+//                    color = MaterialTheme.color.fontSecondary,
+//                )
+//            }
         }
     }
 }

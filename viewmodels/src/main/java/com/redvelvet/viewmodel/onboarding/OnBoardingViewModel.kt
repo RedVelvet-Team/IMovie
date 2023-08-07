@@ -1,11 +1,8 @@
 package com.redvelvet.viewmodel.onboarding
 
 import androidx.lifecycle.viewModelScope
-import com.redvelvet.entities.auth.Guest
-import com.redvelvet.usecase.usecase.auth.LoginByGuestUseCase
 import com.redvelvet.usecase.usecase.user.SetUserNotFirstTimeUseAppUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
-import com.redvelvet.viewmodel.base.ErrorUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
@@ -15,11 +12,8 @@ import javax.inject.Inject
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
     private val setUserNotFirstTimeUseApp: SetUserNotFirstTimeUseAppUseCase,
-    private val loginByGuestUseCase: LoginByGuestUseCase,
-
     ) : BaseViewModel<OnBoardingUiState, OnBoardingUiEvent>(OnBoardingUiState()),
     OnBoardingInteractions {
-
     fun setNotFirstTimeUseApp() {
         viewModelScope.launch(Dispatchers.IO) {
             setUserNotFirstTimeUseApp.invoke()
@@ -42,7 +36,6 @@ class OnBoardingViewModel @Inject constructor(
         }
         sendUiEvent(OnBoardingUiEvent.NavigateToLogin)
     }
-
     //endregion
 
     //region signup
@@ -55,48 +48,15 @@ class OnBoardingViewModel @Inject constructor(
         }
         sendUiEvent(OnBoardingUiEvent.NavigateToSignUpScreen)
     }
-
     //endregion
 
-    //region guest
-    private fun loginByGuest() {
-        _state.update {
-            it.copy(
-                isLoading = true,
-                error = null,
-            )
-        }
-        tryToExecute(
-            execute = loginByGuestUseCase::invoke,
-            onSuccess = ::onLoginByGuestSuccess,
-            onError = ::onLoginByGuestFailed,
-        )
-    }
-    private fun onLoginByGuestSuccess(guest: Guest) {
-        _state.update {
-            it.copy(
-                isLoading = false,
-                error = null,
-            )
-        }
-        sendUiEvent(OnBoardingUiEvent.NavigateTomHomeScreen)
-    }
-    private fun onLoginByGuestFailed(error: ErrorUiState) {
-        _state.update {
-            it.copy(
-                isLoading = false,
-                error = error.message,
-            )
-        }
-    }
-    //endregion
+    //region interaction
     override fun onClickLogin() {
         signIn()
-    }
-    override fun onClickGuest() {
-        loginByGuest()
     }
     override fun onClickSignUp() {
         signUp()
     }
+    //endregion
+
 }

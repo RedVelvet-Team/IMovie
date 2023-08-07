@@ -1,10 +1,8 @@
 package com.redvelvet.ui.screen.login
-
 import android.content.res.Configuration
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,7 +19,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
@@ -48,6 +45,7 @@ import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.PasswordTextField
 import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.PrimaryOutlinedButton
+import com.redvelvet.ui.composable.PrimaryTextField
 import com.redvelvet.ui.composable.ProgressIndicator
 import com.redvelvet.ui.composable.UserNameTextField
 import com.redvelvet.ui.navigation.MovieDestination
@@ -64,7 +62,6 @@ import com.redvelvet.viewmodel.login.LoginUiState
 import com.redvelvet.viewmodel.login.LoginViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-
 
 @Composable
 fun LoginScreen(
@@ -112,7 +109,6 @@ private fun LoginScreenContent(
     val sheetState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberStandardBottomSheetState(SheetValue.Expanded)
     )
-
     when (LocalConfiguration.current.orientation) {
         Configuration.ORIENTATION_PORTRAIT -> {
             BottomSheetScaffold(
@@ -179,9 +175,9 @@ private fun LoginContentPortrait(
             style = Typography.bodyMedium.copy(fontSize = 16.sp),
             color = MaterialTheme.color.fontPrimary
         )
-        UserNameTextField(
+        PrimaryTextField(
             value = uiState.userName,
-            modifier = Modifier.padding(top = MaterialTheme.spacing.spacing28),
+            modifier = Modifier.padding(top = MaterialTheme.spacing.spacing24),
             isError = uiState.isUserNameEmpty,
             errorMessage = stringResource(R.string.invalid_username),
             text = stringResource(R.string.username),
@@ -315,6 +311,17 @@ private fun LoginContentLandscape(
             ProgressIndicator(modifier = Modifier)
         }
     }
+
+//    TextButton(
+//        onClick = { interaction.onClickGuest() },
+//        modifier = Modifier.padding(bottom = MaterialTheme.spacing.spacing32),
+//    ) {
+//        Text(
+//            text = stringResource(id = R.string.continue_as_a_guest),
+//            style = Typography.headlineSmall,
+//            color = MaterialTheme.color.fontSecondary,
+//        )
+//    }
 }
 
 @Composable

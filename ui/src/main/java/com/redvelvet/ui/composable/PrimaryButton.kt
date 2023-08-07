@@ -37,7 +37,7 @@ fun PrimaryButton(
             text = text,
             textAlign = TextAlign.Center,
             modifier = modifier.padding(MaterialTheme.spacing.spacing4),
-            style = Typography.headlineSmall.copy(color = textColor)
+            style = Typography.headlineMedium.copy(color = textColor)
         )
 
     }
