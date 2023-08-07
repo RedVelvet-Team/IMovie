@@ -16,13 +16,13 @@ import com.redvelvet.ui.theme.spacing
 @Composable
 fun ItemsSection(
     label: String,
-    images: List<Painter>,
+    imagesPainters: List<Painter>,
     headerModifier: Modifier = Modifier,
     hasName: Boolean = false,
-    name: List<String> = emptyList(),
+    names: List<String> = emptyList(),
     hasDateAndCountry: Boolean = false,
-    date: List<String> = emptyList(),
-    country: List<String> = emptyList()
+    dates: List<String> = emptyList(),
+    countries: List<String> = emptyList()
 ) {
     SectionHeader(label, modifier = headerModifier)
     LazyRow(
@@ -30,17 +30,17 @@ fun ItemsSection(
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),
         contentPadding = PaddingValues(horizontal = MaterialTheme.spacing.spacing16)
     ) {
-        items(images.size) {
+        items(imagesPainters.size) {
             ItemBasicCard(
-                imagePainter = images[it],
+                imagePainter = imagesPainters[it],
                 modifier = Modifier
                     .width(MaterialTheme.dimens.dimens104)
                     .height(MaterialTheme.dimens.dimens130),
                 hasName = hasName,
-                name = if(name.isNotEmpty()) name[it] else "",
+                name = if(names.isNotEmpty()) names[it] else "",
                 hasDateAndCountry = hasDateAndCountry,
-                date = if(date.isNotEmpty()) date[it] else "",
-                country = if(country.isNotEmpty()) country[it] else ""
+                date = if(dates.isNotEmpty()) dates[it] else "",
+                country = if(countries.isNotEmpty()) countries[it] else ""
             )
         }
     }
