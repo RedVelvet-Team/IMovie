@@ -1,6 +1,7 @@
 package com.redvelvet.ui.composable
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,13 +30,13 @@ fun PrimaryButton(
     text: String,
     modifier: Modifier = Modifier,
     hasIcon: Boolean = false,
-    iconPainter: Painter = painterResource(id = 0),
+    iconPainter: Painter = painterResource(id = R.drawable.icon_profile),
     buttonColor: Color = MaterialTheme.color.brand100,
     textColor: Color = MaterialTheme.color.fontSecondary,
     enabled: Boolean = true,
 ) {
     Button(
-        modifier = modifier.height(MaterialTheme.dimens.dimens56),
+        modifier = modifier.height(MaterialTheme.dimens.dimens56).fillMaxWidth(),
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(buttonColor),
         shape = RoundedCornerShape(MaterialTheme.radius.radius16),
@@ -44,7 +45,7 @@ fun PrimaryButton(
         AnimatedVisibility(hasIcon) {
             Icon(
                 iconPainter,
-                contentDescription = null,
+                contentDescription = "$iconPainter icon",
                 modifier.padding(end = MaterialTheme.spacing.spacing4)
             )
         }
@@ -54,13 +55,12 @@ fun PrimaryButton(
             modifier = modifier.padding(MaterialTheme.spacing.spacing4),
             style = Typography.headlineMedium.copy(color = textColor)
         )
-
     }
 }
 
 @Composable
 @Preview
-fun previewPrimaryButton() {
+fun PreviewPrimaryButton() {
     PrimaryButton(
         onClick = { /*TODO*/ },
         text = "add to list",

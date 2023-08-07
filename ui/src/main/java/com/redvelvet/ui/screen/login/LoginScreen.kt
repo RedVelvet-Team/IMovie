@@ -1,7 +1,8 @@
 package com.redvelvet.ui.screen.login
-
 import android.content.res.Configuration
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,8 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomSheetScaffold
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -63,7 +62,6 @@ import com.redvelvet.viewmodel.login.LoginViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-
 @Composable
 fun LoginScreen(
     navController: NavController,
@@ -110,7 +108,6 @@ private fun LoginScreenContent(
     val sheetState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberStandardBottomSheetState(SheetValue.Expanded)
     )
-
     when (LocalConfiguration.current.orientation) {
         Configuration.ORIENTATION_PORTRAIT -> {
             BottomSheetScaffold(
@@ -179,7 +176,7 @@ private fun LoginContentPortrait(
         )
         PrimaryTextField(
             value = uiState.userName,
-            modifier = Modifier.padding(top = MaterialTheme.spacing.spacing28),
+            modifier = Modifier.padding(top = MaterialTheme.spacing.spacing24),
             isError = uiState.isUserNameEmpty,
             leadingIcon = painterResource(id = R.drawable.icon_user),
             errorMessage = stringResource(R.string.invalid_username),
@@ -191,7 +188,6 @@ private fun LoginContentPortrait(
         PrimaryTextField(
             value = uiState.password,
             modifier = Modifier.padding(
-//                top = MaterialTheme.spacing.spacing12,
                 bottom = MaterialTheme.spacing.spacing24
             ),
             leadingIcon = painterResource(id = R.drawable.icon_password),
@@ -202,28 +198,23 @@ private fun LoginContentPortrait(
             text = "Password",
             onClick = interaction::onPasswordChanged
         )
-
-        Button(
-            onClick = { /*interaction.onClickLogin()*/ },
+        Text(
+            text = "Forget Password?",
             modifier = Modifier
-                .fillMaxWidth()
-                .height(MaterialTheme.dimens.dimens56),
+                .align(Alignment.End)
+                .padding(top = MaterialTheme.spacing.spacing8),
+            style = Typography.labelSmall,
+            color = MaterialTheme.color.fontSecondary
+        )
+        PrimaryButton(
+            modifier = Modifier.padding(top = MaterialTheme.spacing.spacing20),
+            onClick = { interaction.onClickLogin() },
             enabled = !uiState.isLoading,
-            shape = RoundedCornerShape(MaterialTheme.radius.radius16),
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.color.brand100)
-        ) {
-            Text(
-                text = "Login",
-                modifier = Modifier.padding(vertical = MaterialTheme.spacing.spacing8),
-                style = Typography.headlineSmall,
-                color = MaterialTheme.color.fontPrimary
-            )
-        }
-
+            text = stringResource(R.string.login),
+        )
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = MaterialTheme.spacing.spacing24),
+                .padding(vertical = MaterialTheme.spacing.spacing16),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -243,14 +234,18 @@ private fun LoginContentPortrait(
                 thickness = MaterialTheme.spacing.spacing2
             )
         }
-
-        GuestOrSignUp(!uiState.isLoading, { /*interaction::onClickGuest*/ },
-            { /*interaction::onClickSignUp*/ })
-        if (uiState.isLoading) {
-            CircularProgressIndicator(
-                color = Color.White,
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-            )
+        PrimaryOutlinedButton(
+            onClick = { interaction.onClickGuest() },
+            enabled = !uiState.isLoading,
+            border = BorderStroke(
+                width = MaterialTheme.dimens.dimens1,
+                color = MaterialTheme.color.brand100
+            ),
+            text = "continue as a guest",
+            textColor = MaterialTheme.color.brand100
+        )
+        AnimatedVisibility (uiState.isLoading) {
+            CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
         }
     }
 }
@@ -316,43 +311,30 @@ private fun LoginContentLandscape(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = MaterialTheme.spacing.spacing16),
-            onClick = { /*interaction.onClickLogin()*/ },
+            onClick = { interaction.onClickLogin() },
             enabled = !uiState.isLoading,
             text = stringResource(R.string.login),
         )
-        GuestOrSignUp(!uiState.isLoading, { /*interaction::onClickGuest*/ },
-            { /*interaction::onClickSignUp*/ })
-
-        if (uiState.isLoading) {
+        PrimaryOutlinedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = MaterialTheme.spacing.spacing12),
+            onClick = { interaction.onClickGuest() },
+            enabled = !uiState.isLoading,
+            border = BorderStroke(
+                width = MaterialTheme.dimens.dimens1,
+                color = MaterialTheme.color.brand100
+            ),
+            text = "continue as a guest",
+            textColor = MaterialTheme.color.brand100
+        )
+        AnimatedVisibility(uiState.isLoading) {
             CircularProgressIndicator(color = Color.White)
         }
     }
+
 }
 
-@Composable
-private fun GuestOrSignUp(
-    isLoading: Boolean,
-    onGuestClicked: () -> Unit,
-    onSignUpClicked: () -> Unit,
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = MaterialTheme.spacing.spacing16),
-        horizontalArrangement = Arrangement.SpaceEvenly
-    ) {
-        PrimaryOutlinedButton(
-            onClick = { onGuestClicked() },
-            text = stringResource(R.string.continue_as_a_guest),
-        )
-        PrimaryButton(
-            modifier = Modifier.fillMaxWidth(0.9f),
-            onClick = onSignUpClicked,
-            enabled = isLoading,
-            text = stringResource(R.string.sign_up),
-        )
-    }
-}
 
 @Preview
 @Composable

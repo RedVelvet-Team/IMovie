@@ -55,17 +55,6 @@ class LoginViewModel @Inject constructor(
     }
     //endregion
 
-    //region signup
-    private fun signUp() {
-        _state.update {
-            it.copy(
-                isLoading = false,
-                error = null,
-            )
-        }
-        sendUiEvent(LoginUiEvent.NavigateToSignUpScreen)
-    }
-    //endregion
 
     //region error input status
     private fun updateInputErrorStatus() {
