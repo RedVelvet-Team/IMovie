@@ -1,5 +1,6 @@
 package com.redvelvet.ui.composable
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,9 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
@@ -46,7 +45,7 @@ fun ItemBasicCard(
                 contentScale = ContentScale.Crop
             )
         }
-        if (hasName) {
+        AnimatedVisibility(hasName) {
             Text(
                 text = name,
                 maxLines = 1,
@@ -59,7 +58,7 @@ fun ItemBasicCard(
                 )
             )
         }
-        if (hasDateAndCountry) {
+        AnimatedVisibility(hasDateAndCountry) {
             Row(
                 modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
             ) {
