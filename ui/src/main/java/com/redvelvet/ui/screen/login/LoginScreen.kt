@@ -24,7 +24,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -61,8 +60,6 @@ import com.redvelvet.viewmodel.login.LoginUiEvent
 import com.redvelvet.viewmodel.login.LoginUiState
 import com.redvelvet.viewmodel.login.LoginViewModel
 import com.redvelvet.viewmodel.utils.launchCollectLatest
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
@@ -191,6 +188,7 @@ private fun LoginContentPortrait(
             leadingIcon = painterResource(id = R.drawable.icon_password),
             trailingIcon = painterResource(iconPassword),
             onClickTrailingIcon = { interaction.onClickEyeIcon() },
+            isPassword = true,
             isPasswordVisible = uiState.isPasswordVisible,
             isError = uiState.isPasswordEmpty,
             errorMessage = "Invalid password",
@@ -300,6 +298,7 @@ private fun LoginContentLandscape(
                     top = MaterialTheme.spacing.spacing4,
                     bottom = MaterialTheme.spacing.spacing8
                 ),
+            isPassword = true,
             leadingIcon = painterResource(id = R.drawable.icon_password),
             trailingIcon = painterResource(iconPassword),
             isPasswordVisible = uiState.isPasswordVisible,
