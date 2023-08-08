@@ -14,19 +14,12 @@ class HomeViewModel @Inject constructor(
         fakeData()
     }
 
-    fun onClickTab(index: Int) {
-        _state.update {
-            it.copy(selectedTabIndex = index)
-        }
-    }
-
     private fun fakeData() {
         _state.update {
             it.copy(
                 movieCategories = fakeMoviesCategories(),
                 tvShowCategories = fakeTvShowCategories(),
                 tabLayoutTitles = listOf("Movies", "TV Shows"),
-                selectedTabIndex = 0
             )
         }
     }
