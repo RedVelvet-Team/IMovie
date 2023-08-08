@@ -76,7 +76,24 @@ fun HomeScreenContent(
                         movieCategoryUiState.movies.map { movieUiState ->
                             rememberAsyncImagePainter(model = movieUiState.movieImage)
                         }
-                    }
+                    },
+                    hasName = true,
+                    hasDateAndCountry = true,
+                    names = state.movieCategories.map { movieCategoryUiState ->
+                        movieCategoryUiState.movies.map { movieUiState ->
+                            movieUiState.movieName
+                        }
+                    },
+                    dates = state.movieCategories.map { movieCategoryUiState ->
+                        movieCategoryUiState.movies.map { movieUiState ->
+                            movieUiState.movieDate
+                        }
+                    },
+                    countries = state.movieCategories.map { movieCategoryUiState ->
+                        movieCategoryUiState.movies.map { movieUiState ->
+                            movieUiState.countryOfMovie
+                        }
+                    },
                 )
             }
             AnimatedVisibility(visible = currentPage != 0) {
@@ -87,7 +104,24 @@ fun HomeScreenContent(
                         tvShowCategoryUiState.tvShows.map { tvShowUiState ->
                             rememberAsyncImagePainter(model = tvShowUiState.seriesImage)
                         }
-                    }
+                    },
+                    hasName = true,
+                    hasDateAndCountry = true,
+                    names = state.tvShowCategories.map { tvShowCategoryUiState ->
+                        tvShowCategoryUiState.tvShows.map { tvShowUiState ->
+                            tvShowUiState.seriesName
+                        }
+                    },
+                    dates = state.tvShowCategories.map { tvShowCategoryUiState ->
+                        tvShowCategoryUiState.tvShows.map { tvShowUiState ->
+                            tvShowUiState.seriesDate
+                        }
+                    },
+                    countries = state.tvShowCategories.map { tvShowCategoryUiState ->
+                        tvShowCategoryUiState.tvShows.map { tvShowUiState ->
+                            tvShowUiState.seriesCountry
+                        }
+                    },
                 )
             }
         }
@@ -98,7 +132,12 @@ fun HomeScreenContent(
 private fun <T> TabContentDisplay(
     categories: List<T>,
     titles: List<String>,
-    imagePainters: List<List<Painter>>
+    imagePainters: List<List<Painter>>,
+    names: List<List<String>> = emptyList(),
+    hasName: Boolean = false,
+    hasDateAndCountry: Boolean = false,
+    dates: List<List<String>> = emptyList(),
+    countries: List<List<String>> = emptyList()
 ) {
     LazyColumn(
         contentPadding = PaddingValues(vertical = MaterialTheme.spacing.spacing16),
@@ -107,7 +146,12 @@ private fun <T> TabContentDisplay(
         itemsIndexed(categories) { index, item ->
             ItemsSection(
                 label = titles[index],
-                imagesPainters = imagePainters[index]
+                imagesPainters = imagePainters[index],
+                hasName = hasName,
+                hasDateAndCountry = hasDateAndCountry,
+                names = names[index],
+                dates = dates[index],
+                countries = countries[index]
             )
         }
     }

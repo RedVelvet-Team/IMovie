@@ -27,12 +27,10 @@ import com.redvelvet.ui.screen.home.navigateToHome
 import com.redvelvet.ui.screen.login.navigateToLogin
 import com.redvelvet.ui.screen.onboarding.navigateToOnBoarding
 import com.redvelvet.ui.theme.color
-import com.redvelvet.viewmodel.splash.SplashUiEvent
+import com.redvelvet.viewmodel.splash.SplashUiEffect
 import com.redvelvet.viewmodel.splash.SplashUiState
 import com.redvelvet.viewmodel.splash.SplashViewModel
 import com.redvelvet.viewmodel.utils.launchCollectLatest
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @Composable
 fun SplashScreen(
@@ -43,23 +41,23 @@ fun SplashScreen(
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
     val scope = rememberCoroutineScope()
-    scope.launchCollectLatest(viewModel.event) { event ->
-        when (event) {
-            is SplashUiEvent.NavigateToHome -> {
+    scope.launchCollectLatest(viewModel.effect) { effect ->
+        when (effect) {
+            is SplashUiEffect.NavigateToHome -> {
                 navController.navigateToHome {
                     popUpTo(MovieDestination.Splash.route) {
                         inclusive = true
                     }
                 }
             }
-            is SplashUiEvent.NavigateToOnBoarding -> {
+            is SplashUiEffect.NavigateToOnBoarding -> {
                 navController.navigateToOnBoarding {
                     popUpTo(MovieDestination.Splash.route) {
                         inclusive = true
                     }
                 }
             }
-            is SplashUiEvent.NavigateToLogin -> {
+            is SplashUiEffect.NavigateToLogin -> {
                 navController.navigateToLogin {
                     popUpTo(MovieDestination.Splash.route) {
                         inclusive = true

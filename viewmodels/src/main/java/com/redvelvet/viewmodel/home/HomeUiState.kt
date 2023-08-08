@@ -31,4 +31,5 @@ data class TvShowUiState(
     val seriesImage: String = "",
     val seriesName: String = "",
     val seriesDate: String = "",
+    val seriesCountry: String = ""
 )

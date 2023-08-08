@@ -56,7 +56,7 @@ import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.radius
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.login.LoginInteraction
-import com.redvelvet.viewmodel.login.LoginUiEvent
+import com.redvelvet.viewmodel.login.LoginUiEffect
 import com.redvelvet.viewmodel.login.LoginUiState
 import com.redvelvet.viewmodel.login.LoginViewModel
 import com.redvelvet.viewmodel.utils.launchCollectLatest
@@ -70,16 +70,16 @@ fun LoginScreen(
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
     val uiState by viewModel.state.collectAsState()
     val scope = rememberCoroutineScope()
-    scope.launchCollectLatest(viewModel.event) { event ->
-        when (event) {
-            is LoginUiEvent.NavigateTomHomeScreen -> {
+    scope.launchCollectLatest(viewModel.effect) { effect ->
+        when (effect) {
+            is LoginUiEffect.NavigateTomHomeScreen -> {
                 navController.navigateToHome {
                     popUpTo(MovieDestination.Login.route) {
                         inclusive = true
                     }
                 }
             }
-            is LoginUiEvent.NavigateToSignUpScreen -> {
+            is LoginUiEffect.NavigateToSignUpScreen -> {
                 navController.navigateToSignUp()
             }
         }

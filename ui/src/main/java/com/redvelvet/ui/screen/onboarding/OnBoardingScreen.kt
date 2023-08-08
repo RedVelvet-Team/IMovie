@@ -34,7 +34,7 @@ import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.onboarding.OnBoardingInteractions
-import com.redvelvet.viewmodel.onboarding.OnBoardingUiEvent
+import com.redvelvet.viewmodel.onboarding.OnBoardingUiEffect
 import com.redvelvet.viewmodel.onboarding.OnBoardingUiState
 import com.redvelvet.viewmodel.onboarding.OnBoardingViewModel
 import com.redvelvet.viewmodel.utils.launchCollectLatest
@@ -47,9 +47,9 @@ fun OnBoardingScreen(
     val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
     val scope = rememberCoroutineScope()
-    scope.launchCollectLatest(viewModel.event) { event ->
-        when (event) {
-            is OnBoardingUiEvent.NavigateToLogin -> {
+    scope.launchCollectLatest(viewModel.effect) { effect ->
+        when (effect) {
+            is OnBoardingUiEffect.NavigateToLogin -> {
                 navController.navigateToLogin {
                     popUpTo(MovieDestination.Splash.route) {
                         inclusive = true
@@ -57,7 +57,7 @@ fun OnBoardingScreen(
                 }
             }
 
-            is OnBoardingUiEvent.NavigateToSignUpScreen -> {
+            is OnBoardingUiEffect.NavigateToSignUpScreen -> {
                 navController.navigateToSignUp()
             }
         }

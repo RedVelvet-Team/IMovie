@@ -8,7 +8,6 @@ import com.redvelvet.usecase.usecase.auth.LoginByGuestUseCase
 import com.redvelvet.usecase.usecase.auth.ValidationLoginUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
-import com.redvelvet.viewmodel.onboarding.OnBoardingUiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
@@ -18,7 +17,7 @@ class LoginViewModel @Inject constructor(
     private val authenticationUserLoginUseCase: AuthenticationUserLoginUseCase,
     private val loginByGuestUseCase: LoginByGuestUseCase,
     private val validation: ValidationLoginUseCase,
-) : BaseViewModel<LoginUiState, LoginUiEvent>(LoginUiState()), LoginInteraction {
+) : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState()), LoginInteraction {
 
     //region auth
     private fun loginByUserNameAndPassword(userName: String, password: String) {
@@ -42,7 +41,7 @@ class LoginViewModel @Inject constructor(
                 error = null,
             )
         }
-        sendUiEvent(LoginUiEvent.NavigateTomHomeScreen)
+        sendUiEffect(LoginUiEffect.NavigateTomHomeScreen)
     }
 
     private fun onLoginByNameAndPasswordFailed(error: ErrorUiState) {
@@ -118,7 +117,7 @@ class LoginViewModel @Inject constructor(
                 error = null,
             )
         }
-        sendUiEvent(LoginUiEvent.NavigateTomHomeScreen)
+        sendUiEffect(LoginUiEffect.NavigateTomHomeScreen)
     }
     private fun onLoginByGuestFailed(error: ErrorUiState) {
         _state.update {

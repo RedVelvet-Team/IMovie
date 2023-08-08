@@ -122,36 +122,43 @@ class HomeViewModel @Inject constructor(
             TvShowUiState(
                 seriesImage = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
                 seriesDate = "25/9/2017",
-                seriesName = "The good doctor"
+                seriesName = "The good doctor",
+                seriesCountry = "Us"
             ),
             TvShowUiState(
                 seriesImage = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
                 seriesDate = "25/9/2017",
-                seriesName = "The good doctor"
+                seriesName = "The good doctor",
+                seriesCountry = "Us"
             ),
             TvShowUiState(
                 seriesImage = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
                 seriesDate = "25/9/2017",
-                seriesName = "The good doctor"
+                seriesName = "The good doctor",
+                seriesCountry = "Us"
             ),
             TvShowUiState(
                 seriesImage = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
                 seriesDate = "25/9/2017",
-                seriesName = "The good doctor"
+                seriesName = "The good doctor",
+                seriesCountry = "Us"
             ), TvShowUiState(
                 seriesImage = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
                 seriesDate = "25/9/2017",
-                seriesName = "The good doctor"
+                seriesName = "The good doctor",
+                seriesCountry = "Us"
             ),
             TvShowUiState(
                 seriesImage = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
                 seriesDate = "25/9/2017",
-                seriesName = "The good doctor"
+                seriesName = "The good doctor",
+                seriesCountry = "Us"
             ),
             TvShowUiState(
                 seriesImage = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
                 seriesDate = "25/9/2017",
-                seriesName = "The good doctor"
+                seriesName = "The good doctor",
+                seriesCountry = "Us"
             )
         )
 
