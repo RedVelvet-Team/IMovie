@@ -1,7 +1,10 @@
 package com.redvelvet.viewmodel.search
 
 import androidx.paging.PagingData
+import com.redvelvet.entities.movie.Movie
+import com.redvelvet.entities.people.People
 import com.redvelvet.entities.search.SearchResult
+import com.redvelvet.entities.tv.TvShow
 import com.redvelvet.viewmodel.base.BaseUiState
 import com.redvelvet.viewmodel.base.ErrorUiState
 import kotlinx.coroutines.flow.Flow
@@ -49,7 +52,7 @@ enum class SearchMedia {
     PEOPLE
 }
 
-fun SearchResult.toMediaUiState(): SearchCardUiState {
+fun SearchResult.toSearchCardUiState(): SearchCardUiState {
     return SearchCardUiState(
         id = id ?: 0,
         name = getMediaName() ?: "",
@@ -60,32 +63,35 @@ fun SearchResult.toMediaUiState(): SearchCardUiState {
     )
 }
 
-//fun People.toMediaUiState(): MediaUiState {
-//    return MediaUiState(
-//        mediaID = id,
-//        mediaName = name,
-//        mediaImage = profileImage,
-//        mediaReleaseDate = birthday,
-//        mediaCountry = country
-//    )
-//}
+fun Movie.toSearchCardUiState(): SearchCardUiState {
+    return SearchCardUiState(
+        id = id,
+        name = name,
+        image = image,
+        type = "Movie",
+        releaseDate = releaseDate,
+        country = country
+    )
+}
 
-//fun TvShow.toMediaUiState(): MediaUiState {
-//    return MediaUiState(
-//        mediaID = id,
-//        mediaName = name,
-//        mediaImage = image,
-//        mediaReleaseDate = releaseDate?:"",
-//        mediaCountry = country?:""
-//    )
-//}
-//
-//fun Movie.toMediaUiState(): MediaUiState {
-//    return MediaUiState(
-//        mediaID = id,
-//        mediaName = name,
-//        mediaImage = image,
-//        mediaReleaseDate = releaseDate,
-//        mediaCountry = country
-//    )
-//}
+fun People.toSearchCardUiState(): SearchCardUiState {
+    return SearchCardUiState(
+        id = id,
+        name = name,
+        image = profileImage,
+        type = "People",
+        releaseDate = birthday ?: "",
+        country = country
+    )
+}
+
+fun TvShow.toSearchCardUiState(): SearchCardUiState {
+    return SearchCardUiState(
+        id = id,
+        name = name,
+        image = image,
+        type = "TvShow",
+        releaseDate = releaseDate ?: "",
+        country = country ?: ""
+    )
+}
