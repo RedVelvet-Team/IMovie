@@ -77,7 +77,7 @@ class RemoteDataSourceImp @Inject constructor(
         return try {
             val response = request()
             if (response.isSuccessful) {
-                response.body() ?: throw NullResultException("Data is null")
+                response.body() ?: throw NullResultException("Empty data")
             } else {
                 throw when (response.code()) {
                     400 -> BadRequestException(response.message())

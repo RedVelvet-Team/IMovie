@@ -1,7 +1,7 @@
 package com.redvelvet.entities.error
 
 open class MovieError: Exception()
-class NullResultError: MovieError()
-class NetworkError: MovieError()
-class ServerError: MovieError()
-open class ValidationError: MovieError()
+class NullResultError: NetworkError()
+open class NetworkError: MovieError()
+class ServerError: NetworkError()
+class ValidationError: MovieError()
