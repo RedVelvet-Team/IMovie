@@ -13,15 +13,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.redvelvet.ui.composable.CustomTabLayout
-import com.redvelvet.ui.composable.CustomTopAppBar
+import com.redvelvet.ui.composable.FilxTopAppBar
+import com.redvelvet.ui.composable.HomeTabLayout
 import com.redvelvet.ui.composable.ItemsSection
-import com.redvelvet.ui.composable.VerticalSpacer
-import com.redvelvet.ui.theme.Primary
+import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.home.HomeUiState
 import com.redvelvet.viewmodel.home.HomeViewModel
@@ -38,27 +36,37 @@ fun PreviewHomeScreenVertical() {
 }
 
 @Composable
-fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltViewModel()) {
+fun HomeScreen(
+    navController: NavController,
+    viewModel: HomeViewModel = hiltViewModel()
+) {
     val state by viewModel.state.collectAsState()
-    Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-        CustomTopAppBar("FlixMovie", hasBackArrow = false)
-    }, bottomBar = {
-        //TODO @Hassan Ayman
-    },
-        containerColor = Primary
+    Scaffold(modifier = Modifier.fillMaxSize(),
+        topBar = {
+            FilxTopAppBar(
+                "FlixMovie",
+                hasBackArrow = false
+            )
+        }, bottomBar = {
+            //TODO @Hassan Ayman
+        },
+        containerColor = MaterialTheme.color.backgroundPrimary
     ) { paddingValues ->
         HomeScreenContent(paddingValues, state)
     }
 }
 
 @Composable
-fun HomeScreenContent(paddingValues: PaddingValues, state: HomeUiState) {
+fun HomeScreenContent(
+    paddingValues: PaddingValues,
+    state: HomeUiState
+) {
     Column(
         modifier = Modifier
-            .padding(top = 64.dp)
+            .padding(top = MaterialTheme.spacing.spacing64)
             .fillMaxWidth()
     ) {
-        CustomTabLayout()
+        HomeTabLayout()
         LazyColumn(contentPadding = PaddingValues(vertical = MaterialTheme.spacing.spacing16)) {
             item {
                 ItemsSection(
@@ -72,9 +80,9 @@ fun HomeScreenContent(paddingValues: PaddingValues, state: HomeUiState) {
                 )
             }
             item {
-                VerticalSpacer(space = 24)
                 ItemsSection(
                     label = "Up Coming",
+                    headerModifier = Modifier.padding(top = MaterialTheme.spacing.spacing24),
                     images = state.upComingMovies.map { it.movieImage },
                     hasName = true,
                     name = state.upComingMovies.map { it.movieName },
@@ -84,9 +92,9 @@ fun HomeScreenContent(paddingValues: PaddingValues, state: HomeUiState) {
                 )
             }
             item {
-                VerticalSpacer(space = 24)
                 ItemsSection(
                     label = "Top Rated",
+                    headerModifier = Modifier.padding(top = MaterialTheme.spacing.spacing24),
                     images = state.upComingMovies.map { it.movieImage },
                     hasName = true,
                     name = state.upComingMovies.map { it.movieName },

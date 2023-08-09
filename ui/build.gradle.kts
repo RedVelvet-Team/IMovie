@@ -26,11 +26,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = Versions.javaVersion
+        targetCompatibility = Versions.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = Versions.jvmtarget
     }
     buildFeatures {
         compose = true
@@ -45,48 +45,43 @@ android {
 
 dependencies {
     implementation(project(":viewmodels"))
-    implementation("androidx.core:core-ktx:1.10.1")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.9.0")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation("androidx.activity:activity-compose:1.7.2")
-    implementation(platform("androidx.compose:compose-bom:2023.06.01"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2023.06.01"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.4.3")
-    //compose
-    implementation("androidx.compose.foundation:foundation")
-    implementation("androidx.compose.material:material-icons-core")
-    implementation("androidx.compose.material:material-icons-extended")
-    //noinspection GradleDependency
-    //navigation
-    val nav_version = "2.6.0"
-    implementation("androidx.navigation:navigation-compose:$nav_version")
-    //hilt
-    implementation("com.google.dagger:hilt-android:2.46.1")
-    kapt("com.google.dagger:hilt-compiler:2.46.1")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0-alpha01")
-    implementation("androidx.hilt:hilt-work:1.0.0")
+    implementation(Deps.coreKtx)
+    testImplementation(Deps.junit)
+    implementation(Deps.activityCompose)
+    androidTestImplementation(Deps.junitExt)
+    // hilt
+    implementation(Deps.hiltAndroid)
+    kapt(Deps.hiltCompiler)
+    implementation(Deps.hiltNavigationCompose)
     //coil
-    implementation("io.coil-kt:coil-compose:2.4.0")
-    //constraint
-    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
-    //ui
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.28.0")
-    //lottie
-    implementation("com.airbnb.android:lottie-compose:6.1.0")
-    //viewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
-    //permissions
-    implementation("com.google.accompanist:accompanist-permissions:0.31.3-beta")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0-alpha01")
+    implementation(Deps.coilCompose)
+    // constraint
+    implementation(Deps.constraintLayoutCompose)
+    // accompanist
+    implementation(Deps.accompanistSystemUiController)
+    implementation(Deps.accompanistPermissions)
+    implementation(Deps.accompanistWebView)
+    // lottie
+    implementation(Deps.lottieCompose)
+    // work
+    implementation(Deps.workRuntimeKtx)
+    // compose
+    implementation(platform(Deps.composeBom))
+    implementation(Deps.composeUI)
+    implementation(Deps.composeUIGraphics)
+    implementation(Deps.composeUIToolingPreview)
+    implementation(Deps.composeMaterial3)
+    androidTestImplementation(platform(Deps.composeBom))
+    androidTestImplementation(Deps.composeUITestJunit4)
+    debugImplementation(Deps.composeUITooling)
+    debugImplementation(Deps.composeUITestManifest)
+    debugImplementation(Deps.composeUITestManifestV)
+    implementation(Deps.composeFoundation)
+    implementation(Deps.composeMaterialIconsCore)
+    implementation(Deps.composeMaterialIconsExtended)
+    implementation(Deps.navCompose)
+    // lifecycle
+    implementation(Deps.lifecycleRuntimeKtx)
+    implementation(Deps.lifecycleViewModelCompose)
 }
+

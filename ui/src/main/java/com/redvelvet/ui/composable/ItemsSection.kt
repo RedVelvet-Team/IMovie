@@ -3,16 +3,24 @@ package com.redvelvet.ui.composable
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import coil.compose.rememberAsyncImagePainter
+import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 
 @Composable
-fun ItemsSection(
+fun <T> ItemsSection(
     label: String,
-    images: List<String>,
+    images: List<T>,
+    headerModifier: Modifier = Modifier,
     hasName: Boolean = false,
     name: List<String> = emptyList(),
     hasDateAndCountry: Boolean = false,
@@ -23,21 +31,26 @@ fun ItemsSection(
     onClickSeeAll: () -> Unit = {},
     onClickItem: (id: Int) -> Unit = {}
 ) {
-    SectionHeader(label, onClickSeeAll = onClickSeeAll)
-    VerticalSpacer(space = 8)
+    SectionHeader(label, modifier = headerModifier,, onClickSeeAll = onClickSeeAll)
     LazyRow(
+        modifier = Modifier.padding(top = MaterialTheme.spacing.spacing8),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),
         contentPadding = PaddingValues(horizontal = MaterialTheme.spacing.spacing16)
     ) {
         itemsIndexed(images) { index, image ->
-            Log.i("MovieDetailsScreen", "index: $index, image: $image")
-            Log.i("MovieDetailsScreen", "hasCustomList: $hasCustomList")
+            val imagePainter =
+                if (image is Int) painterResource(image) else rememberAsyncImagePainter(
+                    model = image
+                )
             if (hasCustomList) {
-                customListItemComposable!!(index, image)
+                customListItemComposable!!(index, imagePainter)
             }
             if (!hasCustomList) {
                 ItemBasicCard(
-                    image = image,
+                    imagePainter = imagePainter,
+                    modifier = Modifier
+                        .width(MaterialTheme.dimens.dimens104)
+                        .height(MaterialTheme.dimens.dimens130),
                     hasName = hasName,
                     name = name[index],
                     hasDateAndCountry = hasDateAndCountry,
@@ -46,6 +59,8 @@ fun ItemsSection(
                     onClick = { onClickItem(index) }
                 )
             }
+
+
         }
 
     }

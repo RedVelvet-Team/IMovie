@@ -4,19 +4,15 @@ plugins {
     kotlin("kapt")
 }
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = Versions.javaVersion
+    targetCompatibility = Versions.javaVersion
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = Versions.jvmtarget
 }
 dependencies {
     api(project(":entities"))
-    implementation("com.google.code.gson:gson:2.10.1")
-    implementation("com.google.dagger:dagger:2.46.1")
-    testImplementation("org.testng:testng:6.9.6")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation(Deps.dagger)
+    testImplementation(Deps.testng)
 }
-

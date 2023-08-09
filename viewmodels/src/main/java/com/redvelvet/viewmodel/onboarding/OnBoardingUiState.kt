@@ -4,5 +4,5 @@ import com.redvelvet.viewmodel.base.BaseUiState
 
 
 data class OnBoardingUiState(
-    val saved: Boolean = false
-): BaseUiState
+    val saved: Boolean = false,
+) : BaseUiState

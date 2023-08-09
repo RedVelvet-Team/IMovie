@@ -16,6 +16,13 @@ val OnPrimary = Color(0xFFFFFFFF)
 val Secondary = Color(0xFF20233C)
 val OnSecondary = Color(0xFF414357)
 
+//Background Colors
+val BackgroundPrimary = Color(0xFF11142D)
+val BackgroundOnPrimary = Color(0xFFFFFFFF)
+val BackgroundSecondary = Color(0xFF20233C)
+val BackgroundOnSecondary = Color(0xFF414357)
+
+
 //Font Colors
 val FontPrimary = Color(0xDEFFFFFF)
 val FontSecondary = Color(0xB2FFFFFF)

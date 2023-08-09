@@ -54,17 +54,17 @@ val Typography = Typography(
         fontSize = 12.sp
     ),
     bodyLarge = TextStyle(
-        fontFamily = FontFamily.Monospace,
+        fontFamily = Montserrat,
         fontWeight = FontWeight.Normal,
         fontSize = 18.sp,
     ),
     bodyMedium = TextStyle(
-        fontFamily = FontFamily.Monospace,
+        fontFamily = Montserrat,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
     ),
     bodySmall = TextStyle(
-        fontFamily = FontFamily.Monospace,
+        fontFamily = Montserrat,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
     ),
