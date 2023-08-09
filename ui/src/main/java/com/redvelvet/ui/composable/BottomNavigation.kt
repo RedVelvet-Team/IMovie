@@ -1,5 +1,6 @@
 package com.redvelvet.ui.composable
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,7 +16,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -47,7 +47,7 @@ fun BottomNavBar(navController: NavHostController, visibility: Boolean) {
         )
     }
 
-    if (visibility) {
+    AnimatedVisibility(visibility) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -55,8 +55,7 @@ fun BottomNavBar(navController: NavHostController, visibility: Boolean) {
                 .background(MaterialTheme.color.backgroundPrimary)
                 .shadow(
                     elevation = MaterialTheme.spacing.spacing2,
-                    spotColor = Color.White,
-                    clip = false
+                    clip = false,
                 ),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
@@ -70,6 +69,7 @@ fun BottomNavBar(navController: NavHostController, visibility: Boolean) {
             }
         }
     }
+
 }
 
 @Composable

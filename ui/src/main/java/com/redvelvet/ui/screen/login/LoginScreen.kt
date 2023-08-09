@@ -113,7 +113,7 @@ private fun LoginScreenContent(
             )
             Card(
                 modifier = Modifier
-                    .padding(top = MaterialTheme.spacing.spacing320)
+                    .padding(top = MaterialTheme.spacing.spacing285)
                     .fillMaxWidth()
                     .shadow(MaterialTheme.spacing.spacing0),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.color.backgroundPrimary),

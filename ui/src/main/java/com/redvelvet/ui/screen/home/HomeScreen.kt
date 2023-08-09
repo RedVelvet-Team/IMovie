@@ -28,6 +28,7 @@ import com.redvelvet.ui.composable.FilxTabLayout
 import com.redvelvet.ui.composable.FilxTopAppBar
 import com.redvelvet.ui.composable.ItemsSection
 import com.redvelvet.ui.theme.color
+import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.home.HomeUiState
 import com.redvelvet.viewmodel.home.HomeViewModel
@@ -62,7 +63,10 @@ fun HomeScreenContent(
 ) {
     Column(
         modifier = Modifier
-            .padding(top = MaterialTheme.spacing.spacing64)
+            .padding(
+                top = MaterialTheme.spacing.spacing64,
+                bottom = MaterialTheme.dimens.dimens70
+            )
             .fillMaxWidth()
     ) {
         val pagerState = rememberPagerState { state.tabLayoutTitles.size }

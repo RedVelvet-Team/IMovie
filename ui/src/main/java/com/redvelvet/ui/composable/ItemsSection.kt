@@ -35,12 +35,12 @@ fun ItemsSection(
                 imagePainter = imagesPainters[it],
                 modifier = Modifier
                     .width(MaterialTheme.dimens.dimens104)
-                    .height(MaterialTheme.dimens.dimens130),
+                    .height(MaterialTheme.dimens.dimens176),
                 hasName = hasName,
-                name = if(names.isNotEmpty()) names[it] else "",
+                name = if (names.isNotEmpty()) names[it] else "",
                 hasDateAndCountry = hasDateAndCountry,
-                date = if(dates.isNotEmpty()) dates[it] else "",
-                country = if(countries.isNotEmpty()) countries[it] else ""
+                date = if (dates.isNotEmpty()) dates[it] else "",
+                country = if (countries.isNotEmpty()) countries[it] else ""
             )
         }
     }
