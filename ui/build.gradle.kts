@@ -26,11 +26,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = Versions.javaVersion
+        targetCompatibility = Versions.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = Versions.jvmtarget
     }
     buildFeatures {
         compose = true
@@ -49,22 +49,23 @@ dependencies {
     testImplementation(Deps.junit)
     implementation(Deps.activityCompose)
     androidTestImplementation(Deps.junitExt)
+    // hilt
     implementation(Deps.hiltAndroid)
     kapt(Deps.hiltCompiler)
     implementation(Deps.hiltNavigationCompose)
-    implementation(Deps.hiltWork)
+    //coil
     implementation(Deps.coilCompose)
+    // constraint
     implementation(Deps.constraintLayoutCompose)
+    // accompanist
     implementation(Deps.accompanistSystemUiController)
     implementation(Deps.accompanistPermissions)
     implementation(Deps.accompanistWebView)
+    // lottie
     implementation(Deps.lottieCompose)
+    // work
     implementation(Deps.workRuntimeKtx)
-    implementation(Deps.workMultiprocess)
-    implementation(Deps.gson)
-    implementation(Deps.appCompat)
-    implementation(Deps.material)
-    implementation(Deps.lifecycleRuntimeKtx)
+    // compose
     implementation(platform(Deps.composeBom))
     implementation(Deps.composeUI)
     implementation(Deps.composeUIGraphics)
@@ -79,6 +80,8 @@ dependencies {
     implementation(Deps.composeMaterialIconsCore)
     implementation(Deps.composeMaterialIconsExtended)
     implementation(Deps.navCompose)
+    // lifecycle
+    implementation(Deps.lifecycleRuntimeKtx)
     implementation(Deps.lifecycleViewModelCompose)
 }
 

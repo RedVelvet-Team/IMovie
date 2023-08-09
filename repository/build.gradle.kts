@@ -26,11 +26,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = Versions.javaVersion
+        targetCompatibility = Versions.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = Versions.jvmtarget
     }
     kapt {
         correctErrorTypes = true
@@ -45,9 +45,6 @@ dependencies {
     //hilt
     implementation(Deps.hiltAndroid)
     kapt(Deps.hiltCompiler)
-    implementation(Deps.hiltWork)
     //gson
     implementation(Deps.gson)
-    //retrofit
-    implementation(Deps.retrofit)
 }
