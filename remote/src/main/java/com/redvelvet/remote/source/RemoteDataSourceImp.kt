@@ -5,7 +5,6 @@ import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
-import com.redvelvet.repository.dto.movie.MovieDto
 import com.redvelvet.repository.source.RemoteDataSource
 import com.redvelvet.repository.util.BadRequestException
 import com.redvelvet.repository.util.NoInternetException
@@ -20,12 +19,6 @@ import javax.inject.Inject
 class RemoteDataSourceImp @Inject constructor(
     private val movieApiService: MovieApiService,
 ) : RemoteDataSource {
-    override suspend fun getMovie(): MovieDto {
-        return wrapApiResponse {
-            movieApiService.getMovie()
-        }
-    }
-
 
     //region auth
     override suspend fun createGuestSession(): GuestSessionDto {
