@@ -35,8 +35,7 @@ fun SectionHeader(
         )
         Text(text = "see all",
             style = Typography.labelSmall,
-            color = FontAccent,
-//            color = MaterialTheme.color.fontAccent,
+            color = MaterialTheme.color.fontAccent,
             modifier = Modifier.clickable { onClickSeeAll() }
         )
     }

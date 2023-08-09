@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
+import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.spacing
@@ -22,7 +23,7 @@ fun MediaInfoCard(
 ) {
     Row {
         ItemBasicCard(
-            image = data.posterPath,
+            imagePainter = rememberAsyncImagePainter(model = data.posterPath),
             hasName = false,
             hasDateAndCountry = false,
         )

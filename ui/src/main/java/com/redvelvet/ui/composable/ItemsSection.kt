@@ -1,6 +1,5 @@
 package com.redvelvet.ui.composable
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
@@ -11,6 +10,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.theme.dimens
@@ -27,11 +27,11 @@ fun <T> ItemsSection(
     date: List<String> = emptyList(),
     country: List<String> = emptyList(),
     hasCustomList: Boolean = false,
-    customListItemComposable: @Composable ((index: Int, image: String) -> Unit)? = null,
+    customListItemComposable: @Composable ((index: Int, image: Painter) -> Unit)? = null,
     onClickSeeAll: () -> Unit = {},
     onClickItem: (id: Int) -> Unit = {}
 ) {
-    SectionHeader(label, modifier = headerModifier,, onClickSeeAll = onClickSeeAll)
+    SectionHeader(label, modifier = headerModifier, onClickSeeAll = onClickSeeAll)
     LazyRow(
         modifier = Modifier.padding(top = MaterialTheme.spacing.spacing8),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),

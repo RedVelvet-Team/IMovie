@@ -2,10 +2,10 @@ package com.redvelvet.remote.service
 
 import retrofit2.http.HTTP
 
-import com.redvelvet.repository.dto.auth.GuestSessionDto
-import com.redvelvet.repository.dto.auth.LoginRequest
-import com.redvelvet.repository.dto.auth.SessionDto
-import com.redvelvet.repository.dto.auth.TokenDto
+import com.redvelvet.repository.dto.auth.request.LoginRequest
+import com.redvelvet.repository.dto.auth.response.GuestSessionDto
+import com.redvelvet.repository.dto.auth.response.SessionDto
+import com.redvelvet.repository.dto.auth.response.TokenDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -15,7 +15,6 @@ import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
 import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
 import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET

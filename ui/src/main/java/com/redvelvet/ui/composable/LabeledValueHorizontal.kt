@@ -30,3 +30,4 @@ fun LabeledValueHorizontal(movieTime: String, icon: Int, iconDescription: Int) {
         )
     }
 }
+
