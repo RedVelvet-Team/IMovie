@@ -55,3 +55,12 @@ buildSrc/build/kotlin/compileKotlin/cacheable/caches-jvm/inputs/source-to-output
 *.jar
 *.MF
 *.probe
+*.bin
+*.bin
+*.lock
+*.bin
+*.lock
+*.bin
+*.lock
+*.bin
+*.probe
