@@ -26,11 +26,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = Versions.javaVersion
+        targetCompatibility = Versions.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = Versions.jvmtarget
     }
     kapt {
         correctErrorTypes = true
@@ -39,16 +39,12 @@ android {
 
 dependencies {
     implementation(project(":usecase"))
-    implementation("androidx.core:core-ktx:1.10.1")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation(Deps.coreKtx)
+    testImplementation(Deps.junit)
+    androidTestImplementation(Deps.junitExt)
     //hilt
-    implementation("com.google.dagger:hilt-android:2.46.1")
-    kapt("com.google.dagger:hilt-compiler:2.46.1")
-    implementation("androidx.hilt:hilt-work:1.0.0")
+    implementation(Deps.hiltAndroid)
+    kapt(Deps.hiltCompiler)
     //gson
-    implementation("com.google.code.gson:gson:2.10.1")
-    //retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation(Deps.gson)
 }
