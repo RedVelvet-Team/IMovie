@@ -5,42 +5,42 @@ import com.google.gson.annotations.SerializedName
 
 data class MovieSimilarDTO(
     @SerializedName("page")
-    val page: Int,
+    val page: Int?,
     @SerializedName("results")
     val results: List<Result>,
     @SerializedName("total_pages")
-    val totalPages: Int,
+    val totalPages: Int?,
     @SerializedName("total_results")
-    val totalResults: Int
+    val totalResults: Int?
 ) {
     data class Result(
         @SerializedName("adult")
-        val adult: Boolean,
+        val adult: Boolean?,
         @SerializedName("backdrop_path")
-        val backdropPath: String,
+        val backdropPath: String?,
         @SerializedName("genre_ids")
-        val genreIds: List<Int>,
+        val genreIds: List<Int?>?,
         @SerializedName("id")
-        val id: Int,
+        val id: Int?,
         @SerializedName("original_language")
-        val originalLanguage: String,
+        val originalLanguage: String?,
         @SerializedName("original_title")
-        val originalTitle: String,
+        val originalTitle: String?,
         @SerializedName("overview")
-        val overview: String,
+        val overview: String?,
         @SerializedName("popularity")
-        val popularity: Double,
+        val popularity: Double?,
         @SerializedName("poster_path")
-        val posterPath: String,
+        val posterPath: String?,
         @SerializedName("release_date")
-        val releaseDate: String,
+        val releaseDate: String?,
         @SerializedName("title")
-        val title: String,
+        val title: String?,
         @SerializedName("video")
-        val video: Boolean,
+        val video: Boolean?,
         @SerializedName("vote_average")
-        val voteAverage: Double,
+        val voteAverage: Double?,
         @SerializedName("vote_count")
-        val voteCount: Int
+        val voteCount: Int?
     )
 }
