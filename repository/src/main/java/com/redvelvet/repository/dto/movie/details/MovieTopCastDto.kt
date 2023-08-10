@@ -3,7 +3,7 @@ package com.redvelvet.repository.dto.movie.details
 
 import com.google.gson.annotations.SerializedName
 
-data class MovieTopCastDTO(
+data class MovieTopCastDto(
     @SerializedName("id")
     val id: Int?,
     @SerializedName("cast")

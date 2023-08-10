@@ -95,7 +95,7 @@ fun MovieDetailsScreen(
             ) {
                 MediaDetailsForegroundContent(state, viewModel)
             }
-            CustomMediaDetailsTopAppBar(viewModel)
+            CustomMediaDetailsTopAppBar()
         }
     }
 }

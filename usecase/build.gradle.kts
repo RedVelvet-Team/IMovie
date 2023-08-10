@@ -14,5 +14,6 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 dependencies {
     api(project(":entities"))
     implementation(Deps.dagger)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     testImplementation(Deps.testng)
 }

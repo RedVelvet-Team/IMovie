@@ -19,9 +19,8 @@ import com.redvelvet.viewmodel.movieDetails.MovieDetailsInteraction
 
 @Composable
 fun <T> ItemsSection(
-    label: String,
-    images: List<T>,
-    movieIds: List<Int>,
+    label: String = "",
+    images: List<T> = emptyList(),
     headerModifier: Modifier = Modifier,
     hasName: Boolean = false,
     name: List<String> = emptyList(),
@@ -32,6 +31,7 @@ fun <T> ItemsSection(
     customListItemComposable: @Composable ((index: Int, image: Painter) -> Unit)? = null,
     onClickSeeAll: () -> Unit = {},
     onClickItem: (id: Int) -> Unit = {},
+    movieIds: List<Int> = emptyList(),
 ) {
     SectionHeader(label, modifier = headerModifier, onClickSeeAll = onClickSeeAll)
     LazyRow(
