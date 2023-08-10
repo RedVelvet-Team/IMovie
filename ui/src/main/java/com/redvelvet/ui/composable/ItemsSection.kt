@@ -15,11 +15,13 @@ import androidx.compose.ui.res.painterResource
 import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
+import com.redvelvet.viewmodel.movieDetails.MovieDetailsInteraction
 
 @Composable
 fun <T> ItemsSection(
     label: String,
     images: List<T>,
+    movieIds: List<Int>,
     headerModifier: Modifier = Modifier,
     hasName: Boolean = false,
     name: List<String> = emptyList(),
@@ -29,7 +31,7 @@ fun <T> ItemsSection(
     hasCustomList: Boolean = false,
     customListItemComposable: @Composable ((index: Int, image: Painter) -> Unit)? = null,
     onClickSeeAll: () -> Unit = {},
-    onClickItem: (id: Int) -> Unit = {}
+    onClickItem: (id: Int) -> Unit = {},
 ) {
     SectionHeader(label, modifier = headerModifier, onClickSeeAll = onClickSeeAll)
     LazyRow(
@@ -56,7 +58,7 @@ fun <T> ItemsSection(
                     hasDateAndCountry = hasDateAndCountry,
                     date = if (hasDateAndCountry) date[index] else "",
                     country = if (hasDateAndCountry) country[index] else "",
-                    onClick = { onClickItem(index) }
+                    onClick = { onClickItem(movieIds[index]) }
                 )
             }
 

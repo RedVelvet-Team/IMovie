@@ -15,12 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.redvelvet.ui.screen.movieDetails.MovieDetailsUiEvent
 import com.redvelvet.ui.screen.movieDetails.MovieDetailsScreen
-import com.redvelvet.ui.screen.movieDetails.MovieEventsTest
 import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.radius
 import com.redvelvet.ui.theme.spacing
+import com.redvelvet.viewmodel.movieDetails.MovieDetailsInteraction
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsScreenUiState
 
 @Preview(
@@ -30,15 +29,14 @@ import com.redvelvet.viewmodel.movieDetails.MovieDetailsScreenUiState
 )
 @Composable
 fun PreviewMovieDetailsScreen1() {
-    val uiEvent: MovieDetailsUiEvent = MovieEventsTest()
-    MovieDetailsScreen(rememberNavController(), uiEvent)
+    MovieDetailsScreen(rememberNavController())
 
 }
 
 @Composable
 fun MediaDetailsForegroundContent(
     state: MovieDetailsScreenUiState,
-    uiEvent: MovieDetailsUiEvent,
+    interaction: MovieDetailsInteraction,
 ) {
     Column(
         horizontalAlignment = Alignment.Start,
@@ -56,23 +54,23 @@ fun MediaDetailsForegroundContent(
             .padding(top = MaterialTheme.spacing.spacing24),
     ) {
         state.data?.details?.let {
-            MovieDetailsInfoSection(it, uiEvent)
+            MovieDetailsInfoSection(it, interaction)
         }
         Spacer(modifier = Modifier.height(MaterialTheme.spacing.spacing24))
         state.data?.topCast?.let {
-            TopCastSection(it, uiEvent)
+            TopCastSection(it, interaction)
         }
         Spacer(modifier = Modifier.height(MaterialTheme.spacing.spacing24))
         state.data?.details?.let {
-            MovieDetailsMoreInfoSection(it, uiEvent)
+            MovieDetailsMoreInfoSection(it)
         }
         Spacer(modifier = Modifier.height(MaterialTheme.spacing.spacing24))
         state.data?.keyWords?.let {
-            KeyWordsSection(it, uiEvent)
+            KeyWordsSection(it, interaction)
         }
         Spacer(modifier = Modifier.height(MaterialTheme.spacing.spacing24))
         state.data?.similar?.let {
-            SimilarMoviesSection(it, uiEvent)
+            SimilarMoviesSection(it, interaction)
         }
 
     }

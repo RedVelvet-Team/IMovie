@@ -2,7 +2,6 @@ package com.redvelvet.usecase.usecase.movie
 
 import com.redvelvet.entities.movie.details.MovieFullDetails
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class GetMovieFullDetailsUseCase @Inject private constructor(

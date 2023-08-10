@@ -1,13 +1,11 @@
 package com.redvelvet.viewmodel.movieDetails
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.redvelvet.entities.error.ErrorType
 import com.redvelvet.usecase.usecase.movie.GetMovieFullDetailsUseCase
+import com.redvelvet.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,12 +13,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
     private val getMovieFullDetailsUseCase: GetMovieFullDetailsUseCase
-) : ViewModel() {
-
-    private val _state: MutableStateFlow<MovieDetailsScreenUiState> =
-        MutableStateFlow(MovieDetailsScreenUiState())
-    val state = _state.asStateFlow()
-
+) : BaseViewModel<MovieDetailsScreenUiState, MovieDetailsUiEvent>(MovieDetailsScreenUiState()),
+    MovieDetailsInteraction {
     init {
         getData()
     }
@@ -222,5 +216,69 @@ class MovieDetailsViewModel @Inject constructor(
                 ),
             ),
         )
+    }
+
+    override fun onClickBack() {
+
+    }
+
+    override fun onClickFavorite(movieId: Int, mediaType: String) {
+
+    }
+
+    override fun onClickSave(movieId: Int) {
+
+    }
+
+    override fun onClickPlayTrailer(movieUrl: String) {
+
+    }
+
+    override fun onClickGenre(genre: String) {
+
+    }
+
+    override fun onClickRateMovie(movieId: Int, rate: Double) {
+
+    }
+
+    override fun onClickTopCastSeeAll() {
+
+    }
+
+    override fun onClickCast(castId: Int) {
+
+    }
+
+    override fun onClickKeyword(keywordId: Int) {
+
+    }
+
+    override fun onClickSimilarMoviesSeeAll() {
+
+    }
+
+    override fun onClickMovie(movieId: Int) {
+
+    }
+
+    override fun onClickMovieImagesSeeAll() {
+
+    }
+
+    override fun onClickPreviewImage(movieImageId: Int) {
+
+    }
+
+    override fun onClickReviewsSeeAll() {
+
+    }
+
+    override fun onClickReview(reviewId: Int) {
+
+    }
+
+    override fun onClickRecommendationsMoviesSeeAll() {
+
     }
 }

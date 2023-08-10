@@ -15,11 +15,12 @@ import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.spacing
+import com.redvelvet.viewmodel.movieDetails.MovieDetailsInteraction
 
 @Composable
 fun MediaInfoCard(
     data: MediaInfoCardData,
-    onGenreClick: (String) -> Unit,
+    interaction: MovieDetailsInteraction,
 ) {
     Row {
         ItemBasicCard(
@@ -43,15 +44,18 @@ fun MediaInfoCard(
             }
             SpacerVertical(height = MaterialTheme.spacing.spacing16)
             LazyRow {
-                items(data.genres.size) {
-                    GenreButton(genre = data.genres[it], onGenreClick = onGenreClick)
+                items(data.genres.size) { index ->
+                    GenreButton(
+                        genre = data.genres[index],
+                        onGenreClick = { interaction.onClickGenre(data.genres[index]) }
+                    )
                 }
             }
             SpacerVertical(height = MaterialTheme.spacing.spacing12)
             Box(
                 modifier = Modifier
                     .padding(end = MaterialTheme.spacing.spacing16)
-            ) {}
+            )
             if (data.hasTime) {
                 Box(
                     modifier = Modifier

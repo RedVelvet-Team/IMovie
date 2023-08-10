@@ -10,15 +10,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.redvelvet.ui.composable.KeywordChip
-import com.redvelvet.ui.screen.movieDetails.MovieDetailsUiEvent
 import com.redvelvet.ui.theme.FontSecondary
 import com.redvelvet.ui.theme.spacing
+import com.redvelvet.viewmodel.movieDetails.MovieDetailsInteraction
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsScreenUiState
 
 @Composable
 fun KeyWordsSection(
     it: List<MovieDetailsScreenUiState.MovieKeyWordsUiState>,
-    uiEvent: MovieDetailsUiEvent
+    interaction: MovieDetailsInteraction,
 ) {
     Text(
         modifier = Modifier.padding(
@@ -39,7 +39,7 @@ fun KeyWordsSection(
     ) {
         items(it.size) { it2 ->
             KeywordChip(
-                onClickChip = { uiEvent.onMovieKeyword(it[it2].keywordId) },
+                onClickChip = { interaction.onClickKeyword(it[it2].keywordId) },
                 text = it[it2].keywordString,
             )
 

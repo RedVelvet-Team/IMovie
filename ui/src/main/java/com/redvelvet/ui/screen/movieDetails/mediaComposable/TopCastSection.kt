@@ -14,15 +14,15 @@ import androidx.compose.ui.unit.dp
 import com.redvelvet.ui.composable.CircularImageAvatar
 import com.redvelvet.ui.composable.ItemsSection
 import com.redvelvet.ui.composable.SpacerVertical
-import com.redvelvet.ui.screen.movieDetails.MovieDetailsUiEvent
 import com.redvelvet.ui.theme.OnSecondary
 import com.redvelvet.ui.theme.spacing
+import com.redvelvet.viewmodel.movieDetails.MovieDetailsInteraction
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsScreenUiState
 
 @Composable
 fun TopCastSection(
     it: List<MovieDetailsScreenUiState.MovieTopCastUiState>,
-    uiEvent: MovieDetailsUiEvent
+    interaction: MovieDetailsInteraction,
 ) {
     ItemsSection(
         label = "Top Cast",
@@ -34,7 +34,7 @@ fun TopCastSection(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .clickable { uiEvent.onCast(it[index].castId) }
+                    .clickable { interaction.onClickCast(it[index].castId) }
             ) {
                 CircularImageAvatar(imageUrl = image)
                 SpacerVertical(height = MaterialTheme.spacing.spacing4)
@@ -52,8 +52,6 @@ fun TopCastSection(
                 }
             }
         },
-        onClickSeeAll = { uiEvent.onTopCastSeeAll() },
-        onClickItem = { uiEvent.onCast(0) }
-
+        onClickSeeAll = { interaction.onClickTopCastSeeAll() },
     )
 }

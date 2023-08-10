@@ -9,7 +9,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.redvelvet.ui.composable.LabeledValueVertical
 import com.redvelvet.ui.composable.SpacerVertical
-import com.redvelvet.ui.screen.movieDetails.MovieDetailsUiEvent
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsScreenUiState
 
@@ -17,7 +16,6 @@ import com.redvelvet.viewmodel.movieDetails.MovieDetailsScreenUiState
 @Composable
 fun MovieDetailsMoreInfoSection(
     it: MovieDetailsScreenUiState.MovieDetailsUiState,
-    uiEvent: MovieDetailsUiEvent
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
