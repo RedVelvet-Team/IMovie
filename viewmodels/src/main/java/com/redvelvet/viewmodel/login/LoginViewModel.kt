@@ -19,6 +19,41 @@ class LoginViewModel @Inject constructor(
     private val validation: ValidationLoginUseCase,
 ) : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState()), LoginInteraction {
 
+    //region guest
+    private fun loginByGuest() {
+        _state.update {
+            it.copy(
+                isLoading = true,
+                error = null,
+            )
+        }
+        tryToExecute(
+            execute = loginByGuestUseCase::invoke,
+            onSuccess = ::onLoginByGuestSuccess,
+            onError = ::onLoginByGuestFailed,
+        )
+    }
+
+    private fun onLoginByGuestSuccess(guest: Guest) {
+        _state.update {
+            it.copy(
+                isLoading = false,
+                error = null,
+            )
+        }
+        sendUiEvent(LoginUiEvent.NavigateTomHomeScreen)
+    }
+
+    private fun onLoginByGuestFailed(error: ErrorUiState) {
+        _state.update {
+            it.copy(
+                isLoading = false,
+                error = "",
+            )
+        }
+    }
+    //endregion
+
     //region auth
     private fun loginByUserNameAndPassword(userName: String, password: String) {
         _state.update {
@@ -48,7 +83,7 @@ class LoginViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isLoading = false,
-                error = error.message,
+                error = "",
             )
         }
     }
