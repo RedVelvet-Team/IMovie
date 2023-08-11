@@ -3,7 +3,6 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
-    id("kotlin-kapt")
 }
 
 android {
@@ -34,11 +33,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = Versions.javaVersion
+        targetCompatibility = Versions.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = Versions.jvmtarget
     }
     packaging {
         resources {
@@ -51,6 +50,7 @@ android {
 }
 
 dependencies {
+    // core + testing
     implementation(Deps.coreKtx)
     implementation(Deps.junitExt)
     implementation(Deps.testMonitor)
@@ -84,15 +84,12 @@ dependencies {
     implementation(Deps.pagingCompose)
     //gson
     implementation(Deps.gson)
-    //workManager
-    implementation(Deps.workRuntimeKtx)
-    implementation(Deps.workMultiprocess)
 
-    api(project(":firebase"))
-    api(project(":local"))
-    api(project(":remote"))
-    api(project(":repository"))
-    api(project(":ui"))
-    api(project(":viewmodels"))
+    implementation(project(":firebase"))
+    implementation(project(":local"))
+    implementation(project(":remote"))
+    implementation(project(":repository"))
+    implementation(project(":ui"))
+    implementation(project(":viewmodels"))
     implementation(project(":usecase"))
 }

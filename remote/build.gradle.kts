@@ -34,11 +34,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = Versions.javaVersion
+        targetCompatibility = Versions.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = Versions.jvmtarget
     }
     buildFeatures {
         buildConfig = true
@@ -57,16 +57,12 @@ dependencies {
     // Hilt
     implementation(Deps.hiltAndroid)
     kapt(Deps.hiltCompiler)
-    implementation(Deps.hiltWork)
     // Retrofit
     implementation(Deps.gson)
     implementation(Deps.retrofit)
     implementation(Deps.retrofitConvertoer)
     implementation(Deps.okhttp3Logging)
     implementation(Deps.okhttp3)
-    // WorkManager
-    implementation(Deps.workRuntimeKtx)
-    implementation(Deps.workMultiprocess)
     //paging
     implementation(Deps.pagingRuntime)
     implementation(Deps.pagingCompose)

@@ -26,11 +26,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = Versions.javaVersion
+        targetCompatibility = Versions.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = Versions.jvmtarget
     }
     kapt {
         correctErrorTypes = true
@@ -39,15 +39,15 @@ android {
 
 dependencies {
     implementation(project(":usecase"))
-
+    // core
     implementation(Deps.coreKtx)
-    implementation(Deps.appCompat)
+    // testing
     testImplementation(Deps.junit)
     androidTestImplementation(Deps.junitExt)
+    // hilt
     implementation(Deps.hiltAndroid)
     kapt(Deps.hiltCompiler)
-    implementation(Deps.hiltNavigationCompose)
-    implementation(Deps.lifecycleViewModelCompose)
+    // lifecycle
     implementation(Deps.lifecycleViewModelKts)
     implementation(Deps.lifecycleRunTimeCompose)
     implementation(Deps.lifecycleSavedState)

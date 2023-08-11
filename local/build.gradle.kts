@@ -26,11 +26,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = Versions.javaVersion
+        targetCompatibility = Versions.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = Versions.jvmtarget
     }
     kapt {
         correctErrorTypes = true
@@ -45,7 +45,6 @@ dependencies {
     // Hilt
     implementation(Deps.hiltAndroid)
     kapt(Deps.hiltCompiler)
-    implementation(Deps.hiltWork)
     // Room
     implementation(Deps.roomRuntime)
     annotationProcessor(Deps.roomCompiler)
@@ -59,9 +58,4 @@ dependencies {
     //paging
     implementation(Deps.pagingRuntime)
     implementation(Deps.pagingCompose)
-    //gson
-    implementation(Deps.gson)
-    //workManager
-    implementation(Deps.workRuntimeKtx)
-    implementation(Deps.workMultiprocess)
 }
