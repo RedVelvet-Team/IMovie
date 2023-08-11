@@ -1,7 +1,6 @@
 package com.redvelvet.ui.screen.signup
 
 import android.annotation.SuppressLint
-import android.webkit.WebView
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -10,13 +9,11 @@ import com.google.accompanist.web.WebView
 import com.google.accompanist.web.rememberWebViewState
 import com.redvelvet.ui.composable.FilxTopAppBar
 
-private const val SIGNUP_LINK = "https://www.themoviedb.org/signup"
-
 @SuppressLint("SetJavaScriptEnabled", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun SignUpScreen(
 ) {
-    val state = rememberWebViewState(SIGNUP_LINK)
+    val state = rememberWebViewState("https://www.themoviedb.org/signup")
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
             FilxTopAppBar("Sign Up", hasBackArrow = false)

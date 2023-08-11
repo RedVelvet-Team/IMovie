@@ -36,7 +36,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -46,7 +45,6 @@ import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.PrimaryOutlinedButton
 import com.redvelvet.ui.composable.PrimaryTextField
-import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.home.navigateToHome
 import com.redvelvet.ui.screen.signup.navigateToSignUp
 import com.redvelvet.ui.theme.Typography
@@ -72,15 +70,11 @@ fun LoginScreen(
     scope.launchCollectLatest(viewModel.effect) { effect ->
         when (effect) {
             is LoginUiEffect.NavigateTomHomeScreen -> {
-                navController.navigateToHome {
-                    popUpTo(MovieDestination.Login.route) {
-                        inclusive = true
-                    }
-                }
-                    is LoginUiEvent.NavigateToSignUpScreen -> {
-                        navController.navigateToSignUp()
-                    }
-                }
+                navController.navigateToHome()
+            }
+
+            is LoginUiEffect.NavigateToSignUpScreen -> {
+                navController.navigateToSignUp()
             }
         }
     }

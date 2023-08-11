@@ -2,14 +2,11 @@ package com.redvelvet.ui.screen.home
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
@@ -18,15 +15,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.composable.FilxTabLayout
 import com.redvelvet.ui.composable.FilxTopAppBar
-import com.redvelvet.ui.composable.ItemsSection
+import com.redvelvet.ui.composable.TabContentDisplay
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
@@ -123,35 +116,6 @@ fun HomeScreenContent(
                     },
                 )
             }
-        }
-    }
-}
-
-@Composable
-fun <T> TabContentDisplay(
-    categories: List<T>,
-    titles: List<String>,
-    imagePainters: List<List<Painter>>,
-    names: List<List<String>> = emptyList(),
-    hasName: Boolean = false,
-    hasDateAndCountry: Boolean = false,
-    dates: List<List<String>> = emptyList(),
-    countries: List<List<String>> = emptyList()
-) {
-    LazyColumn(
-        contentPadding = PaddingValues(vertical = MaterialTheme.spacing.spacing16),
-        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing24)
-    ) {
-        itemsIndexed(categories) { index, item ->
-            ItemsSection(
-                label = titles[index],
-                imagesPainters = imagePainters[index],
-                hasName = hasName,
-                hasDateAndCountry = hasDateAndCountry,
-                names = names[index],
-                dates = dates[index],
-                countries = countries[index]
-            )
         }
     }
 }

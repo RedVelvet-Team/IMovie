@@ -15,7 +15,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
@@ -24,7 +23,6 @@ import com.redvelvet.ui.composable.MessageView
 import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.PrimaryOutlinedButton
 import com.redvelvet.ui.composable.WallPaper
-import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.login.navigateToLogin
 import com.redvelvet.ui.screen.signup.navigateToSignUp
 import com.redvelvet.ui.theme.Typography
@@ -36,8 +34,6 @@ import com.redvelvet.viewmodel.onboarding.OnBoardingUiEffect
 import com.redvelvet.viewmodel.onboarding.OnBoardingUiState
 import com.redvelvet.viewmodel.onboarding.OnBoardingViewModel
 import com.redvelvet.viewmodel.utils.launchCollectLatest
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @Composable
 fun OnBoardingScreen(
@@ -46,24 +42,21 @@ fun OnBoardingScreen(
     val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
+    systemUiController.setSystemBarsColor(
+        MaterialTheme.color.backgroundPrimary, darkIcons = false
+    )
     val scope = rememberCoroutineScope()
     scope.launchCollectLatest(viewModel.effect) { effect ->
         when (effect) {
             is OnBoardingUiEffect.NavigateToLogin -> {
-                navController.navigateToLogin {
-                    popUpTo(MovieDestination.Splash.route) {
-                        inclusive = true
-                    }
-                }
+                navController.navigateToLogin()
+            }
 
             is OnBoardingUiEffect.NavigateToSignUpScreen -> {
                 navController.navigateToSignUp()
             }
         }
     }
-    systemUiController.setSystemBarsColor(
-        MaterialTheme.color.backgroundPrimary, darkIcons = false
-    )
     OnBoardingContent(state = state, viewModel)
 }
 
