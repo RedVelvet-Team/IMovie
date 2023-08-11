@@ -6,6 +6,8 @@ data class HomeUiState(
     val movieCategories: List<MovieCategoryUiState> = emptyList(),
     val tvShowCategories: List<TvShowCategoryUiState> = emptyList(),
     val tabLayoutTitles: List<String> = emptyList(),
+    val isLoading: Boolean = false,
+    val isError: String? = null,
 ) : BaseUiState
 
 data class MovieCategoryUiState(

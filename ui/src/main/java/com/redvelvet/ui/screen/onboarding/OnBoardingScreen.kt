@@ -63,8 +63,7 @@ fun OnBoardingScreen(
         }
     }
     systemUiController.setSystemBarsColor(
-        MaterialTheme.color.backgroundPrimary,
-        darkIcons = false
+        MaterialTheme.color.backgroundPrimary, darkIcons = false
     )
     OnBoardingContent(state = state, viewModel)
 }
@@ -88,7 +87,7 @@ private fun OnBoardingContent(
         ) {
             MessageView(
                 messageIcon = painterResource(id = R.drawable.vector_logo),
-                messageTitle = stringResource(R.string.flixmovie),
+                messageTitle = "FlixMovie",
                 messageDescription = stringResource(R.string.description_about_app_in_onboarding),
                 messageTitleStyle = Typography.headlineLarge.copy(color = MaterialTheme.color.fontPrimary),
                 messageDescriptionStyle = Typography.titleSmall,
@@ -118,8 +117,7 @@ private fun OnBoardingContent(
                 onClick = { interaction.onClickSignUp() },
                 enabled = !state.isLoading,
                 border = BorderStroke(
-                    width = MaterialTheme.dimens.dimens1,
-                    color = MaterialTheme.color.brand100
+                    width = MaterialTheme.dimens.dimens1, color = MaterialTheme.color.brand100
                 ),
                 text = stringResource(R.string.sign_up),
                 textColor = MaterialTheme.color.brand100

@@ -23,10 +23,10 @@ import com.redvelvet.ui.theme.radius
 
 @Composable
 fun PrimaryTextField(
-    onClick: (String) -> Unit,
+    onTextChange: (String) -> Unit,
     value: String,
     isError: Boolean,
-    text: String,
+    placeHolderText: String,
     modifier: Modifier = Modifier,
     errorMessage: String = "",
     isPassword: Boolean = false,
@@ -39,47 +39,43 @@ fun PrimaryTextField(
     placeHolderColor: Color = MaterialTheme.color.fontSecondary
 ) {
     TextField(
-        modifier = modifier.fillMaxWidth(),
         value = value,
+        onValueChange = onTextChange,
+        modifier = modifier.fillMaxWidth(),
         textStyle = TextStyle(
             color = MaterialTheme.color.fontPrimary,
         ),
         placeholder = {
             Text(
-                text = text,
+                text = placeHolderText,
                 style = Typography.bodyMedium,
                 color = placeHolderColor
             )
         },
-        onValueChange = { onClick(it) },
         singleLine = true,
         supportingText = {
             if (isError) {
                 Text(text = errorMessage, color = Color.Red)
             }
         },
-        leadingIcon = if (leadingIcon != null) {
-            @Composable {
+        leadingIcon = {
+            leadingIcon?.let { icon ->
                 Icon(
-                    leadingIcon,
+                    painter = icon,
                     contentDescription = "$leadingIcon icon",
                     tint = iconTint
                 )
             }
-        } else {
-            leadingIcon
         },
-        trailingIcon = if (trailingIcon != null) {
-            @Composable {
+        trailingIcon = {
+            trailingIcon?.let { icon ->
                 Icon(
-                    trailingIcon,
+                    icon,
                     contentDescription = "$trailingIcon icon",
                     tint = iconTint,
                     modifier = Modifier.clickable { onClickTrailingIcon() }
                 )
             }
-        } else {
-            trailingIcon
         },
         keyboardOptions = if (isPassword) KeyboardOptions(keyboardType = KeyboardType.Password)
         else KeyboardOptions.Default,
@@ -102,7 +98,5 @@ fun PrimaryTextField(
             disabledContainerColor = MaterialTheme.color.backgroundSecondary,
             cursorColor = Color.White,
         ),
-
-        )
-
+    )
 }

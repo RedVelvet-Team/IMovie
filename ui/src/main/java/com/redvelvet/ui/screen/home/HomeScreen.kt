@@ -36,20 +36,16 @@ import com.redvelvet.viewmodel.home.HomeViewModel
 
 @Composable
 fun HomeScreen(
-    navController: NavController,
-    viewModel: HomeViewModel = hiltViewModel()
+    navController: NavController, viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    Scaffold(modifier = Modifier.fillMaxSize(),
-        topBar = {
-            FilxTopAppBar(
-                "FlixMovie",
-                hasBackArrow = false
-            )
-        }, bottomBar = {
-            //TODO @Hassan Ayman
-        },
-        containerColor = MaterialTheme.color.backgroundPrimary
+    Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
+        FilxTopAppBar(
+            "FlixMovie", hasBackArrow = false
+        )
+    }, bottomBar = {
+        //TODO @Hassan Ayman
+    }, containerColor = MaterialTheme.color.backgroundPrimary
     ) { paddingValues ->
         HomeScreenContent(paddingValues, state)
     }
@@ -58,19 +54,17 @@ fun HomeScreen(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreenContent(
-    paddingValues: PaddingValues,
-    state: HomeUiState
+    paddingValues: PaddingValues, state: HomeUiState
 ) {
     Column(
         modifier = Modifier
             .padding(
-                top = MaterialTheme.spacing.spacing64,
-                bottom = MaterialTheme.dimens.dimens70
+                top = MaterialTheme.spacing.spacing64, bottom = MaterialTheme.dimens.dimens70
             )
             .fillMaxWidth()
     ) {
         val pagerState = rememberPagerState { state.tabLayoutTitles.size }
-        FilxTabLayout(pagerState = pagerState)
+        FilxTabLayout(pagerState = pagerState, titles = state.tabLayoutTitles)
         HorizontalPager(state = pagerState) { currentPage ->
             AnimatedVisibility(currentPage == 0) {
                 TabContentDisplay(
@@ -133,7 +127,7 @@ fun HomeScreenContent(
 }
 
 @Composable
-private fun <T> TabContentDisplay(
+fun <T> TabContentDisplay(
     categories: List<T>,
     titles: List<String>,
     imagePainters: List<List<Painter>>,

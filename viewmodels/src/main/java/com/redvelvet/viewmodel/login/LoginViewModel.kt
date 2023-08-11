@@ -24,7 +24,7 @@ class LoginViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isLoading = true,
-                error = null,
+                isError = null,
             )
         }
         tryToExecute(
@@ -38,17 +38,17 @@ class LoginViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isLoading = false,
-                error = null,
+                isError = null,
             )
         }
-        sendUiEvent(LoginUiEvent.NavigateTomHomeScreen)
+        sendUiEffect(LoginUiEffect.NavigateTomHomeScreen)
     }
 
     private fun onLoginByGuestFailed(error: ErrorUiState) {
         _state.update {
             it.copy(
                 isLoading = false,
-                error = "",
+                isError = null,
             )
         }
     }
@@ -59,7 +59,7 @@ class LoginViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isLoading = true,
-                error = null,
+                isError = null,
             )
         }
         tryToExecute(
@@ -73,7 +73,7 @@ class LoginViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isLoading = false,
-                error = null,
+                isError = null,
             )
         }
         sendUiEffect(LoginUiEffect.NavigateTomHomeScreen)
@@ -83,7 +83,7 @@ class LoginViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isLoading = false,
-                error = "",
+                isError = "",
             )
         }
     }
@@ -131,41 +131,8 @@ class LoginViewModel @Inject constructor(
     }
     //endregion
 
-    //region guest
-    private fun loginByGuest() {
-        _state.update {
-            it.copy(
-                isLoading = true,
-                error = null,
-            )
-        }
-        tryToExecute(
-            execute = loginByGuestUseCase::invoke,
-            onSuccess = ::onLoginByGuestSuccess,
-            onError = ::onLoginByGuestFailed,
-        )
-    }
-    private fun onLoginByGuestSuccess(guest: Guest) {
-        _state.update {
-            it.copy(
-                isLoading = false,
-                error = null,
-            )
-        }
-        sendUiEffect(LoginUiEffect.NavigateTomHomeScreen)
-    }
-    private fun onLoginByGuestFailed(error: ErrorUiState) {
-        _state.update {
-            it.copy(
-                isLoading = false,
-                error = error.message,
-            )
-        }
-    }
-    //endregion
-
     //region interaction
-    override fun onClickLogin() {
+    override fun interactionLoginButtonClick() {
         if (validation(state.value.userName, state.value.password)) {
             loginByUserNameAndPassword(state.value.userName, state.value.password)
             return
@@ -173,7 +140,7 @@ class LoginViewModel @Inject constructor(
         updateInputErrorStatus()
     }
 
-    override fun onClickGuest() {
+    override fun interactionGuestButtonClick() {
         loginByGuest()
     }
 
@@ -184,7 +151,7 @@ class LoginViewModel @Inject constructor(
                 userName = userName,
                 isUserNameEmpty = false,
                 isLoading = false,
-                error = null
+                isError = null
             )
         }
     }
@@ -194,13 +161,13 @@ class LoginViewModel @Inject constructor(
             it.copy(
                 password = password,
                 isLoading = false,
-                error = null,
+                isError = null,
                 isPasswordEmpty = false
             )
         }
     }
 
-    override fun onClickEyeIcon() {
+    override fun interactionEyeIconClick() {
         _state.update { it.copy(isPasswordVisible = !it.isPasswordVisible) }
     }
     //endregion

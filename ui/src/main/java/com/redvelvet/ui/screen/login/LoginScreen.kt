@@ -96,7 +96,7 @@ private fun LoginScreenContent(
     interaction: LoginInteraction,
 ) {
     val context = LocalContext.current
-    uiState.error?.let {
+    uiState.isError?.let {
         Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
     }
     val imageBitmap: ImageBitmap = ImageBitmap.imageResource(context.resources, R.drawable.login)
@@ -180,8 +180,8 @@ private fun LoginContentPortrait(
             isError = uiState.isUserNameEmpty,
             leadingIcon = painterResource(id = R.drawable.icon_user),
             errorMessage = stringResource(R.string.invalid_username),
-            text = stringResource(R.string.username),
-            onClick = interaction::onUserNameChanged
+            placeHolderText = stringResource(R.string.username),
+            onTextChange = interaction::onUserNameChanged
         )
         val iconPassword = if (uiState.isPasswordVisible) R.drawable.icon_visibility_off
         else R.drawable.icon_visibility_on
@@ -192,13 +192,13 @@ private fun LoginContentPortrait(
             ),
             leadingIcon = painterResource(id = R.drawable.icon_password),
             trailingIcon = painterResource(iconPassword),
-            onClickTrailingIcon = { interaction.onClickEyeIcon() },
+            onClickTrailingIcon = { interaction.interactionEyeIconClick() },
             isPassword = true,
             isPasswordVisible = uiState.isPasswordVisible,
             isError = uiState.isPasswordEmpty,
             errorMessage = "Invalid password",
-            text = "Password",
-            onClick = interaction::onPasswordChanged
+            placeHolderText = "Password",
+            onTextChange = interaction::onPasswordChanged
         )
         Text(
             text = "Forget Password?",
@@ -211,7 +211,7 @@ private fun LoginContentPortrait(
 
             )
         PrimaryButton(
-            onClick = { interaction.onClickLogin() },
+            onClick = { interaction.interactionLoginButtonClick() },
             enabled = !uiState.isLoading,
             text = stringResource(R.string.login),
         )
@@ -237,7 +237,7 @@ private fun LoginContentPortrait(
             )
         }
         PrimaryOutlinedButton(
-            onClick = { interaction.onClickGuest() },
+            onClick = { interaction.interactionGuestButtonClick() },
             enabled = !uiState.isLoading,
             border = BorderStroke(
                 width = MaterialTheme.dimens.dimens1, color = MaterialTheme.color.brand100
@@ -279,9 +279,9 @@ private fun LoginContentLandscape(
             value = uiState.userName,
             isError = uiState.isUserNameEmpty,
             leadingIcon = painterResource(id = R.drawable.icon_user),
-            text = "Username",
+            placeHolderText = "Username",
             errorMessage = "Invalid Username",
-            onClick = interaction::onUserNameChanged
+            onTextChange = interaction::onUserNameChanged
         )
         val iconPassword = if (uiState.isPasswordVisible) R.drawable.icon_visibility_off
         else R.drawable.icon_visibility_on
@@ -296,18 +296,18 @@ private fun LoginContentLandscape(
             leadingIcon = painterResource(id = R.drawable.icon_password),
             trailingIcon = painterResource(iconPassword),
             isPasswordVisible = uiState.isPasswordVisible,
-            onClickTrailingIcon = { interaction.onClickEyeIcon() },
+            onClickTrailingIcon = { interaction.interactionEyeIconClick() },
             isError = uiState.isPasswordEmpty,
-            text = "Password",
+            placeHolderText = "Password",
             errorMessage = "Invalid Password",
-            onClick = interaction::onPasswordChanged
+            onTextChange = interaction::onPasswordChanged
         )
 
         PrimaryButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = MaterialTheme.spacing.spacing16),
-            onClick = { interaction.onClickLogin() },
+            onClick = { interaction.interactionLoginButtonClick() },
             enabled = !uiState.isLoading,
             text = stringResource(R.string.login),
         )
@@ -315,7 +315,7 @@ private fun LoginContentLandscape(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = MaterialTheme.spacing.spacing12),
-            onClick = { interaction.onClickGuest() },
+            onClick = { interaction.interactionGuestButtonClick() },
             enabled = !uiState.isLoading,
             border = BorderStroke(
                 width = MaterialTheme.dimens.dimens1, color = MaterialTheme.color.brand100

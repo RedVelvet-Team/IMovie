@@ -37,11 +37,11 @@ private fun SearchContent() {
             .padding(MaterialTheme.dimens.dimens16)
     ) {
         PrimaryTextField(
-            onClick = {},
+            onTextChange = {},
             value = "",
             isError = false,
             leadingIcon = painterResource(id = R.drawable.icon_search),
-            text = "What do you want to Watch?"
+            placeHolderText = "What do you want to Watch?"
         )
         MessageView(
             messageIcon = painterResource(id = R.drawable.vector_serach),
