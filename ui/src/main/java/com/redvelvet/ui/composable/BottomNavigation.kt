@@ -1,5 +1,6 @@
 package com.redvelvet.ui.composable
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,8 +16,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -25,6 +27,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.navigation.MovieDestination
+import com.redvelvet.ui.theme.BottomNavigationColor
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
@@ -58,9 +61,18 @@ fun BottomNavBar(visibility: Boolean) {
                 .background(MaterialTheme.color.backgroundPrimary)
                 .shadow(
                     elevation = MaterialTheme.spacing.spacing2,
-                    spotColor = Color.White,
-                    clip = false
-                ),
+                    clip = false,
+                )
+                .drawBehind {
+                    val strokeWidth = 2f
+                    drawLine(
+                        color = BottomNavigationColor,
+                        start = Offset(-size.width, 0f),
+                        end = Offset(size.width, 1f),
+                        strokeWidth = strokeWidth
+                    )
+                },
+
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -72,6 +84,7 @@ fun BottomNavBar(visibility: Boolean) {
             }
         }
     }
+
 }
 
 @Composable

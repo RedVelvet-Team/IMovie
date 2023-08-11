@@ -20,3 +20,6 @@ val BackgroundOnSecondary = Color(0xFF414357)
 val FontPrimary = Color(0xDEFFFFFF)
 val FontSecondary = Color(0xB2FFFFFF)
 val FontAccent = Color(0x61FFFFFF)
+
+//
+val BottomNavigationColor = Color(0x5CFFFFFF)

@@ -14,14 +14,14 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-abstract class BaseViewModel<UiState : BaseUiState, UiEvent>(state: UiState) :
+abstract class BaseViewModel<UiState : BaseUiState, UiEffect>(state: UiState) :
     ViewModel() {
 
     protected val _state = MutableStateFlow(state)
     val state = _state.asStateFlow()
 
-    protected val _event = MutableSharedFlow<UiEvent>()
-    val event = _event.asSharedFlow()
+    protected val _effect = MutableSharedFlow<UiEffect>()
+    val effect = _effect.asSharedFlow()
 
     fun <T> tryToExecute(
         execute: suspend () -> T,
@@ -45,11 +45,13 @@ abstract class BaseViewModel<UiState : BaseUiState, UiEvent>(state: UiState) :
         }
     }
 
-    protected fun sendUiEvent(uiEvent: UiEvent) {
+    protected fun sendUiEffect(uiEffect: UiEffect) {
         viewModelScope.launch(Dispatchers.IO) {
-            _event.emit(uiEvent)
+            _effect.emit(uiEffect)
         }
     }
 }
 
 interface BaseUiState
+
+interface BaseUiEffect

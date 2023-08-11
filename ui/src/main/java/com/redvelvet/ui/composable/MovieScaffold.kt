@@ -1,6 +1,5 @@
 package com.redvelvet.ui.composable
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -45,7 +44,7 @@ fun MovieScaffold(
         }, bottomBar = {},
         containerColor = MaterialTheme.color.backgroundPrimary
     ) { paddingValues ->
-        if (isLoading){
+        if (isLoading) {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
@@ -53,10 +52,9 @@ fun MovieScaffold(
             ) {
                 Text(text = "loading")
             }
-        }else if (error != null){
-            Log.v("hass", "screen $error")
+        } else if (error != null) {
             ErrorViewer(error = error)
-        }else{
+        } else {
             content()
         }
     }
@@ -64,7 +62,7 @@ fun MovieScaffold(
 
 @Composable
 fun ErrorViewer(error: ErrorUiState) {
-    when(error){
+    when (error) {
         is NullResultErrorState -> NoContent()
         is InvalidationErrorState -> LoginRequired()
         is NetworkErrorState -> NetworkView()
@@ -94,15 +92,13 @@ fun LoginRequired() {
 fun NoContent(
     title: String = "There are no favorite",
     description: String = "Enjoy adding items to your favorites list and get ready to enjoy"
-){
+) {
     ErrorPage(
         image = painterResource(id = R.drawable.vector_not_found),
         title = title,
         description = description
     )
 }
-
-
 
 
 @Composable

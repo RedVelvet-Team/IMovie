@@ -22,20 +22,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
-import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.home.navigateToHome
 import com.redvelvet.ui.screen.login.navigateToLogin
 import com.redvelvet.ui.screen.onboarding.navigateToOnBoarding
 import com.redvelvet.ui.theme.color
-import com.redvelvet.viewmodel.splash.SplashUiEvent
+import com.redvelvet.viewmodel.splash.SplashUiEffect
 import com.redvelvet.viewmodel.splash.SplashUiState
 import com.redvelvet.viewmodel.splash.SplashViewModel
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
-import androidx.navigation.NavOptionsBuilder
-import androidx.navigation.NavController
-import androidx.navigation.navOptions
-
+import com.redvelvet.viewmodel.utils.launchCollectLatest
 
 @Composable
 fun SplashScreen(
@@ -46,22 +40,18 @@ fun SplashScreen(
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
     val scope = rememberCoroutineScope()
-    LaunchedEffect(key1 = Unit) {
-        scope.launch {
-            viewModel.event.collectLatest { event ->
-                when (event) {
-                    is SplashUiEvent.NavigateToHome -> {
-                        navController.navigateToHome()
-                    }
+    scope.launchCollectLatest(viewModel.effect) { effect ->
+        when (effect) {
+            is SplashUiEffect.NavigateToHome -> {
+                navController.navigateToHome()
+            }
 
-                    is SplashUiEvent.NavigateToOnBoarding -> {
-                        navController.navigateToOnBoarding()
-                    }
+            is SplashUiEffect.NavigateToOnBoarding -> {
+                navController.navigateToOnBoarding()
+            }
 
-                    is SplashUiEvent.NavigateToLogin -> {
-                        navController.navigateToLogin()
-                    }
-                }
+            is SplashUiEffect.NavigateToLogin -> {
+                navController.navigateToLogin()
             }
         }
     }
@@ -88,14 +78,8 @@ private fun SplashContent(
     ) {
         Image(
             painter = painterResource(id = R.drawable.vector_logo),
-            contentDescription = null,
+            contentDescription = "Flix logo",
             modifier = Modifier.rotate(rotationDegree.value)
         )
     }
 }
-
-
-
-
-
-
