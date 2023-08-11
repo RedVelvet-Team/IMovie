@@ -12,6 +12,8 @@ import androidx.paging.compose.LazyPagingItems
 import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.search.SearchCardUiState
+import com.redvelvet.viewmodel.utils.getFullImage
+import com.redvelvet.viewmodel.utils.isPerson
 
 @Composable
 fun CustomLazyGrid(
@@ -34,12 +36,11 @@ fun CustomLazyGrid(
             Alignment.CenterVertically
         )
     ) {
-        Log.v("Ibrahim", "ui is start showing")
         items(searchCardUiStates.itemCount) {
             val mediaUiState = searchCardUiStates[it]
             Log.v("Ibrahim", "ui is ${mediaUiState!!.getFullImage()}")
             ItemBasicCard(
-                imagePainter = rememberAsyncImagePainter(model = mediaUiState!!.getFullImage()),
+                imagePainter = rememberAsyncImagePainter(model = mediaUiState.getFullImage()),
                 hasName = true,
                 name = mediaUiState.name,
                 hasDateAndCountry = !mediaUiState.isPerson(),

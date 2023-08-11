@@ -21,15 +21,14 @@ import com.redvelvet.ui.theme.BackgroundPrimary
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
-import com.redvelvet.viewmodel.search.SearchMedia
 import com.redvelvet.viewmodel.search.SearchUiState
 import com.redvelvet.viewmodel.search.SearchViewModel
+import com.redvelvet.viewmodel.utils.SearchMedia
 import kotlin.reflect.KFunction1
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun SearchScreen(
-    navController: NavController,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
     val systemUiController = rememberSystemUiController()
@@ -68,11 +67,9 @@ private fun SearchContent(
         CategoriesChips(
             onChangeCategory,
             state.selectedMediaType,
-            state.getCategories(),
+            state.getCategories,
             title = "Categories"
         )
         CustomLazyGrid(searchCardUiStates = state.searchResult.collectAsLazyPagingItems())
     }
 }
-
-
