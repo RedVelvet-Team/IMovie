@@ -13,7 +13,7 @@ import com.redvelvet.ui.theme.FontSecondary
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.search.CategoryUiState
-import com.redvelvet.viewmodel.search.SearchMedia
+import com.redvelvet.viewmodel.utils.SearchMedia
 
 @Composable
 fun CategoriesChips(

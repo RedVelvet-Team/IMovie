@@ -18,7 +18,7 @@ import com.redvelvet.ui.theme.Purple100
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.radius
 import com.redvelvet.ui.theme.spacing
-import com.redvelvet.viewmodel.search.SearchMedia
+import com.redvelvet.viewmodel.utils.SearchMedia
 
 @Composable
 fun CategoryChip(
