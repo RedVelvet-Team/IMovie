@@ -74,3 +74,5 @@ private fun SearchContent(
         CustomLazyGrid(searchCardUiStates = state.searchResult.collectAsLazyPagingItems())
     }
 }
+
+

@@ -5,19 +5,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
 import com.google.accompanist.web.WebView
 import com.google.accompanist.web.rememberWebViewState
 import com.redvelvet.ui.composable.FilxTopAppBar
 
-private const val SIGNUP_LINK = "https://www.themoviedb.org/signup"
-
 @SuppressLint("SetJavaScriptEnabled", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun SignUpScreen(
-    navController: NavController,
 ) {
-    val state = rememberWebViewState(SIGNUP_LINK)
+    val state = rememberWebViewState("https://www.themoviedb.org/signup")
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
             FilxTopAppBar("Sign Up", hasBackArrow = false)

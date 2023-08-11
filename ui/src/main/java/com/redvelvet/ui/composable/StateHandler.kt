@@ -14,9 +14,11 @@ fun StateHandler(
         isLoading -> {
             onLoading()
         }
+
         !isError -> {
             onSuccess()
         }
+
         else -> {
             onFailure()
         }

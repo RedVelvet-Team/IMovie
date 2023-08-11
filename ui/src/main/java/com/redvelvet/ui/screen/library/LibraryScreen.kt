@@ -25,13 +25,10 @@ import com.redvelvet.ui.theme.spacing
 @Composable
 fun LibraryScreen() {
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         topBar = {
             FilxTopAppBar(
-                title = "Library",
-                hasBackArrow = false,
-                modifier = Modifier.fillMaxWidth()
+                title = "Library", hasBackArrow = false, modifier = Modifier.fillMaxWidth()
             )
         },
         containerColor = MaterialTheme.color.backgroundPrimary,
