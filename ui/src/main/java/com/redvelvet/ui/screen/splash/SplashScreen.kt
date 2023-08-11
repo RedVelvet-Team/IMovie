@@ -19,8 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.home.navigateToHome
@@ -32,12 +32,16 @@ import com.redvelvet.viewmodel.splash.SplashUiState
 import com.redvelvet.viewmodel.splash.SplashViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import androidx.navigation.NavOptionsBuilder
+import androidx.navigation.NavController
+import androidx.navigation.navOptions
+
 
 @Composable
 fun SplashScreen(
-    navController: NavController,
     viewModel: SplashViewModel = hiltViewModel()
 ) {
+    val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
@@ -47,27 +51,15 @@ fun SplashScreen(
             viewModel.event.collectLatest { event ->
                 when (event) {
                     is SplashUiEvent.NavigateToHome -> {
-                        navController.navigateToHome {
-                            popUpTo(MovieDestination.Splash.route) {
-                                inclusive = true
-                            }
-                        }
+                        navController.navigateToHome()
                     }
 
                     is SplashUiEvent.NavigateToOnBoarding -> {
-                        navController.navigateToOnBoarding {
-                            popUpTo(MovieDestination.Splash.route) {
-                                inclusive = true
-                            }
-                        }
+                        navController.navigateToOnBoarding()
                     }
 
                     is SplashUiEvent.NavigateToLogin -> {
-                        navController.navigateToLogin {
-                            popUpTo(MovieDestination.Splash.route) {
-                                inclusive = true
-                            }
-                        }
+                        navController.navigateToLogin()
                     }
                 }
             }
@@ -101,3 +93,9 @@ private fun SplashContent(
         )
     }
 }
+
+
+
+
+
+

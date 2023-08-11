@@ -38,9 +38,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.LoginDivider
 import com.redvelvet.ui.composable.PasswordTextField
@@ -64,9 +63,9 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
-    navController: NavController,
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
+    val navController = LocalNavController.current
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
     val uiState by viewModel.state.collectAsState()
@@ -76,11 +75,7 @@ fun LoginScreen(
             viewModel.event.collectLatest { event ->
                 when (event) {
                     is LoginUiEvent.NavigateTomHomeScreen -> {
-                        navController.navigateToHome {
-                            popUpTo(MovieDestination.Login.route) {
-                                inclusive = true
-                            }
-                        }
+                        navController.navigateToHome()
                     }
 
                     is LoginUiEvent.NavigateToSignUpScreen -> {
@@ -369,7 +364,6 @@ private fun GuestOrSignUp(
 @Preview
 @Composable
 fun previewLoginScreen() {
-    val navController = rememberNavController()
-    LoginScreen(navController = navController)
+    LoginScreen()
 }
 

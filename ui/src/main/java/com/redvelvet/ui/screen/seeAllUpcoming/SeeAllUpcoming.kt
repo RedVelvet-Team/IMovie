@@ -14,11 +14,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.FilxTopAppBar
 import com.redvelvet.ui.composable.ItemBasicCard
 import com.redvelvet.ui.theme.color
@@ -26,7 +23,7 @@ import com.redvelvet.ui.theme.spacing
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun SeeAllUpcomingListScreen(navController: NavController) {
+fun SeeAllUpcomingListScreen() {
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
     Scaffold(
