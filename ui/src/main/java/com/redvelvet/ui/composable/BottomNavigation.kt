@@ -50,7 +50,7 @@ fun BottomNavBar(visibility: Boolean) {
         )
     }
 
-    if (visibility) {
+    AnimatedVisibility(visibility) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
