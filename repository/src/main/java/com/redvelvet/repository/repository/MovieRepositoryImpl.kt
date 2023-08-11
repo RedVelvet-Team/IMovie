@@ -21,8 +21,7 @@ import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSource,
-    private val remoteDataSource: RemoteDataSource,
-    private val firebaseDataSource: FirebaseDataSource
+    private val remoteDataSource: RemoteDataSource
 ) : MovieRepository, BaseRepository() {
 
     //region search

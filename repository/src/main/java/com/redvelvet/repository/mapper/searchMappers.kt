@@ -34,7 +34,7 @@ fun PersonDto.toActor() = Actor(
 fun MovieDto.toMovie() = Movie(
     id = id ?: 0,
     name = originalTitle.orEmpty(),
-    image = posterPath.orEmpty(),
+    movieImageUrl = posterPath.orEmpty(),
     country = originalLanguage.orEmpty(),
     releaseDate = releaseDate.orEmpty(),
 )

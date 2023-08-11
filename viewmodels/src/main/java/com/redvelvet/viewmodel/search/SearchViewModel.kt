@@ -14,6 +14,8 @@ import com.redvelvet.usecase.usecase.search.GetSearchPeopleUseCase
 import com.redvelvet.usecase.usecase.search.GetSearchTvShowUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
+import com.redvelvet.viewmodel.search.uiStateMappers.*
+import com.redvelvet.viewmodel.utils.SearchMedia
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -33,7 +35,7 @@ class SearchViewModel @Inject constructor(
     private val getSearchMoviesUseCase: GetSearchMoviesUseCase,
     private val getSearchPeopleUseCase: GetSearchPeopleUseCase,
     private val getSearchTvShowUseCase: GetSearchTvShowUseCase,
-) : BaseViewModel<SearchUiState, SearchUiEvent>(SearchUiState()), SearchListener {
+) : BaseViewModel<SearchUiState, SearchUiEffect>(SearchUiState()), SearchListener {
 
     private val _queryFlow = MutableStateFlow("")
 
