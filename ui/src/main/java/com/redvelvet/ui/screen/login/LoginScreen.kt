@@ -36,7 +36,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -154,7 +153,7 @@ private fun LoginContentPortrait(
     ) {
         Text(
 
-            text = stringResource(R.string.welcome_back),
+            text = "welcome_back",
             modifier = Modifier
                 .align(Alignment.Start)
                 .padding(top = 32.dp),
@@ -164,7 +163,7 @@ private fun LoginContentPortrait(
             color = MaterialTheme.color.fontPrimary
         )
         Text(
-            text = stringResource(R.string.login_to_your_account),
+            text = "login_to_your_account",
             modifier = Modifier
                 .align(Alignment.Start)
                 .padding(top = MaterialTheme.spacing.spacing4),
@@ -179,8 +178,8 @@ private fun LoginContentPortrait(
             ),
             isError = uiState.isUserNameEmpty,
             leadingIcon = painterResource(id = R.drawable.icon_user),
-            errorMessage = stringResource(R.string.invalid_username),
-            placeHolderText = stringResource(R.string.username),
+            errorMessage = "invalid_username",
+            placeHolderText = "username",
             onTextChange = interaction::onUserNameChanged
         )
         val iconPassword = if (uiState.isPasswordVisible) R.drawable.icon_visibility_off
@@ -213,7 +212,7 @@ private fun LoginContentPortrait(
         PrimaryButton(
             onClick = { interaction.interactionLoginButtonClick() },
             enabled = !uiState.isLoading,
-            text = stringResource(R.string.login),
+            text = "login",
         )
         Row(
             modifier = Modifier.padding(vertical = MaterialTheme.spacing.spacing16),
@@ -309,7 +308,7 @@ private fun LoginContentLandscape(
                 .padding(horizontal = MaterialTheme.spacing.spacing16),
             onClick = { interaction.interactionLoginButtonClick() },
             enabled = !uiState.isLoading,
-            text = stringResource(R.string.login),
+            text = "login",
         )
         PrimaryOutlinedButton(
             modifier = Modifier

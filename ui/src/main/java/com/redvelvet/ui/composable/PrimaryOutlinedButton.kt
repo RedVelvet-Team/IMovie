@@ -38,7 +38,9 @@ fun PrimaryOutlinedButton(
         onClick = onClick,
         border = border,
         shape = MaterialTheme.shapes.medium,
-        modifier = modifier.height(MaterialTheme.dimens.dimens56).fillMaxWidth(),
+        modifier = modifier
+            .height(MaterialTheme.dimens.dimens56)
+            .fillMaxWidth(),
         enabled = enabled
     ) {
         AnimatedVisibility(hasIcon) {

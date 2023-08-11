@@ -15,7 +15,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -88,7 +87,7 @@ private fun OnBoardingContent(
             MessageView(
                 messageIcon = painterResource(id = R.drawable.vector_logo),
                 messageTitle = "FlixMovie",
-                messageDescription = stringResource(R.string.description_about_app_in_onboarding),
+                messageDescription = "description_about_app_in_onboarding",
                 messageTitleStyle = Typography.headlineLarge.copy(color = MaterialTheme.color.fontPrimary),
                 messageDescriptionStyle = Typography.titleSmall,
                 spacingBetweenTitleAndImage = MaterialTheme.spacing.spacing16,
@@ -108,7 +107,7 @@ private fun OnBoardingContent(
                 modifier = Modifier.fillMaxWidth(),/*.padding(bottom = MaterialTheme.spacing.spacing32)*/
                 onClick = { interaction.onClickLogin() },
                 enabled = !state.isLoading,
-                text = stringResource(R.string.login),
+                text = "login",
             )
             PrimaryOutlinedButton(
                 modifier = Modifier
@@ -119,7 +118,7 @@ private fun OnBoardingContent(
                 border = BorderStroke(
                     width = MaterialTheme.dimens.dimens1, color = MaterialTheme.color.brand100
                 ),
-                text = stringResource(R.string.sign_up),
+                text = "signUp",
                 textColor = MaterialTheme.color.brand100
             )
         }

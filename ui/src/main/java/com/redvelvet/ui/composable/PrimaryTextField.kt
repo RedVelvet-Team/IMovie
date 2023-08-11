@@ -47,9 +47,7 @@ fun PrimaryTextField(
         ),
         placeholder = {
             Text(
-                text = placeHolderText,
-                style = Typography.bodyMedium,
-                color = placeHolderColor
+                text = placeHolderText, style = Typography.bodyMedium, color = placeHolderColor
             )
         },
         singleLine = true,
@@ -61,20 +59,16 @@ fun PrimaryTextField(
         leadingIcon = {
             leadingIcon?.let { icon ->
                 Icon(
-                    painter = icon,
-                    contentDescription = "$leadingIcon icon",
-                    tint = iconTint
+                    painter = icon, contentDescription = "$leadingIcon icon", tint = iconTint
                 )
             }
         },
         trailingIcon = {
             trailingIcon?.let { icon ->
-                Icon(
-                    icon,
+                Icon(icon,
                     contentDescription = "$trailingIcon icon",
                     tint = iconTint,
-                    modifier = Modifier.clickable { onClickTrailingIcon() }
-                )
+                    modifier = Modifier.clickable { onClickTrailingIcon() })
             }
         },
         keyboardOptions = if (isPassword) KeyboardOptions(keyboardType = KeyboardType.Password)

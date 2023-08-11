@@ -13,11 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
-import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
@@ -42,9 +40,11 @@ fun MessageView(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
-            modifier = modifier.height(messageIconHeight).width(messageIconWidth),
+            modifier = modifier
+                .height(messageIconHeight)
+                .width(messageIconWidth),
             painter = messageIcon,
-            contentDescription = stringResource(R.string.no_search_results)
+            contentDescription = "No Search Results"
         )
         Text(
             modifier = Modifier.padding(top = spacingBetweenTitleAndImage),

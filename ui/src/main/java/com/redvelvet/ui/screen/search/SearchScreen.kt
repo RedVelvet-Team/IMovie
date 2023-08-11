@@ -9,7 +9,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -45,8 +44,8 @@ private fun SearchContent() {
         )
         MessageView(
             messageIcon = painterResource(id = R.drawable.vector_serach),
-            messageTitle = stringResource(R.string.search_in_movie),
-            messageDescription = stringResource(R.string.search_for_anything),
+            messageTitle = "search_in_movie",
+            messageDescription = "search_for_anything",
         )
     }
 }

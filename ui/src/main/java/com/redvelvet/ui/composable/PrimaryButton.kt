@@ -36,7 +36,9 @@ fun PrimaryButton(
     enabled: Boolean = true,
 ) {
     Button(
-        modifier = modifier.height(MaterialTheme.dimens.dimens56).fillMaxWidth(),
+        modifier = modifier
+            .height(MaterialTheme.dimens.dimens56)
+            .fillMaxWidth(),
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(buttonColor),
         shape = RoundedCornerShape(MaterialTheme.radius.radius16),
