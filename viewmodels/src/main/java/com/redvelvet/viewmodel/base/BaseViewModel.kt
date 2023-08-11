@@ -3,7 +3,6 @@ package com.redvelvet.viewmodel.base
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import com.redvelvet.entities.error.ErrorType
 import com.redvelvet.entities.error.MovieError
 import com.redvelvet.entities.error.NetworkError
 import com.redvelvet.entities.error.NullResultError
@@ -36,13 +35,13 @@ abstract class BaseViewModel<UiState : BaseUiState, UiEffect>(state: UiState) :
             try {
                 val result = execute()
                 onSuccess(result)
-            } catch (e: ValidationError){
+            } catch (e: ValidationError) {
                 onError(InvalidationErrorState())
-            }catch (e: NullResultError){
+            } catch (e: NullResultError) {
                 onError(NullResultErrorState())
-            }catch (e: NetworkError){
+            } catch (e: NetworkError) {
                 onError(NetworkErrorState())
-            }catch (e: MovieError){
+            } catch (e: MovieError) {
                 onError(ErrorUiState())
             }
         }
@@ -60,8 +59,12 @@ abstract class BaseViewModel<UiState : BaseUiState, UiEffect>(state: UiState) :
                 result.collect { data ->
                     onSuccess(data)
                 }
-            } catch (e: ErrorType) {
-                onError(e.toErrorUiState())
+            } catch (e: NullResultError) {
+                onError(NullResultErrorState())
+            } catch (e: NetworkError) {
+                onError(NetworkErrorState())
+            } catch (e: MovieError) {
+                onError(ErrorUiState())
             }
         }
     }

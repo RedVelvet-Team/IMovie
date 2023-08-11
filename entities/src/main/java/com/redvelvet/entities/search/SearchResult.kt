@@ -10,8 +10,4 @@ data class SearchResult(
     val profilePath: String,
     val releaseDate: String,
     val firstAirDate: String,
-){
-    fun getDate() = if (firstAirDate.isNullOrEmpty()) releaseDate else firstAirDate
-    fun getMediaName() = if (name.isNullOrEmpty()) originalName else name
-    fun getImage() = if (posterPath.isNullOrEmpty()) profilePath else posterPath
-}
+)

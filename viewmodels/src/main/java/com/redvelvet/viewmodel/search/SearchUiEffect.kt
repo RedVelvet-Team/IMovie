@@ -1,6 +1,6 @@
 package com.redvelvet.viewmodel.search
 
-sealed interface SearchUiEvent {
+sealed interface SearchUiEffect {
 
 
 }
