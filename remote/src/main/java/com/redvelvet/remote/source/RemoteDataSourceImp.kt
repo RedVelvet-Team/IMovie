@@ -1,9 +1,6 @@
 package com.redvelvet.remote.source
 
-import com.google.gson.Gson
 import com.redvelvet.remote.service.MovieApiService
-import com.redvelvet.remote.util.RemoteErrorMap.remoteErrorMap
-import com.redvelvet.repository.dto.ErrorResponseDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
@@ -13,14 +10,20 @@ import com.redvelvet.repository.dto.person.PersonDto
 import com.redvelvet.repository.dto.search.MultiSearchResultDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.source.RemoteDataSource
-import com.redvelvet.repository.util.RemoteError
+import com.redvelvet.repository.util.BadRequestException
+import com.redvelvet.repository.util.NoInternetException
+import com.redvelvet.repository.util.NotFoundException
+import com.redvelvet.repository.util.NullResultException
+import com.redvelvet.repository.util.ServerException
+import com.redvelvet.repository.util.ValidationException
 import retrofit2.Response
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 class RemoteDataSourceImp @Inject constructor(
     private val movieApiService: MovieApiService,
-    private val gson: Gson,
 ) : RemoteDataSource {
+
     //region auth
     override suspend fun createGuestSession(): GuestSessionDto {
         return wrapApiResponse {
@@ -89,21 +92,18 @@ class RemoteDataSourceImp @Inject constructor(
         return try {
             val response = request()
             if (response.isSuccessful) {
-                response.body() ?: throw RemoteError.NullData
+                response.body() ?: throw NullResultException("Empty data")
             } else {
-                val errorCode: Int? =
-                    getErrorCodeFromJson(response.errorBody()?.string().toString())
-                throw remoteErrorMap[errorCode ?: 0]!!
+                throw when (response.code()) {
+                    400 -> BadRequestException(response.message())
+                    401 -> ValidationException(response.message())
+                    404 -> NotFoundException(response.message())
+                    else -> ServerException(response.message())
+                }
             }
-        } catch (e: RemoteError) {
-            throw e
-        } catch (e: Exception) {
-            throw RemoteError.Network
+        } catch (e: UnknownHostException) {
+            throw NoInternetException("no Internet")
         }
-    }
-
-    private fun getErrorCodeFromJson(json: String): Int? {
-        return gson.fromJson(json, ErrorResponseDto::class.java).code ?: 0
     }
     //endregion
 

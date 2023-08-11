@@ -4,6 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import com.redvelvet.entities.error.ErrorType
+import com.redvelvet.entities.error.MovieError
+import com.redvelvet.entities.error.NetworkError
+import com.redvelvet.entities.error.NullResultError
+import com.redvelvet.entities.error.ValidationError
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -32,8 +36,14 @@ abstract class BaseViewModel<UiState : BaseUiState, UiEvent>(state: UiState) :
             try {
                 val result = execute()
                 onSuccess(result)
-            } catch (e: ErrorType) {
-                onError(e.toErrorUiState())
+            } catch (e: ValidationError){
+                onError(InvalidationErrorState())
+            }catch (e: NullResultError){
+                onError(NullResultErrorState())
+            }catch (e: NetworkError){
+                onError(NetworkErrorState())
+            }catch (e: MovieError){
+                onError(ErrorUiState())
             }
         }
     }
