@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -26,7 +25,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.redvelvet.ui.navigation.MovieDestination
-import com.redvelvet.ui.theme.BackgroundOnPrimary
+import com.redvelvet.ui.theme.BottomNavigationColor
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
@@ -64,13 +63,12 @@ fun BottomNavBar(navController: NavHostController, visibility: Boolean) {
                 .drawBehind {
                     val strokeWidth = 2f
                     drawLine(
-                        color = BackgroundOnPrimary,
+                        color = BottomNavigationColor,
                         start = Offset(-size.width, 0f),
-                        end = Offset(size.width, 0f),
+                        end = Offset(size.width, 1f),
                         strokeWidth = strokeWidth
                     )
-                }
-            ,
+                },
 
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
