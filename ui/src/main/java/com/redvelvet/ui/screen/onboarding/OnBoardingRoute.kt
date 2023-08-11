@@ -7,12 +7,16 @@ import androidx.navigation.compose.composable
 import com.redvelvet.ui.navigation.MovieDestination
 
 
-fun NavGraphBuilder.onBoardingRoute(navController: NavController) {
+fun NavGraphBuilder.onBoardingRoute() {
     composable(route = MovieDestination.OnBoarding.route) {
-        OnBoardingScreen(navController = navController)
+        OnBoardingScreen()
     }
 }
 
-fun NavController.navigateToOnBoarding(builder: NavOptionsBuilder.() -> Unit = {}) {
-    navigate(MovieDestination.OnBoarding.route, builder = builder)
+fun NavController.navigateToOnBoarding() {
+    navigate(MovieDestination.OnBoarding.route, androidx.navigation.navOptions {
+        popUpTo(MovieDestination.Splash.route) {
+            inclusive = true
+        }
+    })
 }

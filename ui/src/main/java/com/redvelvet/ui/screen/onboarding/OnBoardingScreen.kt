@@ -17,9 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.MessageView
 import com.redvelvet.ui.composable.PrimaryButton
@@ -37,12 +36,14 @@ import com.redvelvet.viewmodel.onboarding.OnBoardingUiEffect
 import com.redvelvet.viewmodel.onboarding.OnBoardingUiState
 import com.redvelvet.viewmodel.onboarding.OnBoardingViewModel
 import com.redvelvet.viewmodel.utils.launchCollectLatest
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Composable
 fun OnBoardingScreen(
-    navController: NavController,
     viewModel: OnBoardingViewModel = hiltViewModel(),
 ) {
+    val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
     val scope = rememberCoroutineScope()
@@ -54,7 +55,6 @@ fun OnBoardingScreen(
                         inclusive = true
                     }
                 }
-            }
 
             is OnBoardingUiEffect.NavigateToSignUpScreen -> {
                 navController.navigateToSignUp()
@@ -123,10 +123,4 @@ private fun OnBoardingContent(
             )
         }
     }
-}
-
-@Preview()
-@Composable
-fun TestTest() {
-    OnBoardingScreen(navController = rememberNavController())
 }

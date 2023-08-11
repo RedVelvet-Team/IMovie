@@ -19,8 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.home.navigateToHome
@@ -31,12 +31,17 @@ import com.redvelvet.viewmodel.splash.SplashUiEffect
 import com.redvelvet.viewmodel.splash.SplashUiState
 import com.redvelvet.viewmodel.splash.SplashViewModel
 import com.redvelvet.viewmodel.utils.launchCollectLatest
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import androidx.navigation.NavOptionsBuilder
+import androidx.navigation.NavController
+import androidx.navigation.navOptions
 
 @Composable
 fun SplashScreen(
-    navController: NavController,
     viewModel: SplashViewModel = hiltViewModel()
 ) {
+    val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
@@ -63,6 +68,7 @@ fun SplashScreen(
                         inclusive = true
                     }
                 }
+            }
             }
         }
     }

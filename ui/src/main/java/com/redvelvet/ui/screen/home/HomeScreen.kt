@@ -33,19 +33,20 @@ import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.home.HomeUiState
 import com.redvelvet.viewmodel.home.HomeViewModel
 
-
 @Composable
 fun HomeScreen(
-    navController: NavController, viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-        FilxTopAppBar(
-            "FlixMovie", hasBackArrow = false
-        )
-    }, bottomBar = {
-        //TODO @Hassan Ayman
-    }, containerColor = MaterialTheme.color.backgroundPrimary
+    Scaffold(modifier = Modifier.fillMaxSize(),
+        topBar = {
+            FilxTopAppBar(
+                "FlixMovie",
+                hasBackArrow = false
+            )
+        }, bottomBar = {
+        },
+        containerColor = MaterialTheme.color.backgroundPrimary
     ) { paddingValues ->
         HomeScreenContent(paddingValues, state)
     }
@@ -153,16 +154,4 @@ fun <T> TabContentDisplay(
             )
         }
     }
-}
-
-
-@Preview(
-    showSystemUi = true,
-    showBackground = true,
-    device = "spec:orientation=portrait,width=800dp,height=360dp"
-)
-@Composable
-fun PreviewHomeScreenVertical() {
-    val navController = rememberNavController()
-    HomeScreen(navController)
 }

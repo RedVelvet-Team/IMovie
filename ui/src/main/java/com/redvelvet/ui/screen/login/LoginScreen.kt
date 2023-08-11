@@ -40,9 +40,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.PrimaryOutlinedButton
@@ -63,9 +62,9 @@ import com.redvelvet.viewmodel.utils.launchCollectLatest
 
 @Composable
 fun LoginScreen(
-    navController: NavController,
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
+    val navController = LocalNavController.current
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
     val uiState by viewModel.state.collectAsState()
@@ -78,10 +77,10 @@ fun LoginScreen(
                         inclusive = true
                     }
                 }
-            }
-
-            is LoginUiEffect.NavigateToSignUpScreen -> {
-                navController.navigateToSignUp()
+                    is LoginUiEvent.NavigateToSignUpScreen -> {
+                        navController.navigateToSignUp()
+                    }
+                }
             }
         }
     }
@@ -327,13 +326,5 @@ private fun LoginContentLandscape(
         }
     }
 
-}
-
-
-@Preview
-@Composable
-fun PreviewLoginScreen() {
-    val navController = rememberNavController()
-    LoginScreen(navController = navController)
 }
 
