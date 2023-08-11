@@ -48,7 +48,7 @@ class LoginViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isLoading = false,
-                error = error.message,
+                error = "",
             )
         }
     }
@@ -83,7 +83,7 @@ class LoginViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isLoading = false,
-                error = error.message,
+                error = "",
             )
         }
     }
