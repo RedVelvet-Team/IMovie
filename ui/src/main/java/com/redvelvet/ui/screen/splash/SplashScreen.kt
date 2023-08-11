@@ -89,7 +89,7 @@ private fun SplashContent(
     ) {
         Image(
             painter = painterResource(id = R.drawable.vector_logo),
-            contentDescription = null,
+            contentDescription = "Flix logo",
             modifier = Modifier.rotate(rotationDegree.value)
         )
     }
