@@ -10,6 +10,6 @@ class GetSearchPeopleUseCase @Inject constructor(
     private val movieRepository: MovieRepository
 ) {
     operator fun invoke(query: String): Flow<PagingData<Actor>> {
-        return movieRepository.searchPeople(query)
+        return movieRepository.searchPeople(query = query, page = null)
     }
 }

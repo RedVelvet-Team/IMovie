@@ -10,6 +10,6 @@ class GetAllSearchResultUseCase @Inject constructor(
     private val movieRepository: MovieRepository
 ) {
     operator fun invoke(query: String): Flow<PagingData<SearchResult>> {
-        return movieRepository.multiSearch(query)
+        return movieRepository.multiSearch(query = query, page = null)
     }
 }
