@@ -1,5 +1,6 @@
 package com.redvelvet.viewmodel.movieDetails
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.redvelvet.entities.error.ErrorType
 import com.redvelvet.usecase.usecase.movie.GetMovieFullDetailsUseCase
@@ -24,18 +25,16 @@ class MovieDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             delay(2000)
             try {
-//                _state.update {
-//                    MovieDetailsScreenUiState(
-//                        data = getMovieFullDetailsUseCase(5585).toMovieFullDetailsScreenUiState(),
-//                        isLoading = false
-//                    )
-//                }
-
                 _state.update {
-                    MovieDetailsScreenUiState(data = fakeData(), isLoading = false)
+                    MovieDetailsScreenUiState(
+                        data = getMovieFullDetailsUseCase(298618).toMovieFullDetailsScreenUiState(),
+                        isLoading = false
+                    )
                 }
-
-
+                Log.w("HASSANWASFY",_state.value.data.toString())
+                /*_state.update {
+                    MovieDetailsScreenUiState(data = fakeData(), isLoading = false)
+                }*/
             } catch (e: ErrorType) {
                 _state.update {
                     MovieDetailsScreenUiState(
