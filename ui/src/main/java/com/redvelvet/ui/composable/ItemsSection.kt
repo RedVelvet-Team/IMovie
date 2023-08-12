@@ -28,7 +28,7 @@ fun <T> ItemsSection(
     date: List<String> = emptyList(),
     country: List<String> = emptyList(),
     hasCustomList: Boolean = false,
-    customListItemComposable: @Composable ((index: Int, image: Painter) -> Unit)? = null,
+    customListItemComposable: @Composable ((index: Int, image: String) -> Unit)? = null,
     onClickSeeAll: () -> Unit = {},
     onClickItem: (id: Int) -> Unit = {},
     movieIds: List<Int> = emptyList(),
@@ -45,7 +45,7 @@ fun <T> ItemsSection(
                     model = image
                 )
             if (hasCustomList) {
-                customListItemComposable!!(index, imagePainter)
+                customListItemComposable!!(index, imagePainter.toString())
             }
             if (!hasCustomList) {
                 ItemBasicCard(
