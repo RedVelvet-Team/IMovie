@@ -41,7 +41,6 @@ dependencies {
     implementation(project(":repository"))
     // core + testing
     implementation(Deps.coreKtx)
-    implementation("androidx.core:core-ktx:+")
     testImplementation(Deps.junit)
     androidTestImplementation(Deps.junitExt)
     // Hilt
