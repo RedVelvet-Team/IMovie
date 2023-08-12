@@ -33,7 +33,7 @@ import com.redvelvet.viewmodel.onboarding.OnBoardingInteractions
 import com.redvelvet.viewmodel.onboarding.OnBoardingUiEffect
 import com.redvelvet.viewmodel.onboarding.OnBoardingUiState
 import com.redvelvet.viewmodel.onboarding.OnBoardingViewModel
-import com.redvelvet.viewmodel.utils.launchCollectLatest
+import com.redvelvet.ui.util.launchCollectLatest
 
 @Composable
 fun OnBoardingScreen(

@@ -55,7 +55,7 @@ import com.redvelvet.viewmodel.login.LoginInteraction
 import com.redvelvet.viewmodel.login.LoginUiEffect
 import com.redvelvet.viewmodel.login.LoginUiState
 import com.redvelvet.viewmodel.login.LoginViewModel
-import com.redvelvet.viewmodel.utils.launchCollectLatest
+import com.redvelvet.ui.util.launchCollectLatest
 
 @Composable
 fun LoginScreen(
