@@ -2,12 +2,14 @@ package com.redvelvet.viewmodel.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import com.redvelvet.entities.error.MovieError
 import com.redvelvet.entities.error.NetworkError
 import com.redvelvet.entities.error.NullResultError
 import com.redvelvet.entities.error.ValidationError
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -33,13 +35,35 @@ abstract class BaseViewModel<UiState : BaseUiState, UiEffect>(state: UiState) :
             try {
                 val result = execute()
                 onSuccess(result)
-            } catch (e: ValidationError){
+            } catch (e: ValidationError) {
                 onError(InvalidationErrorState())
-            }catch (e: NullResultError){
+            } catch (e: NullResultError) {
                 onError(NullResultErrorState())
-            }catch (e: NetworkError){
+            } catch (e: NetworkError) {
                 onError(NetworkErrorState())
-            }catch (e: MovieError){
+            } catch (e: MovieError) {
+                onError(ErrorUiState())
+            }
+        }
+    }
+
+    fun <T : Any> tryToExecutePaging(
+        call: suspend () -> Flow<PagingData<T>>,
+        onSuccess: suspend (PagingData<T>) -> Unit,
+        onError: (error: ErrorUiState) -> Unit,
+        dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ) {
+        viewModelScope.launch(dispatcher) {
+            try {
+                val result = call()
+                result.collect { data ->
+                    onSuccess(data)
+                }
+            } catch (e: NullResultError) {
+                onError(NullResultErrorState())
+            } catch (e: NetworkError) {
+                onError(NetworkErrorState())
+            } catch (e: MovieError) {
                 onError(ErrorUiState())
             }
         }
