@@ -40,6 +40,7 @@ android {
 dependencies {
     implementation(project(":usecase"))
     implementation(Deps.coreKtx)
+    implementation("androidx.paging:paging-common-ktx:3.2.0")
     testImplementation(Deps.junit)
     androidTestImplementation(Deps.junitExt)
     //hilt

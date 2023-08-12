@@ -1,11 +1,14 @@
 package com.redvelvet.ui.composable
 
+import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -24,39 +27,40 @@ import com.redvelvet.viewmodel.base.InvalidationErrorState
 import com.redvelvet.viewmodel.base.NetworkErrorState
 import com.redvelvet.viewmodel.base.NullResultErrorState
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MovieScaffold(
+    modifier: Modifier = Modifier,
     title: String,
     isLoading: Boolean,
     error: ErrorUiState?,
     hasBackArrow: Boolean = true,
     hasTopBar: Boolean = false,
-    hasBottomBar: Boolean = false,
-    modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
-    Scaffold(modifier = modifier.fillMaxSize(),
+    Scaffold(
+        modifier = modifier.fillMaxSize(),
         topBar = {
             FilxTopAppBar(
                 title = title,
                 hasBackArrow = hasBackArrow
             ).takeIf { hasTopBar }
-        }, bottomBar = {},
+        },
         containerColor = MaterialTheme.color.backgroundPrimary
-    ) { paddingValues ->
-        if (isLoading) {
+    ) { _ ->
+        AnimatedVisibility(isLoading) {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text(text = "loading")
+                CircularProgressIndicator()
             }
-        } else if (error != null) {
-            ErrorViewer(error = error)
-        } else {
-            content()
         }
+        AnimatedVisibility(error != null) {
+            ErrorViewer(error = error!!)
+        }
+        content()
     }
 }
 

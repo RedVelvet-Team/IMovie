@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.Flow
 
 
 interface MovieRepository {
-    fun multiSearch(query: String, page: Int?): Flow<PagingData<SearchResult>>
-    fun searchPeople(query: String, page: Int?): Flow<PagingData<Actor>>
-    fun searchMovie(query: String, page: Int?): Flow<PagingData<Movie>>
-    fun searchTvShows(query: String, page: Int?): Flow<PagingData<TvShow>>
+    fun multiSearch(query: String, page: Int?=1): Flow<PagingData<SearchResult>>
+    fun searchPeople(query: String, page: Int?=1): Flow<PagingData<Actor>>
+    fun searchMovie(query: String, page: Int?=1): Flow<PagingData<Movie>>
+    fun searchTvShows(query: String, page: Int?=1): Flow<PagingData<TvShow>>
 }

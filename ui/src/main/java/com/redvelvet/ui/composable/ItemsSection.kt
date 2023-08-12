@@ -17,14 +17,14 @@ import com.redvelvet.ui.theme.spacing
 fun ItemsSection(
     label: String,
     imagesPainters: List<Painter>,
-    headerModifier: Modifier = Modifier,
+    modifier: Modifier = Modifier,
     hasName: Boolean = false,
     names: List<String> = emptyList(),
     hasDateAndCountry: Boolean = false,
     dates: List<String> = emptyList(),
     countries: List<String> = emptyList()
 ) {
-    SectionHeader(label, modifier = headerModifier)
+    SectionHeader(label, modifier = modifier)
     LazyRow(
         modifier = Modifier.padding(top = MaterialTheme.spacing.spacing8),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),
