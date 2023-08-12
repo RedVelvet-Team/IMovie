@@ -36,26 +36,26 @@ interface MovieApiService {
     @GET("authentication/guest_session/new")
     suspend fun createGuestSession(): Response<GuestSessionDto>
 
-    //region Movie Detials
-    @GET("/movie/{movie_id}")
+    //region Movie Details
+    @GET("movie/{movie_id}")
     suspend fun getMovieDetailsById(@Path("movie_id") movieId: Int): Response<MovieDetailsDTO>
 
-    @GET("/movie/{movie_id}/images")
+    @GET("movie/{movie_id}/images")
     suspend fun getMovieImagesByID(@Path("movie_id") movieId: Int): Response<MovieImagesDTO>
 
-    @GET("/movie/{movie_id}/keywords")
+    @GET("movie/{movie_id}/keywords")
     suspend fun getMovieKeyWordsByID(@Path("movie_id") movieId: Int): Response<MovieKeyWordsDTO>
 
-    @GET("/movie/{movie_id}/recommendations")
+    @GET("movie/{movie_id}/recommendations")
     suspend fun getMovieRecommendationsByID(@Path("movie_id") movieId: Int): Response<MovieRecommendationsDTO>
 
-    @GET("/movie/{movie_id}/reviews")
+    @GET("movie/{movie_id}/reviews")
     suspend fun getMovieReviewsByID(@Path("movie_id") movieId: Int): Response<MovieReviewsDTO>
 
-    @GET("/movie/{movie_id}/similar")
+    @GET("movie/{movie_id}/similar")
     suspend fun getMovieSimilarByID(@Path("movie_id") movieId: Int): Response<MovieSimilarDTO>
 
-    @GET("/movie/{movie_id}/credits")
+    @GET("movie/{movie_id}/credits")
     suspend fun getMovieTopCastByID(@Path("movie_id") movieId: Int): Response<MovieTopCastDto>
 
     //endregion
