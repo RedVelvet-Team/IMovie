@@ -7,7 +7,7 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val dataStoreDataSource: DataStoreDataSource,
 ) : UserRepository, BaseRepository() {
-    //region user
+    //region user status
     override suspend fun getIsLoggedInByAccount() = dataStoreDataSource.getIsLoggedInByAccount()
 
     override suspend fun getIsLoggedInByGuest() = dataStoreDataSource.getIsLoggedInByGuest()
@@ -19,7 +19,7 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun getIsFirstTimeUsingApp() = dataStoreDataSource.getIsFirstTimeUsingApp()
     //endregion
 
-    //region auth
+    //region user info
     override suspend fun getGuestSessionIdFromLocal(): String {
         return dataStoreDataSource.getGuestSessionId().toString()
     }

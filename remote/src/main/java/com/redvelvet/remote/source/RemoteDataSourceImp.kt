@@ -1,22 +1,25 @@
 package com.redvelvet.remote.source
 
-import com.google.gson.Gson
 import com.redvelvet.remote.service.MovieApiService
-import com.redvelvet.remote.util.RemoteErrorMap.remoteErrorMap
-import com.redvelvet.repository.dto.ErrorResponseDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
-import com.redvelvet.repository.dto.movie.details.*
 import com.redvelvet.repository.source.RemoteDataSource
-import com.redvelvet.repository.util.RemoteError
+import com.redvelvet.repository.util.BadRequestException
+import com.redvelvet.repository.util.NoInternetException
+import com.redvelvet.repository.util.NotFoundException
+import com.redvelvet.repository.util.NullResultException
+import com.redvelvet.repository.util.ServerException
+import com.redvelvet.repository.util.ValidationException
 import retrofit2.Response
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 class RemoteDataSourceImp @Inject constructor(
-    private val movieApiService: MovieApiService
+    private val movieApiService: MovieApiService,
 ) : RemoteDataSource {
+
     //region auth
     override suspend fun createGuestSession(): GuestSessionDto {
         return wrapApiResponse {
@@ -31,7 +34,9 @@ class RemoteDataSourceImp @Inject constructor(
     }
 
     override suspend fun validateUserWithLogin(
-        userName: String, password: String, requestToken: String
+        userName: String,
+        password: String,
+        requestToken: String
     ): TokenDto {
         return wrapApiResponse {
             movieApiService.validateRequestTokenWithLogin(
@@ -58,69 +63,27 @@ class RemoteDataSourceImp @Inject constructor(
     //endregion
 
 
-    //region Movie Details
-    override suspend fun getMovieDetailsById(movieId: Int): MovieDetailsDTO {
-        return wrapApiResponse {
-            movieApiService.getMovieDetailsById(movieId)
-        }
-    }
-
-    override suspend fun getMovieImagesByID(movieId: Int): MovieImagesDTO {
-        return wrapApiResponse {
-            movieApiService.getMovieImagesByID(movieId)
-        }
-    }
-
-    override suspend fun getMovieKeyWordsByID(movieId: Int): MovieKeyWordsDTO {
-        return wrapApiResponse {
-            movieApiService.getMovieKeyWordsByID(movieId)
-        }
-    }
-
-    override suspend fun getMovieRecommendationsByID(movieId: Int): MovieRecommendationsDTO {
-        return wrapApiResponse {
-            movieApiService.getMovieRecommendationsByID(movieId)
-        }
-    }
-
-    override suspend fun getMovieReviewsByID(movieId: Int): MovieReviewsDTO {
-        return wrapApiResponse {
-            movieApiService.getMovieReviewsByID(movieId)
-        }
-    }
-
-    override suspend fun getMovieSimilarByID(movieId: Int): MovieSimilarDTO {
-        return wrapApiResponse {
-            movieApiService.getMovieSimilarByID(movieId)
-        }
-    }
-
-    override suspend fun getMovieTopCastByID(movieId: Int): MovieTopCastDTO {
-        return wrapApiResponse {
-            movieApiService.getMovieTopCastByID(movieId)
-        }
-    }
-    //endregion
-
+    //region wrap response
     private suspend fun <T> wrapApiResponse(
         request: suspend () -> Response<T>
     ): T {
         return try {
             val response = request()
             if (response.isSuccessful) {
-                response.body() ?: throw RemoteError.NullData
+                response.body() ?: throw NullResultException("Empty data")
             } else {
-                val errorCode: Int? =
-                    getErrorCodeFromJson(response.errorBody()?.string().toString())
-                throw remoteErrorMap[errorCode ?: 0]!!
+                throw when (response.code()) {
+                    400 -> BadRequestException(response.message())
+                    401 -> ValidationException(response.message())
+                    404 -> NotFoundException(response.message())
+                    else -> ServerException(response.message())
+                }
             }
-        } catch (e: RemoteError) {
-            throw e
-        } catch (e: Exception) {
-            throw RemoteError.Network
+        } catch (e: UnknownHostException) {
+            throw NoInternetException("no Internet")
         }
     }
-    private fun getErrorCodeFromJson(json: String): Int {
-        return Gson().fromJson(json, ErrorResponseDto::class.java).code ?: 0
-    }
+    //endregion
+
 }
+

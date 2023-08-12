@@ -5,9 +5,10 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.redvelvet.remote.util.interceptor.AuthorizationInterceptor
+import com.google.gson.Gson
 import com.redvelvet.remote.BuildConfig
 import com.redvelvet.remote.service.MovieApiService
+import com.redvelvet.remote.util.interceptor.AuthorizationInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -64,6 +65,12 @@ object NetworkModule {
         return GsonConverterFactory.create()
     }
 
+    @Singleton
+    @Provides
+    fun provideGson(): Gson {
+        return Gson()
+    }
+
     private const val TIMEOUT = 30L
 
     @Singleton
@@ -91,4 +98,6 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideAuthInterceptor() = AuthorizationInterceptor()
+
+
 }

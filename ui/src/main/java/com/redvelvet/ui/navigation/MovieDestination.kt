@@ -7,7 +7,6 @@ sealed class MovieDestination(
     val isSelected: Int? = null,
     val isUnSelected: Int? = null
 ) {
-    data object Testing : MovieDestination("test")
     data object Splash : MovieDestination("splash")
     data object OnBoarding : MovieDestination("onBoarding")
     data object Login : MovieDestination("login")

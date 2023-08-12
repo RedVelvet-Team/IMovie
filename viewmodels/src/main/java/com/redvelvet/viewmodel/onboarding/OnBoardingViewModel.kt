@@ -12,8 +12,8 @@ import javax.inject.Inject
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
     private val setUserNotFirstTimeUseApp: SetUserNotFirstTimeUseAppUseCase,
-) : BaseViewModel<OnBoardingUiState, OnBoardingUiEvent>(OnBoardingUiState()) {
-
+    ) : BaseViewModel<OnBoardingUiState, OnBoardingUiEffect>(OnBoardingUiState()),
+    OnBoardingInteractions {
     fun setNotFirstTimeUseApp() {
         viewModelScope.launch(Dispatchers.IO) {
             setUserNotFirstTimeUseApp.invoke()
@@ -22,7 +22,41 @@ class OnBoardingViewModel @Inject constructor(
                     saved = true,
                 )
             }
-            sendUiEvent(OnBoardingUiEvent.NavigateToLogin)
+            sendUiEffect(OnBoardingUiEffect.NavigateToLogin)
         }
     }
+
+    //region sign in
+    private fun signIn() {
+        _state.update {
+            it.copy(
+                isLoading = false,
+                error = null,
+            )
+        }
+        sendUiEffect(OnBoardingUiEffect.NavigateToLogin)
+    }
+    //endregion
+
+    //region signup
+    private fun signUp() {
+        _state.update {
+            it.copy(
+                isLoading = false,
+                error = null,
+            )
+        }
+        sendUiEffect(OnBoardingUiEffect.NavigateToSignUpScreen)
+    }
+    //endregion
+
+    //region interaction
+    override fun onClickLogin() {
+        signIn()
+    }
+    override fun onClickSignUp() {
+        signUp()
+    }
+    //endregion
+
 }

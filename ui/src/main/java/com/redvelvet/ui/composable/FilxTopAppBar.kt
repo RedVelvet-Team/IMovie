@@ -4,6 +4,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -13,20 +14,20 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
 import com.redvelvet.ui.R
-import com.redvelvet.ui.theme.OnPrimary
-import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.Typography
+import com.redvelvet.ui.theme.color
+import com.redvelvet.ui.theme.spacing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomTopAppBar(title: String, hasBackArrow: Boolean,modifier:Modifier=Modifier) {
+fun FilxTopAppBar(title: String, hasBackArrow: Boolean, modifier: Modifier = Modifier) {
     Surface(
         modifier = modifier.shadow(
-            elevation = 2.dp,
-            spotColor = OnPrimary,
-            ambientColor = OnPrimary
+            elevation = MaterialTheme.spacing.spacing2,
+            spotColor = MaterialTheme.color.backgroundOnPrimary,
+            ambientColor = MaterialTheme.color.backgroundOnPrimary
         )
     ) {
         CenterAlignedTopAppBar(
@@ -45,7 +46,7 @@ fun CustomTopAppBar(title: String, hasBackArrow: Boolean,modifier:Modifier=Modif
                             Icon(
                                 imageVector = ImageVector.vectorResource(R.drawable.icon_back),
                                 contentDescription = "Localized description",
-                                tint = OnPrimary
+                                tint = MaterialTheme.color.fontSecondary
                             )
                         }
                     }
@@ -54,11 +55,17 @@ fun CustomTopAppBar(title: String, hasBackArrow: Boolean,modifier:Modifier=Modif
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = Primary,
-                titleContentColor = OnPrimary,
+                containerColor = MaterialTheme.color.backgroundPrimary,
+                titleContentColor = MaterialTheme.color.backgroundOnPrimary,
             ),
 
             )
     }
 
+}
+
+@Composable
+@Preview
+fun PreviewA() {
+    FilxTopAppBar("FlixMovie", true)
 }

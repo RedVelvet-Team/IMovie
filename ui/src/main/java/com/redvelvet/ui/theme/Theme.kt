@@ -17,17 +17,17 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Primary,
-    secondary = Secondary,
-    background = Primary,
-    onSecondary = OnSecondary,
+    primary = BackgroundPrimary,
+    secondary = BackgroundSecondary,
+    background = BackgroundPrimary,
+    onSecondary = BackgroundOnSecondary,
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Primary,
-    secondary = Secondary,
-    background = Primary,
-    onSecondary = OnSecondary,
+    primary = BackgroundPrimary,
+    secondary = BackgroundSecondary,
+    background = BackgroundPrimary,
+    onSecondary = BackgroundOnSecondary,
 )
 
 @Composable
@@ -58,7 +58,8 @@ fun IMovieTheme(
     CompositionLocalProvider(
         LocalSpacing provides Spacing(),
         LocalRadius provides Radius(),
-        LocalDimens provides Dimens()
+        LocalDimens provides Dimens(),
+        LocalColors provides Colors()
     ) {
         MaterialTheme(
             colorScheme = colorScheme,

@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -18,57 +19,39 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
-import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.home.navigateToHome
 import com.redvelvet.ui.screen.login.navigateToLogin
 import com.redvelvet.ui.screen.onboarding.navigateToOnBoarding
-import com.redvelvet.ui.theme.Primary
-import com.redvelvet.viewmodel.splash.SplashUiEvent
+import com.redvelvet.ui.theme.color
+import com.redvelvet.viewmodel.splash.SplashUiEffect
 import com.redvelvet.viewmodel.splash.SplashUiState
 import com.redvelvet.viewmodel.splash.SplashViewModel
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import com.redvelvet.viewmodel.utils.launchCollectLatest
 
 @Composable
 fun SplashScreen(
-    navController: NavController,
     viewModel: SplashViewModel = hiltViewModel()
 ) {
+    val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(Primary, darkIcons = false)
+    systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
     val scope = rememberCoroutineScope()
-    LaunchedEffect(key1 = Unit) {
-        scope.launch {
-            viewModel.event.collectLatest { event ->
-                when (event) {
-                    is SplashUiEvent.NavigateToHome -> {
-                        navController.navigateToHome {
-                            popUpTo(MovieDestination.Splash.route) {
-                                inclusive = true
-                            }
-                        }
-                    }
+    scope.launchCollectLatest(viewModel.effect) { effect ->
+        when (effect) {
+            is SplashUiEffect.NavigateToHome -> {
+                navController.navigateToHome()
+            }
 
-                    is SplashUiEvent.NavigateToOnBoarding -> {
-                        navController.navigateToOnBoarding {
-                            popUpTo(MovieDestination.Splash.route) {
-                                inclusive = true
-                            }
-                        }
-                    }
+            is SplashUiEffect.NavigateToOnBoarding -> {
+                navController.navigateToOnBoarding()
+            }
 
-                    is SplashUiEvent.NavigateToLogin -> {
-                        navController.navigateToLogin {
-                            popUpTo(MovieDestination.Splash.route) {
-                                inclusive = true
-                            }
-                        }
-                    }
-                }
+            is SplashUiEffect.NavigateToLogin -> {
+                navController.navigateToLogin()
             }
         }
     }
@@ -89,13 +72,13 @@ private fun SplashContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Primary),
+            .background(MaterialTheme.color.backgroundPrimary),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
         Image(
             painter = painterResource(id = R.drawable.vector_logo),
-            contentDescription = null,
+            contentDescription = "Flix logo",
             modifier = Modifier.rotate(rotationDegree.value)
         )
     }

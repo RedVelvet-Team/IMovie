@@ -17,7 +17,7 @@ class SplashViewModel @Inject constructor(
     private val checkUserFirstTimeUseAppUseCase: CheckUserFirstTimeUseAppUseCase,
     private val checkUserUserIsLoggedInUseCase: CheckUserLoggedInUseCase,
     private val checkUserIsGuestUseCase: CheckUserIsGuestUseCase
-) : BaseViewModel<SplashUiState, SplashUiEvent>(SplashUiState()) {
+) : BaseViewModel<SplashUiState, SplashUiEffect>(SplashUiState()) {
     init {
         prepareUserStatus()
     }
@@ -42,18 +42,19 @@ class SplashViewModel @Inject constructor(
     //region check user status
     private fun checkUserStatus() {
         checkUserFirstTimeUseApp() ?: checkUserIsLoggedIn()
+        ?: sendUiEffect(SplashUiEffect.NavigateToLogin)
     }
 
     private fun checkUserFirstTimeUseApp(): Unit? {
         return takeIf {
             state.value.isFirstTimeUseApp
-        }?.sendUiEvent(SplashUiEvent.NavigateToOnBoarding)
+        }?.sendUiEffect(SplashUiEffect.NavigateToOnBoarding)
     }
 
-    private fun checkUserIsLoggedIn() {
-        takeIf {
+    private fun checkUserIsLoggedIn(): Unit? {
+        return takeIf {
             state.value.isLogged || state.value.isGuest
-        }?.sendUiEvent(SplashUiEvent.NavigateToHome) ?: sendUiEvent(SplashUiEvent.NavigateToLogin)
+        }?.sendUiEffect(SplashUiEffect.NavigateToHome)
     }
     //endregion
 }

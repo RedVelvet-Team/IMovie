@@ -32,11 +32,13 @@ class AuthRepositoryImpl @Inject constructor(
         dataStoreDataSource.setGuestSession(id, expDate)
     }
 
+
     override suspend fun createToken(): Token {
         return wrapRemoteResponse {
             remoteDataSource.createToken().toToken()
         }
     }
+
 
     override suspend fun validateUserWithLogin(
         userName: String,
@@ -52,6 +54,7 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
+
     override suspend fun createUserSession(token: String): Session {
         return wrapRemoteResponse {
             remoteDataSource.createUserSession(token).toSession().also { session ->
@@ -66,6 +69,7 @@ class AuthRepositoryImpl @Inject constructor(
         dataStoreDataSource.setUserSessionId(id = id)
     }
 
+
     override suspend fun deleteUserSession(sessionId: String): Session {
         return wrapRemoteResponse {
             remoteDataSource.deleteUserSession(sessionId).toSession().also {
@@ -73,12 +77,12 @@ class AuthRepositoryImpl @Inject constructor(
             }
         }
     }
-    //endregion
 
-    //region user
+
     private suspend fun setIsLoggedInByGuest(isLogged: Boolean) {
         dataStoreDataSource.setIsLoggedInByGuest(isLogged)
     }
+
 
     private suspend fun setIsLoggedInByAccount(isLogged: Boolean) {
         dataStoreDataSource.setIsLoggedInByAccount(isLogged)

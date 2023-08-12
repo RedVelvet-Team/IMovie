@@ -8,6 +8,7 @@ data class LoginUiState(
     val password: String = "",
     val isUserNameEmpty: Boolean = false,
     val isPasswordEmpty: Boolean = false,
+    val isPasswordVisible: Boolean = false,
     val isLoading: Boolean = false,
-    val error: String? = null,
+    val isError: String? = null,
 ) : BaseUiState
