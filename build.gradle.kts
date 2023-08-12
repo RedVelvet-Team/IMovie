@@ -16,3 +16,4 @@ plugins {
     id("com.google.gms.google-services") version "4.3.15" apply false
     kotlin("kapt") version "1.9.0"
 }
+val sourceCompatibility by extra(11)
