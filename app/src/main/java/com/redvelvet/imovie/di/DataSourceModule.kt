@@ -1,7 +1,7 @@
 package com.redvelvet.imovie.di
 
+import com.redvelvet.datastore.DataStoreDataSourceImpl
 import com.redvelvet.firebase.FirebaseDataSourceImp
-import com.redvelvet.local.source.DataStoreDataSourceImpl
 import com.redvelvet.local.source.LocalDataSourceImp
 import com.redvelvet.remote.source.RemoteDataSourceImp
 import com.redvelvet.repository.source.DataStoreDataSource

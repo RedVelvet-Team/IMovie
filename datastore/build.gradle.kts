@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.redvelvet.local"
+    namespace = "com.redvelvet.datastore"
     compileSdk = 33
 
     defaultConfig {
@@ -41,22 +41,12 @@ dependencies {
     implementation(project(":repository"))
     // core + testing
     implementation(Deps.coreKtx)
+    implementation("androidx.core:core-ktx:+")
     testImplementation(Deps.junit)
     androidTestImplementation(Deps.junitExt)
     // Hilt
     implementation(Deps.hiltAndroid)
     kapt(Deps.hiltCompiler)
-    // Room
-    implementation(Deps.roomRuntime)
-    annotationProcessor(Deps.roomCompiler)
-    //noinspection KaptUsageInsteadOfKsp
-    kapt(Deps.roomCompilerKapt)
-    implementation(Deps.roomKtx)
-    testImplementation(Deps.roomTesting)
-    implementation(Deps.roomPaging)
-    //paging
-    implementation(Deps.pagingRuntime)
-    implementation(Deps.pagingCompose)
-    //gson
-    implementation(Deps.gson)
+    //data store
+    implementation(Deps.dataStore)
 }

@@ -91,4 +91,5 @@ dependencies {
     implementation(project(":ui"))
     implementation(project(":viewmodels"))
     implementation(project(":usecase"))
+    implementation(project(":datastore"))
 }

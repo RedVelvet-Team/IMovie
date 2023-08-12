@@ -1,4 +1,4 @@
-package com.redvelvet.local.util
+package com.redvelvet.datastore.util
 
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
