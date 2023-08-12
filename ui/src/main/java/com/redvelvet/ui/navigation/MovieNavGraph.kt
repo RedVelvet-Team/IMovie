@@ -1,7 +1,6 @@
 package com.redvelvet.ui.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.screen.home.homeRoute

@@ -29,7 +29,7 @@ import com.redvelvet.ui.theme.color
 import com.redvelvet.viewmodel.splash.SplashUiEffect
 import com.redvelvet.viewmodel.splash.SplashUiState
 import com.redvelvet.viewmodel.splash.SplashViewModel
-import com.redvelvet.viewmodel.utils.launchCollectLatest
+import com.redvelvet.ui.util.launchCollectLatest
 
 @Composable
 fun SplashScreen(
