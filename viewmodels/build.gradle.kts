@@ -39,9 +39,8 @@ android {
 
 dependencies {
     implementation(project(":usecase"))
-    // core
+    // core + testing
     implementation(Deps.coreKtx)
-    // testing
     testImplementation(Deps.junit)
     androidTestImplementation(Deps.junitExt)
     // hilt

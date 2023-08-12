@@ -39,6 +39,7 @@ android {
 
 dependencies {
     implementation(project(":usecase"))
+    // core + testing
     implementation(Deps.coreKtx)
     testImplementation(Deps.junit)
     androidTestImplementation(Deps.junitExt)

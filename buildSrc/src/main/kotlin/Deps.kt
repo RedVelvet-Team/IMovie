@@ -40,6 +40,9 @@ object Deps {
     private val lifecycleRuntimeTestingVersion = "2.6.1"
     private val pagingRuntimeVersion = "3.1.1"
     private val pagingComposeVersion = "3.2.0"
+    private val hiltWorkerVersion = "1.0.0"
+    private val dagger2Version = "2.46.1"
+    private val googleServiceAuthVersion = "20.6.0"
 
     // data store
     val dataStore = "androidx.datastore:datastore-preferences:$dataStoreVersion"
@@ -73,8 +76,8 @@ object Deps {
     // Dagger Hilt
     val hiltAndroid = "com.google.dagger:hilt-android:$hiltVersion"
     val hiltCompiler = "com.google.dagger:hilt-compiler:$hiltVersion"
-    val hiltWork = "androidx.hilt:hilt-work:1.0.0"
-    val dagger = "com.google.dagger:dagger:2.46.1"
+    val hiltWork = "androidx.hilt:hilt-work:$hiltWorkerVersion"
+    val dagger = "com.google.dagger:dagger:$dagger2Version"
     // Navigation
     val navCompose = "androidx.navigation:navigation-compose:$navVersion"
     val hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:$hiltNavigationComposeVersion"
@@ -83,7 +86,7 @@ object Deps {
     val firebaseAnalytics = "com.google.firebase:firebase-analytics-ktx"
     val firebaseAuth = "com.google.firebase:firebase-auth-ktx:$firebaseAuthVersion"
     val firebaseFirestore = "com.google.firebase:firebase-firestore-ktx"
-    val playServicesAuth = "com.google.android.gms:play-services-auth:20.6.0"
+    val playServicesAuth = "com.google.android.gms:play-services-auth:$googleServiceAuthVersion"
     // WorkManager
     val workRuntimeKtx = "androidx.work:work-runtime-ktx:$workVersion"
     val workMultiprocess = "androidx.work:work-multiprocess:$workVersion"

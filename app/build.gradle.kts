@@ -75,7 +75,6 @@ dependencies {
     //noinspection KaptUsageInsteadOfKsp
     kapt(Deps.roomCompilerKapt)
     implementation(Deps.roomKtx)
-    testImplementation(Deps.roomTesting)
     implementation(Deps.roomPaging)
     //data store
     implementation(Deps.dataStore)

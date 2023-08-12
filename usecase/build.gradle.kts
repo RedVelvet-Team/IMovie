@@ -13,6 +13,8 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 dependencies {
     api(project(":entities"))
+    //dagger
     implementation(Deps.dagger)
+    //test
     testImplementation(Deps.testng)
 }

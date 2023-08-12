@@ -45,6 +45,7 @@ android {
 
 dependencies {
     implementation(project(":viewmodels"))
+    // core + testing
     implementation(Deps.coreKtx)
     testImplementation(Deps.junit)
     implementation(Deps.activityCompose)
