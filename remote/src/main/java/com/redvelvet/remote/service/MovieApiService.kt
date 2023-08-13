@@ -17,6 +17,7 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.HTTP
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MovieApiService {
@@ -85,6 +86,18 @@ interface MovieApiService {
     @GET("movie/top_rated")
     suspend fun seeAllTopRatedMovie(
         @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<MovieDto>>>
+
+    @GET("movie/{movie_id}/similar")
+    suspend fun seeAllSimilarMovie(
+        @Path("movie_id") id: Int,
+        @Query("page") page: Int? = 1
+    ): Response<BaseResponse<List<MovieDto>>>
+
+    @GET("movie/{movie_id}/recommendations")
+    suspend fun seeAllRecommendedMovie(
+        @Path("movie_id") id: Int,
+        @Query("page") page: Int? = 1
     ): Response<BaseResponse<List<MovieDto>>>
 
     //endregion

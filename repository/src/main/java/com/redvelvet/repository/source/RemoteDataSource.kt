@@ -29,6 +29,8 @@ interface RemoteDataSource {
     suspend fun seeAllUpcomingMovie(page: Int?): List<MovieDto>
     suspend fun seeAllNowPlayingMovie(page: Int?): List<MovieDto>
     suspend fun seeAllTopRatedMovie(page: Int?): List<MovieDto>
+    suspend fun seeAllSimilarMovie(page: Int?, id: Int): List<MovieDto>
+    suspend fun seeAllRecommendedMovie(page: Int?, id: Int): List<MovieDto>
 
     //endregion
 }
