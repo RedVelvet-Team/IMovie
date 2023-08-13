@@ -3,6 +3,7 @@ package com.redvelvet.viewmodel.base
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.redvelvet.entities.error.MovieError
 import com.redvelvet.entities.error.NetworkError
 import com.redvelvet.entities.error.NullResultError
@@ -55,7 +56,29 @@ abstract class BaseViewModel<UiState : BaseUiState, UiEffect>(state: UiState) :
     ) {
         viewModelScope.launch(dispatcher) {
             try {
-                val result = call()
+                val result = call().cachedIn(viewModelScope)
+                result.collect { data ->
+                    onSuccess(data)
+                }
+            } catch (e: NullResultError) {
+                onError(NullResultErrorState())
+            } catch (e: NetworkError) {
+                onError(NetworkErrorState())
+            } catch (e: MovieError) {
+                onError(ErrorUiState())
+            }
+        }
+    }
+
+    fun <T : Any> tryToExecutePaging2(
+        call: suspend () -> Flow<PagingData<T>>,
+        onSuccess: suspend (PagingData<T>) -> Unit,
+        onError: (error: ErrorUiState) -> Unit,
+        dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ) {
+        viewModelScope.launch(dispatcher) {
+            try {
+                val result = call().cachedIn(viewModelScope)
                 result.collect { data ->
                     onSuccess(data)
                 }

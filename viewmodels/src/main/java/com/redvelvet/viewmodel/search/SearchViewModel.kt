@@ -59,27 +59,19 @@ class SearchViewModel @Inject constructor(
     private fun onGetData(query: String) {
         when (_state.value.selectedMediaType) {
             SearchMedia.ALL -> fetchResults {
-                getAllSearchResultUseCase(query).cachedIn(
-                    viewModelScope
-                )
+                getAllSearchResultUseCase(query)
             }
 
             SearchMedia.MOVIE -> fetchMoviesResults {
-                getSearchMoviesUseCase(query).cachedIn(
-                    viewModelScope
-                )
+                getSearchMoviesUseCase(query)
             }
 
             SearchMedia.PEOPLE -> fetchPeopleResults {
-                getSearchPeopleUseCase(query).cachedIn(
-                    viewModelScope
-                )
+                getSearchPeopleUseCase(query)
             }
 
             SearchMedia.TV -> fetchTvShowResults {
-                getSearchTvShowUseCase(query).cachedIn(
-                    viewModelScope
-                )
+                getSearchTvShowUseCase(query)
             }
         }
     }
