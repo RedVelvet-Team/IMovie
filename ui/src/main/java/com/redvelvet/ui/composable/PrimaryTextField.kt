@@ -25,7 +25,7 @@ import com.redvelvet.ui.theme.radius
 fun PrimaryTextField(
     onTextChange: (String) -> Unit,
     value: String,
-    isError: Boolean,
+    isError: Boolean = false,
     placeHolderText: String,
     modifier: Modifier = Modifier,
     errorMessage: String = "",
