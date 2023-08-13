@@ -10,64 +10,31 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
-import com.redvelvet.ui.screen.home.navigateToHome
-import com.redvelvet.ui.screen.login.navigateToLogin
 import com.redvelvet.ui.screen.onboarding.navigateToOnBoarding
 import com.redvelvet.ui.theme.color
-import com.redvelvet.viewmodel.splash.SplashUiEffect
-import com.redvelvet.viewmodel.splash.SplashUiState
-import com.redvelvet.viewmodel.splash.SplashViewModel
-import com.redvelvet.ui.util.launchCollectLatest
 
 @Composable
-fun SplashScreen(
-    viewModel: SplashViewModel = hiltViewModel()
-) {
-    val navController = LocalNavController.current
-    val state by viewModel.state.collectAsState()
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
-    val scope = rememberCoroutineScope()
-    scope.launchCollectLatest(viewModel.effect) { effect ->
-        when (effect) {
-            is SplashUiEffect.NavigateToHome -> {
-                navController.navigateToHome()
-            }
-
-            is SplashUiEffect.NavigateToOnBoarding -> {
-                navController.navigateToOnBoarding()
-            }
-
-            is SplashUiEffect.NavigateToLogin -> {
-                navController.navigateToLogin()
-            }
-        }
-    }
-    SplashContent(state)
+fun SplashScreen() {
+    SplashContent()
 }
 
 @Composable
-private fun SplashContent(
-    state: SplashUiState,
-) {
+private fun SplashContent() {
+    val navController = LocalNavController.current
     val rotationDegree = remember { Animatable(0f) }
-    LaunchedEffect(key1 = state) {
+    LaunchedEffect(key1 = Unit) {
         rotationDegree.animateTo(
             targetValue = 360f,
             animationSpec = tween(durationMillis = 850)
         )
+        navController.navigateToOnBoarding()
     }
     Column(
         modifier = Modifier

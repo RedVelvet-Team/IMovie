@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
@@ -33,7 +34,7 @@ fun MovieScaffold(
     modifier: Modifier = Modifier,
     title: String,
     isLoading: Boolean,
-    error: ErrorUiState?,
+    error: ErrorUiState? = null,
     hasBackArrow: Boolean = true,
     hasTopBar: Boolean = false,
     content: @Composable () -> Unit
@@ -60,6 +61,11 @@ fun MovieScaffold(
         AnimatedVisibility(error != null) {
             ErrorViewer(error = error!!)
         }
+        val systemUiController = rememberSystemUiController()
+        systemUiController.setSystemBarsColor(
+            MaterialTheme.color.backgroundPrimary,
+            darkIcons = false
+        )
         content()
     }
 }
