@@ -63,4 +63,29 @@ interface MovieApiService {
         @Query("query") query: String,
         @Query("page") page: Int? = 1,
     ): Response<BaseResponse<List<TvShowDto>>>
+
+    //endregion
+
+    //region see all
+    @GET("movie/popular")
+    suspend fun seeAllPopularMovie(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<MovieDto>>>
+
+    @GET("movie/upcoming")
+    suspend fun seeAllUpcomingMovie(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<MovieDto>>>
+
+    @GET("movie/now_playing")
+    suspend fun seeAllNowPlayingMovie(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<MovieDto>>>
+
+    @GET("movie/top_rated")
+    suspend fun seeAllTopRatedMovie(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<MovieDto>>>
+
+    //endregion
 }

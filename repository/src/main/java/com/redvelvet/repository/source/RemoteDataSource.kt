@@ -23,4 +23,12 @@ interface RemoteDataSource {
     suspend fun searchMovie(query: String, page : Int?): List<MovieDto>
     suspend fun searchTvShows(query: String, page : Int?): List<TvShowDto>
     //endregion
+
+    //region see all
+    suspend fun seeAllPopularMovie(page: Int?): List<MovieDto>
+    suspend fun seeAllUpcomingMovie(page: Int?): List<MovieDto>
+    suspend fun seeAllNowPlayingMovie(page: Int?): List<MovieDto>
+    suspend fun seeAllTopRatedMovie(page: Int?): List<MovieDto>
+
+    //endregion
 }
