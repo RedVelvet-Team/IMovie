@@ -11,7 +11,7 @@ sealed class MovieDestination(
     data object OnBoarding : MovieDestination("onBoarding")
     data object Login : MovieDestination("login")
     data object SignUp : MovieDestination("signup")
-    data object SeeAllUpcoming : MovieDestination("seeAllUpcoming")
+    data object SeeAllMovie : MovieDestination("seeAllUpcoming")
 
     data object Home : MovieDestination(
         "home",
