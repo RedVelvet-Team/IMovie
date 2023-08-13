@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import com.redvelvet.ui.composable.ItemReview
 import com.redvelvet.ui.composable.ItemsSection
 import com.redvelvet.ui.screen.movieDetails.MovieDetailsScreen
 import com.redvelvet.ui.theme.Primary
@@ -81,25 +82,35 @@ fun MediaDetailsForegroundContent(
             MovieImagesSection(it, interaction)
         }
         Spacer(modifier = Modifier.height(MaterialTheme.spacing.spacing24))
+        state.data?.reviews?.let {
+            MovieReviewsSection(it, interaction)
+        }
+        Spacer(modifier = Modifier.height(MaterialTheme.spacing.spacing24))
+        state.data?.recommendations?.let {
+            RecommendedMoviesSection(it, interaction)
+        }
+        Spacer(modifier = Modifier.height(MaterialTheme.spacing.spacing24))
 
     }
 }
 
 @Composable
-fun MovieImagesSection(
-    it: List<MovieDetailsScreenUiState.MovieImagesUiState>,
+fun RecommendedMoviesSection(
+    it: List<MovieDetailsScreenUiState.MovieRecommendationsUiState>,
     interaction: MovieDetailsInteraction
 ) {
     ItemsSection(
-        label = "Images belong a movie",
+        label = "Recommendations",
         images = it.map { it2 -> it2.mediaImage },
-        hasName = false,
+        movieIds = it.map { it2 -> it2.mediaId },
+        hasName = true,
+        name = it.map { it2 -> it2.mediaName },
         hasCustomList = false,
         hasDateAndCountry = false,
-        onClickSeeAll = { interaction.onClickMovieImagesSeeAll() },
+        onClickSeeAll = { interaction.onClickRecommendationsMoviesSeeAll() },
         cardModifier = Modifier
-            .width(MaterialTheme.dimens.dimens112)
-            .height(MaterialTheme.dimens.dimens112),
+            .width(MaterialTheme.dimens.dimens104)
+            .height(MaterialTheme.dimens.dimens130),
     )
 }
 

@@ -119,7 +119,7 @@ class MovieDetailsViewModel @Inject constructor(
                     castImage = "https://image.tmdb.org/t/p/w500/1GOW1cejmE8D8T6PRikYlGmUae0.jpg"
                 ),
 
-            ),
+                ),
 
             images = listOf(
                 MovieDetailsScreenUiState.MovieImagesUiState(

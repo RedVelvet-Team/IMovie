@@ -40,6 +40,11 @@ fun <T> ItemsSection(
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),
         contentPadding = PaddingValues(horizontal = MaterialTheme.spacing.spacing16)
     ) {
+        if (hasCustomList && label == "Reviews") {
+            itemsIndexed(name) { index, name ->
+                customListItemComposable!!(index, name)
+            }
+        }
         itemsIndexed(images) { index, image ->
             val imagePainter =
                 if (image is Int) painterResource(image) else rememberAsyncImagePainter(
