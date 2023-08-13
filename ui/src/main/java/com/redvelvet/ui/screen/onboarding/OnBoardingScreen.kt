@@ -30,10 +30,10 @@ import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.onboarding.OnBoardingInteractions
-import com.redvelvet.viewmodel.onboarding.OnBoardingUiEffect
 import com.redvelvet.viewmodel.onboarding.OnBoardingUiState
 import com.redvelvet.viewmodel.onboarding.OnBoardingViewModel
 import com.redvelvet.ui.util.launchCollectLatest
+import com.redvelvet.viewmodel.onboarding.OnBoardingUiEffect
 
 @Composable
 fun OnBoardingScreen(

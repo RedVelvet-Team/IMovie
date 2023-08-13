@@ -13,7 +13,9 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 dependencies {
     api(project(":entities"))
+    //dagger
     implementation(Deps.dagger)
     implementation("androidx.paging:paging-common-ktx:3.2.0")
+    //test
     testImplementation(Deps.testng)
 }

@@ -1,9 +1,9 @@
-package com.redvelvet.local.source
+package com.redvelvet.datastore
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import com.redvelvet.local.util.PreferencesKeys
+import com.redvelvet.datastore.util.PreferencesKeys
 import com.redvelvet.repository.source.DataStoreDataSource
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking

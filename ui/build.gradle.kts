@@ -45,6 +45,7 @@ android {
 
 dependencies {
     implementation(project(":viewmodels"))
+    // core + testing
     implementation(Deps.coreKtx)
     implementation("androidx.paging:paging-compose:3.2.0")
     testImplementation(Deps.junit)

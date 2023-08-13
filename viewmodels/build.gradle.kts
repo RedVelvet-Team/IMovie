@@ -39,7 +39,7 @@ android {
 
 dependencies {
     implementation(project(":usecase"))
-    // core
+    // core + testing
     implementation(Deps.coreKtx)
     implementation("androidx.paging:paging-common-ktx:3.2.0")
     // testing

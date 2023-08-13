@@ -51,11 +51,11 @@ import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.radius
 import com.redvelvet.ui.theme.spacing
+import com.redvelvet.ui.util.launchCollectLatest
 import com.redvelvet.viewmodel.login.LoginInteraction
 import com.redvelvet.viewmodel.login.LoginUiEffect
 import com.redvelvet.viewmodel.login.LoginUiState
 import com.redvelvet.viewmodel.login.LoginViewModel
-import com.redvelvet.ui.util.launchCollectLatest
 
 @Composable
 fun LoginScreen(
