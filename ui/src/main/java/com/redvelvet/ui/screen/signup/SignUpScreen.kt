@@ -10,6 +10,8 @@ import androidx.compose.ui.platform.LocalContext
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.FilxTopAppBar
 import com.redvelvet.ui.composable.WebViewWithListener
+import com.redvelvet.ui.navigation.MovieDestination
+import com.redvelvet.ui.screen.login.navigateToLogin
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -28,7 +30,11 @@ fun SignUpScreen(
         ) {
             Toast.makeText(context, "Account has been created", Toast.LENGTH_SHORT)
                 .show()
-            navController.popBackStack()
+            navController.navigateToLogin {
+                popUpTo(MovieDestination.SignUp.route) {
+                    inclusive = true
+                }
+            }
         }
     }
 }
