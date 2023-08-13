@@ -22,6 +22,7 @@ fun <T> ItemsSection(
     label: String = "",
     images: List<T> = emptyList(),
     headerModifier: Modifier = Modifier,
+    cardModifier: Modifier? = null,
     hasName: Boolean = false,
     name: List<String> = emptyList(),
     hasDateAndCountry: Boolean = false,
@@ -45,20 +46,20 @@ fun <T> ItemsSection(
                     model = image
                 )
             if (hasCustomList) {
-                customListItemComposable!!(index, imagePainter.toString())
+                customListItemComposable!!(index, image as String)
             }
             if (!hasCustomList) {
                 ItemBasicCard(
                     imagePainter = imagePainter,
-                    modifier = Modifier
+                    modifier = cardModifier ?: Modifier
                         .width(MaterialTheme.dimens.dimens104)
                         .height(MaterialTheme.dimens.dimens130),
                     hasName = hasName,
-                    name = name[index],
+                    name = if (hasName) name[index] else "",
                     hasDateAndCountry = hasDateAndCountry,
                     date = if (hasDateAndCountry) date[index] else "",
                     country = if (hasDateAndCountry) country[index] else "",
-                    onClick = { onClickItem(movieIds[index]) }
+                    onClick = { onClickItem(movieIds[index]) },
                 )
             }
 

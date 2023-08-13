@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -22,6 +24,7 @@ import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.FontAccent
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
+import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 
 
@@ -57,10 +60,12 @@ fun ItemBasicCard(
                 overflow = TextOverflow.Ellipsis,
                 color = Color.White,
                 style = Typography.labelMedium,
-                modifier = Modifier.padding(
-                    bottom = MaterialTheme.spacing.spacing2,
-                    top = MaterialTheme.spacing.spacing4
-                )
+                modifier = Modifier
+                    .width(MaterialTheme.dimens.dimens104)
+                    .padding(
+                        bottom = MaterialTheme.spacing.spacing2,
+                        top = MaterialTheme.spacing.spacing4
+                    )
             )
         }
         if (hasDateAndCountry) {

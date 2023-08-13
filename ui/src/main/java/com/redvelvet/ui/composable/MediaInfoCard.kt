@@ -3,7 +3,9 @@ package com.redvelvet.ui.composable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -14,6 +16,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.Typography
+import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsInteraction
 
@@ -27,6 +30,8 @@ fun MediaInfoCard(
             imagePainter = rememberAsyncImagePainter(model = data.posterPath),
             hasName = false,
             hasDateAndCountry = false,
+            modifier = Modifier.width(MaterialTheme.dimens.dimens104)
+            .height(MaterialTheme.dimens.dimens130),
         )
         SpacerHorizontal(width = MaterialTheme.spacing.spacing12)
         Column {

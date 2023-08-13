@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
 import com.redvelvet.ui.theme.FontPrimary
+import com.redvelvet.ui.theme.Montserrat
 
 @Composable
 fun LongExpandedText(overview: String) {
@@ -22,7 +23,7 @@ fun LongExpandedText(overview: String) {
     val annotatedText = buildAnnotatedString {
         withStyle(
             style = SpanStyle(
-                fontFamily = FontFamily.Monospace,
+                fontFamily = Montserrat,
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp,
                 color = FontPrimary,
@@ -32,7 +33,7 @@ fun LongExpandedText(overview: String) {
             if (!textExpanded) append("...") else append(" ")
             withStyle(
                 style = SpanStyle(
-                    fontFamily = FontFamily.Monospace,
+                    fontFamily = Montserrat,
                     fontWeight = FontWeight.Bold,
                     fontSize = 12.sp,
                     color = FontPrimary,

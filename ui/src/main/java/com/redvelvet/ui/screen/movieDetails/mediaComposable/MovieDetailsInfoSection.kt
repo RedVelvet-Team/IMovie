@@ -35,7 +35,8 @@ fun MovieDetailsInfoSection(
                 it.spokenLanguages,
             ),
             interaction,
-        )
+
+            )
         SpacerVertical(height = MaterialTheme.spacing.spacing24)
         MediaRateRow(it.voteAverage.toString()) { interaction.onClickRateMovie(it.id, 5.5) }
         SpacerVertical(height = MaterialTheme.spacing.spacing24)

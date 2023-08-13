@@ -25,16 +25,16 @@ class MovieDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             delay(2000)
             try {
+//                _state.update {
+//                    MovieDetailsScreenUiState(
+//                        data = getMovieFullDetailsUseCase(298618).toMovieFullDetailsScreenUiState(),
+//                        isLoading = false
+//                    )
+//                }
+                Log.w("HASSANWASFY", _state.value.data.toString())
                 _state.update {
-                    MovieDetailsScreenUiState(
-                        data = getMovieFullDetailsUseCase(298618).toMovieFullDetailsScreenUiState(),
-                        isLoading = false
-                    )
-                }
-                Log.w("HASSANWASFY",_state.value.data.toString())
-                /*_state.update {
                     MovieDetailsScreenUiState(data = fakeData(), isLoading = false)
-                }*/
+                }
             } catch (e: ErrorType) {
                 _state.update {
                     MovieDetailsScreenUiState(
@@ -55,7 +55,7 @@ class MovieDetailsViewModel @Inject constructor(
                 id = 11,
                 originalTitle = "Star Wars",
                 overview = "Princess Leia is captured and held hostage by the evil Imperial forces in their effort to take over the galactic Empire. Venturesome Luke Skywalker and dashing captain Han Solo team together with the loveable robot duo R2-D2 and C-3PO to rescue the beautiful princess and restore peace and justice in the Empire.",
-                posterPath = "/rktDFPbfHfUbArZ6OOOKsXcv0Bm.jpg",
+                posterPath = "https://image.tmdb.org/t/p/w500/rktDFPbfHfUbArZ6OOOKsXcv0Bm.jpg",
                 productionCountries = listOf("United States of America"),
                 releaseDate = "1977-05-25",
                 revenue = 775398007,
@@ -71,45 +71,71 @@ class MovieDetailsViewModel @Inject constructor(
                 MovieDetailsScreenUiState.MovieTopCastUiState(
                     castId = 1,
                     castName = "Halle Bailey",
-                    castImage = "/hLtxNK8eeWZkFSeaAASFWm15Qv0.jpg"
+                    castImage = "https://image.tmdb.org/t/p/w500/hLtxNK8eeWZkFSeaAASFWm15Qv0.jpg"
                 ),
                 MovieDetailsScreenUiState.MovieTopCastUiState(
                     castId = 2,
                     castName = "JonahHauer-King",
-                    castImage = "/1GOW1cejmE8D8T6PRikYlGmUae0.jpg"
+                    castImage = "https://image.tmdb.org/t/p/w500/1GOW1cejmE8D8T6PRikYlGmUae0.jpg"
                 ),
                 MovieDetailsScreenUiState.MovieTopCastUiState(
                     castId = 3,
                     castName = "Daveed Diggs",
-                    castImage = "/82rxrGxOqQW2NjKsIiNbDYHFfmb.jpg"
+                    castImage = "https://image.tmdb.org/t/p/w500/82rxrGxOqQW2NjKsIiNbDYHFfmb.jpg"
                 ),
                 MovieDetailsScreenUiState.MovieTopCastUiState(
                     castId = 4,
                     castName = "Awkwafina",
-                    castImage = "/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg"
+                    castImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg"
                 ),
                 MovieDetailsScreenUiState.MovieTopCastUiState(
                     castId = 5,
                     castName = "hLtxNK8ee",
-                    castImage = "/1GOW1cejmE8D8T6PRikYlGmUae0.jpg"
+                    castImage = "https://image.tmdb.org/t/p/w500/1GOW1cejmE8D8T6PRikYlGmUae0.jpg"
                 ),
+                MovieDetailsScreenUiState.MovieTopCastUiState(
+                    castId = 1,
+                    castName = "Halle Bailey",
+                    castImage = "https://image.tmdb.org/t/p/w500/hLtxNK8eeWZkFSeaAASFWm15Qv0.jpg"
+                ),
+                MovieDetailsScreenUiState.MovieTopCastUiState(
+                    castId = 2,
+                    castName = "JonahHauer-King",
+                    castImage = "https://image.tmdb.org/t/p/w500/1GOW1cejmE8D8T6PRikYlGmUae0.jpg"
+                ),
+                MovieDetailsScreenUiState.MovieTopCastUiState(
+                    castId = 3,
+                    castName = "Daveed Diggs",
+                    castImage = "https://image.tmdb.org/t/p/w500/82rxrGxOqQW2NjKsIiNbDYHFfmb.jpg"
+                ),
+                MovieDetailsScreenUiState.MovieTopCastUiState(
+                    castId = 4,
+                    castName = "Awkwafina",
+                    castImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg"
+                ),
+                MovieDetailsScreenUiState.MovieTopCastUiState(
+                    castId = 5,
+                    castName = "hLtxNK8ee",
+                    castImage = "https://image.tmdb.org/t/p/w500/1GOW1cejmE8D8T6PRikYlGmUae0.jpg"
+                ),
+
             ),
 
             images = listOf(
                 MovieDetailsScreenUiState.MovieImagesUiState(
-                    mediaImage = "/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
                 ),
                 MovieDetailsScreenUiState.MovieImagesUiState(
-                    mediaImage = "/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
                 ),
                 MovieDetailsScreenUiState.MovieImagesUiState(
-                    mediaImage = "/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
                 ),
                 MovieDetailsScreenUiState.MovieImagesUiState(
-                    mediaImage = "/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
                 ),
                 MovieDetailsScreenUiState.MovieImagesUiState(
-                    mediaImage = "/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
                 ),
             ),
 
@@ -139,27 +165,27 @@ class MovieDetailsViewModel @Inject constructor(
             recommendations = listOf(
                 MovieDetailsScreenUiState.MovieRecommendationsUiState(
                     mediaId = 1,
-                    mediaImage = "/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
                     mediaName = "test 1"
                 ),
                 MovieDetailsScreenUiState.MovieRecommendationsUiState(
                     mediaId = 2,
-                    mediaImage = "/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
                     mediaName = "test 2"
                 ),
                 MovieDetailsScreenUiState.MovieRecommendationsUiState(
                     mediaId = 3,
-                    mediaImage = "/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
                     mediaName = "test 3"
                 ),
                 MovieDetailsScreenUiState.MovieRecommendationsUiState(
                     mediaId = 4,
-                    mediaImage = "/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
                     mediaName = "test 4"
                 ),
                 MovieDetailsScreenUiState.MovieRecommendationsUiState(
                     mediaId = 5,
-                    mediaImage = "/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
                     mediaName = "test 5"
                 ),
             ),
@@ -191,27 +217,27 @@ class MovieDetailsViewModel @Inject constructor(
                 MovieDetailsScreenUiState.MovieSimilarUiState(
                     mediaId = 1,
                     mediaName = "test 1",
-                    mediaImage = "/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
                 ),
                 MovieDetailsScreenUiState.MovieSimilarUiState(
                     mediaId = 2,
-                    mediaName = "test 2",
-                    mediaImage = "/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                    mediaName = "test 2 dvpdoxvj sdfpovjsdfiovkds ",
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
                 ),
                 MovieDetailsScreenUiState.MovieSimilarUiState(
                     mediaId = 3,
-                    mediaName = "test 3",
-                    mediaImage = "/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                    mediaName = "test 3 dvpdoxvj sdfpovjsdfiovkds ",
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
                 ),
                 MovieDetailsScreenUiState.MovieSimilarUiState(
                     mediaId = 4,
-                    mediaName = "test 4",
-                    mediaImage = "/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                    mediaName = "test 4 dvpdoxvj sdfpovjsdfiovkds ",
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
                 ),
                 MovieDetailsScreenUiState.MovieSimilarUiState(
                     mediaId = 5,
-                    mediaName = "test 5",
-                    mediaImage = "/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+                    mediaName = "test 5 dvpdoxvj sdfpovjsdfiovkds ",
+                    mediaImage = "https://image.tmdb.org/t/p/w500/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
                 ),
             ),
         )
