@@ -5,10 +5,6 @@ interface UserRepository {
     suspend fun getIsLoggedInByAccount(): Boolean
 
     suspend fun getIsLoggedInByGuest(): Boolean
-
-    suspend fun setIsFirstTimeUsingApp(isFirstTime: Boolean)
-
-    suspend fun getIsFirstTimeUsingApp(): Boolean
     //endregion
 
     //region auth

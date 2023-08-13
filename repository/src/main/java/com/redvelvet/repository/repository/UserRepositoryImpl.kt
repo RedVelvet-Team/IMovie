@@ -8,15 +8,10 @@ class UserRepositoryImpl @Inject constructor(
     private val userPreferencesDataSource: UserPreferencesDataSource,
 ) : UserRepository, BaseRepository() {
     //region user status
-    override suspend fun getIsLoggedInByAccount() = userPreferencesDataSource.getIsLoggedInByAccount()
+    override suspend fun getIsLoggedInByAccount() =
+        userPreferencesDataSource.getIsLoggedInByAccount()
 
     override suspend fun getIsLoggedInByGuest() = userPreferencesDataSource.getIsLoggedInByGuest()
-
-    override suspend fun setIsFirstTimeUsingApp(isFirstTime: Boolean) {
-        userPreferencesDataSource.setIsFirstTimeUsingApp(isFirstTime)
-    }
-
-    override suspend fun getIsFirstTimeUsingApp() = userPreferencesDataSource.getIsFirstTimeUsingApp()
     //endregion
 
     //region user info

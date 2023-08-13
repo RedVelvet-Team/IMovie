@@ -7,9 +7,6 @@ interface UserPreferencesDataSource {
 
     suspend fun setIsLoggedInByGuest(isLogged: Boolean)
     suspend fun getIsLoggedInByGuest(): Boolean
-
-    suspend fun setIsFirstTimeUsingApp(isFirstTime: Boolean)
-    suspend fun getIsFirstTimeUsingApp(): Boolean
     //endregion
 
     // region auth

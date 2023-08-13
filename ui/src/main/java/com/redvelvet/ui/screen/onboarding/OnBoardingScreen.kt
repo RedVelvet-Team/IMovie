@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,24 +21,23 @@ import com.redvelvet.ui.composable.MessageView
 import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.PrimaryOutlinedButton
 import com.redvelvet.ui.composable.WallPaper
+import com.redvelvet.ui.screen.home.navigateToHome
 import com.redvelvet.ui.screen.login.navigateToLogin
 import com.redvelvet.ui.screen.signup.navigateToSignUp
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
-import com.redvelvet.viewmodel.onboarding.OnBoardingInteractions
-import com.redvelvet.viewmodel.onboarding.OnBoardingUiState
-import com.redvelvet.viewmodel.onboarding.OnBoardingViewModel
 import com.redvelvet.ui.util.launchCollectLatest
+import com.redvelvet.viewmodel.onboarding.OnBoardingInteractions
 import com.redvelvet.viewmodel.onboarding.OnBoardingUiEffect
+import com.redvelvet.viewmodel.onboarding.OnBoardingViewModel
 
 @Composable
 fun OnBoardingScreen(
     viewModel: OnBoardingViewModel = hiltViewModel(),
 ) {
     val navController = LocalNavController.current
-    val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(
         MaterialTheme.color.backgroundPrimary, darkIcons = false
@@ -48,23 +45,24 @@ fun OnBoardingScreen(
     val scope = rememberCoroutineScope()
     scope.launchCollectLatest(viewModel.effect) { effect ->
         when (effect) {
-            is OnBoardingUiEffect.NavigateToLogin -> {
+            is OnBoardingUiEffect.NavigateToLoginScreen -> {
                 navController.navigateToLogin()
             }
 
             is OnBoardingUiEffect.NavigateToSignUpScreen -> {
                 navController.navigateToSignUp()
             }
+
+            is OnBoardingUiEffect.NavigateToHomeScreen -> {
+                navController.navigateToHome()
+            }
         }
     }
-    OnBoardingContent(state = state, viewModel)
+    OnBoardingContent(interaction = viewModel)
 }
 
 @Composable
-private fun OnBoardingContent(
-    state: OnBoardingUiState,
-    interaction: OnBoardingInteractions,
-) {
+private fun OnBoardingContent(interaction: OnBoardingInteractions) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.BottomCenter,
@@ -80,8 +78,11 @@ private fun OnBoardingContent(
             MessageView(
                 messageIcon = painterResource(id = R.drawable.vector_logo),
                 messageTitle = "FlixMovie",
-                messageDescription = "description_about_app_in_onboarding",
-                messageTitleStyle = Typography.headlineLarge.copy(color = MaterialTheme.color.fontPrimary),
+                messageDescription = "Enjoy a seamless and user-friendly experience Browse movies " +
+                        "effortlessly and watch them instantly online.",
+                messageTitleStyle = Typography.headlineLarge.copy(
+                    color = MaterialTheme.color.fontPrimary
+                ),
                 messageDescriptionStyle = Typography.titleSmall,
                 spacingBetweenTitleAndImage = MaterialTheme.spacing.spacing16,
                 spacingBetweenTitleAndDescription = MaterialTheme.spacing.spacing16,
@@ -97,21 +98,19 @@ private fun OnBoardingContent(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             PrimaryButton(
-                modifier = Modifier.fillMaxWidth(),/*.padding(bottom = MaterialTheme.spacing.spacing32)*/
+                modifier = Modifier.fillMaxWidth(),
                 onClick = { interaction.onClickLogin() },
-                enabled = !state.isLoading,
-                text = "login",
+                text = "Login",
             )
             PrimaryOutlinedButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = MaterialTheme.spacing.spacing12),
                 onClick = { interaction.onClickSignUp() },
-                enabled = !state.isLoading,
                 border = BorderStroke(
                     width = MaterialTheme.dimens.dimens1, color = MaterialTheme.color.brand100
                 ),
-                text = "signUp",
+                text = "SignUp",
                 textColor = MaterialTheme.color.brand100
             )
         }

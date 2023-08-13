@@ -32,16 +32,6 @@ class UserDataStoreDataSource @Inject constructor(
     override suspend fun getIsLoggedInByGuest(): Boolean {
         return dataStore.data.first()[PreferencesKeys.IsLoggedByGuest] ?: false
     }
-
-    override suspend fun setIsFirstTimeUsingApp(isFirstTime: Boolean) {
-        dataStore.edit { preferences ->
-            preferences[PreferencesKeys.IsFirstTimeUsingApp] = isFirstTime
-        }
-    }
-
-    override suspend fun getIsFirstTimeUsingApp(): Boolean {
-        return dataStore.data.first()[PreferencesKeys.IsFirstTimeUsingApp] ?: true
-    }
     //endregion
 
     // region auth
