@@ -22,7 +22,7 @@ abstract class BaseViewModel<UiState : BaseUiState, UiEffect>(state: UiState) :
     protected val _state = MutableStateFlow(state)
     val state = _state.asStateFlow()
 
-    protected val _effect = MutableSharedFlow<UiEffect>()
+    private val _effect = MutableSharedFlow<UiEffect>()
     val effect = _effect.asSharedFlow()
 
     fun <T> tryToExecute(
