@@ -4,18 +4,28 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.PagingSource
+import androidx.paging.map
 import com.redvelvet.entities.actor.Actor
 import com.redvelvet.entities.movie.Movie
 import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.entities.tv.TvShow
+import com.redvelvet.repository.dto.movie.MovieDto
+import com.redvelvet.repository.mapper.toMovie
 import com.redvelvet.repository.pagingSource.ActorSearchPageSource
 import com.redvelvet.repository.pagingSource.MoviesSearchPageSource
 import com.redvelvet.repository.pagingSource.MultiSearchPageSource
 import com.redvelvet.repository.pagingSource.TvShowSearchPageSource
+import com.redvelvet.repository.pagingSource.seeall.SeeAllTopRatedMoviesPageSource
+import com.redvelvet.repository.pagingSource.seeall.SeeAllNowPlayingMoviesPageSource
+import com.redvelvet.repository.pagingSource.seeall.SeeAllPopularMoviesPageSource
+import com.redvelvet.repository.pagingSource.seeall.SeeAllRecommendedMoviesPageSource
+import com.redvelvet.repository.pagingSource.seeall.SeeAllSimilarMoviesPageSource
+import com.redvelvet.repository.pagingSource.seeall.SeeAllUpcomingMoviesPageSource
 import com.redvelvet.repository.source.LocalDataSource
 import com.redvelvet.repository.source.RemoteDataSource
 import com.redvelvet.usecase.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
@@ -51,7 +61,87 @@ class MovieRepositoryImpl @Inject constructor(
         return search(query, page, ::TvShowSearchPageSource)
     }
 
+    //endregion
+
+    //region see all
+
+    override suspend fun seeAllPopularMovie(page: Int?): Flow<PagingData<Movie>> {
+        return seeAll(
+            page = page,
+            mapper = MovieDto::toMovie,
+            sourceFactory = ::SeeAllPopularMoviesPageSource
+        )
+    }
+
+    override suspend fun seeAllUpcomingMovie(page: Int?): Flow<PagingData<Movie>> {
+        return seeAll(
+            page = page,
+            mapper = MovieDto::toMovie,
+            sourceFactory = ::SeeAllUpcomingMoviesPageSource
+        )
+    }
+
+    override suspend fun seeAllNowPlayingMovie(page: Int?): Flow<PagingData<Movie>> {
+        return seeAll(
+            page = page,
+            mapper = MovieDto::toMovie,
+            sourceFactory = ::SeeAllNowPlayingMoviesPageSource
+        )
+    }
+
+    override suspend fun seeAllTopRatedMovie(page: Int?): Flow<PagingData<Movie>> {
+        return seeAll(
+            page = page,
+            mapper = MovieDto::toMovie,
+            sourceFactory = ::SeeAllTopRatedMoviesPageSource
+        )
+    }
+
+    override suspend fun seeAllSimilarMovie(id: Int): Flow<PagingData<Movie>> {
+        return seeAllWithId(
+            id = id,
+            sourceFactory = ::SeeAllSimilarMoviesPageSource,
+            mapper = MovieDto::toMovie
+        )
+    }
+
+    override suspend fun seeAllRecommendedMovie(id: Int): Flow<PagingData<Movie>> {
+        return seeAllWithId(
+            id = id,
+            sourceFactory = ::SeeAllRecommendedMoviesPageSource,
+            mapper = MovieDto::toMovie
+        )
+    }
+
     // endregion
+
+    //region wrapper
+    private fun <I : Any, O : Any> seeAll(
+        page: Int?,
+        sourceFactory: (RemoteDataSource) -> PagingSource<Int, I>,
+        mapper: I.() -> O
+    ): Flow<PagingData<O>> {
+        return Pager(
+            config = PagingConfig(pageSize = page ?: DEFAULT_PAGE_SIZE),
+            pagingSourceFactory = { sourceFactory(remoteDataSource) }
+        ).flow.map {pagingData ->
+            pagingData.map { it.mapper() }
+        }
+    }
+
+    private fun <I : Any, O : Any> seeAllWithId(
+        id: Int,
+        sourceFactory: (RemoteDataSource, Int) -> PagingSource<Int, I>,
+        mapper: I.() -> O
+    ): Flow<PagingData<O>> {
+        return Pager(
+            config = PagingConfig(pageSize = DEFAULT_PAGE_SIZE),
+            pagingSourceFactory = { sourceFactory(remoteDataSource, id) }
+        ).flow.map {pagingData ->
+            pagingData.map { it.mapper() }
+        }
+    }
+    //endregion
     companion object {
         private const val DEFAULT_PAGE_SIZE = 10
     }

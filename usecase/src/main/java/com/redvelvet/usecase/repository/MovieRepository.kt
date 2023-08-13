@@ -13,4 +13,14 @@ interface MovieRepository {
     fun searchPeople(query: String, page: Int?=1): Flow<PagingData<Actor>>
     fun searchMovie(query: String, page: Int?=1): Flow<PagingData<Movie>>
     fun searchTvShows(query: String, page: Int?=1): Flow<PagingData<TvShow>>
+
+    //region see all
+    suspend fun seeAllPopularMovie(page: Int?): Flow<PagingData<Movie>>
+    suspend fun seeAllUpcomingMovie(page: Int?): Flow<PagingData<Movie>>
+    suspend fun seeAllNowPlayingMovie(page: Int?): Flow<PagingData<Movie>>
+    suspend fun seeAllTopRatedMovie(page: Int?): Flow<PagingData<Movie>>
+    suspend fun seeAllSimilarMovie(id: Int): Flow<PagingData<Movie>>
+    suspend fun seeAllRecommendedMovie(id: Int): Flow<PagingData<Movie>>
+
+    //endregion
 }
