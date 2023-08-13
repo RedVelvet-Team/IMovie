@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -24,6 +23,7 @@ import com.redvelvet.ui.composable.MessageView
 import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.PrimaryOutlinedButton
 import com.redvelvet.ui.composable.WallPaper
+import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.home.navigateToHome
 import com.redvelvet.ui.screen.login.navigateToLogin
 import com.redvelvet.ui.screen.signup.navigateToSignUp
@@ -31,9 +31,6 @@ import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
-import com.redvelvet.ui.util.launchCollectLatest
-import com.redvelvet.viewmodel.onboarding.OnBoardingInteractions
-import com.redvelvet.viewmodel.onboarding.OnBoardingUiEffect
 import com.redvelvet.viewmodel.onboarding.OnBoardingViewModel
 
 @Composable
@@ -46,32 +43,27 @@ fun OnBoardingScreen(
     systemUiController.setSystemBarsColor(
         MaterialTheme.color.backgroundPrimary, darkIcons = false
     )
-    val scope = rememberCoroutineScope()
     LaunchedEffect(key1 = Unit) {
-        scope.launchCollectLatest(viewModel.effect) { effect ->
-            when (effect) {
-                is OnBoardingUiEffect.NavigateToLoginScreen -> {
-                    navController.navigateToLogin()
-                }
-
-                is OnBoardingUiEffect.NavigateToSignUpScreen -> {
-                    navController.navigateToSignUp()
-                }
-
-                is OnBoardingUiEffect.NavigateToHomeScreen -> {
-                    navController.navigateToHome()
+        if (state.loggedIn) {
+            navController.navigateToHome {
+                popUpTo(MovieDestination.OnBoarding.route) {
+                    inclusive = true
                 }
             }
         }
-        if (state.loggedIn)
-            navController.navigateToHome()
     }
 
-    OnBoardingContent(interaction = viewModel)
+    OnBoardingContent(
+        onClickLogin = { navController.navigateToLogin() },
+        onClickSignUp = { navController.navigateToSignUp() }
+    )
 }
 
 @Composable
-private fun OnBoardingContent(interaction: OnBoardingInteractions) {
+private fun OnBoardingContent(
+    onClickLogin: () -> Unit,
+    onClickSignUp: () -> Unit,
+) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.BottomCenter,
@@ -108,14 +100,14 @@ private fun OnBoardingContent(interaction: OnBoardingInteractions) {
         ) {
             PrimaryButton(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { interaction.onClickLogin() },
+                onClick = onClickLogin,
                 text = "Login",
             )
             PrimaryOutlinedButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = MaterialTheme.spacing.spacing12),
-                onClick = { interaction.onClickSignUp() },
+                onClick = onClickSignUp,
                 border = BorderStroke(
                     width = MaterialTheme.dimens.dimens1, color = MaterialTheme.color.brand100
                 ),

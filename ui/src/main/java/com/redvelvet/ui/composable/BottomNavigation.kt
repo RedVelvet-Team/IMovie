@@ -99,7 +99,7 @@ fun BottomNavItem(
         } else {
             navController.navigate(MovieDestination.Home.route) {
                 popUpTo(navController.graph.findStartDestination().id) {
-                    inclusive = false
+                    inclusive = true
                     saveState = true
                 }
                 launchSingleTop = true
@@ -113,6 +113,7 @@ fun BottomNavItem(
                 navController.navigate(screen.route) {
                     navController.graph.startDestinationRoute?.let {
                         popUpTo(navController.graph.findStartDestination().id) {
+                            inclusive = true
                             saveState = true
                         }
                     }

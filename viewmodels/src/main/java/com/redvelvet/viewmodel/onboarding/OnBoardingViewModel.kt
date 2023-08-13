@@ -10,14 +10,13 @@ import javax.inject.Inject
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
     private val checkUserLoggedInUseCase: CheckUserLoggedInUseCase,
-) : BaseViewModel<OnBoardingUiState, OnBoardingUiEffect>(OnBoardingUiState()),
-    OnBoardingInteractions {
+) : BaseViewModel<OnBoardingUiState, Unit>(OnBoardingUiState()) {
 
     init {
         checkUserIsLoggedIn()
     }
 
-    //region check user loggedin
+    //region check user loggedIn
     private fun checkUserIsLoggedIn() {
         tryToExecute(
             execute = checkUserLoggedInUseCase::invoke,
@@ -28,7 +27,6 @@ class OnBoardingViewModel @Inject constructor(
 
     private fun onCheckedSuccess(checkedLoggedIn: Boolean) {
         if (checkedLoggedIn) {
-            sendUiEffect(OnBoardingUiEffect.NavigateToHomeScreen)
             _state.update {
                 it.copy(
                     loggedIn = true,
@@ -47,15 +45,4 @@ class OnBoardingViewModel @Inject constructor(
         }
     }
     //endregion
-
-    //region interaction
-    override fun onClickLogin() {
-        sendUiEffect(OnBoardingUiEffect.NavigateToLoginScreen)
-    }
-
-    override fun onClickSignUp() {
-        sendUiEffect(OnBoardingUiEffect.NavigateToSignUpScreen)
-    }
-    //endregion
-
 }

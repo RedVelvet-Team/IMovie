@@ -1,6 +1,7 @@
 package com.redvelvet.ui.screen.login
 
 import android.content.res.Configuration
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
@@ -38,12 +39,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.PrimaryOutlinedButton
 import com.redvelvet.ui.composable.PrimaryTextField
+import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.home.navigateToHome
 import com.redvelvet.ui.screen.signup.navigateToSignUp
 import com.redvelvet.ui.theme.Typography
@@ -61,6 +64,7 @@ import com.redvelvet.viewmodel.login.LoginViewModel
 fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
+    Log.i("KAMELOO", "hi")
     val navController = LocalNavController.current
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
@@ -69,11 +73,22 @@ fun LoginScreen(
     scope.launchCollectLatest(viewModel.effect) { effect ->
         when (effect) {
             is LoginUiEffect.NavigateTomHomeScreen -> {
-                navController.navigateToHome()
+                navController.navigateToHome {
+                    popUpTo(MovieDestination.Login.route) {
+                        inclusive = true
+                    }
+                    popUpTo(MovieDestination.OnBoarding.route) {
+                        inclusive = true
+                    }
+                }
             }
 
             is LoginUiEffect.NavigateToSignUpScreen -> {
-                navController.navigateToSignUp()
+                navController.navigateToSignUp {
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        inclusive = true
+                    }
+                }
             }
         }
     }

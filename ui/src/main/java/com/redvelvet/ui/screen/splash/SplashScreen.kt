@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
+import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.onboarding.navigateToOnBoarding
 import com.redvelvet.ui.theme.color
 
@@ -40,7 +41,11 @@ private fun SplashContent() {
             targetValue = 360f,
             animationSpec = tween(durationMillis = 850)
         )
-        navController.navigateToOnBoarding()
+        navController.navigateToOnBoarding {
+            popUpTo(MovieDestination.Splash.route) {
+                inclusive = true
+            }
+        }
     }
     Column(
         modifier = Modifier
