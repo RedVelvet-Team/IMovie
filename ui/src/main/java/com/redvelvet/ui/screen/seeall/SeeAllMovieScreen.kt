@@ -1,4 +1,4 @@
-package com.redvelvet.ui.screen.seeAllUpcoming
+package com.redvelvet.ui.screen.seeall
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -12,31 +12,43 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.composable.FilxTopAppBar
 import com.redvelvet.ui.composable.ItemBasicCard
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
+import com.redvelvet.viewmodel.home.MovieUiState
+import com.redvelvet.viewmodel.seeall.movie.SeeAllMovieViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun SeeAllUpcomingListScreen() {
+fun SeeAllMovieScreen(
+    viewModel: SeeAllMovieViewModel = hiltViewModel()
+) {
+    val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = { FilxTopAppBar("Upcoming ", hasBackArrow = true) },
+        topBar = { FilxTopAppBar( state.title, hasBackArrow = true) },
         containerColor = MaterialTheme.color.backgroundPrimary
     ) {
-        SeeAllUpcomingListContent()
+        SeeAllMovieContent(
+           state.movies.collectAsLazyPagingItems()
+        )
     }
 }
 
 @Composable
-private fun SeeAllUpcomingListContent() {
+private fun SeeAllMovieContent(movies: LazyPagingItems<MovieUiState>) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -58,14 +70,14 @@ private fun SeeAllUpcomingListContent() {
                 Alignment.CenterVertically
             )
         ) {
-            items(20) {
+            items(movies.itemCount) {
                 ItemBasicCard(
-                    imagePainter = rememberAsyncImagePainter(model = ""),
+                    imagePainter = rememberAsyncImagePainter(model = movies[it]!!.movieImage),
                     hasName = true,
-                    name = "Al amal",
+                    name = movies[it]!!.movieName,
                     hasDateAndCountry = true,
-                    date = "23/10/2003",
-                    country = "(Us)"
+                    date = movies[it]!!.movieDate,
+                    country = movies[it]!!.countryOfMovie
                 )
             }
         }
