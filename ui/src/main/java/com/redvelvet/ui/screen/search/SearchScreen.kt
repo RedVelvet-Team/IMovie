@@ -10,12 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.redvelvet.ui.composable.CategoriesChips
-import com.redvelvet.ui.composable.CustomLazyGrid
-import com.redvelvet.ui.composable.SearchBox
+import com.redvelvet.ui.R
+import com.redvelvet.ui.composable.MessageView
+import com.redvelvet.ui.composable.PrimaryTextField
 import com.redvelvet.ui.theme.BackgroundPrimary
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
@@ -54,21 +54,31 @@ private fun SearchContent(
             .background(MaterialTheme.color.backgroundPrimary)
             .fillMaxSize()
     ) {
-        SearchBox(
-            query = state.inputText,
-            onChangeQuery = onChangeQuery,
+        PrimaryTextField(
+            onTextChange = onChangeQuery,
+            value = state.inputText,
+            placeHolderText = "What do you want to Watch?",
+            leadingIcon = painterResource(id = R.drawable.icon_search),
+            trailingIcon = painterResource(id = R.drawable.icon_cancel),
             modifier = Modifier.padding(
                 top = MaterialTheme.dimens.dimens36,
                 start = MaterialTheme.spacing.spacing16,
                 end = MaterialTheme.spacing.spacing16
             )
         )
-        CategoriesChips(
-            onChangeCategory,
-            state.selectedMediaType,
-            state.getCategories,
-            title = "Categories"
+        MessageView(
+            messageIcon = painterResource(id = R.drawable.vector_serach),
+            messageTitle = "Search in Movie",
+            messageDescription = "Search for your favorite movies and TV shows that you love.",
         )
-        CustomLazyGrid(searchCardUiStates = state.searchResult.collectAsLazyPagingItems())
+
+//        CategoriesChips(
+//            onChangeCategory,
+//            state.selectedMediaType,
+//            state.getCategories,
+//            title = "Categories"
+//        )
+//
+//        CustomLazyGrid(searchCardUiStates = state.searchResult.collectAsLazyPagingItems())
     }
 }

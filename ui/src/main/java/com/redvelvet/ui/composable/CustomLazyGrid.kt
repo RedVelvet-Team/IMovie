@@ -1,6 +1,5 @@
 package com.redvelvet.ui.composable
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -38,9 +37,8 @@ fun CustomLazyGrid(
     ) {
         items(searchCardUiStates.itemCount) {
             val mediaUiState = searchCardUiStates[it]
-            Log.v("Ibrahim", "ui is ${mediaUiState!!.getFullImage()}")
             ItemBasicCard(
-                imagePainter = rememberAsyncImagePainter(model = mediaUiState.getFullImage()),
+                imagePainter = rememberAsyncImagePainter(model = mediaUiState!!.getFullImage()),
                 hasName = true,
                 name = mediaUiState.name,
                 hasDateAndCountry = !mediaUiState.isPerson(),
