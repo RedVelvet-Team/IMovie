@@ -20,7 +20,7 @@ class OnBoardingViewModel @Inject constructor(
     private fun checkUserIsLoggedIn() {
         tryToExecute(
             execute = checkUserLoggedInUseCase::invoke,
-            onSuccess = ::onCheckedSuccess,
+            onSuccessWithData = ::onCheckedSuccess,
             onError = ::onCheckedError,
         )
     }

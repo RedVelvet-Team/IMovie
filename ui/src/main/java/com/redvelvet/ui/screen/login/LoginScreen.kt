@@ -39,7 +39,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
@@ -48,7 +47,6 @@ import com.redvelvet.ui.composable.PrimaryOutlinedButton
 import com.redvelvet.ui.composable.PrimaryTextField
 import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.home.navigateToHome
-import com.redvelvet.ui.screen.signup.navigateToSignUp
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
@@ -78,14 +76,6 @@ fun LoginScreen(
                         inclusive = true
                     }
                     popUpTo(MovieDestination.OnBoarding.route) {
-                        inclusive = true
-                    }
-                }
-            }
-
-            is LoginUiEffect.NavigateToSignUpScreen -> {
-                navController.navigateToSignUp {
-                    popUpTo(navController.graph.findStartDestination().id) {
                         inclusive = true
                     }
                 }
@@ -197,7 +187,7 @@ private fun LoginContentPortrait(
             ),
             leadingIcon = painterResource(id = R.drawable.icon_password),
             trailingIcon = painterResource(iconPassword),
-            onClickTrailingIcon = { interaction.interactionEyeIconClick() },
+            onClickTrailingIcon = { interaction.onClickEyeIcon() },
             isPassword = true,
             isPasswordVisible = uiState.isPasswordVisible,
             isError = uiState.isPasswordEmpty,
@@ -216,7 +206,7 @@ private fun LoginContentPortrait(
 
             )
         PrimaryButton(
-            onClick = { interaction.interactionLoginButtonClick() },
+            onClick = { interaction.onClickLogin() },
             enabled = !uiState.isLoading,
             text = "login",
         )
@@ -242,7 +232,7 @@ private fun LoginContentPortrait(
             )
         }
         PrimaryOutlinedButton(
-            onClick = { interaction.interactionGuestButtonClick() },
+            onClick = { interaction.onClickGuest() },
             enabled = !uiState.isLoading,
             border = BorderStroke(
                 width = MaterialTheme.dimens.dimens1, color = MaterialTheme.color.brand100
@@ -301,7 +291,7 @@ private fun LoginContentLandscape(
             leadingIcon = painterResource(id = R.drawable.icon_password),
             trailingIcon = painterResource(iconPassword),
             isPasswordVisible = uiState.isPasswordVisible,
-            onClickTrailingIcon = { interaction.interactionEyeIconClick() },
+            onClickTrailingIcon = { interaction.onClickEyeIcon() },
             isError = uiState.isPasswordEmpty,
             placeHolderText = "Password",
             errorMessage = "Invalid Password",
@@ -312,7 +302,7 @@ private fun LoginContentLandscape(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = MaterialTheme.spacing.spacing16),
-            onClick = { interaction.interactionLoginButtonClick() },
+            onClick = { interaction.onClickLogin() },
             enabled = !uiState.isLoading,
             text = "login",
         )
@@ -320,7 +310,7 @@ private fun LoginContentLandscape(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = MaterialTheme.spacing.spacing12),
-            onClick = { interaction.interactionGuestButtonClick() },
+            onClick = { interaction.onClickGuest() },
             enabled = !uiState.isLoading,
             border = BorderStroke(
                 width = MaterialTheme.dimens.dimens1, color = MaterialTheme.color.brand100

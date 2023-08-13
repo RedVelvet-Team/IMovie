@@ -4,9 +4,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import com.redvelvet.datastore.util.PreferencesKeys
+import com.redvelvet.datastore.util.get
 import com.redvelvet.repository.source.UserPreferencesDataSource
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class UserDataStoreDataSource @Inject constructor(
@@ -20,7 +19,7 @@ class UserDataStoreDataSource @Inject constructor(
     }
 
     override suspend fun getIsLoggedInByAccount(): Boolean {
-        return dataStore.data.first()[PreferencesKeys.IsLoggedByAccount] ?: false
+        return dataStore.get()[PreferencesKeys.IsLoggedByAccount] ?: false
     }
 
     override suspend fun setIsLoggedInByGuest(isLogged: Boolean) {
@@ -30,7 +29,7 @@ class UserDataStoreDataSource @Inject constructor(
     }
 
     override suspend fun getIsLoggedInByGuest(): Boolean {
-        return dataStore.data.first()[PreferencesKeys.IsLoggedByGuest] ?: false
+        return dataStore.get()[PreferencesKeys.IsLoggedByGuest] ?: false
     }
     //endregion
 
@@ -41,8 +40,8 @@ class UserDataStoreDataSource @Inject constructor(
         }
     }
 
-    override fun getUserSessionId(): String? {
-        return runBlocking { dataStore.data.first()[PreferencesKeys.SessionId] }
+    override suspend fun getUserSessionId(): String? {
+        return dataStore.get()[PreferencesKeys.SessionId]
     }
 
     override suspend fun setGuestSession(id: String, expDate: String) {
@@ -52,28 +51,12 @@ class UserDataStoreDataSource @Inject constructor(
         }
     }
 
-    override fun getGuestSessionId(): String? {
-        return runBlocking {
-            dataStore.data.first()[PreferencesKeys.GuestSessionId]
-        }
+    override suspend fun getGuestSessionId(): String? {
+        return dataStore.get()[PreferencesKeys.GuestSessionId]
     }
 
-    override fun getGuestSessionExpDate(): String? {
-        return runBlocking {
-            dataStore.data.first()[PreferencesKeys.GuestSessionExpDate]
-        }
-    }
-
-    override suspend fun setToken(token: String) {
-        dataStore.edit { preferences ->
-            preferences[PreferencesKeys.Token] = token
-        }
-    }
-
-    override suspend fun getToken(): String? {
-        return runBlocking {
-            dataStore.data.first()[PreferencesKeys.Token]
-        }
+    override suspend fun getGuestSessionExpDate(): String? {
+        return dataStore.get()[PreferencesKeys.GuestSessionExpDate]
     }
     //endregion
 }

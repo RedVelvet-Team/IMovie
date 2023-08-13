@@ -12,16 +12,12 @@ interface UserPreferencesDataSource {
     // region auth
     suspend fun setUserSessionId(id: String)
 
-    fun getUserSessionId(): String?
+    suspend fun getUserSessionId(): String?
 
     suspend fun setGuestSession(id: String, expDate: String)
 
-    fun getGuestSessionId(): String?
+    suspend fun getGuestSessionId(): String?
 
-    fun getGuestSessionExpDate(): String?
-
-    suspend fun setToken(token: String)
-
-    suspend fun getToken(): String?
+    suspend fun getGuestSessionExpDate(): String?
     //endregion
 }

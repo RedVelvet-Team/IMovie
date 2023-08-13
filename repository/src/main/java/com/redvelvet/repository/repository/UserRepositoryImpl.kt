@@ -12,9 +12,7 @@ class UserRepositoryImpl @Inject constructor(
         userPreferencesDataSource.getIsLoggedInByAccount()
 
     override suspend fun getIsLoggedInByGuest() = userPreferencesDataSource.getIsLoggedInByGuest()
-    //endregion
 
-    //region user info
     override suspend fun getGuestSessionIdFromLocal(): String {
         return userPreferencesDataSource.getGuestSessionId().toString()
     }
@@ -23,7 +21,7 @@ class UserRepositoryImpl @Inject constructor(
         return userPreferencesDataSource.getGuestSessionExpDate().toString()
     }
 
-    override suspend fun getUserSessionId(): String {
+    override suspend fun getUserSessionIdFromLocal(): String {
         return userPreferencesDataSource.getUserSessionId().toString()
     }
     //endregion
