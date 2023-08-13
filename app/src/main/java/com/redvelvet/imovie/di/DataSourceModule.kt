@@ -1,13 +1,13 @@
 package com.redvelvet.imovie.di
 
-import com.redvelvet.datastore.DataStoreDataSourceImpl
-import com.redvelvet.firebase.FirebaseDataSourceImp
-import com.redvelvet.local.source.LocalDataSourceImp
-import com.redvelvet.remote.source.RemoteDataSourceImp
-import com.redvelvet.repository.source.DataStoreDataSource
-import com.redvelvet.repository.source.FirebaseDataSource
+import com.redvelvet.datastore.UserDataStoreDataSource
+import com.redvelvet.firebase.FirebaseDataSource
+import com.redvelvet.local.source.RoomDatabaseDataSource
+import com.redvelvet.remote.source.RetrofitDataSource
 import com.redvelvet.repository.source.LocalDataSource
+import com.redvelvet.repository.source.RealTimeDataSource
 import com.redvelvet.repository.source.RemoteDataSource
+import com.redvelvet.repository.source.UserPreferencesDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -20,24 +20,24 @@ abstract class DataSourceModule {
     @Singleton
     @Binds
     abstract fun bindLocalDataSource(
-        localDataSourceImp: LocalDataSourceImp
+        roomDatabaseDataSource: RoomDatabaseDataSource
     ): LocalDataSource
 
     @Singleton
     @Binds
     abstract fun bindFirebaseDataSource(
-        firebaseDataSourceImp: FirebaseDataSourceImp
-    ): FirebaseDataSource
+        firebaseDataSource: FirebaseDataSource
+    ): RealTimeDataSource
 
     @Singleton
     @Binds
     abstract fun bindRemoteDataSource(
-        remoteDataSourceImp: RemoteDataSourceImp
+        retrofitDataSource: RetrofitDataSource
     ): RemoteDataSource
 
     @Singleton
     @Binds
     abstract fun bindDataSourceDataSource(
-        dataStoreDataSourceImpl: DataStoreDataSourceImpl
-    ): DataStoreDataSource
+        userDataStoreDataSource: UserDataStoreDataSource
+    ): UserPreferencesDataSource
 }

@@ -43,6 +43,7 @@ object Deps {
     private val hiltWorkerVersion = "1.0.0"
     private val dagger2Version = "2.46.1"
     private val googleServiceAuthVersion = "20.6.0"
+    private val pagingCommonVersion = "3.2.0"
 
     // data store
     val dataStore = "androidx.datastore:datastore-preferences:$dataStoreVersion"
@@ -143,6 +144,7 @@ object Deps {
     //noinspection GradleDependency
     val pagingRuntime = "androidx.paging:paging-runtime-ktx:$pagingRuntimeVersion"
     val pagingCompose = "androidx.paging:paging-compose:$pagingComposeVersion"
+    val pagingCommon = "androidx.paging:paging-common-ktx:$pagingCommonVersion"
 
     // Room
     val roomRuntime = "androidx.room:room-runtime:$roomVersion"

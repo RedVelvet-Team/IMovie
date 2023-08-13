@@ -15,7 +15,8 @@ dependencies {
     api(project(":entities"))
     //dagger
     implementation(Deps.dagger)
-    implementation("androidx.paging:paging-common-ktx:3.2.0")
+    //paging
+    implementation(Deps.pagingCommon)
     //test
     testImplementation(Deps.testng)
 }

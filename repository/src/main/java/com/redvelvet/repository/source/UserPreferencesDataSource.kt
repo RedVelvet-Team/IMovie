@@ -1,6 +1,6 @@
 package com.redvelvet.repository.source
 
-interface DataStoreDataSource {
+interface UserPreferencesDataSource {
     // region user
     suspend fun setIsLoggedInByAccount(isLogged: Boolean)
     suspend fun getIsLoggedInByAccount(): Boolean

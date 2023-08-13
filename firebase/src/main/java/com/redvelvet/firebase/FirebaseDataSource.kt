@@ -2,13 +2,13 @@ package com.redvelvet.firebase
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.redvelvet.repository.source.FirebaseDataSource
+import com.redvelvet.repository.source.RealTimeDataSource
 import javax.inject.Inject
 
 
-class FirebaseDataSourceImp @Inject constructor(
+class FirebaseDataSource @Inject constructor(
     private val fireStore: FirebaseFirestore,
     private val auth: FirebaseAuth
-) : FirebaseDataSource {
+) : RealTimeDataSource {
 
 }

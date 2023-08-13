@@ -20,7 +20,7 @@ import retrofit2.Response
 import java.net.UnknownHostException
 import javax.inject.Inject
 
-class RemoteDataSourceImp @Inject constructor(
+class RetrofitDataSource @Inject constructor(
     private val movieApiService: MovieApiService,
 ) : RemoteDataSource {
 

@@ -6,14 +6,14 @@ import com.redvelvet.entities.auth.Token
 import com.redvelvet.repository.mapper.toGuest
 import com.redvelvet.repository.mapper.toSession
 import com.redvelvet.repository.mapper.toToken
-import com.redvelvet.repository.source.DataStoreDataSource
 import com.redvelvet.repository.source.RemoteDataSource
+import com.redvelvet.repository.source.UserPreferencesDataSource
 import com.redvelvet.usecase.repository.AuthRepository
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
-    private val dataStoreDataSource: DataStoreDataSource,
+    private val userPreferencesDataSource: UserPreferencesDataSource,
 ) : BaseRepository(), AuthRepository {
     //region auth
     override suspend fun createGuestSession(): Guest {
@@ -29,7 +29,7 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     private suspend fun saveGuestSession(id: String, expDate: String) {
-        dataStoreDataSource.setGuestSession(id, expDate)
+        userPreferencesDataSource.setGuestSession(id, expDate)
     }
 
 
@@ -66,7 +66,7 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     private suspend fun saveUserSessionId(id: String) {
-        dataStoreDataSource.setUserSessionId(id = id)
+        userPreferencesDataSource.setUserSessionId(id = id)
     }
 
 
@@ -80,12 +80,12 @@ class AuthRepositoryImpl @Inject constructor(
 
 
     private suspend fun setIsLoggedInByGuest(isLogged: Boolean) {
-        dataStoreDataSource.setIsLoggedInByGuest(isLogged)
+        userPreferencesDataSource.setIsLoggedInByGuest(isLogged)
     }
 
 
     private suspend fun setIsLoggedInByAccount(isLogged: Boolean) {
-        dataStoreDataSource.setIsLoggedInByAccount(isLogged)
+        userPreferencesDataSource.setIsLoggedInByAccount(isLogged)
     }
     //endregion
 }

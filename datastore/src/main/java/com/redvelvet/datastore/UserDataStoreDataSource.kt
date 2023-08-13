@@ -4,14 +4,14 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import com.redvelvet.datastore.util.PreferencesKeys
-import com.redvelvet.repository.source.DataStoreDataSource
+import com.redvelvet.repository.source.UserPreferencesDataSource
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
-class DataStoreDataSourceImpl @Inject constructor(
+class UserDataStoreDataSource @Inject constructor(
     private val dataStore: DataStore<Preferences>,
-) : DataStoreDataSource {
+) : UserPreferencesDataSource {
     // region user
     override suspend fun setIsLoggedInByAccount(isLogged: Boolean) {
         dataStore.edit { preferences ->
