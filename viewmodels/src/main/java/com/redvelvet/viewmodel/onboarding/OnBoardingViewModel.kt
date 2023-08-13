@@ -12,6 +12,7 @@ class OnBoardingViewModel @Inject constructor(
     private val checkUserLoggedInUseCase: CheckUserLoggedInUseCase,
 ) : BaseViewModel<OnBoardingUiState, OnBoardingUiEffect>(OnBoardingUiState()),
     OnBoardingInteractions {
+
     init {
         checkUserIsLoggedIn()
     }

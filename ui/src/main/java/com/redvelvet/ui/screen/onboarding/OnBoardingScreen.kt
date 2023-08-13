@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,10 +29,11 @@ import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
-import com.redvelvet.ui.util.launchCollectLatest
 import com.redvelvet.viewmodel.onboarding.OnBoardingInteractions
 import com.redvelvet.viewmodel.onboarding.OnBoardingUiEffect
 import com.redvelvet.viewmodel.onboarding.OnBoardingViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Composable
 fun OnBoardingScreen(
@@ -43,21 +45,40 @@ fun OnBoardingScreen(
         MaterialTheme.color.backgroundPrimary, darkIcons = false
     )
     val scope = rememberCoroutineScope()
-    scope.launchCollectLatest(viewModel.effect) { effect ->
-        when (effect) {
-            is OnBoardingUiEffect.NavigateToLoginScreen -> {
-                navController.navigateToLogin()
-            }
+    LaunchedEffect(key1 = Unit) {
+        scope.launch {
+            viewModel.effect.collectLatest { effect ->
+                when (effect) {
+                    is OnBoardingUiEffect.NavigateToLoginScreen -> {
+                        navController.navigateToLogin()
+                    }
 
-            is OnBoardingUiEffect.NavigateToSignUpScreen -> {
-                navController.navigateToSignUp()
-            }
+                    is OnBoardingUiEffect.NavigateToSignUpScreen -> {
+                        navController.navigateToSignUp()
+                    }
 
-            is OnBoardingUiEffect.NavigateToHomeScreen -> {
-                navController.navigateToHome()
+                    is OnBoardingUiEffect.NavigateToHomeScreen -> {
+                        navController.navigateToHome()
+                    }
+                }
             }
         }
     }
+//    scope.launchCollectLatest(viewModel.effect) { effect ->
+//        when (effect) {
+//            is OnBoardingUiEffect.NavigateToLoginScreen -> {
+//                navController.navigateToLogin()
+//            }
+//
+//            is OnBoardingUiEffect.NavigateToSignUpScreen -> {
+//                navController.navigateToSignUp()
+//            }
+//
+//            is OnBoardingUiEffect.NavigateToHomeScreen -> {
+//                navController.navigateToHome()
+//            }
+//        }
+//    }
     OnBoardingContent(interaction = viewModel)
 }
 
