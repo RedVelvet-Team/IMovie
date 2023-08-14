@@ -1,5 +1,11 @@
 package com.redvelvet.remote.source
 
+import com.redvelvet.entities.error.BadRequestException
+import com.redvelvet.entities.error.NoInternetException
+import com.redvelvet.entities.error.NotFoundException
+import com.redvelvet.entities.error.NullResultException
+import com.redvelvet.entities.error.ServerException
+import com.redvelvet.entities.error.ValidationException
 import com.redvelvet.remote.service.MovieApiService
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
@@ -10,12 +16,6 @@ import com.redvelvet.repository.dto.person.PersonDto
 import com.redvelvet.repository.dto.search.MultiSearchResultDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.source.RemoteDataSource
-import com.redvelvet.repository.util.BadRequestException
-import com.redvelvet.repository.util.NoInternetException
-import com.redvelvet.repository.util.NotFoundException
-import com.redvelvet.repository.util.NullResultException
-import com.redvelvet.repository.util.ServerException
-import com.redvelvet.repository.util.ValidationException
 import retrofit2.Response
 import java.net.UnknownHostException
 import javax.inject.Inject

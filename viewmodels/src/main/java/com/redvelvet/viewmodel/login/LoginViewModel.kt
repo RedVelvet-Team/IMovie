@@ -44,7 +44,7 @@ class LoginViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isLoading = false,
-                error = "error",
+                error = error,
             )
         }
         sendUiEffect(LoginUiEffect.ShowToastError)
@@ -84,7 +84,7 @@ class LoginViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isLoading = false,
-                error = "",
+                error = error,
             )
         }
         sendUiEffect(LoginUiEffect.ShowToastError)
