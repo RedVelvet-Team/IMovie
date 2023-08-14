@@ -36,7 +36,7 @@ fun PrimaryTextField(
     trailingIcon: Painter? = null,
     iconTint: Color = MaterialTheme.color.fontSecondary,
     textColor: Color = MaterialTheme.color.fontSecondary,
-    placeHolderColor: Color = MaterialTheme.color.fontSecondary
+    placeHolderColor: Color = MaterialTheme.color.fontSecondary,
 ) {
     TextField(
         value = value,

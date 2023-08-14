@@ -1,4 +1,4 @@
-package com.redvelvet.ui.screen.signup
+package com.redvelvet.ui.screen.forgot_password
 
 import android.annotation.SuppressLint
 import android.widget.Toast
@@ -10,38 +10,32 @@ import androidx.compose.ui.platform.LocalContext
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.FilxTopAppBar
 import com.redvelvet.ui.composable.WebViewWithListener
-import com.redvelvet.ui.navigation.MovieDestination
-import com.redvelvet.ui.screen.login.navigateToLogin
 import com.redvelvet.ui.util.MovieWebViewUrls
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun SignUpScreen() {
+fun ForgotPasswordScreen() {
     val navController = LocalNavController.current
     val context = LocalContext.current
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
-            FilxTopAppBar("Sign Up", hasBackArrow = true)
+            FilxTopAppBar("Forgot Password", hasBackArrow = true)
         }
     ) {
-        SignUpContent {
-            Toast.makeText(context, "Account has been created", Toast.LENGTH_SHORT)
+        ForgotPasswordContent {
+            Toast.makeText(context, "Password has been restored", Toast.LENGTH_SHORT)
                 .show()
-            navController.navigateToLogin {
-                popUpTo(MovieDestination.SignUp.route) {
-                    inclusive = true
-                }
-            }
+            navController.popBackStack()
         }
     }
 }
 
 @Composable
-private fun SignUpContent(
-    onSuccess: () -> Unit
+private fun ForgotPasswordContent(
+    onSuccess: () -> Unit,
 ) {
     WebViewWithListener(
-        url = MovieWebViewUrls.SIGNUP,
+        url = MovieWebViewUrls.RESET_PASSWORD,
         successUrlLink = MovieWebViewUrls.CREATED_ACCOUNT_SUCCESS_URL
     ) {
         onSuccess()

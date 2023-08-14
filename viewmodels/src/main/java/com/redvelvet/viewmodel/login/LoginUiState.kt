@@ -10,5 +10,5 @@ data class LoginUiState(
     val isPasswordEmpty: Boolean = false,
     val isPasswordVisible: Boolean = false,
     val isLoading: Boolean = false,
-    val isError: String? = null,
+    val error: String? = null,
 ) : BaseUiState

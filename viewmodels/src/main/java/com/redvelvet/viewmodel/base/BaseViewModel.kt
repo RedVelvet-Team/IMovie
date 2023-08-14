@@ -22,19 +22,21 @@ abstract class BaseViewModel<UiState : BaseUiState, UiEffect>(state: UiState) :
     protected val _state = MutableStateFlow(state)
     val state = _state.asStateFlow()
 
-    protected val _effect = MutableSharedFlow<UiEffect>()
+    private val _effect = MutableSharedFlow<UiEffect>()
     val effect = _effect.asSharedFlow()
 
     fun <T> tryToExecute(
         execute: suspend () -> T,
-        onSuccess: (T) -> Unit,
+        onSuccessWithData: (T) -> Unit = {},
+        onSuccessWithoutData: () -> Unit = {},
         onError: (error: ErrorUiState) -> Unit,
         dispatcher: CoroutineDispatcher = Dispatchers.IO
     ) {
         viewModelScope.launch(dispatcher) {
             try {
                 val result = execute()
-                onSuccess(result)
+                onSuccessWithData(result)
+                onSuccessWithoutData()
             } catch (e: ValidationError) {
                 onError(InvalidationErrorState())
             } catch (e: NullResultError) {
