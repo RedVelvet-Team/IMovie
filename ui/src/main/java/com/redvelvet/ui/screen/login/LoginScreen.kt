@@ -88,7 +88,7 @@ fun LoginScreen(
 
                 is LoginUiEffect.ShowToastError -> {
                     uiState.error?.let { error ->
-//                        Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
                     }
                 }
 
