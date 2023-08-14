@@ -6,7 +6,7 @@ import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
 import com.redvelvet.repository.dto.movie.MovieDto
-import com.redvelvet.repository.dto.person.PersonDto
+import com.redvelvet.repository.dto.person.ActorDto
 import com.redvelvet.repository.dto.search.MultiSearchResultDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.source.RemoteDataSource
@@ -71,7 +71,7 @@ class RetrofitDataSource @Inject constructor(
         return wrapApiResponse { movieApiService.multiSearch(query, page) }.result.orEmpty()
     }
 
-    override suspend fun searchPeople(query: String, page: Int?): List<PersonDto> {
+    override suspend fun searchPeople(query: String, page: Int?): List<ActorDto> {
         return wrapApiResponse { movieApiService.searchPeople(query, page) }.result.orEmpty()
     }
 
@@ -81,6 +81,10 @@ class RetrofitDataSource @Inject constructor(
 
     override suspend fun searchTvShows(query: String, page: Int?): List<TvShowDto> {
         return wrapApiResponse { movieApiService.searchTvShows(query, page) }.result.orEmpty()
+    }
+
+    override suspend fun getActorDetails(id: Int): ActorDto {
+        return wrapApiResponse { movieApiService.getActorDetails(id) }
     }
 
     // endregion

@@ -7,7 +7,7 @@ import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
 import com.redvelvet.repository.dto.movie.MovieDto
-import com.redvelvet.repository.dto.person.PersonDto
+import com.redvelvet.repository.dto.person.ActorDto
 import com.redvelvet.repository.dto.search.MultiSearchResultDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
 import retrofit2.Response
@@ -17,6 +17,7 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.HTTP
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MovieApiService {
@@ -50,7 +51,7 @@ interface MovieApiService {
     suspend fun searchPeople(
         @Query("query") query: String,
         @Query("page") page: Int? = 1,
-    ): Response<BaseResponse<List<PersonDto>>>
+    ): Response<BaseResponse<List<ActorDto>>>
 
     @GET("search/movie")
     suspend fun searchMovie(
@@ -63,4 +64,9 @@ interface MovieApiService {
         @Query("query") query: String,
         @Query("page") page: Int? = 1,
     ): Response<BaseResponse<List<TvShowDto>>>
+
+    @GET("person/{person_id}")
+    suspend fun getActorDetails(
+        @Path("person_id") id: Int
+    ): Response<ActorDto>
 }
