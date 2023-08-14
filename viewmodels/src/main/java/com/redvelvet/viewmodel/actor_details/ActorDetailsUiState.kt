@@ -6,10 +6,12 @@ import com.redvelvet.viewmodel.base.ErrorUiState
 data class ActorDetailsUiState(
     val isLoading: Boolean = true,
     val error: ErrorUiState? = null,
+    val id: Int = 0,
     val name: String = "",
-    val gender: String = "",
-    val bornDate: String = "",
-    val bornLocation: String = "",
+    val imageUrl: String = "",
+    val knownForDepartment: String = "",
+    val birthDate: String = "",
+    val birthLocation: String = "",
     val knownAs: String = "",
     val knownFor: List<KnownForUiState> = emptyList(),
     val biography: String = ""
