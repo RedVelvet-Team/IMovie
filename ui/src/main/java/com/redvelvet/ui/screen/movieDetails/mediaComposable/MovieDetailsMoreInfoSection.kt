@@ -20,7 +20,11 @@ fun MovieDetailsMoreInfoSection(
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.Start,
-        modifier = Modifier.padding(horizontal = MaterialTheme.spacing.spacing16)
+        modifier = Modifier.padding(
+            start = MaterialTheme.spacing.spacing16,
+            end = MaterialTheme.spacing.spacing16,
+            bottom = MaterialTheme.spacing.spacing24,
+        )
     ) {
         LabeledValueVertical("Status", it.status)
         SpacerVertical(height = MaterialTheme.spacing.spacing8)

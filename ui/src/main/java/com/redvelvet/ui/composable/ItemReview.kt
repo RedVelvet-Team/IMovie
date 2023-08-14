@@ -1,5 +1,6 @@
 package com.redvelvet.ui.composable
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -19,16 +20,19 @@ import com.redvelvet.ui.theme.spacing
 /// implemented by haidy
 @Composable
 fun ItemReview(
+    id: String,
     name: String,
     rating: Double,
     date: String,
     content: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: (id: String) -> Unit = {}
+
 ) {
     Card(
         colors = CardDefaults.cardColors(containerColor = Secondary),
         shape = RoundedCornerShape(MaterialTheme.radius.radius16),
-        modifier = modifier
+        modifier = modifier.clickable { onClick(id) }
     ) {
         NameWithRatingRow(
             name = "Written by ".plus(name).plus(" "),

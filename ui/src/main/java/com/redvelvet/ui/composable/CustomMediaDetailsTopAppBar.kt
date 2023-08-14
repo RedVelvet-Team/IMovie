@@ -9,14 +9,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.Primary
+import com.redvelvet.ui.theme.spacing
 
 @Composable
 fun CustomMediaDetailsTopAppBar(
@@ -31,8 +34,17 @@ fun CustomMediaDetailsTopAppBar(
             .fillMaxWidth()
             .height(48.dp)
             .background(background)
+            .let {
+                if (isScrolled) it.drawBehind {
+                    drawLine(
+                        color = Color(0x15ffffff),
+                        start = Offset(0f, size.height - 1f),
+                        end = Offset(size.width, size.height - 1f),
+                        strokeWidth = 1.dp.toPx()
+                    )
+                } else it
+            }
             .padding(horizontal = 16.dp, vertical = 12.dp)
-            .shadow(if (isScrolled) 3.dp else 0.dp, ambientColor = Color(0x15ffffff))
     ) {
 
         Icon(
@@ -48,7 +60,7 @@ fun CustomMediaDetailsTopAppBar(
             modifier = Modifier.clickable { onFavoriteClicked() },
             tint = Color.White
         )
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.width(MaterialTheme.spacing.spacing24))
         Icon(
             painter = painterResource(id = R.drawable.icon_save),
             contentDescription = "Save",

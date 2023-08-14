@@ -89,7 +89,7 @@ fun MovieDetailsScreen(
                 )
             }
             MediaDetailsForegroundContent(state, viewModel) { offset ->
-                isScrolled = offset > 790
+                isScrolled = offset > 1000
             }
             CustomMediaDetailsTopAppBar(
                 onBackClicked = { /* Handle back clicked */ },

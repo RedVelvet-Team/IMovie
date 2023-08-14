@@ -25,19 +25,27 @@ fun MediaInfoCard(
     data: MediaInfoCardData,
     interaction: MovieDetailsInteraction,
 ) {
-    Row {
+    Row(
+        modifier = Modifier
+            .padding(bottom = MaterialTheme.spacing.spacing24)
+    ) {
         ItemBasicCard(
             imagePainter = rememberAsyncImagePainter(model = data.posterPath),
             hasName = false,
             hasDateAndCountry = false,
-            modifier = Modifier.width(MaterialTheme.dimens.dimens104)
-            .height(MaterialTheme.dimens.dimens130),
+            modifier = Modifier
+                .width(MaterialTheme.dimens.dimens104)
+                .height(MaterialTheme.dimens.dimens130),
+            isMediaInfoCard = true
         )
         SpacerHorizontal(width = MaterialTheme.spacing.spacing12)
         Column {
             Box(
                 modifier = Modifier
-                    .padding(end = MaterialTheme.spacing.spacing16)
+                    .padding(
+                        end = MaterialTheme.spacing.spacing16,
+                        bottom = MaterialTheme.spacing.spacing16,
+                    )
             ) {
                 Text(
                     text = data.originalTitle,
@@ -47,8 +55,12 @@ fun MediaInfoCard(
                     overflow = TextOverflow.Ellipsis,
                 )
             }
-            SpacerVertical(height = MaterialTheme.spacing.spacing16)
-            LazyRow {
+            LazyRow(
+                modifier = Modifier
+                    .padding(
+                        bottom = MaterialTheme.spacing.spacing12,
+                    )
+            ) {
                 items(data.genres.size) { index ->
                     GenreButton(
                         genre = data.genres[index],
@@ -56,7 +68,6 @@ fun MediaInfoCard(
                     )
                 }
             }
-            SpacerVertical(height = MaterialTheme.spacing.spacing12)
             Box(
                 modifier = Modifier
                     .padding(end = MaterialTheme.spacing.spacing16)
@@ -64,7 +75,10 @@ fun MediaInfoCard(
             if (data.hasTime) {
                 Box(
                     modifier = Modifier
-                        .padding(end = MaterialTheme.spacing.spacing16)
+                        .padding(
+                            end = MaterialTheme.spacing.spacing16,
+                            bottom = MaterialTheme.spacing.spacing8
+                        )
                 ) {
                     LabeledValueHorizontal(
                         movieTime = data.movieTime,
@@ -72,12 +86,14 @@ fun MediaInfoCard(
                         iconDescription = R.string.media_date,
                     )
                 }
-                SpacerVertical(height = MaterialTheme.spacing.spacing8)
             }
             if (data.hasDate) {
                 Box(
                     modifier = Modifier
-                        .padding(end = MaterialTheme.spacing.spacing16)
+                        .padding(
+                            end = MaterialTheme.spacing.spacing16,
+                            bottom = MaterialTheme.spacing.spacing16
+                        )
                 ) {
                     LabeledValueHorizontal(
                         movieTime = data.seriesDate,
@@ -85,9 +101,7 @@ fun MediaInfoCard(
                         iconDescription = R.string.media_time
                     )
                 }
-                SpacerVertical(height = MaterialTheme.spacing.spacing8)
             }
-            SpacerVertical(height = MaterialTheme.spacing.spacing8)
             Box(
                 modifier = Modifier
                     .padding(end = MaterialTheme.spacing.spacing16)

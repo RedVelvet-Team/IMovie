@@ -34,7 +34,10 @@ fun KeyWordsSection(
             horizontal = MaterialTheme.spacing.spacing16,
         ),
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(
+                bottom = MaterialTheme.spacing.spacing24,
+            ),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),
     ) {
         items(it.size) { it2 ->

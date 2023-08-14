@@ -3,6 +3,7 @@ package com.redvelvet.ui.composable
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,17 +21,21 @@ import com.redvelvet.ui.theme.spacing
 
 @Composable
 fun MediaRateRow(mediaRate: String, onRateMedia: () -> Unit) {
-    Row {
+    Row(
+        modifier = Modifier
+            .padding(bottom = MaterialTheme.spacing.spacing24)
+    ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.padding(end = MaterialTheme.spacing.spacing16)
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.rated_star),
                 contentDescription = stringResource(R.string.rated_star),
-                tint = RateStarColor
+                tint = RateStarColor,
+                modifier = Modifier.padding(end = MaterialTheme.spacing.spacing4)
             )
-            SpacerHorizontal(width = MaterialTheme.spacing.spacing4)
             Row {
                 BodyMediumText("$mediaRate/")
                 Text(
@@ -41,7 +46,6 @@ fun MediaRateRow(mediaRate: String, onRateMedia: () -> Unit) {
                 BodyMediumText(" Rating")
             }
         }
-        SpacerHorizontal(width = MaterialTheme.spacing.spacing16)
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
@@ -51,9 +55,9 @@ fun MediaRateRow(mediaRate: String, onRateMedia: () -> Unit) {
             Icon(
                 painter = painterResource(id = R.drawable.rate_action_star),
                 contentDescription = stringResource(R.string.rated_star),
-                tint = RateStarColor
+                tint = RateStarColor,
+                modifier = Modifier.padding(end = MaterialTheme.spacing.spacing4)
             )
-            SpacerHorizontal(width = MaterialTheme.spacing.spacing4)
             BodyMediumText("Rate This")
         }
     }
