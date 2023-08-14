@@ -20,7 +20,7 @@ class LoginViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isLoading = true,
-                isError = null,
+                error = null,
             )
         }
         tryToExecute(
@@ -34,7 +34,7 @@ class LoginViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isLoading = false,
-                isError = null,
+                error = null,
             )
         }
         sendUiEffect(LoginUiEffect.NavigateTomHomeScreen)
@@ -44,9 +44,10 @@ class LoginViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isLoading = false,
-                isError = "error",
+                error = "error",
             )
         }
+        sendUiEffect(LoginUiEffect.ShowToastError)
     }
     //endregion
 
@@ -56,7 +57,7 @@ class LoginViewModel @Inject constructor(
             _state.update {
                 it.copy(
                     isLoading = true,
-                    isError = null,
+                    error = null,
                 )
             }
             tryToExecute(
@@ -73,7 +74,7 @@ class LoginViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isLoading = false,
-                isError = null,
+                error = null,
             )
         }
         sendUiEffect(LoginUiEffect.NavigateTomHomeScreen)
@@ -83,9 +84,10 @@ class LoginViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isLoading = false,
-                isError = "",
+                error = "",
             )
         }
+        sendUiEffect(LoginUiEffect.ShowToastError)
     }
     //endregion
 
@@ -147,7 +149,7 @@ class LoginViewModel @Inject constructor(
                 userName = userName,
                 isUserNameEmpty = false,
                 isLoading = false,
-                isError = null
+                error = null
             )
         }
     }
@@ -157,14 +159,19 @@ class LoginViewModel @Inject constructor(
             it.copy(
                 password = password,
                 isLoading = false,
-                isError = null,
+                error = null,
                 isPasswordEmpty = false
             )
         }
     }
 
     override fun onClickEyeIcon() {
-        _state.update { it.copy(isPasswordVisible = !it.isPasswordVisible) }
+        _state.update {
+            it.copy(
+                isPasswordVisible = !it.isPasswordVisible,
+                error = null
+            )
+        }
     }
     //endregion
 }

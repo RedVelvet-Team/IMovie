@@ -13,7 +13,7 @@ class AuthRepositoryImpl @Inject constructor(
 
     //region guest
     override suspend fun loginByGuest() {
-        return wrapRemoteResponse {
+        wrapRemoteResponse {
             remoteDataSource.createGuestSession().also { guest ->
                 saveGuestSession(
                     id = guest.guestSessionId.toString(),
@@ -52,7 +52,7 @@ class AuthRepositoryImpl @Inject constructor(
 
     //region session
     override suspend fun loginByAccount(userName: String, password: String) {
-        return wrapRemoteResponse {
+        wrapRemoteResponse {
             val token = validateTokenWithLogin(userName, password)
             remoteDataSource.createUserSession(token).also { session ->
                 saveUserSessionId(session.sessionId.toString())
@@ -68,7 +68,7 @@ class AuthRepositoryImpl @Inject constructor(
 
 
     override suspend fun deleteUserSession(sessionId: String) {
-        return wrapRemoteResponse {
+        wrapRemoteResponse {
             remoteDataSource.deleteUserSession(sessionId).also {
                 setIsLoggedInByAccount(false)
             }

@@ -32,7 +32,7 @@ fun PrimaryOutlinedButton(
         color = MaterialTheme.color.brand100
     ),
     enabled: Boolean = true,
-    textColor: Color = MaterialTheme.color.fontSecondary
+    textColor: Color = MaterialTheme.color.fontSecondary,
 ) {
     OutlinedButton(
         onClick = onClick,
@@ -56,6 +56,5 @@ fun PrimaryOutlinedButton(
             style = Typography.headlineMedium,
             color = textColor
         )
-
     }
 }

@@ -4,4 +4,5 @@ import com.redvelvet.viewmodel.base.BaseUiEffect
 
 sealed interface LoginUiEffect : BaseUiEffect {
     data object NavigateTomHomeScreen : LoginUiEffect
+    data object ShowToastError : LoginUiEffect
 }

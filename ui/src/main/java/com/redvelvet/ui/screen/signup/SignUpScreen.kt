@@ -12,11 +12,11 @@ import com.redvelvet.ui.composable.FilxTopAppBar
 import com.redvelvet.ui.composable.WebViewWithListener
 import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.login.navigateToLogin
+import com.redvelvet.ui.util.MovieWebViewUrls
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun SignUpScreen(
-) {
+fun SignUpScreen() {
     val navController = LocalNavController.current
     val context = LocalContext.current
     Scaffold(modifier = Modifier.fillMaxSize(),
@@ -25,8 +25,8 @@ fun SignUpScreen(
         }
     ) {
         WebViewWithListener(
-            url = "https://www.themoviedb.org/signup",
-            successUrlLink = "https://www.themoviedb.org/u/"
+            url = MovieWebViewUrls.SIGNUP,
+            successUrlLink = MovieWebViewUrls.CREATED_ACCOUNT_SUCCESS_URL
         ) {
             Toast.makeText(context, "Account has been created", Toast.LENGTH_SHORT)
                 .show()
