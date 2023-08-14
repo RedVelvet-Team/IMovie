@@ -8,7 +8,7 @@ import com.redvelvet.ui.navigation.MovieDestination
 
 
 fun NavGraphBuilder.forgotPasswordRoute() {
-    composable(route = MovieDestination.SignUp.route) {
+    composable(route = MovieDestination.ForgotPassword.route) {
         ForgotPasswordScreen()
     }
 }
