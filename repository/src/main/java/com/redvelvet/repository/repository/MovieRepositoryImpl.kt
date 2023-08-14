@@ -8,6 +8,7 @@ import com.redvelvet.entities.actor.Actor
 import com.redvelvet.entities.movie.Movie
 import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.entities.tv.TvShow
+import com.redvelvet.repository.mapper.toActor
 import com.redvelvet.repository.pagingSource.ActorSearchPageSource
 import com.redvelvet.repository.pagingSource.MoviesSearchPageSource
 import com.redvelvet.repository.pagingSource.MultiSearchPageSource
@@ -49,6 +50,10 @@ class MovieRepositoryImpl @Inject constructor(
 
     override fun searchTvShows(query: String, page: Int?): Flow<PagingData<TvShow>> {
         return search(query, page, ::TvShowSearchPageSource)
+    }
+
+    override suspend fun getActorDetails(id: Int): Actor {
+        return wrapRemoteResponse { remoteDataSource.getActorDetails(id) }.toActor()
     }
 
     // endregion

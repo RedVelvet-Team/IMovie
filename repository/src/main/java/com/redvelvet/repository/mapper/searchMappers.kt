@@ -5,7 +5,7 @@ import com.redvelvet.entities.movie.Movie
 import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.entities.tv.TvShow
 import com.redvelvet.repository.dto.movie.MovieDto
-import com.redvelvet.repository.dto.person.PersonDto
+import com.redvelvet.repository.dto.person.ActorDto
 import com.redvelvet.repository.dto.search.MultiSearchResultDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
 
@@ -23,12 +23,15 @@ fun MultiSearchResultDto.toSearchResult(): SearchResult {
     )
 }
 
-fun PersonDto.toActor() = Actor(
+fun ActorDto.toActor() = Actor(
     id = id ?: 0,
     name = name.orEmpty(),
     profileImageUrl = profilePath.orEmpty(),
     birthday = birthday.orEmpty(),
-    country = placeOfBirth.orEmpty()
+    placeOfBirth = placeOfBirth.orEmpty(),
+    biography = this.biography.orEmpty(),
+    knownForDepartment = this.knownForDepartment.orEmpty(),
+    alsoKnownAs = this.alsoKnownAs?.joinToString(separator = ", ").orEmpty()
 )
 
 fun MovieDto.toMovie() = Movie(
