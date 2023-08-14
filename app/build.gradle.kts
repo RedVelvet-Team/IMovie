@@ -84,7 +84,6 @@ dependencies {
     //noinspection KaptUsageInsteadOfKsp
     kapt(Deps.roomCompilerKapt)
     implementation(Deps.roomKtx)
-    testImplementation(Deps.roomTesting)
     implementation(Deps.roomPaging)
     //data store
     implementation(Deps.dataStore)
@@ -101,4 +100,5 @@ dependencies {
     implementation(project(":ui"))
     implementation(project(":viewmodels"))
     implementation(project(":usecase"))
+    implementation(project(":datastore"))
 }

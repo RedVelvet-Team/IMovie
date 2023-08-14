@@ -9,5 +9,5 @@ class DeleteUserBySessionIdUseCase @Inject constructor(
     private val userRepository: UserRepository,
 ) {
     suspend operator fun invoke() =
-        authRepository.deleteUserSession(userRepository.getUserSessionId())
+        authRepository.deleteUserSession(userRepository.getUserSessionIdFromLocal())
 }

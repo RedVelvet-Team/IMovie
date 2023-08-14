@@ -14,9 +14,12 @@ data class Spacing(
     val spacing8: Dp = 8.dp,
     val spacing12: Dp = 12.dp,
     val spacing16: Dp = 16.dp,
+    val spacing20: Dp = 20.dp,
     val spacing24: Dp = 24.dp,
+    val spacing28: Dp = 28.dp,
     val spacing32: Dp = 32.dp,
     val spacing40: Dp = 40.dp,
+    val spacing44: Dp = 44.dp,
     val spacing48: Dp = 48.dp,
     val spacing56: Dp = 56.dp,
     val spacing58: Dp = 58.dp,
@@ -25,6 +28,7 @@ data class Spacing(
     val spacing80: Dp = 80.dp,
     val spacing285: Dp = 285.dp,
     val spacing127: Dp = 127.dp,
+    val spacing285: Dp = 285.dp,
 )
 
 val LocalSpacing = compositionLocalOf { Spacing() }

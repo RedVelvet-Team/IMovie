@@ -43,4 +43,6 @@
     <string name="invalid_user_name">Invalid userName</string>
     <string name="invalid_password">Invalid password</string>
     <string name="icon_rating">icon rate</string>
+    <string name="search_icon">search_icon</string>
+    <string name="search_place_holder">What do you want to Watch?</string>
 </resources>

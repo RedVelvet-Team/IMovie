@@ -1,5 +1,6 @@
 package com.redvelvet.ui.composable
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -15,6 +16,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
@@ -22,7 +24,12 @@ import com.redvelvet.ui.theme.spacing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FilxTopAppBar(title: String, hasBackArrow: Boolean, modifier: Modifier = Modifier) {
+fun FilxTopAppBar(
+    title: String,
+    hasBackArrow: Boolean,
+    modifier: Modifier = Modifier
+) {
+    val navController = LocalNavController.current
     Surface(
         modifier = modifier.shadow(
             elevation = MaterialTheme.spacing.spacing2,
@@ -40,28 +47,22 @@ fun FilxTopAppBar(title: String, hasBackArrow: Boolean, modifier: Modifier = Mod
                 )
             },
             navigationIcon = {
-                when (hasBackArrow) {
-                    true -> {
-                        IconButton(onClick = { /* doSomething() */ }) {
-                            Icon(
-                                imageVector = ImageVector.vectorResource(R.drawable.icon_back),
-                                contentDescription = "Localized description",
-                                tint = MaterialTheme.color.fontSecondary
-                            )
-                        }
+                AnimatedVisibility(hasBackArrow) {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(R.drawable.icon_back),
+                            contentDescription = "Localized description",
+                            tint = MaterialTheme.color.fontSecondary
+                        )
                     }
-
-                    false -> {}
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = MaterialTheme.color.backgroundPrimary,
                 titleContentColor = MaterialTheme.color.backgroundOnPrimary,
             ),
-
-            )
+        )
     }
-
 }
 
 @Composable

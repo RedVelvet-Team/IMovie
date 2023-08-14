@@ -1,6 +1,5 @@
 package com.redvelvet.imovie.di
 
-import androidx.work.PeriodicWorkRequestBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore

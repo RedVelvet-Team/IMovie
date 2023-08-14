@@ -39,6 +39,7 @@ android {
 
 dependencies {
     implementation(project(":repository"))
+    // core + testing
     implementation(Deps.coreKtx)
     testImplementation(Deps.junit)
     androidTestImplementation(Deps.junitExt)
@@ -53,9 +54,9 @@ dependencies {
     implementation(Deps.roomKtx)
     testImplementation(Deps.roomTesting)
     implementation(Deps.roomPaging)
-    //data store
-    implementation(Deps.dataStore)
     //paging
     implementation(Deps.pagingRuntime)
     implementation(Deps.pagingCompose)
+    //gson
+    implementation(Deps.gson)
 }
