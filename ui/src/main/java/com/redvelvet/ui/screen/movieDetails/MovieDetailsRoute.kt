@@ -7,9 +7,9 @@ import androidx.navigation.compose.composable
 import com.redvelvet.ui.navigation.MovieDestination
 
 
-fun NavGraphBuilder.movieDetailsRoute(navController: NavController) {
+fun NavGraphBuilder.movieDetailsRoute() {
     composable(route = MovieDestination.MovieDetails.route) {
-        MovieDetailsScreen(navController = navController)
+        MovieDetailsScreen()
     }
 }
 

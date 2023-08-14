@@ -18,6 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.CustomMediaDetailsTopAppBar
 import com.redvelvet.ui.composable.LoadingState
 import com.redvelvet.ui.screen.movieDetails.mediaComposable.MediaDetailsBackgroundContent
@@ -36,17 +37,17 @@ import kotlinx.coroutines.launch
 )
 @Composable
 fun PreviewMovieDetailsScreen() {
-    MovieDetailsScreen(rememberNavController())
+    MovieDetailsScreen()
 
 }
 
 
 @Composable
 fun MovieDetailsScreen(
-    navController: NavController,
     viewModel: MovieDetailsViewModel = hiltViewModel()
 ) {
     val systemUiController = rememberSystemUiController()
+    val navController = LocalNavController.current
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
     var isScrolled by remember { mutableStateOf(false) }
     val state by viewModel.state.collectAsState()
