@@ -9,6 +9,13 @@ import com.redvelvet.repository.dto.movie.MovieDto
 import com.redvelvet.repository.dto.person.PersonDto
 import com.redvelvet.repository.dto.search.MultiSearchResultDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
+import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
+import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
+import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
+import com.redvelvet.repository.dto.movie.details.MovieRecommendationsDTO
+import com.redvelvet.repository.dto.movie.details.MovieReviewsDTO
+import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
+import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
 import com.redvelvet.repository.source.RemoteDataSource
 import com.redvelvet.repository.util.BadRequestException
 import com.redvelvet.repository.util.NoInternetException
@@ -62,6 +69,50 @@ class RetrofitDataSource @Inject constructor(
     override suspend fun deleteUserSession(sessionId: String): SessionDto {
         return wrapApiResponse {
             movieApiService.deleteUserSession(sessionId)
+        }
+    }
+    //endregion
+
+    //region Movie Details
+    override suspend fun getMovieDetailsById(movieId: Int): MovieDetailsDTO {
+        return wrapApiResponse {
+            movieApiService.getMovieDetailsById(movieId)
+        }
+    }
+
+    override suspend fun getMovieImagesByID(movieId: Int): MovieImagesDTO {
+        return wrapApiResponse {
+            movieApiService.getMovieImagesByID(movieId)
+        }
+    }
+
+    override suspend fun getMovieKeyWordsByID(movieId: Int): MovieKeyWordsDTO {
+        return wrapApiResponse {
+            movieApiService.getMovieKeyWordsByID(movieId)
+        }
+    }
+
+    override suspend fun getMovieRecommendationsByID(movieId: Int): MovieRecommendationsDTO {
+        return wrapApiResponse {
+            movieApiService.getMovieRecommendationsByID(movieId)
+        }
+    }
+
+    override suspend fun getMovieReviewsByID(movieId: Int): MovieReviewsDTO {
+        return wrapApiResponse {
+            movieApiService.getMovieReviewsByID(movieId)
+        }
+    }
+
+    override suspend fun getMovieSimilarByID(movieId: Int): MovieSimilarDTO {
+        return wrapApiResponse {
+            movieApiService.getMovieSimilarByID(movieId)
+        }
+    }
+
+    override suspend fun getMovieTopCastByID(movieId: Int): MovieTopCastDto {
+        return wrapApiResponse {
+            movieApiService.getMovieTopCastByID(movieId)
         }
     }
     //endregion
