@@ -6,6 +6,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,6 +48,7 @@ import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.PrimaryOutlinedButton
 import com.redvelvet.ui.composable.PrimaryTextField
 import com.redvelvet.ui.navigation.MovieDestination
+import com.redvelvet.ui.screen.forgot_password.navigateToForgotPassword
 import com.redvelvet.ui.screen.home.navigateToHome
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
@@ -87,6 +89,10 @@ fun LoginScreen(
                     uiState.error?.let { error ->
                         Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
                     }
+                }
+
+                is LoginUiEffect.NavigateToForgotPassword -> {
+                    navController.navigateToForgotPassword()
                 }
             }
         }
@@ -209,9 +215,8 @@ private fun LoginContentPortrait(
             text = "Forgot Password?",
             modifier = Modifier
                 .align(Alignment.End)
-                .padding(
-                    bottom = MaterialTheme.spacing.spacing16
-                ),
+                .padding(bottom = MaterialTheme.spacing.spacing16)
+                .clickable { interaction.onClickForgotPassword() },
             style = Typography.titleSmall.copy(color = MaterialTheme.color.fontPrimary),
         )
         PrimaryButton(

@@ -173,5 +173,9 @@ class LoginViewModel @Inject constructor(
             )
         }
     }
+
+    override fun onClickForgotPassword() {
+        sendUiEffect(LoginUiEffect.NavigateToForgotPassword)
+    }
     //endregion
 }

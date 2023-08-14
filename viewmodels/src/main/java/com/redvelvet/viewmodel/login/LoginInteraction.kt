@@ -6,4 +6,5 @@ interface LoginInteraction {
     fun onClickLogin()
     fun onClickGuest()
     fun onClickEyeIcon()
+    fun onClickForgotPassword()
 }
