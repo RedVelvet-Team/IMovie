@@ -5,7 +5,6 @@ import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
-import com.redvelvet.repository.dto.movie.MovieDto
 import com.redvelvet.repository.dto.person.PersonDto
 import com.redvelvet.repository.dto.search.MultiSearchResultDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
@@ -126,7 +125,7 @@ class RetrofitDataSource @Inject constructor(
         return wrapApiResponse { movieApiService.searchPeople(query, page) }.result.orEmpty()
     }
 
-    override suspend fun searchMovie(query: String, page: Int?): List<MovieDto> {
+    override suspend fun searchMovie(query: String, page: Int?): List<MovieDetailsDTO> {
         return wrapApiResponse { movieApiService.searchMovie(query, page) }.result.orEmpty()
     }
 

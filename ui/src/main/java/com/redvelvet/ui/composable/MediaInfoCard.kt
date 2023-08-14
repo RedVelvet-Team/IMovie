@@ -29,7 +29,7 @@ fun MediaInfoCard(
         modifier = Modifier
             .padding(bottom = MaterialTheme.spacing.spacing24)
     ) {
-        ItemBasicCard(
+        ItemBasicCardForDetailsScreens(
             imagePainter = rememberAsyncImagePainter(model = data.posterPath),
             hasName = false,
             hasDateAndCountry = false,

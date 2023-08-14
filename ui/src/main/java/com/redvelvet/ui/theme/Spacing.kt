@@ -28,7 +28,6 @@ data class Spacing(
     val spacing80: Dp = 80.dp,
     val spacing285: Dp = 285.dp,
     val spacing127: Dp = 127.dp,
-    val spacing285: Dp = 285.dp,
 )
 
 val LocalSpacing = compositionLocalOf { Spacing() }

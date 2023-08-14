@@ -1,6 +1,5 @@
 package com.redvelvet.viewmodel.movieDetails
 
-import com.redvelvet.viewmodel.login.LoginUiEvent
 
 sealed interface MovieDetailsUiEvent {
     data object NavigateToGenreScreen : MovieDetailsUiEvent

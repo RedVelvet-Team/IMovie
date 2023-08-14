@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.redvelvet.ui.composable.ItemsSection
+import com.redvelvet.ui.composable.ItemsSectionForDetialsScreens
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsInteraction
@@ -24,7 +25,7 @@ fun SimilarMoviesSection(
                 bottom = MaterialTheme.spacing.spacing24,
             )
     ) {
-        ItemsSection(
+        ItemsSectionForDetialsScreens(
             label = "Similar Movies",
             images = it.map { it2 -> it2.mediaImage },
             movieIds = it.map { it2 -> it2.mediaId },

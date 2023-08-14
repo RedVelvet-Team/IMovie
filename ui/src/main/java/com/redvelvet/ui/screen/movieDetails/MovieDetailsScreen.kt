@@ -53,8 +53,8 @@ fun MovieDetailsScreen(
     val scope = rememberCoroutineScope()
     LaunchedEffect(key1 = Unit) {
         scope.launch {
-            viewModel.event.collectLatest { event ->
-                when (event) {
+            viewModel.effect.collectLatest { effect ->
+                when (effect) {
                     MovieDetailsUiEvent.NavigateToGenreScreen -> navController.navigateToMovieDetails()
                     MovieDetailsUiEvent.NavigateToMovieDetailsScreen -> navController.navigateToMovieDetails()
                     MovieDetailsUiEvent.NavigateToMovieImagesSeeAllScreen -> navController.navigateSeeAllUpcoming()

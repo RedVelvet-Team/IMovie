@@ -2,7 +2,6 @@ package com.redvelvet.viewmodel.movieDetails
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.redvelvet.entities.error.ErrorType
 import com.redvelvet.usecase.usecase.movie.GetMovieFullDetailsUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -35,7 +34,7 @@ class MovieDetailsViewModel @Inject constructor(
 //                _state.update {
 //                    MovieDetailsScreenUiState(data = fakeData(), isLoading = false)
 //                }
-            } catch (e: ErrorType) {
+            } catch (e: Throwable) {
                 _state.update {
                     MovieDetailsScreenUiState(
                         data = null,

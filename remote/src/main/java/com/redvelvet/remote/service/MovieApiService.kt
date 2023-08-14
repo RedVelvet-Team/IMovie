@@ -6,7 +6,6 @@ import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
-import com.redvelvet.repository.dto.movie.MovieDto
 import com.redvelvet.repository.dto.person.PersonDto
 import com.redvelvet.repository.dto.search.MultiSearchResultDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
@@ -26,7 +25,6 @@ import retrofit2.http.HTTP
 import retrofit2.http.POST
 import retrofit2.http.Query
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 interface MovieApiService {
     //region auth
@@ -87,7 +85,7 @@ interface MovieApiService {
     suspend fun searchMovie(
         @Query("query") query: String,
         @Query("page") page: Int? = 1,
-    ): Response<BaseResponse<List<MovieDto>>>
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
 
     @GET("search/tv")
     suspend fun searchTvShows(

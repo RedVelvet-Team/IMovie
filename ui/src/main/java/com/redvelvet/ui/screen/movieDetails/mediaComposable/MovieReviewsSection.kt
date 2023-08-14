@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.redvelvet.ui.composable.ItemReview
 import com.redvelvet.ui.composable.ItemsSection
+import com.redvelvet.ui.composable.ItemsSectionForDetialsScreens
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsInteraction
@@ -25,7 +26,7 @@ fun MovieReviewsSection(
                 bottom = MaterialTheme.spacing.spacing24,
             )
     ) {
-        ItemsSection<Any>(
+        ItemsSectionForDetialsScreens<Any>(
             label = "Reviews",
             hasName = false,
             name = it.map { it2 -> it2.reviewAuthor },

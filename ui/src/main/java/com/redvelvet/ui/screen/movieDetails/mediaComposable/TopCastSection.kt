@@ -1,6 +1,5 @@
 package com.redvelvet.ui.screen.movieDetails.mediaComposable
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -8,7 +7,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.redvelvet.ui.composable.ItemsSection
+import com.redvelvet.ui.composable.ItemsSectionForDetialsScreens
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsInteraction
@@ -25,7 +24,7 @@ fun TopCastSection(
                 bottom = MaterialTheme.spacing.spacing24,
             )
     ) {
-        ItemsSection(
+        ItemsSectionForDetialsScreens(
             label = "Top Cast",
             images = it.map { it2 -> it2.castImage },
             hasName = true,
