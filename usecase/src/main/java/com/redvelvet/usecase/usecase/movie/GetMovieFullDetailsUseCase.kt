@@ -35,16 +35,15 @@ class GetMovieFullDetailsUseCase @Inject constructor(
             val similar = similarDeferred.await()
             val topCast = topCastDeferred.await()
 
-            MovieFullDetails.Builder()
-                .details(details)
-                .images(images)
-                .keyWords(keyWords)
-                .recommendations(recommendations)
-                .reviews(reviews)
-                .similar(similar)
-                .topCast(topCast)
-                .build()
-
+            MovieFullDetails(
+                details =details,
+                images =images,
+                keyWords = keyWords,
+                recommendations = recommendations,
+                reviews = reviews,
+                similar = similar,
+                topCast = topCast
+            )
         }
     private suspend fun getMovieDetailsById(movieId:Int): MovieDetails {
         return movieRepository.getMovieDetailsById(movieId)
