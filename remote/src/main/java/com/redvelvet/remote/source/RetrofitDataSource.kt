@@ -9,6 +9,10 @@ import com.redvelvet.repository.dto.movie.MovieDto
 import com.redvelvet.repository.dto.person.PersonDto
 import com.redvelvet.repository.dto.search.MultiSearchResultDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
+import com.redvelvet.repository.dto.tvShow.TvShowImagesDto
+import com.redvelvet.repository.dto.tvShow.TvShowKeywordsDto
+import com.redvelvet.repository.dto.tvShow.TvShowTopCastDto
+import com.redvelvet.repository.dto.tvShow.TvShowVideosDto
 import com.redvelvet.repository.source.RemoteDataSource
 import com.redvelvet.repository.util.BadRequestException
 import com.redvelvet.repository.util.NoInternetException
@@ -105,6 +109,58 @@ class RetrofitDataSource @Inject constructor(
             throw NoInternetException("no Internet")
         }
     }
+    //endregion
+
+
+
+    //region tvShow
+    override suspend fun getTvShowKeyWordsByID(seriesId: Int): TvShowKeywordsDto =
+        wrapApiResponse { movieApiService.getTvShowKeyWordsByID(seriesId) }
+
+
+    override suspend fun getTvShowTopCastByID(seriesId: Int): TvShowTopCastDto =
+        wrapApiResponse { movieApiService.getTvShowTopCastByID(seriesId) }
+
+
+    override suspend fun addTvShowRating(
+        seriesRating: Double,
+        seriesId: Int,
+        sessionId: String
+    ): String =
+        wrapApiResponse {
+            movieApiService.addTvShowRating(
+                seriesRating,
+                seriesId,
+                sessionId
+            )
+        }.statusMessage.toString()
+
+    override suspend fun getTvShowVideosByID(seriesId: Int): TvShowVideosDto =
+        wrapApiResponse { movieApiService.getTvShowVideosByID(seriesId) }
+
+    override suspend fun getTvShowImagesByID(seriesId: Int): TvShowImagesDto =
+        wrapApiResponse { movieApiService.getTvShowImagesByID(seriesId) }
+
+
+    override suspend fun deleteTvShowRating(seriesId: Int, sessionId: String): String =
+        wrapApiResponse {
+            movieApiService.deleteTvShowRating(
+                seriesId,
+                sessionId
+            )
+        }.statusMessage.toString()
+
+    override suspend fun getTvShowDetailsByID(seriesId: Int) =
+        wrapApiResponse { movieApiService.getTvShowDetailsById(seriesId) }
+
+
+    override suspend fun getTvShowRecommendationsByID(seriesId: Int) =
+        wrapApiResponse { movieApiService.getTvShowRecommendationsByID(seriesId) }
+
+
+    override suspend fun getTvShowReviewsByID(seriesId: Int) =
+        wrapApiResponse { movieApiService.getTvShowReviewsByID(seriesId) }
+
     //endregion
 
 }
