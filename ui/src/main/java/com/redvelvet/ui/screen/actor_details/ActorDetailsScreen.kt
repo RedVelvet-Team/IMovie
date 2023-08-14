@@ -47,6 +47,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.airbnb.lottie.parser.FloatParser
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -61,10 +62,13 @@ import com.redvelvet.ui.theme.Shadow4
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.radius
 import com.redvelvet.ui.theme.spacing
+import com.redvelvet.viewmodel.actor_details.ActorDetailsViewModel
 
 @Composable
 @Preview(showBackground = true)
-fun ActorDetailsScreen() {
+fun ActorDetailsScreen(
+    viewModel: ActorDetailsViewModel = hiltViewModel()
+) {
     ActorDetailsContent()
 }
 
