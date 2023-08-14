@@ -23,7 +23,7 @@ fun ForgotPasswordScreen() {
         }
     ) {
         ForgotPasswordContent {
-            Toast.makeText(context, "Password has been changed", Toast.LENGTH_SHORT)
+            Toast.makeText(context, "Password has been restored", Toast.LENGTH_SHORT)
                 .show()
             navController.popBackStack()
         }
