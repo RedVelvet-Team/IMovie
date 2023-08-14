@@ -4,7 +4,6 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.redvelvet.entities.tv.TvShow
 import com.redvelvet.usecase.usecase.seealltv.GetAllTvSeriesUseCase
-import com.redvelvet.viewmodel.base.BaseUiState
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
 import com.redvelvet.viewmodel.utils.SeeAllTvShows
@@ -16,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SeeAllTvViewModel @Inject constructor(
     private val getAllSeries: GetAllTvSeriesUseCase
-) : BaseViewModel<SeeAllTvShowUiState, BaseUiState>(SeeAllTvShowUiState()) {
+) : BaseViewModel<SeeAllTvShowUiState, SeeAllTvShowsUiEffect>(SeeAllTvShowUiState()) {
     private val args: SeeAllTvShows = SeeAllTvShows.POPULAR
 
     init {
