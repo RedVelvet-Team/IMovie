@@ -2,4 +2,8 @@
     <string name="app_name">IMovie</string>
     <string name="search_icon">search_icon</string>
     <string name="search_place_holder">What do you want to Watch?</string>
+    <string name="known_for">Known For</string>
+    <string name="biography">Biography</string>
+    <string name="born">Born</string>
+    <string name="known_as">Known As</string>
 </resources>
