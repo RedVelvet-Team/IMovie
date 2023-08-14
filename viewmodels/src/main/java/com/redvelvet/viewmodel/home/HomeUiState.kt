@@ -3,27 +3,35 @@ package com.redvelvet.viewmodel.home
 import com.redvelvet.viewmodel.base.BaseUiState
 
 data class HomeUiState(
-    val popularMovie: MovieUiState? = null,
-    val nowPlayingMovies: List<MovieUiState> = emptyList(),
-    val upComingMovies: List<MovieUiState> = emptyList(),
-    val topRatedMovies: List<MovieUiState> = emptyList(),
-    val popularSeries: SeriesUiState? = null,
-    val airingTodayMovies: List<SeriesUiState> = emptyList(),
-    val onTvSeries: List<SeriesUiState> = emptyList(),
-    val topRatedSeries: List<SeriesUiState> = emptyList(),
+    val movieCategories: List<MovieCategoryUiState> = emptyList(),
+    val tvShowCategories: List<TvShowCategoryUiState> = emptyList(),
+    val tabLayoutTitles: List<String> = emptyList(),
     val isLoading: Boolean = false,
-    val error: String? = null,
-): BaseUiState
+    val isError: String? = null,
+) : BaseUiState
 
-data class MovieUiState(
-    val movieImage: String,
-    val movieName: String,
-    val movieDate: String,
-    val countryOfMovie: String,
+data class MovieCategoryUiState(
+    val title: String = "",
+    val movies: List<MovieUiState>,
+    val hasMore: Boolean = false
 )
 
-data class SeriesUiState(
-    val seriesImage: String,
-    val seriesName: String,
-    val seriesDate: String,
+data class TvShowCategoryUiState(
+    val title: String = "",
+    val tvShows: List<TvShowUiState>,
+    val hasMore: Boolean = false
+)
+
+data class MovieUiState(
+    val movieImage: String = "",
+    val movieName: String = "",
+    val movieDate: String = "",
+    val countryOfMovie: String = "",
+)
+
+data class TvShowUiState(
+    val seriesImage: String = "",
+    val seriesName: String = "",
+    val seriesDate: String = "",
+    val seriesCountry: String = ""
 )

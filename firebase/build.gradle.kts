@@ -40,6 +40,7 @@ android {
 
 dependencies {
     implementation(project(":repository"))
+    // core + testing
     implementation(Deps.coreKtx)
     implementation(Deps.junitExt)
     implementation(Deps.testMonitor)
@@ -55,6 +56,4 @@ dependencies {
     implementation(Deps.firebaseAuth)
     implementation(Deps.firebaseFirestore)
     implementation(Deps.playServicesAuth)
-    //gson
-    implementation(Deps.gson)
 }

@@ -33,3 +33,34 @@ google-services.json
 # Android Profiling
 *.hprof
 
+.gradle/8.0/executionHistory/executionHistory.bin
+.gradle/8.0/executionHistory/executionHistory.bin
+.gradle/8.0/executionHistory/executionHistory.bin
+.gradle/8.0/executionHistory/executionHistory.lock
+.gradle/8.0/fileHashes/fileHashes.bin
+*.bin
+*.lock
+*.probe
+*.class
+*.kotlin_module
+*.txt
+*.tab
+*.keystream
+buildSrc/build/kotlin/compileKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream.len
+*.len
+*.tab_i
+*.at
+*.bin
+*.properties
+*.jar
+*.MF
+*.probe
+*.bin
+*.bin
+*.lock
+*.bin
+*.lock
+*.bin
+*.lock
+*.bin
+*.probe

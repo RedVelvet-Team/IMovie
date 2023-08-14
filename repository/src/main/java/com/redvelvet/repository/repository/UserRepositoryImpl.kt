@@ -1,35 +1,28 @@
 package com.redvelvet.repository.repository
 
-import com.redvelvet.repository.source.DataStoreDataSource
+import com.redvelvet.repository.source.UserPreferencesDataSource
 import com.redvelvet.usecase.repository.UserRepository
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
-    private val dataStoreDataSource: DataStoreDataSource,
+    private val userPreferencesDataSource: UserPreferencesDataSource,
 ) : UserRepository, BaseRepository() {
     //region user status
-    override suspend fun getIsLoggedInByAccount() = dataStoreDataSource.getIsLoggedInByAccount()
+    override suspend fun getIsLoggedInByAccount() =
+        userPreferencesDataSource.getIsLoggedInByAccount()
 
-    override suspend fun getIsLoggedInByGuest() = dataStoreDataSource.getIsLoggedInByGuest()
+    override suspend fun getIsLoggedInByGuest() = userPreferencesDataSource.getIsLoggedInByGuest()
 
-    override suspend fun setIsFirstTimeUsingApp(isFirstTime: Boolean) {
-        dataStoreDataSource.setIsFirstTimeUsingApp(isFirstTime)
-    }
-
-    override suspend fun getIsFirstTimeUsingApp() = dataStoreDataSource.getIsFirstTimeUsingApp()
-    //endregion
-
-    //region user info
     override suspend fun getGuestSessionIdFromLocal(): String {
-        return dataStoreDataSource.getGuestSessionId().toString()
+        return userPreferencesDataSource.getGuestSessionId().toString()
     }
 
     override suspend fun getGuestSessionExpDateFromLocal(): String {
-        return dataStoreDataSource.getGuestSessionExpDate().toString()
+        return userPreferencesDataSource.getGuestSessionExpDate().toString()
     }
 
-    override suspend fun getUserSessionId(): String {
-        return dataStoreDataSource.getUserSessionId().toString()
+    override suspend fun getUserSessionIdFromLocal(): String {
+        return userPreferencesDataSource.getUserSessionId().toString()
     }
     //endregion
 }

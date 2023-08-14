@@ -24,10 +24,7 @@ fun SectionHeader(
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = MaterialTheme.spacing.spacing16)
-    ) {
+        modifier = modifier.fillMaxWidth().padding(horizontal = MaterialTheme.spacing.spacing16)) {
         Text(
             text = label,
             style = Typography.titleMedium,

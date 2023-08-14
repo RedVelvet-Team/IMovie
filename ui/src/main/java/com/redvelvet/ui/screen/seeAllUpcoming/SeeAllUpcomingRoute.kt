@@ -6,9 +6,9 @@ import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.composable
 import com.redvelvet.ui.navigation.MovieDestination
 
-fun NavGraphBuilder.seeAllUpcomingListRoute(navController: NavController) {
+fun NavGraphBuilder.seeAllUpcomingListRoute() {
     composable(route = MovieDestination.SeeAllUpcoming.route) {
-        SeeAllUpcomingListScreen(navController = navController)
+        SeeAllUpcomingListScreen()
     }
 }
 

@@ -13,7 +13,10 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 dependencies {
     api(project(":entities"))
+    //dagger
     implementation(Deps.dagger)
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    //paging
+    implementation(Deps.pagingCommon)
+    //test
     testImplementation(Deps.testng)
 }

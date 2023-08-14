@@ -7,6 +7,8 @@ pluginManagement {
     plugins{
         id("org.gradle.toolchains.foojay-resolver-convention") version("0.5.0")
         id("org.jetbrains.kotlin.jvm") version "1.9.0"
+        id("com.android.library") version "8.1.0"
+        id("org.jetbrains.kotlin.android") version "1.8.0"
     }
 }
 dependencyResolutionManagement {
@@ -27,3 +29,4 @@ include(":repository")
 include(":ui")
 include(":usecase")
 include(":viewmodels")
+include(":datastore")
