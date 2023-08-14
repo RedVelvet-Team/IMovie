@@ -11,7 +11,6 @@ import com.redvelvet.entities.movie.details.MovieTopCast
 import com.redvelvet.usecase.repository.MovieRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class GetMovieFullDetailsUseCase @Inject constructor(
