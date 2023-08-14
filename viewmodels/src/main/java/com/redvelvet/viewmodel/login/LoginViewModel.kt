@@ -1,10 +1,7 @@
 package com.redvelvet.viewmodel.login
 
 
-import com.redvelvet.entities.auth.Guest
-import com.redvelvet.entities.auth.Session
 import com.redvelvet.usecase.usecase.auth.AuthenticationUserLoginUseCase
-import com.redvelvet.usecase.usecase.auth.LoginByGuestUseCase
 import com.redvelvet.usecase.usecase.auth.ValidationLoginUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
@@ -15,7 +12,6 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val authenticationUserLoginUseCase: AuthenticationUserLoginUseCase,
-    private val loginByGuestUseCase: LoginByGuestUseCase,
     private val validation: ValidationLoginUseCase,
 ) : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState()), LoginInteraction {
 
@@ -24,21 +20,21 @@ class LoginViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isLoading = true,
-                isError = null,
+                error = null,
             )
         }
         tryToExecute(
-            execute = loginByGuestUseCase::invoke,
-            onSuccess = ::onLoginByGuestSuccess,
+            execute = authenticationUserLoginUseCase::loginByGuest,
+            onSuccessWithoutData = ::onLoginByGuestSuccess,
             onError = ::onLoginByGuestFailed,
         )
     }
 
-    private fun onLoginByGuestSuccess(guest: Guest) {
+    private fun onLoginByGuestSuccess() {
         _state.update {
             it.copy(
                 isLoading = false,
-                isError = null,
+                error = null,
             )
         }
         sendUiEffect(LoginUiEffect.NavigateTomHomeScreen)
@@ -48,32 +44,37 @@ class LoginViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isLoading = false,
-                isError = null,
+                error = error,
             )
         }
+        sendUiEffect(LoginUiEffect.ShowToastError)
     }
     //endregion
 
     //region auth
     private fun loginByUserNameAndPassword(userName: String, password: String) {
-        _state.update {
-            it.copy(
-                isLoading = true,
-                isError = null,
+        if (validation.invoke(userName, password)) {
+            _state.update {
+                it.copy(
+                    isLoading = true,
+                    error = null,
+                )
+            }
+            tryToExecute(
+                execute = { authenticationUserLoginUseCase.invoke(userName, password) },
+                onSuccessWithoutData = ::onLoginNameAndPasswordSuccess,
+                onError = ::onLoginByNameAndPasswordFailed,
             )
+            return
         }
-        tryToExecute(
-            execute = { authenticationUserLoginUseCase.invoke(userName, password) },
-            onSuccess = ::onLoginNameAndPasswordSuccess,
-            onError = ::onLoginByNameAndPasswordFailed,
-        )
+        updateInputErrorStatus()
     }
 
-    private fun onLoginNameAndPasswordSuccess(session: Session) {
+    private fun onLoginNameAndPasswordSuccess() {
         _state.update {
             it.copy(
                 isLoading = false,
-                isError = null,
+                error = null,
             )
         }
         sendUiEffect(LoginUiEffect.NavigateTomHomeScreen)
@@ -83,9 +84,10 @@ class LoginViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isLoading = false,
-                isError = "",
+                error = error,
             )
         }
+        sendUiEffect(LoginUiEffect.ShowToastError)
     }
     //endregion
 
@@ -119,8 +121,8 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    private fun updateNameAndPasswordStatus(): Boolean {
-        return updateInputNameError() && updateInputPasswordError().also { areEmpty ->
+    private fun updateNameAndPasswordStatus() {
+        updateInputNameError() && updateInputPasswordError().also { areEmpty ->
             takeIf { areEmpty }?._state?.update {
                 it.copy(
                     isUserNameEmpty = true,
@@ -132,15 +134,11 @@ class LoginViewModel @Inject constructor(
     //endregion
 
     //region interaction
-    override fun interactionLoginButtonClick() {
-        if (validation(state.value.userName, state.value.password)) {
-            loginByUserNameAndPassword(state.value.userName, state.value.password)
-            return
-        }
-        updateInputErrorStatus()
+    override fun onClickLogin() {
+        loginByUserNameAndPassword(state.value.userName, state.value.password)
     }
 
-    override fun interactionGuestButtonClick() {
+    override fun onClickGuest() {
         loginByGuest()
     }
 
@@ -151,7 +149,7 @@ class LoginViewModel @Inject constructor(
                 userName = userName,
                 isUserNameEmpty = false,
                 isLoading = false,
-                isError = null
+                error = null
             )
         }
     }
@@ -161,14 +159,23 @@ class LoginViewModel @Inject constructor(
             it.copy(
                 password = password,
                 isLoading = false,
-                isError = null,
+                error = null,
                 isPasswordEmpty = false
             )
         }
     }
 
-    override fun interactionEyeIconClick() {
-        _state.update { it.copy(isPasswordVisible = !it.isPasswordVisible) }
+    override fun onClickEyeIcon() {
+        _state.update {
+            it.copy(
+                isPasswordVisible = !it.isPasswordVisible,
+                error = null
+            )
+        }
+    }
+
+    override fun onClickForgotPassword() {
+        sendUiEffect(LoginUiEffect.NavigateToForgotPassword)
     }
     //endregion
 }

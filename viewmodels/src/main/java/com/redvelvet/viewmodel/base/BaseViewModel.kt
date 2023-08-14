@@ -3,11 +3,10 @@ package com.redvelvet.viewmodel.base
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import com.redvelvet.entities.error.MovieError
-import com.redvelvet.entities.error.NetworkError
-import com.redvelvet.entities.error.NullResultError
-import com.redvelvet.entities.error.ValidationError
+import com.redvelvet.entities.error.MovieException
+import com.redvelvet.entities.error.NetworkException
+import com.redvelvet.entities.error.NullResultException
+import com.redvelvet.entities.error.ValidationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -23,27 +22,29 @@ abstract class BaseViewModel<UiState : BaseUiState, UiEffect>(state: UiState) :
     protected val _state = MutableStateFlow(state)
     val state = _state.asStateFlow()
 
-    protected val _effect = MutableSharedFlow<UiEffect>()
+    private val _effect = MutableSharedFlow<UiEffect>()
     val effect = _effect.asSharedFlow()
 
     fun <T> tryToExecute(
         execute: suspend () -> T,
-        onSuccess: (T) -> Unit,
+        onSuccessWithData: (T) -> Unit = {},
+        onSuccessWithoutData: () -> Unit = {},
         onError: (error: ErrorUiState) -> Unit,
         dispatcher: CoroutineDispatcher = Dispatchers.IO
     ) {
         viewModelScope.launch(dispatcher) {
             try {
                 val result = execute()
-                onSuccess(result)
-            } catch (e: ValidationError) {
-                onError(InvalidationErrorState())
-            } catch (e: NullResultError) {
-                onError(NullResultErrorState())
-            } catch (e: NetworkError) {
-                onError(NetworkErrorState())
-            } catch (e: MovieError) {
-                onError(ErrorUiState())
+                onSuccessWithData(result)
+                onSuccessWithoutData()
+            } catch (e: ValidationException) {
+                onError(InvalidationErrorState(e.message))
+            } catch (e: NullResultException) {
+                onError(NullResultErrorState(e.message))
+            } catch (e: NetworkException) {
+                onError(NetworkErrorState(e.message))
+            } catch (e: MovieException) {
+                onError(ErrorUiState(e.message))
             }
         }
     }
@@ -56,38 +57,16 @@ abstract class BaseViewModel<UiState : BaseUiState, UiEffect>(state: UiState) :
     ) {
         viewModelScope.launch(dispatcher) {
             try {
-                val result = call().cachedIn(viewModelScope)
+                val result = call()
                 result.collect { data ->
                     onSuccess(data)
                 }
-            } catch (e: NullResultError) {
-                onError(NullResultErrorState())
-            } catch (e: NetworkError) {
-                onError(NetworkErrorState())
-            } catch (e: MovieError) {
-                onError(ErrorUiState())
-            }
-        }
-    }
-
-    fun <T : Any> tryToExecutePaging2(
-        call: suspend () -> Flow<PagingData<T>>,
-        onSuccess: suspend (PagingData<T>) -> Unit,
-        onError: (error: ErrorUiState) -> Unit,
-        dispatcher: CoroutineDispatcher = Dispatchers.IO
-    ) {
-        viewModelScope.launch(dispatcher) {
-            try {
-                val result = call().cachedIn(viewModelScope)
-                result.collect { data ->
-                    onSuccess(data)
-                }
-            } catch (e: NullResultError) {
-                onError(NullResultErrorState())
-            } catch (e: NetworkError) {
-                onError(NetworkErrorState())
-            } catch (e: MovieError) {
-                onError(ErrorUiState())
+            } catch (e: NullResultException) {
+                onError(NullResultErrorState(e.message))
+            } catch (e: NetworkException) {
+                onError(NetworkErrorState(e.message))
+            } catch (e: MovieException) {
+                onError(ErrorUiState(e.message))
             }
         }
     }
