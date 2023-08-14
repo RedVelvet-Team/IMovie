@@ -6,7 +6,6 @@ import com.redvelvet.entities.movie.Movie
 import com.redvelvet.usecase.usecase.seeall.GetAllMovieUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
-import com.redvelvet.viewmodel.onboarding.OnBoardingUiEffect
 import com.redvelvet.viewmodel.utils.SeeAllMovie
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.flowOf
@@ -16,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SeeAllMovieViewModel @Inject constructor(
     private val getAllMovie: GetAllMovieUseCase
-): BaseViewModel<SeeAllMovieUiState, OnBoardingUiEffect>(SeeAllMovieUiState()){
+): BaseViewModel<SeeAllMovieUiState, SeeAllMovieUiEffect>(SeeAllMovieUiState()){
     private val args: SeeAllMovie = SeeAllMovie.SIMILAR
 
     init {
@@ -45,7 +44,6 @@ class SeeAllMovieViewModel @Inject constructor(
                 _state.update { it.copy(title = "Recommendation") }
                 getRecommended(100)
             }
-            else -> {}
         }
     }
 
