@@ -63,6 +63,7 @@ fun MovieDetailsScreen(
                     MovieDetailsUiEvent.NavigateToReviewSeeAllScreen -> navController.navigateSeeAllUpcoming()
                     MovieDetailsUiEvent.NavigateToTopCastDetailsScreen -> navController.navigateToMovieDetails()
                     MovieDetailsUiEvent.NavigateToTopCastSeeAllScreen -> navController.navigateSeeAllUpcoming()
+                    else -> {}
                 }
             }
         }
