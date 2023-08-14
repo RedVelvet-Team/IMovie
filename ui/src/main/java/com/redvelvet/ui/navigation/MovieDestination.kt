@@ -9,6 +9,7 @@ sealed class MovieDestination(
 ) {
     data object Splash : MovieDestination("splash")
     data object OnBoarding : MovieDestination("onBoarding")
+    data object ActorDetails : MovieDestination("actorDetails")
     data object Login : MovieDestination("login")
     data object SignUp : MovieDestination("signup")
     data object SeeAllUpcoming : MovieDestination("seeAllUpcoming")
