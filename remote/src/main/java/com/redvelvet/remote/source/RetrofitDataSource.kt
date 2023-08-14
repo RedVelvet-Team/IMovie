@@ -82,8 +82,22 @@ class RetrofitDataSource @Inject constructor(
     override suspend fun searchTvShows(query: String, page: Int?): List<TvShowDto> {
         return wrapApiResponse { movieApiService.searchTvShows(query, page) }.result.orEmpty()
     }
-
     // endregion
+
+    //region see all tv
+    override suspend fun seeAllAiringTodayTv(page: Int?): List<TvShowDto> {
+        return wrapApiResponse { movieApiService.seeAllAiringTodayTv(page) }.result.orEmpty()
+    }
+
+    override suspend fun seeAllOnTheAir(page: Int?): List<TvShowDto> {
+        return wrapApiResponse { movieApiService.seeAllOnTheAir(page) }.result.orEmpty()
+    }
+
+    override suspend fun seeAllPopularTv(page: Int?): List<TvShowDto> {
+        return wrapApiResponse { movieApiService.seeAllPopularTv(page) }.result.orEmpty()
+    }
+
+    //endregion
 
     //region wrap response
     private suspend fun <T> wrapApiResponse(

@@ -12,15 +12,27 @@ interface RemoteDataSource {
     //region auth
     suspend fun createGuestSession(): GuestSessionDto
     suspend fun createToken(): TokenDto
-    suspend fun validateUserWithLogin(userName: String, password: String, requestToken: String): TokenDto
+        suspend fun validateUserWithLogin(
+        userName: String,
+        password: String,
+        requestToken: String
+    ): TokenDto
+
     suspend fun createUserSession(token: String): SessionDto
     suspend fun deleteUserSession(sessionId: String): SessionDto
     //endregion
 
     //region Search
-    suspend fun multiSearch(query: String, page : Int?): List<MultiSearchResultDto>
-    suspend fun searchPeople(query: String, page : Int?): List<PersonDto>
-    suspend fun searchMovie(query: String, page : Int?): List<MovieDto>
-    suspend fun searchTvShows(query: String, page : Int?): List<TvShowDto>
+    suspend fun multiSearch(query: String, page: Int?): List<MultiSearchResultDto>
+    suspend fun searchPeople(query: String, page: Int?): List<PersonDto>
+    suspend fun searchMovie(query: String, page: Int?): List<MovieDto>
+    suspend fun searchTvShows(query: String, page: Int?): List<TvShowDto>
+    //endregion
+
+    //region see all tv
+    suspend fun seeAllAiringTodayTv(page: Int?): List<TvShowDto>
+    suspend fun seeAllOnTheAir(page: Int?): List<TvShowDto>
+    suspend fun seeAllPopularTv(page: Int?): List<TvShowDto>
+
     //endregion
 }
