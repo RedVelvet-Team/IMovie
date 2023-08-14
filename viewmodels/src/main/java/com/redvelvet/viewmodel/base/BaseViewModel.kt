@@ -3,10 +3,10 @@ package com.redvelvet.viewmodel.base
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import com.redvelvet.entities.error.MovieError
-import com.redvelvet.entities.error.NetworkError
-import com.redvelvet.entities.error.NullResultError
-import com.redvelvet.entities.error.ValidationError
+import com.redvelvet.entities.error.MovieException
+import com.redvelvet.entities.error.NetworkException
+import com.redvelvet.entities.error.NullResultException
+import com.redvelvet.entities.error.ValidationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -37,14 +37,14 @@ abstract class BaseViewModel<UiState : BaseUiState, UiEffect>(state: UiState) :
                 val result = execute()
                 onSuccessWithData(result)
                 onSuccessWithoutData()
-            } catch (e: ValidationError) {
-                onError(InvalidationErrorState())
-            } catch (e: NullResultError) {
-                onError(NullResultErrorState())
-            } catch (e: NetworkError) {
-                onError(NetworkErrorState())
-            } catch (e: MovieError) {
-                onError(ErrorUiState())
+            } catch (e: ValidationException) {
+                onError(InvalidationErrorState(e.message))
+            } catch (e: NullResultException) {
+                onError(NullResultErrorState(e.message))
+            } catch (e: NetworkException) {
+                onError(NetworkErrorState(e.message))
+            } catch (e: MovieException) {
+                onError(ErrorUiState(e.message))
             }
         }
     }
@@ -61,12 +61,12 @@ abstract class BaseViewModel<UiState : BaseUiState, UiEffect>(state: UiState) :
                 result.collect { data ->
                     onSuccess(data)
                 }
-            } catch (e: NullResultError) {
-                onError(NullResultErrorState())
-            } catch (e: NetworkError) {
-                onError(NetworkErrorState())
-            } catch (e: MovieError) {
-                onError(ErrorUiState())
+            } catch (e: NullResultException) {
+                onError(NullResultErrorState(e.message))
+            } catch (e: NetworkException) {
+                onError(NetworkErrorState(e.message))
+            } catch (e: MovieException) {
+                onError(ErrorUiState(e.message))
             }
         }
     }
