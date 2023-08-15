@@ -24,7 +24,7 @@ class TvShowViewModel @Inject constructor(
     private fun getData() {
         tryToExecute(
             execute = { getTvShSowDetails(seriesId) },
-            onSuccess = ::onSuccess,
+            onSuccessWithData = ::onSuccess,
             onError = ::onError,
         )
     }
@@ -48,7 +48,7 @@ class TvShowViewModel @Inject constructor(
                 recommendations = tvShowAllDetails.recommendations.map { it.toTvShowRecommendationUiState() },
                 myRating = 0,
                 isLoading = false,
-                )
+            )
         }
     }
 
