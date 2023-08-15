@@ -22,12 +22,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             IMovieTheme {
-                val systemUiController = rememberSystemUiController()
-                SideEffect {
-                    // set transparent color so that our image is visible
-                    // behind the status bar
-                    systemUiController.setStatusBarColor(color = Color.Transparent)
-                }
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
