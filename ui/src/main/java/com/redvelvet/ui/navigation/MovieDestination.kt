@@ -45,4 +45,6 @@ sealed class MovieDestination(
         R.drawable.icon_game
     )
 
+    data object MovieDetails : MovieDestination("movie_details")
+
 }
