@@ -41,7 +41,7 @@ class SeeAllTvViewModel @Inject constructor(
 
     private fun getPopular() {
         tryToExecutePaging(
-            call = getAllSeries::getPopularTv,
+            call = { getAllSeries.getPopularTv().cachedIn(viewModelScope) },
             onSuccess = ::onSuccess,
             onError = ::onError
         )
@@ -49,7 +49,7 @@ class SeeAllTvViewModel @Inject constructor(
 
     private fun getOnTheAir() {
         tryToExecutePaging(
-            call = getAllSeries::getOnTheAir,
+            call = { getAllSeries.getOnTheAir().cachedIn(viewModelScope) },
             onSuccess = ::onSuccess,
             onError = ::onError
         )
@@ -57,7 +57,7 @@ class SeeAllTvViewModel @Inject constructor(
 
     private fun getAiringTodayTv() {
         tryToExecutePaging(
-            call = getAllSeries::getAiringTodayTv,
+            call = { getAllSeries.getAiringTodayTv().cachedIn(viewModelScope) },
             onSuccess = ::onSuccess,
             onError = ::onError
         )
