@@ -38,6 +38,7 @@ fun SeeAllTvScreen(
         modifier = Modifier.fillMaxSize(),
         title = state.title,
         isLoading = false,
+        hasTopBar = true,
     ) {
         SeeAllTvShowsContent(state.tvShows.collectAsLazyPagingItems())
     }
