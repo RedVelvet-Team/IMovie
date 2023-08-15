@@ -39,13 +39,13 @@ abstract class BaseViewModel<UiState : BaseUiState, UiEffect>(state: UiState) :
                 onSuccessWithData(result)
                 onSuccessWithoutData()
             } catch (e: ValidationException) {
-                onError(InvalidationErrorState(e.message))
+                onError(InvalidationErrorState(e.message.toString()))
             } catch (e: NullResultException) {
-                onError(NullResultErrorState(e.message))
+                onError(NullResultErrorState(e.message.toString()))
             } catch (e: NetworkException) {
-                onError(NetworkErrorState(e.message))
+                onError(NetworkErrorState(e.message.toString()))
             } catch (e: MovieException) {
-                onError(ErrorUiState(e.message))
+                onError(ErrorUiState(e.message.toString()))
             }
         }
     }
@@ -63,11 +63,11 @@ abstract class BaseViewModel<UiState : BaseUiState, UiEffect>(state: UiState) :
                     onSuccess(data)
                 }
             } catch (e: NullResultException) {
-                onError(NullResultErrorState(e.message))
+                onError(NullResultErrorState(e.message.toString()))
             } catch (e: NetworkException) {
-                onError(NetworkErrorState(e.message))
+                onError(NetworkErrorState(e.message.toString()))
             } catch (e: MovieException) {
-                onError(ErrorUiState(e.message))
+                onError(ErrorUiState(e.message.toString()))
             }
         }
     }
