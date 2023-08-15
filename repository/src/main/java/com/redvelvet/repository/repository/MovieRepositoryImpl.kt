@@ -6,8 +6,16 @@ import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import com.redvelvet.entities.actor.Actor
 import com.redvelvet.entities.movie.Movie
+import com.redvelvet.entities.movie.details.MovieDetails
+import com.redvelvet.entities.movie.details.MovieImages
+import com.redvelvet.entities.movie.details.MovieKeyWords
+import com.redvelvet.entities.movie.details.MovieRecommendations
+import com.redvelvet.entities.movie.details.MovieReviews
+import com.redvelvet.entities.movie.details.MovieSimilar
+import com.redvelvet.entities.movie.details.MovieTopCast
 import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.entities.tv.TvShow
+import com.redvelvet.repository.mapper.toDomain
 import com.redvelvet.repository.pagingSource.ActorSearchPageSource
 import com.redvelvet.repository.pagingSource.MoviesSearchPageSource
 import com.redvelvet.repository.pagingSource.MultiSearchPageSource
@@ -52,6 +60,37 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     // endregion
+
+    //region Movie Details
+    override suspend fun getMovieDetailsById(movieId: Int): MovieDetails {
+        return remoteDataSource.getMovieDetailsById(movieId).toDomain()
+    }
+
+    override suspend fun getMovieImagesByID(movieId: Int): MovieImages {
+        return remoteDataSource.getMovieImagesByID(movieId).toDomain()
+    }
+
+    override suspend fun getMovieKeyWordsByID(movieId: Int): MovieKeyWords {
+        return remoteDataSource.getMovieKeyWordsByID(movieId).toDomain()
+    }
+
+    override suspend fun getMovieRecommendationsByID(movieId: Int): MovieRecommendations {
+        return remoteDataSource.getMovieRecommendationsByID(movieId).toDomain()
+    }
+
+    override suspend fun getMovieReviewsByID(movieId: Int): MovieReviews {
+        return remoteDataSource.getMovieReviewsByID(movieId).toDomain()
+    }
+
+    override suspend fun getMovieSimilarByID(movieId: Int): MovieSimilar {
+        return remoteDataSource.getMovieSimilarByID(movieId).toDomain()
+    }
+
+    override suspend fun getMovieTopCastByID(movieId: Int): MovieTopCast {
+        return remoteDataSource.getMovieTopCastByID(movieId).toDomain()
+    }
+    //endregion
+
     companion object {
         private const val DEFAULT_PAGE_SIZE = 10
     }
