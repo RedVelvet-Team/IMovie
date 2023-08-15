@@ -1,6 +1,8 @@
 package com.redvelvet.viewmodel.seeall.tv
 
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import androidx.paging.map
 import com.redvelvet.entities.tv.TvShow
 import com.redvelvet.usecase.usecase.seealltv.GetAllTvSeriesUseCase
@@ -41,7 +43,7 @@ class SeeAllTvViewModel @Inject constructor(
 
     private fun getPopular() {
         tryToExecutePaging(
-            call = { getAllSeries.getPopularTv() },
+            call = { getAllSeries.getPopularTv().cachedIn(viewModelScope) },
             onSuccess = ::onSuccess,
             onError = ::onError
         )
@@ -49,7 +51,7 @@ class SeeAllTvViewModel @Inject constructor(
 
     private fun getOnTheAir() {
         tryToExecutePaging(
-            call = { getAllSeries.getOnTheAir() },
+            call = { getAllSeries.getOnTheAir().cachedIn(viewModelScope) },
             onSuccess = ::onSuccess,
             onError = ::onError
         )
@@ -57,7 +59,7 @@ class SeeAllTvViewModel @Inject constructor(
 
     private fun getAiringTodayTv() {
         tryToExecutePaging(
-            call = { getAllSeries.getAiringTodayTv() },
+            call = { getAllSeries.getAiringTodayTv().cachedIn(viewModelScope) },
             onSuccess = ::onSuccess,
             onError = ::onError
         )
