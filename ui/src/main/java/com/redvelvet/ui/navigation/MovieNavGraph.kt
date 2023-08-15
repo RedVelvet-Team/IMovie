@@ -10,6 +10,7 @@ import com.redvelvet.ui.screen.onboarding.onBoardingRoute
 import com.redvelvet.ui.screen.search.searchRoute
 import com.redvelvet.ui.screen.seeAllUpcoming.seeAllUpcomingListRoute
 import com.redvelvet.ui.screen.forgot_password.forgotPasswordRoute
+import com.redvelvet.ui.screen.known_for.actorKnownForRoute
 import com.redvelvet.ui.screen.signup.signupRoute
 import com.redvelvet.ui.screen.splash.splashRoute
 
@@ -19,6 +20,7 @@ fun MovieNavGraph() {
         splashRoute()
         onBoardingRoute()
         actorDetailsRoute()
+        actorKnownForRoute()
         searchRoute()
         loginRoute()
         homeRoute()
