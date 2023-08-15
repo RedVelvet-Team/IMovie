@@ -3,6 +3,7 @@ package com.redvelvet.viewmodel.base
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.redvelvet.entities.error.MovieException
 import com.redvelvet.entities.error.NetworkException
 import com.redvelvet.entities.error.NullResultException
@@ -57,7 +58,7 @@ abstract class BaseViewModel<UiState : BaseUiState, UiEffect>(state: UiState) :
     ) {
         viewModelScope.launch(dispatcher) {
             try {
-                val result = call()
+                val result = call().cachedIn(viewModelScope)
                 result.collect { data ->
                     onSuccess(data)
                 }

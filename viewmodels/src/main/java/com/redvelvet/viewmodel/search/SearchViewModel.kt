@@ -59,27 +59,19 @@ class SearchViewModel @Inject constructor(
     private fun onGetData(query: String) {
         when (_state.value.selectedMediaType) {
             SearchMedia.ALL -> fetchResults {
-                getAllSearchResultUseCase(query).cachedIn(
-                    viewModelScope
-                )
+                getAllSearchResultUseCase(query)
             }
 
             SearchMedia.MOVIE -> fetchMoviesResults {
-                getSearchMoviesUseCase(query).cachedIn(
-                    viewModelScope
-                )
+                getSearchMoviesUseCase(query)
             }
 
             SearchMedia.PEOPLE -> fetchPeopleResults {
-                getSearchPeopleUseCase(query).cachedIn(
-                    viewModelScope
-                )
+                getSearchPeopleUseCase(query)
             }
 
             SearchMedia.TV -> fetchTvShowResults {
-                getSearchTvShowUseCase(query).cachedIn(
-                    viewModelScope
-                )
+                getSearchTvShowUseCase(query)
             }
         }
     }
@@ -87,61 +79,70 @@ class SearchViewModel @Inject constructor(
     private fun fetchResults(fetchFunction: suspend () -> Flow<PagingData<SearchResult>>) {
         tryToExecutePaging(
             call = fetchFunction,
-            onSuccess = { pagingData ->
-                _state.update {
-                    it.copy(
-                        searchResult = flowOf(pagingData.map { it.toSearchCardUiState() }),
-                        isLoading = false, isEmpty = false
-                    )
-                }
-            },
+            onSuccess = ::onSuccessSearchResults,
             onError = ::onError
         )
+    }
+
+    private fun onSuccessSearchResults(pagingData: PagingData<SearchResult>) {
+        _state.update {
+            it.copy(
+                searchResult = flowOf(pagingData.map { it.toSearchCardUiState() }),
+                isLoading = false,
+                isEmpty = false
+            )
+        }
     }
 
     private fun fetchMoviesResults(fetchFunction: suspend () -> Flow<PagingData<Movie>>) {
         tryToExecutePaging(
             call = fetchFunction,
-            onSuccess = { pagingData ->
-                _state.update {
-                    it.copy(
-                        searchResult = flowOf(pagingData.map { it.toSearchCardUiState() }),
-                        isLoading = false, isEmpty = false
-                    )
-                }
-            },
+            onSuccess = ::onSuccessMoviesResults,
             onError = ::onError
         )
+    }
+
+    private fun onSuccessMoviesResults(pagingData: PagingData<Movie>) {
+        _state.update {
+            it.copy(
+                searchResult = flowOf(pagingData.map { it.toSearchCardUiState() }),
+                isLoading = false, isEmpty = false
+            )
+        }
     }
 
     private fun fetchPeopleResults(fetchFunction: suspend () -> Flow<PagingData<Actor>>) {
         tryToExecutePaging(
             call = fetchFunction,
-            onSuccess = { pagingData ->
-                _state.update {
-                    it.copy(
-                        searchResult = flowOf(pagingData.map { it.toSearchCardUiState() }),
-                        isLoading = false, isEmpty = false
-                    )
-                }
-            },
+            onSuccess = ::onSuccessPeopleResults,
             onError = ::onError
         )
+    }
+
+    private fun onSuccessPeopleResults(pagingData: PagingData<Actor>) {
+        _state.update {
+            it.copy(
+                searchResult = flowOf(pagingData.map { it.toSearchCardUiState() }),
+                isLoading = false, isEmpty = false
+            )
+        }
     }
 
     private fun fetchTvShowResults(fetchFunction: suspend () -> Flow<PagingData<TvShow>>) {
         tryToExecutePaging(
             call = fetchFunction,
-            onSuccess = { pagingData ->
-                _state.update {
-                    it.copy(
-                        searchResult = flowOf(pagingData.map { it.toSearchCardUiState() }),
-                        isLoading = false, isEmpty = false
-                    )
-                }
-            },
+            onSuccess = ::onSuccessTvShowResults,
             onError = ::onError
         )
+    }
+
+    private fun onSuccessTvShowResults(pagingData: PagingData<TvShow>) {
+        _state.update {
+            it.copy(
+                searchResult = flowOf(pagingData.map { it.toSearchCardUiState() }),
+                isLoading = false, isEmpty = false
+            )
+        }
     }
 
     private fun onError(errorUiState: ErrorUiState) {
