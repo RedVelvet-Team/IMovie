@@ -17,8 +17,8 @@ import com.redvelvet.entities.movie.details.MovieTopCast
 import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.entities.tv.TvShow
 import com.redvelvet.repository.dto.tvShow.TvShowDto
-import com.redvelvet.repository.mapper.toTvShow
 import com.redvelvet.repository.mapper.toDomain
+import com.redvelvet.repository.mapper.toTvShow
 import com.redvelvet.repository.pagingSource.ActorSearchPageSource
 import com.redvelvet.repository.pagingSource.MoviesSearchPageSource
 import com.redvelvet.repository.pagingSource.MultiSearchPageSource
