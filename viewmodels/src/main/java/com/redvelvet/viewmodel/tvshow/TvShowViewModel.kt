@@ -24,7 +24,7 @@ class TvShowViewModel @Inject constructor(
     private fun getData() {
         tryToExecute(
             execute = { getTvShSowDetails(seriesId) },
-            onSuccess = ::onSuccess,
+            onSuccessWithData = ::onSuccess,
             onError = ::onError,
         )
     }
@@ -78,6 +78,10 @@ class TvShowViewModel @Inject constructor(
         TODO("Not yet implemented")
     }
 
+    override fun onClickCategory(seriesId: Int) {
+        TODO("Not yet implemented")
+    }
+
     override fun onClickRateSeries(seriesId: Int, rate: Double) {
         TODO("Not yet implemented")
     }
@@ -90,11 +94,23 @@ class TvShowViewModel @Inject constructor(
         TODO("Not yet implemented")
     }
 
+    override fun onClickKeyword(seriesId: Int) {
+        TODO("Not yet implemented")
+    }
+
     override fun onClickSeasonSeaAll() {
         TODO("Not yet implemented")
     }
 
+    override fun onClickSeason(seriesId: Int, seasonId: Int) {
+        TODO("Not yet implemented")
+    }
+
     override fun onClickPosterSeaAll() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickPoster(seriesId: Int, seasonNumber: Int) {
         TODO("Not yet implemented")
     }
 
@@ -107,6 +123,10 @@ class TvShowViewModel @Inject constructor(
     }
 
     override fun onClickRecommendationsSeriesSeeAll() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickRecommendation(seriesId: Int, recommendationId: Int) {
         TODO("Not yet implemented")
     }
 }
