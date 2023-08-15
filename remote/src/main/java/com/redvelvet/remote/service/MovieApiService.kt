@@ -92,4 +92,22 @@ interface MovieApiService {
         @Query("query") query: String,
         @Query("page") page: Int? = 1,
     ): Response<BaseResponse<List<TvShowDto>>>
+
+    //region see all tv
+    @GET("tv/airing_today")
+    suspend fun seeAllAiringTodayTv(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<TvShowDto>>>
+
+    @GET("tv/on_the_air")
+    suspend fun seeAllOnTheAir(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<TvShowDto>>>
+
+    @GET("tv/popular")
+    suspend fun seeAllPopularTv(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<TvShowDto>>>
+
+    //endregion
 }

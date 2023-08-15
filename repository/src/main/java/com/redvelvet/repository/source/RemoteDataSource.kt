@@ -24,10 +24,17 @@ interface RemoteDataSource {
     //endregion
 
     //region Search
-    suspend fun multiSearch(query: String, page : Int?): List<MultiSearchResultDto>
-    suspend fun searchPeople(query: String, page : Int?): List<PersonDto>
-    suspend fun searchMovie(query: String, page : Int?): List<MovieDetailsDTO>
-    suspend fun searchTvShows(query: String, page : Int?): List<TvShowDto>
+    suspend fun multiSearch(query: String, page: Int?): List<MultiSearchResultDto>
+    suspend fun searchPeople(query: String, page: Int?): List<PersonDto>
+    suspend fun searchMovie(query: String, page: Int?): List<MovieDetailsDTO>
+    suspend fun searchTvShows(query: String, page: Int?): List<TvShowDto>
+    //endregion
+
+    //region see all tv
+    suspend fun seeAllAiringTodayTv(page: Int?): List<TvShowDto>
+    suspend fun seeAllOnTheAir(page: Int?): List<TvShowDto>
+    suspend fun seeAllPopularTv(page: Int?): List<TvShowDto>
+
     //endregion
 
 
