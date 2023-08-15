@@ -1,6 +1,8 @@
 package com.redvelvet.viewmodel.seeall.tv
 
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import androidx.paging.map
 import com.redvelvet.entities.tv.TvShow
 import com.redvelvet.usecase.usecase.seealltv.GetAllTvSeriesUseCase
