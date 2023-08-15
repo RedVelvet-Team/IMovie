@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SeeAllTvViewModel @Inject constructor(
     private val getAllSeries: GetAllTvSeriesUseCase
-) : BaseViewModel<SeeAllTvShowUiState, SeeAllTvShowsUiEffect>(SeeAllTvShowUiState()) {
+) : BaseViewModel<SeeAllTvShowUiState, Unit>(SeeAllTvShowUiState()) {
     private val args: SeeAllTvShows = SeeAllTvShows.POPULAR
 
     init {
@@ -41,7 +41,7 @@ class SeeAllTvViewModel @Inject constructor(
 
     private fun getPopular() {
         tryToExecutePaging(
-            call = { getAllSeries.getPopularTv() },
+            call = getAllSeries::getPopularTv,
             onSuccess = ::onSuccess,
             onError = ::onError
         )
@@ -49,7 +49,7 @@ class SeeAllTvViewModel @Inject constructor(
 
     private fun getOnTheAir() {
         tryToExecutePaging(
-            call = { getAllSeries.getOnTheAir() },
+            call = getAllSeries::getOnTheAir,
             onSuccess = ::onSuccess,
             onError = ::onError
         )
@@ -57,7 +57,7 @@ class SeeAllTvViewModel @Inject constructor(
 
     private fun getAiringTodayTv() {
         tryToExecutePaging(
-            call = { getAllSeries.getAiringTodayTv() },
+            call = getAllSeries::getAiringTodayTv,
             onSuccess = ::onSuccess,
             onError = ::onError
         )
@@ -67,7 +67,8 @@ class SeeAllTvViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isLoading = false,
-                tvShows = flowOf(result.map { tvShow -> tvShow.toTvShowUiState() })
+                tvShows = flowOf(result.map { tvShow -> tvShow.toTvShowUiState() }),
+                error = null
             )
         }
     }

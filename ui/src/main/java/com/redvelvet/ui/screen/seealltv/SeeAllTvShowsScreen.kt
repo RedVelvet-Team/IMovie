@@ -20,7 +20,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.rememberAsyncImagePainter
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.composable.ItemBasicCard
 import com.redvelvet.ui.composable.MovieScaffold
 import com.redvelvet.ui.theme.color
@@ -34,8 +33,6 @@ fun SeeAllTvScreen(
     viewModel: SeeAllTvViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
 
     MovieScaffold(
         modifier = Modifier.fillMaxSize(),

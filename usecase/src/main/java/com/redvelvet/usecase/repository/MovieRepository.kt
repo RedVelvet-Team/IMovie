@@ -3,6 +3,13 @@ package com.redvelvet.usecase.repository
 import androidx.paging.PagingData
 import com.redvelvet.entities.actor.Actor
 import com.redvelvet.entities.movie.Movie
+import com.redvelvet.entities.movie.details.MovieDetails
+import com.redvelvet.entities.movie.details.MovieImages
+import com.redvelvet.entities.movie.details.MovieKeyWords
+import com.redvelvet.entities.movie.details.MovieRecommendations
+import com.redvelvet.entities.movie.details.MovieReviews
+import com.redvelvet.entities.movie.details.MovieSimilar
+import com.redvelvet.entities.movie.details.MovieTopCast
 import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.entities.tv.TvShow
 import kotlinx.coroutines.flow.Flow
@@ -26,10 +33,10 @@ interface MovieRepository {
     //region Movie Details
     suspend fun getMovieDetailsById(movieId: Int): MovieDetails
     suspend fun getMovieImagesByID(movieId: Int): MovieImages
-    suspend fun getMovieKeyWordsByID(movieId: Int):MovieKeyWords
-    suspend fun getMovieRecommendationsByID(movieId: Int):MovieRecommendations
-    suspend fun getMovieReviewsByID(movieId: Int):MovieReviews
-    suspend fun getMovieSimilarByID(movieId: Int):MovieSimilar
-    suspend fun getMovieTopCastByID(movieId: Int):MovieTopCast
+    suspend fun getMovieKeyWordsByID(movieId: Int): MovieKeyWords
+    suspend fun getMovieRecommendationsByID(movieId: Int): MovieRecommendations
+    suspend fun getMovieReviewsByID(movieId: Int): MovieReviews
+    suspend fun getMovieSimilarByID(movieId: Int): MovieSimilar
+    suspend fun getMovieTopCastByID(movieId: Int): MovieTopCast
     //endregion
 }

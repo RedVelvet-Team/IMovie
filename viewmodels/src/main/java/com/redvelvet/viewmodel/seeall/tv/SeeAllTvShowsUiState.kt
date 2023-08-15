@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 data class SeeAllTvShowUiState(
+    val id: Int? = null,
     val title: String = "",
     val tvShows: Flow<PagingData<TvShowUiState>> = flow { },
     val isLoading: Boolean = true,
