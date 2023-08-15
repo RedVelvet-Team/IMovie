@@ -6,14 +6,14 @@ import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.entities.tv.TvShow
 import com.redvelvet.repository.dto.movie.MovieDto
 import com.redvelvet.repository.dto.person.ActorDto
-import com.redvelvet.repository.dto.search.MultiSearchResultDto
+import com.redvelvet.repository.dto.search.CombinedResultDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
 
-fun MultiSearchResultDto.toSearchResult(): SearchResult {
+fun CombinedResultDto.toSearchResult(): SearchResult {
     return SearchResult(
         id = this.id ?: 0,
         mediaType = this.mediaType ?: "",
-        name = this.name ?: "",
+        name = this.name ?: this.title ?: "",
         language = this.originalLanguage ?: "",
         posterPath = this.posterPath ?: "",
         releaseDate = this.releaseDate ?: "",

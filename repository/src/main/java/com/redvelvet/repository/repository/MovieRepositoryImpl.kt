@@ -6,9 +6,11 @@ import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import com.redvelvet.entities.actor.Actor
 import com.redvelvet.entities.movie.Movie
+import com.redvelvet.entities.search.CombinedResult
 import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.entities.tv.TvShow
 import com.redvelvet.repository.mapper.toActor
+import com.redvelvet.repository.mapper.toCombinedResult
 import com.redvelvet.repository.pagingSource.ActorSearchPageSource
 import com.redvelvet.repository.pagingSource.MoviesSearchPageSource
 import com.redvelvet.repository.pagingSource.MultiSearchPageSource
@@ -54,6 +56,11 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun getActorDetails(id: Int): Actor {
         return wrapRemoteResponse { remoteDataSource.getActorDetails(id) }.toActor()
+    }
+
+    override suspend fun getActorKnownFor(id: Int): List<CombinedResult> {
+        return wrapRemoteResponse { remoteDataSource.getActorKnownFor(id) }
+            .result.map { it.toCombinedResult() }
     }
 
     // endregion

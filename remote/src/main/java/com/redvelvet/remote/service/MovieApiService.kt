@@ -1,6 +1,7 @@
 package com.redvelvet.remote.service
 
 
+import com.redvelvet.repository.dto.ActorKnownForDto
 import com.redvelvet.repository.dto.BaseResponse
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
@@ -8,7 +9,7 @@ import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
 import com.redvelvet.repository.dto.movie.MovieDto
 import com.redvelvet.repository.dto.person.ActorDto
-import com.redvelvet.repository.dto.search.MultiSearchResultDto
+import com.redvelvet.repository.dto.search.CombinedResultDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
 import retrofit2.Response
 import retrofit2.http.Body
@@ -45,7 +46,7 @@ interface MovieApiService {
     suspend fun multiSearch(
         @Query("query") query: String,
         @Query("page") page: Int? = 1,
-    ): Response<BaseResponse<List<MultiSearchResultDto>>>
+    ): Response<BaseResponse<List<CombinedResultDto>>>
 
     @GET("search/person")
     suspend fun searchPeople(
@@ -69,4 +70,9 @@ interface MovieApiService {
     suspend fun getActorDetails(
         @Path("person_id") id: Int
     ): Response<ActorDto>
+
+    @GET("person/{person_id}/combined_credits")
+    suspend fun getActorKnownFor(
+        @Path("person_id") id: Int
+    ): Response<ActorKnownForDto>
 }
