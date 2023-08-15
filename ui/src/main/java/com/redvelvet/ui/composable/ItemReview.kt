@@ -1,8 +1,7 @@
 package com.redvelvet.ui.composable
 
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -11,30 +10,32 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import com.redvelvet.ui.theme.FontAccent
 import com.redvelvet.ui.theme.FontSecondary
+import com.redvelvet.ui.theme.Secondary
 import com.redvelvet.ui.theme.Typography
-import com.redvelvet.ui.theme.color
-import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.radius
 import com.redvelvet.ui.theme.spacing
 
+/// implemented by haidy
 @Composable
 fun ItemReview(
+    id: String,
     name: String,
     rating: Double,
     date: String,
     content: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: (id: String) -> Unit = {}
+
 ) {
     Card(
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.color.backgroundSecondary),
+        colors = CardDefaults.cardColors(containerColor = Secondary),
         shape = RoundedCornerShape(MaterialTheme.radius.radius16),
-        modifier = modifier
+        modifier = modifier.clickable { onClick(id) }
     ) {
         NameWithRatingRow(
-            name = "Written by ".plus(name),
+            name = "Written by ".plus(name).plus(" "),
             rating = rating,
             textNameStyle = Typography.titleSmall,
             rowModifier = Modifier
@@ -49,7 +50,9 @@ fun ItemReview(
                 bottom = MaterialTheme.spacing.spacing8
             ),
             color = FontSecondary,
-            style = Typography.displaySmall
+            style = Typography.displaySmall,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
         Text(
             text = content,
@@ -60,21 +63,8 @@ fun ItemReview(
             ),
             color = FontAccent,
             style = Typography.displaySmall,
+            maxLines = 4,
             overflow = TextOverflow.Ellipsis
         )
     }
-}
-
-@Preview
-@Composable
-fun PreviewItemReview() {
-    ItemReview(
-        name = "Haidy",
-        rating = 8.9,
-        date = "May 31,2023",
-        content = "Halle Bailey served a very good performance with a lot of charisma and passion, she also has an impressive voice. In some parts people were clapping from excitement and I shed a tear since I saw her performing her first song.",
-        modifier = Modifier
-            .width(MaterialTheme.dimens.dimens270)
-            .height(MaterialTheme.dimens.dimens143)
-    )
 }

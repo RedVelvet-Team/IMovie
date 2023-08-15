@@ -48,7 +48,7 @@ class TvShowViewModel @Inject constructor(
                 recommendations = tvShowAllDetails.recommendations.map { it.toTvShowRecommendationUiState() },
                 myRating = 0,
                 isLoading = false,
-                )
+            )
         }
     }
 

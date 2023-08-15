@@ -1,7 +1,6 @@
 package com.redvelvet.ui.screen.login
 
 import android.content.res.Configuration
-import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -44,6 +43,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
+import com.redvelvet.ui.composable.MovieScaffold
 import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.PrimaryOutlinedButton
 import com.redvelvet.ui.composable.PrimaryTextField
@@ -87,7 +87,7 @@ fun LoginScreen(
 
                 is LoginUiEffect.ShowToastError -> {
                     uiState.error?.let { error ->
-                        Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+
                     }
                 }
 
@@ -115,26 +115,36 @@ private fun LoginScreenContent(
     val imageBitmap: ImageBitmap = ImageBitmap.imageResource(context.resources, R.drawable.login)
 
     AnimatedVisibility(LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT) {
-        Box {
-            Image(
-                bitmap = imageBitmap,
-                contentDescription = "Login Image",
-                modifier = Modifier
-                    .height(MaterialTheme.dimens.dimens365)
-                    .fillMaxWidth(),
-                contentScale = ContentScale.FillBounds
-            )
-            Card(
-                modifier = Modifier
-                    .padding(top = MaterialTheme.spacing.spacing285)
-                    .fillMaxWidth()
-                    .shadow(MaterialTheme.spacing.spacing0),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.color.backgroundPrimary),
-                shape = RoundedCornerShape(
-                    topStart = MaterialTheme.radius.radius32, topEnd = MaterialTheme.radius.radius32
+        MovieScaffold(
+            title = "",
+            isLoading = uiState.isLoading,
+            error = uiState.error,
+            modifier = Modifier.fillMaxWidth(),
+            hasBackArrow = true,
+            hasTopBar = false
+        ) {
+            Box {
+                Image(
+                    bitmap = imageBitmap,
+                    contentDescription = "Login Image",
+                    modifier = Modifier
+                        .height(MaterialTheme.dimens.dimens365)
+                        .fillMaxWidth(),
+                    contentScale = ContentScale.FillBounds
                 )
-            ) {
-                LoginContentPortrait(uiState = uiState, interaction = interaction)
+                Card(
+                    modifier = Modifier
+                        .padding(top = MaterialTheme.spacing.spacing285)
+                        .fillMaxWidth()
+                        .shadow(MaterialTheme.spacing.spacing0),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.color.backgroundPrimary),
+                    shape = RoundedCornerShape(
+                        topStart = MaterialTheme.radius.radius32,
+                        topEnd = MaterialTheme.radius.radius32
+                    )
+                ) {
+                    LoginContentPortrait(uiState = uiState, interaction = interaction)
+                }
             }
         }
     }
@@ -308,6 +318,14 @@ private fun LoginContentLandscape(
             errorMessage = "Invalid Password",
             onTextChange = interaction::onPasswordChanged
         )
+        Text(
+            text = "Forgot Password?",
+            modifier = Modifier
+                .align(Alignment.End)
+                .padding(bottom = MaterialTheme.spacing.spacing8)
+                .clickable { interaction.onClickForgotPassword() },
+            style = Typography.titleSmall.copy(color = MaterialTheme.color.fontPrimary),
+        )
         PrimaryButton(
             modifier = Modifier
                 .fillMaxWidth()
@@ -334,4 +352,3 @@ private fun LoginContentLandscape(
         )
     }
 }
-

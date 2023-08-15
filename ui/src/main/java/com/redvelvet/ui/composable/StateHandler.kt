@@ -4,11 +4,11 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun StateHandler(
-    onLoading: @Composable () -> Unit,
-    onFailure: @Composable () -> Unit,
-    onSuccess: @Composable () -> Unit,
     isLoading: Boolean,
     isError: Boolean,
+    onLoading: @Composable () -> Unit = { LoadingState() },
+    onFailure: @Composable () -> Unit = { ErrorState() },
+    onSuccess: @Composable () -> Unit,
 ) {
     when {
         isLoading -> {

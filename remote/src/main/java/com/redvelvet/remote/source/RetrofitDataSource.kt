@@ -1,11 +1,16 @@
 package com.redvelvet.remote.source
 
+import com.redvelvet.entities.error.BadRequestException
+import com.redvelvet.entities.error.NoInternetException
+import com.redvelvet.entities.error.NotFoundException
+import com.redvelvet.entities.error.NullResultException
+import com.redvelvet.entities.error.ServerException
+import com.redvelvet.entities.error.ValidationException
 import com.redvelvet.remote.service.MovieApiService
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
-import com.redvelvet.repository.dto.movie.MovieDto
 import com.redvelvet.repository.dto.person.PersonDto
 import com.redvelvet.repository.dto.search.MultiSearchResultDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
@@ -13,13 +18,14 @@ import com.redvelvet.repository.dto.tvShow.TvShowImagesDto
 import com.redvelvet.repository.dto.tvShow.TvShowKeywordsDto
 import com.redvelvet.repository.dto.tvShow.TvShowTopCastDto
 import com.redvelvet.repository.dto.tvShow.TvShowVideosDto
+import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
+import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
+import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
+import com.redvelvet.repository.dto.movie.details.MovieRecommendationsDTO
+import com.redvelvet.repository.dto.movie.details.MovieReviewsDTO
+import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
+import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
 import com.redvelvet.repository.source.RemoteDataSource
-import com.redvelvet.repository.util.BadRequestException
-import com.redvelvet.repository.util.NoInternetException
-import com.redvelvet.repository.util.NotFoundException
-import com.redvelvet.repository.util.NullResultException
-import com.redvelvet.repository.util.ServerException
-import com.redvelvet.repository.util.ValidationException
 import retrofit2.Response
 import java.net.UnknownHostException
 import javax.inject.Inject
@@ -70,6 +76,50 @@ class RetrofitDataSource @Inject constructor(
     }
     //endregion
 
+    //region Movie Details
+    override suspend fun getMovieDetailsById(movieId: Int): MovieDetailsDTO {
+        return wrapApiResponse {
+            movieApiService.getMovieDetailsById(movieId)
+        }
+    }
+
+    override suspend fun getMovieImagesByID(movieId: Int): MovieImagesDTO {
+        return wrapApiResponse {
+            movieApiService.getMovieImagesByID(movieId)
+        }
+    }
+
+    override suspend fun getMovieKeyWordsByID(movieId: Int): MovieKeyWordsDTO {
+        return wrapApiResponse {
+            movieApiService.getMovieKeyWordsByID(movieId)
+        }
+    }
+
+    override suspend fun getMovieRecommendationsByID(movieId: Int): MovieRecommendationsDTO {
+        return wrapApiResponse {
+            movieApiService.getMovieRecommendationsByID(movieId)
+        }
+    }
+
+    override suspend fun getMovieReviewsByID(movieId: Int): MovieReviewsDTO {
+        return wrapApiResponse {
+            movieApiService.getMovieReviewsByID(movieId)
+        }
+    }
+
+    override suspend fun getMovieSimilarByID(movieId: Int): MovieSimilarDTO {
+        return wrapApiResponse {
+            movieApiService.getMovieSimilarByID(movieId)
+        }
+    }
+
+    override suspend fun getMovieTopCastByID(movieId: Int): MovieTopCastDto {
+        return wrapApiResponse {
+            movieApiService.getMovieTopCastByID(movieId)
+        }
+    }
+    //endregion
+
     // region search
     override suspend fun multiSearch(query: String, page: Int?): List<MultiSearchResultDto> {
         return wrapApiResponse { movieApiService.multiSearch(query, page) }.result.orEmpty()
@@ -79,7 +129,7 @@ class RetrofitDataSource @Inject constructor(
         return wrapApiResponse { movieApiService.searchPeople(query, page) }.result.orEmpty()
     }
 
-    override suspend fun searchMovie(query: String, page: Int?): List<MovieDto> {
+    override suspend fun searchMovie(query: String, page: Int?): List<MovieDetailsDTO> {
         return wrapApiResponse { movieApiService.searchMovie(query, page) }.result.orEmpty()
     }
 
