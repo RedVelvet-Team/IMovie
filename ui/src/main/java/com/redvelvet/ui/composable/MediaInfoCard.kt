@@ -19,11 +19,13 @@ import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsInteraction
+import com.redvelvet.viewmodel.tvshow.TvShowDetailsInteraction
+
 
 @Composable
-fun MediaInfoCard(
+fun <T> MediaInfoCard(
     data: MediaInfoCardData,
-    interaction: MovieDetailsInteraction,
+    interaction: T,
 ) {
     Row(
         modifier = Modifier
@@ -64,7 +66,16 @@ fun MediaInfoCard(
                 items(data.genres.size) { index ->
                     GenreButton(
                         genre = data.genres[index],
-                        onGenreClick = { interaction.onClickGenre(data.genres[index]) }
+                        onGenreClick = {
+                            if (interaction is MovieDetailsInteraction) {
+                                interaction.onClickGenre(data.genres[index])
+                            }
+                            if (interaction is TvShowDetailsInteraction) {
+                                // TODO: ADD THIS INTERACTION
+//                                interaction.onClickGenre(data.genres[index])
+                            }
+
+                        }
                     )
                 }
             }
@@ -118,12 +129,12 @@ fun MediaInfoCard(
 }
 
 data class MediaInfoCardData(
-    val posterPath: String,
-    val originalTitle: String,
-    val genres: List<String>,
+    val posterPath: String = "",
+    val originalTitle: String = "",
+    val genres: List<String> = emptyList(),
     val hasTime: Boolean = false,
     val hasDate: Boolean = false,
-    val movieTime: String,
-    val spokenLanguages: String,
+    val movieTime: String = "",
+    val spokenLanguages: String = "",
     val seriesDate: String = "",
 )

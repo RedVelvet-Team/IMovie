@@ -12,10 +12,11 @@ import com.redvelvet.ui.screen.search.searchRoute
 import com.redvelvet.ui.screen.seeAllUpcoming.seeAllUpcomingListRoute
 import com.redvelvet.ui.screen.signup.signupRoute
 import com.redvelvet.ui.screen.splash.splashRoute
+import com.redvelvet.ui.screen.tvshowdetails.tvShowDetailsRoute
 
 @Composable
 fun MovieNavGraph() {
-    NavHost(LocalNavController.current, startDestination = MovieDestination.Splash.route) {
+    NavHost(LocalNavController.current, startDestination = MovieDestination.TvShowDetails.route) {
         splashRoute()
         onBoardingRoute()
         searchRoute()
@@ -25,5 +26,6 @@ fun MovieNavGraph() {
         signupRoute()
         forgotPasswordRoute()
         movieDetailsRoute()
+        tvShowDetailsRoute()
     }
 }

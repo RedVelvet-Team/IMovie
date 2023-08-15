@@ -8,24 +8,25 @@ import com.redvelvet.viewmodel.base.BaseUiState
 import com.redvelvet.viewmodel.base.ErrorUiState
 
 data class SeriesDetailsUiState(
-    val tvShowName:String = "",
-    val tvShowImage:String = "",
-    val tvShowLanguage:String = "",
+    val tvShowId: Int = 0,
+    val tvShowName: String = "",
+    val tvShowImage: String = "",
+    val tvShowLanguage: String = "",
     val tvShowTrailerUrl: String = "",
     val tvShowDescription: String = "",
-    val genres : List<String> = emptyList(),
+    val genres: List<String> = emptyList(),
     val voteAverage: Double = 0.0,
     val firstAirDate: String = "",
     val topCast: List<TvShowTopCastUiState> = emptyList(),
     val keywords: List<String> = emptyList(),
-    val seasons : List<SeasonUiState> = emptyList(),
+    val seasons: List<SeasonUiState> = emptyList(),
     val reviews: List<TvShowReviewUiState> = emptyList(),
     val posters: List<String> = emptyList(),
     val recommendations: List<TvShowRecommendationUiState> = emptyList(),
     val myRating: Int = 0,
     val isLoading: Boolean = true,
-    val error: ErrorUiState?= null,
-):BaseUiState
+    val error: ErrorUiState? = null,
+) : BaseUiState
 
 
 data class SeasonUiState(
@@ -38,6 +39,7 @@ data class SeasonUiState(
 )
 
 data class TvShowReviewUiState(
+    val id: String = "",
     val author: String = "",
     val rating: String = "",
     val createdAt: String = "",
@@ -45,6 +47,7 @@ data class TvShowReviewUiState(
 )
 
 data class TvShowRecommendationUiState(
+    val id: Int = 0,
     val poster: String = "",
     val seriesName: String = "",
 )
@@ -52,11 +55,12 @@ data class TvShowRecommendationUiState(
 data class TvShowTopCastUiState(
     val id: Int = 0,
     val name: String = "",
+    val image: String = "",
     val knownFoDepartment: String = "",
 )
 
 
-fun TvShowCast.toTvShowTopCastUiState() : TvShowTopCastUiState{
+fun TvShowCast.toTvShowTopCastUiState(): TvShowTopCastUiState {
     return TvShowTopCastUiState(
         id = id,
         name = name,
@@ -64,7 +68,7 @@ fun TvShowCast.toTvShowTopCastUiState() : TvShowTopCastUiState{
     )
 }
 
-fun SeasonTvShow.toSeasonUiState(): SeasonUiState{
+fun SeasonTvShow.toSeasonUiState(): SeasonUiState {
     return SeasonUiState(
         airDate = airDate,
         posterSeason = posterSeason,
@@ -75,7 +79,7 @@ fun SeasonTvShow.toSeasonUiState(): SeasonUiState{
     )
 }
 
-fun TvShowReview.toTvShowReviewUiState(): TvShowReviewUiState{
+fun TvShowReview.toTvShowReviewUiState(): TvShowReviewUiState {
     return TvShowReviewUiState(
         author = author,
         rating = rating.toString(),
@@ -84,7 +88,7 @@ fun TvShowReview.toTvShowReviewUiState(): TvShowReviewUiState{
     )
 }
 
-fun TvShowRecommendation.toTvShowRecommendationUiState(): TvShowRecommendationUiState{
+fun TvShowRecommendation.toTvShowRecommendationUiState(): TvShowRecommendationUiState {
     return TvShowRecommendationUiState(
         poster = poster,
         seriesName = seriesName,
