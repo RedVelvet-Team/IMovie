@@ -1,13 +1,14 @@
 package com.redvelvet.remote.source
 
 import com.redvelvet.remote.service.MovieApiService
+import com.redvelvet.repository.dto.ActorKnownForDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
 import com.redvelvet.repository.dto.movie.MovieDto
 import com.redvelvet.repository.dto.person.ActorDto
-import com.redvelvet.repository.dto.search.MultiSearchResultDto
+import com.redvelvet.repository.dto.search.CombinedResultDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.source.RemoteDataSource
 import com.redvelvet.repository.util.BadRequestException
@@ -67,7 +68,7 @@ class RetrofitDataSource @Inject constructor(
     //endregion
 
     // region search
-    override suspend fun multiSearch(query: String, page: Int?): List<MultiSearchResultDto> {
+    override suspend fun multiSearch(query: String, page: Int?): List<CombinedResultDto> {
         return wrapApiResponse { movieApiService.multiSearch(query, page) }.result.orEmpty()
     }
 
@@ -85,6 +86,10 @@ class RetrofitDataSource @Inject constructor(
 
     override suspend fun getActorDetails(id: Int): ActorDto {
         return wrapApiResponse { movieApiService.getActorDetails(id) }
+    }
+
+    override suspend fun getActorKnownFor(id: Int): ActorKnownForDto {
+        return wrapApiResponse { movieApiService.getActorKnownFor(id) }
     }
 
     // endregion
