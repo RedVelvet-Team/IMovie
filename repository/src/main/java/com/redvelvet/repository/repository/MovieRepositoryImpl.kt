@@ -7,6 +7,7 @@ import androidx.paging.PagingSource
 import androidx.paging.map
 import com.redvelvet.entities.actor.Actor
 import com.redvelvet.entities.movie.Movie
+import com.redvelvet.entities.search.CombinedResult
 import com.redvelvet.entities.movie.details.MovieDetails
 import com.redvelvet.entities.movie.details.MovieImages
 import com.redvelvet.entities.movie.details.MovieKeyWords
@@ -16,6 +17,8 @@ import com.redvelvet.entities.movie.details.MovieSimilar
 import com.redvelvet.entities.movie.details.MovieTopCast
 import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.entities.tv.TvShow
+import com.redvelvet.repository.mapper.toActor
+import com.redvelvet.repository.mapper.toCombinedResult
 import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.mapper.toDomain
 import com.redvelvet.repository.mapper.toTvShow
@@ -66,6 +69,15 @@ class MovieRepositoryImpl @Inject constructor(
         return search(query, page, ::TvShowSearchPageSource)
     }
 
+    override suspend fun getActorDetails(id: String): Actor {
+        return wrapRemoteResponse { remoteDataSource.getActorDetails(id) }.toActor()
+    }
+
+    override suspend fun getActorKnownFor(id: String): List<CombinedResult> {
+        return wrapRemoteResponse { remoteDataSource.getActorKnownFor(id) }
+            .result.map { it.toCombinedResult() }
+    }
+
     // endregion
 
     //region see all tv
@@ -102,7 +114,7 @@ class MovieRepositoryImpl @Inject constructor(
     ): Flow<PagingData<O>> {
         return Pager(
             config = PagingConfig(pageSize = page ?: DEFAULT_PAGE_SIZE),
-            pagingSourceFactory = { sourceFactory(remoteDataSource) }
+             pagingSourceFactory = { sourceFactory(remoteDataSource) }
         ).flow.map { pagingData ->
             pagingData.map { it.mapper() }
         }

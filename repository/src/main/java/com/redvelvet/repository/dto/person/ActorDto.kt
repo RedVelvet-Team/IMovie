@@ -2,7 +2,7 @@ package com.redvelvet.repository.dto.person
 
 import com.google.gson.annotations.SerializedName
 
-data class PersonDto(
+data class ActorDto(
     @SerializedName("adult")
     val adult: Boolean?,
     @SerializedName("also_known_as")

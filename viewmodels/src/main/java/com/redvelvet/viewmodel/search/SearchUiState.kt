@@ -1,10 +1,6 @@
 package com.redvelvet.viewmodel.search
 
 import androidx.paging.PagingData
-import com.redvelvet.entities.actor.Actor
-import com.redvelvet.entities.movie.Movie
-import com.redvelvet.entities.search.SearchResult
-import com.redvelvet.entities.tv.TvShow
 import com.redvelvet.viewmodel.base.BaseUiState
 import com.redvelvet.viewmodel.base.ErrorUiState
 import com.redvelvet.viewmodel.utils.SearchMedia
