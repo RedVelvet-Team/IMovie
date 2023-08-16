@@ -19,38 +19,39 @@ fun TvShowReviewsSection(
     it: List<TvShowReviewUiState>,
     interaction: TvShowDetailsInteraction
 ) {
-    Column(
-        modifier = Modifier
-            .padding(
-                bottom = MaterialTheme.spacing.spacing24,
-            )
-    ) {
-        ItemsSectionForDetialsScreens<Any>(
-            label = "Reviews",
-            hasName = false,
-            name = it.map { it2 -> it2.author },
-            hasCustomList = true,
-            hasDateAndCountry = false,
-            customListItemComposable = { index, _ ->
-                if (it[index].content.isNotEmpty())
-                    ItemReview(
-                        id = it[index].id,
-                        name = it[index].author,
-                        rating = it[index].rating.toDouble(),
-                        date = it[index].createdAt,
-                        content = it[index].content,
-                        modifier = Modifier
-                            .width(MaterialTheme.dimens.dimens270)
-                            .height(MaterialTheme.dimens.dimens143),
-                    )
-            },
-            onClickSeeAll = { interaction.onClickTopCastSeeAll() },
-            cardModifier = Modifier
-                .width(MaterialTheme.dimens.dimens104)
-                .height(MaterialTheme.dimens.dimens130),
+    if (it.isNotEmpty())
+        Column(
+            modifier = Modifier
+                .padding(
+                    bottom = MaterialTheme.spacing.spacing24,
+                )
+        ) {
+            ItemsSectionForDetialsScreens<Any>(
+                label = "Reviews",
+                hasName = false,
+                name = it.map { it2 -> it2.author },
+                hasCustomList = true,
+                hasDateAndCountry = false,
+                customListItemComposable = { index, _ ->
+                    if (it[index].content.isNotEmpty())
+                        ItemReview(
+                            id = it[index].id,
+                            name = it[index].author,
+                            rating = it[index].rating.toDouble(),
+                            date = it[index].createdAt,
+                            content = it[index].content,
+                            modifier = Modifier
+                                .width(MaterialTheme.dimens.dimens270)
+                                .height(MaterialTheme.dimens.dimens143),
+                        )
+                },
+                onClickSeeAll = { interaction.onClickTopCastSeeAll() },
+                cardModifier = Modifier
+                    .width(MaterialTheme.dimens.dimens104)
+                    .height(MaterialTheme.dimens.dimens130),
 
-            )
-    }
+                )
+        }
 
 }
 

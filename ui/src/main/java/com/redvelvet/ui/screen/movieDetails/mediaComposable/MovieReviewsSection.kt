@@ -20,38 +20,39 @@ fun MovieReviewsSection(
     it: List<MovieDetailsScreenUiState.MovieReviewsUiState>,
     interaction: MovieDetailsInteraction
 ) {
-    Column(
-        modifier = Modifier
-            .padding(
-                bottom = MaterialTheme.spacing.spacing24,
-            )
-    ) {
-        ItemsSectionForDetialsScreens<Any>(
-            label = "Reviews",
-            hasName = false,
-            name = it.map { it2 -> it2.reviewAuthor },
-            hasCustomList = true,
-            hasDateAndCountry = false,
-            customListItemComposable = { index, _ ->
-                if (it[index].reviewDescription.isNotEmpty())
-                    ItemReview(
-                        id = it[index].reviewId,
-                        name = it[index].reviewAuthor,
-                        rating = it[index].reviewStars,
-                        date = it[index].reviewDate,
-                        content = it[index].reviewDescription,
-                        modifier = Modifier
-                            .width(MaterialTheme.dimens.dimens270)
-                            .height(MaterialTheme.dimens.dimens143),
-                    )
-            },
-            onClickSeeAll = { interaction.onClickTopCastSeeAll() },
-            cardModifier = Modifier
-                .width(MaterialTheme.dimens.dimens104)
-                .height(MaterialTheme.dimens.dimens130),
+    if (it.isNotEmpty())
+        Column(
+            modifier = Modifier
+                .padding(
+                    bottom = MaterialTheme.spacing.spacing24,
+                )
+        ) {
+            ItemsSectionForDetialsScreens<Any>(
+                label = "Reviews",
+                hasName = false,
+                name = it.map { it2 -> it2.reviewAuthor },
+                hasCustomList = true,
+                hasDateAndCountry = false,
+                customListItemComposable = { index, _ ->
+                    if (it[index].reviewDescription.isNotEmpty())
+                        ItemReview(
+                            id = it[index].reviewId,
+                            name = it[index].reviewAuthor,
+                            rating = it[index].reviewStars,
+                            date = it[index].reviewDate,
+                            content = it[index].reviewDescription,
+                            modifier = Modifier
+                                .width(MaterialTheme.dimens.dimens270)
+                                .height(MaterialTheme.dimens.dimens143),
+                        )
+                },
+                onClickSeeAll = { interaction.onClickTopCastSeeAll() },
+                cardModifier = Modifier
+                    .width(MaterialTheme.dimens.dimens104)
+                    .height(MaterialTheme.dimens.dimens130),
 
-            )
-    }
+                )
+        }
 
 }
 

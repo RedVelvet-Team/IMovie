@@ -19,35 +19,37 @@ fun TvshowsKeyWordsSection(
     it: List<String>,
     interaction: TvShowDetailsInteraction,
 ) {
-    Text(
-        modifier = Modifier.padding(
-            bottom = MaterialTheme.spacing.spacing8,
-            start = MaterialTheme.spacing.spacing16
-        ),
-        text = "Keywords",
-        style = MaterialTheme.typography.displayMedium,
-        color = FontSecondary
-    )
-    LazyRow(
-        contentPadding = PaddingValues(
-            horizontal = MaterialTheme.spacing.spacing16,
-        ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                bottom = MaterialTheme.spacing.spacing24,
+    if (it.isNotEmpty())
+        Text(
+            modifier = Modifier.padding(
+                bottom = MaterialTheme.spacing.spacing8,
+                start = MaterialTheme.spacing.spacing16
             ),
-        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),
-    ) {
-        items(it.size) { it2 ->
-            KeywordChip(
-                // TODO: ADD onClickKeyword TO INTERACTIONS WITH CHANGING KEYWORDS UI STATE
-                onClickChip = {
+            text = "Keywords",
+            style = MaterialTheme.typography.displayMedium,
+            color = FontSecondary
+        )
+    if (it.isNotEmpty())
+        LazyRow(
+            contentPadding = PaddingValues(
+                horizontal = MaterialTheme.spacing.spacing16,
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    bottom = MaterialTheme.spacing.spacing24,
+                ),
+            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),
+        ) {
+            items(it.size) { it2 ->
+                KeywordChip(
+                    // TODO: ADD onClickKeyword TO INTERACTIONS WITH CHANGING KEYWORDS UI STATE
+                    onClickChip = {
 //                    interaction.onClickKeyword(it[it2].keywordId)
-                },
-                text = it[it2],
-            )
+                    },
+                    text = it[it2],
+                )
 
+            }
         }
-    }
 }

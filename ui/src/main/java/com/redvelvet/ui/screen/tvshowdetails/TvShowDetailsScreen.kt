@@ -13,9 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.composable.CustomMediaDetailsTopAppBar
+import com.redvelvet.ui.composable.MediaDetailsBackgroundContent
 import com.redvelvet.ui.composable.NavigationHandler
 import com.redvelvet.ui.composable.StateHandler
-import com.redvelvet.ui.screen.tvshowdetails.mediaComposable.TvShowDetailsBackgroundContent
 import com.redvelvet.ui.screen.tvshowdetails.mediaComposable.TvShowDetailsForegroundContent
 import com.redvelvet.ui.theme.color
 import com.redvelvet.viewmodel.tvshow.TvShowUiEffect
@@ -55,9 +55,9 @@ fun TvShowDetailsScreen(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            TvShowDetailsBackgroundContent(
+            MediaDetailsBackgroundContent(
                 state.tvShowImage,
-                viewModel,
+                viewModel::onClickPlayTrailer,
                 state.tvShowTrailerUrl
             )
             TvShowDetailsForegroundContent(state, viewModel) { offset ->

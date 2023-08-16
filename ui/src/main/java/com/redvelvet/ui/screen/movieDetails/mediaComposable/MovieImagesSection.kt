@@ -18,23 +18,24 @@ fun MovieImagesSection(
     it: List<MovieDetailsScreenUiState.MovieImagesUiState>,
     interaction: MovieDetailsInteraction
 ) {
-    Column(
-        modifier = Modifier
-            .padding(
-                bottom = MaterialTheme.spacing.spacing24,
+    if (it.isNotEmpty())
+        Column(
+            modifier = Modifier
+                .padding(
+                    bottom = MaterialTheme.spacing.spacing24,
+                )
+        ) {
+            ItemsSectionForDetialsScreens(
+                label = "Images belong a movie",
+                images = it.map { it2 -> it2.mediaImage },
+                hasName = false,
+                hasCustomList = false,
+                hasDateAndCountry = false,
+                onClickSeeAll = { interaction.onClickMovieImagesSeeAll() },
+                cardModifier = Modifier
+                    .width(MaterialTheme.dimens.dimens112)
+                    .height(MaterialTheme.dimens.dimens112),
             )
-    ) {
-        ItemsSectionForDetialsScreens(
-            label = "Images belong a movie",
-            images = it.map { it2 -> it2.mediaImage },
-            hasName = false,
-            hasCustomList = false,
-            hasDateAndCountry = false,
-            onClickSeeAll = { interaction.onClickMovieImagesSeeAll() },
-            cardModifier = Modifier
-                .width(MaterialTheme.dimens.dimens112)
-                .height(MaterialTheme.dimens.dimens112),
-        )
-    }
+        }
 }
 

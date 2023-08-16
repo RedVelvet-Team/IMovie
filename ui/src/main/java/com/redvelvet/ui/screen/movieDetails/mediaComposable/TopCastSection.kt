@@ -18,26 +18,27 @@ fun TopCastSection(
     it: List<MovieDetailsScreenUiState.MovieTopCastUiState>,
     interaction: MovieDetailsInteraction,
 ) {
-    Column(
-        modifier = Modifier
-            .padding(
-                bottom = MaterialTheme.spacing.spacing24,
+    if (it.isNotEmpty())
+        Column(
+            modifier = Modifier
+                .padding(
+                    bottom = MaterialTheme.spacing.spacing24,
+                )
+        ) {
+            ItemsSectionForDetialsScreens(
+                label = "Top Cast",
+                images = it.map { it2 -> it2.castImage },
+                hasName = true,
+                name = it.map { it2 -> it2.castName },
+                hasCustomList = true,
+                customListItemComposable = { index, image ->
+                    TopCast(it, index, image, interaction)
+                },
+                onClickSeeAll = { interaction.onClickTopCastSeeAll() },
+                cardModifier = Modifier
+                    .width(MaterialTheme.dimens.dimens104)
+                    .height(MaterialTheme.dimens.dimens130),
             )
-    ) {
-        ItemsSectionForDetialsScreens(
-            label = "Top Cast",
-            images = it.map { it2 -> it2.castImage },
-            hasName = true,
-            name = it.map { it2 -> it2.castName },
-            hasCustomList = true,
-            customListItemComposable = { index, image ->
-                TopCast(it, index, image, interaction)
-            },
-            onClickSeeAll = { interaction.onClickTopCastSeeAll() },
-            cardModifier = Modifier
-                .width(MaterialTheme.dimens.dimens104)
-                .height(MaterialTheme.dimens.dimens130),
-        )
-    }
+        }
 }
 

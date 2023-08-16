@@ -13,10 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.composable.CustomMediaDetailsTopAppBar
+import com.redvelvet.ui.composable.MediaDetailsBackgroundContent
 import com.redvelvet.ui.composable.NavigationHandler
 import com.redvelvet.ui.composable.StateHandler
-import com.redvelvet.ui.screen.movieDetails.mediaComposable.MediaDetailsBackgroundContent
-import com.redvelvet.ui.screen.movieDetails.mediaComposable.MediaDetailsForegroundContent
+import com.redvelvet.ui.screen.movieDetails.mediaComposable.MovieDetailsForegroundContent
 import com.redvelvet.ui.screen.seeAllUpcoming.navigateSeeAllUpcoming
 import com.redvelvet.ui.theme.color
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsUiEvent
@@ -57,14 +57,16 @@ fun MovieDetailsScreen(
             state.data?.details?.let {
                 MediaDetailsBackgroundContent(
                     "${state.data?.details?.posterPath}",
-                    viewModel,
+                    viewModel::onClickPlayTrailer,
                     it.homepage
                 )
             }
-            MediaDetailsForegroundContent(state, viewModel) { offset ->
+
+            MovieDetailsForegroundContent(state, viewModel) { offset ->
                 isScrolled = offset > 1000
             }
             CustomMediaDetailsTopAppBar(
+                // TODO: HANDLE THESE INTERACTIONS
                 onBackClicked = { /* Handle back clicked */ },
                 onFavoriteClicked = { /* Handle favorite clicked */ },
                 onSaveClicked = { /* Handle save clicked */ },

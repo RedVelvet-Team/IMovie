@@ -17,23 +17,24 @@ fun TvShowImagesSection(
     it: List<String>,
     interaction: TvShowDetailsInteraction
 ) {
-    Column(
-        modifier = Modifier
-            .padding(
-                bottom = MaterialTheme.spacing.spacing24,
+    if (it.isNotEmpty())
+        Column(
+            modifier = Modifier
+                .padding(
+                    bottom = MaterialTheme.spacing.spacing24,
+                )
+        ) {
+            ItemsSectionForDetialsScreens(
+                label = "Images belong a movie",
+                images = it,
+                hasName = false,
+                hasCustomList = false,
+                hasDateAndCountry = false,
+                onClickSeeAll = { interaction.onClickPosterSeaAll() },
+                cardModifier = Modifier
+                    .width(MaterialTheme.dimens.dimens112)
+                    .height(MaterialTheme.dimens.dimens112),
             )
-    ) {
-        ItemsSectionForDetialsScreens(
-            label = "Images belong a movie",
-            images = it,
-            hasName = false,
-            hasCustomList = false,
-            hasDateAndCountry = false,
-            onClickSeeAll = { interaction.onClickPosterSeaAll() },
-            cardModifier = Modifier
-                .width(MaterialTheme.dimens.dimens112)
-                .height(MaterialTheme.dimens.dimens112),
-        )
-    }
+        }
 }
 

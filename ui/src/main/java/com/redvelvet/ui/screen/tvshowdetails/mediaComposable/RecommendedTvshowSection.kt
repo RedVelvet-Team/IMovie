@@ -18,25 +18,26 @@ fun RecommendedTvshowSection(
     it: List<TvShowRecommendationUiState>,
     interaction: TvShowDetailsInteraction
 ) {
-    Column(
-        modifier = Modifier
-            .padding(
-                bottom = MaterialTheme.spacing.spacing24,
+    if (it.isNotEmpty())
+        Column(
+            modifier = Modifier
+                .padding(
+                    bottom = MaterialTheme.spacing.spacing24,
+                )
+        ) {
+            ItemsSectionForDetialsScreens(
+                label = "Recommendations",
+                images = it.map { it2 -> it2.poster },
+                movieIds = it.map { it2 -> it2.id },
+                hasName = true,
+                name = it.map { it2 -> it2.seriesName },
+                hasCustomList = false,
+                hasDateAndCountry = false,
+                onClickSeeAll = { interaction.onClickRecommendationsSeriesSeeAll() },
+                cardModifier = Modifier
+                    .width(MaterialTheme.dimens.dimens104)
+                    .height(MaterialTheme.dimens.dimens130),
             )
-    ) {
-        ItemsSectionForDetialsScreens(
-            label = "Recommendations",
-            images = it.map { it2 -> it2.poster },
-            movieIds = it.map { it2 -> it2.id },
-            hasName = true,
-            name = it.map { it2 -> it2.seriesName },
-            hasCustomList = false,
-            hasDateAndCountry = false,
-            onClickSeeAll = { interaction.onClickRecommendationsSeriesSeeAll() },
-            cardModifier = Modifier
-                .width(MaterialTheme.dimens.dimens104)
-                .height(MaterialTheme.dimens.dimens130),
-        )
-    }
+        }
 }
 

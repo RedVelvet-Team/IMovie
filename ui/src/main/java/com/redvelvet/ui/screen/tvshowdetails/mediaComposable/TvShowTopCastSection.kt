@@ -18,26 +18,27 @@ fun TvShowTopCastSection(
     it: List<TvShowTopCastUiState>,
     interaction: TvShowDetailsInteraction,
 ) {
-    Column(
-        modifier = Modifier
-            .padding(
-                bottom = MaterialTheme.spacing.spacing24,
+    if (it.isNotEmpty())
+        Column(
+            modifier = Modifier
+                .padding(
+                    bottom = MaterialTheme.spacing.spacing24,
+                )
+        ) {
+            ItemsSectionForDetialsScreens(
+                label = "Top Cast",
+                images = it.map { it2 -> it2.image },
+                hasName = true,
+                name = it.map { it2 -> it2.name },
+                hasCustomList = true,
+                customListItemComposable = { index, image ->
+                    TvShowTopCast(it, index, image, interaction)
+                },
+                onClickSeeAll = { interaction.onClickTopCastSeeAll() },
+                cardModifier = Modifier
+                    .width(MaterialTheme.dimens.dimens104)
+                    .height(MaterialTheme.dimens.dimens130),
             )
-    ) {
-        ItemsSectionForDetialsScreens(
-            label = "Top Cast",
-            images = it.map { it2 -> it2.image },
-            hasName = true,
-            name = it.map { it2 -> it2.name },
-            hasCustomList = true,
-            customListItemComposable = { index, image ->
-                TvShowTopCast(it, index, image, interaction)
-            },
-            onClickSeeAll = { interaction.onClickTopCastSeeAll() },
-            cardModifier = Modifier
-                .width(MaterialTheme.dimens.dimens104)
-                .height(MaterialTheme.dimens.dimens130),
-        )
-    }
+        }
 }
 
