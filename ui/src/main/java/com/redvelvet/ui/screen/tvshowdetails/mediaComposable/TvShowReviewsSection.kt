@@ -8,7 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.redvelvet.ui.composable.ItemReview
-import com.redvelvet.ui.composable.ItemsSectionForDetialsScreens
+import com.redvelvet.ui.composable.ItemsSectionForDetailsScreens
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.tvshow.TvShowDetailsInteraction
@@ -26,13 +26,13 @@ fun TvShowReviewsSection(
                     bottom = MaterialTheme.spacing.spacing24,
                 )
         ) {
-            ItemsSectionForDetialsScreens<Any>(
+            ItemsSectionForDetailsScreens(
                 label = "Reviews",
                 hasName = false,
                 name = it.map { it2 -> it2.author },
                 hasCustomList = true,
                 hasDateAndCountry = false,
-                customListItemComposable = { index, _ ->
+                customListItemComposable = { index ->
                     if (it[index].content.isNotEmpty())
                         ItemReview(
                             id = it[index].id,

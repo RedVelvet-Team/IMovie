@@ -139,26 +139,11 @@ class MovieDetailsViewModel @Inject constructor(
             ),
 
             keyWords = listOf(
-                MovieDetailsScreenUiState.MovieKeyWordsUiState(
-                    keywordId = 1,
-                    keywordString = "test 1"
-                ),
-                MovieDetailsScreenUiState.MovieKeyWordsUiState(
-                    keywordId = 2,
-                    keywordString = "test 2"
-                ),
-                MovieDetailsScreenUiState.MovieKeyWordsUiState(
-                    keywordId = 3,
-                    keywordString = "test 3"
-                ),
-                MovieDetailsScreenUiState.MovieKeyWordsUiState(
-                    keywordId = 4,
-                    keywordString = "test 4"
-                ),
-                MovieDetailsScreenUiState.MovieKeyWordsUiState(
-                    keywordId = 5,
-                    keywordString = "test 5"
-                ),
+                "test 1",
+                "test 2",
+                "test 3",
+                "test 4",
+                "test 5",
             ),
 
             recommendations = listOf(

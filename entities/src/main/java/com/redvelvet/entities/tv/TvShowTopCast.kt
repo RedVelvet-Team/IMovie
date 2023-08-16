@@ -8,6 +8,7 @@ data class TvShowTopCast(
 data class TvShowCast(
     val id: Int = 0,
     val name: String = "",
+    val image:String = "",
     val knownFoDepartment: String = "",
 )
 

@@ -35,6 +35,7 @@ fun TvShowTopCastDto.toTvShowTopCast() = TvShowTopCast(
 fun TvShowCastDto.toTvShowCast() = TvShowCast(
     id = id ?: 0,
     name = name ?: "",
+    image = profilePath ?: "",
     knownFoDepartment = knownForDepartment ?: ""
 )
 

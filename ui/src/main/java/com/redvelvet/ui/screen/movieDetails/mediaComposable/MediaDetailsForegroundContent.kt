@@ -3,6 +3,7 @@ package com.redvelvet.ui.screen.movieDetails.mediaComposable
 import androidx.compose.runtime.Composable
 import com.redvelvet.ui.composable.KeyWordsSection
 import com.redvelvet.ui.composable.MediaDetailsForegroundContent
+import com.redvelvet.ui.composable.TopCastSection
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsInteraction
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsScreenUiState
 
@@ -17,7 +18,14 @@ fun MovieDetailsForegroundContent(
     ) {
         state.data?.let {
             MovieDetailsInfoSection(it.details, interaction)
-            TopCastSection(it.topCast, interaction)
+            it.topCast.let { topcasts ->
+                TopCastSection(
+                    topcasts.isNotEmpty(),
+                    interaction::onClickTopCastSeeAll,
+                    interaction::onClickCast,
+                    topcasts.map { it2 -> it2.castImage },
+                    topcasts.map { it2 -> it2.castName })
+            }
             MovieDetailsMoreInfoSection(it.details)
             KeyWordsSection(it.keyWords)
             SimilarMoviesSection(it.similar, interaction)

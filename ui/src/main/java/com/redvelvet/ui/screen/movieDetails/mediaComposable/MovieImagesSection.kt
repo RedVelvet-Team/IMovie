@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.redvelvet.ui.composable.ItemsSectionForDetialsScreens
+import com.redvelvet.ui.composable.ItemsSectionForDetailsScreens
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsInteraction
@@ -25,7 +25,7 @@ fun MovieImagesSection(
                     bottom = MaterialTheme.spacing.spacing24,
                 )
         ) {
-            ItemsSectionForDetialsScreens(
+            ItemsSectionForDetailsScreens(
                 label = "Images belong a movie",
                 images = it.map { it2 -> it2.mediaImage },
                 hasName = false,

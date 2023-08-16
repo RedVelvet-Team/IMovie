@@ -6,6 +6,7 @@ import com.redvelvet.entities.tv.TvShowRecommendation
 import com.redvelvet.entities.tv.TvShowReview
 import com.redvelvet.viewmodel.base.BaseUiState
 import com.redvelvet.viewmodel.base.ErrorUiState
+import com.redvelvet.viewmodel.utils.Constants
 
 data class SeriesDetailsUiState(
     val tvShowId: Int = 0,
@@ -64,6 +65,7 @@ fun TvShowCast.toTvShowTopCastUiState(): TvShowTopCastUiState {
     return TvShowTopCastUiState(
         id = id,
         name = name,
+        image = Constants.BASE_IMAGE_URL + image,
         knownFoDepartment = knownFoDepartment,
     )
 }

@@ -36,12 +36,12 @@ fun ItemBasicCardForDetailsScreens(
     hasDateAndCountry: Boolean = false,
     date: String = "",
     country: String = "",
-    onClick: () -> Unit = {},
+    onClick: (id: Int) -> Unit = {},
     isMediaInfoCard: Boolean = false
 ) {
     Column(
         modifier = if (isMediaInfoCard) Modifier else Modifier
-            .clickable { onClick() }
+            .clickable { onClick }
     ) {
         Card(
             modifier = modifier,
