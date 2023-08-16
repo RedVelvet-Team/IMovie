@@ -11,20 +11,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import com.redvelvet.ui.theme.FontAccent
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
 
 @Composable
 fun SectionHeader(
-    label: String, modifier: Modifier = Modifier, onClickSeeAll: () -> Unit = {}
+    modifier: Modifier = Modifier, onClickSeeAll: () -> Unit = {}, label: String,
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.fillMaxWidth().padding(horizontal = MaterialTheme.spacing.spacing16)) {
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = MaterialTheme.spacing.spacing16)) {
         Text(
             text = label,
             style = Typography.titleMedium,
