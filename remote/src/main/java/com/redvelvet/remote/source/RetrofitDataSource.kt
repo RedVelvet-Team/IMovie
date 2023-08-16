@@ -12,9 +12,6 @@ import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
-import com.redvelvet.repository.dto.person.ActorDto
-import com.redvelvet.repository.dto.search.CombinedResultDto
-import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -22,6 +19,9 @@ import com.redvelvet.repository.dto.movie.details.MovieRecommendationsDTO
 import com.redvelvet.repository.dto.movie.details.MovieReviewsDTO
 import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
 import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
+import com.redvelvet.repository.dto.person.ActorDto
+import com.redvelvet.repository.dto.search.CombinedResultDto
+import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.source.RemoteDataSource
 import retrofit2.Response
 import java.net.UnknownHostException
@@ -158,27 +158,27 @@ class RetrofitDataSource @Inject constructor(
 
     // endregion
     //region see all
-    override suspend fun seeAllPopularMovie(page: Int?): List<MovieDto> {
+    override suspend fun seeAllPopularMovie(page: Int?): List<MovieDetailsDTO> {
         return wrapApiResponse { movieApiService.seeAllPopularMovie(page) }.result.orEmpty()
     }
 
-    override suspend fun seeAllUpcomingMovie(page: Int?): List<MovieDto> {
+    override suspend fun seeAllUpcomingMovie(page: Int?): List<MovieDetailsDTO> {
         return wrapApiResponse { movieApiService.seeAllUpcomingMovie(page) }.result.orEmpty()
     }
 
-    override suspend fun seeAllNowPlayingMovie(page: Int?): List<MovieDto> {
+    override suspend fun seeAllNowPlayingMovie(page: Int?): List<MovieDetailsDTO> {
         return wrapApiResponse { movieApiService.seeAllNowPlayingMovie(page) }.result.orEmpty()
     }
 
-    override suspend fun seeAllTopRatedMovie(page: Int?): List<MovieDto> {
+    override suspend fun seeAllTopRatedMovie(page: Int?): List<MovieDetailsDTO> {
         return wrapApiResponse { movieApiService.seeAllTopRatedMovie(page) }.result.orEmpty()
     }
 
-    override suspend fun seeAllSimilarMovie(page: Int?, id: Int): List<MovieDto> {
+    override suspend fun seeAllSimilarMovie(page: Int?, id: Int): List<MovieDetailsDTO> {
         return wrapApiResponse { movieApiService.seeAllSimilarMovie(id, page) }.result.orEmpty()
     }
 
-    override suspend fun seeAllRecommendedMovie(page: Int?, id: Int): List<MovieDto> {
+    override suspend fun seeAllRecommendedMovie(page: Int?, id: Int): List<MovieDetailsDTO> {
         return wrapApiResponse { movieApiService.seeAllRecommendedMovie(id, page) }.result.orEmpty()
     }
     //endregion

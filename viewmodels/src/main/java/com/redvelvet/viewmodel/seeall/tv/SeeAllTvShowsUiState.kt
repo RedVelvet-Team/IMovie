@@ -1,10 +1,6 @@
 package com.redvelvet.viewmodel.seeall.tv
 
 import androidx.paging.PagingData
-import com.redvelvet.viewmodel.base.BaseUiState
-import com.redvelvet.viewmodel.base.ErrorUiState
-import com.redvelvet.viewmodel.home.TvShowUiState
-import com.redvelvet.viewmodel.search.SearchCardUiState
 import com.redvelvet.entities.tv.TvShow
 import com.redvelvet.viewmodel.base.BaseUiState
 import com.redvelvet.viewmodel.base.ErrorUiState
@@ -26,4 +22,3 @@ fun TvShow.toTvShowUiState() = TvShowUiState(
     seriesDate = this.releaseDate,
     seriesCountry = this.country
 )
-): BaseUiState

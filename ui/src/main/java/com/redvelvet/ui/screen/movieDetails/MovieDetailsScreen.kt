@@ -15,15 +15,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.CustomMediaDetailsTopAppBar
 import com.redvelvet.ui.composable.LoadingState
 import com.redvelvet.ui.screen.movieDetails.mediaComposable.MediaDetailsBackgroundContent
 import com.redvelvet.ui.screen.movieDetails.mediaComposable.MediaDetailsForegroundContent
-import com.redvelvet.ui.screen.seeAllUpcoming.navigateSeeAllUpcoming
+import com.redvelvet.ui.screen.seeall.navigateSeeAllMovie
 import com.redvelvet.ui.theme.color
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsUiEvent
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsViewModel
@@ -58,12 +56,12 @@ fun MovieDetailsScreen(
                 when (effect) {
                     MovieDetailsUiEvent.NavigateToGenreScreen -> navController.navigateToMovieDetails()
                     MovieDetailsUiEvent.NavigateToMovieDetailsScreen -> navController.navigateToMovieDetails()
-                    MovieDetailsUiEvent.NavigateToMovieImagesSeeAllScreen -> navController.navigateSeeAllUpcoming()
-                    MovieDetailsUiEvent.NavigateToMoviesSeeAllScreen -> navController.navigateSeeAllUpcoming()
+                    MovieDetailsUiEvent.NavigateToMovieImagesSeeAllScreen -> navController.navigateSeeAllMovie()
+                    MovieDetailsUiEvent.NavigateToMoviesSeeAllScreen -> navController.navigateSeeAllMovie()
                     MovieDetailsUiEvent.NavigateToReviewDetailsScreen -> navController.navigateToMovieDetails()
-                    MovieDetailsUiEvent.NavigateToReviewSeeAllScreen -> navController.navigateSeeAllUpcoming()
+                    MovieDetailsUiEvent.NavigateToReviewSeeAllScreen -> navController.navigateSeeAllMovie()
                     MovieDetailsUiEvent.NavigateToTopCastDetailsScreen -> navController.navigateToMovieDetails()
-                    MovieDetailsUiEvent.NavigateToTopCastSeeAllScreen -> navController.navigateSeeAllUpcoming()
+                    MovieDetailsUiEvent.NavigateToTopCastSeeAllScreen -> navController.navigateSeeAllMovie()
                     else -> {}
                 }
             }

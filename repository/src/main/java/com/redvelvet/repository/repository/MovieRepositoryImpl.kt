@@ -17,7 +17,7 @@ import com.redvelvet.entities.movie.details.MovieSimilar
 import com.redvelvet.entities.movie.details.MovieTopCast
 import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.entities.tv.TvShow
-import com.redvelvet.repository.dto.movie.MovieDto
+import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.mapper.toMovie
 import com.redvelvet.repository.mapper.toActor
 import com.redvelvet.repository.mapper.toCombinedResult
@@ -93,7 +93,7 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun seeAllPopularMovie(page: Int?): Flow<PagingData<Movie>> {
         return seeAll(
             page = page,
-            mapper = MovieDto::toMovie,
+            mapper = MovieDetailsDTO::toMovie,
             sourceFactory = ::SeeAllPopularMoviesPageSource
         )
     }
@@ -101,7 +101,7 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun seeAllUpcomingMovie(page: Int?): Flow<PagingData<Movie>> {
         return seeAll(
             page = page,
-            mapper = MovieDto::toMovie,
+            mapper = MovieDetailsDTO::toMovie,
             sourceFactory = ::SeeAllUpcomingMoviesPageSource
         )
     }
@@ -109,7 +109,7 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun seeAllNowPlayingMovie(page: Int?): Flow<PagingData<Movie>> {
         return seeAll(
             page = page,
-            mapper = MovieDto::toMovie,
+            mapper = MovieDetailsDTO::toMovie,
             sourceFactory = ::SeeAllNowPlayingMoviesPageSource
         )
     }
@@ -117,7 +117,7 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun seeAllTopRatedMovie(page: Int?): Flow<PagingData<Movie>> {
         return seeAll(
             page = page,
-            mapper = MovieDto::toMovie,
+            mapper = MovieDetailsDTO::toMovie,
             sourceFactory = ::SeeAllTopRatedMoviesPageSource
         )
     }
@@ -126,7 +126,7 @@ class MovieRepositoryImpl @Inject constructor(
         return seeAllWithId(
             id = id,
             sourceFactory = ::SeeAllSimilarMoviesPageSource,
-            mapper = MovieDto::toMovie
+            mapper = MovieDetailsDTO::toMovie
         )
     }
 
@@ -134,7 +134,7 @@ class MovieRepositoryImpl @Inject constructor(
         return seeAllWithId(
             id = id,
             sourceFactory = ::SeeAllRecommendedMoviesPageSource,
-            mapper = MovieDto::toMovie
+            mapper = MovieDetailsDTO::toMovie
         )
     }
 
@@ -165,22 +165,6 @@ class MovieRepositoryImpl @Inject constructor(
         )
     }
     //endregion
-
-    //region wrapper
-    private fun <I : Any, O : Any> seeAll(
-        page: Int?,
-        sourceFactory: (RemoteDataSource) -> PagingSource<Int, I>,
-        mapper: I.() -> O
-    ): Flow<PagingData<O>> {
-        return Pager(
-            config = PagingConfig(pageSize = page ?: DEFAULT_PAGE_SIZE),
-             pagingSourceFactory = { sourceFactory(remoteDataSource) }
-        ).flow.map { pagingData ->
-            pagingData.map { it.mapper() }
-        }
-    }
-    //endregion
-
 
     //region Movie Details
     override suspend fun getMovieDetailsById(movieId: Int): MovieDetails {
