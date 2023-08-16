@@ -14,7 +14,6 @@ import androidx.compose.ui.res.painterResource
 import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
-import com.redvelvet.viewmodel.movieDetails.MovieDetailsInteraction
 
 @Composable
 fun <T> ItemsSectionForDetialsScreens(
@@ -33,7 +32,7 @@ fun <T> ItemsSectionForDetialsScreens(
     onClickItem: (id: Int) -> Unit = {},
     movieIds: List<Int> = emptyList(),
 ) {
-    SectionHeader(label, modifier = headerModifier, onClickSeeAll = onClickSeeAll)
+    SectionHeader(label = label, modifier = headerModifier, onClickSeeAll = onClickSeeAll)
     LazyRow(
         modifier = Modifier.padding(top = MaterialTheme.spacing.spacing8),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),
