@@ -33,7 +33,7 @@ fun MovieApp() {
                 BottomNavBar(visibility)
             }
         ) {
-            MovieNavGraph(navController)
+            MovieNavGraph()
         }
     }
 }
