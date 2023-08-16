@@ -5,6 +5,7 @@ import com.redvelvet.ui.composable.ImagesSection
 import com.redvelvet.ui.composable.KeyWordsSection
 import com.redvelvet.ui.composable.MediaDetailsForegroundContent
 import com.redvelvet.ui.composable.MediaListSection
+import com.redvelvet.ui.composable.ReviewsSection
 import com.redvelvet.ui.composable.TopCastSection
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsInteraction
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsScreenUiState
@@ -41,7 +42,18 @@ fun MovieDetailsForegroundContent(
                 )
             }
             ImagesSection(it.images.map { it.mediaImage }, interaction::onClickMovieImagesSeeAll)
-            MovieReviewsSection(it.reviews, interaction)
+            it.reviews.let { reviews ->
+                ReviewsSection(
+                    isNotListEmpty = reviews.isNotEmpty(),
+                    reviewNames = reviews.map { it.reviewAuthor },
+                    reviewIds = reviews.map { it.reviewId },
+                    reviewStars = reviews.map { it.reviewStars },
+                    reviewDates = reviews.map { it.reviewDate },
+                    reviewDescriptions = reviews.map { it.reviewDescription },
+                    onClickSeeAllReviews = interaction::onClickReviewsSeeAll,
+                    onClickReview = interaction::onClickReview
+                )
+            }
             it.recommendations.let { recommendedMovies ->
                 MediaListSection(
                     label = "Recommendations",

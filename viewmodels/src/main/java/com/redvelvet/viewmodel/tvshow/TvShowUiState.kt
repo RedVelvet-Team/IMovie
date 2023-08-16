@@ -42,7 +42,7 @@ data class SeasonUiState(
 data class TvShowReviewUiState(
     val id: String = "",
     val author: String = "",
-    val rating: String = "",
+    val rating: Double = 0.0,
     val createdAt: String = "",
     val content: String = "",
 )
@@ -84,7 +84,7 @@ fun SeasonTvShow.toSeasonUiState(): SeasonUiState {
 fun TvShowReview.toTvShowReviewUiState(): TvShowReviewUiState {
     return TvShowReviewUiState(
         author = author,
-        rating = rating.toString(),
+        rating = rating,
         createdAt = createdAt,
         content = content,
     )

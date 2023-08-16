@@ -6,6 +6,7 @@ import com.redvelvet.ui.composable.KeyWordsSection
 import com.redvelvet.ui.composable.MediaDetailsForegroundContent
 import com.redvelvet.ui.composable.TopCastSection
 import com.redvelvet.ui.composable.MediaListSection
+import com.redvelvet.ui.composable.ReviewsSection
 import com.redvelvet.viewmodel.tvshow.SeriesDetailsUiState
 import com.redvelvet.viewmodel.tvshow.TvShowDetailsInteraction
 
@@ -31,7 +32,18 @@ fun TvShowDetailsForegroundContent(
         // TODO: ADD SEASIONS LIST
         // TvShowSeasonsSection(state.seasons, interaction)
         ImagesSection(state.posters, interaction::onClickPosterSeaAll)
-        TvShowReviewsSection(state.reviews, interaction)
+        state.reviews.let { reviews ->
+            ReviewsSection(
+                isNotListEmpty = reviews.isNotEmpty(),
+                reviewNames = reviews.map { it.author },
+                reviewIds = reviews.map { it.id },
+                reviewStars = reviews.map { it.rating },
+                reviewDates = reviews.map { it.createdAt },
+                reviewDescriptions = reviews.map { it.content },
+                onClickSeeAllReviews = interaction::onClickReviewsSeeAll,
+                onClickReview = interaction::onClickReview
+            )
+        }
         state.recommendations.let { recommendedTvShows ->
             MediaListSection(
                 label = "Recommendations",
