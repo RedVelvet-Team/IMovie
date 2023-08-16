@@ -1,6 +1,7 @@
 package com.redvelvet.ui.screen.home
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -50,6 +53,8 @@ fun HomeScreen(
         HomeScreenContent(paddingValues, state)
     }
 }
+
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreenContent(
     paddingValues: PaddingValues, state: HomeUiState
@@ -62,14 +67,18 @@ fun HomeScreenContent(
             .fillMaxWidth()
     ) {
 
-        var pagerState by remember { mutableIntStateOf(0) }
+        var page by remember { mutableIntStateOf(0) }
+        val pagerState = rememberPagerState(initialPage = 1) {
+            1
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = MaterialTheme.spacing.spacing16)
         ) {
             TabRow(
-                selectedTabIndex = pagerState,
+                selectedTabIndex = page,
                 containerColor = MaterialTheme.color.backgroundPrimary,
                 indicator = {
                 },
@@ -78,9 +87,9 @@ fun HomeScreenContent(
                 state.tabLayoutTitles.forEachIndexed { index, title ->
                     Box {
                         Tab(
-                            selected = pagerState == index,
+                            selected = page == index,
                             onClick = {
-                                pagerState = index
+                                page = index
                             },
                             text = {
                                 Text(
@@ -92,7 +101,7 @@ fun HomeScreenContent(
                                 )
                             })
                         this@Column.AnimatedVisibility(
-                            visible = pagerState == index,
+                            visible = page == index,
                             modifier = Modifier.align(Alignment.BottomCenter)
                         ) {
                             Box(
@@ -110,13 +119,13 @@ fun HomeScreenContent(
                 }
             }
         }
-        val selectedTabContent: @Composable () -> Unit = when (pagerState) {
+        val selectedTabContent: @Composable () -> Unit = when (page) {
             0 -> {
-                { MovieContent(state = state) }
+                { MovieContent(state = state, pagerState = pagerState) }
             }
 
             1 -> {
-                { SeriesContent(state = state) }
+                { SeriesContent(state = state, pagerState = pagerState) }
             }
 
             else -> {
@@ -128,9 +137,11 @@ fun HomeScreenContent(
 }
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MovieContent(state: HomeUiState) {
+fun MovieContent(state: HomeUiState, pagerState: PagerState) {
     TabContentDisplay(
+        pagerState = pagerState,
         categories = state.movieCategories,
         titles = state.movieCategories.map { movieCategoryUiState -> movieCategoryUiState.title },
         imagePainters = state.movieCategories.map { movieCategoryUiState ->
@@ -158,9 +169,11 @@ fun MovieContent(state: HomeUiState) {
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun SeriesContent(state: HomeUiState) {
+fun SeriesContent(state: HomeUiState, pagerState: PagerState) {
     TabContentDisplay(
+        pagerState = pagerState,
         categories = state.tvShowCategories,
         titles = state.tvShowCategories.map { tvShowCategory -> tvShowCategory.title },
         imagePainters = state.tvShowCategories.map { tvShowCategoryUiState ->

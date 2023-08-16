@@ -1,15 +1,20 @@
 package com.redvelvet.ui.composable
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
 import com.redvelvet.ui.theme.spacing
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun <T> TabContentDisplay(
+    pagerState: PagerState,
+    label: String = "Label",
     categories: List<T>,
     titles: List<String>,
     imagePainters: List<List<Painter>>,
@@ -23,6 +28,9 @@ fun <T> TabContentDisplay(
         contentPadding = PaddingValues(vertical = MaterialTheme.spacing.spacing16),
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing24)
     ) {
+        item {
+            HomeViewPager(state = pagerState, label = label)
+        }
         items(categories.size) { index ->
             ItemsSection(
                 label = titles[index],
