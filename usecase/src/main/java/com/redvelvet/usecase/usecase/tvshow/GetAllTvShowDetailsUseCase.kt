@@ -29,7 +29,7 @@ class GetAllTvShowDetailsUseCase @Inject constructor(
             tvShowDescription = details.tvShowDescription,
             tvShowLanguage = details.tvShowLanguage,
             seasons = details.seasons,
-            tvShowTrailerUrl = VIDEO_URL.plus(videos[0].key)
+            tvShowTrailerUrl = VIDEO_URL.plus("watch?v=-MZ2My-6-Lc")
         )
     }
 
@@ -39,9 +39,11 @@ class GetAllTvShowDetailsUseCase @Inject constructor(
 
     private suspend fun getTvShowVideos(seriesId: Int) = repository.getTvShowVideos(seriesId)
 
-    private suspend fun getTvShowKeywords(seriesId: Int) = repository.getTvShowKeyWordsByID(seriesId)
+    private suspend fun getTvShowKeywords(seriesId: Int) =
+        repository.getTvShowKeyWordsByID(seriesId)
 
-    private suspend fun getTvShowRecommendations(seriesId: Int) = repository.getTvShowRecommendationsByID(seriesId)
+    private suspend fun getTvShowRecommendations(seriesId: Int) =
+        repository.getTvShowRecommendationsByID(seriesId)
 
     private suspend fun getTvShowReviews(seriesId: Int) = repository.getTvShowReviewsByID(seriesId)
 

@@ -1,6 +1,7 @@
 package com.redvelvet.viewmodel.tvshow
 
 
+import android.util.Log
 import com.redvelvet.entities.tv.TvShowAllDetails
 import com.redvelvet.usecase.usecase.tvshow.GetAllTvShowDetailsUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
@@ -48,6 +49,7 @@ class TvShowViewModel @Inject constructor(
                 recommendations = tvShowAllDetails.recommendations.map { it.toTvShowRecommendationUiState() },
                 myRating = 0,
                 isLoading = false,
+                error = null,
             )
         }
     }
@@ -59,6 +61,7 @@ class TvShowViewModel @Inject constructor(
                 error = error,
             )
         }
+        Log.i("KAMELOO",error.message)
     }
 
 
