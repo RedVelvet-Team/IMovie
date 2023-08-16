@@ -4,6 +4,9 @@ import com.redvelvet.entities.actor.Actor
 import com.redvelvet.entities.movie.Movie
 import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.entities.tv.TvShow
+import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
+import com.redvelvet.repository.dto.person.PersonDto
+import com.redvelvet.repository.dto.search.MultiSearchResultDto
 import com.redvelvet.repository.dto.movie.MovieDto
 import com.redvelvet.repository.dto.person.ActorDto
 import com.redvelvet.repository.dto.search.CombinedResultDto
@@ -34,7 +37,7 @@ fun ActorDto.toActor() = Actor(
     alsoKnownAs = this.alsoKnownAs?.joinToString(separator = ", ").orEmpty()
 )
 
-fun MovieDto.toMovie() = Movie(
+fun MovieDetailsDTO.toMovie() = Movie(
     id = id ?: 0,
     name = originalTitle.orEmpty(),
     movieImageUrl = posterPath.orEmpty(),

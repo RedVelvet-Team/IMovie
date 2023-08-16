@@ -14,6 +14,7 @@ sealed class MovieDestination(
     data object Login : MovieDestination("login")
     data object SignUp : MovieDestination("signup")
     data object SeeAllUpcoming : MovieDestination("seeAllUpcoming")
+    data object SeeAllTvShow : MovieDestination("seeAllTvShow")
     data object ForgotPassword : MovieDestination("forgotPassword")
 
     data object Home : MovieDestination(
@@ -45,5 +46,7 @@ sealed class MovieDestination(
         R.drawable.icon_game_filled,
         R.drawable.icon_game
     )
+
+    data object MovieDetails : MovieDestination("movie_details")
 
 }

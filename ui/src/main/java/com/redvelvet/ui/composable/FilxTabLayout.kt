@@ -65,10 +65,11 @@ fun FilxTabLayout(
                         })
                     this@Column.AnimatedVisibility(
                         visible = pagerState.currentPage == index,
+                        modifier = Modifier.align(Alignment.BottomCenter)
                     ) {
                         Box(
-                            Modifier
-                                .fillMaxWidth(0.6f)
+                            modifier = Modifier
+                                .fillMaxWidth(0.4f)
                                 .height(MaterialTheme.dimens.dimens4)
                                 .align(Alignment.BottomCenter)
                                 .background(MaterialTheme.color.brand100, RoundedCornerShape(50))
