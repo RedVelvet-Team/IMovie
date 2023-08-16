@@ -1,6 +1,7 @@
 package com.redvelvet.ui.screen.tvshowdetails.mediaComposable
 
 import androidx.compose.runtime.Composable
+import com.redvelvet.ui.composable.KeyWordsSection
 import com.redvelvet.ui.composable.MediaDetailsForegroundContent
 import com.redvelvet.viewmodel.tvshow.SeriesDetailsUiState
 import com.redvelvet.viewmodel.tvshow.TvShowDetailsInteraction
@@ -16,7 +17,7 @@ fun TvShowDetailsForegroundContent(
     ) {
         TvShowDetailsInfoSection(state, interaction)
         TvShowTopCastSection(state.topCast, interaction)
-        TvshowsKeyWordsSection(state.keywords, interaction)
+        KeyWordsSection(state.keywords)
         // TODO: ADD SEASIONS LIST
         // TvShowSeasonsSection(state.seasons, interaction)
         TvShowImagesSection(state.posters, interaction)

@@ -10,7 +10,7 @@ data class MovieDetailsScreenUiState(
     data class MovieFullDetailsUiState(
         val details: MovieDetailsUiState,
         val topCast: List<MovieTopCastUiState>,
-        val keyWords: List<MovieKeyWordsUiState>,
+        val keyWords: List<String>,
         val similar: List<MovieSimilarUiState>,
         val images: List<MovieImagesUiState>,
         val reviews: List<MovieReviewsUiState>,
@@ -40,11 +40,6 @@ data class MovieDetailsScreenUiState(
         val castId: Int = 0,
         val castName: String = "",
         val castImage: String = ""
-    )
-
-    data class MovieKeyWordsUiState(
-        val keywordId: Int = 0,
-        val keywordString: String = "",
     )
 
     data class MovieSimilarUiState(
