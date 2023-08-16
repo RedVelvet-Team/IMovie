@@ -7,7 +7,7 @@ import com.redvelvet.viewmodel.base.ErrorUiState
 data class ActorDetailsUiState(
     val isLoading: Boolean = true,
     val error: ErrorUiState? = null,
-    val id: Int = 0,
+    val id: String = "520",
     val name: String = "",
     val imageUrl: String = "",
     val knownForDepartment: String = "",

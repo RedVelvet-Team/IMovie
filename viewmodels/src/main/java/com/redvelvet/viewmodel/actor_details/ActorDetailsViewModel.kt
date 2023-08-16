@@ -1,9 +1,11 @@
 package com.redvelvet.viewmodel.actor_details
 
+import androidx.lifecycle.SavedStateHandle
 import com.redvelvet.entities.actor.Actor
 import com.redvelvet.entities.search.CombinedResult
 import com.redvelvet.usecase.usecase.GetActorDetailsUseCase
 import com.redvelvet.usecase.usecase.GetActorKnownForUseCase
+import com.redvelvet.viewmodel.base.BaseUiEffect
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,11 +14,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ActorDetailsViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val getActorDetails: GetActorDetailsUseCase,
     private val getActorKnownFor: GetActorKnownForUseCase
-): BaseViewModel<ActorDetailsUiState, ActorDetailsUiEffect>(ActorDetailsUiState()) {
+): BaseViewModel<ActorDetailsUiState, BaseUiEffect>(ActorDetailsUiState()) {
     
-    private val args = 520
+    private val args: ActorDetailsArgs = ActorDetailsArgs(savedStateHandle)
     init {
         getDetails()
         getActorKnownFor()
@@ -24,7 +27,7 @@ class ActorDetailsViewModel @Inject constructor(
 
     private fun getActorKnownFor() {
         tryToExecute(
-            execute = {getActorKnownFor(args, 10)},
+            execute = {getActorKnownFor(args.id, 10)},
             onSuccessWithData = ::onGetActorKnownFor,
             onError = ::onError
         )
@@ -32,7 +35,7 @@ class ActorDetailsViewModel @Inject constructor(
 
     private fun getDetails(){
         tryToExecute(
-            execute = {getActorDetails(args)},
+            execute = {getActorDetails(args.id)},
             onSuccessWithData = ::onGetSuccess,
             onError = ::onError
         )
@@ -45,7 +48,7 @@ class ActorDetailsViewModel @Inject constructor(
     private fun onGetSuccess(result: Actor){
         _state.update { it.copy(
             isLoading = false,
-            id = result.id,
+            id = result.id.toString(),
             name = result.name,
             knownForDepartment = result.knownForDepartment,
             birthDate = result.birthday,
