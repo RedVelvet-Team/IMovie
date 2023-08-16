@@ -5,9 +5,6 @@ import com.redvelvet.entities.movie.Movie
 import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.entities.tv.TvShow
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
-import com.redvelvet.repository.dto.person.PersonDto
-import com.redvelvet.repository.dto.search.MultiSearchResultDto
-import com.redvelvet.repository.dto.movie.MovieDto
 import com.redvelvet.repository.dto.person.ActorDto
 import com.redvelvet.repository.dto.search.CombinedResultDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto

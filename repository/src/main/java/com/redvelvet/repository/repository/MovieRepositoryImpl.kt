@@ -114,7 +114,7 @@ class MovieRepositoryImpl @Inject constructor(
     ): Flow<PagingData<O>> {
         return Pager(
             config = PagingConfig(pageSize = page ?: DEFAULT_PAGE_SIZE),
-            pagingSourceFactory = { sourceFactory(remoteDataSource) }
+             pagingSourceFactory = { sourceFactory(remoteDataSource) }
         ).flow.map { pagingData ->
             pagingData.map { it.mapper() }
         }

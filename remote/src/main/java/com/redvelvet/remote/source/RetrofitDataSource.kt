@@ -12,11 +12,8 @@ import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
-import com.redvelvet.repository.dto.movie.MovieDto
 import com.redvelvet.repository.dto.person.ActorDto
 import com.redvelvet.repository.dto.search.CombinedResultDto
-import com.redvelvet.repository.dto.person.PersonDto
-import com.redvelvet.repository.dto.search.MultiSearchResultDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
@@ -164,10 +161,10 @@ class RetrofitDataSource @Inject constructor(
     private suspend fun <T> wrapApiResponse(
         request: suspend () -> Response<T>
     ): T {
-        return try {
+         try {
             val response = request()
             if (response.isSuccessful) {
-                response.body() ?: throw NullResultException("Empty data")
+                return response.body() ?: throw NullResultException("Empty data")
             } else {
                 throw when (response.code()) {
                     400 -> BadRequestException(response.message())

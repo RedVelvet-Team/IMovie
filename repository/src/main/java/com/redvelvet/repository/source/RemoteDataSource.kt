@@ -4,11 +4,8 @@ import com.redvelvet.repository.dto.ActorKnownForDto
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
-import com.redvelvet.repository.dto.movie.MovieDto
 import com.redvelvet.repository.dto.person.ActorDto
 import com.redvelvet.repository.dto.search.CombinedResultDto
-import com.redvelvet.repository.dto.person.PersonDto
-import com.redvelvet.repository.dto.search.MultiSearchResultDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
@@ -30,12 +27,8 @@ interface RemoteDataSource {
     //region Search
     suspend fun multiSearch(query: String, page : Int?): List<CombinedResultDto>
     suspend fun searchPeople(query: String, page : Int?): List<ActorDto>
-    suspend fun searchMovie(query: String, page : Int?): List<MovieDto>
+    suspend fun searchMovie(query: String, page : Int?): List<MovieDetailsDTO>
     suspend fun searchTvShows(query: String, page : Int?): List<TvShowDto>
-    suspend fun multiSearch(query: String, page: Int?): List<MultiSearchResultDto>
-    suspend fun searchPeople(query: String, page: Int?): List<PersonDto>
-    suspend fun searchMovie(query: String, page: Int?): List<MovieDetailsDTO>
-    suspend fun searchTvShows(query: String, page: Int?): List<TvShowDto>
     //endregion
 
     //region see all tv
