@@ -45,6 +45,7 @@ android {
 
 dependencies {
     implementation(project(":viewmodels"))
+    // core + testing
     implementation(Deps.coreKtx)
     testImplementation(Deps.junit)
     implementation(Deps.activityCompose)
@@ -83,5 +84,9 @@ dependencies {
     // lifecycle
     implementation(Deps.lifecycleRuntimeKtx)
     implementation(Deps.lifecycleViewModelCompose)
+    //paging
+    implementation(Deps.pagingCommon)
+    implementation(Deps.pagingRuntime)
+    implementation(Deps.pagingCompose)
 }
 

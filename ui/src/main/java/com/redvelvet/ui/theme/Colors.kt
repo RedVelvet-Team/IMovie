@@ -19,7 +19,8 @@ data class Colors(
     val backgroundOnSecondary: Color = BackgroundOnSecondary,
     val fontPrimary: Color = FontPrimary,
     val fontSecondary: Color = FontSecondary,
-    val fontAccent: Color = FontAccent
+    val fontAccent: Color = FontAccent,
+    val backgroundCard: Color = BackgroundCard
 )
 
 val LocalColors = compositionLocalOf { Colors() }

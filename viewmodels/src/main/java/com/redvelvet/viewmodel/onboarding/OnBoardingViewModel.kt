@@ -1,62 +1,48 @@
 package com.redvelvet.viewmodel.onboarding
 
-import androidx.lifecycle.viewModelScope
-import com.redvelvet.usecase.usecase.user.SetUserNotFirstTimeUseAppUseCase
+import com.redvelvet.usecase.usecase.user.CheckUserLoggedInUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
+import com.redvelvet.viewmodel.base.ErrorUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
-    private val setUserNotFirstTimeUseApp: SetUserNotFirstTimeUseAppUseCase,
-    ) : BaseViewModel<OnBoardingUiState, OnBoardingUiEffect>(OnBoardingUiState()),
-    OnBoardingInteractions {
-    fun setNotFirstTimeUseApp() {
-        viewModelScope.launch(Dispatchers.IO) {
-            setUserNotFirstTimeUseApp.invoke()
+    private val checkUserLoggedInUseCase: CheckUserLoggedInUseCase,
+) : BaseViewModel<OnBoardingUiState, Unit>(OnBoardingUiState()) {
+
+    init {
+        checkUserIsLoggedIn()
+    }
+
+    //region check user loggedIn
+    private fun checkUserIsLoggedIn() {
+        tryToExecute(
+            execute = checkUserLoggedInUseCase::invoke,
+            onSuccessWithData = ::onCheckedSuccess,
+            onError = ::onCheckedError,
+        )
+    }
+
+    private fun onCheckedSuccess(checkedLoggedIn: Boolean) {
+        if (checkedLoggedIn) {
             _state.update {
                 it.copy(
-                    saved = true,
+                    loggedIn = true,
+                    error = null,
                 )
             }
-            sendUiEffect(OnBoardingUiEffect.NavigateToLogin)
         }
     }
 
-    //region sign in
-    private fun signIn() {
+    private fun onCheckedError(error: ErrorUiState) {
         _state.update {
             it.copy(
-                isLoading = false,
-                error = null,
+                loggedIn = false,
+                error = error,
             )
         }
-        sendUiEffect(OnBoardingUiEffect.NavigateToLogin)
     }
     //endregion
-
-    //region signup
-    private fun signUp() {
-        _state.update {
-            it.copy(
-                isLoading = false,
-                error = null,
-            )
-        }
-        sendUiEffect(OnBoardingUiEffect.NavigateToSignUpScreen)
-    }
-    //endregion
-
-    //region interaction
-    override fun onClickLogin() {
-        signIn()
-    }
-    override fun onClickSignUp() {
-        signUp()
-    }
-    //endregion
-
 }

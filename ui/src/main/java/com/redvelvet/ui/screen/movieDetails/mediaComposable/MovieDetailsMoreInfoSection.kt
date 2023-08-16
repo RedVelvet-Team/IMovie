@@ -9,7 +9,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.redvelvet.ui.composable.LabeledValueVertical
 import com.redvelvet.ui.composable.SpacerVertical
-import com.redvelvet.ui.screen.movieDetails.MovieDetailsUiEvent
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsScreenUiState
 
@@ -17,12 +16,15 @@ import com.redvelvet.viewmodel.movieDetails.MovieDetailsScreenUiState
 @Composable
 fun MovieDetailsMoreInfoSection(
     it: MovieDetailsScreenUiState.MovieDetailsUiState,
-    uiEvent: MovieDetailsUiEvent
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.Start,
-        modifier = Modifier.padding(horizontal = MaterialTheme.spacing.spacing16)
+        modifier = Modifier.padding(
+            start = MaterialTheme.spacing.spacing16,
+            end = MaterialTheme.spacing.spacing16,
+            bottom = MaterialTheme.spacing.spacing24,
+        )
     ) {
         LabeledValueVertical("Status", it.status)
         SpacerVertical(height = MaterialTheme.spacing.spacing8)

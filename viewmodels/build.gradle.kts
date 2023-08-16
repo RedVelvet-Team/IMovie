@@ -52,5 +52,7 @@ dependencies {
     implementation(Deps.lifecycleRunTimeCompose)
     implementation(Deps.lifecycleSavedState)
     testImplementation(Deps.lifecycleRuntimeTesting)
+    //paging
+    implementation(Deps.pagingCommon)
 }
 

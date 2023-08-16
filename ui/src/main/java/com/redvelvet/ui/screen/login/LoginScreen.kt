@@ -6,6 +6,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,10 +20,10 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -38,87 +39,116 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
+import com.redvelvet.ui.composable.MovieScaffold
 import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.PrimaryOutlinedButton
 import com.redvelvet.ui.composable.PrimaryTextField
+import com.redvelvet.ui.navigation.MovieDestination
+import com.redvelvet.ui.screen.forgot_password.navigateToForgotPassword
 import com.redvelvet.ui.screen.home.navigateToHome
-import com.redvelvet.ui.screen.signup.navigateToSignUp
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.radius
 import com.redvelvet.ui.theme.spacing
+import com.redvelvet.ui.util.launchCollectLatest
 import com.redvelvet.viewmodel.login.LoginInteraction
 import com.redvelvet.viewmodel.login.LoginUiEffect
 import com.redvelvet.viewmodel.login.LoginUiState
 import com.redvelvet.viewmodel.login.LoginViewModel
-import com.redvelvet.viewmodel.utils.launchCollectLatest
 
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
     val navController = LocalNavController.current
+    val context = LocalContext.current
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
     val uiState by viewModel.state.collectAsState()
     val scope = rememberCoroutineScope()
-    scope.launchCollectLatest(viewModel.effect) { effect ->
-        when (effect) {
-            is LoginUiEffect.NavigateTomHomeScreen -> {
-                navController.navigateToHome()
-            }
+    LaunchedEffect(key1 = Unit) {
+        scope.launchCollectLatest(viewModel.effect) { effect ->
+            when (effect) {
+                is LoginUiEffect.NavigateTomHomeScreen -> {
+                    navController.navigateToHome {
+                        popUpTo(MovieDestination.Login.route) {
+                            inclusive = true
+                        }
+                        popUpTo(MovieDestination.OnBoarding.route) {
+                            inclusive = true
+                        }
+                    }
+                }
 
-            is LoginUiEffect.NavigateToSignUpScreen -> {
-                navController.navigateToSignUp()
+                is LoginUiEffect.ShowToastError -> {
+                    uiState.error?.let { error ->
+                        Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                is LoginUiEffect.NavigateToForgotPassword -> {
+                    navController.navigateToForgotPassword()
+                }
             }
         }
     }
+
     LoginScreenContent(uiState, viewModel)
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun LoginScreenContent(
     uiState: LoginUiState,
     interaction: LoginInteraction,
 ) {
     val context = LocalContext.current
-    uiState.isError?.let {
-        Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+    AnimatedVisibility(uiState.isLoading) {
+        Dialog(onDismissRequest = { }) {
+            CircularProgressIndicator()
+        }
     }
     val imageBitmap: ImageBitmap = ImageBitmap.imageResource(context.resources, R.drawable.login)
 
     AnimatedVisibility(LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT) {
-        Box {
-            Image(
-                bitmap = imageBitmap,
-                contentDescription = "Login Image",
-                modifier = Modifier
-                    .height(MaterialTheme.dimens.dimens365)
-                    .fillMaxWidth(),
-                contentScale = ContentScale.FillBounds
-            )
-            Card(
-                modifier = Modifier
-                    .padding(top = MaterialTheme.spacing.spacing285)
-                    .fillMaxWidth()
-                    .shadow(MaterialTheme.spacing.spacing0),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.color.backgroundPrimary),
-                shape = RoundedCornerShape(
-                    topStart = MaterialTheme.radius.radius32, topEnd = MaterialTheme.radius.radius32
+        MovieScaffold(
+            title = "",
+            isLoading = uiState.isLoading,
+            error = uiState.error,
+            modifier = Modifier.fillMaxWidth(),
+            hasBackArrow = true,
+            hasTopBar = false
+        ) {
+            Box {
+                Image(
+                    bitmap = imageBitmap,
+                    contentDescription = "Login Image",
+                    modifier = Modifier
+                        .height(MaterialTheme.dimens.dimens365)
+                        .fillMaxWidth(),
+                    contentScale = ContentScale.FillBounds
                 )
-            ) {
-                LoginContentPortrait(uiState, interaction)
+                Card(
+                    modifier = Modifier
+                        .padding(top = MaterialTheme.spacing.spacing285)
+                        .fillMaxWidth()
+                        .shadow(MaterialTheme.spacing.spacing0),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.color.backgroundPrimary),
+                    shape = RoundedCornerShape(
+                        topStart = MaterialTheme.radius.radius32,
+                        topEnd = MaterialTheme.radius.radius32
+                    )
+                ) {
+                    LoginContentPortrait(uiState = uiState, interaction = interaction)
+                }
             }
-
         }
     }
-
     AnimatedVisibility(LocalConfiguration.current.orientation != Configuration.ORIENTATION_PORTRAIT) {
         Row {
             LoginContentLandscape(uiState = uiState, interaction = interaction)
@@ -136,17 +166,17 @@ private fun LoginScreenContent(
 
 @Composable
 private fun LoginContentPortrait(
-    uiState: LoginUiState, interaction: LoginInteraction
+    uiState: LoginUiState,
+    interaction: LoginInteraction,
 ) {
     Column(
         modifier = Modifier
-            .padding(bottom = MaterialTheme.spacing.spacing12)
+            .fillMaxHeight()
             .padding(horizontal = MaterialTheme.spacing.spacing24),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-
-            text = "welcome_back",
+            text = "Welcome Back!",
             modifier = Modifier
                 .align(Alignment.Start)
                 .padding(top = 32.dp),
@@ -156,7 +186,7 @@ private fun LoginContentPortrait(
             color = MaterialTheme.color.fontPrimary
         )
         Text(
-            text = "login_to_your_account",
+            text = "Login to your account",
             modifier = Modifier
                 .align(Alignment.Start)
                 .padding(top = MaterialTheme.spacing.spacing4),
@@ -171,8 +201,8 @@ private fun LoginContentPortrait(
             ),
             isError = uiState.isUserNameEmpty,
             leadingIcon = painterResource(id = R.drawable.icon_user),
-            errorMessage = "invalid_username",
-            placeHolderText = "username",
+            errorMessage = "Invalid Username",
+            placeHolderText = "Username",
             onTextChange = interaction::onUserNameChanged
         )
         val iconPassword = if (uiState.isPasswordVisible) R.drawable.icon_visibility_off
@@ -184,7 +214,7 @@ private fun LoginContentPortrait(
             ),
             leadingIcon = painterResource(id = R.drawable.icon_password),
             trailingIcon = painterResource(iconPassword),
-            onClickTrailingIcon = { interaction.interactionEyeIconClick() },
+            onClickTrailingIcon = { interaction.onClickEyeIcon() },
             isPassword = true,
             isPasswordVisible = uiState.isPasswordVisible,
             isError = uiState.isPasswordEmpty,
@@ -193,19 +223,17 @@ private fun LoginContentPortrait(
             onTextChange = interaction::onPasswordChanged
         )
         Text(
-            text = "Forget Password?",
+            text = "Forgot Password?",
             modifier = Modifier
                 .align(Alignment.End)
-                .padding(
-                    bottom = MaterialTheme.spacing.spacing16
-                ),
+                .padding(bottom = MaterialTheme.spacing.spacing16)
+                .clickable { interaction.onClickForgotPassword() },
             style = Typography.titleSmall.copy(color = MaterialTheme.color.fontPrimary),
-
-            )
+        )
         PrimaryButton(
-            onClick = { interaction.interactionLoginButtonClick() },
+            onClick = { interaction.onClickLogin() },
             enabled = !uiState.isLoading,
-            text = "login",
+            text = "Login",
         )
         Row(
             modifier = Modifier.padding(vertical = MaterialTheme.spacing.spacing16),
@@ -229,17 +257,14 @@ private fun LoginContentPortrait(
             )
         }
         PrimaryOutlinedButton(
-            onClick = { interaction.interactionGuestButtonClick() },
+            onClick = { interaction.onClickGuest() },
             enabled = !uiState.isLoading,
             border = BorderStroke(
                 width = MaterialTheme.dimens.dimens1, color = MaterialTheme.color.brand100
             ),
-            text = "continue as a guest",
-            textColor = MaterialTheme.color.brand100
+            text = "Continue as a guest",
+            textColor = MaterialTheme.color.brand100,
         )
-        AnimatedVisibility(uiState.isLoading) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
-        }
     }
 }
 
@@ -288,37 +313,43 @@ private fun LoginContentLandscape(
             leadingIcon = painterResource(id = R.drawable.icon_password),
             trailingIcon = painterResource(iconPassword),
             isPasswordVisible = uiState.isPasswordVisible,
-            onClickTrailingIcon = { interaction.interactionEyeIconClick() },
+            onClickTrailingIcon = { interaction.onClickEyeIcon() },
             isError = uiState.isPasswordEmpty,
             placeHolderText = "Password",
             errorMessage = "Invalid Password",
             onTextChange = interaction::onPasswordChanged
         )
-
+        Text(
+            text = "Forgot Password?",
+            modifier = Modifier
+                .align(Alignment.End)
+                .padding(bottom = MaterialTheme.spacing.spacing8)
+                .clickable { interaction.onClickForgotPassword() },
+            style = Typography.titleSmall.copy(color = MaterialTheme.color.fontPrimary),
+        )
         PrimaryButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = MaterialTheme.spacing.spacing16),
-            onClick = { interaction.interactionLoginButtonClick() },
+            onClick = { interaction.onClickLogin() },
             enabled = !uiState.isLoading,
-            text = "login",
+            text = "Login",
         )
         PrimaryOutlinedButton(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = MaterialTheme.spacing.spacing12),
-            onClick = { interaction.interactionGuestButtonClick() },
+                .padding(
+                    top = MaterialTheme.spacing.spacing12,
+                    start = MaterialTheme.spacing.spacing12,
+                    end = MaterialTheme.spacing.spacing12
+                ),
+            onClick = { interaction.onClickGuest() },
             enabled = !uiState.isLoading,
             border = BorderStroke(
                 width = MaterialTheme.dimens.dimens1, color = MaterialTheme.color.brand100
             ),
-            text = "continue as a guest",
-            textColor = MaterialTheme.color.brand100
+            text = "Continue as a guest",
+            textColor = MaterialTheme.color.brand100,
         )
-        AnimatedVisibility(uiState.isLoading) {
-            CircularProgressIndicator(color = Color.White)
-        }
     }
-
 }
-

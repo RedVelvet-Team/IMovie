@@ -10,11 +10,11 @@ data class MovieDetailsScreenUiState(
     data class MovieFullDetailsUiState(
         val details: MovieDetailsUiState,
         val topCast: List<MovieTopCastUiState>,
-        val images: MovieImagesUiState,
-        val keyWords: MovieKeyWordsUiState,
-        val recommendations: MovieRecommendationsUiState,
-        val reviews: MovieReviewsUiState,
-        val similar: MovieSimilarUiState,
+        val keyWords: List<MovieKeyWordsUiState>,
+        val similar: List<MovieSimilarUiState>,
+        val images: List<MovieImagesUiState>,
+        val reviews: List<MovieReviewsUiState>,
+        val recommendations: List<MovieRecommendationsUiState>,
     )
 
     data class MovieDetailsUiState(
@@ -42,24 +42,33 @@ data class MovieDetailsScreenUiState(
         val castImage: String = ""
     )
 
-    data class MovieImagesUiState(
-        val image: String = ""
-    )
-
     data class MovieKeyWordsUiState(
-        val test: String = ""
-    )
-
-    data class MovieRecommendationsUiState(
-        val test: String = ""
-    )
-
-    data class MovieReviewsUiState(
-        val test: String = ""
+        val keywordId: Int = 0,
+        val keywordString: String = "",
     )
 
     data class MovieSimilarUiState(
-        val test: String = ""
+        val mediaId: Int = 0,
+        val mediaName: String = "",
+        val mediaImage: String = "",
+    )
+
+    data class MovieImagesUiState(
+        val mediaImage: String = ""
+    )
+
+    data class MovieReviewsUiState(
+        val reviewId: String = "",
+        val reviewAuthor: String = "",
+        val reviewDate: String = "",
+        val reviewStars: Double = 0.0,
+        val reviewDescription: String = "",
+    )
+
+    data class MovieRecommendationsUiState(
+        val mediaId: Int = 0,
+        val mediaName: String = "",
+        val mediaImage: String = "",
     )
 
 

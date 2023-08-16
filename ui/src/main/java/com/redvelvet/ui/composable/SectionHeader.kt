@@ -1,5 +1,6 @@
 package com.redvelvet.ui.composable
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,23 +16,24 @@ import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
 
 @Composable
-fun SectionHeader(label: String, modifier: Modifier = Modifier) {
+fun SectionHeader(
+    modifier: Modifier = Modifier, onClickSeeAll: () -> Unit = {}, label: String,
+) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = MaterialTheme.spacing.spacing16)
-    ) {
+            .padding(horizontal = MaterialTheme.spacing.spacing16)) {
         Text(
             text = label,
             style = Typography.titleMedium,
             color = Color.White
         )
-        Text(
-            text = "see all",
+        Text(text = "see all",
             style = Typography.labelSmall,
-            color = MaterialTheme.color.fontAccent
+            color = MaterialTheme.color.fontAccent,
+            modifier = Modifier.clickable { onClickSeeAll() }
         )
     }
 }

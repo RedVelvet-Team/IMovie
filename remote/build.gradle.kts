@@ -50,6 +50,8 @@ android {
 
 dependencies {
     implementation(project(":repository"))
+    implementation(project(":entities"))
+    // core + testing
     implementation(Deps.coreKtx)
     testImplementation(Deps.junit)
     androidTestImplementation(Deps.junitExt)
@@ -57,8 +59,9 @@ dependencies {
     // Hilt
     implementation(Deps.hiltAndroid)
     kapt(Deps.hiltCompiler)
-    // Retrofit
+    //gson
     implementation(Deps.gson)
+    // Retrofit
     implementation(Deps.retrofit)
     implementation(Deps.retrofitConvertoer)
     implementation(Deps.okhttp3Logging)

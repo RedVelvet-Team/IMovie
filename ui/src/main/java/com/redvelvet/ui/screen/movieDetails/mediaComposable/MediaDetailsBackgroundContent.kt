@@ -6,30 +6,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.rememberNavController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.BackgroundMediaImage
 import com.redvelvet.ui.composable.PlayMedia
-import com.redvelvet.ui.screen.movieDetails.MovieDetailsUiEvent
-import com.redvelvet.ui.screen.movieDetails.MovieDetailsScreen
 import com.redvelvet.ui.theme.spacing
-
-@Preview(
-    showSystemUi = true,
-    showBackground = true,
-    device = "spec:orientation=portrait,width=800dp,height=360dp"
-)
-@Composable
-fun PreviewMovieDetailsScreen() {
-    val uiEvent: MovieDetailsUiEvent? = null
-    MovieDetailsScreen(rememberNavController(), uiEvent!!)
-}
+import com.redvelvet.viewmodel.movieDetails.MovieDetailsInteraction
 
 @Composable
 fun MediaDetailsBackgroundContent(
     mediaImage: String,
-    uiEvent: MovieDetailsUiEvent
+    interaction: MovieDetailsInteraction,
+    trailerVideoUrl: String
 ) {
     Box {
         BackgroundMediaImage(
@@ -41,7 +28,7 @@ fun MediaDetailsBackgroundContent(
         PlayMedia(
             icon = R.drawable.play_media,
             description = R.string.movies_details_play,
-            onMediaPlay = { uiEvent.onPlayTrailer() },
+            onMediaPlay = { interaction.onClickPlayTrailer(trailerVideoUrl) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(

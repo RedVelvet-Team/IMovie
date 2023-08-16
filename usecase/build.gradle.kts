@@ -13,6 +13,10 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 dependencies {
     api(project(":entities"))
+    //dagger
     implementation(Deps.dagger)
+    //paging
+    implementation(Deps.pagingCommon)
+    //test
     testImplementation(Deps.testng)
 }

@@ -39,6 +39,7 @@ android {
 
 dependencies {
     implementation(project(":usecase"))
+    // core + testing
     implementation(Deps.coreKtx)
     testImplementation(Deps.junit)
     androidTestImplementation(Deps.junitExt)
@@ -47,4 +48,6 @@ dependencies {
     kapt(Deps.hiltCompiler)
     //gson
     implementation(Deps.gson)
+    //paging
+    implementation(Deps.pagingCommon)
 }

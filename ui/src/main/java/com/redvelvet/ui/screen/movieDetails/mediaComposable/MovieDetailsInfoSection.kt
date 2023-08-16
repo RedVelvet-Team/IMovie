@@ -10,19 +10,21 @@ import com.redvelvet.ui.composable.LongExpandedText
 import com.redvelvet.ui.composable.MediaInfoCard
 import com.redvelvet.ui.composable.MediaInfoCardData
 import com.redvelvet.ui.composable.MediaRateRow
-import com.redvelvet.ui.composable.SpacerVertical
-import com.redvelvet.ui.screen.movieDetails.MovieDetailsUiEvent
 import com.redvelvet.ui.theme.spacing
+import com.redvelvet.viewmodel.movieDetails.MovieDetailsInteraction
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsScreenUiState
 
 @Composable
 fun MovieDetailsInfoSection(
     it: MovieDetailsScreenUiState.MovieDetailsUiState,
-    uiEvent: MovieDetailsUiEvent,
+    interaction: MovieDetailsInteraction,
 ) {
     Column(
         modifier = Modifier
-            .padding(start = MaterialTheme.spacing.spacing16)
+            .padding(
+                start = MaterialTheme.spacing.spacing16,
+                bottom = MaterialTheme.spacing.spacing24,
+            )
     ) {
         MediaInfoCard(
             data = MediaInfoCardData(
@@ -34,11 +36,9 @@ fun MovieDetailsInfoSection(
                 it.runtime,
                 it.spokenLanguages,
             ),
-            onGenreClick = { uiEvent.onMovieCategory("") }
+            interaction,
         )
-        SpacerVertical(height = MaterialTheme.spacing.spacing24)
-        MediaRateRow(it.voteAverage.toString(), { uiEvent.onRateMedia(5.5) })
-        SpacerVertical(height = MaterialTheme.spacing.spacing24)
+        MediaRateRow(it.voteAverage.toString()) { interaction.onClickRateMovie(it.id, 5.5) }
         Box(
             modifier = Modifier
                 .padding(end = MaterialTheme.spacing.spacing16)

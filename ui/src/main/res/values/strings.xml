@@ -1,3 +1,51 @@
 <resources>
     <string name="app_name">IMovie</string>
+    <string name="background_image_onboarding">Background image onboarding</string>
+    <string name="movie_logo">movie logo</string>
+    <string name="name_app">FilxMovie</string>
+    <string name="description">Enjoy a seamless and user-friendly experience Browse movies effortlessly and watch them instantly online.</string>
+    <string name="onboarding_start">Start</string>
+    <string name="logo">logo</string>
+    <string name="search_place_holder">What do you want to Watch?</string>
+    <string name="known_for">Known For</string>
+    <string name="biography">Biography</string>
+    <string name="born">Born</string>
+    <string name="known_as">Known As</string>
+    <string name="see_all">See all</string>
+    <string name="no_search_results">" No Search Results "</string>
+    <string name="search_in_movie">Search in Movie</string>
+    <string name="search_for_your_favorite_movies">Search for your favorite movies and\nTV shows that you love.</string>
+    <string name="show_and_hide_password_icon">Show and hide password icon</string>
+    <string name="person_icon">person icon</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="or">OR</string>
+    <string name="continue_as_a_guest">Continue as a guest</string>
+    <string name="login_to_your_account">Login to your account</string>
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="login_image">Login Image</string>
+    <string name="signup">Sign Up</string>
+    <string name="poster">movie poster image</string>
+    <string name="movies_details_background_image">movies details background image</string>
+    <string name="movies_details_play">play movie trailer</string>
+
+    <string name="library_title_screen">Library</string>
+    <string name="library_logo">library logo</string>
+    <string name="login_require_header">Login Required</string>
+    <string name="login_require_description">Use your account to enjoy the best app experience.</string>
+    <string name="login_require_button">Login</string>
+    <string name="upcoming">Upcoming\n</string>
+    <string name="media_time">media time</string>
+    <string name="media_date">media date</string>
+    <string name="media_language">media language</string>
+    <string name="rated_star">rated star</string>
+
+
+    <string name="hide_password">Hide password</string>
+    <string name="show_password">Show password</string>
+    <string name="invalid_user_name">Invalid userName</string>
+    <string name="invalid_password">Invalid password</string>
+    <string name="icon_rating">icon rate</string>
+    <string name="search_icon">search_icon</string>
 </resources>

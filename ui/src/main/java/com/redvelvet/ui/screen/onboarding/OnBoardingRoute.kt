@@ -13,10 +13,6 @@ fun NavGraphBuilder.onBoardingRoute() {
     }
 }
 
-fun NavController.navigateToOnBoarding() {
-    navigate(MovieDestination.OnBoarding.route, androidx.navigation.navOptions {
-        popUpTo(MovieDestination.Splash.route) {
-            inclusive = true
-        }
-    })
+fun NavController.navigateToOnBoarding(builder: NavOptionsBuilder.() -> Unit = {}) {
+    navigate(MovieDestination.OnBoarding.route, builder)
 }

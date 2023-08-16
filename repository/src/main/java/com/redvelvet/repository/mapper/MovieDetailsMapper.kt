@@ -53,7 +53,7 @@ fun MovieSimilarDTO.toDomain(): MovieSimilar {
     })
 }
 
-fun MovieTopCastDTO.toDomain(): MovieTopCast {
+fun MovieTopCastDto.toDomain(): MovieTopCast {
     return MovieTopCast(id = this.id ?: 0,
         cast = this.cast.map {
             MovieTopCast.Cast(
