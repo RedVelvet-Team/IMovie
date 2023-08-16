@@ -1,6 +1,7 @@
 package com.redvelvet.ui.screen.login
 
 import android.content.res.Configuration
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -87,7 +88,7 @@ fun LoginScreen(
 
                 is LoginUiEffect.ShowToastError -> {
                     uiState.error?.let { error ->
-//                        Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show()
                     }
                 }
 

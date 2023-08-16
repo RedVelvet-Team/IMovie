@@ -10,6 +10,6 @@ fun Actor.toSearchCardUiState(): SearchCardUiState {
         image = profileImageUrl,
         type = "People",
         releaseDate = birthday ?: "",
-        country = country
+        country = this.placeOfBirth
     )
 }

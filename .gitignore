@@ -15,6 +15,7 @@ output.json
 *.iml
 .idea/
 .idea/*
+.gradle/*
 compiler.xml
 gradle.xml
 kotlinc.xml
@@ -34,8 +35,6 @@ google-services.json
 *.hprof
 
 .gradle/8.0/executionHistory/executionHistory.bin
-.gradle/8.0/executionHistory/executionHistory.bin
-.gradle/8.0/executionHistory/executionHistory.bin
 .gradle/8.0/executionHistory/executionHistory.lock
 .gradle/8.0/fileHashes/fileHashes.bin
 *.bin
@@ -50,17 +49,6 @@ buildSrc/build/kotlin/compileKotlin/cacheable/caches-jvm/inputs/source-to-output
 *.len
 *.tab_i
 *.at
-*.bin
 *.properties
 *.jar
 *.MF
-*.probe
-*.bin
-*.bin
-*.lock
-*.bin
-*.lock
-*.bin
-*.lock
-*.bin
-*.probe

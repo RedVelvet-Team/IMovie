@@ -3,6 +3,7 @@ package com.redvelvet.viewmodel.base
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.redvelvet.entities.error.MovieException
 import com.redvelvet.entities.error.NetworkException
 import com.redvelvet.entities.error.NullResultException
@@ -38,13 +39,13 @@ abstract class BaseViewModel<UiState : BaseUiState, UiEffect>(state: UiState) :
                 onSuccessWithData(result)
                 onSuccessWithoutData()
             } catch (e: ValidationException) {
-                onError(InvalidationErrorState(e.message))
+                onError(InvalidationErrorState(e.message.toString()))
             } catch (e: NullResultException) {
-                onError(NullResultErrorState(e.message))
+                onError(NullResultErrorState(e.message.toString()))
             } catch (e: NetworkException) {
-                onError(NetworkErrorState(e.message))
+                onError(NetworkErrorState(e.message.toString()))
             } catch (e: MovieException) {
-                onError(ErrorUiState(e.message))
+                onError(ErrorUiState(e.message.toString()))
             }
         }
     }
@@ -57,16 +58,16 @@ abstract class BaseViewModel<UiState : BaseUiState, UiEffect>(state: UiState) :
     ) {
         viewModelScope.launch(dispatcher) {
             try {
-                val result = call()
+                val result = call().cachedIn(viewModelScope)
                 result.collect { data ->
                     onSuccess(data)
                 }
             } catch (e: NullResultException) {
-                onError(NullResultErrorState(e.message))
+                onError(NullResultErrorState(e.message.toString()))
             } catch (e: NetworkException) {
-                onError(NetworkErrorState(e.message))
+                onError(NetworkErrorState(e.message.toString()))
             } catch (e: MovieException) {
-                onError(ErrorUiState(e.message))
+                onError(ErrorUiState(e.message.toString()))
             }
         }
     }
