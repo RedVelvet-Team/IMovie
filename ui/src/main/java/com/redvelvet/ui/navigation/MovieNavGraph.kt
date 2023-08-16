@@ -1,6 +1,7 @@
 package com.redvelvet.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.screen.actor_details.actorDetailsRoute
@@ -15,12 +16,12 @@ import com.redvelvet.ui.screen.signup.signupRoute
 import com.redvelvet.ui.screen.splash.splashRoute
 
 @Composable
-fun MovieNavGraph() {
-    NavHost(LocalNavController.current, startDestination = MovieDestination.ActorDetails.route) {
+fun MovieNavGraph(navController: NavHostController) {
+    NavHost(LocalNavController.current, startDestination = MovieDestination.OnBoarding.route) {
         splashRoute()
-        onBoardingRoute()
-        actorDetailsRoute()
-        actorKnownForRoute()
+        onBoardingRoute(navController)
+        actorDetailsRoute(navController)
+        actorKnownForRoute(navController)
         searchRoute()
         loginRoute()
         homeRoute()

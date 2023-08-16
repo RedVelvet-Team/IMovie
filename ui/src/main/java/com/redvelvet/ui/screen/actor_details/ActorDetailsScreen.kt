@@ -26,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
@@ -35,6 +36,7 @@ import com.redvelvet.ui.composable.ExpandableText
 import com.redvelvet.ui.composable.ItemBasicCard
 import com.redvelvet.ui.composable.PosterImage
 import com.redvelvet.ui.composable.SeeMoreList
+import com.redvelvet.ui.screen.known_for.navigateToActorKnownFor
 import com.redvelvet.ui.theme.BackgroundPrimary
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
@@ -43,14 +45,21 @@ import com.redvelvet.viewmodel.actor_details.ActorDetailsViewModel
 
 @Composable
 fun ActorDetailsScreen(
-    viewModel: ActorDetailsViewModel = hiltViewModel(),
+    navController: NavController,
+    viewModel: ActorDetailsViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    ActorDetailsContent(state)
+    ActorDetailsContent(
+        state = state,
+        onClickSeeAll = {navController.navigateToActorKnownFor(state.id.toString())}
+    )
 }
 
 @Composable
-private fun ActorDetailsContent(state: ActorDetailsUiState) {
+private fun ActorDetailsContent(
+    state: ActorDetailsUiState,
+    onClickSeeAll: () -> Unit
+) {
     val systemUiController = rememberSystemUiController()
     SideEffect {
         systemUiController.setStatusBarColor(color = Color.Transparent)
@@ -96,7 +105,7 @@ private fun ActorDetailsContent(state: ActorDetailsUiState) {
         )
 
        SeeMoreList(
-           onClickSeeAll = {},
+           onClickSeeAll = onClickSeeAll,
            title = stringResource(id = R.string.known_for),
            modifier = Modifier.padding(
                top = MaterialTheme.spacing.spacing24,

@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
@@ -24,6 +25,7 @@ import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.PrimaryOutlinedButton
 import com.redvelvet.ui.composable.WallPaper
 import com.redvelvet.ui.navigation.MovieDestination
+import com.redvelvet.ui.screen.actor_details.navigateToActorDetails
 import com.redvelvet.ui.screen.home.navigateToHome
 import com.redvelvet.ui.screen.login.navigateToLogin
 import com.redvelvet.ui.screen.signup.navigateToSignUp
@@ -35,6 +37,7 @@ import com.redvelvet.viewmodel.onboarding.OnBoardingViewModel
 
 @Composable
 fun OnBoardingScreen(
+    navController: NavController,
     viewModel: OnBoardingViewModel = hiltViewModel(),
 ) {
     val navController = LocalNavController.current
@@ -54,7 +57,7 @@ fun OnBoardingScreen(
     }
 
     OnBoardingContent(
-        onClickLogin = { navController.navigateToLogin() },
+        onClickLogin = { navController.navigateToActorDetails(id = "520") },
         onClickSignUp = { navController.navigateToSignUp() }
     )
 }
