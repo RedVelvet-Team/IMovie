@@ -33,7 +33,7 @@ fun SeeMoreList(
         )
         Text(
             modifier = Modifier
-                .clickable { onClickSeeAll },
+                .clickable { onClickSeeAll() },
             text = stringResource(R.string.see_all),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.color.fontAccent,
