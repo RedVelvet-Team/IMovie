@@ -17,8 +17,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.ItemBasicCard
 import com.redvelvet.ui.composable.MovieScaffold
 import com.redvelvet.ui.theme.spacing
@@ -27,10 +27,10 @@ import com.redvelvet.viewmodel.knownFor.ActorWorksViewModel
 
 @Composable
 fun ActorKnownForScreen(
-    navController: NavController,
     viewModel: ActorWorksViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
+    val navController = LocalNavController.current
     ActorKnownForContent(state)
 }
 

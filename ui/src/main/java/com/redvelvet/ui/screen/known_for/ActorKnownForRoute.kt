@@ -12,14 +12,14 @@ import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.viewmodel.knownFor.KnownForArgs
 
 private val ROUTE = MovieDestination.ActorKnownFor.route
-fun NavGraphBuilder.actorKnownForRoute(navController: NavHostController) {
+fun NavGraphBuilder.actorKnownForRoute() {
     composable(
         route ="$ROUTE/{${KnownForArgs.ID}}",
         arguments = listOf(
             navArgument(KnownForArgs.ID) { NavType.StringType }
         )
     ) {
-        ActorKnownForScreen(navController = navController)
+        ActorKnownForScreen()
     }
 }
 

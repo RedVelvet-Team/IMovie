@@ -26,9 +26,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.BirthCard
 import com.redvelvet.ui.composable.DisplayCard
@@ -45,13 +45,13 @@ import com.redvelvet.viewmodel.actor_details.ActorDetailsViewModel
 
 @Composable
 fun ActorDetailsScreen(
-    navController: NavController,
     viewModel: ActorDetailsViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
+    val navController = LocalNavController.current
     ActorDetailsContent(
         state = state,
-        onClickSeeAll = {navController.navigateToActorKnownFor(state.id.toString())}
+        onClickSeeAll = { navController.navigateToActorKnownFor(state.id) }
     )
 }
 
@@ -104,15 +104,15 @@ private fun ActorDetailsContent(
             )
         )
 
-       SeeMoreList(
-           onClickSeeAll = onClickSeeAll,
-           title = stringResource(id = R.string.known_for),
-           modifier = Modifier.padding(
-               top = MaterialTheme.spacing.spacing24,
-               start = MaterialTheme.spacing.spacing16,
-               end = MaterialTheme.spacing.spacing16,
-           )
-       )
+        SeeMoreList(
+            onClickSeeAll = onClickSeeAll,
+            title = stringResource(id = R.string.known_for),
+            modifier = Modifier.padding(
+                top = MaterialTheme.spacing.spacing24,
+                start = MaterialTheme.spacing.spacing16,
+                end = MaterialTheme.spacing.spacing16,
+            )
+        )
 
         LazyRow(
             modifier = Modifier
