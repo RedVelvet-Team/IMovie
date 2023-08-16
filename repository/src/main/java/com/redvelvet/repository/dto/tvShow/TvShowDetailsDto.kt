@@ -114,7 +114,7 @@ data class LastEpisodeToAir(
     @SerializedName("still_path")
     val stillPath: String?,
     @SerializedName("vote_average")
-    val voteAverage: Int?,
+    val voteAverage: Double?,
     @SerializedName("vote_count")
     val voteCount: Int?
 )

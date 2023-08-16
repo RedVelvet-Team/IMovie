@@ -1,4 +1,4 @@
-package com.redvelvet.ui.screen.movieDetails.mediaComposable
+package com.redvelvet.ui.composable
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
@@ -7,18 +7,19 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.redvelvet.ui.composable.ItemsSectionForDetailsScreens
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
-import com.redvelvet.viewmodel.movieDetails.MovieDetailsInteraction
-import com.redvelvet.viewmodel.movieDetails.MovieDetailsScreenUiState
 
 @Composable
-fun MovieImagesSection(
-    it: List<MovieDetailsScreenUiState.MovieImagesUiState>,
-    interaction: MovieDetailsInteraction
+fun MediaListSection(
+    label:String = "",
+    isNotListEmpty: Boolean = false,
+    images: List<String> = emptyList(),
+    names: List<String> = emptyList(),
+    onClickSeeAll: () -> Unit = {},
+    onClickItem: (id: Int) -> Unit = {},
 ) {
-    if (it.isNotEmpty())
+    if (isNotListEmpty)
         Column(
             modifier = Modifier
                 .padding(
@@ -26,16 +27,17 @@ fun MovieImagesSection(
                 )
         ) {
             ItemsSectionForDetailsScreens(
-                label = "Images belong a movie",
-                images = it.map { it2 -> it2.mediaImage },
-                hasName = false,
+                label = label,
+                images = images,
+                hasName = true,
+                name = names,
                 hasCustomList = false,
                 hasDateAndCountry = false,
-                onClickSeeAll = { interaction.onClickMovieImagesSeeAll() },
+                onClickSeeAll = { onClickSeeAll },
                 cardModifier = Modifier
-                    .width(MaterialTheme.dimens.dimens112)
-                    .height(MaterialTheme.dimens.dimens112),
+                    .width(MaterialTheme.dimens.dimens104)
+                    .height(MaterialTheme.dimens.dimens130),
+                onClickItem = onClickItem,
             )
         }
 }
-

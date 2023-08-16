@@ -16,7 +16,7 @@ class TvShowViewModel @Inject constructor(
 ) : BaseViewModel<SeriesDetailsUiState, TvShowUiEffect>(SeriesDetailsUiState()),
     TvShowDetailsInteraction {
 
-    private val seriesId: Int = 71212
+    private val seriesId: Int = 1396
 
     init {
         getData()
@@ -61,7 +61,7 @@ class TvShowViewModel @Inject constructor(
                 error = error,
             )
         }
-        Log.i("KAMELOO",error.message)
+        Log.i("KAMELOO", error.message)
     }
 
 
@@ -129,7 +129,8 @@ class TvShowViewModel @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun onClickRecommendation(seriesId: Int, recommendationId: Int) {
+    override fun onClickRecommendation(seriesId: Int) {
         TODO("Not yet implemented")
     }
+
 }

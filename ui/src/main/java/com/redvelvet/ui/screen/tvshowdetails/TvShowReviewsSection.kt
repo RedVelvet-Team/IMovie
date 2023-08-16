@@ -1,4 +1,4 @@
-package com.redvelvet.ui.screen.movieDetails.mediaComposable
+package com.redvelvet.ui.screen.tvshowdetails
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
@@ -11,13 +11,13 @@ import com.redvelvet.ui.composable.ItemReview
 import com.redvelvet.ui.composable.ItemsSectionForDetailsScreens
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
-import com.redvelvet.viewmodel.movieDetails.MovieDetailsInteraction
-import com.redvelvet.viewmodel.movieDetails.MovieDetailsScreenUiState
+import com.redvelvet.viewmodel.tvshow.TvShowDetailsInteraction
+import com.redvelvet.viewmodel.tvshow.TvShowReviewUiState
 
 @Composable
-fun MovieReviewsSection(
-    it: List<MovieDetailsScreenUiState.MovieReviewsUiState>,
-    interaction: MovieDetailsInteraction
+fun TvShowReviewsSection(
+    it: List<TvShowReviewUiState>,
+    interaction: TvShowDetailsInteraction
 ) {
     if (it.isNotEmpty())
         Column(
@@ -29,17 +29,17 @@ fun MovieReviewsSection(
             ItemsSectionForDetailsScreens(
                 label = "Reviews",
                 hasName = false,
-                name = it.map { it2 -> it2.reviewAuthor },
+                name = it.map { it2 -> it2.author },
                 hasCustomList = true,
                 hasDateAndCountry = false,
                 customListItemComposable = { index ->
-                    if (it[index].reviewDescription.isNotEmpty())
+                    if (it[index].content.isNotEmpty())
                         ItemReview(
-                            id = it[index].reviewId,
-                            name = it[index].reviewAuthor,
-                            rating = it[index].reviewStars,
-                            date = it[index].reviewDate,
-                            content = it[index].reviewDescription,
+                            id = it[index].id,
+                            name = it[index].author,
+                            rating = it[index].rating.toDouble(),
+                            date = it[index].createdAt,
+                            content = it[index].content,
                             modifier = Modifier
                                 .width(MaterialTheme.dimens.dimens270)
                                 .height(MaterialTheme.dimens.dimens143),

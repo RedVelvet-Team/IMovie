@@ -1,4 +1,4 @@
-package com.redvelvet.ui.screen.tvshowdetails.mediaComposable
+package com.redvelvet.ui.screen.tvshowdetails
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

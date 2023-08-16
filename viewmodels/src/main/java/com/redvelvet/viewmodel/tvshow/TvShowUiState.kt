@@ -92,7 +92,7 @@ fun TvShowReview.toTvShowReviewUiState(): TvShowReviewUiState {
 
 fun TvShowRecommendation.toTvShowRecommendationUiState(): TvShowRecommendationUiState {
     return TvShowRecommendationUiState(
-        poster = poster,
+        poster = Constants.BASE_IMAGE_URL + poster,
         seriesName = seriesName,
     )
 }
