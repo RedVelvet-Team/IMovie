@@ -24,7 +24,7 @@ fun ItemsSection(
     dates: List<String> = emptyList(),
     countries: List<String> = emptyList()
 ) {
-    SectionHeader(label, modifier = modifier)
+    SectionHeader(label = label, modifier = modifier)
     LazyRow(
         modifier = Modifier.padding(top = MaterialTheme.spacing.spacing8),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),
