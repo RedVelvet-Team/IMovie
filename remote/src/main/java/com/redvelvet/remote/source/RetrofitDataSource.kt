@@ -84,11 +84,11 @@ class RetrofitDataSource @Inject constructor(
         return wrapApiResponse { movieApiService.searchTvShows(query, page) }.result.orEmpty()
     }
 
-    override suspend fun getActorDetails(id: Int): ActorDto {
+    override suspend fun getActorDetails(id: String): ActorDto {
         return wrapApiResponse { movieApiService.getActorDetails(id) }
     }
 
-    override suspend fun getActorKnownFor(id: Int): ActorKnownForDto {
+    override suspend fun getActorKnownFor(id: String): ActorKnownForDto {
         return wrapApiResponse { movieApiService.getActorKnownFor(id) }
     }
 

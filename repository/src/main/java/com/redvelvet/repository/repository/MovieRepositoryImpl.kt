@@ -54,11 +54,11 @@ class MovieRepositoryImpl @Inject constructor(
         return search(query, page, ::TvShowSearchPageSource)
     }
 
-    override suspend fun getActorDetails(id: Int): Actor {
+    override suspend fun getActorDetails(id: String): Actor {
         return wrapRemoteResponse { remoteDataSource.getActorDetails(id) }.toActor()
     }
 
-    override suspend fun getActorKnownFor(id: Int): List<CombinedResult> {
+    override suspend fun getActorKnownFor(id: String): List<CombinedResult> {
         return wrapRemoteResponse { remoteDataSource.getActorKnownFor(id) }
             .result.map { it.toCombinedResult() }
     }

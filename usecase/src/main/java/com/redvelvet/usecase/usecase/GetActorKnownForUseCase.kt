@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetActorKnownForUseCase @Inject constructor(
     private val repository: MovieRepository
 ) {
-    suspend operator fun invoke(id: Int, limit: Int? = null): List<CombinedResult> {
+    suspend operator fun invoke(id: String, limit: Int? = null): List<CombinedResult> {
         val results = repository.getActorKnownFor(id)
         return limit?.let { results.take(it) } ?: results
     }

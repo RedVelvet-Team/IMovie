@@ -68,11 +68,11 @@ interface MovieApiService {
 
     @GET("person/{person_id}")
     suspend fun getActorDetails(
-        @Path("person_id") id: Int
+        @Path("person_id") id: String
     ): Response<ActorDto>
 
     @GET("person/{person_id}/combined_credits")
     suspend fun getActorKnownFor(
-        @Path("person_id") id: Int
+        @Path("person_id") id: String
     ): Response<ActorKnownForDto>
 }

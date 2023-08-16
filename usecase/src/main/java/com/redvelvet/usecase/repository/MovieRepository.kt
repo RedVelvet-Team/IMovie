@@ -15,7 +15,7 @@ interface MovieRepository {
     fun searchMovie(query: String, page: Int?=1): Flow<PagingData<Movie>>
     fun searchTvShows(query: String, page: Int?=1): Flow<PagingData<TvShow>>
 
-    suspend fun getActorDetails(id: Int): Actor
+    suspend fun getActorDetails(id: String): Actor
 
-    suspend fun getActorKnownFor(id: Int): List<CombinedResult>
+    suspend fun getActorKnownFor(id: String): List<CombinedResult>
 }

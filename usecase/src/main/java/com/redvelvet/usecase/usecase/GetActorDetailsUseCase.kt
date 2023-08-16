@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetActorDetailsUseCase @Inject constructor(
     private val repository: MovieRepository
 ) {
-    suspend operator fun invoke(id: Int): Actor {
+    suspend operator fun invoke(id: String): Actor {
         return repository.getActorDetails(id)
     }
 }

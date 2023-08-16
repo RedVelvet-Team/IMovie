@@ -25,7 +25,7 @@ interface RemoteDataSource {
     suspend fun searchTvShows(query: String, page : Int?): List<TvShowDto>
     //endregion
 
-    suspend fun getActorDetails(id: Int): ActorDto
+    suspend fun getActorDetails(id: String): ActorDto
 
-    suspend fun getActorKnownFor(id: Int) : ActorKnownForDto
+    suspend fun getActorKnownFor(id: String) : ActorKnownForDto
 }
