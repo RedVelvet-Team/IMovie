@@ -1,13 +1,14 @@
 package com.redvelvet.remote.service
 
 
+import com.redvelvet.repository.dto.ActorKnownForDto
 import com.redvelvet.repository.dto.BaseResponse
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
-import com.redvelvet.repository.dto.person.PersonDto
-import com.redvelvet.repository.dto.search.MultiSearchResultDto
+import com.redvelvet.repository.dto.person.ActorDto
+import com.redvelvet.repository.dto.search.CombinedResultDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
@@ -23,8 +24,8 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.HTTP
 import retrofit2.http.POST
-import retrofit2.http.Query
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface MovieApiService {
     //region auth
@@ -73,13 +74,13 @@ interface MovieApiService {
     suspend fun multiSearch(
         @Query("query") query: String,
         @Query("page") page: Int? = 1,
-    ): Response<BaseResponse<List<MultiSearchResultDto>>>
+    ): Response<BaseResponse<List<CombinedResultDto>>>
 
     @GET("search/person")
     suspend fun searchPeople(
         @Query("query") query: String,
         @Query("page") page: Int? = 1,
-    ): Response<BaseResponse<List<PersonDto>>>
+    ): Response<BaseResponse<List<ActorDto>>>
 
     @GET("search/movie")
     suspend fun searchMovie(
@@ -110,4 +111,14 @@ interface MovieApiService {
     ): Response<BaseResponse<List<TvShowDto>>>
 
     //endregion
+
+    @GET("person/{person_id}")
+    suspend fun getActorDetails(
+        @Path("person_id") id: String
+    ): Response<ActorDto>
+
+    @GET("person/{person_id}/combined_credits")
+    suspend fun getActorKnownFor(
+        @Path("person_id") id: String
+    ): Response<ActorKnownForDto>
 }

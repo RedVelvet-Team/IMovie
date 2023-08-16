@@ -7,12 +7,13 @@ import com.redvelvet.entities.error.NullResultException
 import com.redvelvet.entities.error.ServerException
 import com.redvelvet.entities.error.ValidationException
 import com.redvelvet.remote.service.MovieApiService
+import com.redvelvet.repository.dto.ActorKnownForDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
-import com.redvelvet.repository.dto.person.PersonDto
-import com.redvelvet.repository.dto.search.MultiSearchResultDto
+import com.redvelvet.repository.dto.person.ActorDto
+import com.redvelvet.repository.dto.search.CombinedResultDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
@@ -117,11 +118,11 @@ class RetrofitDataSource @Inject constructor(
     //endregion
 
     // region search
-    override suspend fun multiSearch(query: String, page: Int?): List<MultiSearchResultDto> {
+    override suspend fun multiSearch(query: String, page: Int?): List<CombinedResultDto> {
         return wrapApiResponse { movieApiService.multiSearch(query, page) }.result.orEmpty()
     }
 
-    override suspend fun searchPeople(query: String, page: Int?): List<PersonDto> {
+    override suspend fun searchPeople(query: String, page: Int?): List<ActorDto> {
         return wrapApiResponse { movieApiService.searchPeople(query, page) }.result.orEmpty()
     }
 
@@ -147,16 +148,23 @@ class RetrofitDataSource @Inject constructor(
         return wrapApiResponse { movieApiService.seeAllPopularTv(page) }.result.orEmpty()
     }
 
-    //endregion
+    override suspend fun getActorDetails(id: String): ActorDto {
+        return wrapApiResponse { movieApiService.getActorDetails(id) }
+    }
 
+    override suspend fun getActorKnownFor(id: String): ActorKnownForDto {
+        return wrapApiResponse { movieApiService.getActorKnownFor(id) }
+    }
+
+    // endregion
     //region wrap response
     private suspend fun <T> wrapApiResponse(
         request: suspend () -> Response<T>
     ): T {
-        return try {
+         try {
             val response = request()
             if (response.isSuccessful) {
-                response.body() ?: throw NullResultException("Empty data")
+                return response.body() ?: throw NullResultException("Empty data")
             } else {
                 throw when (response.code()) {
                     400 -> BadRequestException(response.message())

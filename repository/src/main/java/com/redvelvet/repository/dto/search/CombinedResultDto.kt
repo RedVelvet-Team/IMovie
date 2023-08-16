@@ -2,7 +2,7 @@ package com.redvelvet.repository.dto.search
 
 import com.google.gson.annotations.SerializedName
 
-data class MultiSearchResultDto(
+data class CombinedResultDto(
     @SerializedName("adult")
     val adult: Boolean?,
     @SerializedName("backdrop_path")
