@@ -8,7 +8,7 @@ fun SeasonTvShow.toSeasonUiState(): SeasonUiState {
         seasonNumber = seasonNumber,
         rate = voteSeasonAverage,
         airDate = airDate,
-        episodesNum = episodeCount,
+        episodeCount = episodeCount,
         description = seasonDescription
     )
 }

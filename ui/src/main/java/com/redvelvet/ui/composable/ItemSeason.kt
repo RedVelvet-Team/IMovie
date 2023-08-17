@@ -1,6 +1,7 @@
 package com.redvelvet.ui.composable
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
@@ -12,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -35,13 +37,17 @@ fun ItemSeason(
     rate: Double,
     modifier: Modifier = Modifier
 ) {
-    Row(modifier = modifier.padding(end = MaterialTheme.spacing.spacing8)) {
+    Row(modifier = modifier
+        .padding(end = MaterialTheme.spacing.spacing8)
+        .clickable { }) {
         Image(
             painter = imagePainter,
             contentDescription = "poster",
             modifier = Modifier
                 .width(MaterialTheme.dimens.dimens140)
                 .height(MaterialTheme.dimens.dimens118)
+                .rotate(180f)
+                .padding(MaterialTheme.spacing.spacing8)
                 .clip(shape = RoundedCornerShape(MaterialTheme.radius.radius16)),
             contentScale = ContentScale.Crop,
         )
@@ -49,7 +55,8 @@ fun ItemSeason(
             modifier = Modifier.padding(
                 start = MaterialTheme.spacing.spacing12,
                 end = MaterialTheme.spacing.spacing8,
-                top = MaterialTheme.spacing.spacing12
+                top = MaterialTheme.spacing.spacing12,
+                bottom = MaterialTheme.spacing.spacing16
             )
         ) {
             NameWithRatingRow(name = name, rating = rate, textNameStyle = Typography.headlineSmall)

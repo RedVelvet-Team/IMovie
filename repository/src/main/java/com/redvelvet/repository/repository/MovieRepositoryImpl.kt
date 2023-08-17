@@ -95,7 +95,7 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun getAllSeasons(seriesId: Int): List<SeasonTvShow> {
         return remoteDataSource.getAllSeasons(
             seriesId
-        ).seasons!!.map { it!!.toSeasonTvShow() }
+        ).seasonDtos!!.map { it!!.toSeasonTvShow() }
     }
     //endregion
 

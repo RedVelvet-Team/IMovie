@@ -15,7 +15,7 @@ class SeeAllSeasonsViewModel @Inject constructor(
 ) : BaseViewModel<SeeAllSeasonsUiState, SeasonsUiEffect>(SeeAllSeasonsUiState()) {
 
     init {
-        getAllSeasons(100)
+        getAllSeasons(2000)
     }
 
     private fun getAllSeasons(seriesId: Int) {
@@ -25,7 +25,6 @@ class SeeAllSeasonsViewModel @Inject constructor(
             onSuccessWithData = ::onGetAllSeasonsOnSuccess,
             onError = ::onGetAllSeasonsOnError
         )
-        Log.e("Amna", getAllSeasonsUseCase.toString())
     }
 
     private fun onGetAllSeasonsOnSuccess(season: List<SeasonTvShow>) {
@@ -33,8 +32,9 @@ class SeeAllSeasonsViewModel @Inject constructor(
             it.copy(
                 isLoading = false,
                 seasons = season.map { it.toSeasonUiState() })
-
         }
+        Log.e("Amna", _state.value.seasons.toString())
+
     }
 
     private fun onGetAllSeasonsOnError(errorUiState: ErrorUiState) {
