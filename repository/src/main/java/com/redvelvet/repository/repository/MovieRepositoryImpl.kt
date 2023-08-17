@@ -4,10 +4,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.PagingSource
-import androidx.paging.map
 import com.redvelvet.entities.actor.Actor
 import com.redvelvet.entities.movie.Movie
-import com.redvelvet.entities.search.CombinedResult
 import com.redvelvet.entities.movie.details.MovieDetails
 import com.redvelvet.entities.movie.details.MovieImages
 import com.redvelvet.entities.movie.details.MovieKeyWords
@@ -15,27 +13,22 @@ import com.redvelvet.entities.movie.details.MovieRecommendations
 import com.redvelvet.entities.movie.details.MovieReviews
 import com.redvelvet.entities.movie.details.MovieSimilar
 import com.redvelvet.entities.movie.details.MovieTopCast
+import com.redvelvet.entities.search.CombinedResult
 import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.entities.tv.SeasonTvShow
 import com.redvelvet.entities.tv.TvShow
 import com.redvelvet.repository.mapper.toActor
 import com.redvelvet.repository.mapper.toCombinedResult
-import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.mapper.toDomain
 import com.redvelvet.repository.mapper.toSeasonTvShow
-import com.redvelvet.repository.mapper.toTvShow
 import com.redvelvet.repository.pagingSource.ActorSearchPageSource
 import com.redvelvet.repository.pagingSource.MoviesSearchPageSource
 import com.redvelvet.repository.pagingSource.MultiSearchPageSource
 import com.redvelvet.repository.pagingSource.TvShowSearchPageSource
-import com.redvelvet.repository.pagingSource.seealltv.SeeAllAiringTodayTvPageSource
-import com.redvelvet.repository.pagingSource.seealltv.SeeAllOnTheAirTvPageSource
-import com.redvelvet.repository.pagingSource.seealltv.SeeAllPopularTvPageSource
 import com.redvelvet.repository.source.LocalDataSource
 import com.redvelvet.repository.source.RemoteDataSource
 import com.redvelvet.usecase.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(

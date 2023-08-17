@@ -7,9 +7,6 @@ import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
-import com.redvelvet.repository.dto.person.ActorDto
-import com.redvelvet.repository.dto.search.CombinedResultDto
-import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -17,8 +14,8 @@ import com.redvelvet.repository.dto.movie.details.MovieRecommendationsDTO
 import com.redvelvet.repository.dto.movie.details.MovieReviewsDTO
 import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
 import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
-import com.redvelvet.repository.dto.person.PersonDto
-import com.redvelvet.repository.dto.search.MultiSearchResultDto
+import com.redvelvet.repository.dto.person.ActorDto
+import com.redvelvet.repository.dto.search.CombinedResultDto
 import com.redvelvet.repository.dto.tvShow.StatusResponse
 import com.redvelvet.repository.dto.tvShow.TvShowDetailsDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
@@ -30,6 +27,7 @@ import com.redvelvet.repository.dto.tvShow.TvShowTopCastDto
 import com.redvelvet.repository.dto.tvShow.TvShowVideosDto
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET

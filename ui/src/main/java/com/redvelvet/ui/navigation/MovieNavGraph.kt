@@ -13,7 +13,6 @@ import com.redvelvet.ui.screen.onboarding.onBoardingRoute
 import com.redvelvet.ui.screen.search.searchRoute
 import com.redvelvet.ui.screen.seeAllUpcoming.seeAllUpcomingListRoute
 import com.redvelvet.ui.screen.seeall.seasons.SeeAllSeasonsRoute
-import com.redvelvet.ui.screen.seealltv.seeAllTvListRoute
 import com.redvelvet.ui.screen.signup.signupRoute
 import com.redvelvet.ui.screen.splash.splashRoute
 import com.redvelvet.ui.screen.tvshowdetails.tvShowDetailsRoute
@@ -28,7 +27,6 @@ fun MovieNavGraph() {
         searchRoute()
         loginRoute()
         homeRoute()
-        seeAllTvListRoute()
         seeAllUpcomingListRoute()
         signupRoute()
         forgotPasswordRoute()
