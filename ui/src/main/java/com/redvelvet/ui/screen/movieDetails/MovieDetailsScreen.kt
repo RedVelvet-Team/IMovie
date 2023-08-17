@@ -21,7 +21,6 @@ import com.redvelvet.ui.composable.CustomMediaDetailsTopAppBar
 import com.redvelvet.ui.composable.LoadingState
 import com.redvelvet.ui.screen.movieDetails.mediaComposable.MediaDetailsBackgroundContent
 import com.redvelvet.ui.screen.movieDetails.mediaComposable.MediaDetailsForegroundContent
-import com.redvelvet.ui.screen.seeall.navigateSeeAllMovie
 import com.redvelvet.ui.theme.color
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsUiEvent
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsViewModel
@@ -54,13 +53,13 @@ fun MovieDetailsScreen(
         scope.launch {
             viewModel.effect.collectLatest { effect ->
                 when (effect) {
-                    MovieDetailsUiEvent.NavigateToGenreScreen -> navController.navigateToMovieDetails()
-                    MovieDetailsUiEvent.NavigateToMovieDetailsScreen -> navController.navigateToMovieDetails()
+                    MovieDetailsUiEvent.NavigateToGenreScreen -> {}
+                    MovieDetailsUiEvent.NavigateToMovieDetailsScreen -> {}
                     MovieDetailsUiEvent.NavigateToMovieImagesSeeAllScreen -> {}
                     MovieDetailsUiEvent.NavigateToMoviesSeeAllScreen -> {}
-                    MovieDetailsUiEvent.NavigateToReviewDetailsScreen -> navController.navigateToMovieDetails()
+                    MovieDetailsUiEvent.NavigateToReviewDetailsScreen -> {}
                     MovieDetailsUiEvent.NavigateToReviewSeeAllScreen -> {}
-                    MovieDetailsUiEvent.NavigateToTopCastDetailsScreen -> navController.navigateToMovieDetails()
+                    MovieDetailsUiEvent.NavigateToTopCastDetailsScreen -> {}
                     MovieDetailsUiEvent.NavigateToTopCastSeeAllScreen -> {}
                     else -> {}
                 }

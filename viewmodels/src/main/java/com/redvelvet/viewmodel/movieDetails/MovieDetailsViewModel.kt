@@ -1,9 +1,11 @@
 package com.redvelvet.viewmodel.movieDetails
 
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.redvelvet.usecase.usecase.movie.GetMovieFullDetailsUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
+import com.redvelvet.viewmodel.seeall.movie.SeeAllMovieArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.update
@@ -12,9 +14,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val getMovieFullDetailsUseCase: GetMovieFullDetailsUseCase
 ) : BaseViewModel<MovieDetailsScreenUiState, MovieDetailsUiEvent>(MovieDetailsScreenUiState()),
     MovieDetailsInteraction {
+
+    private val args: MovieDetailsArgs = MovieDetailsArgs(savedStateHandle)
     init {
         getData()
     }
@@ -26,7 +31,7 @@ class MovieDetailsViewModel @Inject constructor(
             try {
                 _state.update {
                     MovieDetailsScreenUiState(
-                        data = getMovieFullDetailsUseCase(298618).toMovieFullDetailsScreenUiState(),
+                        data = getMovieFullDetailsUseCase(args.id.toInt()).toMovieFullDetailsScreenUiState(),
                         isLoading = false
                     )
                 }
