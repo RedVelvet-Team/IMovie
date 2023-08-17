@@ -1,5 +1,6 @@
 package com.redvelvet.ui.composable
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,12 +15,14 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.AbsoluteAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
@@ -41,7 +44,8 @@ fun ItemBasicCardForDetailsScreens(
 ) {
     Column(
         modifier = if (isMediaInfoCard) Modifier else Modifier
-            .clickable { onClick() }
+            .clickable { onClick() },
+        horizontalAlignment = AbsoluteAlignment.Left
     ) {
         Card(
             modifier = modifier,
@@ -54,7 +58,7 @@ fun ItemBasicCardForDetailsScreens(
                 contentScale = ContentScale.Crop
             )
         }
-        if (hasName) {
+        AnimatedVisibility(hasName) {
             Text(
                 text = name,
                 maxLines = 1,
@@ -69,11 +73,13 @@ fun ItemBasicCardForDetailsScreens(
                     )
             )
         }
-        if (hasDateAndCountry) {
+        AnimatedVisibility(hasDateAndCountry) {
             Row(
-                modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Absolute.Left
             ) {
                 Text(
+                    modifier = Modifier.padding(start = 4.dp, end = 4.dp),
                     text = date,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,

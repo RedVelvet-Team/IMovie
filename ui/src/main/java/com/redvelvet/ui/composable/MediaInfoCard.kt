@@ -1,5 +1,6 @@
 package com.redvelvet.ui.composable
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -72,7 +73,7 @@ fun MediaInfoCard(
                 modifier = Modifier
                     .padding(end = MaterialTheme.spacing.spacing16)
             )
-            if (data.hasTime) {
+            AnimatedVisibility(data.hasTime) {
                 Box(
                     modifier = Modifier
                         .padding(
@@ -87,7 +88,7 @@ fun MediaInfoCard(
                     )
                 }
             }
-            if (data.hasDate) {
+            AnimatedVisibility(data.hasDate) {
                 Box(
                     modifier = Modifier
                         .padding(
