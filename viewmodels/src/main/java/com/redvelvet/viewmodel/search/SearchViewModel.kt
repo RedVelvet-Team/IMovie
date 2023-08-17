@@ -2,7 +2,6 @@ package com.redvelvet.viewmodel.search
 
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import androidx.paging.map
 import com.redvelvet.entities.actor.Actor
 import com.redvelvet.entities.movie.Movie
@@ -150,6 +149,8 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onChangeCategory(type: SearchMedia) {
+        val currentState = _state.value
+        if (currentState.selectedMediaType == type) return
         _state.update { it.copy(selectedMediaType = type) }
         onGetData(_state.value.inputText)
     }
