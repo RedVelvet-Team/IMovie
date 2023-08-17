@@ -11,3 +11,12 @@ data class SearchResult(
     val releaseDate: String,
     val firstAirDate: String,
 )
+
+data class CombinedResult(
+    val id: Int,
+    val mediaType: String,
+    val name: String,
+    val language: String,
+    val imageUrl: String,
+    val releaseDate: String,
+)
