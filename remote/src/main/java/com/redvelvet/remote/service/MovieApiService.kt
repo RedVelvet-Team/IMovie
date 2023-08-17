@@ -17,11 +17,8 @@ import com.redvelvet.repository.dto.movie.details.MovieRecommendationsDTO
 import com.redvelvet.repository.dto.movie.details.MovieReviewsDTO
 import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
 import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
-import com.redvelvet.repository.dto.person.PersonDto
-import com.redvelvet.repository.dto.search.MultiSearchResultDto
 import com.redvelvet.repository.dto.tvShow.StatusResponse
 import com.redvelvet.repository.dto.tvShow.TvShowDetailsDto
-import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.dto.tvShow.TvShowImagesDto
 import com.redvelvet.repository.dto.tvShow.TvShowKeywordsDto
 import com.redvelvet.repository.dto.tvShow.TvShowRecommendationsDto
