@@ -1,5 +1,6 @@
 package com.redvelvet.viewmodel.seeall.tv
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -8,6 +9,7 @@ import com.redvelvet.entities.tv.TvShow
 import com.redvelvet.usecase.usecase.seealltv.GetAllTvSeriesUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
+import com.redvelvet.viewmodel.seeall.movie.SeeAllMovieArgs
 import com.redvelvet.viewmodel.utils.SeeAllTvShows
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.flowOf
@@ -16,23 +18,24 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SeeAllTvViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val getAllSeries: GetAllTvSeriesUseCase
 ) : BaseViewModel<SeeAllTvShowUiState, Unit>(SeeAllTvShowUiState()) {
-    private val args: SeeAllTvShows = SeeAllTvShows.POPULAR
+    private val args: SeeAllTvArgs = SeeAllTvArgs(savedStateHandle)
 
     init {
-        when (args) {
-            SeeAllTvShows.POPULAR -> {
+        when (args.type) {
+            SeeAllTvShows.POPULAR.name -> {
                 _state.update { it.copy(title = "Popular Series") }
                 getPopular()
             }
 
-            SeeAllTvShows.AIRING_TODAY -> {
+            SeeAllTvShows.AIRING_TODAY.name -> {
                 _state.update { it.copy(title = "Airing Today") }
                 getAiringTodayTv()
             }
 
-            SeeAllTvShows.ON_TV -> {
+            SeeAllTvShows.ON_TV.name -> {
                 _state.update { it.copy(title = "On TV") }
                 getOnTheAir()
             }

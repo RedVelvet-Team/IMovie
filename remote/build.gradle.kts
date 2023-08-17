@@ -53,6 +53,7 @@ dependencies {
     implementation(project(":entities"))
     // core + testing
     implementation(Deps.coreKtx)
+    implementation(project(mapOf("path" to ":entities")))
     testImplementation(Deps.junit)
     androidTestImplementation(Deps.junitExt)
     androidTestImplementation(Deps.testMonitor)

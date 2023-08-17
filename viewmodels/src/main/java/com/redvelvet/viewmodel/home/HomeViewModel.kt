@@ -55,64 +55,64 @@ class HomeViewModel @Inject constructor(
     private fun fakeMoviesList(): List<MovieUiState> {
         return listOf(
             MovieUiState(
-                movieImage = "https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png",
-                movieDate = "23/8/2001",
-                movieName = "Real Madrid",
-                countryOfMovie = "Espania"
+                imageUrl = "https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png",
+                date = "23/8/2001",
+                name = "Real Madrid",
+                country = "Espania"
             ),
             MovieUiState(
-                movieImage = "https://th.bing.com/th/id/R.288a9cdbf8a965fba8a044e1aac9f2eb?rik=DBP9DF9RfFfb%2fw&riu=http%3a%2f%2fwww.barcelonaconnect.com%2fwp-content%2fuploads%2f2016%2f02%2f1389120212768861.jpg&ehk=r3LRNPFmRnje0DlkhtyOzcrbJ%2fRgrAjS1J882gOJj6U%3d&risl=&pid=ImgRaw&r=0",
-                movieDate = "23/8/2001",
-                movieName = "Barcelona",
-                countryOfMovie = "Espania"
+                imageUrl = "https://th.bing.com/th/id/R.288a9cdbf8a965fba8a044e1aac9f2eb?rik=DBP9DF9RfFfb%2fw&riu=http%3a%2f%2fwww.barcelonaconnect.com%2fwp-content%2fuploads%2f2016%2f02%2f1389120212768861.jpg&ehk=r3LRNPFmRnje0DlkhtyOzcrbJ%2fRgrAjS1J882gOJj6U%3d&risl=&pid=ImgRaw&r=0",
+                date = "23/8/2001",
+                name = "Barcelona",
+                country = "Espania"
             ),
             MovieUiState(
-                movieImage = "https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png",
-                movieDate = "23/8/2001",
-                movieName = "Real Madrid",
-                countryOfMovie = "Espania"
+                imageUrl = "https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png",
+                date = "23/8/2001",
+                name = "Real Madrid",
+                country = "Espania"
             ),
             MovieUiState(
-                movieImage = "https://th.bing.com/th/id/R.288a9cdbf8a965fba8a044e1aac9f2eb?rik=DBP9DF9RfFfb%2fw&riu=http%3a%2f%2fwww.barcelonaconnect.com%2fwp-content%2fuploads%2f2016%2f02%2f1389120212768861.jpg&ehk=r3LRNPFmRnje0DlkhtyOzcrbJ%2fRgrAjS1J882gOJj6U%3d&risl=&pid=ImgRaw&r=0",
-                movieDate = "23/8/2001",
-                movieName = "Barcelona",
-                countryOfMovie = "Espania"
+                imageUrl = "https://th.bing.com/th/id/R.288a9cdbf8a965fba8a044e1aac9f2eb?rik=DBP9DF9RfFfb%2fw&riu=http%3a%2f%2fwww.barcelonaconnect.com%2fwp-content%2fuploads%2f2016%2f02%2f1389120212768861.jpg&ehk=r3LRNPFmRnje0DlkhtyOzcrbJ%2fRgrAjS1J882gOJj6U%3d&risl=&pid=ImgRaw&r=0",
+                date = "23/8/2001",
+                name = "Barcelona",
+                country = "Espania"
             ),
             MovieUiState(
-                movieImage = "https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png",
-                movieDate = "23/8/2001",
-                movieName = "Real Madrid",
-                countryOfMovie = "Espania"
+                imageUrl = "https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png",
+                date = "23/8/2001",
+                name = "Real Madrid",
+                country = "Espania"
             ),
             MovieUiState(
-                movieImage = "https://th.bing.com/th/id/R.288a9cdbf8a965fba8a044e1aac9f2eb?rik=DBP9DF9RfFfb%2fw&riu=http%3a%2f%2fwww.barcelonaconnect.com%2fwp-content%2fuploads%2f2016%2f02%2f1389120212768861.jpg&ehk=r3LRNPFmRnje0DlkhtyOzcrbJ%2fRgrAjS1J882gOJj6U%3d&risl=&pid=ImgRaw&r=0",
-                movieDate = "23/8/2001",
-                movieName = "Barcelona",
-                countryOfMovie = "Espania"
+                imageUrl = "https://th.bing.com/th/id/R.288a9cdbf8a965fba8a044e1aac9f2eb?rik=DBP9DF9RfFfb%2fw&riu=http%3a%2f%2fwww.barcelonaconnect.com%2fwp-content%2fuploads%2f2016%2f02%2f1389120212768861.jpg&ehk=r3LRNPFmRnje0DlkhtyOzcrbJ%2fRgrAjS1J882gOJj6U%3d&risl=&pid=ImgRaw&r=0",
+                date = "23/8/2001",
+                name = "Barcelona",
+                country = "Espania"
             ),
             MovieUiState(
-                movieImage = "https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png",
-                movieDate = "23/8/2001",
-                movieName = "Real Madrid",
-                countryOfMovie = "Espania"
+                imageUrl = "https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png",
+                date = "23/8/2001",
+                name = "Real Madrid",
+                country = "Espania"
             ),
             MovieUiState(
-                movieImage = "https://th.bing.com/th/id/R.288a9cdbf8a965fba8a044e1aac9f2eb?rik=DBP9DF9RfFfb%2fw&riu=http%3a%2f%2fwww.barcelonaconnect.com%2fwp-content%2fuploads%2f2016%2f02%2f1389120212768861.jpg&ehk=r3LRNPFmRnje0DlkhtyOzcrbJ%2fRgrAjS1J882gOJj6U%3d&risl=&pid=ImgRaw&r=0",
-                movieDate = "23/8/2001",
-                movieName = "Barcelona",
-                countryOfMovie = "Espania"
+                imageUrl = "https://th.bing.com/th/id/R.288a9cdbf8a965fba8a044e1aac9f2eb?rik=DBP9DF9RfFfb%2fw&riu=http%3a%2f%2fwww.barcelonaconnect.com%2fwp-content%2fuploads%2f2016%2f02%2f1389120212768861.jpg&ehk=r3LRNPFmRnje0DlkhtyOzcrbJ%2fRgrAjS1J882gOJj6U%3d&risl=&pid=ImgRaw&r=0",
+                date = "23/8/2001",
+                name = "Barcelona",
+                country = "Espania"
             ),
             MovieUiState(
-                movieImage = "https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png",
-                movieDate = "23/8/2001",
-                movieName = "Real Madrid",
-                countryOfMovie = "Espania"
+                imageUrl = "https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png",
+                date = "23/8/2001",
+                name = "Real Madrid",
+                country = "Espania"
             ),
             MovieUiState(
-                movieImage = "https://th.bing.com/th/id/R.288a9cdbf8a965fba8a044e1aac9f2eb?rik=DBP9DF9RfFfb%2fw&riu=http%3a%2f%2fwww.barcelonaconnect.com%2fwp-content%2fuploads%2f2016%2f02%2f1389120212768861.jpg&ehk=r3LRNPFmRnje0DlkhtyOzcrbJ%2fRgrAjS1J882gOJj6U%3d&risl=&pid=ImgRaw&r=0",
-                movieDate = "23/8/2001",
-                movieName = "Barcelona",
-                countryOfMovie = "Espania"
+                imageUrl = "https://th.bing.com/th/id/R.288a9cdbf8a965fba8a044e1aac9f2eb?rik=DBP9DF9RfFfb%2fw&riu=http%3a%2f%2fwww.barcelonaconnect.com%2fwp-content%2fuploads%2f2016%2f02%2f1389120212768861.jpg&ehk=r3LRNPFmRnje0DlkhtyOzcrbJ%2fRgrAjS1J882gOJj6U%3d&risl=&pid=ImgRaw&r=0",
+                date = "23/8/2001",
+                name = "Barcelona",
+                country = "Espania"
             ),
         )
     }

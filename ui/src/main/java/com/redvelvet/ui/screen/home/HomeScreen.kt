@@ -146,24 +146,24 @@ fun MovieContent(state: HomeUiState, pagerState: PagerState) {
         titles = state.movieCategories.map { movieCategoryUiState -> movieCategoryUiState.title },
         imagePainters = state.movieCategories.map { movieCategoryUiState ->
             movieCategoryUiState.movies.map { movieUiState ->
-                rememberAsyncImagePainter(model = movieUiState.movieImage)
+                rememberAsyncImagePainter(model = movieUiState.imageUrl)
             }
         },
         hasName = true,
         hasDateAndCountry = true,
         names = state.movieCategories.map { movieCategoryUiState ->
             movieCategoryUiState.movies.map { movieUiState ->
-                movieUiState.movieName
+                movieUiState.name
             }
         },
         dates = state.movieCategories.map { movieCategoryUiState ->
             movieCategoryUiState.movies.map { movieUiState ->
-                movieUiState.movieDate
+                movieUiState.date
             }
         },
         countries = state.movieCategories.map { movieCategoryUiState ->
             movieCategoryUiState.movies.map { movieUiState ->
-                movieUiState.countryOfMovie
+                movieUiState.country
             }
         },
     )
@@ -200,4 +200,3 @@ fun SeriesContent(state: HomeUiState, pagerState: PagerState) {
         },
     )
 }
-

@@ -1,10 +1,10 @@
 package com.redvelvet.ui.screen.actor_details
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,7 +16,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -34,9 +33,11 @@ import com.redvelvet.ui.composable.BirthCard
 import com.redvelvet.ui.composable.DisplayCard
 import com.redvelvet.ui.composable.ExpandableText
 import com.redvelvet.ui.composable.ItemBasicCard
+import com.redvelvet.ui.composable.MovieScaffold
 import com.redvelvet.ui.composable.PosterImage
 import com.redvelvet.ui.composable.SeeMoreList
 import com.redvelvet.ui.screen.known_for.navigateToActorKnownFor
+import com.redvelvet.ui.screen.movieDetails.navigateToMovieDetails
 import com.redvelvet.ui.theme.BackgroundPrimary
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
@@ -49,108 +50,116 @@ fun ActorDetailsScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val navController = LocalNavController.current
+
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setSystemBarsColor(
+        Color.Transparent
+    )
     ActorDetailsContent(
         state = state,
-        onClickSeeAll = { navController.navigateToActorKnownFor(state.id) }
+        onClickSeeAll = { navController.navigateToActorKnownFor(state.id) },
+        onClickItem = { type: String, id: String ->
+            if (type == "movie") navController.navigateToMovieDetails(id)
+        }
     )
 }
 
 @Composable
 private fun ActorDetailsContent(
     state: ActorDetailsUiState,
-    onClickSeeAll: () -> Unit
+    onClickSeeAll: () -> Unit,
+    onClickItem: (String, String) -> Unit
 ) {
-    val systemUiController = rememberSystemUiController()
-    SideEffect {
-        systemUiController.setStatusBarColor(color = Color.Transparent)
-    }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(BackgroundPrimary)
-            .verticalScroll(state = rememberScrollState())
-            .padding(bottom = MaterialTheme.spacing.spacing24)
+    MovieScaffold(
+        isLoading = state.isLoading,
+        error = state.error,
     ) {
-
-        PosterImage(
-            name = state.name,
-            posterImage = rememberAsyncImagePainter(model = state.imageUrl)
-        )
-
-        Text(
-            modifier = Modifier.fillMaxWidth(),
-            text = state.knownForDepartment,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.color.fontPrimary,
-            textAlign = TextAlign.Center
-        )
-        BirthCard(
-            birthDate = state.birthDate,
-            birthLocation = state.birthLocation,
-            modifier = Modifier.padding(
-                top = MaterialTheme.spacing.spacing32,
-                start = MaterialTheme.spacing.spacing16,
-                end = MaterialTheme.spacing.spacing16
-            )
-        )
-        DisplayCard(
-            iconPainter = painterResource(id = R.drawable.icon_known_as),
-            title = stringResource(R.string.known_as),
-            text = state.knownAs,
-            modifier = Modifier.padding(
-                top = MaterialTheme.spacing.spacing16,
-                start = MaterialTheme.spacing.spacing16,
-                end = MaterialTheme.spacing.spacing16
-            )
-        )
-
-        SeeMoreList(
-            onClickSeeAll = onClickSeeAll,
-            title = stringResource(id = R.string.known_for),
-            modifier = Modifier.padding(
-                top = MaterialTheme.spacing.spacing24,
-                start = MaterialTheme.spacing.spacing16,
-                end = MaterialTheme.spacing.spacing16,
-            )
-        )
-
-        LazyRow(
+        Column(
             modifier = Modifier
-                .padding(top = MaterialTheme.spacing.spacing8),
-            state = rememberLazyListState(),
-            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),
-            contentPadding = PaddingValues(horizontal = MaterialTheme.spacing.spacing16)
+                .background(BackgroundPrimary)
+                .verticalScroll(state = rememberScrollState())
+                .padding(bottom = MaterialTheme.spacing.spacing24)
         ) {
-            items(count = state.knownFor.size) {
-                val media = state.knownFor[it]
-                ItemBasicCard(
-                    imagePainter = rememberAsyncImagePainter(media.imageUrl),
-                    hasName = true,
-                    name = media.name,
-                    modifier = Modifier
-                        .width(104.dp)
-                        .height(154.dp)
-                )
-            }
-        }
-        Text(
-            modifier = Modifier.padding(
-                top = MaterialTheme.spacing.spacing24,
-                start = MaterialTheme.spacing.spacing16
-            ),
-            text = stringResource(R.string.biography),
-            style = MaterialTheme.typography.headlineSmall,
-            color = MaterialTheme.color.fontPrimary,
-            textAlign = TextAlign.Center
-        )
-        ExpandableText(
-            text = state.biography,
-            modifier = Modifier.padding(
-                vertical = MaterialTheme.spacing.spacing8,
-                horizontal = MaterialTheme.spacing.spacing16
+
+            PosterImage(
+                name = state.name,
+                posterImage = rememberAsyncImagePainter(model = state.imageUrl)
             )
-        )
+
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = state.knownForDepartment,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.color.fontPrimary,
+                textAlign = TextAlign.Center
+            )
+            BirthCard(
+                birthDate = state.birthDate,
+                birthLocation = state.birthLocation,
+                modifier = Modifier.padding(
+                    top = MaterialTheme.spacing.spacing32,
+                    start = MaterialTheme.spacing.spacing16,
+                    end = MaterialTheme.spacing.spacing16
+                )
+            )
+            DisplayCard(
+                iconPainter = painterResource(id = R.drawable.icon_known_as),
+                title = stringResource(R.string.known_as),
+                text = state.knownAs,
+                modifier = Modifier.padding(
+                    top = MaterialTheme.spacing.spacing16,
+                    start = MaterialTheme.spacing.spacing16,
+                    end = MaterialTheme.spacing.spacing16
+                )
+            )
+
+            SeeMoreList(
+                onClickSeeAll = onClickSeeAll,
+                title = stringResource(id = R.string.known_for),
+                modifier = Modifier.padding(
+                    top = MaterialTheme.spacing.spacing24,
+                    start = MaterialTheme.spacing.spacing16,
+                    end = MaterialTheme.spacing.spacing16,
+                )
+            )
+
+            LazyRow(
+                modifier = Modifier
+                    .padding(top = MaterialTheme.spacing.spacing8),
+                state = rememberLazyListState(),
+                horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),
+                contentPadding = PaddingValues(horizontal = MaterialTheme.spacing.spacing16)
+            ) {
+                items(count = state.knownFor.size) {
+                    val media = state.knownFor[it]
+                    ItemBasicCard(
+                        imagePainter = rememberAsyncImagePainter(media.imageUrl),
+                        hasName = true,
+                        name = media.name,
+                        modifier = Modifier
+                            .width(104.dp)
+                            .height(154.dp)
+                            .clickable { onClickItem(media.mediaType, media.id.toString()) }
+                    )
+                }
+            }
+            Text(
+                modifier = Modifier.padding(
+                    top = MaterialTheme.spacing.spacing24,
+                    start = MaterialTheme.spacing.spacing16
+                ),
+                text = stringResource(R.string.biography),
+                style = MaterialTheme.typography.headlineSmall,
+                color = MaterialTheme.color.fontPrimary,
+                textAlign = TextAlign.Center
+            )
+            ExpandableText(
+                text = state.biography,
+                modifier = Modifier.padding(
+                    vertical = MaterialTheme.spacing.spacing8,
+                    horizontal = MaterialTheme.spacing.spacing16
+                )
+            )
+        }
     }
 }
-
-

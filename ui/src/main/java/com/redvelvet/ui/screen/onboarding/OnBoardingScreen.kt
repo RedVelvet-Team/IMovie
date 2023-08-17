@@ -25,13 +25,15 @@ import com.redvelvet.ui.composable.PrimaryOutlinedButton
 import com.redvelvet.ui.composable.WallPaper
 import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.home.navigateToHome
-import com.redvelvet.ui.screen.login.navigateToLogin
+import com.redvelvet.ui.screen.seeall.navigateToSeeAllMovie
 import com.redvelvet.ui.screen.signup.navigateToSignUp
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.onboarding.OnBoardingViewModel
+import com.redvelvet.viewmodel.utils.SeeAllMovie
+import com.redvelvet.viewmodel.utils.SeeAllTvShows
 
 @Composable
 fun OnBoardingScreen(
@@ -54,7 +56,7 @@ fun OnBoardingScreen(
     }
 
     OnBoardingContent(
-        onClickLogin = { navController.navigateToLogin() },
+        onClickLogin = { navController.navigateToSeeAllMovie(type = SeeAllMovie.POPULAR, id = null) },
         onClickSignUp = { navController.navigateToSignUp() }
     )
 }

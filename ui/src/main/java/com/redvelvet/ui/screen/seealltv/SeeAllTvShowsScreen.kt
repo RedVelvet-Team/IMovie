@@ -1,5 +1,6 @@
 package com.redvelvet.ui.screen.seealltv
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,8 +8,11 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -16,11 +20,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.composable.ItemBasicCard
+import com.redvelvet.ui.composable.LoadingPage
 import com.redvelvet.ui.composable.MovieScaffold
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
@@ -55,7 +62,7 @@ private fun SeeAllTvShowsContent(tvShow: LazyPagingItems<TvShowUiState>) {
         LazyVerticalGrid(
             contentPadding = PaddingValues(
                 horizontal = MaterialTheme.spacing.spacing16,
-                vertical = MaterialTheme.spacing.spacing24
+                vertical = MaterialTheme.spacing.spacing64
             ),
             columns = GridCells.Fixed(3),
             horizontalArrangement = Arrangement.spacedBy(
@@ -79,6 +86,18 @@ private fun SeeAllTvShowsContent(tvShow: LazyPagingItems<TvShowUiState>) {
                     date = tvShow[it]!!.seriesDate,
                     country = tvShow[it]!!.seriesCountry
                 )
+            }
+            if (tvShow.loadState.append is LoadState.Loading) {
+                item(
+                    span = { GridItemSpan(3) }
+                ) {
+                    LoadingPage(
+                        modifier = Modifier
+                            .size(42.dp)
+                            .padding(16.dp)
+                            .wrapContentWidth(Alignment.CenterHorizontally),
+                    )
+                }
             }
         }
 

@@ -1,15 +1,19 @@
 package com.redvelvet.viewmodel.base
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.LOGGER
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.redvelvet.entities.error.MovieException
 import com.redvelvet.entities.error.NetworkException
+import com.redvelvet.entities.error.NoInternetException
 import com.redvelvet.entities.error.NullResultException
 import com.redvelvet.entities.error.ValidationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -46,6 +50,8 @@ abstract class BaseViewModel<UiState : BaseUiState, UiEffect>(state: UiState) :
                 onError(NetworkErrorState(e.message.toString()))
             } catch (e: MovieException) {
                 onError(ErrorUiState(e.message.toString()))
+            } catch (e: NoInternetException) {
+                onError(NetworkErrorState(e.message.toString()))
             }
         }
     }
@@ -56,18 +62,26 @@ abstract class BaseViewModel<UiState : BaseUiState, UiEffect>(state: UiState) :
         onError: (error: ErrorUiState) -> Unit,
         dispatcher: CoroutineDispatcher = Dispatchers.IO
     ) {
+        Log.v("hass", "paging")
         viewModelScope.launch(dispatcher) {
             try {
                 val result = call().cachedIn(viewModelScope)
                 result.collect { data ->
                     onSuccess(data)
+                    Log.v("hass", "execute")
                 }
+            }catch (e: NoInternetException) {
+                Log.v("hass", "error")
+                onError(NetworkErrorState(e.message.toString()))
             } catch (e: NullResultException) {
                 onError(NullResultErrorState(e.message.toString()))
+                Log.i("KAMELOO",e.localizedMessage)
             } catch (e: NetworkException) {
                 onError(NetworkErrorState(e.message.toString()))
+                Log.i("KAMELOO",e.localizedMessage)
             } catch (e: MovieException) {
                 onError(ErrorUiState(e.message.toString()))
+                Log.i("KAMELOO",e.localizedMessage)
             }
         }
     }
