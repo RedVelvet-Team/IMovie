@@ -9,8 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
+import com.redvelvet.ui.theme.FontAccent
 import com.redvelvet.ui.theme.OnPrimary
-import com.redvelvet.ui.theme.OnSecondary
 import com.redvelvet.ui.theme.spacing
 
 @Composable
@@ -22,7 +22,7 @@ fun LabeledValueVertical(label: String, value: String) {
         Text(
             text = label,
             style = MaterialTheme.typography.bodySmall,
-            color = OnSecondary,
+            color = FontAccent,
             modifier = Modifier
                 .padding(
                     bottom = MaterialTheme.spacing.spacing4,

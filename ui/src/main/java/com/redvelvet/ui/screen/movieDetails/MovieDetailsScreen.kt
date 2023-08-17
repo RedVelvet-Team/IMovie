@@ -14,8 +14,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.composable.CustomMediaDetailsTopAppBar
 import com.redvelvet.ui.composable.MediaDetailsBackgroundContent
+import com.redvelvet.ui.composable.MovieScaffold
 import com.redvelvet.ui.composable.NavigationHandler
-import com.redvelvet.ui.composable.StateHandler
 import com.redvelvet.ui.screen.seeAllUpcoming.navigateSeeAllUpcoming
 import com.redvelvet.ui.theme.color
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsUiEvent
@@ -45,9 +45,9 @@ fun MovieDetailsScreen(
             }
         }
     )
-    StateHandler(
+    MovieScaffold(
         isLoading = state.isLoading,
-        isError = state.error != null
+        error = state.error
     ) {
         Box(
             modifier = Modifier
@@ -60,7 +60,6 @@ fun MovieDetailsScreen(
                     it.homepage
                 )
             }
-
             MovieDetailsForegroundContent(state, viewModel) { offset ->
                 isScrolled = offset > 1000
             }

@@ -14,8 +14,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.composable.CustomMediaDetailsTopAppBar
 import com.redvelvet.ui.composable.MediaDetailsBackgroundContent
+import com.redvelvet.ui.composable.MovieScaffold
 import com.redvelvet.ui.composable.NavigationHandler
-import com.redvelvet.ui.composable.StateHandler
 import com.redvelvet.ui.theme.color
 import com.redvelvet.viewmodel.tvshow.TvShowUiEffect
 import com.redvelvet.viewmodel.tvshow.TvShowViewModel
@@ -46,9 +46,9 @@ fun TvShowDetailsScreen(
             }
         }
     )
-    StateHandler(
+    MovieScaffold(
         isLoading = state.isLoading,
-        isError = state.error != null
+        error = state.error
     ) {
         Box(
             modifier = Modifier
