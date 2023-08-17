@@ -225,6 +225,6 @@ class MovieRepositoryImpl @Inject constructor(
     }
     //endregion
     companion object {
-        private const val DEFAULT_PAGE_SIZE = 10
+        private const val DEFAULT_PAGE_SIZE = 100
     }
 }

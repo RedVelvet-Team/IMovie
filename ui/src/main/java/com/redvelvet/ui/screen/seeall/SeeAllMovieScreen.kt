@@ -9,21 +9,29 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.composable.ItemBasicCard
+import com.redvelvet.ui.composable.LoadingPage
 import com.redvelvet.ui.composable.MovieScaffold
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
@@ -42,7 +50,8 @@ fun SeeAllMovieScreen(
     MovieScaffold(
         modifier = Modifier.fillMaxSize(),
         title = state.title,
-        isLoading = false,
+        isLoading = state.isLoading,
+        error = state.error,
         hasTopBar = true,
     ) {
         SeeAllMovieContent(state.movies.collectAsLazyPagingItems())
@@ -73,7 +82,7 @@ private fun SeeAllMovieContent(movies: LazyPagingItems<MovieUiState>) {
             )
         ) {
             items(movies.itemCount) {
-               Log.v("hass", movies[it]!!.movieImage.toString())
+                Log.v("hass", movies[it]!!.movieImage.toString())
                 ItemBasicCard(
                     imagePainter = rememberAsyncImagePainter(model = movies[it]!!.movieImage),
                     hasName = true,
@@ -85,6 +94,18 @@ private fun SeeAllMovieContent(movies: LazyPagingItems<MovieUiState>) {
                         .height(MaterialTheme.dimens.dimens176)
                         .width(MaterialTheme.dimens.dimens104),
                 )
+            }
+            if (movies.loadState.append is LoadState.Loading) {
+                item(
+                    span = { GridItemSpan(3) }
+                ) {
+                    LoadingPage(
+                        modifier = Modifier
+                            .size(42.dp)
+                            .padding(16.dp)
+                            .wrapContentWidth(Alignment.CenterHorizontally),
+                    )
+                }
             }
         }
     }
