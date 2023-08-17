@@ -13,6 +13,7 @@ sealed class MovieDestination(
     data object ActorKnownFor : MovieDestination("actorKnownFor")
     data object Login : MovieDestination("login")
     data object SignUp : MovieDestination("signup")
+    data object SeeAllMovie : MovieDestination("seeAllMovie")
     data object SeeAllUpcoming : MovieDestination("seeAllUpcoming")
     data object SeeAllTvShow : MovieDestination("seeAllTvShow")
     data object ForgotPassword : MovieDestination("forgotPassword")
