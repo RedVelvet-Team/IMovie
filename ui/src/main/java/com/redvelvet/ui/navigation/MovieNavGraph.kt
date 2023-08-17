@@ -32,5 +32,6 @@ fun MovieNavGraph() {
         signupRoute()
         forgotPasswordRoute()
         movieDetailsRoute()
+        tvShowDetailsRoute()
     }
 }
