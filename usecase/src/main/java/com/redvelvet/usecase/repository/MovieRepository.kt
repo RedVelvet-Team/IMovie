@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import com.redvelvet.entities.actor.Actor
 import com.redvelvet.entities.movie.Movie
 import com.redvelvet.entities.search.SearchResult
+import com.redvelvet.entities.tv.SeasonTvShow
 import com.redvelvet.entities.tv.TvShow
 import kotlinx.coroutines.flow.Flow
 
@@ -25,5 +26,7 @@ interface MovieRepository {
     suspend fun getMovieReviewsByID(movieId: Int):MovieReviews
     suspend fun getMovieSimilarByID(movieId: Int):MovieSimilar
     suspend fun getMovieTopCastByID(movieId: Int):MovieTopCast
+    suspend fun getAllSeasons(seriesId: Int): List<SeasonTvShow>
+
     //endregion
 }

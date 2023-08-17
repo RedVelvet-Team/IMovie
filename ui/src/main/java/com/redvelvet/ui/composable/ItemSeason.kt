@@ -54,7 +54,7 @@ fun ItemSeason(
         ) {
             NameWithRatingRow(name = name, rating = rate, textNameStyle = Typography.headlineSmall)
             Text(
-                text = date + "|" + episodesNum + "Episodes",
+                text = date + " | " + episodesNum + " Episodes",
                 style = Typography.displaySmall,
                 color = FontAccent,
                 modifier = Modifier.padding(

@@ -25,6 +25,7 @@ import com.redvelvet.repository.dto.movie.details.MovieRecommendationsDTO
 import com.redvelvet.repository.dto.movie.details.MovieReviewsDTO
 import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
 import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
+import com.redvelvet.repository.dto.tvShow.TvShowDetailsDto
 import com.redvelvet.repository.source.RemoteDataSource
 import retrofit2.Response
 import java.net.UnknownHostException
@@ -210,6 +211,10 @@ class RetrofitDataSource @Inject constructor(
 
     override suspend fun getTvShowReviewsByID(seriesId: Int) =
         wrapApiResponse { movieApiService.getTvShowReviewsByID(seriesId) }
+
+    override suspend fun getAllSeasons(seriesId: Int): TvShowDetailsDto {
+        return wrapApiResponse { movieApiService.getTvShowDetailsById(seriesId) }
+    }
 
     //endregion
 

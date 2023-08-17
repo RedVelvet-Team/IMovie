@@ -14,8 +14,10 @@ import com.redvelvet.entities.movie.details.MovieReviews
 import com.redvelvet.entities.movie.details.MovieSimilar
 import com.redvelvet.entities.movie.details.MovieTopCast
 import com.redvelvet.entities.search.SearchResult
+import com.redvelvet.entities.tv.SeasonTvShow
 import com.redvelvet.entities.tv.TvShow
 import com.redvelvet.repository.mapper.toDomain
+import com.redvelvet.repository.mapper.toSeasonTvShow
 import com.redvelvet.repository.pagingSource.ActorSearchPageSource
 import com.redvelvet.repository.pagingSource.MoviesSearchPageSource
 import com.redvelvet.repository.pagingSource.MultiSearchPageSource
@@ -88,6 +90,12 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun getMovieTopCastByID(movieId: Int): MovieTopCast {
         return remoteDataSource.getMovieTopCastByID(movieId).toDomain()
+    }
+
+    override suspend fun getAllSeasons(seriesId: Int): List<SeasonTvShow> {
+        return remoteDataSource.getAllSeasons(
+            seriesId
+        ).seasons!!.map { it!!.toSeasonTvShow() }
     }
     //endregion
 
