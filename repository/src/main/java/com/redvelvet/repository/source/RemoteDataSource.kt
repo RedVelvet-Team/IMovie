@@ -35,6 +35,7 @@ interface RemoteDataSource {
     suspend fun seeAllAiringTodayTv(page: Int?): List<TvShowDto>
     suspend fun seeAllOnTheAir(page: Int?): List<TvShowDto>
     suspend fun seeAllPopularTv(page: Int?): List<TvShowDto>
+    suspend fun seeAllTopRatedTv(page: Int?): List<TvShowDto>
 
     //endregion
 

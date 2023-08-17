@@ -26,9 +26,7 @@ import com.redvelvet.repository.pagingSource.ActorSearchPageSource
 import com.redvelvet.repository.pagingSource.MoviesSearchPageSource
 import com.redvelvet.repository.pagingSource.MultiSearchPageSource
 import com.redvelvet.repository.pagingSource.TvShowSearchPageSource
-import com.redvelvet.repository.pagingSource.seealltv.SeeAllAiringTodayTvPageSource
-import com.redvelvet.repository.pagingSource.seealltv.SeeAllOnTheAirTvPageSource
-import com.redvelvet.repository.pagingSource.seealltv.SeeAllPopularTvPageSource
+import com.redvelvet.repository.pagingSource.seealltv.*
 import com.redvelvet.repository.source.LocalDataSource
 import com.redvelvet.repository.source.RemoteDataSource
 import com.redvelvet.usecase.repository.MovieRepository
@@ -104,6 +102,15 @@ class MovieRepositoryImpl @Inject constructor(
             sourceFactory = ::SeeAllPopularTvPageSource
         )
     }
+
+    override suspend fun seeAllTopRatedTv(page: Int?): Flow<PagingData<TvShow>> {
+        return seeAll(
+            page = page,
+            mapper = TvShowDto::toTvShow,
+            sourceFactory = ::SeeAllTopRatedTvPageSource
+        )
+    }
+
     //endregion
 
     //region wrapper

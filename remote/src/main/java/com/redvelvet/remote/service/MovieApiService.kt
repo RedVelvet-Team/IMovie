@@ -110,6 +110,11 @@ interface MovieApiService {
         @Query("page") page: Int? = 1,
     ): Response<BaseResponse<List<TvShowDto>>>
 
+    @GET("tv/top_rated")
+    suspend fun seeAllTopRatedTv(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<TvShowDto>>>
+
     //endregion
 
     @GET("person/{person_id}")

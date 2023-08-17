@@ -30,6 +30,7 @@ interface MovieRepository {
     suspend fun seeAllAiringTodayTv(page: Int?): Flow<PagingData<TvShow>>
     suspend fun seeAllOnTheAir(page: Int?): Flow<PagingData<TvShow>>
     suspend fun seeAllPopularTv(page: Int?): Flow<PagingData<TvShow>>
+    suspend fun seeAllTopRatedTv(page: Int?): Flow<PagingData<TvShow>>
 
     //endregion
 
