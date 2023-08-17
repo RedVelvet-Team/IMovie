@@ -1,7 +1,11 @@
 package com.redvelvet.ui.composable
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -32,7 +36,7 @@ import com.redvelvet.viewmodel.base.NullResultErrorState
 @Composable
 fun MovieScaffold(
     modifier: Modifier = Modifier,
-    title: String,
+    title: String = "",
     isLoading: Boolean,
     onLoading: @Composable () -> Unit = { LoadingState() },
     error: ErrorUiState? = null,
@@ -54,18 +58,34 @@ fun MovieScaffold(
         },
         containerColor = Color.Transparent
     ) { _ ->
-        AnimatedVisibility(isLoading) {
+
+        AnimatedVisibility(
+            visible = isLoading,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
             onLoading()
         }
-        AnimatedVisibility(error != null) {
+        AnimatedVisibility(
+            visible = error != null,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
             ErrorAnimatedHandler(error!!, onError, onRetry)
         }
-        val systemUiController = rememberSystemUiController()
-        systemUiController.setSystemBarsColor(
-            MaterialTheme.color.backgroundPrimary,
-            darkIcons = false
-        )
-        content()
+////        val systemUiController = rememberSystemUiController()
+////        systemUiController.setSystemBarsColor(
+////            MaterialTheme.color.backgroundPrimary,
+////            darkIcons = false
+////        )
+        AnimatedVisibility(
+            visible = !isLoading && (error == null),
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            content()
+        }
+
     }
 }
 
