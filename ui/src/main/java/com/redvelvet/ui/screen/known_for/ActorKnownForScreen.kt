@@ -72,6 +72,7 @@ private fun ActorKnownForContent(state: ActorWorksUiState) {
                             .height(154.dp)
                     )
                 }
+                
             }
         }
     }

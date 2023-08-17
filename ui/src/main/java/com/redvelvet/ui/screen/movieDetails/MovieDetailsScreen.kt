@@ -56,12 +56,12 @@ fun MovieDetailsScreen(
                 when (effect) {
                     MovieDetailsUiEvent.NavigateToGenreScreen -> navController.navigateToMovieDetails()
                     MovieDetailsUiEvent.NavigateToMovieDetailsScreen -> navController.navigateToMovieDetails()
-                    MovieDetailsUiEvent.NavigateToMovieImagesSeeAllScreen -> navController.navigateSeeAllMovie()
-                    MovieDetailsUiEvent.NavigateToMoviesSeeAllScreen -> navController.navigateSeeAllMovie()
+                    MovieDetailsUiEvent.NavigateToMovieImagesSeeAllScreen -> {}
+                    MovieDetailsUiEvent.NavigateToMoviesSeeAllScreen -> {}
                     MovieDetailsUiEvent.NavigateToReviewDetailsScreen -> navController.navigateToMovieDetails()
-                    MovieDetailsUiEvent.NavigateToReviewSeeAllScreen -> navController.navigateSeeAllMovie()
+                    MovieDetailsUiEvent.NavigateToReviewSeeAllScreen -> {}
                     MovieDetailsUiEvent.NavigateToTopCastDetailsScreen -> navController.navigateToMovieDetails()
-                    MovieDetailsUiEvent.NavigateToTopCastSeeAllScreen -> navController.navigateSeeAllMovie()
+                    MovieDetailsUiEvent.NavigateToTopCastSeeAllScreen -> {}
                     else -> {}
                 }
             }

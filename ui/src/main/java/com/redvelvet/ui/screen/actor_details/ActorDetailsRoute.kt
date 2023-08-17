@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.viewmodel.actor_details.ActorDetailsArgs
+import com.redvelvet.viewmodel.utils.SeeAllMovie
 
 private val ROUTE = MovieDestination.ActorDetails.route
 

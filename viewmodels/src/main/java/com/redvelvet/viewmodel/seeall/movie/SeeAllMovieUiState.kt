@@ -18,7 +18,7 @@ data class SeeAllMovieUiState(
 
 
 fun Movie.toMovieUiState() = MovieUiState(
-    movieImage = "https://api.themoviedb.org/3" + this.movieImageUrl,
+    movieImage = "https://image.tmdb.org/t/p/w500" + this.movieImageUrl,
     movieName = this.name,
     movieDate = this.releaseDate,
     countryOfMovie = this.country

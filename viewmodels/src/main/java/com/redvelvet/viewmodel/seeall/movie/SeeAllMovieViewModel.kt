@@ -1,9 +1,11 @@
 package com.redvelvet.viewmodel.seeall.movie
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.redvelvet.entities.movie.Movie
 import com.redvelvet.usecase.usecase.seeall.GetAllMovieUseCase
+import com.redvelvet.viewmodel.base.BaseUiEffect
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
 import com.redvelvet.viewmodel.utils.SeeAllMovie
@@ -14,35 +16,35 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SeeAllMovieViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val getAllMovie: GetAllMovieUseCase
-): BaseViewModel<SeeAllMovieUiState, SeeAllMovieUiEffect>(SeeAllMovieUiState()){
-    private val args: SeeAllMovie = SeeAllMovie.SIMILAR
-
+): BaseViewModel<SeeAllMovieUiState, BaseUiEffect>(SeeAllMovieUiState()){
+    private val args: SeeAllMovieArgs = SeeAllMovieArgs(savedStateHandle)
     init {
-        when(args){
-            SeeAllMovie.POPULAR -> {
+        when(args.type){
+            SeeAllMovie.POPULAR.name -> {
                 _state.update { it.copy(title = "Popular") }
                 getPopular()
             }
-            SeeAllMovie.NOW_PLAYING -> {
+            SeeAllMovie.NOW_PLAYING.name -> {
                 _state.update { it.copy(title = "Now Playing") }
                 getNowPlaying()
             }
-            SeeAllMovie.TOP_RATED -> {
+            SeeAllMovie.TOP_RATED.name -> {
                 _state.update { it.copy(title = "Top Rated") }
                 getTopRated()
             }
-            SeeAllMovie.UPCOMING -> {
+            SeeAllMovie.UPCOMING.name -> {
                 _state.update { it.copy(title = "Upcoming") }
                 getUpcoming()
             }
-            SeeAllMovie.SIMILAR -> {
+            SeeAllMovie.SIMILAR.name -> {
                 _state.update { it.copy(title = "Similar") }
-                getSimilar(100)
+                getSimilar(args.id!!.toInt())
             }
-            SeeAllMovie.RECOMMEND -> {
+            SeeAllMovie.RECOMMEND.name -> {
                 _state.update { it.copy(title = "Recommendation") }
-                getRecommended(100)
+                getRecommended(args.id!!.toInt())
             }
         }
     }

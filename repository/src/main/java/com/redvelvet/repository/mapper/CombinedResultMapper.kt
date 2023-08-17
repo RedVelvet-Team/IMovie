@@ -9,6 +9,6 @@ fun CombinedResultDto.toCombinedResult() = CombinedResult(
     name = this.name ?: this.title ?: "",
     language = this.originalLanguage ?: "",
     releaseDate = this.releaseDate ?: this.firstAirDate ?: "",
-    imageUrl = "https://api.themoviedb.org/3"
+    imageUrl = "https://image.tmdb.org/t/p/w500"
                 + (this.posterPath ?: this.backdropPath ?: this.posterPath ?: "")
 )

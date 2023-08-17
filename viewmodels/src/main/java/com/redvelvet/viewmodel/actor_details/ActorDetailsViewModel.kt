@@ -53,7 +53,7 @@ class ActorDetailsViewModel @Inject constructor(
             knownForDepartment = result.knownForDepartment,
             birthDate = result.birthday,
             birthLocation = result.placeOfBirth,
-            imageUrl = "https://api.themoviedb.org/3" + result.profileImageUrl,
+            imageUrl =  "https://image.tmdb.org/t/p/w500" + result.profileImageUrl,
             knownAs = result.alsoKnownAs,
             biography = result.biography
         ) }
