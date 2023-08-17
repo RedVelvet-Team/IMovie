@@ -25,7 +25,7 @@ import com.redvelvet.ui.composable.MovieScaffold
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
-import com.redvelvet.viewmodel.home.TvShowUiState
+import com.redvelvet.viewmodel.home.ItemUiState
 import com.redvelvet.viewmodel.seeall.tv.SeeAllTvViewModel
 
 @Composable
@@ -45,7 +45,7 @@ fun SeeAllTvScreen(
 }
 
 @Composable
-private fun SeeAllTvShowsContent(tvShow: LazyPagingItems<TvShowUiState>) {
+private fun SeeAllTvShowsContent(tvShow: LazyPagingItems<ItemUiState>) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -69,15 +69,15 @@ private fun SeeAllTvShowsContent(tvShow: LazyPagingItems<TvShowUiState>) {
         ) {
             items(tvShow.itemCount) {
                 ItemBasicCard(
-                    imagePainter = rememberAsyncImagePainter(model = tvShow[it]!!.seriesImage),
+                    imagePainter = rememberAsyncImagePainter(model = tvShow[it]!!.image),
                     modifier = Modifier
                         .height(MaterialTheme.dimens.dimens176)
                         .width(MaterialTheme.dimens.dimens104),
                     hasName = true,
-                    name = tvShow[it]!!.seriesName,
+                    name = tvShow[it]!!.name,
                     hasDateAndCountry = true,
-                    date = tvShow[it]!!.seriesDate,
-                    country = tvShow[it]!!.seriesCountry
+                    date = tvShow[it]!!.date,
+                    country = tvShow[it]!!.country
                 )
             }
         }
