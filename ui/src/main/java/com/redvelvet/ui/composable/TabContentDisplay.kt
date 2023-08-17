@@ -9,12 +9,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
 import com.redvelvet.ui.theme.spacing
+import com.redvelvet.viewmodel.home.ItemUiState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun <T> TabContentDisplay(
     pagerState: PagerState,
-    label: String = "Label",
+    viewpagerList: List<ItemUiState>,
+    label: String,
     categories: List<T>,
     titles: List<String>,
     imagePainters: List<List<Painter>>,
@@ -29,7 +31,7 @@ fun <T> TabContentDisplay(
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing24)
     ) {
         item {
-            HomeViewPager(state = pagerState, label = label)
+            HomeViewPager(state = pagerState, label = label, viewpagerList)
         }
         items(categories.size) { index ->
             ItemsSection(
