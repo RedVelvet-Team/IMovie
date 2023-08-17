@@ -41,75 +41,75 @@ class HomeViewModel @Inject constructor(
         )
 
     private fun fakeMovieCategory(title: String) =
-        MovieCategoryUiState(
+        ItemsUiState(
             title = title,
-            movies = fakeMoviesList()
+            items = fakeMoviesList()
         )
 
     private fun fakeTvShowCategory(title: String) =
-        TvShowCategoryUiState(
+        ItemsUiState(
             title = title,
-            tvShows = fakeTvShowList()
+            items = fakeTvShowList()
         )
 
-    private fun fakeMoviesList(): List<MovieUiState> {
+    private fun fakeMoviesList(): List<ItemUiState> {
         return listOf(
-            MovieUiState(
-                imageUrl = "https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png",
+            ItemUiState(
+                image = "https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png",
                 date = "23/8/2001",
                 name = "Real Madrid",
                 country = "Espania"
             ),
-            MovieUiState(
-                imageUrl = "https://th.bing.com/th/id/R.288a9cdbf8a965fba8a044e1aac9f2eb?rik=DBP9DF9RfFfb%2fw&riu=http%3a%2f%2fwww.barcelonaconnect.com%2fwp-content%2fuploads%2f2016%2f02%2f1389120212768861.jpg&ehk=r3LRNPFmRnje0DlkhtyOzcrbJ%2fRgrAjS1J882gOJj6U%3d&risl=&pid=ImgRaw&r=0",
+            ItemUiState(
+                image = "https://th.bing.com/th/id/R.288a9cdbf8a965fba8a044e1aac9f2eb?rik=DBP9DF9RfFfb%2fw&riu=http%3a%2f%2fwww.barcelonaconnect.com%2fwp-content%2fuploads%2f2016%2f02%2f1389120212768861.jpg&ehk=r3LRNPFmRnje0DlkhtyOzcrbJ%2fRgrAjS1J882gOJj6U%3d&risl=&pid=ImgRaw&r=0",
                 date = "23/8/2001",
                 name = "Barcelona",
                 country = "Espania"
             ),
-            MovieUiState(
-                imageUrl = "https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png",
+            ItemUiState(
+                image = "https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png",
                 date = "23/8/2001",
                 name = "Real Madrid",
                 country = "Espania"
             ),
-            MovieUiState(
-                imageUrl = "https://th.bing.com/th/id/R.288a9cdbf8a965fba8a044e1aac9f2eb?rik=DBP9DF9RfFfb%2fw&riu=http%3a%2f%2fwww.barcelonaconnect.com%2fwp-content%2fuploads%2f2016%2f02%2f1389120212768861.jpg&ehk=r3LRNPFmRnje0DlkhtyOzcrbJ%2fRgrAjS1J882gOJj6U%3d&risl=&pid=ImgRaw&r=0",
+            ItemUiState(
+                image = "https://th.bing.com/th/id/R.288a9cdbf8a965fba8a044e1aac9f2eb?rik=DBP9DF9RfFfb%2fw&riu=http%3a%2f%2fwww.barcelonaconnect.com%2fwp-content%2fuploads%2f2016%2f02%2f1389120212768861.jpg&ehk=r3LRNPFmRnje0DlkhtyOzcrbJ%2fRgrAjS1J882gOJj6U%3d&risl=&pid=ImgRaw&r=0",
                 date = "23/8/2001",
                 name = "Barcelona",
                 country = "Espania"
             ),
-            MovieUiState(
-                imageUrl = "https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png",
+            ItemUiState(
+                image = "https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png",
                 date = "23/8/2001",
                 name = "Real Madrid",
                 country = "Espania"
             ),
-            MovieUiState(
-                imageUrl = "https://th.bing.com/th/id/R.288a9cdbf8a965fba8a044e1aac9f2eb?rik=DBP9DF9RfFfb%2fw&riu=http%3a%2f%2fwww.barcelonaconnect.com%2fwp-content%2fuploads%2f2016%2f02%2f1389120212768861.jpg&ehk=r3LRNPFmRnje0DlkhtyOzcrbJ%2fRgrAjS1J882gOJj6U%3d&risl=&pid=ImgRaw&r=0",
+            ItemUiState(
+                image = "https://th.bing.com/th/id/R.288a9cdbf8a965fba8a044e1aac9f2eb?rik=DBP9DF9RfFfb%2fw&riu=http%3a%2f%2fwww.barcelonaconnect.com%2fwp-content%2fuploads%2f2016%2f02%2f1389120212768861.jpg&ehk=r3LRNPFmRnje0DlkhtyOzcrbJ%2fRgrAjS1J882gOJj6U%3d&risl=&pid=ImgRaw&r=0",
                 date = "23/8/2001",
                 name = "Barcelona",
                 country = "Espania"
             ),
-            MovieUiState(
-                imageUrl = "https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png",
+            ItemUiState(
+                image = "https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png",
                 date = "23/8/2001",
                 name = "Real Madrid",
                 country = "Espania"
             ),
-            MovieUiState(
-                imageUrl = "https://th.bing.com/th/id/R.288a9cdbf8a965fba8a044e1aac9f2eb?rik=DBP9DF9RfFfb%2fw&riu=http%3a%2f%2fwww.barcelonaconnect.com%2fwp-content%2fuploads%2f2016%2f02%2f1389120212768861.jpg&ehk=r3LRNPFmRnje0DlkhtyOzcrbJ%2fRgrAjS1J882gOJj6U%3d&risl=&pid=ImgRaw&r=0",
+            ItemUiState(
+                image = "https://th.bing.com/th/id/R.288a9cdbf8a965fba8a044e1aac9f2eb?rik=DBP9DF9RfFfb%2fw&riu=http%3a%2f%2fwww.barcelonaconnect.com%2fwp-content%2fuploads%2f2016%2f02%2f1389120212768861.jpg&ehk=r3LRNPFmRnje0DlkhtyOzcrbJ%2fRgrAjS1J882gOJj6U%3d&risl=&pid=ImgRaw&r=0",
                 date = "23/8/2001",
                 name = "Barcelona",
                 country = "Espania"
             ),
-            MovieUiState(
-                imageUrl = "https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png",
+            ItemUiState(
+                image = "https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png",
                 date = "23/8/2001",
                 name = "Real Madrid",
                 country = "Espania"
             ),
-            MovieUiState(
-                imageUrl = "https://th.bing.com/th/id/R.288a9cdbf8a965fba8a044e1aac9f2eb?rik=DBP9DF9RfFfb%2fw&riu=http%3a%2f%2fwww.barcelonaconnect.com%2fwp-content%2fuploads%2f2016%2f02%2f1389120212768861.jpg&ehk=r3LRNPFmRnje0DlkhtyOzcrbJ%2fRgrAjS1J882gOJj6U%3d&risl=&pid=ImgRaw&r=0",
+            ItemUiState(
+                image = "https://th.bing.com/th/id/R.288a9cdbf8a965fba8a044e1aac9f2eb?rik=DBP9DF9RfFfb%2fw&riu=http%3a%2f%2fwww.barcelonaconnect.com%2fwp-content%2fuploads%2f2016%2f02%2f1389120212768861.jpg&ehk=r3LRNPFmRnje0DlkhtyOzcrbJ%2fRgrAjS1J882gOJj6U%3d&risl=&pid=ImgRaw&r=0",
                 date = "23/8/2001",
                 name = "Barcelona",
                 country = "Espania"
@@ -119,46 +119,46 @@ class HomeViewModel @Inject constructor(
 
     private fun fakeTvShowList() =
         listOf(
-            TvShowUiState(
-                seriesImage = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
-                seriesDate = "25/9/2017",
-                seriesName = "The good doctor",
-                seriesCountry = "Us"
+            ItemUiState(
+                image = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
+                date = "25/9/2017",
+                name = "The good doctor",
+                country = "Us"
             ),
-            TvShowUiState(
-                seriesImage = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
-                seriesDate = "25/9/2017",
-                seriesName = "The good doctor",
-                seriesCountry = "Us"
+            ItemUiState(
+                image = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
+                date = "25/9/2017",
+                name = "The good doctor",
+                country = "Us"
             ),
-            TvShowUiState(
-                seriesImage = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
-                seriesDate = "25/9/2017",
-                seriesName = "The good doctor",
-                seriesCountry = "Us"
+            ItemUiState(
+                image = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
+                date = "25/9/2017",
+                name = "The good doctor",
+                country = "Us"
             ),
-            TvShowUiState(
-                seriesImage = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
-                seriesDate = "25/9/2017",
-                seriesName = "The good doctor",
-                seriesCountry = "Us"
-            ), TvShowUiState(
-                seriesImage = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
-                seriesDate = "25/9/2017",
-                seriesName = "The good doctor",
-                seriesCountry = "Us"
+            ItemUiState(
+                image = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
+                date = "25/9/2017",
+                name = "The good doctor",
+                country = "Us"
+            ), ItemUiState(
+                image = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
+                date = "25/9/2017",
+                name = "The good doctor",
+                country = "Us"
             ),
-            TvShowUiState(
-                seriesImage = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
-                seriesDate = "25/9/2017",
-                seriesName = "The good doctor",
-                seriesCountry = "Us"
+            ItemUiState(
+                image = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
+                date = "25/9/2017",
+                name = "The good doctor",
+                country = "Us"
             ),
-            TvShowUiState(
-                seriesImage = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
-                seriesDate = "25/9/2017",
-                seriesName = "The good doctor",
-                seriesCountry = "Us"
+            ItemUiState(
+                image = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
+                date = "25/9/2017",
+                name = "The good doctor",
+                country = "Us"
             )
         )
 
