@@ -75,10 +75,13 @@ abstract class BaseViewModel<UiState : BaseUiState, UiEffect>(state: UiState) :
                 onError(NetworkErrorState(e.message.toString()))
             } catch (e: NullResultException) {
                 onError(NullResultErrorState(e.message.toString()))
+                Log.i("KAMELOO",e.localizedMessage)
             } catch (e: NetworkException) {
                 onError(NetworkErrorState(e.message.toString()))
+                Log.i("KAMELOO",e.localizedMessage)
             } catch (e: MovieException) {
                 onError(ErrorUiState(e.message.toString()))
+                Log.i("KAMELOO",e.localizedMessage)
             }
         }
     }

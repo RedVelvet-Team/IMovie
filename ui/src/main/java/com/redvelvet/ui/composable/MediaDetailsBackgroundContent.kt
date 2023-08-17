@@ -1,21 +1,21 @@
-package com.redvelvet.ui.screen.movieDetails.mediaComposable
+package com.redvelvet.ui.composable
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import coil.size.Scale
 import com.redvelvet.ui.R
-import com.redvelvet.ui.composable.BackgroundMediaImage
-import com.redvelvet.ui.composable.PlayMedia
 import com.redvelvet.ui.theme.spacing
-import com.redvelvet.viewmodel.movieDetails.MovieDetailsInteraction
 
 @Composable
 fun MediaDetailsBackgroundContent(
     mediaImage: String,
-    interaction: MovieDetailsInteraction,
+    onPlayTrailer: (video: String) -> Unit = {},
     trailerVideoUrl: String
 ) {
     Box {
@@ -28,7 +28,7 @@ fun MediaDetailsBackgroundContent(
         PlayMedia(
             icon = R.drawable.play_media,
             description = R.string.movies_details_play,
-            onMediaPlay = { interaction.onClickPlayTrailer(trailerVideoUrl) },
+            onMediaPlay = { onPlayTrailer(trailerVideoUrl) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
@@ -37,3 +37,4 @@ fun MediaDetailsBackgroundContent(
         )
     }
 }
+

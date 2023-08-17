@@ -89,12 +89,9 @@ fun List<MovieReviews.Result>.toMovieReviewsUiState(): List<MovieDetailsScreenUi
 
 }
 
-fun List<MovieKeyWords.Keyword>.toMovieKeyWordsUiState(): List<MovieDetailsScreenUiState.MovieKeyWordsUiState> {
+fun List<MovieKeyWords.Keyword>.toMovieKeyWordsUiState(): List<String> {
     return this.map {
-        MovieDetailsScreenUiState.MovieKeyWordsUiState(
-            keywordId = it.id,
-            keywordString = it.name,
-        )
+        it.name
     }
 
 }

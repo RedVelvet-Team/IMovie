@@ -26,9 +26,11 @@ import com.redvelvet.viewmodel.utils.isPerson
 
 @Composable
 fun CustomLazyGrid(
-    searchCardUiStates: LazyPagingItems<SearchCardUiState>
+    searchCardUiStates: LazyPagingItems<SearchCardUiState>,
+    modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
+        modifier = modifier,
         contentPadding = PaddingValues(
             top = MaterialTheme.spacing.spacing16,
             bottom = MaterialTheme.spacing.spacing80,

@@ -4,6 +4,16 @@ import com.redvelvet.repository.dto.ActorKnownForDto
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
+import com.redvelvet.repository.dto.person.ActorDto
+import com.redvelvet.repository.dto.search.CombinedResultDto
+import com.redvelvet.repository.dto.tvShow.TvShowDto
+import com.redvelvet.repository.dto.tvShow.TvShowDetailsDto
+import com.redvelvet.repository.dto.tvShow.TvShowImagesDto
+import com.redvelvet.repository.dto.tvShow.TvShowKeywordsDto
+import com.redvelvet.repository.dto.tvShow.TvShowRecommendationsDto
+import com.redvelvet.repository.dto.tvShow.TvShowReviewsDto
+import com.redvelvet.repository.dto.tvShow.TvShowTopCastDto
+import com.redvelvet.repository.dto.tvShow.TvShowVideosDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -61,5 +71,23 @@ interface RemoteDataSource {
     suspend fun seeAllSimilarMovie(page: Int?, id: Int): List<MovieDetailsDTO>
     suspend fun seeAllRecommendedMovie(page: Int?, id: Int): List<MovieDetailsDTO>
 
+    //endregion
+
+
+    //region tvShow
+    suspend fun getTvShowKeyWordsByID(seriesId: Int): TvShowKeywordsDto
+    suspend fun getTvShowTopCastByID(seriesId: Int): TvShowTopCastDto
+    suspend fun addTvShowRating(
+        seriesRating: Double,
+        seriesId: Int,
+        sessionId: String
+    ): String
+    suspend fun getTvShowVideosByID(seriesId: Int): TvShowVideosDto
+    suspend fun getTvShowImagesByID(seriesId: Int): TvShowImagesDto
+    suspend fun deleteTvShowRating(seriesId: Int, sessionId: String): String
+
+    suspend fun getTvShowDetailsByID(seriesId: Int): TvShowDetailsDto
+    suspend fun getTvShowRecommendationsByID(seriesId: Int): TvShowRecommendationsDto
+    suspend fun getTvShowReviewsByID(seriesId: Int): TvShowReviewsDto
     //endregion
 }
