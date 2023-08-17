@@ -1,5 +1,6 @@
 package com.redvelvet.ui.screen.known_for
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -21,6 +22,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.ItemBasicCard
 import com.redvelvet.ui.composable.MovieScaffold
+import com.redvelvet.ui.screen.movieDetails.navigateToMovieDetails
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.knownFor.ActorWorksUiState
 import com.redvelvet.viewmodel.knownFor.ActorWorksViewModel
@@ -31,11 +33,19 @@ fun ActorKnownForScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val navController = LocalNavController.current
-    ActorKnownForContent(state)
+    ActorKnownForContent(
+        state = state,
+        onClickItem = { type: String, id: String ->
+            if (type == "movie") navController.navigateToMovieDetails(id)
+        }
+    )
 }
 
 @Composable
-private fun ActorKnownForContent(state: ActorWorksUiState) {
+private fun ActorKnownForContent(
+    state: ActorWorksUiState,
+    onClickItem: (String, String) -> Unit
+) {
     MovieScaffold(
         title = state.title,
         isLoading = state.isLoading,
@@ -43,7 +53,8 @@ private fun ActorKnownForContent(state: ActorWorksUiState) {
         hasTopBar = true
     ) {
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
                 .padding(top = MaterialTheme.spacing.spacing64)
         ) {
             LazyVerticalGrid(
@@ -70,9 +81,10 @@ private fun ActorKnownForContent(state: ActorWorksUiState) {
                         modifier = Modifier
                             .width(104.dp)
                             .height(154.dp)
+                            .clickable { onClickItem(media.mediaType, media.id.toString()) }
                     )
                 }
-                
+
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.redvelvet.viewmodel.actor_details
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import com.redvelvet.entities.actor.Actor
 import com.redvelvet.entities.search.CombinedResult
@@ -60,6 +61,7 @@ class ActorDetailsViewModel @Inject constructor(
     }
     
     private fun onError(error: ErrorUiState){
+        Log.v("hass", error.toString())
         _state.update { it.copy(isLoading = false, error = error) }
     }
 }
