@@ -48,7 +48,7 @@ class GetMovieFullDetailsUseCase @Inject constructor(
         return movieRepository.getMovieDetailsById(movieId)
     }
 
-    private suspend fun getMovieImagesByID(movieId:Int): MovieImages {
+    suspend fun getMovieImagesByID(movieId:Int): MovieImages {
         return movieRepository.getMovieImagesByID(movieId)
     }
 
@@ -58,13 +58,13 @@ class GetMovieFullDetailsUseCase @Inject constructor(
     private suspend fun getMovieRecommendationsByID(movieId:Int): MovieRecommendations {
         return movieRepository.getMovieRecommendationsByID(movieId)
     }
-    private suspend fun getMovieReviewsByID(movieId:Int): MovieReviews {
+    suspend fun getMovieReviewsByID(movieId:Int): MovieReviews {
         return movieRepository.getMovieReviewsByID(movieId)
     }
     private suspend fun getMovieSimilarByID(movieId:Int): MovieSimilar {
         return movieRepository.getMovieSimilarByID(movieId)
     }
-    private suspend fun getMovieTopCastByID(movieId:Int): MovieTopCast {
+    suspend fun getMovieTopCastByID(movieId:Int): MovieTopCast {
         return movieRepository.getMovieTopCastByID(movieId)
     }
 }
