@@ -100,7 +100,7 @@ private fun PortraitContent(viewModel: SearchViewModel, state: SearchUiState) {
 
 @Composable
 private fun LandscapeContent(viewModel: SearchViewModel, state: SearchUiState) {
-    Row(
+    Column(
         modifier = Modifier
             .background(MaterialTheme.color.backgroundPrimary)
             .fillMaxSize()
@@ -115,10 +115,8 @@ private fun LandscapeContent(viewModel: SearchViewModel, state: SearchUiState) {
             selectedType = state.selectedMediaType,
             categories = state.getCategories,
             title = "Categories",
-            modifier = Modifier.weight(2f)
         )
         CustomLazyGrid(
-            modifier = Modifier.weight(3f),
             searchCardUiStates = state.searchResult.collectAsLazyPagingItems()
         )
     }
