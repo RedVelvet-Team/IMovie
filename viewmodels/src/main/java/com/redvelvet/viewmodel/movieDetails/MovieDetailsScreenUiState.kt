@@ -1,16 +1,17 @@
 package com.redvelvet.viewmodel.movieDetails
 
 import com.redvelvet.viewmodel.base.BaseUiState
+import com.redvelvet.viewmodel.base.ErrorUiState
 
 data class MovieDetailsScreenUiState(
     val data: MovieFullDetailsUiState? = null,
     val isLoading: Boolean = true,
-    val isError: Pair<Boolean, String> = Pair(false, "")
+    val error: ErrorUiState? = null
 ) : BaseUiState {
     data class MovieFullDetailsUiState(
         val details: MovieDetailsUiState,
         val topCast: List<MovieTopCastUiState>,
-        val keyWords: List<MovieKeyWordsUiState>,
+        val keyWords: List<String>,
         val similar: List<MovieSimilarUiState>,
         val images: List<MovieImagesUiState>,
         val reviews: List<MovieReviewsUiState>,
@@ -40,11 +41,6 @@ data class MovieDetailsScreenUiState(
         val castId: Int = 0,
         val castName: String = "",
         val castImage: String = ""
-    )
-
-    data class MovieKeyWordsUiState(
-        val keywordId: Int = 0,
-        val keywordString: String = "",
     )
 
     data class MovieSimilarUiState(

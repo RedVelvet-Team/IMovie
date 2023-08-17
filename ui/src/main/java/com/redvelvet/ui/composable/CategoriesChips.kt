@@ -25,7 +25,7 @@ fun CategoriesChips(
 ) {
     Text(
         modifier = modifier.padding(
-            top = MaterialTheme.spacing.spacing16,
+            top = MaterialTheme.spacing.spacing8,
             start = MaterialTheme.spacing.spacing16
         ),
         text = title,

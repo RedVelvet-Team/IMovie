@@ -18,10 +18,11 @@ import com.redvelvet.ui.screen.seealltv.seeAllTvListRoute
 import com.redvelvet.ui.screen.sellAllTopCast.seeAllTopCastRoute
 import com.redvelvet.ui.screen.signup.signupRoute
 import com.redvelvet.ui.screen.splash.splashRoute
+//import com.redvelvet.ui.screen.tvshowdetails.tvShowDetailsRoute
 
 @Composable
 fun MovieNavGraph() {
-    NavHost(LocalNavController.current, startDestination = MovieDestination.SeeAllMovieReviews.route) {
+    NavHost(LocalNavController.current, startDestination = MovieDestination.Splash.route) {
         splashRoute()
         onBoardingRoute()
         actorDetailsRoute()
@@ -37,5 +38,6 @@ fun MovieNavGraph() {
         seeAllTopCastRoute()
         seeAllMovieImaesRoute()
         seeAllMovieReviewsRoute()
+      //  tvShowDetailsRoute()
     }
 }

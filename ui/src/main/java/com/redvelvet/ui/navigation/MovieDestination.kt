@@ -51,5 +51,6 @@ sealed class MovieDestination(
     )
 
     data object MovieDetails : MovieDestination("movie_details")
+    data object TvShowDetails : MovieDestination("tvshow_details")
 
 }

@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 data class SearchUiState(
-    val isLoading: Boolean = false,
+    val isLoading: Boolean = true,
     val error: ErrorUiState? = null,
     val selectedMediaType: SearchMedia = SearchMedia.ALL,
     val inputText: String = "",
