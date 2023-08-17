@@ -32,7 +32,7 @@ import com.redvelvet.viewmodel.base.NullResultErrorState
 @Composable
 fun MovieScaffold(
     modifier: Modifier = Modifier,
-    title: String,
+    title: String = "",
     isLoading: Boolean,
     onLoading: @Composable () -> Unit = { LoadingState() },
     error: ErrorUiState? = null,
