@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class EpisodesViewModel @Inject constructor(
     private val getAllEpisodesUseCase: GetAllEpisodesUseCase
-) : BaseViewModel<EpisodeUiState, EpisodesUiEffect>(EpisodeUiState()) {
+) : BaseViewModel<EpisodeUiState, EpisodesUiEffect>(EpisodeUiState()),EpisodesInteraction {
 
     init {
         getAllEpisodes("100", 1)
@@ -40,5 +40,9 @@ class EpisodesViewModel @Inject constructor(
 
     private fun onGetAllEpisodesOnError(errorUiState: ErrorUiState) {
         _state.update { it.copy(error = errorUiState, isLoading = false) }
+    }
+
+    override fun onClickEpisode() {
+        TODO("Not yet implemented")
     }
 }

@@ -10,6 +10,6 @@ fun EpisodeDto.toEpisodeDetails(): EpisodeDetails {
         airDate = airDate.orEmpty(),
         voteAverage = voteAverage ?:0.0,
         runtime = runtime ?:0,
-        image = "https://api.themoviedb.org/3$stillPath"
+        image = "https://image.tmdb.org/t/p/w500$stillPath"
     )
 }

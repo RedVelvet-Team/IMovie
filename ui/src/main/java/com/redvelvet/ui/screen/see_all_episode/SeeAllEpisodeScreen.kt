@@ -1,6 +1,8 @@
 package com.redvelvet.ui.screen.see_all_episode
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -43,24 +45,33 @@ fun SeeAllEpisodeScreen(
 fun SeeAllEpisodeContent(
     episodeUiState: EpisodeUiState
 ) {
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(
-            horizontal = MaterialTheme.spacing.spacing16,
-            vertical = MaterialTheme.spacing.spacing24
-        ),
-        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing16, Alignment.Top),
-        horizontalAlignment = Alignment.Start,
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.color.backgroundPrimary)
     ) {
-        items(episodeUiState.episodes.size) { index ->
-            val episode = episodeUiState.episodes[index]
-            EpisodeItem(
-                name = episode.name,
-                rate = episode.voteAverage,
-                date = episode.airDate,
-                durationTime = episode.runtime,
-                image = episode.image,
-            )
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(
+                horizontal = MaterialTheme.spacing.spacing16,
+                vertical = MaterialTheme.spacing.spacing24
+            ),
+            verticalArrangement = Arrangement.spacedBy(
+                MaterialTheme.spacing.spacing16,
+                Alignment.CenterVertically
+            ),
+            horizontalAlignment = Alignment.Start,
+        ) {
+            items(episodeUiState.episodes.size) { index ->
+                val episode = episodeUiState.episodes[index]
+                EpisodeItem(
+                    name = episode.name,
+                    rate = episode.voteAverage,
+                    date = episode.airDate,
+                    durationTime = episode.runtime,
+                    image = episode.image,
+                )
+            }
         }
     }
 }
