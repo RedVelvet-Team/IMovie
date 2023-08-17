@@ -24,11 +24,8 @@ import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.PrimaryOutlinedButton
 import com.redvelvet.ui.composable.WallPaper
 import com.redvelvet.ui.navigation.MovieDestination
-import com.redvelvet.ui.screen.actor_details.navigateToActorDetails
 import com.redvelvet.ui.screen.home.navigateToHome
-import com.redvelvet.ui.screen.login.navigateToLogin
-import com.redvelvet.ui.screen.seeall.navigateSeeAllMovie
-import com.redvelvet.ui.screen.seealltv.navigateSeeAllTvShow
+import com.redvelvet.ui.screen.seeall.navigateToSeeAllMovie
 import com.redvelvet.ui.screen.signup.navigateToSignUp
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
@@ -59,7 +56,7 @@ fun OnBoardingScreen(
     }
 
     OnBoardingContent(
-        onClickLogin = { navController.navigateSeeAllTvShow(type = SeeAllTvShows.POPULAR, id = null) },
+        onClickLogin = { navController.navigateToSeeAllMovie(type = SeeAllMovie.POPULAR, id = null) },
         onClickSignUp = { navController.navigateToSignUp() }
     )
 }

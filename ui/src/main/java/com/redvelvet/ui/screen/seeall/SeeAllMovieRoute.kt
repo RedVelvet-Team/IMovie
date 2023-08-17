@@ -26,7 +26,7 @@ fun NavGraphBuilder.seeAllMovieListRoute() {
     }
 }
 
-fun NavController.navigateSeeAllMovie(
+fun NavController.navigateToSeeAllMovie(
     id: String?,
     type: SeeAllMovie,
     builder: NavOptionsBuilder.() -> Unit = {}

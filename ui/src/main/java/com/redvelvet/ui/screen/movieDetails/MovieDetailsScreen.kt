@@ -16,10 +16,6 @@ import com.redvelvet.ui.composable.CustomMediaDetailsTopAppBar
 import com.redvelvet.ui.composable.MediaDetailsBackgroundContent
 import com.redvelvet.ui.composable.MovieScaffold
 import com.redvelvet.ui.composable.NavigationHandler
-import com.redvelvet.ui.screen.seeAllUpcoming.navigateSeeAllUpcoming
-import com.redvelvet.ui.composable.LoadingState
-import com.redvelvet.ui.screen.movieDetails.mediaComposable.MediaDetailsBackgroundContent
-import com.redvelvet.ui.screen.movieDetails.mediaComposable.MediaDetailsForegroundContent
 import com.redvelvet.ui.theme.color
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsUiEvent
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsViewModel
@@ -37,31 +33,14 @@ fun MovieDetailsScreen(
         handleEffect = { effect, navController ->
             when (effect) {
                 // TODO: DO NOT FORGET OT CHANGE THE NAVIGATIONS AND NAME OF UIEVENT INTO UIEFFECT
-                MovieDetailsUiEvent.NavigateToGenreScreen -> navController.navigateToMovieDetails()
-                MovieDetailsUiEvent.NavigateToMovieDetailsScreen -> navController.navigateToMovieDetails()
-                MovieDetailsUiEvent.NavigateToMovieImagesSeeAllScreen -> navController.navigateSeeAllUpcoming()
-                MovieDetailsUiEvent.NavigateToMoviesSeeAllScreen -> navController.navigateSeeAllUpcoming()
-                MovieDetailsUiEvent.NavigateToReviewDetailsScreen -> navController.navigateToMovieDetails()
-                MovieDetailsUiEvent.NavigateToReviewSeeAllScreen -> navController.navigateSeeAllUpcoming()
-                MovieDetailsUiEvent.NavigateToTopCastDetailsScreen -> navController.navigateToMovieDetails()
-                MovieDetailsUiEvent.NavigateToTopCastSeeAllScreen -> navController.navigateSeeAllUpcoming()
-    var isScrolled by remember { mutableStateOf(false) }
-    val state by viewModel.state.collectAsState()
-    val scope = rememberCoroutineScope()
-    LaunchedEffect(key1 = Unit) {
-        scope.launch {
-            viewModel.effect.collectLatest { effect ->
-                when (effect) {
-                    MovieDetailsUiEvent.NavigateToGenreScreen -> {}
-                    MovieDetailsUiEvent.NavigateToMovieDetailsScreen -> {}
-                    MovieDetailsUiEvent.NavigateToMovieImagesSeeAllScreen -> {}
-                    MovieDetailsUiEvent.NavigateToMoviesSeeAllScreen -> {}
-                    MovieDetailsUiEvent.NavigateToReviewDetailsScreen -> {}
-                    MovieDetailsUiEvent.NavigateToReviewSeeAllScreen -> {}
-                    MovieDetailsUiEvent.NavigateToTopCastDetailsScreen -> {}
-                    MovieDetailsUiEvent.NavigateToTopCastSeeAllScreen -> {}
-                    else -> {}
-                }
+                MovieDetailsUiEvent.NavigateToGenreScreen -> {}
+                MovieDetailsUiEvent.NavigateToMovieDetailsScreen -> {}
+                MovieDetailsUiEvent.NavigateToMovieImagesSeeAllScreen -> {}
+                MovieDetailsUiEvent.NavigateToMoviesSeeAllScreen -> {}
+                MovieDetailsUiEvent.NavigateToReviewDetailsScreen -> {}
+                MovieDetailsUiEvent.NavigateToReviewSeeAllScreen -> {}
+                MovieDetailsUiEvent.NavigateToTopCastDetailsScreen -> {}
+                MovieDetailsUiEvent.NavigateToTopCastSeeAllScreen -> {}
             }
         }
     )
@@ -94,7 +73,3 @@ fun MovieDetailsScreen(
 
     }
 }
-
-
-
-

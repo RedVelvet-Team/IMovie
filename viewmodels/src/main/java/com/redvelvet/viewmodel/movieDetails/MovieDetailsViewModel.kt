@@ -21,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getMovieFullDetailsUseCase: GetMovieFullDetailsUseCase
+    private val getMovieFullDetails: GetMovieFullDetailsUseCase
 ) : BaseViewModel<MovieDetailsScreenUiState, MovieDetailsUiEvent>(MovieDetailsScreenUiState()),
     MovieDetailsInteraction {
 
@@ -33,7 +33,7 @@ class MovieDetailsViewModel @Inject constructor(
 
     private fun getData() {
         tryToExecute(
-            execute = { getMovieFullDetails(movieId) },
+            execute = { getMovieFullDetails(args.id.toInt()) },
             onSuccessWithData = ::onSuccess,
             onError = ::onError,
         )

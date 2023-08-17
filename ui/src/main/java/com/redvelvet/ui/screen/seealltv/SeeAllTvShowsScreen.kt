@@ -62,7 +62,7 @@ private fun SeeAllTvShowsContent(tvShow: LazyPagingItems<TvShowUiState>) {
         LazyVerticalGrid(
             contentPadding = PaddingValues(
                 horizontal = MaterialTheme.spacing.spacing16,
-                vertical = MaterialTheme.spacing.spacing24
+                vertical = MaterialTheme.spacing.spacing64
             ),
             columns = GridCells.Fixed(3),
             horizontalArrangement = Arrangement.spacedBy(

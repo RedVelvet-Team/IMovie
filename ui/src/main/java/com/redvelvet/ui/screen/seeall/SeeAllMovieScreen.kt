@@ -83,7 +83,7 @@ private fun SeeAllMovieContent(
         LazyVerticalGrid(
             contentPadding = PaddingValues(
                 horizontal = MaterialTheme.spacing.spacing16,
-                vertical = MaterialTheme.spacing.spacing32
+                vertical = MaterialTheme.spacing.spacing64
             ),
             columns = GridCells.Fixed(3),
             horizontalArrangement = Arrangement.spacedBy(
