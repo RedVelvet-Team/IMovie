@@ -46,14 +46,13 @@ fun ItemSeason(
             modifier = Modifier
                 .width(MaterialTheme.dimens.dimens140)
                 .height(MaterialTheme.dimens.dimens118)
-                .rotate(180f)
-                .padding(MaterialTheme.spacing.spacing8)
+                .padding(MaterialTheme.spacing.spacing4)
                 .clip(shape = RoundedCornerShape(MaterialTheme.radius.radius16)),
             contentScale = ContentScale.Crop,
         )
         Column(
             modifier = Modifier.padding(
-                start = MaterialTheme.spacing.spacing12,
+                start = MaterialTheme.spacing.spacing8,
                 end = MaterialTheme.spacing.spacing8,
                 top = MaterialTheme.spacing.spacing12,
                 bottom = MaterialTheme.spacing.spacing16

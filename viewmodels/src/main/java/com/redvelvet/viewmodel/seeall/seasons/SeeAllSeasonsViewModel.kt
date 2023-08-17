@@ -15,7 +15,7 @@ class SeeAllSeasonsViewModel @Inject constructor(
 ) : BaseViewModel<SeeAllSeasonsUiState, SeasonsUiEffect>(SeeAllSeasonsUiState()) {
 
     init {
-        getAllSeasons(2000)
+        getAllSeasons(15)
     }
 
     private fun getAllSeasons(seriesId: Int) {

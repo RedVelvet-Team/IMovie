@@ -1,6 +1,7 @@
 package com.redvelvet.ui.screen.seeall.seasons
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
@@ -52,13 +54,20 @@ fun SeeAllSeasonsContent(state: SeeAllSeasonsUiState) {
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.color.backgroundPrimary)
-                .padding(top = MaterialTheme.spacing.spacing72)
+                .padding(top = MaterialTheme.spacing.spacing100,
+                    bottom = MaterialTheme.spacing.spacing28)
         ) {
             LazyColumn(
+                modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(
                     horizontal = MaterialTheme.spacing.spacing16,
                     vertical = MaterialTheme.spacing.spacing16
-                )
+                ),
+                verticalArrangement = Arrangement.spacedBy(
+                    MaterialTheme.spacing.spacing16,
+                    Alignment.Top
+                ),
+                horizontalAlignment = Alignment.Start,
             ) {
                 items(state.seasons.size) { index ->
                     val seasons = state.seasons[index]
@@ -66,7 +75,7 @@ fun SeeAllSeasonsContent(state: SeeAllSeasonsUiState) {
                         imagePainter = rememberAsyncImagePainter(
                             model = seasons.imageUrl,
                         ),
-                        name = "season ${seasons.seasonNumber}",
+                        name = "Season ${seasons.seasonNumber}",
                         date = seasons.airDate,
                         episodesNum = seasons.episodeCount,
                         description = seasons.description,
