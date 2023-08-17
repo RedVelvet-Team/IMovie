@@ -3,6 +3,7 @@ package com.redvelvet.remote.service
 
 import com.redvelvet.repository.dto.ActorKnownForDto
 import com.redvelvet.repository.dto.BaseResponse
+import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
@@ -93,6 +94,7 @@ interface MovieApiService {
         @Query("query") query: String,
         @Query("page") page: Int? = 1,
     ): Response<BaseResponse<List<TvShowDto>>>
+    //endregion
 
     //region see all tv
     @GET("tv/airing_today")
@@ -111,6 +113,15 @@ interface MovieApiService {
     ): Response<BaseResponse<List<TvShowDto>>>
 
     //endregion
+
+    /// region see all episodes
+    @GET("tv/{tv_id}/season/{season_number}")
+    suspend fun getAllEpisodes(
+        @Path("tv_id") tvId : String,
+        @Path("season_number") seasonNumber:Int
+    ): Response<SeasonDetailsDto>
+    // endregion
+
 
     @GET("person/{person_id}")
     suspend fun getActorDetails(
