@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.redvelvet.ui.LocalNavController
+import com.redvelvet.ui.composable.ItemReview
 import com.redvelvet.ui.composable.MovieScaffold
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
@@ -39,7 +40,7 @@ fun SeeAllReviewsScreen(
 }
 
 @Composable
-private fun SeeAllReviewsContent(state: SeeAllReviewsUiState) {
+private fun SeeAllReviewsContent(reviewState: SeeAllReviewsUiState) {
 
     Column(
         modifier = Modifier
@@ -58,15 +59,15 @@ private fun SeeAllReviewsContent(state: SeeAllReviewsUiState) {
             ),
             horizontalAlignment = Alignment.Start,
         ) {
-            items(state.reviews.size) { index ->
-                val reviews = state.reviews[index]
-//                ItemReview(
-//                    id =,
-//                    name = ,
-//                    rating = ,
-//                    date =,
-//                    content =
-//                )
+            items(reviewState.reviews.size) { index ->
+                val reviews = reviewState.reviews[index]
+                ItemReview(
+                    id = reviews.reviewId,
+                    name = reviews.reviewAuthor,
+                    rating = reviews.reviewStars,
+                    date = reviews.reviewDate,
+                    content = reviews.reviewDescription
+                )
             }
         }
     }

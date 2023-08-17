@@ -12,14 +12,14 @@ import javax.inject.Inject
 class SeeAllMovieReviewsViewModel @Inject constructor(
     private val getMovieFullDetailsUseCase: GetMovieFullDetailsUseCase
 ) : BaseViewModel<SeeAllReviewsUiState, Unit>(SeeAllReviewsUiState()) {
-    private val movieId: Int = 2
+    private val movieId: Int = 222
 
 
     init {
-        getMovieImages(movieId)
+        getMovieReviews(movieId)
     }
 
-    private fun getMovieImages(movieId: Int) {
+    private fun getMovieReviews(movieId: Int) {
         tryToExecute(
             execute = { getMovieFullDetailsUseCase.getMovieReviewsByID(movieId) },
             onSuccessWithData = ::onSuccess,
@@ -32,8 +32,7 @@ class SeeAllMovieReviewsViewModel @Inject constructor(
             it.copy(
                 isLoading = false,
                 reviews = movieResult.results.map { it.toMovieReviewsUiState() },
-
-                )
+            )
         }
     }
 

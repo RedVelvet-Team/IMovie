@@ -8,7 +8,7 @@ import com.redvelvet.ui.navigation.MovieDestination
 
 fun NavGraphBuilder.seeAllMovieReviewsRoute() {
     composable(route = MovieDestination.SeeAllMovieReviews.route) {
-      // SeeAllMovieReviewsScreen()
+        SeeAllReviewsScreen()
     }
 }
 
