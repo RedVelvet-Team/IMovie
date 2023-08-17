@@ -22,7 +22,7 @@ fun LoadingState() {
             .fillMaxSize()
             .background(MaterialTheme.color.backgroundPrimary)
     ) {
-        val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.loading))
+        val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.loading_paging))
         LottieAnimation(composition = composition, iterations = 50)
     }
 }

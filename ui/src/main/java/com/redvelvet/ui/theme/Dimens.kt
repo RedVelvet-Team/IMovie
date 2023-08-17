@@ -22,16 +22,16 @@ data class Dimens(
     val dimens56: Dp = 56.dp,
     val dimens70: Dp = 70.dp,
     val dimens104: Dp = 104.dp,
+    val dimens118: Dp = 118.dp,
     val dimens112: Dp = 112.dp,
     val dimens130: Dp = 130.dp,
-    val dimens118: Dp = 118.dp,
-    val dimens176: Dp = 176.dp,
-    val dimens193: Dp = 193.dp,
-    val dimens365: Dp = 365.dp,
     val dimens140: Dp = 140.dp,
     val dimens143: Dp = 143.dp,
+    val dimens176: Dp = 176.dp,
+    val dimens193: Dp = 193.dp,
     val dimens270: Dp = 270.dp,
-    val dimens328: Dp = 328.dp
+    val dimens328: Dp = 328.dp,
+    val dimens365: Dp = 365.dp,
 )
 
 val LocalDimens = compositionLocalOf { Dimens() }

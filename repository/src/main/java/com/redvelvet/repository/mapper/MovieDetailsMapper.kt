@@ -72,7 +72,7 @@ fun MovieDetailsDTO.toDomain(): MovieDetails {
         id = id ?: 0,
         originalTitle = originalTitle ?: "N/A",
         overview = overview ?: "N/A",
-        posterPath = posterPath ?: "N/A",
+        posterPath = ("https://image.tmdb.org/t/p/w500$posterPath") ?: "N/A",
         productionCountries = productionCountries.map {
             MovieDetails.ProductionCountry(
                 it.iso31661  ?: "N/A",
