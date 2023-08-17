@@ -45,6 +45,9 @@ android {
 
 dependencies {
     implementation(project(":viewmodels"))
+
+    implementation(Deps.glass)
+    implementation(Deps.cloudy)
     // core + testing
     implementation(Deps.coreKtx)
     testImplementation(Deps.junit)
