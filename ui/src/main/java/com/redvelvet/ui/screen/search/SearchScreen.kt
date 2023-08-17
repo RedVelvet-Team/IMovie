@@ -2,15 +2,12 @@ package com.redvelvet.ui.screen.search
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,7 +15,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -29,12 +25,9 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.CategoriesChips
 import com.redvelvet.ui.composable.CustomLazyGrid
-import com.redvelvet.ui.composable.ErrorState
-import com.redvelvet.ui.composable.LoadingState
 import com.redvelvet.ui.composable.MovieScaffold
 import com.redvelvet.ui.composable.PrimaryTextField
 import com.redvelvet.ui.composable.SpacerVertical
-import com.redvelvet.ui.composable.StateHandler
 import com.redvelvet.ui.theme.BackgroundPrimary
 import com.redvelvet.ui.theme.FontAccent
 import com.redvelvet.ui.theme.FontPrimary
