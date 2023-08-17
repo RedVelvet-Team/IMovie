@@ -14,9 +14,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.ItemSeason
 import com.redvelvet.ui.composable.MovieScaffold
 import com.redvelvet.ui.theme.color
@@ -54,8 +56,10 @@ fun SeeAllSeasonsContent(state: SeeAllSeasonsUiState) {
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.color.backgroundPrimary)
-                .padding(top = MaterialTheme.spacing.spacing100,
-                    bottom = MaterialTheme.spacing.spacing28)
+                .padding(
+                    top = MaterialTheme.spacing.spacing100,
+                    bottom = MaterialTheme.spacing.spacing28
+                )
         ) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
@@ -74,6 +78,8 @@ fun SeeAllSeasonsContent(state: SeeAllSeasonsUiState) {
                     ItemSeason(
                         imagePainter = rememberAsyncImagePainter(
                             model = seasons.imageUrl,
+                            placeholder = painterResource(id = R.drawable.image_placeholder),
+                            error = painterResource(id = R.drawable.image_placeholder)
                         ),
                         name = "Season ${seasons.seasonNumber}",
                         date = seasons.airDate,
