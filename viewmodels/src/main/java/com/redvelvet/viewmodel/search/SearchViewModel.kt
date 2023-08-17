@@ -17,6 +17,7 @@ import com.redvelvet.viewmodel.search.uiStateMappers.*
 import com.redvelvet.viewmodel.utils.SearchMedia
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
@@ -56,6 +57,7 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun onGetData(query: String) {
+        _state.update { it.copy(isLoading = true) }
         when (_state.value.selectedMediaType) {
             SearchMedia.ALL -> fetchResults {
                 getAllSearchResultUseCase(query)
