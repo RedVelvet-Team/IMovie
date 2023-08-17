@@ -22,7 +22,6 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
@@ -39,12 +38,12 @@ fun ItemBasicCardForDetailsScreens(
     hasDateAndCountry: Boolean = false,
     date: String = "",
     country: String = "",
-    onClick: () -> Unit = {},
+    onClick: (id: Int) -> Unit = {},
     isMediaInfoCard: Boolean = false
 ) {
     Column(
         modifier = if (isMediaInfoCard) Modifier else Modifier
-            .clickable { onClick() },
+            .clickable { onClick },
         horizontalAlignment = AbsoluteAlignment.Left
     ) {
         Card(

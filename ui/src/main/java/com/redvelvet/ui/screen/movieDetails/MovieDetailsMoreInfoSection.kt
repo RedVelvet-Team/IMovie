@@ -1,4 +1,4 @@
-package com.redvelvet.ui.screen.movieDetails.mediaComposable
+package com.redvelvet.ui.screen.movieDetails
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

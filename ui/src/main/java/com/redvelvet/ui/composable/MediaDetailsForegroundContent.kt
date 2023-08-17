@@ -1,4 +1,4 @@
-package com.redvelvet.ui.screen.movieDetails.mediaComposable
+package com.redvelvet.ui.composable
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,14 +19,11 @@ import androidx.compose.ui.zIndex
 import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.radius
 import com.redvelvet.ui.theme.spacing
-import com.redvelvet.viewmodel.movieDetails.MovieDetailsInteraction
-import com.redvelvet.viewmodel.movieDetails.MovieDetailsScreenUiState
 
 @Composable
 fun MediaDetailsForegroundContent(
-    state: MovieDetailsScreenUiState,
-    interaction: MovieDetailsInteraction,
-    onScroll: (offset: Int) -> Unit
+    onScroll: (offset: Int) -> Unit,
+    content: @Composable () -> Unit
 ) {
     val scrollState = rememberScrollState()
     LaunchedEffect(scrollState.value) {
@@ -55,16 +52,7 @@ fun MediaDetailsForegroundContent(
                 .background(color = Primary)
                 .padding(top = MaterialTheme.spacing.spacing24),
         ) {
-            state.data?.let {
-                MovieDetailsInfoSection(it.details, interaction)
-                TopCastSection(it.topCast, interaction)
-                MovieDetailsMoreInfoSection(it.details)
-                KeyWordsSection(it.keyWords, interaction)
-                SimilarMoviesSection(it.similar, interaction)
-                MovieImagesSection(it.images, interaction)
-                MovieReviewsSection(it.reviews, interaction)
-                RecommendedMoviesSection(it.recommendations, interaction)
-            }
+            content()
         }
     }
 }

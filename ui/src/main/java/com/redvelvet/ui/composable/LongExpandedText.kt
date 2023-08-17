@@ -9,7 +9,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
@@ -50,14 +49,15 @@ fun LongExpandedText(overview: String) {
             }
         }
     }
-    ClickableText(
-        text = annotatedText,
-        onClick = { offset ->
-            annotatedText.getStringAnnotations(tag = "Clickable", start = offset, end = offset)
-                .firstOrNull()?.let {
-                    textExpanded = !textExpanded
-                }
-        },
-        style = MaterialTheme.typography.labelMedium
-    )
+    if (overview.isNotEmpty())
+        ClickableText(
+            text = annotatedText,
+            onClick = { offset ->
+                annotatedText.getStringAnnotations(tag = "Clickable", start = offset, end = offset)
+                    .firstOrNull()?.let {
+                        textExpanded = !textExpanded
+                    }
+            },
+            style = MaterialTheme.typography.labelMedium
+        )
 }
