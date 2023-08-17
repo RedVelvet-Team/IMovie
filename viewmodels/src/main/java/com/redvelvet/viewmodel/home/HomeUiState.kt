@@ -23,10 +23,11 @@ data class TvShowCategoryUiState(
 )
 
 data class MovieUiState(
-    val movieImage: String = "",
-    val movieName: String = "",
-    val movieDate: String = "",
-    val countryOfMovie: String = "",
+    val id: String = "",
+    val imageUrl: String = "",
+    val name: String = "",
+    val date: String = "",
+    val country: String = "",
 )
 
 data class TvShowUiState(

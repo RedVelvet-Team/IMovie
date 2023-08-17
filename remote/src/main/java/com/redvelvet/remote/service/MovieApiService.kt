@@ -167,4 +167,41 @@ interface MovieApiService {
     ): Response<StatusResponse>
     // endregion
 
+
+    //endregion
+
+    //region see all
+    @GET("movie/popular")
+    suspend fun seeAllPopularMovie(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+
+    @GET("movie/upcoming")
+    suspend fun seeAllUpcomingMovie(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+
+    @GET("movie/now_playing")
+    suspend fun seeAllNowPlayingMovie(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+
+    @GET("movie/top_rated")
+    suspend fun seeAllTopRatedMovie(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+
+    @GET("movie/{movie_id}/similar")
+    suspend fun seeAllSimilarMovie(
+        @Path("movie_id") id: Int,
+        @Query("page") page: Int? = 1
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+
+    @GET("movie/{movie_id}/recommendations")
+    suspend fun seeAllRecommendedMovie(
+        @Path("movie_id") id: Int,
+        @Query("page") page: Int? = 1
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+
+    //endregion
 }

@@ -1,9 +1,10 @@
 package com.redvelvet.viewmodel.utils
 
-enum class SeeAllTvShows {
+enum class SeeAllMovie {
     POPULAR,
-    AIRING_TODAY,
-    ON_TV,
+    NOW_PLAYING,
+    UPCOMING,
     TOP_RATED,
+    SIMILAR,
     RECOMMEND
 }

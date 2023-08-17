@@ -1,10 +1,13 @@
 package com.redvelvet.viewmodel.movieDetails
 
+import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.redvelvet.entities.movie.details.MovieFullDetails
 import com.redvelvet.entities.tv.TvShowAllDetails
 import com.redvelvet.usecase.usecase.movie.GetMovieFullDetailsUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
+import com.redvelvet.viewmodel.seeall.movie.SeeAllMovieArgs
 import com.redvelvet.viewmodel.base.ErrorUiState
 import com.redvelvet.viewmodel.tvshow.toSeasonUiState
 import com.redvelvet.viewmodel.tvshow.toTvShowRecommendationUiState
@@ -17,11 +20,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val getMovieFullDetails: GetMovieFullDetailsUseCase
 ) : BaseViewModel<MovieDetailsScreenUiState, MovieDetailsUiEvent>(MovieDetailsScreenUiState()),
     MovieDetailsInteraction {
-    private val movieId: Int = 298618
 
+    private val args: MovieDetailsArgs = MovieDetailsArgs(savedStateHandle)
     init {
         getData()
     }
@@ -29,7 +33,7 @@ class MovieDetailsViewModel @Inject constructor(
 
     private fun getData() {
         tryToExecute(
-            execute = { getMovieFullDetails(movieId) },
+            execute = { getMovieFullDetails(args.id.toInt()) },
             onSuccessWithData = ::onSuccess,
             onError = ::onError,
         )
