@@ -1,6 +1,7 @@
 package com.redvelvet.ui.composable
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
@@ -12,12 +13,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
-import com.redvelvet.ui.R
+import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.redvelvet.ui.theme.FontAccent
 import com.redvelvet.ui.theme.FontSecondary
 import com.redvelvet.ui.theme.Typography
@@ -27,17 +28,32 @@ import com.redvelvet.ui.theme.spacing
 
 @Composable
 fun ItemSeason(
-    imagePainter: Painter,
+    id: Int,
+    seriesId: Int,
+    image: String,
     name: String,
     date: String,
     episodesNum: Int,
     description: String,
     rate: Double,
-    modifier: Modifier = Modifier
+    onClickItem: (seriesId: Int, seasonId: Int) -> Unit
 ) {
-    Row(modifier = modifier.padding(end = MaterialTheme.spacing.spacing8)) {
+
+    Row(
+        modifier = Modifier
+            .width(328.dp)
+            .height(118.dp)
+            .padding(end = MaterialTheme.spacing.spacing8)
+            .clickable { onClickItem(seriesId, id) }
+    ) {
         Image(
-            painter = imagePainter,
+            painter = rememberAsyncImagePainter(
+                ImageRequest.Builder(LocalContext.current)
+                    .data(data = image)
+                    .apply(block = fun ImageRequest.Builder.() {
+                        crossfade(true)
+                    }).build()
+            ),
             contentDescription = "poster",
             modifier = Modifier
                 .width(MaterialTheme.dimens.dimens140)
@@ -52,9 +68,13 @@ fun ItemSeason(
                 top = MaterialTheme.spacing.spacing12
             )
         ) {
-            NameWithRatingRow(name = name, rating = rate, textNameStyle = Typography.headlineSmall)
+            NameWithRatingRow(
+                name = "Season $name",
+                rating = rate,
+                textNameStyle = Typography.headlineSmall
+            )
             Text(
-                text = date + "|" + episodesNum + "Episodes",
+                text = "$date | $episodesNum Episodes",
                 style = Typography.displaySmall,
                 color = FontAccent,
                 modifier = Modifier.padding(

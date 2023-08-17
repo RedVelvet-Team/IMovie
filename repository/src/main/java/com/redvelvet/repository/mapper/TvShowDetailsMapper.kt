@@ -40,6 +40,7 @@ fun TvShowDetailsDto.toTvShowDetails() = TvShowDetails(
 )
 
 fun Season.toSeasonTvShow() = SeasonTvShow(
+    seasonId = id ?: 0,
     airDate = airDate ?: "",
     posterSeason = posterPath ?: "",
     voteSeasonAverage = voteAverage ?: 0.0,

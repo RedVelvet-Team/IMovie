@@ -1,5 +1,6 @@
 package com.redvelvet.ui.screen.tvshowdetails
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import com.redvelvet.ui.composable.DetailsInfoSection
 import com.redvelvet.ui.composable.ImagesSection
@@ -8,6 +9,7 @@ import com.redvelvet.ui.composable.MediaDetailsForegroundContent
 import com.redvelvet.ui.composable.TopCastSection
 import com.redvelvet.ui.composable.MediaListSection
 import com.redvelvet.ui.composable.ReviewsSection
+import com.redvelvet.ui.composable.SeasonsSection
 import com.redvelvet.viewmodel.tvshow.SeriesDetailsUiState
 import com.redvelvet.viewmodel.tvshow.TvShowDetailsInteraction
 
@@ -42,8 +44,22 @@ fun TvShowDetailsForegroundContent(
                 topcasts.map { it2 -> it2.name })
         }
         KeyWordsSection(state.keywords)
-        // TODO: ADD SEASIONS LIST
-        // TvShowSeasonsSection(state.seasons, interaction)
+        state.seasons.let { seasons ->
+            Log.i("seasons", "seasons $seasons");
+            SeasonsSection(
+                isNotListEmpty = seasons.isNotEmpty(),
+                seriesId = state.tvShowId,
+                seasonImages = seasons.map { it.posterSeason },
+                seasonNames = seasons.map { it.seasonNumber },
+                seasonIds = seasons.map { it.seasonId },
+                seasonStars = seasons.map { it.voteSeasonAverage },
+                seasonDates = seasons.map { it.airDate },
+                seasonDescriptions = seasons.map { it.seasonDescription },
+                seasonEpisodes = seasons.map { it.episodeNumber },
+                onClickSeeAllSeasons = interaction::onClickSeasonSeaAll,
+                onClickSeason = interaction::onClickSeason
+            )
+        }
         ImagesSection(state.posters, interaction::onClickPosterSeaAll)
         state.reviews.let { reviews ->
             ReviewsSection(

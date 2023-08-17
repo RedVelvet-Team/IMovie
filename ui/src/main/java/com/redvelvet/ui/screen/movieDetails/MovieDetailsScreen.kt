@@ -47,7 +47,7 @@ fun MovieDetailsScreen(
     )
     StateHandler(
         isLoading = state.isLoading,
-        isError = state.isError.first
+        isError = state.error != null
     ) {
         Box(
             modifier = Modifier

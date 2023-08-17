@@ -11,15 +11,18 @@ import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 
 @Composable
-fun ReviewsSection(
+fun SeasonsSection(
     isNotListEmpty: Boolean = false,
-    reviewNames: List<String> = emptyList(),
-    reviewIds: List<String> = emptyList(),
-    reviewStars: List<Double> = emptyList(),
-    reviewDates: List<String> = emptyList(),
-    reviewDescriptions: List<String> = emptyList(),
-    onClickSeeAllReviews: () -> Unit = {},
-    onClickReview: (id: Int) -> Unit = {},
+    seriesId: Int,
+    seasonImages: List<String> = emptyList(),
+    seasonNames: List<String> = emptyList(),
+    seasonIds: List<Int> = emptyList(),
+    seasonStars: List<Double> = emptyList(),
+    seasonDates: List<String> = emptyList(),
+    seasonDescriptions: List<String> = emptyList(),
+    seasonEpisodes: List<Int> = emptyList(),
+    onClickSeeAllSeasons: () -> Unit = {},
+    onClickSeason: (seriesId: Int, seasonId: Int) -> Unit,
 ) {
     if (isNotListEmpty)
         Column(
@@ -29,30 +32,31 @@ fun ReviewsSection(
                 )
         ) {
             ItemsSectionForDetailsScreens(
-                label = "Reviews",
+                label = "Seasons",
                 hasName = false,
-                name = reviewNames,
+                name = seasonNames,
                 hasCustomList = true,
                 hasDateAndCountry = false,
                 customListItemComposable = { index ->
-                    if (reviewDescriptions[index].isNotEmpty())
-                        ItemReview(
-                            id = reviewIds[index],
-                            name = reviewNames[index],
-                            rating = reviewStars[index],
-                            date = reviewDates[index],
-                            content = reviewDescriptions[index],
-                            modifier = Modifier
-                                .width(MaterialTheme.dimens.dimens270)
-                                .height(MaterialTheme.dimens.dimens143),
+                    ItemSeason(
+                        id = seasonIds[index],
+                        seriesId = seriesId,
+                        image = seasonImages[index],
+                        name = seasonNames[index],
+                        date = seasonDates[index],
+                        episodesNum = seasonEpisodes[index],
+                        description = seasonDescriptions[index],
+                        rate = seasonStars[index],
+                        onClickItem = onClickSeason,
                         )
+
                 },
-                onClickSeeAll = { onClickSeeAllReviews },
+                onClickSeeAll = { onClickSeeAllSeasons },
                 cardModifier = Modifier
                     .width(MaterialTheme.dimens.dimens104)
                     .height(MaterialTheme.dimens.dimens130),
-                onClickItem = onClickReview
             )
         }
 
 }
+

@@ -31,11 +31,12 @@ data class SeriesDetailsUiState(
 
 
 data class SeasonUiState(
+    val seasonId: Int = 0,
     val airDate: String = "",
     val posterSeason: String = "",
-    val voteSeasonAverage: String = "",
+    val voteSeasonAverage: Double = 0.0,
     val seasonNumber: String = "",
-    val episodeNumber: String = "",
+    val episodeNumber: Int = 0,
     val seasonDescription: String = "",
 )
 
@@ -72,11 +73,12 @@ fun TvShowCast.toTvShowTopCastUiState(): TvShowTopCastUiState {
 
 fun SeasonTvShow.toSeasonUiState(): SeasonUiState {
     return SeasonUiState(
+        seasonId = seasonId,
         airDate = airDate,
-        posterSeason = posterSeason,
-        voteSeasonAverage = voteSeasonAverage.toString(),
+        posterSeason = Constants.BASE_IMAGE_URL + posterSeason,
+        voteSeasonAverage = voteSeasonAverage,
         seasonNumber = seasonNumber.toString(),
-        episodeNumber = episodeCount.toString(),
+        episodeNumber = episodeCount,
         seasonDescription = seasonDescription,
     )
 }
