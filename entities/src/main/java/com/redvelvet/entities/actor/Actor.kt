@@ -5,5 +5,8 @@ data class Actor(
     val name: String,
     val profileImageUrl: String,
     val birthday: String,
-    val country: String
+    val placeOfBirth: String,
+    val biography: String,
+    val knownForDepartment: String,
+    val alsoKnownAs: String
 )

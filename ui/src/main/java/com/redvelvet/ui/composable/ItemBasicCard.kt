@@ -36,12 +36,14 @@ fun ItemBasicCard(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.72f)
+                .height(132.dp)
         ) {
             Image(
                 painter = imagePainter,
                 contentDescription = "movie poster image",
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(132.dp),
                 contentScale = ContentScale.Crop
             )
         }

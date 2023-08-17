@@ -1,6 +1,5 @@
 package com.redvelvet.viewmodel.base
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -65,13 +64,10 @@ abstract class BaseViewModel<UiState : BaseUiState, UiEffect>(state: UiState) :
                 }
             } catch (e: NullResultException) {
                 onError(NullResultErrorState(e.message.toString()))
-                Log.i("KAMELOO",e.localizedMessage)
             } catch (e: NetworkException) {
                 onError(NetworkErrorState(e.message.toString()))
-                Log.i("KAMELOO",e.localizedMessage)
             } catch (e: MovieException) {
                 onError(ErrorUiState(e.message.toString()))
-                Log.i("KAMELOO",e.localizedMessage)
             }
         }
     }

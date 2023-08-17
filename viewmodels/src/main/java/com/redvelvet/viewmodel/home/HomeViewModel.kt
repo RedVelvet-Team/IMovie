@@ -34,9 +34,9 @@ class HomeViewModel @Inject constructor(
 
     private fun fakeTvShowCategories() =
         listOf(
-            fakeTvShowCategory("Popular TV Shows"),
-            fakeTvShowCategory("Now Playing"),
-            fakeTvShowCategory("Upcoming"),
+            fakeTvShowCategory("Popular Series"),
+            fakeTvShowCategory("Airing Today"),
+            fakeTvShowCategory("On TV"),
             fakeTvShowCategory("Top Rated"),
         )
 

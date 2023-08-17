@@ -1,11 +1,15 @@
 package com.redvelvet.remote.service
 
 
+import com.redvelvet.repository.dto.ActorKnownForDto
 import com.redvelvet.repository.dto.BaseResponse
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
+import com.redvelvet.repository.dto.person.ActorDto
+import com.redvelvet.repository.dto.search.CombinedResultDto
+import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -26,7 +30,6 @@ import com.redvelvet.repository.dto.tvShow.TvShowTopCastDto
 import com.redvelvet.repository.dto.tvShow.TvShowVideosDto
 import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -82,13 +85,13 @@ interface MovieApiService {
     suspend fun multiSearch(
         @Query("query") query: String,
         @Query("page") page: Int? = 1,
-    ): Response<BaseResponse<List<MultiSearchResultDto>>>
+    ): Response<BaseResponse<List<CombinedResultDto>>>
 
     @GET("search/person")
     suspend fun searchPeople(
         @Query("query") query: String,
         @Query("page") page: Int? = 1,
-    ): Response<BaseResponse<List<PersonDto>>>
+    ): Response<BaseResponse<List<ActorDto>>>
 
     @GET("search/movie")
     suspend fun searchMovie(
@@ -101,6 +104,34 @@ interface MovieApiService {
         @Query("query") query: String,
         @Query("page") page: Int? = 1,
     ): Response<BaseResponse<List<TvShowDto>>>
+
+    //region see all tv
+    @GET("tv/airing_today")
+    suspend fun seeAllAiringTodayTv(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<TvShowDto>>>
+
+    @GET("tv/on_the_air")
+    suspend fun seeAllOnTheAir(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<TvShowDto>>>
+
+    @GET("tv/popular")
+    suspend fun seeAllPopularTv(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<TvShowDto>>>
+
+    //endregion
+
+    @GET("person/{person_id}")
+    suspend fun getActorDetails(
+        @Path("person_id") id: String
+    ): Response<ActorDto>
+
+    @GET("person/{person_id}/combined_credits")
+    suspend fun getActorKnownFor(
+        @Path("person_id") id: String
+    ): Response<ActorKnownForDto>
 
     // region TvShow
     @GET("tv/{tv_id}")

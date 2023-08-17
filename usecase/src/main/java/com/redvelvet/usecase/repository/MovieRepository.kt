@@ -1,10 +1,16 @@
 package com.redvelvet.usecase.repository
 
-import com.redvelvet.entities.movie.details.*
-
 import androidx.paging.PagingData
 import com.redvelvet.entities.actor.Actor
 import com.redvelvet.entities.movie.Movie
+import com.redvelvet.entities.search.CombinedResult
+import com.redvelvet.entities.movie.details.MovieDetails
+import com.redvelvet.entities.movie.details.MovieImages
+import com.redvelvet.entities.movie.details.MovieKeyWords
+import com.redvelvet.entities.movie.details.MovieRecommendations
+import com.redvelvet.entities.movie.details.MovieReviews
+import com.redvelvet.entities.movie.details.MovieSimilar
+import com.redvelvet.entities.movie.details.MovieTopCast
 import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.entities.tv.SeasonTvShow
 import com.redvelvet.entities.tv.TvShow
@@ -16,6 +22,18 @@ interface MovieRepository {
     fun searchPeople(query: String, page: Int?=1): Flow<PagingData<Actor>>
     fun searchMovie(query: String, page: Int?=1): Flow<PagingData<Movie>>
     fun searchTvShows(query: String, page: Int?=1): Flow<PagingData<TvShow>>
+
+    suspend fun getActorDetails(id: String): Actor
+
+    suspend fun getActorKnownFor(id: String): List<CombinedResult>
+
+    //region see all
+    suspend fun seeAllAiringTodayTv(page: Int?): Flow<PagingData<TvShow>>
+    suspend fun seeAllOnTheAir(page: Int?): Flow<PagingData<TvShow>>
+    suspend fun seeAllPopularTv(page: Int?): Flow<PagingData<TvShow>>
+
+    //endregion
+
 
 
     //region Movie Details

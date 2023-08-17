@@ -29,7 +29,7 @@ fun ItemsSectionForDetailsScreens(
     country: List<String> = emptyList(),
     onClickItem: (id: Int) -> Unit = {},
 ) {
-    SectionHeader(label, modifier = headerModifier, onClickSeeAll = onClickSeeAll)
+    SectionHeader(label = label, modifier = headerModifier, onClickSeeAll = onClickSeeAll)
     LazyRow(
         modifier = Modifier.padding(top = MaterialTheme.spacing.spacing8),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),
