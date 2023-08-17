@@ -200,4 +200,3 @@ fun SeriesContent(state: HomeUiState, pagerState: PagerState) {
         },
     )
 }
-
