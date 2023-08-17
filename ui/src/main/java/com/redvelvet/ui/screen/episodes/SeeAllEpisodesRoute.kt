@@ -22,7 +22,7 @@ fun NavGraphBuilder.seeAllEpisodeRoute() {
     }
 }
 
-fun NavController.navigateToSeeAllEpisode(tvId: String,seasonNumber:Int ,builder: NavOptionsBuilder.() -> Unit = {}) {
+fun NavController.navigateToSeeAllEpisode(tvId: String,seasonNumber:Int,builder: NavOptionsBuilder.() -> Unit = {}) {
     navigate(
         route = "$ROUTE/${tvId}/${seasonNumber}",
         builder = builder
