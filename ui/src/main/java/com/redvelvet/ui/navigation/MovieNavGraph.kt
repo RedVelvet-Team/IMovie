@@ -11,14 +11,17 @@ import com.redvelvet.ui.screen.login.loginRoute
 import com.redvelvet.ui.screen.movieDetails.movieDetailsRoute
 import com.redvelvet.ui.screen.onboarding.onBoardingRoute
 import com.redvelvet.ui.screen.search.searchRoute
+import com.redvelvet.ui.screen.seeAllMovieImages.seeAllMovieImaesRoute
+import com.redvelvet.ui.screen.seeAllReviews.seeAllMovieReviewsRoute
 import com.redvelvet.ui.screen.seeAllUpcoming.seeAllUpcomingListRoute
 import com.redvelvet.ui.screen.seealltv.seeAllTvListRoute
+import com.redvelvet.ui.screen.sellAllTopCast.seeAllTopCastRoute
 import com.redvelvet.ui.screen.signup.signupRoute
 import com.redvelvet.ui.screen.splash.splashRoute
 
 @Composable
 fun MovieNavGraph() {
-    NavHost(LocalNavController.current, startDestination = MovieDestination.Splash.route) {
+    NavHost(LocalNavController.current, startDestination = MovieDestination.SeeAllMovieImages.route) {
         splashRoute()
         onBoardingRoute()
         actorDetailsRoute()
@@ -31,5 +34,8 @@ fun MovieNavGraph() {
         signupRoute()
         forgotPasswordRoute()
         movieDetailsRoute()
+        seeAllTopCastRoute()
+        seeAllMovieImaesRoute()
+        seeAllMovieReviewsRoute()
     }
 }
