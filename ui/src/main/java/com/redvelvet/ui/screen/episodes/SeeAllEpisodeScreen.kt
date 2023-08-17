@@ -1,4 +1,4 @@
-package com.redvelvet.ui.screen.see_all_episode
+package com.redvelvet.ui.screen.episodes
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +19,7 @@ import com.redvelvet.ui.composable.EpisodeItem
 import com.redvelvet.ui.composable.MovieScaffold
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
-import com.redvelvet.viewmodel.seeall.episode.EpisodeUiState
+import com.redvelvet.viewmodel.episode.EpisodeUiState
 import com.redvelvet.viewmodel.episode.EpisodesViewModel
 
 @Composable
@@ -30,7 +30,7 @@ fun SeeAllEpisodeScreen(
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
     MovieScaffold(
-        title = "Episodes",
+        title = state.title,
         isLoading = state.isLoading,
         error = state.error,
         modifier = Modifier.fillMaxWidth(),

@@ -1,11 +1,11 @@
 package com.redvelvet.viewmodel.episode
 
+import androidx.lifecycle.SavedStateHandle
 import com.redvelvet.entities.EpisodeDetails
 import com.redvelvet.usecase.usecase.GetAllEpisodesUseCase
+import com.redvelvet.viewmodel.base.BaseUiEffect
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
-import com.redvelvet.viewmodel.seeall.episode.EpisodeUiState
-import com.redvelvet.viewmodel.seeall.episode.EpisodesUiEffect
 import com.redvelvet.viewmodel.seeall.episode.toEpisodeCardUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
@@ -13,17 +13,20 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EpisodesViewModel @Inject constructor(
-    private val getAllEpisodesUseCase: GetAllEpisodesUseCase
-) : BaseViewModel<EpisodeUiState, EpisodesUiEffect>(EpisodeUiState()),EpisodesInteraction {
+    private val getAllEpisodesUseCase: GetAllEpisodesUseCase,
+    savedStateHandle: SavedStateHandle
+    ) : BaseViewModel<EpisodeUiState, BaseUiEffect>(EpisodeUiState()){
+
+    private val args: EpisodesArgs = EpisodesArgs(savedStateHandle)
 
     init {
-        getAllEpisodes("100", 1)
+        getAllEpisodes()
     }
 
-    private fun getAllEpisodes(tvId: String, seasonNumber: Int) {
+    private fun getAllEpisodes() {
         _state.update { it.copy(isLoading = true) }
         tryToExecute(
-            execute = { getAllEpisodesUseCase(tvId = tvId, seasonNumber = seasonNumber) },
+            execute = { getAllEpisodesUseCase(tvId = args.tvId, seasonNumber = args.seasonNumber) },
             onSuccessWithData = ::onGetAllEpisodesOnSuccess,
             onError = ::onGetAllEpisodesOnError
         )
@@ -40,9 +43,5 @@ class EpisodesViewModel @Inject constructor(
 
     private fun onGetAllEpisodesOnError(errorUiState: ErrorUiState) {
         _state.update { it.copy(error = errorUiState, isLoading = false) }
-    }
-
-    override fun onClickEpisode() {
-        TODO("Not yet implemented")
     }
 }

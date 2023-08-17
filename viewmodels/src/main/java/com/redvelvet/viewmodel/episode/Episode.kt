@@ -1,6 +1,7 @@
 package com.redvelvet.viewmodel.seeall.episode
 
 import com.redvelvet.entities.EpisodeDetails
+import com.redvelvet.viewmodel.episode.EpisodeCardUiState
 
 fun EpisodeDetails.toEpisodeCardUiState(): EpisodeCardUiState {
     return EpisodeCardUiState(
