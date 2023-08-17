@@ -37,6 +37,11 @@ class SeeAllTvViewModel @Inject constructor(
                 getOnTheAir()
             }
 
+            SeeAllTvShows.TOP_RATED -> {
+                _state.update { it.copy(title = "Top Rated") }
+                getTopRatedTv()
+            }
+
             else -> {}
         }
     }
@@ -60,6 +65,14 @@ class SeeAllTvViewModel @Inject constructor(
     private fun getAiringTodayTv() {
         tryToExecutePaging(
             call = { getAllSeries.getAiringTodayTv().cachedIn(viewModelScope) },
+            onSuccess = ::onSuccess,
+            onError = ::onError
+        )
+    }
+
+    private fun getTopRatedTv() {
+        tryToExecutePaging(
+            call = { getAllSeries.getTopRatedTv().cachedIn(viewModelScope) },
             onSuccess = ::onSuccess,
             onError = ::onError
         )
