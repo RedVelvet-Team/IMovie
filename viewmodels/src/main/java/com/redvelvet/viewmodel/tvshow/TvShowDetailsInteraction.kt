@@ -5,7 +5,7 @@ interface TvShowDetailsInteraction {
     fun onClickFavorite(seriesId: Int)
     fun onClickSave(seriesId: Int)
     fun onClickPlayTrailer(seriesUrl: String)
-    fun onClickCategory(seriesId: Int)
+    fun onClickCategory(genre: String)
     fun onClickRateSeries(seriesId: Int, rate: Double)
     fun onClickTopCastSeeAll()
     fun onClickCast(castId: Int)

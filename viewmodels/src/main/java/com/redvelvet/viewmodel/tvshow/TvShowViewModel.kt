@@ -81,7 +81,7 @@ class TvShowViewModel @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun onClickCategory(seriesId: Int) {
+    override fun onClickCategory(genre: String) {
         TODO("Not yet implemented")
     }
 

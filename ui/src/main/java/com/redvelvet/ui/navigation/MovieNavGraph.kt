@@ -16,7 +16,7 @@ import com.redvelvet.ui.screen.tvshowdetails.tvShowDetailsRoute
 
 @Composable
 fun MovieNavGraph() {
-    NavHost(LocalNavController.current, startDestination = MovieDestination.MovieDetails.route) {
+    NavHost(LocalNavController.current, startDestination = MovieDestination.TvShowDetails.route) {
         splashRoute()
         onBoardingRoute()
         searchRoute()

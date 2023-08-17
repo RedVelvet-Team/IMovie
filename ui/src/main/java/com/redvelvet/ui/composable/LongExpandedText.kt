@@ -49,14 +49,15 @@ fun LongExpandedText(overview: String) {
             }
         }
     }
-    ClickableText(
-        text = annotatedText,
-        onClick = { offset ->
-            annotatedText.getStringAnnotations(tag = "Clickable", start = offset, end = offset)
-                .firstOrNull()?.let {
-                    textExpanded = !textExpanded
-                }
-        },
-        style = MaterialTheme.typography.labelMedium
-    )
+    if (overview.isNotEmpty())
+        ClickableText(
+            text = annotatedText,
+            onClick = { offset ->
+                annotatedText.getStringAnnotations(tag = "Clickable", start = offset, end = offset)
+                    .firstOrNull()?.let {
+                        textExpanded = !textExpanded
+                    }
+            },
+            style = MaterialTheme.typography.labelMedium
+        )
 }

@@ -1,6 +1,7 @@
 package com.redvelvet.ui.screen.movieDetails
 
 import androidx.compose.runtime.Composable
+import com.redvelvet.ui.composable.DetailsInfoSection
 import com.redvelvet.ui.composable.ImagesSection
 import com.redvelvet.ui.composable.KeyWordsSection
 import com.redvelvet.ui.composable.MediaDetailsForegroundContent
@@ -20,7 +21,22 @@ fun MovieDetailsForegroundContent(
         onScroll = onScroll
     ) {
         state.data?.let {
-            MovieDetailsInfoSection(it.details, interaction)
+            it.details.let { det ->
+                DetailsInfoSection(
+                    image = det.posterPath,
+                    name = det.originalTitle,
+                    genres = det.genres,
+                    hasTime = true,
+                    hasDate = false,
+                    seriesDate = det.releaseDate,
+                    spokenLanguages = det.spokenLanguages,
+                    onClickGenre = interaction::onClickGenre,
+                    onClickRate = interaction::onClickRateMovie,
+                    voteAverage = det.voteAverage,
+                    description = det.overview,
+                )
+            }
+
             it.topCast.let { topcasts ->
                 TopCastSection(
                     topcasts.isNotEmpty(),

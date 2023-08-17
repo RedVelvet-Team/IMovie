@@ -1,6 +1,7 @@
 package com.redvelvet.ui.screen.tvshowdetails
 
 import androidx.compose.runtime.Composable
+import com.redvelvet.ui.composable.DetailsInfoSection
 import com.redvelvet.ui.composable.ImagesSection
 import com.redvelvet.ui.composable.KeyWordsSection
 import com.redvelvet.ui.composable.MediaDetailsForegroundContent
@@ -19,7 +20,19 @@ fun TvShowDetailsForegroundContent(
     MediaDetailsForegroundContent(
         onScroll = onScroll
     ) {
-        TvShowDetailsInfoSection(state, interaction)
+        DetailsInfoSection(
+            image = state.tvShowImage,
+            name = state.tvShowName,
+            genres = state.genres,
+            hasTime = false,
+            hasDate = true,
+            seriesDate = state.firstAirDate,
+            spokenLanguages = state.tvShowLanguage,
+            onClickGenre = interaction::onClickCategory,
+            onClickRate = interaction::onClickRateSeries,
+            voteAverage = state.voteAverage,
+            description = state.tvShowDescription,
+        )
         state.topCast.let { topcasts ->
             TopCastSection(
                 topcasts.isNotEmpty(),
