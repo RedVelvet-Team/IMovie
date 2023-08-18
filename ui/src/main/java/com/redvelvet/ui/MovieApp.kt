@@ -27,8 +27,8 @@ fun MovieApp() {
                         MovieDestination.Home.route,
                         MovieDestination.Search.route,
                         MovieDestination.Category.route,
-                        MovieDestination.Game.route,
-                        MovieDestination.Library.route
+                        MovieDestination.Library.route,
+                        MovieDestination.Game.route
                     )
                 BottomNavBar(visibility)
             }

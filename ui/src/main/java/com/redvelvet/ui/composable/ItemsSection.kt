@@ -1,5 +1,6 @@
 package com.redvelvet.ui.composable
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
@@ -12,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
+import com.redvelvet.viewmodel.utils.SeeAllMovie
 
 @Composable
 fun ItemsSection(
@@ -22,9 +24,17 @@ fun ItemsSection(
     names: List<String> = emptyList(),
     hasDateAndCountry: Boolean = false,
     dates: List<String> = emptyList(),
-    countries: List<String> = emptyList()
+    countries: List<String> = emptyList(),
+    seeAllMovie: SeeAllMovie,
+    onClickSeeAll: (SeeAllMovie) -> Unit = {},
+    onClickItem: (String) -> Unit
 ) {
-    SectionHeader(label = label, modifier = modifier)
+    SectionHeader(
+        label = label,
+        modifier = modifier,
+        onClickSeeAll = onClickSeeAll,
+        seeAllMovie = seeAllMovie
+    )
     LazyRow(
         modifier = Modifier.padding(top = MaterialTheme.spacing.spacing8),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),
@@ -35,7 +45,8 @@ fun ItemsSection(
                 imagePainter = imagesPainters[it],
                 modifier = Modifier
                     .width(MaterialTheme.dimens.dimens104)
-                    .height(MaterialTheme.dimens.dimens176),
+                    .height(MaterialTheme.dimens.dimens176)
+                    .clickable {  },
                 hasName = hasName,
                 name = if (names.isNotEmpty()) names[it] else "",
                 hasDateAndCountry = hasDateAndCountry,

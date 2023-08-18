@@ -66,8 +66,6 @@ data class MovieDetailsScreenUiState(
         val mediaName: String = "",
         val mediaImage: String = "",
     )
-
-
 }
 
 

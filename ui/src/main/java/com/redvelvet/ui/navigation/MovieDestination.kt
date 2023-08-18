@@ -15,11 +15,16 @@ sealed class MovieDestination(
     data object SignUp : MovieDestination("signup")
     data object SeeAllMovie : MovieDestination("seeAllMovie")
     data object SeeAllUpcoming : MovieDestination("seeAllUpcoming")
+    data object SeeAllSeasons : MovieDestination("seeAllSeasons")
     data object SeeAllTvShow : MovieDestination("seeAllTvShow")
     data object ForgotPassword : MovieDestination("forgotPassword")
+    data object SeeAllEpisodes : MovieDestination("seeAllEpisodes")
     data object SeeAllTopCast : MovieDestination("seeAllTopCast")
     data object SeeAllMovieImages : MovieDestination("seeAllMovieImages")
     data object SeeAllMovieReviews : MovieDestination("seeAllMovieReviews")
+    data object MovieDetails : MovieDestination("movie_details")
+    data object TvShowDetails : MovieDestination("tvshow_details")
+    data object Upcoming : MovieDestination("upcoming")
     data object Room : MovieDestination("room")
 
     data object Home : MovieDestination(

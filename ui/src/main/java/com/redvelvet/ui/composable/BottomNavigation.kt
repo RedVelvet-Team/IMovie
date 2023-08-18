@@ -46,8 +46,8 @@ fun BottomNavBar(visibility: Boolean) {
                 MovieDestination.Home,
                 MovieDestination.Search,
                 MovieDestination.Category,
-                MovieDestination.Game,
-                MovieDestination.Library
+                MovieDestination.Library,
+                MovieDestination.Game
             )
         )
     }

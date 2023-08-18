@@ -55,7 +55,7 @@ data class TvShowDetailsDto(
     @SerializedName("production_countries")
     val productionCountries: List<ProductionCountry?>?,
     @SerializedName("seasons")
-    val seasons: List<Season?>?,
+    val seasonDtos: List<SeasonDto?>?,
     @SerializedName("spoken_languages")
     val spokenLanguages: List<SpokenLanguage?>?,
     @SerializedName("status")
@@ -152,7 +152,7 @@ data class ProductionCountry(
 )
 
 
-data class Season(
+data class SeasonDto(
     @SerializedName("air_date")
     val airDate: String?,
     @SerializedName("episode_count")

@@ -2,30 +2,23 @@ package com.redvelvet.viewmodel.movieDetails
 
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
 import com.redvelvet.entities.movie.details.MovieFullDetails
-import com.redvelvet.entities.tv.TvShowAllDetails
 import com.redvelvet.usecase.usecase.movie.GetMovieFullDetailsUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
-import com.redvelvet.viewmodel.seeall.movie.SeeAllMovieArgs
 import com.redvelvet.viewmodel.base.ErrorUiState
-import com.redvelvet.viewmodel.tvshow.toSeasonUiState
-import com.redvelvet.viewmodel.tvshow.toTvShowRecommendationUiState
-import com.redvelvet.viewmodel.tvshow.toTvShowReviewUiState
-import com.redvelvet.viewmodel.tvshow.toTvShowTopCastUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getMovieFullDetails: GetMovieFullDetailsUseCase
-) : BaseViewModel<MovieDetailsScreenUiState, MovieDetailsUiEvent>(MovieDetailsScreenUiState()),
+) : BaseViewModel<MovieDetailsScreenUiState, MovieDetailsUiEffect>(MovieDetailsScreenUiState()),
     MovieDetailsInteraction {
 
     private val args: MovieDetailsArgs = MovieDetailsArgs(savedStateHandle)
+
     init {
         getData()
     }
@@ -43,7 +36,8 @@ class MovieDetailsViewModel @Inject constructor(
         _state.update {
             MovieDetailsScreenUiState(
                 data = movieAllDetails.toMovieFullDetailsScreenUiState(),
-                isLoading = false
+                isLoading = false,
+                error = null,
             )
         }
     }
@@ -78,27 +72,24 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun onClickRateMovie(movieId: Int, rate: Double) {
-
+        sendUiEffect(MovieDetailsUiEffect.NavigateToMovieDetailsScreen(movieId.toString()))
     }
 
     override fun onClickTopCastSeeAll() {
-
+        sendUiEffect(MovieDetailsUiEffect.NavigateToTopCastSeeAllScreen)
     }
 
     override fun onClickCast(castId: Int) {
-
-    }
-
-    override fun onClickKeyword(keywordId: Int) {
-
+        Log.i("Taha", "castId = $castId")
+        sendUiEffect(MovieDetailsUiEffect.NavigateToTopCastDetailsScreen(castId.toString()))
     }
 
     override fun onClickSimilarMoviesSeeAll() {
+        sendUiEffect(MovieDetailsUiEffect.NavigateToSimilarMoviesSeeAllScreen)
 
     }
 
     override fun onClickMovie(movieId: Int) {
-
     }
 
     override fun onClickMovieImagesSeeAll() {
@@ -118,6 +109,11 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun onClickRecommendationsMoviesSeeAll() {
+        sendUiEffect(MovieDetailsUiEffect.NavigateToRecommendedMoviesSeeAllScreen)
 
+    }
+
+    fun refresh() {
+        getData()
     }
 }

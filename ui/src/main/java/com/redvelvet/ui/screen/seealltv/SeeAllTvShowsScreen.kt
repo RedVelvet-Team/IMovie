@@ -1,11 +1,12 @@
 package com.redvelvet.ui.screen.seealltv
 
-import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -26,13 +27,16 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.rememberAsyncImagePainter
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.ItemBasicCard
 import com.redvelvet.ui.composable.LoadingPage
 import com.redvelvet.ui.composable.MovieScaffold
+import com.redvelvet.ui.screen.tvshowdetails.navigateToTvShowDetails
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
-import com.redvelvet.viewmodel.home.TvShowUiState
+import com.redvelvet.viewmodel.home.ItemUiState
 import com.redvelvet.viewmodel.seeall.tv.SeeAllTvViewModel
 
 @Composable
@@ -40,19 +44,27 @@ fun SeeAllTvScreen(
     viewModel: SeeAllTvViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-
+    val navController = LocalNavController.current
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
     MovieScaffold(
         modifier = Modifier.fillMaxSize(),
         title = state.title,
         isLoading = false,
         hasTopBar = true,
     ) {
-        SeeAllTvShowsContent(state.tvShows.collectAsLazyPagingItems())
+        SeeAllTvShowsContent(state.tvShows.collectAsLazyPagingItems()) { id ->
+            navController.navigateToTvShowDetails(id)
+
+        }
     }
 }
 
 @Composable
-private fun SeeAllTvShowsContent(tvShow: LazyPagingItems<TvShowUiState>) {
+private fun SeeAllTvShowsContent(
+    tvShow: LazyPagingItems<ItemUiState>,
+    onClickCard: (String) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -62,7 +74,7 @@ private fun SeeAllTvShowsContent(tvShow: LazyPagingItems<TvShowUiState>) {
         LazyVerticalGrid(
             contentPadding = PaddingValues(
                 horizontal = MaterialTheme.spacing.spacing16,
-                vertical = MaterialTheme.spacing.spacing64
+                vertical = MaterialTheme.spacing.spacing32
             ),
             columns = GridCells.Fixed(3),
             horizontalArrangement = Arrangement.spacedBy(
@@ -76,15 +88,16 @@ private fun SeeAllTvShowsContent(tvShow: LazyPagingItems<TvShowUiState>) {
         ) {
             items(tvShow.itemCount) {
                 ItemBasicCard(
-                    imagePainter = rememberAsyncImagePainter(model = tvShow[it]!!.seriesImage),
+                    imagePainter = rememberAsyncImagePainter(model = tvShow[it]!!.image),
                     modifier = Modifier
                         .height(MaterialTheme.dimens.dimens176)
-                        .width(MaterialTheme.dimens.dimens104),
+                        .width(MaterialTheme.dimens.dimens104)
+                        .clickable { onClickCard(tvShow[it]!!.id) },
                     hasName = true,
-                    name = tvShow[it]!!.seriesName,
+                    name = tvShow[it]!!.name,
                     hasDateAndCountry = true,
-                    date = tvShow[it]!!.seriesDate,
-                    country = tvShow[it]!!.seriesCountry
+                    date = tvShow[it]!!.date,
+                    country = tvShow[it]!!.country
                 )
             }
             if (tvShow.loadState.append is LoadState.Loading) {
@@ -93,8 +106,8 @@ private fun SeeAllTvShowsContent(tvShow: LazyPagingItems<TvShowUiState>) {
                 ) {
                     LoadingPage(
                         modifier = Modifier
-                            .size(42.dp)
-                            .padding(16.dp)
+                            .fillMaxWidth()
+                            .height(42.dp)
                             .wrapContentWidth(Alignment.CenterHorizontally),
                     )
                 }

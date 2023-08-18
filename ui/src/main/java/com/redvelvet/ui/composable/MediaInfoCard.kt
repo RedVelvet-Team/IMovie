@@ -14,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
-import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.dimens
@@ -38,9 +37,10 @@ fun MediaInfoCard(
             .padding(bottom = MaterialTheme.spacing.spacing24)
     ) {
         ItemBasicCardForDetailsScreens(
-            imagePainter = rememberAsyncImagePainter(model = posterPath),
+            imagePainter = rememberAsyncFlixImage(image = posterPath),
             hasName = false,
             hasDateAndCountry = false,
+            id = 0,
             modifier = Modifier
                 .width(MaterialTheme.dimens.dimens104)
                 .height(MaterialTheme.dimens.dimens130),

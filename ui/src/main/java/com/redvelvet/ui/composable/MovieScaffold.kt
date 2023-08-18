@@ -1,12 +1,11 @@
 package com.redvelvet.ui.composable
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -42,12 +41,15 @@ fun MovieScaffold(
     error: ErrorUiState? = null,
     onError: @Composable () -> Unit = {},
     onRetry: @Composable () -> Unit = {},
+    onClick: () -> Unit = {},
     hasBackArrow: Boolean = true,
     hasTopBar: Boolean = false,
     content: @Composable () -> Unit
 ) {
     Scaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .background(MaterialTheme.color.backgroundPrimary),
         topBar = {
             AnimatedVisibility(visible = hasTopBar) {
                 FilxTopAppBar(
@@ -58,7 +60,6 @@ fun MovieScaffold(
         },
         containerColor = Color.Transparent
     ) { _ ->
-
         AnimatedVisibility(
             visible = isLoading,
             enter = fadeIn(),
@@ -71,13 +72,13 @@ fun MovieScaffold(
             enter = fadeIn(),
             exit = fadeOut()
         ) {
-            ErrorAnimatedHandler(error!!, onError, onRetry)
+            ErrorAnimatedHandler(error ?: ErrorUiState(""), onError, onRetry, onClick)
         }
-////        val systemUiController = rememberSystemUiController()
-////        systemUiController.setSystemBarsColor(
-////            MaterialTheme.color.backgroundPrimary,
-////            darkIcons = false
-////        )
+        val systemUiController = rememberSystemUiController()
+        systemUiController.setSystemBarsColor(
+            MaterialTheme.color.backgroundPrimary,
+            darkIcons = false
+        )
         AnimatedVisibility(
             visible = !isLoading && (error == null),
             enter = fadeIn(),
@@ -93,32 +94,39 @@ fun MovieScaffold(
 fun ErrorAnimatedHandler(
     error: ErrorUiState,
     onError: @Composable () -> Unit = {},
-    onRetry: @Composable () -> Unit
+    onRetry: @Composable () -> Unit,
+    onClick: () -> Unit = {},
 ) {
-    ErrorViewer(error, onError, onRetry)
+    ErrorViewer(error, onError, onRetry, onClick)
 }
 
 @Composable
 fun ErrorViewer(
     error: ErrorUiState,
     onError: @Composable () -> Unit = {},
-    retryButton: @Composable () -> Unit = {}
+    retryButton: @Composable () -> Unit = {},
+    onClick: () -> Unit = {},
 ) {
     when (error) {
         is NullResultErrorState -> NoContent(retryButton = retryButton)
         is InvalidationErrorState -> LoginRequired(retryButton = retryButton)
-        is NetworkErrorState -> NetworkView(retryButton = retryButton)
+        is NetworkErrorState -> NetworkView(onClick = onClick)
         else -> onError()
     }
 }
 
 @Composable
-fun NetworkView(retryButton: @Composable () -> Unit = {}) {
+fun NetworkView(onClick: () -> Unit = {}) {
     ErrorPage(
         image = painterResource(id = R.drawable.vector_no_internet),
         title = "Internet is not available",
         description = "please make sure you are connected to the internet and try again",
-        retryButton = retryButton
+        retryButton = {
+            PrimaryButton(
+                onClick = { onClick() },
+                text = "Try Again",
+            )
+        }
     )
 }
 
@@ -174,7 +182,10 @@ fun ErrorPage(
             color = MaterialTheme.color.fontSecondary
         )
         Text(
-            modifier = Modifier.padding(top = MaterialTheme.spacing.spacing4),
+            modifier = Modifier.padding(
+                top = MaterialTheme.spacing.spacing4,
+                bottom = MaterialTheme.spacing.spacing48
+            ),
             text = description,
             style = Typography.displaySmall,
             color = MaterialTheme.color.fontAccent,

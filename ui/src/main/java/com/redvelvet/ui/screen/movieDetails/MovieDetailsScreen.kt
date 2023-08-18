@@ -12,41 +12,62 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.CustomMediaDetailsTopAppBar
 import com.redvelvet.ui.composable.MediaDetailsBackgroundContent
 import com.redvelvet.ui.composable.MovieScaffold
 import com.redvelvet.ui.composable.NavigationHandler
+import com.redvelvet.ui.screen.actor_details.navigateToActorDetails
+import com.redvelvet.ui.screen.seeall.navigateToSeeAllMovie
+import com.redvelvet.ui.screen.sellAllTopCast.navigateToSeeAllTopCast
 import com.redvelvet.ui.theme.color
-import com.redvelvet.viewmodel.movieDetails.MovieDetailsUiEvent
+import com.redvelvet.viewmodel.movieDetails.MovieDetailsUiEffect
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsViewModel
+import com.redvelvet.viewmodel.utils.SeeAllMovie
 
 @Composable
 fun MovieDetailsScreen(
-    viewModel: MovieDetailsViewModel = hiltViewModel()
+    viewModel: MovieDetailsViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
     var isScrolled by remember { mutableStateOf(false) }
     val systemUiController = rememberSystemUiController()
+    val navController = LocalNavController.current
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
     NavigationHandler(
         effects = viewModel.effect,
         handleEffect = { effect, navController ->
             when (effect) {
-                // TODO: DO NOT FORGET OT CHANGE THE NAVIGATIONS AND NAME OF UIEVENT INTO UIEFFECT
-                MovieDetailsUiEvent.NavigateToGenreScreen -> {}
-                MovieDetailsUiEvent.NavigateToMovieDetailsScreen -> {}
-                MovieDetailsUiEvent.NavigateToMovieImagesSeeAllScreen -> {}
-                MovieDetailsUiEvent.NavigateToMoviesSeeAllScreen -> {}
-                MovieDetailsUiEvent.NavigateToReviewDetailsScreen -> {}
-                MovieDetailsUiEvent.NavigateToReviewSeeAllScreen -> {}
-                MovieDetailsUiEvent.NavigateToTopCastDetailsScreen -> {}
-                MovieDetailsUiEvent.NavigateToTopCastSeeAllScreen -> {}
+                is MovieDetailsUiEffect.NavigateToGenreScreen -> {}
+                is MovieDetailsUiEffect.NavigateToMovieImagesSeeAllScreen -> {}
+                is MovieDetailsUiEffect.NavigateToReviewDetailsScreen -> {}
+                is MovieDetailsUiEffect.NavigateToReviewSeeAllScreen -> {}
+                is MovieDetailsUiEffect.NavigateToMovieDetailsScreen -> navController.navigateToMovieDetails(
+                    effect.id
+                )
+
+                is MovieDetailsUiEffect.NavigateToSimilarMoviesSeeAllScreen -> navController.navigateToSeeAllMovie(
+                    "",
+                    SeeAllMovie.SIMILAR
+                )
+
+                is MovieDetailsUiEffect.NavigateToRecommendedMoviesSeeAllScreen -> navController.navigateToSeeAllMovie(
+                    "",
+                    SeeAllMovie.RECOMMEND
+                )
+
+                is MovieDetailsUiEffect.NavigateToTopCastDetailsScreen -> navController.navigateToActorDetails(
+                    effect.id
+                )
+
+                is MovieDetailsUiEffect.NavigateToTopCastSeeAllScreen -> navController.navigateToSeeAllTopCast()
             }
         }
     )
     MovieScaffold(
         isLoading = state.isLoading,
-        error = state.error
+        error = state.error,
+        onClick = viewModel::refresh
     ) {
         Box(
             modifier = Modifier
@@ -64,7 +85,7 @@ fun MovieDetailsScreen(
             }
             CustomMediaDetailsTopAppBar(
                 // TODO: HANDLE THESE INTERACTIONS
-                onBackClicked = { /* Handle back clicked */ },
+                onBackClicked = { navController.popBackStack() },
                 onFavoriteClicked = { /* Handle favorite clicked */ },
                 onSaveClicked = { /* Handle save clicked */ },
                 isScrolled = isScrolled

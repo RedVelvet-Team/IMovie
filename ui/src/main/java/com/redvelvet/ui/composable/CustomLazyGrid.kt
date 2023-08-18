@@ -2,6 +2,7 @@ package com.redvelvet.ui.composable
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -67,8 +68,8 @@ fun CustomLazyGrid(
         ) {
             LoadingPage(
                 modifier = Modifier
-                    .size(42.dp)
-                    .padding(16.dp)
+                    .fillMaxWidth()
+                    .height(42.dp)
                     .wrapContentWidth(Alignment.CenterHorizontally),
             )
         }

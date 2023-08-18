@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
+import com.redvelvet.viewmodel.utils.SeeAllMovie
 
 @Composable
 fun ItemsSectionForDetailsScreens(
@@ -19,6 +20,7 @@ fun ItemsSectionForDetailsScreens(
     images: List<String> = emptyList(),
     hasName: Boolean = false,
     name: List<String> = emptyList(),
+    movieIds: List<Int> = emptyList(),
     hasCustomList: Boolean = false,
     customListItemComposable: @Composable ((index: Int) -> Unit)? = null,
     onClickSeeAll: () -> Unit = {},
@@ -29,7 +31,12 @@ fun ItemsSectionForDetailsScreens(
     country: List<String> = emptyList(),
     onClickItem: (id: Int) -> Unit = {},
 ) {
-    SectionHeader(label = label, modifier = headerModifier, onClickSeeAll = onClickSeeAll)
+    SectionHeader(
+        label = label,
+        modifier = headerModifier,
+        seeAllMovie = SeeAllMovie.POPULAR,
+        onClickSeeAll = { onClickSeeAll() }
+    )
     LazyRow(
         modifier = Modifier.padding(top = MaterialTheme.spacing.spacing8),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),
@@ -54,6 +61,7 @@ fun ItemsSectionForDetailsScreens(
                         .height(MaterialTheme.dimens.dimens130),
                     hasName = hasName,
                     name = if (hasName) name[it] else "",
+                    id = if (hasName) movieIds[it] else 298618,
                     hasDateAndCountry = hasDateAndCountry,
                     date = if (hasDateAndCountry) date[it] else "",
                     country = if (hasDateAndCountry) country[it] else "",

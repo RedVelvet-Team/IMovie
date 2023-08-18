@@ -2,13 +2,10 @@ package com.redvelvet.ui.composable
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import coil.size.Scale
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.spacing
 
@@ -21,9 +18,10 @@ fun MediaDetailsBackgroundContent(
     Box {
         BackgroundMediaImage(
             image = mediaImage,
-            placeholder = R.drawable.ic_launcher_background,
+            placeholder = R.drawable.login,
             contentDescription = R.string.movies_details_background_image,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            error = R.drawable.image_placeholder
         )
         PlayMedia(
             icon = R.drawable.play_media,
