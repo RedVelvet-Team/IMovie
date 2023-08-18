@@ -13,7 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -32,7 +31,7 @@ import com.redvelvet.ui.theme.spacing
 fun ItemSeason(
     id: Int,
     seriesId: Int,
-    imagePainter: Painter,
+    image: Painter,
     name: String,
     date: String,
     episodesNum: Int,

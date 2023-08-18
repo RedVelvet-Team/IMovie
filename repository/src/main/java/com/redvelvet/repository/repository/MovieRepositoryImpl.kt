@@ -19,11 +19,13 @@ import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.entities.tv.SeasonTvShow
 import com.redvelvet.entities.tv.TvShow
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
+import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.mapper.toMovie
 import com.redvelvet.repository.mapper.toActor
 import com.redvelvet.repository.mapper.toCombinedResult
 import com.redvelvet.repository.mapper.toDomain
 import com.redvelvet.repository.mapper.toSeasonTvShow
+import com.redvelvet.repository.mapper.toTvShow
 import com.redvelvet.repository.pagingSource.ActorSearchPageSource
 import com.redvelvet.repository.pagingSource.MoviesSearchPageSource
 import com.redvelvet.repository.pagingSource.MultiSearchPageSource

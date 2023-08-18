@@ -12,7 +12,7 @@ import com.redvelvet.ui.screen.movieDetails.movieDetailsRoute
 import com.redvelvet.ui.screen.onboarding.onBoardingRoute
 import com.redvelvet.ui.screen.search.searchRoute
 import com.redvelvet.ui.screen.seeAllUpcoming.seeAllUpcomingListRoute
-import com.redvelvet.ui.screen.seeall.seasons.SeeAllSeasonsRoute
+import com.redvelvet.ui.screen.seeallseasons.SeeAllSeasonsRoute
 import com.redvelvet.ui.screen.seeAllMovieImages.seeAllMovieImaesRoute
 import com.redvelvet.ui.screen.seeAllReviews.seeAllMovieReviewsRoute
 import com.redvelvet.ui.screen.seealltv.seeAllTvListRoute

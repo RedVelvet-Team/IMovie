@@ -1,4 +1,4 @@
-package com.redvelvet.ui.screen.seeall.seasons
+package com.redvelvet.ui.screen.seeallseasons
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -76,7 +76,7 @@ fun SeeAllSeasonsContent(state: SeeAllSeasonsUiState) {
                 items(state.seasons.size) { index ->
                     val seasons = state.seasons[index]
                     ItemSeason(
-                        imagePainter = rememberAsyncImagePainter(
+                        image = rememberAsyncImagePainter(
                             model = seasons.imageUrl,
                             placeholder = painterResource(id = R.drawable.image_placeholder),
                             error = painterResource(id = R.drawable.image_placeholder)
@@ -85,7 +85,10 @@ fun SeeAllSeasonsContent(state: SeeAllSeasonsUiState) {
                         date = seasons.airDate,
                         episodesNum = seasons.episodeCount,
                         description = seasons.description,
-                        rate = seasons.rate
+                        rate = seasons.rate,
+                        id = 0,
+                        seriesId = 0,
+                        onClickItem = {}
                     )
                 }
             }

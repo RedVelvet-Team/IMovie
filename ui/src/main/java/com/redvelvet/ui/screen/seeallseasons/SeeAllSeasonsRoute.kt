@@ -1,4 +1,4 @@
-package com.redvelvet.ui.screen.seeall.seasons
+package com.redvelvet.ui.screen.seeallseasons
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
