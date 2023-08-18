@@ -10,7 +10,22 @@ private val ROUTE = MovieDestination.SeeAllEpisodes.route
 
 fun NavGraphBuilder.upcomingRoute() {
     composable(route = MovieDestination.Upcoming.route) {
-        UpcomingScreen()
+        ComingScreen()
+    }
+}
+fun NavGraphBuilder.categoryRoute() {
+    composable(route = MovieDestination.Category.route) {
+        ComingScreen()
+    }
+}
+fun NavGraphBuilder.libraryRoute() {
+    composable(route = MovieDestination.Library.route) {
+        ComingScreen()
+    }
+}
+fun NavGraphBuilder.gameRoute() {
+    composable(route = MovieDestination.Game.route) {
+        ComingScreen()
     }
 }
 fun NavController.navigateToUpcoming(builder: NavOptionsBuilder.() -> Unit = {}) {

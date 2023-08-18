@@ -21,6 +21,9 @@ import com.redvelvet.ui.screen.sellAllTopCast.seeAllTopCastRoute
 import com.redvelvet.ui.screen.signup.signupRoute
 import com.redvelvet.ui.screen.splash.splashRoute
 import com.redvelvet.ui.screen.tvshowdetails.tvShowDetailsRoute
+import com.redvelvet.ui.screen.upcoming.categoryRoute
+import com.redvelvet.ui.screen.upcoming.gameRoute
+import com.redvelvet.ui.screen.upcoming.libraryRoute
 import com.redvelvet.ui.screen.upcoming.upcomingRoute
 
 @Composable
@@ -46,5 +49,8 @@ fun MovieNavGraph() {
         seeAllMovieReviewsRoute()
         seeAllEpisodeRoute()
         upcomingRoute()
+        categoryRoute()
+        libraryRoute()
+        gameRoute()
     }
 }

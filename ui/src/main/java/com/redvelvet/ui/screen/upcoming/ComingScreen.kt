@@ -16,8 +16,8 @@ import com.redvelvet.ui.theme.color
 
 @Preview(showSystemUi = true)
 @Composable
-fun UpcomingScreen(){
-    MovieScaffold(isLoading = false,title="Coming Soon", hasTopBar = true) {
+fun ComingScreen(){
+    MovieScaffold(isLoading = false,title="Coming Soon") {
         Box(
             modifier = Modifier
                 .fillMaxSize()
