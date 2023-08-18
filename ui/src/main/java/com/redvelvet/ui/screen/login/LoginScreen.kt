@@ -315,7 +315,7 @@ private fun LoginContentLandscape(
             modifier = Modifier
                 .align(AbsoluteAlignment.Right)
                 .padding(
-                    bottom = MaterialTheme.spacing.spacing16,
+                    bottom = MaterialTheme.spacing.spacing8,
                     end = MaterialTheme.spacing.spacing8
                 )
                 .clickable { interaction.onClickForgotPassword() },
@@ -333,7 +333,7 @@ private fun LoginContentLandscape(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    top = MaterialTheme.spacing.spacing12,
+                    top = MaterialTheme.spacing.spacing8,
                     start = MaterialTheme.spacing.spacing12,
                     end = MaterialTheme.spacing.spacing12
                 ),
