@@ -4,7 +4,6 @@ import androidx.paging.PagingData
 import com.redvelvet.entities.movie.Movie
 import com.redvelvet.viewmodel.base.BaseUiState
 import com.redvelvet.viewmodel.base.ErrorUiState
-import com.redvelvet.viewmodel.home.MovieUiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -14,6 +13,14 @@ data class SeeAllMovieUiState(
     val isLoading: Boolean = true,
     val error: ErrorUiState? = null
 ): BaseUiState
+
+data class MovieUiState(
+    val id: String = "",
+    val imageUrl: String = "",
+    val name: String = "",
+    val date: String = "",
+    val country: String = "",
+)
 
 
 fun Movie.toMovieUiState() = MovieUiState(
