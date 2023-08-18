@@ -25,7 +25,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
-import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
@@ -52,7 +51,7 @@ fun MovieScaffold(
     Scaffold(
         modifier = modifier
             .fillMaxSize()
-            .background(color = Primary),
+            .background(MaterialTheme.color.backgroundPrimary),
         topBar = {
             AnimatedVisibility(visible = hasTopBar) {
                 FilxTopAppBar(
