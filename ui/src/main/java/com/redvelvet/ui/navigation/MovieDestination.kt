@@ -20,6 +20,7 @@ sealed class MovieDestination(
     data object SeeAllTopCast : MovieDestination("seeAllTopCast")
     data object SeeAllMovieImages : MovieDestination("seeAllMovieImages")
     data object SeeAllMovieReviews : MovieDestination("seeAllMovieReviews")
+    data object Room : MovieDestination("room")
 
     data object Home : MovieDestination(
         "home",
