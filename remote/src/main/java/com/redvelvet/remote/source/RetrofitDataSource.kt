@@ -154,6 +154,14 @@ class RetrofitDataSource @Inject constructor(
         return wrapApiResponse { movieApiService.seeAllPopularTv(page) }.result.orEmpty()
     }
 
+    override suspend fun seeAllTopRatedTv(page: Int?): List<TvShowDto> {
+        return wrapApiResponse { movieApiService.seeAllTopRatedTv(page) }.result.orEmpty()
+    }
+
+    override suspend fun seeAllRecommendedTv(page: Int?, id: Int): List<TvShowDto> {
+        return wrapApiResponse { movieApiService.seeAllRecommendedMovieTv(id = id, page = page) }.result.orEmpty()
+    }
+
     override suspend fun getActorDetails(id: String): ActorDto {
         return wrapApiResponse { movieApiService.getActorDetails(id) }
     }

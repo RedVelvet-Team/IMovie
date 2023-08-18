@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -177,7 +178,9 @@ fun SearchField(
     PrimaryTextField(
         value = value,
         onTextChange = onTextChange,
-        modifier = Modifier.padding(
+        modifier = Modifier
+            .focusable(enabled = true)
+            .padding(
             top = MaterialTheme.dimens.dimens36,
             start = MaterialTheme.spacing.spacing16,
             end = MaterialTheme.spacing.spacing16

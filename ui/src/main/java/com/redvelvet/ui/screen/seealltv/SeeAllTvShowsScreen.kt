@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -62,7 +63,7 @@ private fun SeeAllTvShowsContent(tvShow: LazyPagingItems<ItemUiState>) {
         LazyVerticalGrid(
             contentPadding = PaddingValues(
                 horizontal = MaterialTheme.spacing.spacing16,
-                vertical = MaterialTheme.spacing.spacing64
+                vertical = MaterialTheme.spacing.spacing32
             ),
             columns = GridCells.Fixed(3),
             horizontalArrangement = Arrangement.spacedBy(
@@ -93,8 +94,8 @@ private fun SeeAllTvShowsContent(tvShow: LazyPagingItems<ItemUiState>) {
                 ) {
                     LoadingPage(
                         modifier = Modifier
-                            .size(42.dp)
-                            .padding(16.dp)
+                            .fillMaxWidth()
+                            .height(42.dp)
                             .wrapContentWidth(Alignment.CenterHorizontally),
                     )
                 }

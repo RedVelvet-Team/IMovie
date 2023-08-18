@@ -39,6 +39,8 @@ import com.redvelvet.repository.pagingSource.seeall.SeeAllUpcomingMoviesPageSour
 import com.redvelvet.repository.pagingSource.seealltv.SeeAllAiringTodayTvPageSource
 import com.redvelvet.repository.pagingSource.seealltv.SeeAllOnTheAirTvPageSource
 import com.redvelvet.repository.pagingSource.seealltv.SeeAllPopularTvPageSource
+import com.redvelvet.repository.pagingSource.seealltv.SeeAllRecommendedTvShowsPageSource
+import com.redvelvet.repository.pagingSource.seealltv.SeeAllTopRatedTvShowsPageSource
 import com.redvelvet.repository.source.LocalDataSource
 import com.redvelvet.repository.source.RemoteDataSource
 import com.redvelvet.usecase.repository.MovieRepository
@@ -173,6 +175,21 @@ class MovieRepositoryImpl @Inject constructor(
             seasonNumber
         ).episodeDto!!.map { it.toEpisodeDetails() }
     }
+
+    override suspend fun seeAllTopRatedTv(): Flow<PagingData<TvShow>> {
+        return seeAll(
+            sourceFactory = ::SeeAllTopRatedTvShowsPageSource,
+            mapper = TvShowDto::toTvShow
+        )
+    }
+
+    override suspend fun seeAllRecommendedTv(id: Int): Flow<PagingData<TvShow>> {
+        return seeAllWithId(
+            id = id,
+            sourceFactory = ::SeeAllRecommendedTvShowsPageSource,
+            mapper = TvShowDto::toTvShow
+        )
+    }
     //endregion
 
 
@@ -208,12 +225,12 @@ class MovieRepositoryImpl @Inject constructor(
 
     //region wrapper
     private fun <I : Any, O : Any> seeAll(
-        page: Int?,
+        page: Int? = null,
         sourceFactory: (RemoteDataSource) -> PagingSource<Int, I>,
         mapper: I.() -> O
     ): Flow<PagingData<O>> {
         return Pager(
-            config = PagingConfig(pageSize = page ?: DEFAULT_PAGE_SIZE),
+            config = PagingConfig(pageSize = DEFAULT_PAGE_SIZE),
             pagingSourceFactory = { sourceFactory(remoteDataSource) }
         ).flow.map { pagingData ->
             pagingData.map { it.mapper() }
