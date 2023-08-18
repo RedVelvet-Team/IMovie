@@ -54,7 +54,8 @@ fun ItemSeason(
                         crossfade(true)
                     }).build()
             ),
-            )
+            contentDescription = "image"
+        )
         Row(modifier = Modifier.padding(end = MaterialTheme.spacing.spacing8)) {
             Image(
                 painter = imagePainter,

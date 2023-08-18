@@ -19,6 +19,7 @@ import com.redvelvet.ui.screen.seeall.seeAllMovieListRoute
 import com.redvelvet.ui.screen.sellAllTopCast.seeAllTopCastRoute
 import com.redvelvet.ui.screen.signup.signupRoute
 import com.redvelvet.ui.screen.splash.splashRoute
+import com.redvelvet.ui.screen.tvshowdetails.tvShowDetailsRoute
 
 @Composable
 fun MovieNavGraph() {
@@ -35,6 +36,7 @@ fun MovieNavGraph() {
         signupRoute()
         forgotPasswordRoute()
         movieDetailsRoute()
+        tvShowDetailsRoute()
         seeAllTopCastRoute()
         seeAllMovieImaesRoute()
         seeAllMovieReviewsRoute()
