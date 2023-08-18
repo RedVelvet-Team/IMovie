@@ -77,11 +77,11 @@ fun MovieScaffold(
         ) {
             ErrorAnimatedHandler(error!!, onError, onRetry)
         }
-////        val systemUiController = rememberSystemUiController()
-////        systemUiController.setSystemBarsColor(
-////            MaterialTheme.color.backgroundPrimary,
-////            darkIcons = false
-////        )
+        val systemUiController = rememberSystemUiController()
+        systemUiController.setSystemBarsColor(
+            MaterialTheme.color.backgroundPrimary,
+            darkIcons = false
+        )
         AnimatedVisibility(
             visible = !isLoading && (error == null),
             enter = fadeIn(),
