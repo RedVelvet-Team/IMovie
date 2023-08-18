@@ -27,6 +27,7 @@ import com.redvelvet.repository.dto.tvShow.TvShowKeywordsDto
 import com.redvelvet.repository.dto.tvShow.TvShowTopCastDto
 import com.redvelvet.repository.dto.tvShow.TvShowVideosDto
 import com.redvelvet.repository.source.RemoteDataSource
+import okio.IOException
 import retrofit2.Response
 import java.net.UnknownHostException
 import javax.inject.Inject
@@ -191,24 +192,25 @@ class RetrofitDataSource @Inject constructor(
     private suspend fun <T> wrapApiResponse(
         request: suspend () -> Response<T>
     ): T {
-         try {
+        try {
             val response = request()
             if (response.isSuccessful) {
-                return response.body() ?: throw NullResultException("Empty data")
+                return response.body() ?: throw NullResultException("No data")
             } else {
                 throw when (response.code()) {
                     400 -> BadRequestException(response.message())
-                    401 -> ValidationException(response.message())
-                    404 -> NotFoundException(response.message())
-                    else -> ServerException(response.message())
+                    401 -> ValidationException("Invalid username or password")
+                    404 -> NotFoundException("Not found")
+                    else -> ServerException("Server error")
                 }
             }
         } catch (e: UnknownHostException) {
             throw NoInternetException("no Internet")
+        } catch (io: IOException) {
+            throw NoInternetException(io.message)
         }
     }
     //endregion
-
 
 
     //region tvShow

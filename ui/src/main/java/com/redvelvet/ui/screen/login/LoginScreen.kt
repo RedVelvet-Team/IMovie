@@ -44,7 +44,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
-import com.redvelvet.ui.composable.MovieScaffold
 import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.PrimaryOutlinedButton
 import com.redvelvet.ui.composable.PrimaryTextField
@@ -88,7 +87,7 @@ fun LoginScreen(
 
                 is LoginUiEffect.ShowToastError -> {
                     uiState.error?.let { error ->
-                        Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
                     }
                 }
 
@@ -116,36 +115,27 @@ private fun LoginScreenContent(
     val imageBitmap: ImageBitmap = ImageBitmap.imageResource(context.resources, R.drawable.login)
 
     AnimatedVisibility(LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT) {
-        MovieScaffold(
-            title = "",
-            isLoading = uiState.isLoading,
-            error = uiState.error,
-            modifier = Modifier.fillMaxWidth(),
-            hasBackArrow = true,
-            hasTopBar = false
-        ) {
-            Box {
-                Image(
-                    bitmap = imageBitmap,
-                    contentDescription = "Login Image",
-                    modifier = Modifier
-                        .height(MaterialTheme.dimens.dimens365)
-                        .fillMaxWidth(),
-                    contentScale = ContentScale.FillBounds
+        Box {
+            Image(
+                bitmap = imageBitmap,
+                contentDescription = "Login Image",
+                modifier = Modifier
+                    .height(MaterialTheme.dimens.dimens365)
+                    .fillMaxWidth(),
+                contentScale = ContentScale.FillBounds
+            )
+            Card(
+                modifier = Modifier
+                    .padding(top = MaterialTheme.spacing.spacing285)
+                    .fillMaxWidth()
+                    .shadow(MaterialTheme.spacing.spacing0),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.color.backgroundPrimary),
+                shape = RoundedCornerShape(
+                    topStart = MaterialTheme.radius.radius32,
+                    topEnd = MaterialTheme.radius.radius32
                 )
-                Card(
-                    modifier = Modifier
-                        .padding(top = MaterialTheme.spacing.spacing285)
-                        .fillMaxWidth()
-                        .shadow(MaterialTheme.spacing.spacing0),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.color.backgroundPrimary),
-                    shape = RoundedCornerShape(
-                        topStart = MaterialTheme.radius.radius32,
-                        topEnd = MaterialTheme.radius.radius32
-                    )
-                ) {
-                    LoginContentPortrait(uiState = uiState, interaction = interaction)
-                }
+            ) {
+                LoginContentPortrait(uiState = uiState, interaction = interaction)
             }
         }
     }
