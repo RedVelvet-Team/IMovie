@@ -31,8 +31,10 @@ import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.MovieScaffold
 import com.redvelvet.ui.composable.TabContentDisplay
 import com.redvelvet.ui.composable.rememberAsyncFlixImage
+import com.redvelvet.ui.screen.movieDetails.navigateToMovieDetails
 import com.redvelvet.ui.screen.seeall.navigateToSeeAllMovie
 import com.redvelvet.ui.screen.seealltv.navigateSeeAllTvShow
+import com.redvelvet.ui.screen.tvshowdetails.navigateToTvShowDetails
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
@@ -52,7 +54,9 @@ fun HomeScreen(
         hasTopBar = true,
         hasBackArrow = false,
     ) {
-        HomeScreenContent(state)
+        HomeScreenContent(
+            state = state,
+          )
     }
 }
 
@@ -141,7 +145,7 @@ fun HomeScreenContent(
                         state = state,
                         pagerState = pagerState,
                         "Popular Series",
-                        state.tvShowCategories[0].items
+                        state.tvShowCategories[0].items,
                     )
                 }
             }
@@ -197,6 +201,9 @@ fun MovieContent(
                 id = null,
                 type = seeAllMovie
             )
+        },
+        onClickItem = {id ->
+            navController.navigateToMovieDetails(id)
         }
     )
 }
@@ -207,13 +214,13 @@ fun SeriesContent(
     state: HomeUiState,
     pagerState: PagerState,
     label: String,
-    viewpagerList: List<ItemUiState>
+    viewpagerList: List<ItemUiState>,
 ) {
     val navController = LocalNavController.current
     TabContentDisplay(
         pagerState = pagerState,
-        label = label,
         viewpagerList = viewpagerList,
+        label = label,
         categories = state.tvShowCategories,
         titles = state.tvShowCategories.map { tvShowCategory -> tvShowCategory.title },
         imagePainters = state.tvShowCategories.map { tvShowCategoryUiState ->
@@ -221,13 +228,13 @@ fun SeriesContent(
                 rememberAsyncFlixImage(image = tvShowUiState.image)
             }
         },
-        hasName = true,
-        hasDateAndCountry = true,
         names = state.tvShowCategories.map { tvShowCategoryUiState ->
             tvShowCategoryUiState.items.map { tvShowUiState ->
                 tvShowUiState.name
             }
         },
+        hasName = true,
+        hasDateAndCountry = true,
         dates = state.tvShowCategories.map { tvShowCategoryUiState ->
             tvShowCategoryUiState.items.map { tvShowUiState ->
                 tvShowUiState.date
@@ -240,6 +247,9 @@ fun SeriesContent(
         },
         onClickSeeAll = {
             navController.navigateSeeAllTvShow(id=null, type = SeeAllTvShows.TOP_RATED)
+        },
+        onClickItem = { id ->
+            navController.navigateToTvShowDetails(id)
         }
     )
 }

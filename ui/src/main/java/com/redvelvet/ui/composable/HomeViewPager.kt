@@ -2,6 +2,7 @@ package com.redvelvet.ui.composable
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -40,6 +41,7 @@ fun HomeViewPager(
     label: String = "Popular",
     items: List<ItemUiState>,
     onClickSeeAll: (SeeAllMovie) -> Unit = {},
+    onClickItem: (String) -> Unit,
 ) {
     Column {
         SectionHeader(label = label, onClickSeeAll =onClickSeeAll, seeAllMovie = SeeAllMovie.POPULAR)
@@ -51,6 +53,7 @@ fun HomeViewPager(
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth()
                     .height(210.dp)
+                    .clickable { onClickItem(items[it].id) }
                     .padding(top = 8.dp)
             ) {
                 Box(modifier = Modifier.fillMaxSize()) {

@@ -1,5 +1,6 @@
 package com.redvelvet.ui.composable
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
@@ -25,7 +26,8 @@ fun ItemsSection(
     dates: List<String> = emptyList(),
     countries: List<String> = emptyList(),
     seeAllMovie: SeeAllMovie,
-    onClickSeeAll: (SeeAllMovie) -> Unit = {}
+    onClickSeeAll: (SeeAllMovie) -> Unit = {},
+    onClickItem: (String) -> Unit
 ) {
     SectionHeader(
         label = label,
@@ -43,7 +45,8 @@ fun ItemsSection(
                 imagePainter = imagesPainters[it],
                 modifier = Modifier
                     .width(MaterialTheme.dimens.dimens104)
-                    .height(MaterialTheme.dimens.dimens176),
+                    .height(MaterialTheme.dimens.dimens176)
+                    .clickable {  },
                 hasName = hasName,
                 name = if (names.isNotEmpty()) names[it] else "",
                 hasDateAndCountry = hasDateAndCountry,

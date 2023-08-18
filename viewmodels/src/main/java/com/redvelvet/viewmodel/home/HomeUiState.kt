@@ -1,5 +1,6 @@
 package com.redvelvet.viewmodel.home
 
+import com.redvelvet.entities.movie.Movie
 import com.redvelvet.entities.movie.details.MovieDetails
 import com.redvelvet.viewmodel.base.BaseUiState
 import com.redvelvet.viewmodel.base.ErrorUiState
@@ -8,7 +9,7 @@ import com.redvelvet.viewmodel.utils.Constants.BASE_IMAGE_URL
 data class HomeUiState(
     val movieCategories: List<ItemsUiState> = emptyList(),
     val tvShowCategories: List<ItemsUiState> = emptyList(),
-    val tabLayoutTitles: List<String> = emptyList(),
+    val tabLayoutTitles: List<String> = listOf("Movies", "TV Shows"),
     val isLoading: Boolean = true,
     val isError: ErrorUiState? = null,
 ) : BaseUiState
@@ -27,12 +28,13 @@ data class ItemUiState(
     val country: String = "",
 )
 
-fun MovieDetails.toItemUiState(): ItemUiState {
+
+fun Movie.toItemUiState(): ItemUiState {
     return ItemUiState(
         id = id.toString(),
-        image = BASE_IMAGE_URL + posterPath,
-        name = title,
+        image = BASE_IMAGE_URL + this.movieImageUrl,
+        name = this.name,
         date = releaseDate,
-        country = productionCountries[0].name
+        country = this.country
     )
 }

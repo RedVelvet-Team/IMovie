@@ -1,5 +1,6 @@
 package com.redvelvet.usecase.usecase.movie
 
+import com.redvelvet.entities.movie.Movie
 import com.redvelvet.entities.movie.details.MovieDetails
 import com.redvelvet.usecase.repository.MovieRepository
 import kotlinx.coroutines.async
@@ -10,17 +11,17 @@ class GetMoviesCategories @Inject constructor(
     private val movieRepository: MovieRepository,
 ) {
     private val limit = 10
-    suspend operator fun invoke(): List<List<MovieDetails>> {
+    suspend operator fun invoke(): List<List<Movie>> {
         return coroutineScope {
-            val popularMovies = async { getPopularMovies().take(limit) }
-            val upComingMovies = async { getUpComingMovies().take(limit) }
-            val topRatedMovies = async { getTopRatedMovies().take(limit)}
-            val nowPlayingMovies = async { getNowPlayingMovies().take(limit) }
+            val popularMovies = async { getPopularMovies() }
+            val upComingMovies = async { getUpComingMovies() }
+            val nowPlayingMovies = async { getNowPlayingMovies()}
+            val topRatedMovies = async { getTopRatedMovies() }
             listOf(
                 popularMovies.await(),
                 upComingMovies.await(),
-                topRatedMovies.await(),
-                nowPlayingMovies.await()
+                nowPlayingMovies.await(),
+                topRatedMovies.await()
             )
         }
     }

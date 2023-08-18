@@ -1,9 +1,14 @@
 package com.redvelvet.viewmodel.home
 
+import android.util.Log
+import com.redvelvet.entities.movie.Movie
 import com.redvelvet.entities.movie.details.MovieDetails
+import com.redvelvet.entities.tv.TvShow
+import com.redvelvet.usecase.usecase.GetTvShowsCategoriesUseCase
 import com.redvelvet.usecase.usecase.movie.GetMoviesCategories
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
+import com.redvelvet.viewmodel.seeall.tv.toTvShowUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
@@ -11,10 +16,12 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getMoviesCategories: GetMoviesCategories,
+    private val getSeriesCategories: GetTvShowsCategoriesUseCase
 ) : BaseViewModel<HomeUiState, Unit>(HomeUiState()) {
 
     init {
-        fakeData()
+        getPopularMovies()
+        getTvCategories()
     }
 
     private fun getPopularMovies() {
@@ -30,12 +37,84 @@ class HomeViewModel @Inject constructor(
             onError = ::onError,
         )
     }
+    private fun getTvCategories() {
+        _state.update {
+            it.copy(
+                isLoading = true,
+                isError = null
+            )
+        }
+        tryToExecute(
+            execute = {getSeriesCategories()},
+            onSuccessWithData = ::onSuccesTv,
+            onError = ::onError,
+        )
+    }
 
-    private fun onSuccessMovies(movies: List<List<MovieDetails>>) {
+
+    private fun onSuccessMovies(movies: List<List<Movie>>) {
+        movies.forEach{
+            Log.v("hass", it.toString())
+        }
         _state.update {
             it.copy(
                 isLoading = false,
                 isError = null,
+                movieCategories = listOf(
+                    ItemsUiState(
+                        title = "Popular Movies",
+                        items = movies[0].map { it.toItemUiState() },
+                        hasMore = true
+                    ),
+                    ItemsUiState(
+                        title = "Now Playing",
+                        items = movies[1].map { it.toItemUiState() },
+                        hasMore = true
+                    ),
+                    ItemsUiState(
+                        title = "Upcoming",
+                        items = movies[2].map { it.toItemUiState() },
+                        hasMore = true
+                    ),
+                    ItemsUiState(
+                        title = "Top Rated",
+                        items = movies[3].map { it.toItemUiState() },
+                        hasMore = true
+                    ),
+                )
+            )
+        }
+    }
+    private fun onSuccesTv(movies: List<List<TvShow>>) {
+        movies.forEach{
+            Log.v("hass", it.toString())
+        }
+        _state.update {
+            it.copy(
+                isLoading = false,
+                isError = null,
+                tvShowCategories = listOf(
+                    ItemsUiState(
+                        title = "Popular Series",
+                        items = movies[0].map { it.toTvShowUiState() },
+                        hasMore = true
+                    ),
+                    ItemsUiState(
+                        title = "Airing Today",
+                        items = movies[1].map { it.toTvShowUiState() },
+                        hasMore = true
+                    ),
+                    ItemsUiState(
+                        title = "On TV",
+                        items = movies[2].map { it.toTvShowUiState() },
+                        hasMore = true
+                    ),
+                    ItemsUiState(
+                        title = "Top Rated",
+                        items = movies[3].map { it.toTvShowUiState() },
+                        hasMore = true
+                    ),
+                )
             )
         }
     }
