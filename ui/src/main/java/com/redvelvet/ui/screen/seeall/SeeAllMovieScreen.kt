@@ -1,6 +1,7 @@
 package com.redvelvet.ui.screen.seeall
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +32,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.ItemBasicCard
 import com.redvelvet.ui.composable.LoadingPage
+import com.redvelvet.ui.composable.LoginRequired
 import com.redvelvet.ui.composable.MovieScaffold
 import com.redvelvet.ui.screen.movieDetails.navigateToMovieDetails
 import com.redvelvet.ui.theme.color
@@ -56,7 +58,10 @@ fun SeeAllMovieScreen(
     ) {
         SeeAllMovieContent(
             movies = state.movies.collectAsLazyPagingItems(),
-            onClickCard = { id -> navController.navigateToMovieDetails(id) }
+            onClickCard = { id ->
+                Log.v("bug", id)
+                navController.navigateToMovieDetails(id)
+            }
         )
     }
 }
