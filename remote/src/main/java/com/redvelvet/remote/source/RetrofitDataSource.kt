@@ -8,6 +8,7 @@ import com.redvelvet.entities.error.ServerException
 import com.redvelvet.entities.error.ValidationException
 import com.redvelvet.remote.service.MovieApiService
 import com.redvelvet.repository.dto.ActorKnownForDto
+import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
@@ -27,6 +28,7 @@ import com.redvelvet.repository.dto.tvShow.TvShowKeywordsDto
 import com.redvelvet.repository.dto.tvShow.TvShowTopCastDto
 import com.redvelvet.repository.dto.tvShow.TvShowVideosDto
 import com.redvelvet.repository.source.RemoteDataSource
+import okio.IOException
 import retrofit2.Response
 import java.net.UnknownHostException
 import javax.inject.Inject
@@ -159,7 +161,9 @@ class RetrofitDataSource @Inject constructor(
     override suspend fun getActorKnownFor(id: String): ActorKnownForDto {
         return wrapApiResponse { movieApiService.getActorKnownFor(id) }
     }
-
+    override suspend fun getAllEpisodes(tvId: String, seasonNumber: Int): SeasonDetailsDto {
+        return wrapApiResponse { movieApiService.getAllEpisodes(tvId,seasonNumber) }
+    }
     // endregion
     //region see all
     override suspend fun seeAllPopularMovie(page: Int?): List<MovieDetailsDTO> {
@@ -191,24 +195,25 @@ class RetrofitDataSource @Inject constructor(
     private suspend fun <T> wrapApiResponse(
         request: suspend () -> Response<T>
     ): T {
-         try {
+        try {
             val response = request()
             if (response.isSuccessful) {
-                return response.body() ?: throw NullResultException("Empty data")
+                return response.body() ?: throw NullResultException("No data")
             } else {
                 throw when (response.code()) {
                     400 -> BadRequestException(response.message())
-                    401 -> ValidationException(response.message())
-                    404 -> NotFoundException(response.message())
-                    else -> ServerException(response.message())
+                    401 -> ValidationException("Invalid username or password")
+                    404 -> NotFoundException("Not found")
+                    else -> ServerException("Server error")
                 }
             }
         } catch (e: UnknownHostException) {
             throw NoInternetException("no Internet")
+        } catch (io: IOException) {
+            throw NoInternetException(io.message)
         }
     }
     //endregion
-
 
 
     //region tvShow

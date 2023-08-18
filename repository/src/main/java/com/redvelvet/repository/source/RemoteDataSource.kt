@@ -1,6 +1,7 @@
 package com.redvelvet.repository.source
 
 import com.redvelvet.repository.dto.ActorKnownForDto
+import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
@@ -59,6 +60,8 @@ interface RemoteDataSource {
     suspend fun getActorDetails(id: String): ActorDto
 
     suspend fun getActorKnownFor(id: String) : ActorKnownForDto
+    suspend fun getAllEpisodes(tvId:String,seasonNumber: Int): SeasonDetailsDto
+
 
     //region see all
     suspend fun seeAllPopularMovie(page: Int?): List<MovieDetailsDTO>
