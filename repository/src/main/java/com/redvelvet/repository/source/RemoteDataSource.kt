@@ -48,6 +48,9 @@ interface RemoteDataSource {
     suspend fun seeAllAiringTodayTv(page: Int?): List<TvShowDto>
     suspend fun seeAllOnTheAir(page: Int?): List<TvShowDto>
     suspend fun seeAllPopularTv(page: Int?): List<TvShowDto>
+    suspend fun seeAllTopRatedTv(page: Int?): List<TvShowDto>
+    suspend fun seeAllRecommendedTv(page: Int?, id: Int): List<TvShowDto>
+
 
     //endregion
 
@@ -72,8 +75,8 @@ interface RemoteDataSource {
     suspend fun seeAllPopularMovie(page: Int?): List<MovieDetailsDTO>
     suspend fun seeAllUpcomingMovie(page: Int?): List<MovieDetailsDTO>
     suspend fun seeAllNowPlayingMovie(page: Int?): List<MovieDetailsDTO>
-    suspend fun seeAllTopRatedMovie(page: Int?): List<MovieDetailsDTO>
     suspend fun seeAllSimilarMovie(page: Int?, id: Int): List<MovieDetailsDTO>
+    suspend fun seeAllTopRatedMovie(page: Int?): List<MovieDetailsDTO>
     suspend fun seeAllRecommendedMovie(page: Int?, id: Int): List<MovieDetailsDTO>
     //endregion
 

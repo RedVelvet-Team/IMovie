@@ -41,14 +41,29 @@ class SeeAllTvViewModel @Inject constructor(
 
             SeeAllTvShows.TOP_RATED.name -> {
                 _state.update { it.copy(title = "Top Rated") }
+                getTopRated()
             }
-
-            SeeAllTvShows.RECOMMEND.name -> {
-                _state.update { it.copy(title = "Recommend") }
+            SeeAllTvShows.RECOMMEND.name ->{
+                _state.update { it.copy(title = "Recommendation") }
+                getRecommended()
             }
-
-            else -> {}
         }
+    }
+
+    private fun getTopRated() {
+        tryToExecutePaging(
+            call = { getAllSeries.getTopRatedTv() },
+            onSuccess = ::onSuccess,
+            onError = ::onError
+        )
+    }
+
+    private fun getRecommended() {
+        tryToExecutePaging(
+            call = { getAllSeries.getRecommendedTv(args.id?.toInt() ?: 0) },
+            onSuccess = ::onSuccess,
+            onError = ::onError
+        )
     }
 
     private fun getPopular() {

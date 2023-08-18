@@ -27,8 +27,8 @@ interface MovieRepository {
     suspend fun seeAllPopularMovie(page: Int?): Flow<PagingData<Movie>>
     suspend fun seeAllUpcomingMovie(page: Int?): Flow<PagingData<Movie>>
     suspend fun seeAllNowPlayingMovie(page: Int?): Flow<PagingData<Movie>>
-    suspend fun seeAllTopRatedMovie(page: Int?): Flow<PagingData<Movie>>
     suspend fun seeAllSimilarMovie(id: Int): Flow<PagingData<Movie>>
+    suspend fun seeAllTopRatedMovie(page: Int?): Flow<PagingData<Movie>>
     suspend fun seeAllRecommendedMovie(id: Int): Flow<PagingData<Movie>>
 
     //endregion
@@ -42,6 +42,8 @@ interface MovieRepository {
     suspend fun seeAllOnTheAir(page: Int?): Flow<PagingData<TvShow>>
     suspend fun seeAllPopularTv(page: Int?): Flow<PagingData<TvShow>>
     suspend fun getAllEpisodes(tvId: String, seasonNumber: Int): List<EpisodeDetails>
+    suspend fun seeAllTopRatedTv(): Flow<PagingData<TvShow>>
+    suspend fun seeAllRecommendedTv(id: Int): Flow<PagingData<TvShow>>
     //endregion
 
     //region Movie Details

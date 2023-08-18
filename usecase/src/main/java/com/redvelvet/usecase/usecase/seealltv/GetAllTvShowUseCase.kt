@@ -22,4 +22,12 @@ class GetAllTvSeriesUseCase @Inject constructor(
         return repo.seeAllPopularTv(page = null)
     }
 
+    suspend fun getTopRatedTv(): Flow<PagingData<TvShow>> {
+        return repo.seeAllTopRatedTv()
+    }
+
+    suspend fun getRecommendedTv(id: Int): Flow<PagingData<TvShow>> {
+        return repo.seeAllRecommendedTv(id)
+    }
+
 }
