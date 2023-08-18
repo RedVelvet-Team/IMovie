@@ -204,6 +204,22 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun getMovieTopCastByID(movieId: Int): MovieTopCast {
         return remoteDataSource.getMovieTopCastByID(movieId).toDomain()
     }
+
+    override suspend fun getPopularMovies(): List<MovieDetails> {
+        return remoteDataSource.getPopularMovies().map { it.toDomain() }
+    }
+
+    override suspend fun getUpComingMovies(): List<MovieDetails> {
+        return remoteDataSource.getUpComingMovies().map { it.toDomain() }
+    }
+
+    override suspend fun getTopRatedMovies(): List<MovieDetails> {
+        return remoteDataSource.getTopRatedMovies().map { it.toDomain() }
+    }
+
+    override suspend fun getNowPlayingMovies(): List<MovieDetails> {
+        return remoteDataSource.getNowPlayingMovies().map { it.toDomain() }
+    }
     //endregion
 
     //region wrapper

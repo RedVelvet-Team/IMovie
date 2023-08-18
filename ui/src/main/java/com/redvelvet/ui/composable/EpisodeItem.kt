@@ -1,5 +1,6 @@
 package com.redvelvet.ui.composable
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.Typography
@@ -36,17 +38,22 @@ fun EpisodeItem(
             .background(Color.Transparent)
             .fillMaxWidth()
     ) {
-        rememberAsyncFlixImage(
-            image = image,
+        Image(
+            painter = rememberAsyncFlixImage(
+                image = image,
+            ),
             modifier = modifier
                 .width(MaterialTheme.dimens.dimens140)
                 .height(MaterialTheme.dimens.dimens88)
                 .clip(shape = RoundedCornerShape(MaterialTheme.radius.radius16)),
+            contentDescription = "Image",
+            contentScale = ContentScale.Crop
         )
         Column(
             modifier
                 .fillMaxHeight()
-                .padding(start = MaterialTheme.spacing.spacing12)) {
+                .padding(start = MaterialTheme.spacing.spacing12)
+        ) {
             NameWithRatingRow(name = name, rating = rate, textNameStyle = Typography.headlineSmall)
             TextStyleForDate(
                 text = date,
