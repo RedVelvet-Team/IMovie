@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
+import com.redvelvet.viewmodel.utils.SeeAllMovie
 
 @Composable
 fun ItemsSection(
@@ -22,9 +23,16 @@ fun ItemsSection(
     names: List<String> = emptyList(),
     hasDateAndCountry: Boolean = false,
     dates: List<String> = emptyList(),
-    countries: List<String> = emptyList()
+    countries: List<String> = emptyList(),
+    seeAllMovie: SeeAllMovie,
+    onClickSeeAll: (SeeAllMovie) -> Unit = {}
 ) {
-    SectionHeader(label = label, modifier = modifier)
+    SectionHeader(
+        label = label,
+        modifier = modifier,
+        onClickSeeAll = onClickSeeAll,
+        seeAllMovie = seeAllMovie
+    )
     LazyRow(
         modifier = Modifier.padding(top = MaterialTheme.spacing.spacing8),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),

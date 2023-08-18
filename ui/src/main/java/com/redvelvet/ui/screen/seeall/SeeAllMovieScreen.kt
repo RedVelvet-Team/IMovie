@@ -26,12 +26,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.ItemBasicCard
 import com.redvelvet.ui.composable.LoadingPage
 import com.redvelvet.ui.composable.MovieScaffold
+import com.redvelvet.ui.composable.rememberAsyncFlixImage
 import com.redvelvet.ui.screen.movieDetails.navigateToMovieDetails
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
@@ -56,7 +56,9 @@ fun SeeAllMovieScreen(
     ) {
         SeeAllMovieContent(
             movies = state.movies.collectAsLazyPagingItems(),
-            onClickCard = { id -> navController.navigateToMovieDetails(id) }
+            onClickCard = { id ->
+                navController.navigateToMovieDetails(id)
+            }
         )
     }
 }
@@ -70,7 +72,7 @@ private fun SeeAllMovieContent(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.color.backgroundPrimary)
-            .padding(top = MaterialTheme.spacing.spacing64)
+            .padding(top = MaterialTheme.spacing.spacing32)
     ) {
         LazyVerticalGrid(
             contentPadding = PaddingValues(
@@ -89,7 +91,7 @@ private fun SeeAllMovieContent(
         ) {
             items(movies.itemCount) {
                 ItemBasicCard(
-                    imagePainter = rememberAsyncImagePainter(model = movies[it]!!.imageUrl),
+                    imagePainter = rememberAsyncFlixImage(image = movies[it]!!.imageUrl),
                     hasName = true,
                     name = movies[it]!!.name,
                     hasDateAndCountry = true,

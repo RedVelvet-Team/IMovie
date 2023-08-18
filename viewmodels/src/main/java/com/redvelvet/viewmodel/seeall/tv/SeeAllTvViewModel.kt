@@ -9,7 +9,6 @@ import com.redvelvet.entities.tv.TvShow
 import com.redvelvet.usecase.usecase.seealltv.GetAllTvSeriesUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
-import com.redvelvet.viewmodel.seeall.movie.SeeAllMovieArgs
 import com.redvelvet.viewmodel.utils.SeeAllTvShows
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.flowOf
@@ -40,8 +39,31 @@ class SeeAllTvViewModel @Inject constructor(
                 getOnTheAir()
             }
 
-            else -> {}
+            SeeAllTvShows.TOP_RATED.name -> {
+                _state.update { it.copy(title = "Top Rated") }
+                getTopRated()
+            }
+            SeeAllTvShows.RECOMMEND.name ->{
+                _state.update { it.copy(title = "Recommendation") }
+                getRecommended()
+            }
         }
+    }
+
+    private fun getTopRated() {
+        tryToExecutePaging(
+            call = { getAllSeries.getTopRatedTv() },
+            onSuccess = ::onSuccess,
+            onError = ::onError
+        )
+    }
+
+    private fun getRecommended() {
+        tryToExecutePaging(
+            call = { getAllSeries.getRecommendedTv(args.id?.toInt() ?: 0) },
+            onSuccess = ::onSuccess,
+            onError = ::onError
+        )
     }
 
     private fun getPopular() {

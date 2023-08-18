@@ -31,12 +31,18 @@ import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.viewmodel.home.ItemUiState
+import com.redvelvet.viewmodel.utils.SeeAllMovie
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun HomeViewPager(state: PagerState, label: String = "Popular", items: List<ItemUiState>) {
+fun HomeViewPager(
+    state: PagerState,
+    label: String = "Popular",
+    items: List<ItemUiState>,
+    onClickSeeAll: (SeeAllMovie) -> Unit = {},
+) {
     Column {
-        SectionHeader(label = label)
+        SectionHeader(label = label, onClickSeeAll =onClickSeeAll, seeAllMovie = SeeAllMovie.POPULAR)
         HorizontalPager(state = state) {
             Card(
                 onClick = { /*TODO*/ },
@@ -70,7 +76,6 @@ fun HomeViewPager(state: PagerState, label: String = "Popular", items: List<Item
                             painter = painterResource(id = R.drawable.blur),
                             contentDescription = ""
                         )
-
                     }
                     Text(
                         text = items[it].name,

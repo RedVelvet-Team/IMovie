@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -146,7 +148,6 @@ fun EmptyContent(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
                 Image(
                     painter = painterResource(R.drawable.vector_serach),
                     contentDescription = stringResource(R.string.search_empty)
@@ -161,7 +162,8 @@ fun EmptyContent(
                 Text(
                     text = stringResource(R.string.search_for_your_favorite_movies_and_tv_shows_that_you_love),
                     style = Typography.displaySmall,
-                    color = FontAccent
+                    color = FontAccent,
+                    textAlign = TextAlign.Center
                 )
             }
         }
@@ -177,7 +179,9 @@ fun SearchField(
     PrimaryTextField(
         value = value,
         onTextChange = onTextChange,
-        modifier = Modifier.padding(
+        modifier = Modifier
+            .focusable(enabled = true)
+            .padding(
             top = MaterialTheme.dimens.dimens36,
             start = MaterialTheme.spacing.spacing16,
             end = MaterialTheme.spacing.spacing16

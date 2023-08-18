@@ -22,10 +22,10 @@ import com.redvelvet.ui.theme.spacing
 fun TextWithIcon(
     text:String,
     modifier: Modifier = Modifier,
-    icon: Painter = painterResource(id = R.drawable.icon_star_filled),
+    icon:Painter = painterResource(id = R.drawable.icon_star_filled),
     textNameStyle: TextStyle = Typography.labelSmall,
     color : Color = MaterialTheme.color.fontPrimary
-) {
+    ) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,

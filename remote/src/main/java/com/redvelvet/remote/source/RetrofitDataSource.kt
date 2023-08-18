@@ -8,10 +8,18 @@ import com.redvelvet.entities.error.ServerException
 import com.redvelvet.entities.error.ValidationException
 import com.redvelvet.remote.service.MovieApiService
 import com.redvelvet.repository.dto.ActorKnownForDto
+import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
+import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
+import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
+import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
+import com.redvelvet.repository.dto.movie.details.MovieRecommendationsDTO
+import com.redvelvet.repository.dto.movie.details.MovieReviewsDTO
+import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
+import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
 import com.redvelvet.repository.dto.person.ActorDto
 import com.redvelvet.repository.dto.search.CombinedResultDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
@@ -28,6 +36,7 @@ import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
 import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
 import com.redvelvet.repository.dto.tvShow.TvShowDetailsDto
 import com.redvelvet.repository.source.RemoteDataSource
+import okio.IOException
 import retrofit2.Response
 import java.net.UnknownHostException
 import javax.inject.Inject
@@ -153,12 +162,24 @@ class RetrofitDataSource @Inject constructor(
         return wrapApiResponse { movieApiService.seeAllPopularTv(page) }.result.orEmpty()
     }
 
+    override suspend fun seeAllTopRatedTv(page: Int?): List<TvShowDto> {
+        return wrapApiResponse { movieApiService.seeAllTopRatedTv(page) }.result.orEmpty()
+    }
+
+    override suspend fun seeAllRecommendedTv(page: Int?, id: Int): List<TvShowDto> {
+        return wrapApiResponse { movieApiService.seeAllRecommendedMovieTv(id = id, page = page) }.result.orEmpty()
+    }
+
     override suspend fun getActorDetails(id: String): ActorDto {
         return wrapApiResponse { movieApiService.getActorDetails(id) }
     }
 
     override suspend fun getActorKnownFor(id: String): ActorKnownForDto {
         return wrapApiResponse { movieApiService.getActorKnownFor(id) }
+    }
+
+    override suspend fun getAllEpisodes(tvId: String, seasonNumber: Int): SeasonDetailsDto {
+        return wrapApiResponse { movieApiService.getAllEpisodes(tvId, seasonNumber) }
     }
 
     // endregion
@@ -192,24 +213,25 @@ class RetrofitDataSource @Inject constructor(
     private suspend fun <T> wrapApiResponse(
         request: suspend () -> Response<T>
     ): T {
-         try {
+        try {
             val response = request()
             if (response.isSuccessful) {
-                return response.body() ?: throw NullResultException("Empty data")
+                return response.body() ?: throw NullResultException("No data")
             } else {
                 throw when (response.code()) {
                     400 -> BadRequestException(response.message())
-                    401 -> ValidationException(response.message())
-                    404 -> NotFoundException(response.message())
-                    else -> ServerException(response.message())
+                    401 -> ValidationException("Invalid username or password")
+                    404 -> NotFoundException("Not found")
+                    else -> ServerException("Server error")
                 }
             }
         } catch (e: UnknownHostException) {
             throw NoInternetException("no Internet")
+        } catch (io: IOException) {
+            throw NoInternetException(io.message)
         }
     }
     //endregion
-
 
 
     //region tvShow
@@ -264,6 +286,21 @@ class RetrofitDataSource @Inject constructor(
         return wrapApiResponse { movieApiService.getTvShowDetailsById(seriesId) }
     }
 
+    override suspend fun getPopularMovies(): List<MovieDetailsDTO> {
+        return wrapApiResponse { movieApiService.getPopularMovie(1) }
+    }
+
+    override suspend fun getUpComingMovies(): List<MovieDetailsDTO> {
+        return wrapApiResponse { movieApiService.getUpcomingMovie() }
+    }
+
+    override suspend fun getTopRatedMovies(): List<MovieDetailsDTO> {
+        return wrapApiResponse { movieApiService.getTopRatedMovie() }
+    }
+
+    override suspend fun getNowPlayingMovies(): List<MovieDetailsDTO> {
+        return wrapApiResponse { movieApiService.getNowPlayingMovie() }
+    }
     //endregion
 
 }

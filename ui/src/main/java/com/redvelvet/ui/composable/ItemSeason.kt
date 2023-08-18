@@ -39,12 +39,12 @@ fun ItemSeason(
     rate: Double,
     onClickItem: (seriesId: Int, seasonId: Int) -> Unit
 ) {
-
     Row(
         modifier = Modifier
             .padding(end = MaterialTheme.spacing.spacing8)
             .width(328.dp)
             .height(118.dp)
+            .padding(end = MaterialTheme.spacing.spacing8)
             .clickable { onClickItem(seriesId, id) }
     ) {
         Image(
@@ -55,39 +55,51 @@ fun ItemSeason(
                         crossfade(true)
                     }).build()
             ),
-            contentDescription = "poster",
-            modifier = Modifier
-                .width(MaterialTheme.dimens.dimens140)
-                .height(MaterialTheme.dimens.dimens118)
-                .padding(MaterialTheme.spacing.spacing4)
-                .clip(shape = RoundedCornerShape(MaterialTheme.radius.radius16)),
-            contentScale = ContentScale.Crop,
+            contentDescription = "image"
         )
-        Column(
-            modifier = Modifier.padding(
-                start = MaterialTheme.spacing.spacing8,
-                end = MaterialTheme.spacing.spacing8,
-                top = MaterialTheme.spacing.spacing12,
-                bottom = MaterialTheme.spacing.spacing16
+        Row(modifier = Modifier.padding(end = MaterialTheme.spacing.spacing8)) {
+            Image(
+                painter = imagePainter,
+                contentDescription = "poster",
+                modifier = Modifier
+                    .width(MaterialTheme.dimens.dimens140)
+                    .height(MaterialTheme.dimens.dimens118)
+                    .padding(MaterialTheme.spacing.spacing4)
+                    .clip(shape = RoundedCornerShape(MaterialTheme.radius.radius16)),
+                contentScale = ContentScale.Crop,
             )
-        ) {
-            NameWithRatingRow(name = name, rating = rate, textNameStyle = Typography.headlineSmall)
-            Text(
-                text = date + " | " + episodesNum + " Episodes",
-                style = Typography.displaySmall,
-                color = FontAccent,
+            Column(
                 modifier = Modifier.padding(
-                    bottom = MaterialTheme.spacing.spacing12,
-                    top = MaterialTheme.spacing.spacing4
+                    start = MaterialTheme.spacing.spacing12,
+                    end = MaterialTheme.spacing.spacing8,
+                    top = MaterialTheme.spacing.spacing12
                 )
-            )
-            Text(
-                text = description,
-                style = Typography.displaySmall,
-                color = FontSecondary,
-                modifier = Modifier.padding(bottom = MaterialTheme.spacing.spacing8),
-                overflow = TextOverflow.Ellipsis
-            )
+            ) {
+                NameWithRatingRow(name = name, rating = rate, textNameStyle = Typography.headlineSmall)
+                Text(
+                    text = date + " | " + episodesNum + " Episodes",
+                    style = Typography.displaySmall,
+                    color = FontAccent,
+                    modifier = Modifier.padding(
+                        bottom = MaterialTheme.spacing.spacing12,
+                        top = MaterialTheme.spacing.spacing4
+                    )
+                )
+                TextStyleForDate(
+                    text = date + "|" + episodesNum + "Episodes",
+                    modifier = Modifier.padding(
+                        bottom = MaterialTheme.spacing.spacing12,
+                        top = MaterialTheme.spacing.spacing4
+                    )
+                )
+                Text(
+                    text = description,
+                    style = Typography.displaySmall,
+                    color = FontSecondary,
+                    modifier = Modifier.padding(bottom = MaterialTheme.spacing.spacing8),
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         }
     }
 }
