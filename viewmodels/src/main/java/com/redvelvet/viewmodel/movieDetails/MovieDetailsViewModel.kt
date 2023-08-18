@@ -1,21 +1,12 @@
 package com.redvelvet.viewmodel.movieDetails
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
 import com.redvelvet.entities.movie.details.MovieFullDetails
-import com.redvelvet.entities.tv.TvShowAllDetails
 import com.redvelvet.usecase.usecase.movie.GetMovieFullDetailsUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
-import com.redvelvet.viewmodel.seeall.movie.SeeAllMovieArgs
 import com.redvelvet.viewmodel.base.ErrorUiState
-import com.redvelvet.viewmodel.tvshow.toSeasonUiState
-import com.redvelvet.viewmodel.tvshow.toTvShowRecommendationUiState
-import com.redvelvet.viewmodel.tvshow.toTvShowReviewUiState
-import com.redvelvet.viewmodel.tvshow.toTvShowTopCastUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,6 +17,7 @@ class MovieDetailsViewModel @Inject constructor(
     MovieDetailsInteraction {
 
     private val args: MovieDetailsArgs = MovieDetailsArgs(savedStateHandle)
+
     init {
         getData()
     }
@@ -43,7 +35,8 @@ class MovieDetailsViewModel @Inject constructor(
         _state.update {
             MovieDetailsScreenUiState(
                 data = movieAllDetails.toMovieFullDetailsScreenUiState(),
-                isLoading = false
+                isLoading = false,
+                error = null,
             )
         }
     }
@@ -119,5 +112,9 @@ class MovieDetailsViewModel @Inject constructor(
 
     override fun onClickRecommendationsMoviesSeeAll() {
 
+    }
+
+    fun refresh() {
+        getData()
     }
 }

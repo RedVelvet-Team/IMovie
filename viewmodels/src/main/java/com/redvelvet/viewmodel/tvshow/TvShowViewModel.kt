@@ -1,7 +1,7 @@
 package com.redvelvet.viewmodel.tvshow
 
 
-import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import com.redvelvet.entities.tv.TvShowAllDetails
 import com.redvelvet.usecase.usecase.tvshow.GetAllTvShowDetailsUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
@@ -12,19 +12,24 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TvShowViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val getTvShSowDetails: GetAllTvShowDetailsUseCase,
 ) : BaseViewModel<SeriesDetailsUiState, TvShowUiEffect>(SeriesDetailsUiState()),
     TvShowDetailsInteraction {
 
-    private val seriesId: Int = 1396
+    private val args: TvDetailsArgs = TvDetailsArgs(savedStateHandle)
 
     init {
         getData()
     }
 
+    fun refresh() {
+        getData()
+    }
+
     private fun getData() {
         tryToExecute(
-            execute = { getTvShSowDetails(seriesId) },
+            execute = { getTvShSowDetails(args.id.toInt()) },
             onSuccessWithData = ::onSuccess,
             onError = ::onError,
         )
@@ -65,59 +70,59 @@ class TvShowViewModel @Inject constructor(
 
 
     override fun onClickBack() {
-        
+
     }
 
     override fun onClickFavorite(seriesId: Int) {
-        
+
     }
 
     override fun onClickSave(seriesId: Int) {
-        
+
     }
 
     override fun onClickPlayTrailer(seriesUrl: String) {
-        
+
     }
 
     override fun onClickCategory(genre: String) {
-        
+
     }
 
     override fun onClickRateSeries(seriesId: Int, rate: Double) {
-        
+
     }
 
     override fun onClickTopCastSeeAll() {
-        
+
     }
 
     override fun onClickCast(castId: Int) {
-        
+
     }
 
     override fun onClickKeyword(seriesId: Int) {
-        
+
     }
 
     override fun onClickSeasonSeaAll() {
-        
+
     }
 
     override fun onClickSeason(seriesId: Int, seasonId: Int) {
-        
+
     }
 
     override fun onClickPosterSeaAll() {
-        
+
     }
 
     override fun onClickPoster(seriesId: Int, seasonNumber: Int) {
-        
+
     }
 
     override fun onClickReviewsSeeAll() {
-        
+
     }
 
     override fun onClickReview(reviewId: Int) {
@@ -125,11 +130,11 @@ class TvShowViewModel @Inject constructor(
     }
 
     override fun onClickRecommendationsSeriesSeeAll() {
-        
+
     }
 
     override fun onClickRecommendation(seriesId: Int) {
-        
+
     }
 
 }

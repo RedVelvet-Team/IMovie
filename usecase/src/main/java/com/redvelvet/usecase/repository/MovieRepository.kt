@@ -4,7 +4,6 @@ import androidx.paging.PagingData
 import com.redvelvet.entities.EpisodeDetails
 import com.redvelvet.entities.actor.Actor
 import com.redvelvet.entities.movie.Movie
-import com.redvelvet.entities.search.CombinedResult
 import com.redvelvet.entities.movie.details.MovieDetails
 import com.redvelvet.entities.movie.details.MovieImages
 import com.redvelvet.entities.movie.details.MovieKeyWords
@@ -12,6 +11,7 @@ import com.redvelvet.entities.movie.details.MovieRecommendations
 import com.redvelvet.entities.movie.details.MovieReviews
 import com.redvelvet.entities.movie.details.MovieSimilar
 import com.redvelvet.entities.movie.details.MovieTopCast
+import com.redvelvet.entities.search.CombinedResult
 import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.entities.tv.TvShow
 import kotlinx.coroutines.flow.Flow
@@ -54,5 +54,12 @@ interface MovieRepository {
     suspend fun getMovieReviewsByID(movieId: Int): MovieReviews
     suspend fun getMovieSimilarByID(movieId: Int): MovieSimilar
     suspend fun getMovieTopCastByID(movieId: Int): MovieTopCast
+    //endregion
+
+    //region movies
+    suspend fun getPopularMovies(): List<MovieDetails>
+    suspend fun getUpComingMovies(): List<MovieDetails>
+    suspend fun getTopRatedMovies(): List<MovieDetails>
+    suspend fun getNowPlayingMovies(): List<MovieDetails>
     //endregion
 }

@@ -1,7 +1,7 @@
 package com.redvelvet.ui.screen.seealltv
 
-import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -27,9 +27,12 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.rememberAsyncImagePainter
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.ItemBasicCard
 import com.redvelvet.ui.composable.LoadingPage
 import com.redvelvet.ui.composable.MovieScaffold
+import com.redvelvet.ui.screen.tvshowdetails.navigateToTvShowDetails
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
@@ -41,24 +44,32 @@ fun SeeAllTvScreen(
     viewModel: SeeAllTvViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-
+    val navController = LocalNavController.current
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
     MovieScaffold(
         modifier = Modifier.fillMaxSize(),
         title = state.title,
         isLoading = false,
         hasTopBar = true,
     ) {
-        SeeAllTvShowsContent(state.tvShows.collectAsLazyPagingItems())
+        SeeAllTvShowsContent(state.tvShows.collectAsLazyPagingItems()) { id ->
+            navController.navigateToTvShowDetails(id)
+
+        }
     }
 }
 
 @Composable
-private fun SeeAllTvShowsContent(tvShow: LazyPagingItems<ItemUiState>) {
+private fun SeeAllTvShowsContent(
+    tvShow: LazyPagingItems<ItemUiState>,
+    onClickCard: (String) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.color.backgroundPrimary)
-            .padding(top = MaterialTheme.spacing.spacing64)
+            .padding(top = MaterialTheme.spacing.spacing32)
     ) {
         LazyVerticalGrid(
             contentPadding = PaddingValues(
@@ -80,7 +91,8 @@ private fun SeeAllTvShowsContent(tvShow: LazyPagingItems<ItemUiState>) {
                     imagePainter = rememberAsyncImagePainter(model = tvShow[it]!!.image),
                     modifier = Modifier
                         .height(MaterialTheme.dimens.dimens176)
-                        .width(MaterialTheme.dimens.dimens104),
+                        .width(MaterialTheme.dimens.dimens104)
+                        .clickable { onClickCard(tvShow[it]!!.id) },
                     hasName = true,
                     name = tvShow[it]!!.name,
                     hasDateAndCountry = true,

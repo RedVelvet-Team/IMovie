@@ -17,6 +17,7 @@ data class SeeAllTvShowUiState(
 ) : BaseUiState
 
 fun TvShow.toTvShowUiState() = ItemUiState(
+    id = id.toString(),
     image = "https://image.tmdb.org/t/p/w500" + this.imageUrl,
     name = this.name,
     date = this.releaseDate,
