@@ -62,7 +62,7 @@ fun ItemBasicCard(
         AnimatedVisibility(hasDateAndCountry) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 Text(
                     text = date,

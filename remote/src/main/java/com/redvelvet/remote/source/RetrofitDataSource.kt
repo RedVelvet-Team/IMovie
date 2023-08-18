@@ -8,6 +8,7 @@ import com.redvelvet.entities.error.ServerException
 import com.redvelvet.entities.error.ValidationException
 import com.redvelvet.remote.service.MovieApiService
 import com.redvelvet.repository.dto.ActorKnownForDto
+import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
@@ -160,7 +161,9 @@ class RetrofitDataSource @Inject constructor(
     override suspend fun getActorKnownFor(id: String): ActorKnownForDto {
         return wrapApiResponse { movieApiService.getActorKnownFor(id) }
     }
-
+    override suspend fun getAllEpisodes(tvId: String, seasonNumber: Int): SeasonDetailsDto {
+        return wrapApiResponse { movieApiService.getAllEpisodes(tvId,seasonNumber) }
+    }
     // endregion
     //region see all
     override suspend fun seeAllPopularMovie(page: Int?): List<MovieDetailsDTO> {

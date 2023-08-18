@@ -5,9 +5,9 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import androidx.paging.map
+import com.redvelvet.entities.EpisodeDetails
 import com.redvelvet.entities.actor.Actor
 import com.redvelvet.entities.movie.Movie
-import com.redvelvet.entities.search.CombinedResult
 import com.redvelvet.entities.movie.details.MovieDetails
 import com.redvelvet.entities.movie.details.MovieImages
 import com.redvelvet.entities.movie.details.MovieKeyWords
@@ -15,14 +15,16 @@ import com.redvelvet.entities.movie.details.MovieRecommendations
 import com.redvelvet.entities.movie.details.MovieReviews
 import com.redvelvet.entities.movie.details.MovieSimilar
 import com.redvelvet.entities.movie.details.MovieTopCast
+import com.redvelvet.entities.search.CombinedResult
 import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.entities.tv.TvShow
+import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.mapper.toMovie
 import com.redvelvet.repository.mapper.toActor
 import com.redvelvet.repository.mapper.toCombinedResult
-import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.mapper.toDomain
+import com.redvelvet.repository.mapper.toEpisodeDetails
 import com.redvelvet.repository.mapper.toTvShow
 import com.redvelvet.repository.pagingSource.ActorSearchPageSource
 import com.redvelvet.repository.pagingSource.MoviesSearchPageSource
@@ -140,7 +142,7 @@ class MovieRepositoryImpl @Inject constructor(
 
     // endregion
 
-    //region see all tv
+    //region see all
     override suspend fun seeAllAiringTodayTv(page: Int?): Flow<PagingData<TvShow>> {
         return seeAll(
             page = page,
@@ -164,7 +166,14 @@ class MovieRepositoryImpl @Inject constructor(
             sourceFactory = ::SeeAllPopularTvPageSource
         )
     }
+    override suspend fun getAllEpisodes(tvId: String, seasonNumber: Int): List<EpisodeDetails> {
+        return remoteDataSource.getAllEpisodes(
+            tvId,
+            seasonNumber
+        ).episodeDto!!.map { it.toEpisodeDetails() }
+    }
     //endregion
+
 
     //region Movie Details
     override suspend fun getMovieDetailsById(movieId: Int): MovieDetails {
@@ -196,6 +205,20 @@ class MovieRepositoryImpl @Inject constructor(
     }
     //endregion
 
+    //region wrapper
+    private fun <I : Any, O : Any> seeAll(
+        page: Int?,
+        sourceFactory: (RemoteDataSource) -> PagingSource<Int, I>,
+        mapper: I.() -> O
+    ): Flow<PagingData<O>> {
+        return Pager(
+            config = PagingConfig(pageSize = page ?: DEFAULT_PAGE_SIZE),
+            pagingSourceFactory = { sourceFactory(remoteDataSource) }
+        ).flow.map { pagingData ->
+            pagingData.map { it.mapper() }
+        }
+    }
+    //endregion
 
     //region wrapper
     private fun <I : Any, O : Any> seeAll(
