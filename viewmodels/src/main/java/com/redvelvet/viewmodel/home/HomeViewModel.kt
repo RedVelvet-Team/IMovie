@@ -25,8 +25,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun fakeMoviesCategories() =
-         listOf(
-            fakeMovieCategory("Popular Movies"),
+        listOf(
             fakeMovieCategory("Now Playing"),
             fakeMovieCategory("Upcoming"),
             fakeMovieCategory("Top Rated"),
@@ -34,7 +33,6 @@ class HomeViewModel @Inject constructor(
 
     private fun fakeTvShowCategories() =
         listOf(
-            fakeTvShowCategory("Popular Series"),
             fakeTvShowCategory("Airing Today"),
             fakeTvShowCategory("On TV"),
             fakeTvShowCategory("Top Rated"),
@@ -161,6 +159,4 @@ class HomeViewModel @Inject constructor(
                 country = "Us"
             )
         )
-
-
 }

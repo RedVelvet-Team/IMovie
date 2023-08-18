@@ -17,6 +17,7 @@ data class ItemsUiState(
 )
 
 data class ItemUiState(
+    val id: String = "",
     val image: String = "",
     val name: String = "",
     val date: String = "",

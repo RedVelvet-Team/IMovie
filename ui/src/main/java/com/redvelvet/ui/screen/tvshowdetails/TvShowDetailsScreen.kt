@@ -12,12 +12,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.CustomMediaDetailsTopAppBar
 import com.redvelvet.ui.composable.MediaDetailsBackgroundContent
 import com.redvelvet.ui.composable.MovieScaffold
-import com.redvelvet.ui.composable.NavigationHandler
 import com.redvelvet.ui.theme.color
-import com.redvelvet.viewmodel.tvshow.TvShowUiEffect
 import com.redvelvet.viewmodel.tvshow.TvShowViewModel
 
 @Composable
@@ -26,29 +25,30 @@ fun TvShowDetailsScreen(
 ) {
     val state by viewModel.state.collectAsState()
     var isScrolled by remember { mutableStateOf(false) }
+    val navController = LocalNavController.current
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
-    NavigationHandler(
-        effects = viewModel.effect,
-        handleEffect = { effect, navController ->
-            when (effect) {
-                // TODO: DO NOT FORGET OT CHANGE THE NAVIGATIONS
-                TvShowUiEffect.NavigateToSeasonDetailsScreen -> navController.navigateToTvShowDetails()
-                TvShowUiEffect.NavigateToSeasonSeeAllScreen -> navController.navigateToTvShowDetails()
-                TvShowUiEffect.NavigateToTvShowPosterSeeAllScreen -> navController.navigateToTvShowDetails()
-                TvShowUiEffect.NavigateToTvShowRecommendationDetailsScreen -> navController.navigateToTvShowDetails()
-                TvShowUiEffect.NavigateToTvShowRecommendationSeeAllScreen -> navController.navigateToTvShowDetails()
-                TvShowUiEffect.NavigateToTvShowReviewDetailsScreen -> navController.navigateToTvShowDetails()
-                TvShowUiEffect.NavigateToTvShowReviewSeeAllScreen -> navController.navigateToTvShowDetails()
-                TvShowUiEffect.NavigateToTvShowTopCastDetailsScreen -> navController.navigateToTvShowDetails()
-                TvShowUiEffect.NavigateTvShowToTopCastSeeAllScreen -> navController.navigateToTvShowDetails()
-                else -> {}
-            }
-        }
-    )
+//    NavigationHandler(
+//        effects = viewModel.effect,
+//        handleEffect = { effect, navController ->
+//            when (effect) {
+//                TvShowUiEffect.NavigateToSeasonDetailsScreen -> navController.navigateToTvShowDetails()
+//                TvShowUiEffect.NavigateToSeasonSeeAllScreen -> navController.navigateToTvShowDetails()
+//                TvShowUiEffect.NavigateToTvShowPosterSeeAllScreen -> navController.navigateToTvShowDetails()
+//                TvShowUiEffect.NavigateToTvShowRecommendationDetailsScreen -> navController.navigateToTvShowDetails()
+//                TvShowUiEffect.NavigateToTvShowRecommendationSeeAllScreen -> navController.navigateToTvShowDetails()
+//                TvShowUiEffect.NavigateToTvShowReviewDetailsScreen -> navController.navigateToTvShowDetails()
+//                TvShowUiEffect.NavigateToTvShowReviewSeeAllScreen -> navController.navigateToTvShowDetails()
+//                TvShowUiEffect.NavigateToTvShowTopCastDetailsScreen -> navController.navigateToTvShowDetails()
+//                TvShowUiEffect.NavigateTvShowToTopCastSeeAllScreen -> navController.navigateToTvShowDetails()
+//                else -> {}
+//            }
+//        }
+//    )
     MovieScaffold(
         isLoading = state.isLoading,
-        error = state.error
+        error = state.error,
+        onClick = viewModel::refresh
     ) {
         Box(
             modifier = Modifier
@@ -63,8 +63,7 @@ fun TvShowDetailsScreen(
                 isScrolled = offset > 1000
             }
             CustomMediaDetailsTopAppBar(
-                // TODO: HANDLE THESE INTERACTIONS
-                onBackClicked = { /* Handle back clicked */ },
+                onBackClicked = { navController.popBackStack() },
                 onFavoriteClicked = { /* Handle favorite clicked */ },
                 onSaveClicked = { /* Handle save clicked */ },
                 isScrolled = isScrolled

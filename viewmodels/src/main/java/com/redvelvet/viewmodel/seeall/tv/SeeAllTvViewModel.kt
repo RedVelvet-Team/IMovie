@@ -9,7 +9,6 @@ import com.redvelvet.entities.tv.TvShow
 import com.redvelvet.usecase.usecase.seealltv.GetAllTvSeriesUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
-import com.redvelvet.viewmodel.seeall.movie.SeeAllMovieArgs
 import com.redvelvet.viewmodel.utils.SeeAllTvShows
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.flowOf
@@ -38,6 +37,14 @@ class SeeAllTvViewModel @Inject constructor(
             SeeAllTvShows.ON_TV.name -> {
                 _state.update { it.copy(title = "On TV") }
                 getOnTheAir()
+            }
+
+            SeeAllTvShows.TOP_RATED.name -> {
+                _state.update { it.copy(title = "Top Rated") }
+            }
+
+            SeeAllTvShows.RECOMMEND.name -> {
+                _state.update { it.copy(title = "Recommend") }
             }
 
             else -> {}

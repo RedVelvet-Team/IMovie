@@ -62,13 +62,13 @@ fun ItemBasicCard(
             ) {
                 Text(
                     modifier = Modifier.padding(end = 4.dp),
-                    text = "($date)",
+                    text = date,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
                     style = Typography.labelSmall.copy(color = MaterialTheme.color.fontAccent)
                 )
                 Text(
-                    text = country,
+                    text = "($country)",
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
                     style = Typography.labelSmall.copy(color = MaterialTheme.color.fontAccent)

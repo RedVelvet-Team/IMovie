@@ -27,11 +27,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.MovieScaffold
 import com.redvelvet.ui.composable.TabContentDisplay
+import com.redvelvet.ui.composable.rememberAsyncFlixImage
 import com.redvelvet.ui.screen.seeall.navigateToSeeAllMovie
+import com.redvelvet.ui.screen.seealltv.navigateSeeAllTvShow
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
@@ -39,7 +40,7 @@ import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.home.HomeUiState
 import com.redvelvet.viewmodel.home.HomeViewModel
 import com.redvelvet.viewmodel.home.ItemUiState
-import com.redvelvet.viewmodel.utils.SeeAllMovie
+import com.redvelvet.viewmodel.utils.SeeAllTvShows
 
 @Composable
 fun HomeScreen(
@@ -58,7 +59,7 @@ fun HomeScreen(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreenContent(
-    state: HomeUiState
+    state: HomeUiState,
 ) {
     Column(
         modifier = Modifier
@@ -129,7 +130,7 @@ fun HomeScreenContent(
                         state = state,
                         pagerState = pagerState,
                         "Popular Movies",
-                        state.movieCategories[0].items
+                        viewpagerList = state.movieCategories[0].items,
                     )
                 }
             }
@@ -160,7 +161,7 @@ fun MovieContent(
     state: HomeUiState,
     pagerState: PagerState,
     label: String,
-    viewpagerList: List<ItemUiState>
+    viewpagerList: List<ItemUiState>,
 ) {
     val navController = LocalNavController.current
     TabContentDisplay(
@@ -171,7 +172,7 @@ fun MovieContent(
         titles = state.movieCategories.map { movieCategoryUiState -> movieCategoryUiState.title },
         imagePainters = state.movieCategories.map { movieCategoryUiState ->
             movieCategoryUiState.items.map { movieUiState ->
-                rememberAsyncImagePainter(model = movieUiState.image)
+                rememberAsyncFlixImage(image = movieUiState.image)
             }
         },
         hasName = true,
@@ -191,10 +192,10 @@ fun MovieContent(
                 movieUiState.country
             }
         },
-        onClickSeeAll = {
+        onClickSeeAll = { seeAllMovie ->
             navController.navigateToSeeAllMovie(
-                id = "900667",
-                type = SeeAllMovie.SIMILAR
+                id = null,
+                type = seeAllMovie
             )
         }
     )
@@ -208,6 +209,7 @@ fun SeriesContent(
     label: String,
     viewpagerList: List<ItemUiState>
 ) {
+    val navController = LocalNavController.current
     TabContentDisplay(
         pagerState = pagerState,
         label = label,
@@ -216,7 +218,7 @@ fun SeriesContent(
         titles = state.tvShowCategories.map { tvShowCategory -> tvShowCategory.title },
         imagePainters = state.tvShowCategories.map { tvShowCategoryUiState ->
             tvShowCategoryUiState.items.map { tvShowUiState ->
-                rememberAsyncImagePainter(model = tvShowUiState.image)
+                rememberAsyncFlixImage(image = tvShowUiState.image)
             }
         },
         hasName = true,
@@ -236,6 +238,9 @@ fun SeriesContent(
                 tvShowUiState.country
             }
         },
+        onClickSeeAll = {
+            navController.navigateSeeAllTvShow(id=null, type = SeeAllTvShows.TOP_RATED)
+        }
     )
 }
 
