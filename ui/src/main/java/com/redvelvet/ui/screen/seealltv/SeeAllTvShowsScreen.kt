@@ -69,7 +69,7 @@ private fun SeeAllTvShowsContent(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.color.backgroundPrimary)
-            .padding(top = MaterialTheme.spacing.spacing32)
+            .padding(top = MaterialTheme.spacing.spacing64)
     ) {
         LazyVerticalGrid(
             contentPadding = PaddingValues(
