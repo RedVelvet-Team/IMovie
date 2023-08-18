@@ -13,6 +13,7 @@ import com.redvelvet.ui.screen.onboarding.onBoardingRoute
 import com.redvelvet.ui.screen.search.searchRoute
 import com.redvelvet.ui.screen.seeAllMovieImages.seeAllMovieImaesRoute
 import com.redvelvet.ui.screen.seeAllReviews.seeAllMovieReviewsRoute
+import com.redvelvet.ui.screen.episodes.seeAllEpisodeRoute
 import com.redvelvet.ui.screen.seealltv.seeAllTvListRoute
 import com.redvelvet.ui.screen.seeall.seeAllMovieListRoute
 import com.redvelvet.ui.screen.sellAllTopCast.seeAllTopCastRoute
@@ -37,5 +38,6 @@ fun MovieNavGraph() {
         seeAllTopCastRoute()
         seeAllMovieImaesRoute()
         seeAllMovieReviewsRoute()
+        seeAllEpisodeRoute()
     }
 }
