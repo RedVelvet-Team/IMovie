@@ -126,41 +126,54 @@ class RetrofitDataSource @Inject constructor(
 
     // region search
     override suspend fun multiSearch(query: String, page: Int?): List<CombinedResultDto> {
-        return wrapApiResponse { movieApiService.multiSearch(query, page) }.result.orEmpty()
+        return wrapApiResponse { movieApiService.multiSearch(query, page) }.result
+            ?: throw NullResultException("There is no data")
     }
 
     override suspend fun searchPeople(query: String, page: Int?): List<ActorDto> {
-        return wrapApiResponse { movieApiService.searchPeople(query, page) }.result.orEmpty()
+        return wrapApiResponse { movieApiService.searchPeople(query, page) }.result
+            ?: throw NullResultException("There is no data")
     }
 
     override suspend fun searchMovie(query: String, page: Int?): List<MovieDetailsDTO> {
-        return wrapApiResponse { movieApiService.searchMovie(query, page) }.result.orEmpty()
+        return wrapApiResponse { movieApiService.searchMovie(query, page) }.result
+            ?: throw NullResultException("There is no data")
     }
 
     override suspend fun searchTvShows(query: String, page: Int?): List<TvShowDto> {
-        return wrapApiResponse { movieApiService.searchTvShows(query, page) }.result.orEmpty()
+        return wrapApiResponse { movieApiService.searchTvShows(query, page) }.result
+            ?: throw NullResultException("There is no data")
     }
     // endregion
 
     //region see all tv
     override suspend fun seeAllAiringTodayTv(page: Int?): List<TvShowDto> {
-        return wrapApiResponse { movieApiService.seeAllAiringTodayTv(page) }.result.orEmpty()
+        return wrapApiResponse { movieApiService.seeAllAiringTodayTv(page) }.result
+            ?: throw NullResultException("There is no data")
     }
 
     override suspend fun seeAllOnTheAir(page: Int?): List<TvShowDto> {
-        return wrapApiResponse { movieApiService.seeAllOnTheAir(page) }.result.orEmpty()
+        return wrapApiResponse { movieApiService.seeAllOnTheAir(page) }.result
+            ?: throw NullResultException("There is no data")
     }
 
     override suspend fun seeAllPopularTv(page: Int?): List<TvShowDto> {
-        return wrapApiResponse { movieApiService.seeAllPopularTv(page) }.result.orEmpty()
+        return wrapApiResponse { movieApiService.seeAllPopularTv(page) }.result
+            ?: throw NullResultException("There is no data")
     }
 
     override suspend fun seeAllTopRatedTv(page: Int?): List<TvShowDto> {
-        return wrapApiResponse { movieApiService.seeAllTopRatedTv(page) }.result.orEmpty()
+        return wrapApiResponse { movieApiService.seeAllTopRatedTv(page) }.result
+            ?: throw NullResultException("There is no data")
     }
 
     override suspend fun seeAllRecommendedTv(page: Int?, id: Int): List<TvShowDto> {
-        return wrapApiResponse { movieApiService.seeAllRecommendedMovieTv(id = id, page = page) }.result.orEmpty()
+        return wrapApiResponse {
+            movieApiService.seeAllRecommendedMovieTv(
+                id = id,
+                page = page
+            )
+        }.result ?: throw NullResultException("There is no data")
     }
 
     override suspend fun getActorDetails(id: String): ActorDto {
@@ -178,27 +191,33 @@ class RetrofitDataSource @Inject constructor(
     // endregion
     //region see all
     override suspend fun seeAllPopularMovie(page: Int?): List<MovieDetailsDTO> {
-        return wrapApiResponse { movieApiService.seeAllPopularMovie(page) }.result.orEmpty()
+        return wrapApiResponse { movieApiService.seeAllPopularMovie(page) }.result
+            ?: throw NullResultException("There is no data")
     }
 
     override suspend fun seeAllUpcomingMovie(page: Int?): List<MovieDetailsDTO> {
-        return wrapApiResponse { movieApiService.seeAllUpcomingMovie(page) }.result.orEmpty()
+        return wrapApiResponse { movieApiService.seeAllUpcomingMovie(page) }.result
+            ?: throw NullResultException("There is no data")
     }
 
     override suspend fun seeAllNowPlayingMovie(page: Int?): List<MovieDetailsDTO> {
-        return wrapApiResponse { movieApiService.seeAllNowPlayingMovie(page) }.result.orEmpty()
+        return wrapApiResponse { movieApiService.seeAllNowPlayingMovie(page) }.result
+            ?: throw NullResultException("There is no data")
     }
 
     override suspend fun seeAllTopRatedMovie(page: Int?): List<MovieDetailsDTO> {
-        return wrapApiResponse { movieApiService.seeAllTopRatedMovie(page) }.result.orEmpty()
+        return wrapApiResponse { movieApiService.seeAllTopRatedMovie(page) }.result
+            ?: throw NullResultException("There is no data")
     }
 
     override suspend fun seeAllSimilarMovie(page: Int?, id: Int): List<MovieDetailsDTO> {
-        return wrapApiResponse { movieApiService.seeAllSimilarMovie(id, page) }.result.orEmpty()
+        return wrapApiResponse { movieApiService.seeAllSimilarMovie(id, page) }.result
+            ?: throw NullResultException("There is no data")
     }
 
     override suspend fun seeAllRecommendedMovie(page: Int?, id: Int): List<MovieDetailsDTO> {
-        return wrapApiResponse { movieApiService.seeAllRecommendedMovie(id, page) }.result.orEmpty()
+        return wrapApiResponse { movieApiService.seeAllRecommendedMovie(id, page) }.result
+            ?: throw NullResultException("There is no data")
     }
     //endregion
 
