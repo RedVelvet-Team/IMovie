@@ -15,6 +15,7 @@ fun TopCastSection(
     isNotListEmpty: Boolean = false,
     onClickSeeAll: () -> Unit = {},
     onClickItem: (id: Int) -> Unit = {},
+    castIds: List<Int> = emptyList(),
     images: List<String> = emptyList(),
     names: List<String> = emptyList(),
 ) {
@@ -32,7 +33,7 @@ fun TopCastSection(
                 name = names,
                 hasCustomList = true,
                 customListItemComposable = { index ->
-                    TopCast(names[index], onClickItem, images[index])
+                    TopCast(castId = castIds[index], names[index], onClickItem, images[index])
                 },
                 onClickSeeAll = onClickSeeAll,
                 cardModifier = Modifier

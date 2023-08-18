@@ -40,6 +40,7 @@ fun MediaInfoCard(
             imagePainter = rememberAsyncFlixImage(image = posterPath),
             hasName = false,
             hasDateAndCountry = false,
+            id = 0,
             modifier = Modifier
                 .width(MaterialTheme.dimens.dimens104)
                 .height(MaterialTheme.dimens.dimens130),

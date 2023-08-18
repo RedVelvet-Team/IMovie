@@ -17,6 +17,7 @@ import com.redvelvet.ui.theme.spacing
 
 @Composable
 fun TopCast(
+    castId:Int = 0,
     castName: String = "",
     onClick: (id: Int) -> Unit = {},
     image: String,
@@ -24,7 +25,7 @@ fun TopCast(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .clickable { onClick }
+            .clickable { onClick(castId) }
     ) {
         CircularImageAvatar(image = image)
         SpacerVertical(height = MaterialTheme.spacing.spacing4)

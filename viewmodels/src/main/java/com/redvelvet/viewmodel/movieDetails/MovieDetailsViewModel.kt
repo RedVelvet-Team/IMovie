@@ -1,5 +1,6 @@
 package com.redvelvet.viewmodel.movieDetails
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import com.redvelvet.entities.movie.details.MovieFullDetails
 import com.redvelvet.usecase.usecase.movie.GetMovieFullDetailsUseCase
@@ -13,7 +14,7 @@ import javax.inject.Inject
 class MovieDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getMovieFullDetails: GetMovieFullDetailsUseCase
-) : BaseViewModel<MovieDetailsScreenUiState, MovieDetailsUiEvent>(MovieDetailsScreenUiState()),
+) : BaseViewModel<MovieDetailsScreenUiState, MovieDetailsUiEffect>(MovieDetailsScreenUiState()),
     MovieDetailsInteraction {
 
     private val args: MovieDetailsArgs = MovieDetailsArgs(savedStateHandle)
@@ -71,27 +72,24 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun onClickRateMovie(movieId: Int, rate: Double) {
-
+        sendUiEffect(MovieDetailsUiEffect.NavigateToMovieDetailsScreen(movieId.toString()))
     }
 
     override fun onClickTopCastSeeAll() {
-
+        sendUiEffect(MovieDetailsUiEffect.NavigateToTopCastSeeAllScreen)
     }
 
     override fun onClickCast(castId: Int) {
-
-    }
-
-    override fun onClickKeyword(keywordId: Int) {
-
+        Log.i("Taha", "castId = $castId")
+        sendUiEffect(MovieDetailsUiEffect.NavigateToTopCastDetailsScreen(castId.toString()))
     }
 
     override fun onClickSimilarMoviesSeeAll() {
+        sendUiEffect(MovieDetailsUiEffect.NavigateToSimilarMoviesSeeAllScreen)
 
     }
 
     override fun onClickMovie(movieId: Int) {
-
     }
 
     override fun onClickMovieImagesSeeAll() {
@@ -111,6 +109,7 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun onClickRecommendationsMoviesSeeAll() {
+        sendUiEffect(MovieDetailsUiEffect.NavigateToRecommendedMoviesSeeAllScreen)
 
     }
 
