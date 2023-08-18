@@ -1,18 +1,54 @@
 package com.redvelvet.viewmodel.home
 
+import com.redvelvet.entities.movie.details.MovieDetails
+import com.redvelvet.usecase.usecase.movie.GetMoviesCategories
 import com.redvelvet.viewmodel.base.BaseViewModel
+import com.redvelvet.viewmodel.base.ErrorUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-
+    private val getMoviesCategories: GetMoviesCategories,
 ) : BaseViewModel<HomeUiState, Unit>(HomeUiState()) {
 
     init {
         fakeData()
     }
+
+    private fun getPopularMovies() {
+        _state.update {
+            it.copy(
+                isLoading = true,
+                isError = null
+            )
+        }
+        tryToExecute(
+            execute = getMoviesCategories::getPopularMovies,
+            onSuccessWithData = ::onSuccessMovies,
+            onError = ::onError,
+        )
+    }
+
+    private fun onSuccessMovies(movies: List<MovieDetails>) {
+        _state.update {
+            it.copy(
+                isLoading = false,
+                isError = null,
+            )
+        }
+    }
+
+    private fun onError(error: ErrorUiState) {
+        _state.update {
+            it.copy(
+                isLoading = false,
+                isError = error,
+            )
+        }
+    }
+
 
     private fun fakeData() {
         _state.update {

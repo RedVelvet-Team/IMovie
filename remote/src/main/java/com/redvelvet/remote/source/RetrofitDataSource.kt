@@ -161,9 +161,11 @@ class RetrofitDataSource @Inject constructor(
     override suspend fun getActorKnownFor(id: String): ActorKnownForDto {
         return wrapApiResponse { movieApiService.getActorKnownFor(id) }
     }
+
     override suspend fun getAllEpisodes(tvId: String, seasonNumber: Int): SeasonDetailsDto {
-        return wrapApiResponse { movieApiService.getAllEpisodes(tvId,seasonNumber) }
+        return wrapApiResponse { movieApiService.getAllEpisodes(tvId, seasonNumber) }
     }
+
     // endregion
     //region see all
     override suspend fun seeAllPopularMovie(page: Int?): List<MovieDetailsDTO> {
@@ -264,6 +266,21 @@ class RetrofitDataSource @Inject constructor(
     override suspend fun getTvShowReviewsByID(seriesId: Int) =
         wrapApiResponse { movieApiService.getTvShowReviewsByID(seriesId) }
 
+    override suspend fun getPopularMovies(): List<MovieDetailsDTO> {
+        return wrapApiResponse { movieApiService.getPopularMovie(1) }
+    }
+
+    override suspend fun getUpComingMovies(): List<MovieDetailsDTO> {
+        return wrapApiResponse { movieApiService.getUpcomingMovie() }
+    }
+
+    override suspend fun getTopRatedMovies(): List<MovieDetailsDTO> {
+        return wrapApiResponse { movieApiService.getTopRatedMovie() }
+    }
+
+    override suspend fun getNowPlayingMovies(): List<MovieDetailsDTO> {
+        return wrapApiResponse { movieApiService.getNowPlayingMovie() }
+    }
     //endregion
 
 }
