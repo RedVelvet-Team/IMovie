@@ -57,7 +57,7 @@ fun SeeAllSeasonsContent(state: SeeAllSeasonsUiState) {
                 .fillMaxSize()
                 .background(MaterialTheme.color.backgroundPrimary)
                 .padding(
-                    top = MaterialTheme.spacing.spacing100,
+                    top = MaterialTheme.spacing.spacing72,
                     bottom = MaterialTheme.spacing.spacing28
                 )
         ) {
@@ -88,7 +88,7 @@ fun SeeAllSeasonsContent(state: SeeAllSeasonsUiState) {
                         rate = seasons.rate,
                         id = 0,
                         seriesId = 0,
-                        onClickItem = {}
+                        onClickItem = {seriesId, seasonId ->  }
                     )
                 }
             }

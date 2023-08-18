@@ -1,8 +1,10 @@
 package com.redvelvet.viewmodel.seeall.seasons
 
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import com.redvelvet.entities.tv.SeasonTvShow
 import com.redvelvet.usecase.usecase.seeall.GetAllSeasonsUseCase
+import com.redvelvet.viewmodel.actor_details.ActorDetailsArgs
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,11 +13,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SeeAllSeasonsViewModel @Inject constructor(
-    private val getAllSeasonsUseCase: GetAllSeasonsUseCase
+    private val getAllSeasonsUseCase: GetAllSeasonsUseCase,
+    savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<SeeAllSeasonsUiState, SeasonsUiEffect>(SeeAllSeasonsUiState()) {
 
+    private val args: SeasonDetailsArgs = SeasonDetailsArgs(savedStateHandle)
+
     init {
-        getAllSeasons(15)
+        getAllSeasons(args.id.toInt())
     }
 
     private fun getAllSeasons(seriesId: Int) {

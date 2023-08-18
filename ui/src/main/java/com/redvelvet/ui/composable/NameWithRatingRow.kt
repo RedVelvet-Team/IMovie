@@ -1,6 +1,8 @@
 package com.redvelvet.ui.composable
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -9,6 +11,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.FontPrimary
+import com.redvelvet.ui.theme.spacing
 
 @Composable
 fun NameWithRatingRow(
@@ -26,9 +29,10 @@ fun NameWithRatingRow(
             maxLines = 1,
             modifier = rowModifier.weight(3f)
         )
+
         TextWithIcon(
             text = rating.toString(),
-            modifier = rowModifier.weight(1f),
+            modifier = rowModifier.weight(2f),
             icon = painterResource(id = R.drawable.icon_star_filled)
         )
     }

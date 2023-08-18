@@ -25,7 +25,6 @@ import com.redvelvet.ui.composable.PrimaryOutlinedButton
 import com.redvelvet.ui.composable.WallPaper
 import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.home.navigateToHome
-import com.redvelvet.ui.screen.login.navigateToLogin
 import com.redvelvet.ui.screen.seealltv.navigateSeeAllTvShow
 import com.redvelvet.ui.screen.signup.navigateToSignUp
 import com.redvelvet.ui.theme.Typography

@@ -15,11 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
 import com.redvelvet.ui.theme.FontAccent
 import com.redvelvet.ui.theme.FontSecondary
 import com.redvelvet.ui.theme.Typography
@@ -39,67 +35,42 @@ fun ItemSeason(
     rate: Double,
     onClickItem: (seriesId: Int, seasonId: Int) -> Unit
 ) {
-    Row(
-        modifier = Modifier
-            .padding(end = MaterialTheme.spacing.spacing8)
-            .width(328.dp)
-            .height(118.dp)
-            .padding(end = MaterialTheme.spacing.spacing8)
-            .clickable { onClickItem(seriesId, id) }
-    ) {
+    Row(modifier = Modifier.padding(end = MaterialTheme.spacing.spacing8)) {
         Image(
-            painter = rememberAsyncImagePainter(
-                ImageRequest.Builder(LocalContext.current)
-                    .data(data = image)
-                    .apply(block = fun ImageRequest.Builder.() {
-                        crossfade(true)
-                    }).build()
-            ),
-            contentDescription = "image"
+            painter = image,
+            contentDescription = "poster",
+            modifier = Modifier
+                .width(MaterialTheme.dimens.dimens140)
+                .height(MaterialTheme.dimens.dimens118)
+                .padding(MaterialTheme.spacing.spacing4)
+                .clip(shape = RoundedCornerShape(MaterialTheme.radius.radius16))
+                .clickable { onClickItem(seriesId, id) },
+            contentScale = ContentScale.Crop,
         )
-        Row(modifier = Modifier.padding(end = MaterialTheme.spacing.spacing8)) {
-            Image(
-                painter = imagePainter,
-                contentDescription = "poster",
-                modifier = Modifier
-                    .width(MaterialTheme.dimens.dimens140)
-                    .height(MaterialTheme.dimens.dimens118)
-                    .padding(MaterialTheme.spacing.spacing4)
-                    .clip(shape = RoundedCornerShape(MaterialTheme.radius.radius16)),
-                contentScale = ContentScale.Crop,
+        Column(
+            modifier = Modifier.padding(
+                start = MaterialTheme.spacing.spacing12,
+                end = MaterialTheme.spacing.spacing8,
+                top = MaterialTheme.spacing.spacing12
             )
-            Column(
+        ) {
+            NameWithRatingRow(name = name, rating = rate, textNameStyle = Typography.headlineSmall)
+            Text(
+                text = date + " | " + episodesNum + " Episodes",
+                style = Typography.displaySmall,
+                color = FontAccent,
                 modifier = Modifier.padding(
-                    start = MaterialTheme.spacing.spacing12,
-                    end = MaterialTheme.spacing.spacing8,
-                    top = MaterialTheme.spacing.spacing12
+                    bottom = MaterialTheme.spacing.spacing12,
+                    top = MaterialTheme.spacing.spacing4
                 )
-            ) {
-                NameWithRatingRow(name = name, rating = rate, textNameStyle = Typography.headlineSmall)
-                Text(
-                    text = date + " | " + episodesNum + " Episodes",
-                    style = Typography.displaySmall,
-                    color = FontAccent,
-                    modifier = Modifier.padding(
-                        bottom = MaterialTheme.spacing.spacing12,
-                        top = MaterialTheme.spacing.spacing4
-                    )
-                )
-                TextStyleForDate(
-                    text = date + "|" + episodesNum + "Episodes",
-                    modifier = Modifier.padding(
-                        bottom = MaterialTheme.spacing.spacing12,
-                        top = MaterialTheme.spacing.spacing4
-                    )
-                )
-                Text(
-                    text = description,
-                    style = Typography.displaySmall,
-                    color = FontSecondary,
-                    modifier = Modifier.padding(bottom = MaterialTheme.spacing.spacing8),
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
+            )
+            Text(
+                text = description,
+                style = Typography.displaySmall,
+                color = FontSecondary,
+                modifier = Modifier.padding(bottom = MaterialTheme.spacing.spacing8),
+                overflow = TextOverflow.Ellipsis
+            )
         }
     }
 }

@@ -27,7 +27,7 @@ fun TextWithIcon(
     color : Color = MaterialTheme.color.fontPrimary
     ) {
     Row(
-        modifier = modifier,
+        modifier = modifier.padding(start = MaterialTheme.spacing.spacing16),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.End
     ) {
