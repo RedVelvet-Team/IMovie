@@ -1,7 +1,6 @@
 package com.redvelvet.ui.screen.search
 
 import android.annotation.SuppressLint
-import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
@@ -16,7 +15,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -53,119 +51,65 @@ fun SearchScreen(
         isLoading = state.isLoading,
         error = state.error
     ) {
-        if (state.inputText.isEmpty()) {
-            EmptyContent(
-                viewModel = viewModel,
-                onChangeQuery = viewModel::onChangeSearchTextFiled,
-                onClickClear = viewModel::onClickClear,
-                state = state
+        Column(
+            modifier = Modifier
+                .background(MaterialTheme.color.backgroundPrimary)
+                .fillMaxSize()
+        ) {
+            SearchField(
+                value = state.inputText,
+                onTextChange = viewModel::onChangeSearchTextFiled,
+                onClickClear = viewModel::onClickClear
             )
-        } else {
-            if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                PortraitContent(viewModel, state)
-            } else {
-                LandscapeContent(viewModel, state)
-            }
+            CategoriesChips(
+                onChangeCategory = viewModel::onChangeCategory,
+                selectedType = state.selectedMediaType,
+                categories = state.getCategories,
+                title = "Categories"
+            )
+            SearchContent(state)
         }
     }
 }
 
 @Composable
-private fun PortraitContent(viewModel: SearchViewModel, state: SearchUiState) {
-    Column(
-        modifier = Modifier
-            .background(MaterialTheme.color.backgroundPrimary)
-            .fillMaxSize()
-    ) {
-        SearchField(
-            value = state.inputText,
-            onTextChange = viewModel::onChangeSearchTextFiled,
-            onClickClear = viewModel::onClickClear
-        )
-        CategoriesChips(
-            onChangeCategory = viewModel::onChangeCategory,
-            selectedType = state.selectedMediaType,
-            categories = state.getCategories,
-            title = "Categories"
-        )
+fun SearchContent(state: SearchUiState) {
+    if (state.inputText.isEmpty()) {
+        EmptyContent()
+    } else {
         CustomLazyGrid(searchCardUiStates = state.searchResult.collectAsLazyPagingItems())
     }
 }
 
 @Composable
-private fun LandscapeContent(viewModel: SearchViewModel, state: SearchUiState) {
-    Column(
+fun EmptyContent() {
+    Box(
         modifier = Modifier
-            .background(MaterialTheme.color.backgroundPrimary)
             .fillMaxSize()
+            .padding(horizontal = 64.dp),
+        contentAlignment = Alignment.Center
     ) {
-        SearchField(
-            value = state.inputText,
-            onTextChange = viewModel::onChangeSearchTextFiled,
-            onClickClear = viewModel::onClickClear
-        )
-        CategoriesChips(
-            onChangeCategory = viewModel::onChangeCategory,
-            selectedType = state.selectedMediaType,
-            categories = state.getCategories,
-            title = "Categories",
-        )
-        CustomLazyGrid(
-            searchCardUiStates = state.searchResult.collectAsLazyPagingItems()
-        )
-    }
-}
-
-@Composable
-fun EmptyContent(
-    viewModel: SearchViewModel,
-    onChangeQuery: (String) -> Unit,
-    onClickClear: () -> Unit,
-    state: SearchUiState,
-) {
-    Column(
-        modifier = Modifier
-            .background(MaterialTheme.color.backgroundPrimary)
-            .fillMaxSize()
-    ) {
-        SearchField(
-            value = state.inputText,
-            onTextChange = onChangeQuery,
-            onClickClear = onClickClear
-        )
-        CategoriesChips(
-            onChangeCategory = viewModel::onChangeCategory,
-            selectedType = state.selectedMediaType,
-            categories = state.getCategories,
-            title = "Categories"
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 64.dp),
-            contentAlignment = Alignment.Center
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.vector_serach),
-                    contentDescription = stringResource(R.string.search_empty)
-                )
-                SpacerVertical(32.dp)
-                Text(
-                    text = stringResource(R.string.search_in_movie_screen),
-                    style = Typography.bodyLarge,
-                    color = FontPrimary
-                )
-                SpacerVertical(4.dp)
-                Text(
-                    text = stringResource(R.string.search_for_your_favorite_movies_and_tv_shows_that_you_love),
-                    style = Typography.displaySmall,
-                    color = FontAccent,
-                    textAlign = TextAlign.Center
-                )
-            }
+
+            Image(
+                painter = painterResource(R.drawable.vector_serach),
+                contentDescription = stringResource(R.string.search_empty)
+            )
+            SpacerVertical(32.dp)
+            Text(
+                text = stringResource(R.string.search_in_movie_screen),
+                style = Typography.bodyLarge,
+                color = FontPrimary
+            )
+            SpacerVertical(4.dp)
+            Text(
+                text = stringResource(R.string.search_for_your_favorite_movies_and_tv_shows_that_you_love),
+                style = Typography.displaySmall,
+                color = FontAccent,
+                textAlign = TextAlign.Center
+            )
         }
     }
 }
