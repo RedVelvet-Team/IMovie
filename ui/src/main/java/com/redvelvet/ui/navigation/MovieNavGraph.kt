@@ -39,7 +39,6 @@ fun MovieNavGraph() {
         movieDetailsRoute()
         tvShowDetailsRoute()
         seeAllSeasonsRoute()
-        tvShowDetailsRoute()
         seeAllTopCastRoute()
         seeAllMovieImaesRoute()
         seeAllMovieReviewsRoute()
