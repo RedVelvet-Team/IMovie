@@ -106,4 +106,9 @@ interface RemoteDataSource {
     suspend fun getTopRatedMovies(): List<MovieDetailsDTO>
     suspend fun getNowPlayingMovies(): List<MovieDetailsDTO>
     //endregion
+
+    suspend fun getAiringTodayTv(): List<TvShowDto>
+    suspend fun getOnTheAir(): List<TvShowDto>
+    suspend fun getPopularTv(): List<TvShowDto>
+    suspend fun getTopRatedTv(): List<TvShowDto>
 }

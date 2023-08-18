@@ -59,9 +59,13 @@ interface MovieRepository {
     //endregion
 
     //region movies
-    suspend fun getPopularMovies(): List<MovieDetails>
-    suspend fun getUpComingMovies(): List<MovieDetails>
-    suspend fun getTopRatedMovies(): List<MovieDetails>
-    suspend fun getNowPlayingMovies(): List<MovieDetails>
+    suspend fun getPopularMovies(): List<Movie>
+    suspend fun getUpComingMovies(): List<Movie>
+    suspend fun getTopRatedMovies(): List<Movie>
+    suspend fun getNowPlayingMovies(): List<Movie>
     //endregion
+    suspend fun getAiringTodayTv(): List<TvShow>
+    suspend fun getPopularTv(): List<TvShow>
+    suspend fun getOnTheAir(): List<TvShow>
+    suspend fun getTopRatedTv(): List<TvShow>
 }

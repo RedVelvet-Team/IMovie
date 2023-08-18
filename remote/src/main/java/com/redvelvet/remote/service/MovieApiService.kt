@@ -229,21 +229,43 @@ interface MovieApiService {
     @GET("movie/popular")
     suspend fun getPopularMovie(
         @Query("page") page: Int? = 1,
-    ): Response<List<MovieDetailsDTO>>
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
 
     @GET("movie/upcoming")
     suspend fun getUpcomingMovie(
         @Query("page") page: Int? = 1,
-    ): Response<List<MovieDetailsDTO>>
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
 
     @GET("movie/now_playing")
     suspend fun getNowPlayingMovie(
         @Query("page") page: Int? = 1,
-    ): Response<List<MovieDetailsDTO>>
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
 
     @GET("movie/top_rated")
     suspend fun getTopRatedMovie(
         @Query("page") page: Int? = 1,
-    ): Response<List<MovieDetailsDTO>>
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+    //endregion
+
+    //region get tv categories
+    @GET("tv/airing_today")
+    suspend fun getAiringTodayTv(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<TvShowDto>>>
+
+    @GET("tv/on_the_air")
+    suspend fun getOnTheAirTv(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<TvShowDto>>>
+
+    @GET("tv/popular")
+    suspend fun getPopularTv(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<TvShowDto>>>
+    @GET("tv/top_rated")
+    suspend fun getTopRatedTv(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<TvShowDto>>>
+
     //endregion
 }

@@ -28,7 +28,7 @@ import com.redvelvet.ui.screen.upcoming.upcomingRoute
 
 @Composable
 fun MovieNavGraph() {
-    NavHost(LocalNavController.current, startDestination = MovieDestination.Splash.route) {
+    NavHost(LocalNavController.current, startDestination = MovieDestination.Home.route) {
         splashRoute()
         onBoardingRoute()
         actorDetailsRoute()

@@ -26,7 +26,8 @@ fun <T> TabContentDisplay(
     hasDateAndCountry: Boolean = false,
     dates: List<List<String>> = emptyList(),
     countries: List<List<String>> = emptyList(),
-    onClickSeeAll: (SeeAllMovie) -> Unit = {}
+    onClickSeeAll: (SeeAllMovie) -> Unit = {},
+    onClickItem: (String) -> Unit
 ) {
     val homeSeeAll = listOf(SeeAllMovie.NOW_PLAYING, SeeAllMovie.UPCOMING, SeeAllMovie.TOP_RATED)
     LazyColumn(
@@ -38,20 +39,22 @@ fun <T> TabContentDisplay(
                 state = pagerState,
                 onClickSeeAll = onClickSeeAll,
                 label = label,
-                items = viewpagerList
+                items = viewpagerList,
+                onClickItem = onClickItem
             )
         }
-        items(categories.size) { index ->
+        items(3) { index ->
             ItemsSection(
-                label = titles[index],
-                imagesPainters = imagePainters[index],
+                label = titles[index+1],
+                imagesPainters = imagePainters[index+1],
                 hasName = hasName,
                 hasDateAndCountry = hasDateAndCountry,
-                names = names[index],
-                dates = dates[index],
-                countries = countries[index],
+                names = names[index+1],
+                dates = dates[index+1],
+                countries = countries[index+1],
                 onClickSeeAll = onClickSeeAll,
-                seeAllMovie = homeSeeAll[index]
+                seeAllMovie = homeSeeAll[index],
+                onClickItem = onClickItem
             )
         }
     }

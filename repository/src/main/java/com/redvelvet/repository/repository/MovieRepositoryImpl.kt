@@ -224,20 +224,36 @@ class MovieRepositoryImpl @Inject constructor(
         return remoteDataSource.getMovieTopCastByID(movieId).toDomain()
     }
 
-    override suspend fun getPopularMovies(): List<MovieDetails> {
-        return remoteDataSource.getPopularMovies().map { it.toDomain() }
+    override suspend fun getPopularMovies(): List<Movie> {
+        return remoteDataSource.getPopularMovies().map { it.toMovie() }
     }
 
-    override suspend fun getUpComingMovies(): List<MovieDetails> {
-        return remoteDataSource.getUpComingMovies().map { it.toDomain() }
+    override suspend fun getUpComingMovies(): List<Movie> {
+        return remoteDataSource.getUpComingMovies().map { it.toMovie() }
     }
 
-    override suspend fun getTopRatedMovies(): List<MovieDetails> {
-        return remoteDataSource.getTopRatedMovies().map { it.toDomain() }
+    override suspend fun getTopRatedMovies(): List<Movie> {
+        return remoteDataSource.getTopRatedMovies().map { it.toMovie() }
     }
 
-    override suspend fun getNowPlayingMovies(): List<MovieDetails> {
-        return remoteDataSource.getNowPlayingMovies().map { it.toDomain() }
+    override suspend fun getNowPlayingMovies(): List<Movie> {
+        return remoteDataSource.getNowPlayingMovies().map { it.toMovie() }
+    }
+
+    override suspend fun getAiringTodayTv(): List<TvShow> {
+        return remoteDataSource.getAiringTodayTv().map{it.toTvShow()}
+    }
+
+    override suspend fun getPopularTv(): List<TvShow> {
+        return remoteDataSource.getPopularTv().map{it.toTvShow()}
+    }
+
+    override suspend fun getOnTheAir(): List<TvShow> {
+        return remoteDataSource.getOnTheAir().map{it.toTvShow()}
+    }
+
+    override suspend fun getTopRatedTv(): List<TvShow> {
+        return remoteDataSource.getTopRatedTv().map{it.toTvShow()}
     }
 
     override suspend fun getAllSeasons(seriesId: Int): List<SeasonTvShow> {

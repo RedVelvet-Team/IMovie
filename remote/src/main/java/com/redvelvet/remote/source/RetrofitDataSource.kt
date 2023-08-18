@@ -299,19 +299,35 @@ class RetrofitDataSource @Inject constructor(
     }
 
     override suspend fun getPopularMovies(): List<MovieDetailsDTO> {
-        return wrapApiResponse { movieApiService.getPopularMovie(1) }
+        return wrapApiResponse { movieApiService.getPopularMovie(1) }.result.orEmpty()
     }
 
     override suspend fun getUpComingMovies(): List<MovieDetailsDTO> {
-        return wrapApiResponse { movieApiService.getUpcomingMovie() }
+        return wrapApiResponse { movieApiService.getUpcomingMovie() }.result.orEmpty()
     }
 
     override suspend fun getTopRatedMovies(): List<MovieDetailsDTO> {
-        return wrapApiResponse { movieApiService.getTopRatedMovie() }
+        return wrapApiResponse { movieApiService.getTopRatedMovie() }.result.orEmpty()
     }
 
     override suspend fun getNowPlayingMovies(): List<MovieDetailsDTO> {
-        return wrapApiResponse { movieApiService.getNowPlayingMovie() }
+        return wrapApiResponse { movieApiService.getNowPlayingMovie() }.result.orEmpty()
+    }
+
+    override suspend fun getAiringTodayTv(): List<TvShowDto> {
+        return wrapApiResponse { movieApiService.getAiringTodayTv() }.result.orEmpty()
+    }
+
+    override suspend fun getOnTheAir(): List<TvShowDto> {
+        return wrapApiResponse { movieApiService.getOnTheAirTv() }.result.orEmpty()
+    }
+
+    override suspend fun getPopularTv(): List<TvShowDto> {
+        return wrapApiResponse { movieApiService.getPopularTv() }.result.orEmpty()
+    }
+
+    override suspend fun getTopRatedTv(): List<TvShowDto> {
+        return wrapApiResponse { movieApiService.getTopRatedTv() }.result.orEmpty()
     }
     //endregion
 
