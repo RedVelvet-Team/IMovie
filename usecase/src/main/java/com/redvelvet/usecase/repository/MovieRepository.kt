@@ -13,6 +13,7 @@ import com.redvelvet.entities.movie.details.MovieSimilar
 import com.redvelvet.entities.movie.details.MovieTopCast
 import com.redvelvet.entities.search.CombinedResult
 import com.redvelvet.entities.search.SearchResult
+import com.redvelvet.entities.tv.SeasonTvShow
 import com.redvelvet.entities.tv.TvShow
 import kotlinx.coroutines.flow.Flow
 
@@ -34,7 +35,6 @@ interface MovieRepository {
     //endregion
 
     suspend fun getActorDetails(id: String): Actor
-
     suspend fun getActorKnownFor(id: String): List<CombinedResult>
 
     //region see all
@@ -49,11 +49,13 @@ interface MovieRepository {
     //region Movie Details
     suspend fun getMovieDetailsById(movieId: Int): MovieDetails
     suspend fun getMovieImagesByID(movieId: Int): MovieImages
-    suspend fun getMovieKeyWordsByID(movieId: Int): MovieKeyWords
-    suspend fun getMovieRecommendationsByID(movieId: Int): MovieRecommendations
-    suspend fun getMovieReviewsByID(movieId: Int): MovieReviews
-    suspend fun getMovieSimilarByID(movieId: Int): MovieSimilar
-    suspend fun getMovieTopCastByID(movieId: Int): MovieTopCast
+    suspend fun getMovieKeyWordsByID(movieId: Int):MovieKeyWords
+    suspend fun getMovieRecommendationsByID(movieId: Int):MovieRecommendations
+    suspend fun getMovieReviewsByID(movieId: Int):MovieReviews
+    suspend fun getMovieSimilarByID(movieId: Int):MovieSimilar
+    suspend fun getMovieTopCastByID(movieId: Int):MovieTopCast
+    suspend fun getAllSeasons(seriesId: Int): List<SeasonTvShow>
+
     //endregion
 
     //region movies

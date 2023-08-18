@@ -15,6 +15,7 @@ sealed class MovieDestination(
     data object SignUp : MovieDestination("signup")
     data object SeeAllMovie : MovieDestination("seeAllMovie")
     data object SeeAllUpcoming : MovieDestination("seeAllUpcoming")
+    data object SeeAllSeasons : MovieDestination("seeAllSeasons")
     data object SeeAllTvShow : MovieDestination("seeAllTvShow")
     data object ForgotPassword : MovieDestination("forgotPassword")
     data object SeeAllEpisodes : MovieDestination("seeAllEpisodes")

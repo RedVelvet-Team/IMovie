@@ -44,14 +44,13 @@ fun SeasonsSection(
                     ItemSeason(
                         id = seasonIds[index],
                         seriesId = seriesId,
-                        image = seasonImages[index],
                         name = seasonNames[index],
                         date = seasonDates[index],
                         episodesNum = seasonEpisodes[index],
                         description = seasonDescriptions[index],
                         rate = seasonStars[index],
                         onClickItem = onClickSeason,
-                        imagePainter = rememberAsyncImagePainter(
+                        image = rememberAsyncImagePainter(
                             model = seasonImages[index],
                             placeholder = painterResource(id = R.drawable.image_placeholder),
                             error = painterResource(id = R.drawable.image_placeholder),
@@ -64,6 +63,4 @@ fun SeasonsSection(
                     .height(MaterialTheme.dimens.dimens130),
             )
         }
-
 }
-

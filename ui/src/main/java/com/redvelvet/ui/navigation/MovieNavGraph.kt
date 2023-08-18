@@ -4,14 +4,15 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.screen.actor_details.actorDetailsRoute
-import com.redvelvet.ui.screen.episodes.seeAllEpisodeRoute
 import com.redvelvet.ui.screen.forgot_password.forgotPasswordRoute
+import com.redvelvet.ui.screen.episodes.seeAllEpisodeRoute
 import com.redvelvet.ui.screen.home.homeRoute
 import com.redvelvet.ui.screen.known_for.actorKnownForRoute
 import com.redvelvet.ui.screen.login.loginRoute
 import com.redvelvet.ui.screen.movieDetails.movieDetailsRoute
 import com.redvelvet.ui.screen.onboarding.onBoardingRoute
 import com.redvelvet.ui.screen.search.searchRoute
+import com.redvelvet.ui.screen.seeallseasons.seeAllSeasonsRoute
 import com.redvelvet.ui.screen.seeAllMovieImages.seeAllMovieImaesRoute
 import com.redvelvet.ui.screen.seeAllReviews.seeAllMovieReviewsRoute
 import com.redvelvet.ui.screen.seeall.seeAllMovieListRoute
@@ -36,6 +37,8 @@ fun MovieNavGraph() {
         signupRoute()
         forgotPasswordRoute()
         movieDetailsRoute()
+        tvShowDetailsRoute()
+        seeAllSeasonsRoute()
         tvShowDetailsRoute()
         seeAllTopCastRoute()
         seeAllMovieImaesRoute()

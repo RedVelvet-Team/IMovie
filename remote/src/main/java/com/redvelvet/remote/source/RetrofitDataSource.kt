@@ -22,6 +22,7 @@ import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
 import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
 import com.redvelvet.repository.dto.person.ActorDto
 import com.redvelvet.repository.dto.search.CombinedResultDto
+import com.redvelvet.repository.dto.tvShow.TvShowDetailsDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.dto.tvShow.TvShowImagesDto
 import com.redvelvet.repository.dto.tvShow.TvShowKeywordsDto
@@ -273,6 +274,10 @@ class RetrofitDataSource @Inject constructor(
 
     override suspend fun getTvShowReviewsByID(seriesId: Int) =
         wrapApiResponse { movieApiService.getTvShowReviewsByID(seriesId) }
+
+    override suspend fun getAllSeasons(seriesId: Int): TvShowDetailsDto {
+        return wrapApiResponse { movieApiService.getTvShowDetailsById(seriesId) }
+    }
 
     override suspend fun getPopularMovies(): List<MovieDetailsDTO> {
         return wrapApiResponse { movieApiService.getPopularMovie(1) }
