@@ -1,11 +1,12 @@
 package com.redvelvet.viewmodel.movieDetails
 
 import com.redvelvet.viewmodel.base.BaseUiState
+import com.redvelvet.viewmodel.base.ErrorUiState
 
 data class MovieDetailsScreenUiState(
     val data: MovieFullDetailsUiState? = null,
     val isLoading: Boolean = true,
-    val isError: Pair<Boolean, String> = Pair(false, "")
+    val error: ErrorUiState? = null
 ) : BaseUiState {
     data class MovieFullDetailsUiState(
         val details: MovieDetailsUiState,

@@ -1,8 +1,13 @@
 package com.redvelvet.ui.composable
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
+import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
@@ -32,7 +38,7 @@ import com.redvelvet.viewmodel.base.NullResultErrorState
 @Composable
 fun MovieScaffold(
     modifier: Modifier = Modifier,
-    title: String,
+    title: String = "",
     isLoading: Boolean,
     onLoading: @Composable () -> Unit = { LoadingState() },
     error: ErrorUiState? = null,
@@ -43,7 +49,9 @@ fun MovieScaffold(
     content: @Composable () -> Unit
 ) {
     Scaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .background(color = Primary),
         topBar = {
             AnimatedVisibility(visible = hasTopBar) {
                 FilxTopAppBar(
@@ -54,18 +62,34 @@ fun MovieScaffold(
         },
         containerColor = Color.Transparent
     ) { _ ->
-        AnimatedVisibility(isLoading) {
+
+        AnimatedVisibility(
+            visible = isLoading,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
             onLoading()
         }
-        AnimatedVisibility(error != null) {
+        AnimatedVisibility(
+            visible = error != null,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
             ErrorAnimatedHandler(error!!, onError, onRetry)
         }
-        val systemUiController = rememberSystemUiController()
-        systemUiController.setSystemBarsColor(
-            MaterialTheme.color.backgroundPrimary,
-            darkIcons = false
-        )
-        content()
+////        val systemUiController = rememberSystemUiController()
+////        systemUiController.setSystemBarsColor(
+////            MaterialTheme.color.backgroundPrimary,
+////            darkIcons = false
+////        )
+        AnimatedVisibility(
+            visible = !isLoading && (error == null),
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            content()
+        }
+
     }
 }
 

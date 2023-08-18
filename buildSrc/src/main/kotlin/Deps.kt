@@ -44,6 +44,15 @@ object Deps {
     private val dagger2Version = "2.46.1"
     private val googleServiceAuthVersion = "20.6.0"
     private val pagingCommonVersion = "3.2.0"
+    private val cloudyVersion = "0.1.2"
+    private val glassy = "0.0.4"
+
+
+    //glass
+    val glass = "com.github.jakhongirmadaminov:glassmorphic-composables:$glassy"
+
+    //cloudy
+    val cloudy = "com.github.skydoves:cloudy:$cloudyVersion"
 
     // data store
     val dataStore = "androidx.datastore:datastore-preferences:$dataStoreVersion"

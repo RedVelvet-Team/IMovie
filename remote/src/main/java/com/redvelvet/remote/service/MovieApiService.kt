@@ -14,8 +14,6 @@ import com.redvelvet.repository.dto.movie.details.MovieRecommendationsDTO
 import com.redvelvet.repository.dto.movie.details.MovieReviewsDTO
 import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
 import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
-import com.redvelvet.repository.dto.person.ActorDto
-import com.redvelvet.repository.dto.search.CombinedResultDto
 import com.redvelvet.repository.dto.tvShow.StatusResponse
 import com.redvelvet.repository.dto.tvShow.TvShowDetailsDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
@@ -167,4 +165,41 @@ interface MovieApiService {
     ): Response<StatusResponse>
     // endregion
 
+
+    //endregion
+
+    //region see all
+    @GET("movie/popular")
+    suspend fun seeAllPopularMovie(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+
+    @GET("movie/upcoming")
+    suspend fun seeAllUpcomingMovie(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+
+    @GET("movie/now_playing")
+    suspend fun seeAllNowPlayingMovie(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+
+    @GET("movie/top_rated")
+    suspend fun seeAllTopRatedMovie(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+
+    @GET("movie/{movie_id}/similar")
+    suspend fun seeAllSimilarMovie(
+        @Path("movie_id") id: Int,
+        @Query("page") page: Int? = 1
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+
+    @GET("movie/{movie_id}/recommendations")
+    suspend fun seeAllRecommendedMovie(
+        @Path("movie_id") id: Int,
+        @Query("page") page: Int? = 1
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+
+    //endregion
 }

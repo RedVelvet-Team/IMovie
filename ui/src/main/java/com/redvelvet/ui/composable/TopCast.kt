@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.redvelvet.ui.theme.FontSecondary
 import com.redvelvet.ui.theme.OnSecondary
 import com.redvelvet.ui.theme.spacing
 
@@ -34,7 +35,7 @@ fun TopCast(
             Text(
                 text = castName,
                 style = MaterialTheme.typography.bodySmall,
-                color = OnSecondary,
+                color = FontSecondary,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
             )

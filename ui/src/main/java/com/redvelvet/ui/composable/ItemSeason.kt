@@ -16,10 +16,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
-import com.redvelvet.ui.R
+import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.redvelvet.ui.theme.FontAccent
 import com.redvelvet.ui.theme.FontSecondary
 import com.redvelvet.ui.theme.Typography
@@ -29,19 +30,32 @@ import com.redvelvet.ui.theme.spacing
 
 @Composable
 fun ItemSeason(
+    id: Int,
+    seriesId: Int,
     imagePainter: Painter,
     name: String,
     date: String,
     episodesNum: Int,
     description: String,
     rate: Double,
-    modifier: Modifier = Modifier
+    onClickItem: (seriesId: Int, seasonId: Int) -> Unit
 ) {
-    Row(modifier = modifier
-        .padding(end = MaterialTheme.spacing.spacing8)
-        .clickable { }) {
+
+    Row(
+        modifier = Modifier
+            .padding(end = MaterialTheme.spacing.spacing8)
+            .width(328.dp)
+            .height(118.dp)
+            .clickable { onClickItem(seriesId, id) }
+    ) {
         Image(
-            painter = imagePainter,
+            painter = rememberAsyncImagePainter(
+                ImageRequest.Builder(LocalContext.current)
+                    .data(data = image)
+                    .apply(block = fun ImageRequest.Builder.() {
+                        crossfade(true)
+                    }).build()
+            ),
             contentDescription = "poster",
             modifier = Modifier
                 .width(MaterialTheme.dimens.dimens140)

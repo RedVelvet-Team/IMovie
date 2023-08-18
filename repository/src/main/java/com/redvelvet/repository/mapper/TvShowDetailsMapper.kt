@@ -40,6 +40,7 @@ fun TvShowDetailsDto.toTvShowDetails() = TvShowDetails(
 )
 
 fun SeasonDto.toSeasonTvShow() = SeasonTvShow(
+    seasonId = id ?: 0,
     airDate = airDate ?: "",
     posterSeason = "https://image.tmdb.org/t/p/w500$posterPath",
     voteSeasonAverage = voteAverage ?: 0.0,

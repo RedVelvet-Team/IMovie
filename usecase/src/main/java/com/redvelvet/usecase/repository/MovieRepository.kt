@@ -22,8 +22,28 @@ interface MovieRepository {
     fun searchPeople(query: String, page: Int?=1): Flow<PagingData<Actor>>
     fun searchMovie(query: String, page: Int?=1): Flow<PagingData<Movie>>
     fun searchTvShows(query: String, page: Int?=1): Flow<PagingData<TvShow>>
+
+    //region see all
+    suspend fun seeAllPopularMovie(page: Int?): Flow<PagingData<Movie>>
+    suspend fun seeAllUpcomingMovie(page: Int?): Flow<PagingData<Movie>>
+    suspend fun seeAllNowPlayingMovie(page: Int?): Flow<PagingData<Movie>>
+    suspend fun seeAllTopRatedMovie(page: Int?): Flow<PagingData<Movie>>
+    suspend fun seeAllSimilarMovie(id: Int): Flow<PagingData<Movie>>
+    suspend fun seeAllRecommendedMovie(id: Int): Flow<PagingData<Movie>>
+
+    //endregion
+
     suspend fun getActorDetails(id: String): Actor
     suspend fun getActorKnownFor(id: String): List<CombinedResult>
+
+    //region see all
+    suspend fun seeAllAiringTodayTv(page: Int?): Flow<PagingData<TvShow>>
+    suspend fun seeAllOnTheAir(page: Int?): Flow<PagingData<TvShow>>
+    suspend fun seeAllPopularTv(page: Int?): Flow<PagingData<TvShow>>
+
+    //endregion
+
+
 
     //region Movie Details
     suspend fun getMovieDetailsById(movieId: Int): MovieDetails

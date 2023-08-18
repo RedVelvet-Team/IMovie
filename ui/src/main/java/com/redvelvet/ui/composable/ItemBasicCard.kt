@@ -10,11 +10,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
@@ -35,20 +39,15 @@ fun ItemBasicCard(
     country: String = ""
 ) {
     Column(modifier) {
-        Card(
+        Image(
+            painter = imagePainter,
+            contentDescription = "movie poster image",
             modifier = Modifier
                 .fillMaxWidth()
                 .height(132.dp)
-        ) {
-            Image(
-                painter = imagePainter,
-                contentDescription = "movie poster image",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(132.dp),
-                contentScale = ContentScale.Crop
-            )
-        }
+                .clip(RoundedCornerShape(16.dp)),
+            contentScale = ContentScale.Crop
+        )
         AnimatedVisibility(hasName) {
             Text(
                 text = name,

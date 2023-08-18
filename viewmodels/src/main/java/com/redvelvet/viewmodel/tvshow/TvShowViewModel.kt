@@ -61,76 +61,75 @@ class TvShowViewModel @Inject constructor(
                 error = error,
             )
         }
-        Log.i("KAMELOO", error.message)
     }
 
 
     override fun onClickBack() {
-        TODO("Not yet implemented")
+        
     }
 
     override fun onClickFavorite(seriesId: Int) {
-        TODO("Not yet implemented")
+        
     }
 
     override fun onClickSave(seriesId: Int) {
-        TODO("Not yet implemented")
+        
     }
 
     override fun onClickPlayTrailer(seriesUrl: String) {
-        TODO("Not yet implemented")
+        
     }
 
     override fun onClickCategory(genre: String) {
-        TODO("Not yet implemented")
+        
     }
 
     override fun onClickRateSeries(seriesId: Int, rate: Double) {
-        TODO("Not yet implemented")
+        
     }
 
     override fun onClickTopCastSeeAll() {
-        TODO("Not yet implemented")
+        
     }
 
     override fun onClickCast(castId: Int) {
-        TODO("Not yet implemented")
+        
     }
 
     override fun onClickKeyword(seriesId: Int) {
-        TODO("Not yet implemented")
+        
     }
 
     override fun onClickSeasonSeaAll() {
-        TODO("Not yet implemented")
+        
     }
 
     override fun onClickSeason(seriesId: Int, seasonId: Int) {
-        TODO("Not yet implemented")
+        
     }
 
     override fun onClickPosterSeaAll() {
-        TODO("Not yet implemented")
+        
     }
 
     override fun onClickPoster(seriesId: Int, seasonNumber: Int) {
-        TODO("Not yet implemented")
+        
     }
 
     override fun onClickReviewsSeeAll() {
-        TODO("Not yet implemented")
+        
     }
 
     override fun onClickReview(reviewId: Int) {
-        TODO("Not yet implemented")
+
     }
 
     override fun onClickRecommendationsSeriesSeeAll() {
-        TODO("Not yet implemented")
+        
     }
 
     override fun onClickRecommendation(seriesId: Int) {
-        TODO("Not yet implemented")
+        
     }
 
 }

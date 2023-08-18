@@ -74,8 +74,4 @@ interface RemoteDataSource {
     suspend fun getTvShowReviewsByID(seriesId: Int): TvShowReviewsDto
     suspend fun getAllSeasons(seriesId: Int): TvShowDetailsDto
     //endregion
-
-    suspend fun getActorDetails(id: String): ActorDto
-
-    suspend fun getActorKnownFor(id: String) : ActorKnownForDto
 }

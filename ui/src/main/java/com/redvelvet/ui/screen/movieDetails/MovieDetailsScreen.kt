@@ -14,9 +14,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.composable.CustomMediaDetailsTopAppBar
 import com.redvelvet.ui.composable.MediaDetailsBackgroundContent
+import com.redvelvet.ui.composable.MovieScaffold
 import com.redvelvet.ui.composable.NavigationHandler
-import com.redvelvet.ui.composable.StateHandler
-import com.redvelvet.ui.screen.seeAllUpcoming.navigateSeeAllUpcoming
 import com.redvelvet.ui.theme.color
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsUiEvent
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsViewModel
@@ -34,20 +33,20 @@ fun MovieDetailsScreen(
         handleEffect = { effect, navController ->
             when (effect) {
                 // TODO: DO NOT FORGET OT CHANGE THE NAVIGATIONS AND NAME OF UIEVENT INTO UIEFFECT
-                MovieDetailsUiEvent.NavigateToGenreScreen -> navController.navigateToMovieDetails()
-                MovieDetailsUiEvent.NavigateToMovieDetailsScreen -> navController.navigateToMovieDetails()
-                MovieDetailsUiEvent.NavigateToMovieImagesSeeAllScreen -> navController.navigateSeeAllUpcoming()
-                MovieDetailsUiEvent.NavigateToMoviesSeeAllScreen -> navController.navigateSeeAllUpcoming()
-                MovieDetailsUiEvent.NavigateToReviewDetailsScreen -> navController.navigateToMovieDetails()
-                MovieDetailsUiEvent.NavigateToReviewSeeAllScreen -> navController.navigateSeeAllUpcoming()
-                MovieDetailsUiEvent.NavigateToTopCastDetailsScreen -> navController.navigateToMovieDetails()
-                MovieDetailsUiEvent.NavigateToTopCastSeeAllScreen -> navController.navigateSeeAllUpcoming()
+                MovieDetailsUiEvent.NavigateToGenreScreen -> {}
+                MovieDetailsUiEvent.NavigateToMovieDetailsScreen -> {}
+                MovieDetailsUiEvent.NavigateToMovieImagesSeeAllScreen -> {}
+                MovieDetailsUiEvent.NavigateToMoviesSeeAllScreen -> {}
+                MovieDetailsUiEvent.NavigateToReviewDetailsScreen -> {}
+                MovieDetailsUiEvent.NavigateToReviewSeeAllScreen -> {}
+                MovieDetailsUiEvent.NavigateToTopCastDetailsScreen -> {}
+                MovieDetailsUiEvent.NavigateToTopCastSeeAllScreen -> {}
             }
         }
     )
-    StateHandler(
+    MovieScaffold(
         isLoading = state.isLoading,
-        isError = state.isError.first
+        error = state.error
     ) {
         Box(
             modifier = Modifier
@@ -60,7 +59,6 @@ fun MovieDetailsScreen(
                     it.homepage
                 )
             }
-
             MovieDetailsForegroundContent(state, viewModel) { offset ->
                 isScrolled = offset > 1000
             }
@@ -75,7 +73,3 @@ fun MovieDetailsScreen(
 
     }
 }
-
-
-
-

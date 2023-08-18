@@ -35,7 +35,7 @@ fun ItemsSectionForDetailsScreens(
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),
         contentPadding = PaddingValues(horizontal = MaterialTheme.spacing.spacing16)
     ) {
-        if (hasCustomList && label == "Reviews") {
+        if (hasCustomList && (label == "Reviews" || label == "Seasons")) {
             items(name.size) {
                 customListItemComposable!!(it)
             }
