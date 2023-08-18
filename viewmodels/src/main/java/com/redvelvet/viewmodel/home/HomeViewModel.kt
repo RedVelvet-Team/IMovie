@@ -25,13 +25,13 @@ class HomeViewModel @Inject constructor(
             )
         }
         tryToExecute(
-            execute = getMoviesCategories::getPopularMovies,
+            execute = {getMoviesCategories()},
             onSuccessWithData = ::onSuccessMovies,
             onError = ::onError,
         )
     }
 
-    private fun onSuccessMovies(movies: List<MovieDetails>) {
+    private fun onSuccessMovies(movies: List<List<MovieDetails>>) {
         _state.update {
             it.copy(
                 isLoading = false,

@@ -9,14 +9,14 @@ data class HomeUiState(
     val movieCategories: List<ItemsUiState> = emptyList(),
     val tvShowCategories: List<ItemsUiState> = emptyList(),
     val tabLayoutTitles: List<String> = emptyList(),
-    val isLoading: Boolean = false,
+    val isLoading: Boolean = true,
     val isError: ErrorUiState? = null,
 ) : BaseUiState
 
 data class ItemsUiState(
     val title: String = "",
     val items: List<ItemUiState>,
-    val hasMore: Boolean = false
+    val hasMore: Boolean = true
 )
 
 data class ItemUiState(
