@@ -42,6 +42,7 @@ fun MovieDetailsForegroundContent(
                     topcasts.isNotEmpty(),
                     interaction::onClickTopCastSeeAll,
                     interaction::onClickCast,
+                    castIds = topcasts.map { it2 -> it2.castId },
                     topcasts.map { it2 -> it2.castImage },
                     topcasts.map { it2 -> it2.castName })
             }
@@ -53,6 +54,7 @@ fun MovieDetailsForegroundContent(
                     isNotListEmpty = similarMovies.isNotEmpty(),
                     images = similarMovies.map { it.mediaImage },
                     names = similarMovies.map { it.mediaName },
+                    movieIds = similarMovies.map { it.mediaId },
                     onClickSeeAll = interaction::onClickSimilarMoviesSeeAll,
                     onClickItem = interaction::onClickMovie
                 )
@@ -76,6 +78,7 @@ fun MovieDetailsForegroundContent(
                     isNotListEmpty = recommendedMovies.isNotEmpty(),
                     images = recommendedMovies.map { it.mediaImage },
                     names = recommendedMovies.map { it.mediaName },
+                    movieIds = recommendedMovies.map { it.mediaId },
                     onClickSeeAll = interaction::onClickRecommendationsMoviesSeeAll,
                     onClickItem = interaction::onClickMovie
                 )

@@ -16,6 +16,7 @@ fun MediaListSection(
     isNotListEmpty: Boolean = false,
     images: List<String> = emptyList(),
     names: List<String> = emptyList(),
+    movieIds: List<Int> = emptyList(),
     onClickSeeAll: () -> Unit = {},
     onClickItem: (id: Int) -> Unit = {},
 ) {
@@ -31,9 +32,10 @@ fun MediaListSection(
                 images = images,
                 hasName = true,
                 name = names,
+                movieIds = movieIds,
                 hasCustomList = false,
                 hasDateAndCountry = false,
-                onClickSeeAll = { onClickSeeAll },
+                onClickSeeAll = { onClickSeeAll() },
                 cardModifier = Modifier
                     .width(MaterialTheme.dimens.dimens104)
                     .height(MaterialTheme.dimens.dimens130),

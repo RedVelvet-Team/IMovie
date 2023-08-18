@@ -40,6 +40,7 @@ fun TvShowDetailsForegroundContent(
                 topcasts.isNotEmpty(),
                 interaction::onClickTopCastSeeAll,
                 interaction::onClickCast,
+                castIds = topcasts.map { it2 -> it2.id },
                 topcasts.map { it2 -> it2.image },
                 topcasts.map { it2 -> it2.name })
         }

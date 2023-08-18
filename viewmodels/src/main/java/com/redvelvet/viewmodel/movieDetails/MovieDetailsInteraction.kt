@@ -10,8 +10,6 @@ interface MovieDetailsInteraction {
     fun onClickTopCastSeeAll()
     fun onClickCast(castId: Int)
 
-    fun onClickKeyword(keywordId: Int)
-
     fun onClickSimilarMoviesSeeAll()
 
     fun onClickMovie(movieId: Int)

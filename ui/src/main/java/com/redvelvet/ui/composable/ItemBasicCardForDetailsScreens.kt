@@ -35,6 +35,7 @@ fun ItemBasicCardForDetailsScreens(
     modifier: Modifier = Modifier,
     hasName: Boolean = false,
     name: String = "",
+    id:Int,
     hasDateAndCountry: Boolean = false,
     date: String = "",
     country: String = "",
@@ -43,7 +44,7 @@ fun ItemBasicCardForDetailsScreens(
 ) {
     Column(
         modifier = if (isMediaInfoCard) Modifier else Modifier
-            .clickable { onClick },
+            .clickable { onClick(id) },
         horizontalAlignment = AbsoluteAlignment.Left
     ) {
         Image(
