@@ -5,8 +5,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,7 +12,6 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
@@ -28,54 +25,61 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.rememberAsyncImagePainter
-import com.redvelvet.ui.composable.FilxTopAppBar
+import com.redvelvet.ui.LocalNavController
+import com.redvelvet.ui.composable.MovieScaffold
 import com.redvelvet.ui.composable.TabContentDisplay
+import com.redvelvet.ui.composable.rememberAsyncFlixImage
+import com.redvelvet.ui.screen.seeall.navigateToSeeAllMovie
+import com.redvelvet.ui.screen.seealltv.navigateSeeAllTvShow
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.home.HomeUiState
 import com.redvelvet.viewmodel.home.HomeViewModel
+import com.redvelvet.viewmodel.home.ItemUiState
+import com.redvelvet.viewmodel.utils.SeeAllTvShows
 
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-        FilxTopAppBar(
-            "FlixMovie", hasBackArrow = false
-        )
-    }, bottomBar = {}, containerColor = MaterialTheme.color.backgroundPrimary
-    ) { paddingValues ->
-        HomeScreenContent(paddingValues, state)
+    MovieScaffold(
+        title = "FlixMovie", isLoading = state.isLoading,
+        hasTopBar = true,
+        hasBackArrow = false,
+    ) {
+        HomeScreenContent(state)
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreenContent(
-    paddingValues: PaddingValues, state: HomeUiState
+    state: HomeUiState,
 ) {
     Column(
         modifier = Modifier
             .padding(
-                top = MaterialTheme.spacing.spacing64, bottom = MaterialTheme.dimens.dimens70
+                top = 92.dp, bottom = MaterialTheme.dimens.dimens70
             )
             .fillMaxWidth()
     ) {
 
         var page by remember { mutableIntStateOf(0) }
-        val pagerState = rememberPagerState(initialPage = 1) {
-            1
+        val pagerState = rememberPagerState(initialPage = 0) {
+            if (page == 0) state.movieCategories[0].items.size
+            else state.tvShowCategories[0].items.size
         }
 
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = MaterialTheme.spacing.spacing16)
+                .padding(top = 16.dp)
         ) {
             TabRow(
                 selectedTabIndex = page,
@@ -121,11 +125,25 @@ fun HomeScreenContent(
         }
         val selectedTabContent: @Composable () -> Unit = when (page) {
             0 -> {
-                { MovieContent(state = state, pagerState = pagerState) }
+                {
+                    MovieContent(
+                        state = state,
+                        pagerState = pagerState,
+                        "Popular Movies",
+                        viewpagerList = state.movieCategories[0].items,
+                    )
+                }
             }
 
             1 -> {
-                { SeriesContent(state = state, pagerState = pagerState) }
+                {
+                    SeriesContent(
+                        state = state,
+                        pagerState = pagerState,
+                        "Popular Series",
+                        state.tvShowCategories[0].items
+                    )
+                }
             }
 
             else -> {
@@ -139,65 +157,90 @@ fun HomeScreenContent(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MovieContent(state: HomeUiState, pagerState: PagerState) {
+fun MovieContent(
+    state: HomeUiState,
+    pagerState: PagerState,
+    label: String,
+    viewpagerList: List<ItemUiState>,
+) {
+    val navController = LocalNavController.current
     TabContentDisplay(
         pagerState = pagerState,
+        label = label,
+        viewpagerList = viewpagerList,
         categories = state.movieCategories,
         titles = state.movieCategories.map { movieCategoryUiState -> movieCategoryUiState.title },
         imagePainters = state.movieCategories.map { movieCategoryUiState ->
-            movieCategoryUiState.movies.map { movieUiState ->
-                rememberAsyncImagePainter(model = movieUiState.movieImage)
+            movieCategoryUiState.items.map { movieUiState ->
+                rememberAsyncFlixImage(image = movieUiState.image)
             }
         },
         hasName = true,
         hasDateAndCountry = true,
         names = state.movieCategories.map { movieCategoryUiState ->
-            movieCategoryUiState.movies.map { movieUiState ->
-                movieUiState.movieName
+            movieCategoryUiState.items.map { movieUiState ->
+                movieUiState.name
             }
         },
         dates = state.movieCategories.map { movieCategoryUiState ->
-            movieCategoryUiState.movies.map { movieUiState ->
-                movieUiState.movieDate
+            movieCategoryUiState.items.map { movieUiState ->
+                movieUiState.date
             }
         },
         countries = state.movieCategories.map { movieCategoryUiState ->
-            movieCategoryUiState.movies.map { movieUiState ->
-                movieUiState.countryOfMovie
+            movieCategoryUiState.items.map { movieUiState ->
+                movieUiState.country
             }
         },
+        onClickSeeAll = { seeAllMovie ->
+            navController.navigateToSeeAllMovie(
+                id = null,
+                type = seeAllMovie
+            )
+        }
     )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun SeriesContent(state: HomeUiState, pagerState: PagerState) {
+fun SeriesContent(
+    state: HomeUiState,
+    pagerState: PagerState,
+    label: String,
+    viewpagerList: List<ItemUiState>
+) {
+    val navController = LocalNavController.current
     TabContentDisplay(
         pagerState = pagerState,
+        label = label,
+        viewpagerList = viewpagerList,
         categories = state.tvShowCategories,
         titles = state.tvShowCategories.map { tvShowCategory -> tvShowCategory.title },
         imagePainters = state.tvShowCategories.map { tvShowCategoryUiState ->
-            tvShowCategoryUiState.tvShows.map { tvShowUiState ->
-                rememberAsyncImagePainter(model = tvShowUiState.seriesImage)
+            tvShowCategoryUiState.items.map { tvShowUiState ->
+                rememberAsyncFlixImage(image = tvShowUiState.image)
             }
         },
         hasName = true,
         hasDateAndCountry = true,
         names = state.tvShowCategories.map { tvShowCategoryUiState ->
-            tvShowCategoryUiState.tvShows.map { tvShowUiState ->
-                tvShowUiState.seriesName
+            tvShowCategoryUiState.items.map { tvShowUiState ->
+                tvShowUiState.name
             }
         },
         dates = state.tvShowCategories.map { tvShowCategoryUiState ->
-            tvShowCategoryUiState.tvShows.map { tvShowUiState ->
-                tvShowUiState.seriesDate
+            tvShowCategoryUiState.items.map { tvShowUiState ->
+                tvShowUiState.date
             }
         },
         countries = state.tvShowCategories.map { tvShowCategoryUiState ->
-            tvShowCategoryUiState.tvShows.map { tvShowUiState ->
-                tvShowUiState.seriesCountry
+            tvShowCategoryUiState.items.map { tvShowUiState ->
+                tvShowUiState.country
             }
         },
+        onClickSeeAll = {
+            navController.navigateSeeAllTvShow(id=null, type = SeeAllTvShows.TOP_RATED)
+        }
     )
 }
 

@@ -1,22 +1,18 @@
 package com.redvelvet.ui.composable
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextOverflow
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.FontPrimary
-import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.spacing
 
-/// implemented by haidy
 @Composable
 fun NameWithRatingRow(
     name: String,
@@ -27,19 +23,17 @@ fun NameWithRatingRow(
     Row(modifier = rowModifier) {
         Text(
             text = name,
+            overflow = TextOverflow.Ellipsis,
             style = textNameStyle,
             color = FontPrimary,
+            maxLines = 1,
+            modifier = rowModifier.weight(3f)
         )
-        Spacer(modifier = Modifier.weight(1f))
-        Image(
-            painter = painterResource(id = R.drawable.icon_star_filled),
-            contentDescription = stringResource(R.string.icon_rating)
-        )
-        Text(
+
+        TextWithIcon(
             text = rating.toString(),
-            style = Typography.displaySmall,
-            color = FontPrimary,
-            modifier = Modifier.padding(start = MaterialTheme.spacing.spacing4)
+            modifier = rowModifier.weight(2f),
+            icon = painterResource(id = R.drawable.icon_star_filled)
         )
     }
 }

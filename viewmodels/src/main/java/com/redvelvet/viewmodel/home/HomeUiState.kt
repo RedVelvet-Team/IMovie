@@ -1,37 +1,38 @@
 package com.redvelvet.viewmodel.home
 
+import com.redvelvet.entities.movie.details.MovieDetails
 import com.redvelvet.viewmodel.base.BaseUiState
+import com.redvelvet.viewmodel.base.ErrorUiState
+import com.redvelvet.viewmodel.utils.Constants.BASE_IMAGE_URL
 
 data class HomeUiState(
-    val movieCategories: List<MovieCategoryUiState> = emptyList(),
-    val tvShowCategories: List<TvShowCategoryUiState> = emptyList(),
+    val movieCategories: List<ItemsUiState> = emptyList(),
+    val tvShowCategories: List<ItemsUiState> = emptyList(),
     val tabLayoutTitles: List<String> = emptyList(),
     val isLoading: Boolean = false,
-    val isError: String? = null,
+    val isError: ErrorUiState? = null,
 ) : BaseUiState
 
-data class MovieCategoryUiState(
+data class ItemsUiState(
     val title: String = "",
-    val movies: List<MovieUiState>,
+    val items: List<ItemUiState>,
     val hasMore: Boolean = false
 )
 
-data class TvShowCategoryUiState(
-    val title: String = "",
-    val tvShows: List<TvShowUiState>,
-    val hasMore: Boolean = false
+data class ItemUiState(
+    val id: String = "",
+    val image: String = "",
+    val name: String = "",
+    val date: String = "",
+    val country: String = "",
 )
 
-data class MovieUiState(
-    val movieImage: String = "",
-    val movieName: String = "",
-    val movieDate: String = "",
-    val countryOfMovie: String = "",
-)
-
-data class TvShowUiState(
-    val seriesImage: String = "",
-    val seriesName: String = "",
-    val seriesDate: String = "",
-    val seriesCountry: String = ""
-)
+fun MovieDetails.toItemUiState(): ItemUiState {
+    return ItemUiState(
+        id = id.toString(),
+        image = BASE_IMAGE_URL + posterPath,
+        name = title,
+        date = releaseDate,
+        country = productionCountries[0].name
+    )
+}

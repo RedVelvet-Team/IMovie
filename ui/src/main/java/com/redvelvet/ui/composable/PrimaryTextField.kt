@@ -1,5 +1,6 @@
 package com.redvelvet.ui.composable
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -47,12 +48,13 @@ fun PrimaryTextField(
         ),
         placeholder = {
             Text(
-                text = placeHolderText, style = Typography.bodyMedium, color = placeHolderColor
+                text = placeHolderText, style = Typography.bodyMedium,
+                color = placeHolderColor,
             )
         },
         singleLine = true,
         supportingText = {
-            if (isError) {
+            AnimatedVisibility(isError) {
                 Text(text = errorMessage, color = Color.Red)
             }
         },

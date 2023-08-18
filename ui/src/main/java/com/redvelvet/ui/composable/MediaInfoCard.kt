@@ -1,5 +1,6 @@
 package com.redvelvet.ui.composable
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,24 +14,30 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
-import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
-import com.redvelvet.viewmodel.movieDetails.MovieDetailsInteraction
+
 
 @Composable
 fun MediaInfoCard(
-    data: MediaInfoCardData,
-    interaction: MovieDetailsInteraction,
+    posterPath: String = "",
+    originalTitle: String = "",
+    genres: List<String> = emptyList(),
+    hasTime: Boolean = false,
+    hasDate: Boolean = false,
+    movieTime: String = "",
+    seriesDate: String = "",
+    spokenLanguages: String = "",
+    onClickGenre: (genre: String) -> Unit = {},
 ) {
     Row(
         modifier = Modifier
             .padding(bottom = MaterialTheme.spacing.spacing24)
     ) {
         ItemBasicCardForDetailsScreens(
-            imagePainter = rememberAsyncImagePainter(model = data.posterPath),
+            imagePainter = rememberAsyncFlixImage(image = posterPath),
             hasName = false,
             hasDateAndCountry = false,
             modifier = Modifier
@@ -48,7 +55,7 @@ fun MediaInfoCard(
                     )
             ) {
                 Text(
-                    text = data.originalTitle,
+                    text = originalTitle,
                     style = Typography.titleLarge,
                     color = Color.White,
                     maxLines = 1,
@@ -61,10 +68,10 @@ fun MediaInfoCard(
                         bottom = MaterialTheme.spacing.spacing12,
                     )
             ) {
-                items(data.genres.size) { index ->
+                items(genres.size) { index ->
                     GenreButton(
-                        genre = data.genres[index],
-                        onGenreClick = { interaction.onClickGenre(data.genres[index]) }
+                        genre = genres[index],
+                        onGenreClick = { onClickGenre }
                     )
                 }
             }
@@ -72,7 +79,7 @@ fun MediaInfoCard(
                 modifier = Modifier
                     .padding(end = MaterialTheme.spacing.spacing16)
             )
-            if (data.hasTime) {
+            AnimatedVisibility(hasTime) {
                 Box(
                     modifier = Modifier
                         .padding(
@@ -81,13 +88,13 @@ fun MediaInfoCard(
                         )
                 ) {
                     LabeledValueHorizontal(
-                        movieTime = data.movieTime,
+                        movieTime = movieTime.ifEmpty { "NAN" },
                         icon = R.drawable.movie_time,
                         iconDescription = R.string.media_date,
                     )
                 }
             }
-            if (data.hasDate) {
+            AnimatedVisibility(hasDate) {
                 Box(
                     modifier = Modifier
                         .padding(
@@ -96,7 +103,7 @@ fun MediaInfoCard(
                         )
                 ) {
                     LabeledValueHorizontal(
-                        movieTime = data.seriesDate,
+                        movieTime = seriesDate.ifEmpty { "NAN" },
                         icon = R.drawable.icon_date,
                         iconDescription = R.string.media_time
                     )
@@ -107,7 +114,7 @@ fun MediaInfoCard(
                     .padding(end = MaterialTheme.spacing.spacing16)
             ) {
                 LabeledValueHorizontal(
-                    movieTime = data.spokenLanguages,
+                    movieTime = spokenLanguages,
                     icon = R.drawable.global,
                     iconDescription = R.string.media_language
                 )
@@ -117,13 +124,3 @@ fun MediaInfoCard(
     }
 }
 
-data class MediaInfoCardData(
-    val posterPath: String,
-    val originalTitle: String,
-    val genres: List<String>,
-    val hasTime: Boolean = false,
-    val hasDate: Boolean = false,
-    val movieTime: String,
-    val spokenLanguages: String,
-    val seriesDate: String = "",
-)
