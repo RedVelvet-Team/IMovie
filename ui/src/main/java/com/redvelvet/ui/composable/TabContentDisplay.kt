@@ -24,7 +24,8 @@ fun <T> TabContentDisplay(
     hasName: Boolean = false,
     hasDateAndCountry: Boolean = false,
     dates: List<List<String>> = emptyList(),
-    countries: List<List<String>> = emptyList()
+    countries: List<List<String>> = emptyList(),
+    onClickSeeAll: () -> Unit = {}
 ) {
     LazyColumn(
         contentPadding = PaddingValues(vertical = MaterialTheme.spacing.spacing16),
@@ -41,7 +42,8 @@ fun <T> TabContentDisplay(
                 hasDateAndCountry = hasDateAndCountry,
                 names = names[index],
                 dates = dates[index],
-                countries = countries[index]
+                countries = countries[index],
+                onClickSeeAll = onClickSeeAll,
             )
         }
     }

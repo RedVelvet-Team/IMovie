@@ -22,9 +22,11 @@ fun ItemsSection(
     names: List<String> = emptyList(),
     hasDateAndCountry: Boolean = false,
     dates: List<String> = emptyList(),
-    countries: List<String> = emptyList()
+    countries: List<String> = emptyList(),
+    onClickSeeAll: () -> Unit = {}
+
 ) {
-    SectionHeader(label = label, modifier = modifier)
+    SectionHeader(label = label, modifier = modifier, onClickSeeAll = onClickSeeAll)
     LazyRow(
         modifier = Modifier.padding(top = MaterialTheme.spacing.spacing8),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),

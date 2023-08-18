@@ -12,6 +12,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.CustomMediaDetailsTopAppBar
 import com.redvelvet.ui.composable.MediaDetailsBackgroundContent
 import com.redvelvet.ui.composable.MovieScaffold
@@ -27,6 +28,7 @@ fun MovieDetailsScreen(
     val state by viewModel.state.collectAsState()
     var isScrolled by remember { mutableStateOf(false) }
     val systemUiController = rememberSystemUiController()
+    val navController = LocalNavController.current
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
     NavigationHandler(
         effects = viewModel.effect,
@@ -64,7 +66,7 @@ fun MovieDetailsScreen(
             }
             CustomMediaDetailsTopAppBar(
                 // TODO: HANDLE THESE INTERACTIONS
-                onBackClicked = { /* Handle back clicked */ },
+                onBackClicked = { navController.popBackStack() },
                 onFavoriteClicked = { /* Handle favorite clicked */ },
                 onSaveClicked = { /* Handle save clicked */ },
                 isScrolled = isScrolled

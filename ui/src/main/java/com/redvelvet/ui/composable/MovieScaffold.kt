@@ -1,9 +1,7 @@
 package com.redvelvet.ui.composable
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
@@ -62,7 +60,6 @@ fun MovieScaffold(
         },
         containerColor = Color.Transparent
     ) { _ ->
-
         AnimatedVisibility(
             visible = isLoading,
             enter = fadeIn(),

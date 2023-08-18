@@ -17,6 +17,7 @@ import coil.size.Scale
 fun BackgroundMediaImage(
     image: String,
     placeholder: Int,
+    error: Int,
     contentDescription: Int,
     modifier: Modifier = Modifier,
     scale: Scale = Scale.FILL,
@@ -29,6 +30,7 @@ fun BackgroundMediaImage(
             .crossfade(true).scale(scale).build(),
         placeholder = painterResource(placeholder),
         contentDescription = stringResource(contentDescription),
+        error = painterResource(id = error)
     )
 }
 

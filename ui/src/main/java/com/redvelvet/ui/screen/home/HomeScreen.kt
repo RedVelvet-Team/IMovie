@@ -28,8 +28,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
+import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.MovieScaffold
 import com.redvelvet.ui.composable.TabContentDisplay
+import com.redvelvet.ui.screen.seeall.navigateToSeeAllMovie
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
@@ -37,6 +39,7 @@ import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.home.HomeUiState
 import com.redvelvet.viewmodel.home.HomeViewModel
 import com.redvelvet.viewmodel.home.ItemUiState
+import com.redvelvet.viewmodel.utils.SeeAllMovie
 
 @Composable
 fun HomeScreen(
@@ -159,6 +162,7 @@ fun MovieContent(
     label: String,
     viewpagerList: List<ItemUiState>
 ) {
+    val navController = LocalNavController.current
     TabContentDisplay(
         pagerState = pagerState,
         label = label,
@@ -187,6 +191,12 @@ fun MovieContent(
                 movieUiState.country
             }
         },
+        onClickSeeAll = {
+            navController.navigateToSeeAllMovie(
+                id = "900667",
+                type = SeeAllMovie.SIMILAR
+            )
+        }
     )
 }
 

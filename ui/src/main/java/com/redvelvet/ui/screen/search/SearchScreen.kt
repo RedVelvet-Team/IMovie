@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -146,7 +147,6 @@ fun EmptyContent(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
                 Image(
                     painter = painterResource(R.drawable.vector_serach),
                     contentDescription = stringResource(R.string.search_empty)
@@ -161,7 +161,8 @@ fun EmptyContent(
                 Text(
                     text = stringResource(R.string.search_for_your_favorite_movies_and_tv_shows_that_you_love),
                     style = Typography.displaySmall,
-                    color = FontAccent
+                    color = FontAccent,
+                    textAlign = TextAlign.Center
                 )
             }
         }
