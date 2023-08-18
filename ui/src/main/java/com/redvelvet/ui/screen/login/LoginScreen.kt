@@ -27,6 +27,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.AbsoluteAlignment
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -166,9 +167,9 @@ private fun LoginContentPortrait(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Welcome Back!",
+            text = "Welcome Back",
             modifier = Modifier
-                .align(Alignment.Start)
+                .align(AbsoluteAlignment.Left)
                 .padding(top = 32.dp),
             style = Typography.headlineLarge.copy(
                 fontSize = 24.sp, color = MaterialTheme.color.fontPrimary
@@ -178,7 +179,7 @@ private fun LoginContentPortrait(
         Text(
             text = "Login to your account",
             modifier = Modifier
-                .align(Alignment.Start)
+                .align(AbsoluteAlignment.Left)
                 .padding(top = MaterialTheme.spacing.spacing4),
             style = Typography.displayMedium.copy(
                 fontSize = 16.sp, color = MaterialTheme.color.fontPrimary
@@ -213,9 +214,9 @@ private fun LoginContentPortrait(
             onTextChange = interaction::onPasswordChanged
         )
         Text(
-            text = "Forgot Password?",
+            text = "Forgot Password",
             modifier = Modifier
-                .align(Alignment.End)
+                .align(AbsoluteAlignment.Right)
                 .padding(bottom = MaterialTheme.spacing.spacing16)
                 .clickable { interaction.onClickForgotPassword() },
             style = Typography.titleSmall.copy(color = MaterialTheme.color.fontPrimary),
@@ -271,7 +272,7 @@ private fun LoginContentLandscape(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Welcome Back!",
+            text = "Welcome Back",
             modifier = Modifier.padding(top = MaterialTheme.spacing.spacing24),
             style = Typography.headlineMedium,
             color = MaterialTheme.color.fontPrimary
@@ -310,10 +311,13 @@ private fun LoginContentLandscape(
             onTextChange = interaction::onPasswordChanged
         )
         Text(
-            text = "Forgot Password?",
+            text = "Forgot Password",
             modifier = Modifier
-                .align(Alignment.End)
-                .padding(bottom = MaterialTheme.spacing.spacing8)
+                .align(AbsoluteAlignment.Right)
+                .padding(
+                    bottom = MaterialTheme.spacing.spacing16,
+                    end = MaterialTheme.spacing.spacing8
+                )
                 .clickable { interaction.onClickForgotPassword() },
             style = Typography.titleSmall.copy(color = MaterialTheme.color.fontPrimary),
         )
