@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -21,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.Primary
@@ -42,6 +44,7 @@ fun MovieScaffold(
     error: ErrorUiState? = null,
     onError: @Composable () -> Unit = {},
     onRetry: @Composable () -> Unit = {},
+    onClick: () -> Unit = {},
     hasBackArrow: Boolean = true,
     hasTopBar: Boolean = false,
     content: @Composable () -> Unit
@@ -72,7 +75,7 @@ fun MovieScaffold(
             enter = fadeIn(),
             exit = fadeOut()
         ) {
-            ErrorAnimatedHandler(error!!, onError, onRetry)
+            ErrorAnimatedHandler(error ?: ErrorUiState(""), onError, onRetry, onClick)
         }
         val systemUiController = rememberSystemUiController()
         systemUiController.setSystemBarsColor(
@@ -94,32 +97,41 @@ fun MovieScaffold(
 fun ErrorAnimatedHandler(
     error: ErrorUiState,
     onError: @Composable () -> Unit = {},
-    onRetry: @Composable () -> Unit
+    onRetry: @Composable () -> Unit,
+    onClick: () -> Unit = {},
 ) {
-    ErrorViewer(error, onError, onRetry)
+    ErrorViewer(error, onError, onRetry, onClick)
 }
 
 @Composable
 fun ErrorViewer(
     error: ErrorUiState,
     onError: @Composable () -> Unit = {},
-    retryButton: @Composable () -> Unit = {}
+    retryButton: @Composable () -> Unit = {},
+    onClick: () -> Unit = {},
 ) {
     when (error) {
         is NullResultErrorState -> NoContent(retryButton = retryButton)
         is InvalidationErrorState -> LoginRequired(retryButton = retryButton)
-        is NetworkErrorState -> NetworkView(retryButton = retryButton)
+        is NetworkErrorState -> NetworkView(onClick = onClick)
         else -> onError()
     }
 }
 
 @Composable
-fun NetworkView(retryButton: @Composable () -> Unit = {}) {
+fun NetworkView(onClick: () -> Unit = {}) {
     ErrorPage(
         image = painterResource(id = R.drawable.vector_no_internet),
         title = "Internet is not available",
         description = "please make sure you are connected to the internet and try again",
-        retryButton = retryButton
+        retryButton = {
+            PrimaryButton(
+                onClick = { onClick() },
+                modifier = Modifier
+                    .width(126.dp),
+                text = "Try Again",
+            )
+        }
     )
 }
 
@@ -175,7 +187,10 @@ fun ErrorPage(
             color = MaterialTheme.color.fontSecondary
         )
         Text(
-            modifier = Modifier.padding(top = MaterialTheme.spacing.spacing4),
+            modifier = Modifier.padding(
+                top = MaterialTheme.spacing.spacing4,
+                bottom = MaterialTheme.spacing.spacing48
+            ),
             text = description,
             style = Typography.displaySmall,
             color = MaterialTheme.color.fontAccent,

@@ -48,7 +48,8 @@ fun MovieDetailsScreen(
     )
     MovieScaffold(
         isLoading = state.isLoading,
-        error = state.error
+        error = state.error,
+        onClick = viewModel::refresh
     ) {
         Box(
             modifier = Modifier
