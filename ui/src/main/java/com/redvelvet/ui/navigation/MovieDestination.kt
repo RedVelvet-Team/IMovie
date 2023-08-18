@@ -24,6 +24,7 @@ sealed class MovieDestination(
     data object SeeAllMovieReviews : MovieDestination("seeAllMovieReviews")
     data object MovieDetails : MovieDestination("movie_details")
     data object TvShowDetails : MovieDestination("tvshow_details")
+    data object Upcoming : MovieDestination("upcoming")
 
     data object Home : MovieDestination(
         "home",
