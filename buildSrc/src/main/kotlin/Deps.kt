@@ -46,7 +46,7 @@ object Deps {
     private val pagingCommonVersion = "3.2.0"
     private val cloudyVersion = "0.1.2"
     private val glassy = "0.0.4"
-
+    private val exoPlayerVersion = "1.1.1"
 
     //glass
     val glass = "com.github.jakhongirmadaminov:glassmorphic-composables:$glassy"
@@ -164,5 +164,8 @@ object Deps {
     val roomKtx = "androidx.room:room-ktx:$roomVersion"
     val roomTesting = "androidx.room:room-testing:$roomVersion"
     val roomPaging = "androidx.room:room-paging:$roomVersion"
+
+    //exoplayer
+    val exoPlayer = "androidx.media3:media3-exoplayer:$exoPlayerVersion"
 }
 
