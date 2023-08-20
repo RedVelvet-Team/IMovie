@@ -1,4 +1,4 @@
-package com.redvelvet.ui.screen.movie_player
+package com.redvelvet.ui.screen.youtube_player
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -7,22 +7,23 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.redvelvet.ui.navigation.MovieDestination
+import com.redvelvet.ui.screen.movie_player.MoviePlayer
 import com.redvelvet.viewmodel.youtube_player.YoutubePlayerArgs
 
-private val ROUTE = MovieDestination.MoviePlayer.route
+private val ROUTE = MovieDestination.YoutubePlayer.route
 
-fun NavGraphBuilder.moviePlayerRoute() {
+fun NavGraphBuilder.youtubePlayerRoute() {
     composable(
         route = "$ROUTE/${YoutubePlayerArgs.PRODUCTION_CODE}",
         arguments = listOf(navArgument(YoutubePlayerArgs.PRODUCTION_CODE) { NavType.StringType })
     ) {
-        MoviePlayer()
+        YoutubePlayerScreen()
     }
 }
 
-fun NavController.navigateMoviePlayer(movieId:String,builder: NavOptionsBuilder.() -> Unit = {}) {
+fun NavController.navigateMoviePlayer(productionCode:String, builder: NavOptionsBuilder.() -> Unit = {}) {
     navigate(
-        route = "$ROUTE/${movieId}",
+        route = "$ROUTE/${productionCode}",
         builder = builder
     )
 }

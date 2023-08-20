@@ -94,5 +94,7 @@ dependencies {
     implementation(Deps.pagingCompose)
     //exoPlayer
     implementation(Deps.exoPlayer)
+    //youtubePlayer
+    implementation(Deps.youtubePlayer)
 }
 

@@ -27,6 +27,7 @@ import com.redvelvet.ui.screen.upcoming.categoryRoute
 import com.redvelvet.ui.screen.upcoming.gameRoute
 import com.redvelvet.ui.screen.upcoming.libraryRoute
 import com.redvelvet.ui.screen.upcoming.upcomingRoute
+import com.redvelvet.ui.screen.youtube_player.youtubePlayerRoute
 
 @Composable
 fun MovieNavGraph() {
@@ -55,5 +56,6 @@ fun MovieNavGraph() {
         gameRoute()
         roomRoute()
         moviePlayerRoute()
+        youtubePlayerRoute()
     }
 }

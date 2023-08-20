@@ -47,6 +47,7 @@ object Deps {
     private val cloudyVersion = "0.1.2"
     private val glassy = "0.0.4"
     private val exoPlayerVersion = "1.1.1"
+    private val youtubePlayerVersion = "12.1.0"
 
     //glass
     val glass = "com.github.jakhongirmadaminov:glassmorphic-composables:$glassy"
@@ -167,5 +168,9 @@ object Deps {
 
     //exoplayer
     val exoPlayer = "androidx.media3:media3-exoplayer:$exoPlayerVersion"
+
+    //youtube player
+    val youtubePlayer = "com.pierfrancescosoffritti.androidyoutubeplayer:core:$youtubePlayerVersion"
+
 }
 
