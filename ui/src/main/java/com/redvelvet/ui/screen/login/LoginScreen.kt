@@ -1,6 +1,7 @@
 package com.redvelvet.ui.screen.login
 
 import android.content.res.Configuration
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -26,6 +27,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.AbsoluteAlignment
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -43,7 +45,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
-import com.redvelvet.ui.composable.MovieScaffold
 import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.PrimaryOutlinedButton
 import com.redvelvet.ui.composable.PrimaryTextField
@@ -87,7 +88,7 @@ fun LoginScreen(
 
                 is LoginUiEffect.ShowToastError -> {
                     uiState.error?.let { error ->
-
+                        Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
                     }
                 }
 
@@ -115,36 +116,27 @@ private fun LoginScreenContent(
     val imageBitmap: ImageBitmap = ImageBitmap.imageResource(context.resources, R.drawable.login)
 
     AnimatedVisibility(LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT) {
-        MovieScaffold(
-            title = "",
-            isLoading = uiState.isLoading,
-            error = uiState.error,
-            modifier = Modifier.fillMaxWidth(),
-            hasBackArrow = true,
-            hasTopBar = false
-        ) {
-            Box {
-                Image(
-                    bitmap = imageBitmap,
-                    contentDescription = "Login Image",
-                    modifier = Modifier
-                        .height(MaterialTheme.dimens.dimens365)
-                        .fillMaxWidth(),
-                    contentScale = ContentScale.FillBounds
+        Box {
+            Image(
+                bitmap = imageBitmap,
+                contentDescription = "Login Image",
+                modifier = Modifier
+                    .height(MaterialTheme.dimens.dimens365)
+                    .fillMaxWidth(),
+                contentScale = ContentScale.FillBounds
+            )
+            Card(
+                modifier = Modifier
+                    .padding(top = MaterialTheme.spacing.spacing285)
+                    .fillMaxWidth()
+                    .shadow(MaterialTheme.spacing.spacing0),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.color.backgroundPrimary),
+                shape = RoundedCornerShape(
+                    topStart = MaterialTheme.radius.radius32,
+                    topEnd = MaterialTheme.radius.radius32
                 )
-                Card(
-                    modifier = Modifier
-                        .padding(top = MaterialTheme.spacing.spacing285)
-                        .fillMaxWidth()
-                        .shadow(MaterialTheme.spacing.spacing0),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.color.backgroundPrimary),
-                    shape = RoundedCornerShape(
-                        topStart = MaterialTheme.radius.radius32,
-                        topEnd = MaterialTheme.radius.radius32
-                    )
-                ) {
-                    LoginContentPortrait(uiState = uiState, interaction = interaction)
-                }
+            ) {
+                LoginContentPortrait(uiState = uiState, interaction = interaction)
             }
         }
     }
@@ -175,9 +167,9 @@ private fun LoginContentPortrait(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Welcome Back!",
+            text = "Welcome Back",
             modifier = Modifier
-                .align(Alignment.Start)
+                .align(AbsoluteAlignment.Left)
                 .padding(top = 32.dp),
             style = Typography.headlineLarge.copy(
                 fontSize = 24.sp, color = MaterialTheme.color.fontPrimary
@@ -187,7 +179,7 @@ private fun LoginContentPortrait(
         Text(
             text = "Login to your account",
             modifier = Modifier
-                .align(Alignment.Start)
+                .align(AbsoluteAlignment.Left)
                 .padding(top = MaterialTheme.spacing.spacing4),
             style = Typography.displayMedium.copy(
                 fontSize = 16.sp, color = MaterialTheme.color.fontPrimary
@@ -222,9 +214,9 @@ private fun LoginContentPortrait(
             onTextChange = interaction::onPasswordChanged
         )
         Text(
-            text = "Forgot Password?",
+            text = "Forgot Password",
             modifier = Modifier
-                .align(Alignment.End)
+                .align(AbsoluteAlignment.Right)
                 .padding(bottom = MaterialTheme.spacing.spacing16)
                 .clickable { interaction.onClickForgotPassword() },
             style = Typography.titleSmall.copy(color = MaterialTheme.color.fontPrimary),
@@ -280,7 +272,7 @@ private fun LoginContentLandscape(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Welcome Back!",
+            text = "Welcome Back",
             modifier = Modifier.padding(top = MaterialTheme.spacing.spacing24),
             style = Typography.headlineMedium,
             color = MaterialTheme.color.fontPrimary
@@ -319,10 +311,13 @@ private fun LoginContentLandscape(
             onTextChange = interaction::onPasswordChanged
         )
         Text(
-            text = "Forgot Password?",
+            text = "Forgot Password",
             modifier = Modifier
-                .align(Alignment.End)
-                .padding(bottom = MaterialTheme.spacing.spacing8)
+                .align(AbsoluteAlignment.Right)
+                .padding(
+                    bottom = MaterialTheme.spacing.spacing8,
+                    end = MaterialTheme.spacing.spacing8
+                )
                 .clickable { interaction.onClickForgotPassword() },
             style = Typography.titleSmall.copy(color = MaterialTheme.color.fontPrimary),
         )
@@ -338,7 +333,7 @@ private fun LoginContentLandscape(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    top = MaterialTheme.spacing.spacing12,
+                    top = MaterialTheme.spacing.spacing8,
                     start = MaterialTheme.spacing.spacing12,
                     end = MaterialTheme.spacing.spacing12
                 ),

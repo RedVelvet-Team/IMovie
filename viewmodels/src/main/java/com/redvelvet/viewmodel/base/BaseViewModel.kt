@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.redvelvet.entities.error.MovieException
 import com.redvelvet.entities.error.NetworkException
+import com.redvelvet.entities.error.NoInternetException
 import com.redvelvet.entities.error.NullResultException
 import com.redvelvet.entities.error.ValidationException
 import kotlinx.coroutines.CoroutineDispatcher
@@ -39,13 +40,15 @@ abstract class BaseViewModel<UiState : BaseUiState, UiEffect>(state: UiState) :
                 onSuccessWithData(result)
                 onSuccessWithoutData()
             } catch (e: ValidationException) {
-                onError(InvalidationErrorState(e.message))
+                onError(InvalidationErrorState(e.message.toString()))
             } catch (e: NullResultException) {
-                onError(NullResultErrorState(e.message))
+                onError(NullResultErrorState(e.message.toString()))
             } catch (e: NetworkException) {
-                onError(NetworkErrorState(e.message))
+                onError(NetworkErrorState(e.message.toString()))
             } catch (e: MovieException) {
-                onError(ErrorUiState(e.message))
+                onError(ErrorUiState(e.message.toString()))
+            } catch (e: NoInternetException) {
+                onError(NetworkErrorState(e.message.toString()))
             }
         }
     }
@@ -62,12 +65,14 @@ abstract class BaseViewModel<UiState : BaseUiState, UiEffect>(state: UiState) :
                 result.collect { data ->
                     onSuccess(data)
                 }
+            } catch (e: NoInternetException) {
+                onError(NetworkErrorState(e.message.toString()))
             } catch (e: NullResultException) {
-                onError(NullResultErrorState(e.message))
+                onError(NullResultErrorState(e.message.toString()))
             } catch (e: NetworkException) {
-                onError(NetworkErrorState(e.message))
+                onError(NetworkErrorState(e.message.toString()))
             } catch (e: MovieException) {
-                onError(ErrorUiState(e.message))
+                onError(ErrorUiState(e.message.toString()))
             }
         }
     }

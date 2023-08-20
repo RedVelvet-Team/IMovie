@@ -2,19 +2,22 @@ package com.redvelvet.ui.composable
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -32,81 +35,122 @@ import com.redvelvet.viewmodel.base.NullResultErrorState
 @Composable
 fun MovieScaffold(
     modifier: Modifier = Modifier,
-    title: String,
+    title: String = "",
     isLoading: Boolean,
+    onLoading: @Composable () -> Unit = { LoadingState() },
     error: ErrorUiState? = null,
+    onError: @Composable () -> Unit = {},
+    onRetry: @Composable () -> Unit = {},
+    onClick: () -> Unit = {},
     hasBackArrow: Boolean = true,
     hasTopBar: Boolean = false,
     content: @Composable () -> Unit
 ) {
     Scaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .background(MaterialTheme.color.backgroundPrimary),
         topBar = {
-            FilxTopAppBar(
-                title = title,
-                hasBackArrow = hasBackArrow
-            ).takeIf { hasTopBar }
-        },
-        containerColor = MaterialTheme.color.backgroundPrimary
-    ) { _ ->
-        AnimatedVisibility(isLoading) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                CircularProgressIndicator()
+            AnimatedVisibility(visible = hasTopBar) {
+                FilxTopAppBar(
+                    title = title,
+                    hasBackArrow = hasBackArrow
+                )
             }
+        },
+        containerColor = Color.Transparent
+    ) { _ ->
+        AnimatedVisibility(
+            visible = isLoading,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            onLoading()
         }
-        AnimatedVisibility(error != null) {
-            ErrorViewer(error = error!!)
+        AnimatedVisibility(
+            visible = error != null,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            ErrorAnimatedHandler(error ?: ErrorUiState(""), onError, onRetry, onClick)
         }
         val systemUiController = rememberSystemUiController()
         systemUiController.setSystemBarsColor(
             MaterialTheme.color.backgroundPrimary,
             darkIcons = false
         )
-        content()
+        AnimatedVisibility(
+            visible = !isLoading && (error == null),
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            content()
+        }
+
     }
 }
 
 @Composable
-fun ErrorViewer(error: ErrorUiState) {
+fun ErrorAnimatedHandler(
+    error: ErrorUiState,
+    onError: @Composable () -> Unit = {},
+    onRetry: @Composable () -> Unit,
+    onClick: () -> Unit = {},
+) {
+    ErrorViewer(error, onError, onRetry, onClick)
+}
+
+@Composable
+fun ErrorViewer(
+    error: ErrorUiState,
+    onError: @Composable () -> Unit = {},
+    retryButton: @Composable () -> Unit = {},
+    onClick: () -> Unit = {},
+) {
     when (error) {
-        is NullResultErrorState -> NoContent()
-        is InvalidationErrorState -> LoginRequired()
-        is NetworkErrorState -> NetworkView()
-        else -> NetworkView()
+        is NullResultErrorState -> NoContent(retryButton = retryButton)
+        is InvalidationErrorState -> LoginRequired(retryButton = retryButton)
+        is NetworkErrorState -> NetworkView(onClick = onClick)
+        else -> onError()
     }
 }
 
 @Composable
-fun NetworkView() {
+fun NetworkView(onClick: () -> Unit = {}) {
     ErrorPage(
         image = painterResource(id = R.drawable.vector_no_internet),
         title = "Internet is not available",
-        description = "please make sure you are connected to the internet and try again"
+        description = "please make sure you are connected to the internet and try again",
+        retryButton = {
+            PrimaryButton(
+                onClick = { onClick() },
+                text = "Try Again",
+            )
+        }
     )
 }
 
 @Composable
-fun LoginRequired() {
+fun LoginRequired(retryButton: @Composable () -> Unit = {}) {
     ErrorPage(
         image = painterResource(id = R.drawable.library_logo),
         title = "Login Required",
-        description = "Use you account to enjoy the best app experience"
+        description = "Use you account to enjoy the best app experience",
+        retryButton = retryButton,
     )
 }
 
 @Composable
 fun NoContent(
     title: String = "There are no favorite",
-    description: String = "Enjoy adding items to your favorites list and get ready to enjoy"
+    description: String = "Enjoy adding items to your favorites list and get ready to enjoy",
+    retryButton: @Composable () -> Unit = {}
 ) {
     ErrorPage(
         image = painterResource(id = R.drawable.vector_not_found),
         title = title,
-        description = description
+        description = description,
+        retryButton = retryButton
     )
 }
 
@@ -138,7 +182,10 @@ fun ErrorPage(
             color = MaterialTheme.color.fontSecondary
         )
         Text(
-            modifier = Modifier.padding(top = MaterialTheme.spacing.spacing4),
+            modifier = Modifier.padding(
+                top = MaterialTheme.spacing.spacing4,
+                bottom = MaterialTheme.spacing.spacing48
+            ),
             text = description,
             style = Typography.displaySmall,
             color = MaterialTheme.color.fontAccent,

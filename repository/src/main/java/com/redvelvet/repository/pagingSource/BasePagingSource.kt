@@ -2,8 +2,10 @@ package com.redvelvet.repository.pagingSource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.redvelvet.entities.error.MovieException
+import com.redvelvet.entities.error.NetworkException
+import com.redvelvet.entities.error.NullResultException
 import com.redvelvet.repository.source.RemoteDataSource
-import java.io.IOException
 
 abstract class BasePagingSource<Value : Any> (
     protected val remoteDataSource: RemoteDataSource
@@ -21,7 +23,11 @@ abstract class BasePagingSource<Value : Any> (
                 prevKey = if (currentPage == 1) null else currentPage - 1,
                 nextKey = nextKey
             )
-        } catch (e: IOException) {
+        } catch (e: NullResultException) {
+            LoadResult.Error(e)
+        } catch (e: NetworkException) {
+            LoadResult.Error(e)
+        } catch (e: MovieException) {
             LoadResult.Error(e)
         }
     }

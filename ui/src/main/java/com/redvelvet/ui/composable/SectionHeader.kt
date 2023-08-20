@@ -11,20 +11,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import com.redvelvet.ui.theme.FontAccent
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
+import com.redvelvet.viewmodel.utils.SeeAllMovie
 
 @Composable
 fun SectionHeader(
-    label: String, modifier: Modifier = Modifier, onClickSeeAll: () -> Unit = {}
+    modifier: Modifier = Modifier,
+    label: String,
+    onClickSeeAll: (SeeAllMovie) -> Unit = {},
+    seeAllMovie: SeeAllMovie,
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.fillMaxWidth().padding(horizontal = MaterialTheme.spacing.spacing16)) {
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = MaterialTheme.spacing.spacing16)
+    ) {
         Text(
             text = label,
             style = Typography.titleMedium,
@@ -33,7 +38,7 @@ fun SectionHeader(
         Text(text = "see all",
             style = Typography.labelSmall,
             color = MaterialTheme.color.fontAccent,
-            modifier = Modifier.clickable { onClickSeeAll() }
+            modifier = Modifier.clickable { onClickSeeAll(seeAllMovie) }
         )
     }
 }

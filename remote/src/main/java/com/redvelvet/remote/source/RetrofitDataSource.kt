@@ -7,13 +7,12 @@ import com.redvelvet.entities.error.NullResultException
 import com.redvelvet.entities.error.ServerException
 import com.redvelvet.entities.error.ValidationException
 import com.redvelvet.remote.service.MovieApiService
+import com.redvelvet.repository.dto.ActorKnownForDto
+import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
-import com.redvelvet.repository.dto.person.PersonDto
-import com.redvelvet.repository.dto.search.MultiSearchResultDto
-import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -21,7 +20,16 @@ import com.redvelvet.repository.dto.movie.details.MovieRecommendationsDTO
 import com.redvelvet.repository.dto.movie.details.MovieReviewsDTO
 import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
 import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
+import com.redvelvet.repository.dto.person.ActorDto
+import com.redvelvet.repository.dto.search.CombinedResultDto
+import com.redvelvet.repository.dto.tvShow.TvShowDetailsDto
+import com.redvelvet.repository.dto.tvShow.TvShowDto
+import com.redvelvet.repository.dto.tvShow.TvShowImagesDto
+import com.redvelvet.repository.dto.tvShow.TvShowKeywordsDto
+import com.redvelvet.repository.dto.tvShow.TvShowTopCastDto
+import com.redvelvet.repository.dto.tvShow.TvShowVideosDto
 import com.redvelvet.repository.source.RemoteDataSource
+import okio.IOException
 import retrofit2.Response
 import java.net.UnknownHostException
 import javax.inject.Inject
@@ -117,43 +125,209 @@ class RetrofitDataSource @Inject constructor(
     //endregion
 
     // region search
-    override suspend fun multiSearch(query: String, page: Int?): List<MultiSearchResultDto> {
-        return wrapApiResponse { movieApiService.multiSearch(query, page) }.result.orEmpty()
+    override suspend fun multiSearch(query: String, page: Int?): List<CombinedResultDto> {
+        return wrapApiResponse { movieApiService.multiSearch(query, page) }.result
+            ?: throw NullResultException("There is no data")
     }
 
-    override suspend fun searchPeople(query: String, page: Int?): List<PersonDto> {
-        return wrapApiResponse { movieApiService.searchPeople(query, page) }.result.orEmpty()
+    override suspend fun searchPeople(query: String, page: Int?): List<ActorDto> {
+        return wrapApiResponse { movieApiService.searchPeople(query, page) }.result
+            ?: throw NullResultException("There is no data")
     }
 
     override suspend fun searchMovie(query: String, page: Int?): List<MovieDetailsDTO> {
-        return wrapApiResponse { movieApiService.searchMovie(query, page) }.result.orEmpty()
+        return wrapApiResponse { movieApiService.searchMovie(query, page) }.result
+            ?: throw NullResultException("There is no data")
     }
 
     override suspend fun searchTvShows(query: String, page: Int?): List<TvShowDto> {
-        return wrapApiResponse { movieApiService.searchTvShows(query, page) }.result.orEmpty()
+        return wrapApiResponse { movieApiService.searchTvShows(query, page) }.result
+            ?: throw NullResultException("There is no data")
+    }
+    // endregion
+
+    //region see all tv
+    override suspend fun seeAllAiringTodayTv(page: Int?): List<TvShowDto> {
+        return wrapApiResponse { movieApiService.seeAllAiringTodayTv(page) }.result
+            ?: throw NullResultException("There is no data")
+    }
+
+    override suspend fun seeAllOnTheAir(page: Int?): List<TvShowDto> {
+        return wrapApiResponse { movieApiService.seeAllOnTheAir(page) }.result
+            ?: throw NullResultException("There is no data")
+    }
+
+    override suspend fun seeAllPopularTv(page: Int?): List<TvShowDto> {
+        return wrapApiResponse { movieApiService.seeAllPopularTv(page) }.result
+            ?: throw NullResultException("There is no data")
+    }
+
+    override suspend fun seeAllTopRatedTv(page: Int?): List<TvShowDto> {
+        return wrapApiResponse { movieApiService.seeAllTopRatedTv(page) }.result
+            ?: throw NullResultException("There is no data")
+    }
+
+    override suspend fun seeAllRecommendedTv(page: Int?, id: Int): List<TvShowDto> {
+        return wrapApiResponse {
+            movieApiService.seeAllRecommendedMovieTv(
+                id = id,
+                page = page
+            )
+        }.result ?: throw NullResultException("There is no data")
+    }
+
+    override suspend fun getActorDetails(id: String): ActorDto {
+        return wrapApiResponse { movieApiService.getActorDetails(id) }
+    }
+
+    override suspend fun getActorKnownFor(id: String): ActorKnownForDto {
+        return wrapApiResponse { movieApiService.getActorKnownFor(id) }
+    }
+
+    override suspend fun getAllEpisodes(tvId: String, seasonNumber: Int): SeasonDetailsDto {
+        return wrapApiResponse { movieApiService.getAllEpisodes(tvId, seasonNumber) }
     }
 
     // endregion
+    //region see all
+    override suspend fun seeAllPopularMovie(page: Int?): List<MovieDetailsDTO> {
+        return wrapApiResponse { movieApiService.seeAllPopularMovie(page) }.result
+            ?: throw NullResultException("There is no data")
+    }
+
+    override suspend fun seeAllUpcomingMovie(page: Int?): List<MovieDetailsDTO> {
+        return wrapApiResponse { movieApiService.seeAllUpcomingMovie(page) }.result
+            ?: throw NullResultException("There is no data")
+    }
+
+    override suspend fun seeAllNowPlayingMovie(page: Int?): List<MovieDetailsDTO> {
+        return wrapApiResponse { movieApiService.seeAllNowPlayingMovie(page) }.result
+            ?: throw NullResultException("There is no data")
+    }
+
+    override suspend fun seeAllTopRatedMovie(page: Int?): List<MovieDetailsDTO> {
+        return wrapApiResponse { movieApiService.seeAllTopRatedMovie(page) }.result
+            ?: throw NullResultException("There is no data")
+    }
+
+    override suspend fun seeAllSimilarMovie(page: Int?, id: Int): List<MovieDetailsDTO> {
+        return wrapApiResponse { movieApiService.seeAllSimilarMovie(id, page) }.result
+            ?: throw NullResultException("There is no data")
+    }
+
+    override suspend fun seeAllRecommendedMovie(page: Int?, id: Int): List<MovieDetailsDTO> {
+        return wrapApiResponse { movieApiService.seeAllRecommendedMovie(id, page) }.result
+            ?: throw NullResultException("There is no data")
+    }
+    //endregion
 
     //region wrap response
     private suspend fun <T> wrapApiResponse(
         request: suspend () -> Response<T>
     ): T {
-        return try {
+        try {
             val response = request()
             if (response.isSuccessful) {
-                response.body() ?: throw NullResultException("Empty data")
+                return response.body() ?: throw NullResultException("No data")
             } else {
                 throw when (response.code()) {
                     400 -> BadRequestException(response.message())
-                    401 -> ValidationException(response.message())
-                    404 -> NotFoundException(response.message())
-                    else -> ServerException(response.message())
+                    401 -> ValidationException("Invalid username or password")
+                    404 -> NotFoundException("Not found")
+                    else -> ServerException("Server error")
                 }
             }
         } catch (e: UnknownHostException) {
             throw NoInternetException("no Internet")
+        } catch (io: IOException) {
+            throw NoInternetException(io.message)
         }
+    }
+    //endregion
+
+
+    //region tvShow
+    override suspend fun getTvShowKeyWordsByID(seriesId: Int): TvShowKeywordsDto =
+        wrapApiResponse { movieApiService.getTvShowKeyWordsByID(seriesId) }
+
+
+    override suspend fun getTvShowTopCastByID(seriesId: Int): TvShowTopCastDto =
+        wrapApiResponse { movieApiService.getTvShowTopCastByID(seriesId) }
+
+
+    override suspend fun addTvShowRating(
+        seriesRating: Double,
+        seriesId: Int,
+        sessionId: String
+    ): String =
+        wrapApiResponse {
+            movieApiService.addTvShowRating(
+                seriesRating,
+                seriesId,
+                sessionId
+            )
+        }.statusMessage.toString()
+
+    override suspend fun getTvShowVideosByID(seriesId: Int): TvShowVideosDto =
+        wrapApiResponse { movieApiService.getTvShowVideosByID(seriesId) }
+
+    override suspend fun getTvShowImagesByID(seriesId: Int): TvShowImagesDto =
+        wrapApiResponse { movieApiService.getTvShowImagesByID(seriesId) }
+
+
+    override suspend fun deleteTvShowRating(seriesId: Int, sessionId: String): String =
+        wrapApiResponse {
+            movieApiService.deleteTvShowRating(
+                seriesId,
+                sessionId
+            )
+        }.statusMessage.toString()
+
+    override suspend fun getTvShowDetailsByID(seriesId: Int) =
+        wrapApiResponse { movieApiService.getTvShowDetailsById(seriesId) }
+
+
+    override suspend fun getTvShowRecommendationsByID(seriesId: Int) =
+        wrapApiResponse { movieApiService.getTvShowRecommendationsByID(seriesId) }
+
+
+    override suspend fun getTvShowReviewsByID(seriesId: Int) =
+        wrapApiResponse { movieApiService.getTvShowReviewsByID(seriesId) }
+
+    override suspend fun getAllSeasons(seriesId: Int): TvShowDetailsDto {
+        return wrapApiResponse { movieApiService.getTvShowDetailsById(seriesId) }
+    }
+
+    override suspend fun getPopularMovies(): List<MovieDetailsDTO> {
+        return wrapApiResponse { movieApiService.getPopularMovie(1) }.result.orEmpty()
+    }
+
+    override suspend fun getUpComingMovies(): List<MovieDetailsDTO> {
+        return wrapApiResponse { movieApiService.getUpcomingMovie() }.result.orEmpty()
+    }
+
+    override suspend fun getTopRatedMovies(): List<MovieDetailsDTO> {
+        return wrapApiResponse { movieApiService.getTopRatedMovie() }.result.orEmpty()
+    }
+
+    override suspend fun getNowPlayingMovies(): List<MovieDetailsDTO> {
+        return wrapApiResponse { movieApiService.getNowPlayingMovie() }.result.orEmpty()
+    }
+
+    override suspend fun getAiringTodayTv(): List<TvShowDto> {
+        return wrapApiResponse { movieApiService.getAiringTodayTv() }.result.orEmpty()
+    }
+
+    override suspend fun getOnTheAir(): List<TvShowDto> {
+        return wrapApiResponse { movieApiService.getOnTheAirTv() }.result.orEmpty()
+    }
+
+    override suspend fun getPopularTv(): List<TvShowDto> {
+        return wrapApiResponse { movieApiService.getPopularTv() }.result.orEmpty()
+    }
+
+    override suspend fun getTopRatedTv(): List<TvShowDto> {
+        return wrapApiResponse { movieApiService.getTopRatedTv() }.result.orEmpty()
     }
     //endregion
 

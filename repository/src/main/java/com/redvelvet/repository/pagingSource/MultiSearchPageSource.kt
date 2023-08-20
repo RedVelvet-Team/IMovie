@@ -1,6 +1,5 @@
 package com.redvelvet.repository.pagingSource
 
-import android.util.Log
 import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.repository.mapper.toSearchResult
 import com.redvelvet.repository.source.RemoteDataSource

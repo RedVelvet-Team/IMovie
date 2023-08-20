@@ -2,7 +2,6 @@ package com.redvelvet.viewmodel.search
 
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import androidx.paging.map
 import com.redvelvet.entities.actor.Actor
 import com.redvelvet.entities.movie.Movie
@@ -18,6 +17,7 @@ import com.redvelvet.viewmodel.search.uiStateMappers.*
 import com.redvelvet.viewmodel.utils.SearchMedia
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
@@ -57,6 +57,7 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun onGetData(query: String) {
+        _state.update { it.copy(isLoading = true) }
         when (_state.value.selectedMediaType) {
             SearchMedia.ALL -> fetchResults {
                 getAllSearchResultUseCase(query)
@@ -150,6 +151,8 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onChangeCategory(type: SearchMedia) {
+        val currentState = _state.value
+        if (currentState.selectedMediaType == type) return
         _state.update { it.copy(selectedMediaType = type) }
         onGetData(_state.value.inputText)
     }

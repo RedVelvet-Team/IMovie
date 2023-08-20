@@ -6,7 +6,12 @@
     <string name="description">Enjoy a seamless and user-friendly experience Browse movies effortlessly and watch them instantly online.</string>
     <string name="onboarding_start">Start</string>
     <string name="logo">logo</string>
-    <string name="search_place_holder">What do you want to Watch?</string>
+    <string name="search_place_holder">Search for anything</string>
+    <string name="known_for">Known For</string>
+    <string name="biography">Biography</string>
+    <string name="born">Born</string>
+    <string name="known_as">Known As</string>
+    <string name="see_all">See all</string>
     <string name="no_search_results">" No Search Results "</string>
     <string name="search_in_movie">Search in Movie</string>
     <string name="search_for_your_favorite_movies">Search for your favorite movies and\nTV shows that you love.</string>
@@ -43,4 +48,7 @@
     <string name="invalid_password">Invalid password</string>
     <string name="icon_rating">icon rate</string>
     <string name="search_icon">search_icon</string>
+    <string name="search_in_movie_screen">Search in Movie</string>
+    <string name="search_for_your_favorite_movies_and_tv_shows_that_you_love">Search for your favorite movies and TV shows that you love.</string>
+    <string name="search_empty">search empty</string>
 </resources>

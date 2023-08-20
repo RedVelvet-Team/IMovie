@@ -25,13 +25,16 @@ import com.redvelvet.ui.composable.PrimaryOutlinedButton
 import com.redvelvet.ui.composable.WallPaper
 import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.screen.home.navigateToHome
-import com.redvelvet.ui.screen.login.navigateToLogin
+import com.redvelvet.ui.screen.movieDetails.navigateToMovieDetails
+import com.redvelvet.ui.screen.seealltv.navigateSeeAllTvShow
 import com.redvelvet.ui.screen.signup.navigateToSignUp
+import com.redvelvet.ui.screen.tvshowdetails.navigateToTvShowDetails
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.onboarding.OnBoardingViewModel
+import com.redvelvet.viewmodel.utils.SeeAllTvShows
 
 @Composable
 fun OnBoardingScreen(
@@ -52,9 +55,9 @@ fun OnBoardingScreen(
             }
         }
     }
-
+// (id = "100", type = SeeAllTvShows.TOP_RATED)
     OnBoardingContent(
-        onClickLogin = { navController.navigateToLogin() },
+        onClickLogin = { navController.navigateToMovieDetails("298618") },
         onClickSignUp = { navController.navigateToSignUp() }
     )
 }

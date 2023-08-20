@@ -1,25 +1,27 @@
 package com.redvelvet.ui.composable
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.AbsoluteAlignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
@@ -33,28 +35,25 @@ fun ItemBasicCardForDetailsScreens(
     modifier: Modifier = Modifier,
     hasName: Boolean = false,
     name: String = "",
+    id:Int,
     hasDateAndCountry: Boolean = false,
     date: String = "",
     country: String = "",
-    onClick: () -> Unit = {},
+    onClick: (id: Int) -> Unit = {},
     isMediaInfoCard: Boolean = false
 ) {
     Column(
         modifier = if (isMediaInfoCard) Modifier else Modifier
-            .clickable { onClick() }
+            .clickable { onClick(id) },
+        horizontalAlignment = AbsoluteAlignment.Left
     ) {
-        Card(
-            modifier = modifier,
-            colors = CardDefaults.cardColors(containerColor = Color.White)
-        ) {
-            Image(
-                painter = imagePainter,
-                contentDescription = stringResource(R.string.poster),
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
-            )
-        }
-        if (hasName) {
+        Image(
+            painter = imagePainter,
+            contentDescription = stringResource(R.string.poster),
+            modifier = modifier.clip(RoundedCornerShape(16.dp)),
+            contentScale = ContentScale.Crop
+        )
+        AnimatedVisibility(hasName) {
             Text(
                 text = name,
                 maxLines = 1,
@@ -69,11 +68,13 @@ fun ItemBasicCardForDetailsScreens(
                     )
             )
         }
-        if (hasDateAndCountry) {
+        AnimatedVisibility(hasDateAndCountry) {
             Row(
-                modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Absolute.Left
             ) {
                 Text(
+                    modifier = Modifier.padding(start = 4.dp, end = 4.dp),
                     text = date,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -81,7 +82,7 @@ fun ItemBasicCardForDetailsScreens(
                     style = Typography.labelSmall
                 )
                 Text(
-                    text = country,
+                    text = "($country)",
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     color = MaterialTheme.color.fontAccent,

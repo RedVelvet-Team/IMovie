@@ -1,14 +1,13 @@
 package com.redvelvet.remote.service
 
 
+import com.redvelvet.repository.dto.ActorKnownForDto
 import com.redvelvet.repository.dto.BaseResponse
+import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
-import com.redvelvet.repository.dto.person.PersonDto
-import com.redvelvet.repository.dto.search.MultiSearchResultDto
-import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -16,15 +15,27 @@ import com.redvelvet.repository.dto.movie.details.MovieRecommendationsDTO
 import com.redvelvet.repository.dto.movie.details.MovieReviewsDTO
 import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
 import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
+import com.redvelvet.repository.dto.person.ActorDto
+import com.redvelvet.repository.dto.search.CombinedResultDto
+import com.redvelvet.repository.dto.tvShow.StatusResponse
+import com.redvelvet.repository.dto.tvShow.TvShowDetailsDto
+import com.redvelvet.repository.dto.tvShow.TvShowDto
+import com.redvelvet.repository.dto.tvShow.TvShowImagesDto
+import com.redvelvet.repository.dto.tvShow.TvShowKeywordsDto
+import com.redvelvet.repository.dto.tvShow.TvShowRecommendationsDto
+import com.redvelvet.repository.dto.tvShow.TvShowReviewsDto
+import com.redvelvet.repository.dto.tvShow.TvShowTopCastDto
+import com.redvelvet.repository.dto.tvShow.TvShowVideosDto
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.HTTP
 import retrofit2.http.POST
-import retrofit2.http.Query
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface MovieApiService {
     //region auth
@@ -73,13 +84,13 @@ interface MovieApiService {
     suspend fun multiSearch(
         @Query("query") query: String,
         @Query("page") page: Int? = 1,
-    ): Response<BaseResponse<List<MultiSearchResultDto>>>
+    ): Response<BaseResponse<List<CombinedResultDto>>>
 
     @GET("search/person")
     suspend fun searchPeople(
         @Query("query") query: String,
         @Query("page") page: Int? = 1,
-    ): Response<BaseResponse<List<PersonDto>>>
+    ): Response<BaseResponse<List<ActorDto>>>
 
     @GET("search/movie")
     suspend fun searchMovie(
@@ -92,4 +103,169 @@ interface MovieApiService {
         @Query("query") query: String,
         @Query("page") page: Int? = 1,
     ): Response<BaseResponse<List<TvShowDto>>>
+    //endregion
+
+    //region see all tv
+    @GET("tv/airing_today")
+    suspend fun seeAllAiringTodayTv(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<TvShowDto>>>
+
+    @GET("tv/on_the_air")
+    suspend fun seeAllOnTheAir(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<TvShowDto>>>
+
+    @GET("tv/popular")
+    suspend fun seeAllPopularTv(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<TvShowDto>>>
+    @GET("tv/top_rated")
+    suspend fun seeAllTopRatedTv(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<TvShowDto>>>
+
+    @GET("tv/{tv_id}/recommendations")
+    suspend fun seeAllRecommendedMovieTv(
+        @Path("tv_id") id: Int,
+        @Query("page") page: Int? = 1
+    ): Response<BaseResponse<List<TvShowDto>>>
+
+    //endregion
+
+    /// region see all episodes
+    @GET("tv/{tv_id}/season/{season_number}")
+    suspend fun getAllEpisodes(
+        @Path("tv_id") tvId: String,
+        @Path("season_number") seasonNumber: Int
+    ): Response<SeasonDetailsDto>
+    // endregion
+
+
+    @GET("person/{person_id}")
+    suspend fun getActorDetails(
+        @Path("person_id") id: String
+    ): Response<ActorDto>
+
+    @GET("person/{person_id}/combined_credits")
+    suspend fun getActorKnownFor(
+        @Path("person_id") id: String
+    ): Response<ActorKnownForDto>
+
+    // region TvShow
+    @GET("tv/{tv_id}")
+    suspend fun getTvShowDetailsById(@Path("tv_id") seriesId: Int): Response<TvShowDetailsDto>
+
+    @GET("tv/{tv_id}/recommendations")
+    suspend fun getTvShowRecommendationsByID(@Path("tv_id") seriesId: Int): Response<TvShowRecommendationsDto>
+
+    @GET("tv/{tv_id}/images")
+    suspend fun getTvShowImagesByID(@Path("tv_id") seriesId: Int): Response<TvShowImagesDto>
+
+    @GET("tv/{tv_id}/videos")
+    suspend fun getTvShowVideosByID(@Path("tv_id") seriesId: Int): Response<TvShowVideosDto>
+
+    @GET("tv/{tv_id}/reviews")
+    suspend fun getTvShowReviewsByID(@Path("tv_id") seriesId: Int): Response<TvShowReviewsDto>
+
+    @GET("tv/{tv_id}/keywords")
+    suspend fun getTvShowKeyWordsByID(@Path("tv_id") seriesId: Int): Response<TvShowKeywordsDto>
+
+    @GET("tv/{tv_id}/credits")
+    suspend fun getTvShowTopCastByID(@Path("tv_id") seriesId: Int): Response<TvShowTopCastDto>
+
+    @POST("tv/{tv_id}/rating")
+    suspend fun addTvShowRating(
+        @Field("value") seriesRating: Double,
+        @Path("tv_id") seriesId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<StatusResponse>
+
+    @DELETE("tv/{tv_id}/rating")
+    suspend fun deleteTvShowRating(
+        @Path("tv_id") seriesId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<StatusResponse>
+    // endregion
+
+
+    //endregion
+
+    //region see all
+    @GET("movie/popular")
+    suspend fun seeAllPopularMovie(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+
+    @GET("movie/upcoming")
+    suspend fun seeAllUpcomingMovie(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+
+    @GET("movie/now_playing")
+    suspend fun seeAllNowPlayingMovie(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+
+    @GET("movie/top_rated")
+    suspend fun seeAllTopRatedMovie(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+
+    @GET("movie/{movie_id}/similar")
+    suspend fun seeAllSimilarMovie(
+        @Path("movie_id") id: Int,
+        @Query("page") page: Int? = 1
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+
+    @GET("movie/{movie_id}/recommendations")
+    suspend fun seeAllRecommendedMovie(
+        @Path("movie_id") id: Int,
+        @Query("page") page: Int? = 1
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+    //endregion
+
+    //region movies
+    @GET("movie/popular")
+    suspend fun getPopularMovie(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+
+    @GET("movie/upcoming")
+    suspend fun getUpcomingMovie(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+
+    @GET("movie/now_playing")
+    suspend fun getNowPlayingMovie(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+
+    @GET("movie/top_rated")
+    suspend fun getTopRatedMovie(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+    //endregion
+
+    //region get tv categories
+    @GET("tv/airing_today")
+    suspend fun getAiringTodayTv(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<TvShowDto>>>
+
+    @GET("tv/on_the_air")
+    suspend fun getOnTheAirTv(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<TvShowDto>>>
+
+    @GET("tv/popular")
+    suspend fun getPopularTv(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<TvShowDto>>>
+    @GET("tv/top_rated")
+    suspend fun getTopRatedTv(
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<TvShowDto>>>
+
+    //endregion
 }
