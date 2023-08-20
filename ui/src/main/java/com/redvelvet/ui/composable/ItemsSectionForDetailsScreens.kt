@@ -61,7 +61,7 @@ fun ItemsSectionForDetailsScreens(
                         .height(MaterialTheme.dimens.dimens130),
                     hasName = hasName,
                     name = if (hasName) name[it] else "",
-                    id = if (hasName) movieIds[it] else 298618,
+                    id = 298618,
                     hasDateAndCountry = hasDateAndCountry,
                     date = if (hasDateAndCountry) date[it] else "",
                     country = if (hasDateAndCountry) country[it] else "",

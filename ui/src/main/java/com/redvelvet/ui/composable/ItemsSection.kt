@@ -10,27 +10,23 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
+import com.redvelvet.viewmodel.home.ItemsUiState
 import com.redvelvet.viewmodel.utils.SeeAllMovie
 
 @Composable
 fun ItemsSection(
-    label: String,
-    imagesPainters: List<Painter>,
     modifier: Modifier = Modifier,
     hasName: Boolean = false,
-    names: List<String> = emptyList(),
     hasDateAndCountry: Boolean = false,
-    dates: List<String> = emptyList(),
-    countries: List<String> = emptyList(),
     seeAllMovie: SeeAllMovie,
     onClickSeeAll: (SeeAllMovie) -> Unit = {},
-    onClickItem: (String) -> Unit
+    onClickItem: (String) -> Unit,
+    items: ItemsUiState
 ) {
     SectionHeader(
-        label = label,
+        label = items.title,
         modifier = modifier,
         onClickSeeAll = onClickSeeAll,
         seeAllMovie = seeAllMovie
@@ -40,18 +36,21 @@ fun ItemsSection(
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),
         contentPadding = PaddingValues(horizontal = MaterialTheme.spacing.spacing16)
     ) {
-        items(imagesPainters.size) {
+        items(items.items.size) {
+            val item = items.items[it]
             ItemBasicCard(
-                imagePainter = imagesPainters[it],
+                imagePainter = rememberAsyncFlixImage(image = item.image),
                 modifier = Modifier
                     .width(MaterialTheme.dimens.dimens104)
                     .height(MaterialTheme.dimens.dimens176)
-                    .clickable {  },
+                    .clickable {
+                        onClickItem(item.id)
+                    },
                 hasName = hasName,
-                name = if (names.isNotEmpty()) names[it] else "",
+                name = item.name,
                 hasDateAndCountry = hasDateAndCountry,
-                date = if (dates.isNotEmpty()) dates[it] else "",
-                country = if (countries.isNotEmpty()) countries[it] else ""
+                date = item.date,
+                country = item.country
             )
         }
     }
