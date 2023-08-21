@@ -21,7 +21,7 @@ fun NavGraphBuilder.youtubePlayerRoute() {
     }
 }
 
-fun NavController.navigateMoviePlayer(productionCode:String, builder: NavOptionsBuilder.() -> Unit = {}) {
+fun NavController.navigateToYoutubePlayer(productionCode:String, builder: NavOptionsBuilder.() -> Unit = {}) {
     navigate(
         route = "$ROUTE/${productionCode}",
         builder = builder

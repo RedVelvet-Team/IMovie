@@ -18,7 +18,7 @@ class YoutubePlayerViewModel @Inject constructor(savedStateHandle: SavedStateHan
 
     private fun getVideo() {
         _state.update {
-            it.copy(videoCode = args.productionCode)
+            it.copy(isPlayerLoading = false,videoCode = args.productionCode)
         }
     }
 }
