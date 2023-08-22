@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.screen.actor_details.actorDetailsRoute
-import com.redvelvet.ui.screen.episodes.seeAllEpisodeRoute
+import com.redvelvet.ui.screen.see_all_episodes.seeAllEpisodeRoute
 import com.redvelvet.ui.screen.forgot_password.forgotPasswordRoute
 import com.redvelvet.ui.screen.home.homeRoute
 import com.redvelvet.ui.screen.known_for.actorKnownForRoute

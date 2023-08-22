@@ -1,4 +1,4 @@
-package com.redvelvet.ui.screen.episodes
+package com.redvelvet.ui.screen.see_all_episodes
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,18 +17,35 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.composable.EpisodeItem
 import com.redvelvet.ui.composable.MovieScaffold
+import com.redvelvet.ui.composable.NavigationHandler
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
-import com.redvelvet.viewmodel.episode.EpisodeUiState
-import com.redvelvet.viewmodel.episode.EpisodesViewModel
+import com.redvelvet.viewmodel.see_all_episode.EpisodeUiState
+import com.redvelvet.viewmodel.see_all_episode.SeeAllEpisodesUiEffect
+import com.redvelvet.viewmodel.see_all_episode.SeeAllEpisodesViewModel
 
 @Composable
 fun SeeAllEpisodeScreen(
-    viewModel: EpisodesViewModel = hiltViewModel()
+    viewModel: SeeAllEpisodesViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
+    NavigationHandler(
+        effects = viewModel.effect,
+        handleEffect = { effect, navController ->
+//            when (effect) {
+//                is SeeAllEpisodesUiEffect.NavigateToEpisodeDetailsScreen{
+//                    navController.navigateToEpisodeDetails(
+//                        effect.tvId,
+//                        effect.seasonId,
+//                        effect.episodeId,
+//                        effect.sessionId
+//                    )
+//                }
+//            }
+        }
+    )
     MovieScaffold(
         title = state.title,
         isLoading = state.isLoading,
