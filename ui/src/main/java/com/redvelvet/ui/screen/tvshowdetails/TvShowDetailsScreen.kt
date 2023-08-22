@@ -42,7 +42,7 @@ fun TvShowDetailsScreen(
         effects = viewModel.effect,
         handleEffect = { effect, navController ->
             when (effect) {
-                is TvShowUiEffect.NavigateToSeasonDetailsScreen -> navController.navigateToSeeAllEpisode(effect.id, seasonNumber = effect.seasonId)
+                is TvShowUiEffect.NavigateToSeasonDetailsScreen -> {}
                 is TvShowUiEffect.NavigateToSeasonSeeAllScreen -> navController.navigateToSeasonDetails(effect.id)
                 is TvShowUiEffect.NavigateToTvShowPosterSeeAllScreen -> navController.navigateToSeeAllImages()
                 is TvShowUiEffect.NavigateToTvShowRecommendationSeeAllScreen -> navController.navigateSeeAllTvShow(effect.id, SeeAllTvShows.RECOMMEND)

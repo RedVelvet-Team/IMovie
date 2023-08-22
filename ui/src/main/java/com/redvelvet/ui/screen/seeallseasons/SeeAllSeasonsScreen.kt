@@ -47,49 +47,43 @@ fun SeeAllSeasonsScreen(
 
 @Composable
 fun SeeAllSeasonsContent(state: SeeAllSeasonsUiState) {
-    FlixMovieScaffold(
-        title = "Seasons",
-        isLoading = state.isLoading,
-        hasTopBar = true
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.color.backgroundPrimary)
+            .padding(
+                top = MaterialTheme.spacing.spacing72,
+                bottom = MaterialTheme.spacing.spacing28
+            )
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.color.backgroundPrimary)
-                .padding(
-                    top = MaterialTheme.spacing.spacing72,
-                    bottom = MaterialTheme.spacing.spacing28
-                )
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(
+                horizontal = MaterialTheme.spacing.spacing16,
+                vertical = MaterialTheme.spacing.spacing16
+            ),
+            verticalArrangement = Arrangement.spacedBy(
+                MaterialTheme.spacing.spacing16,
+                Alignment.Top
+            ),
+            horizontalAlignment = Alignment.Start,
         ) {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(
-                    horizontal = MaterialTheme.spacing.spacing16,
-                    vertical = MaterialTheme.spacing.spacing16
-                ),
-                verticalArrangement = Arrangement.spacedBy(
-                    MaterialTheme.spacing.spacing16,
-                    Alignment.Top
-                ),
-                horizontalAlignment = Alignment.Start,
-            ) {
-                items(state.seasons.size) { index ->
-                    val seasons = state.seasons[index]
-                    ItemSeason(
-                        image = rememberAsyncImagePainter(
-                            model = seasons.imageUrl,
-                            placeholder = painterResource(id = R.drawable.image_placeholder),
-                            error = painterResource(id = R.drawable.image_placeholder)
-                        ),
-                        name = "Season ${seasons.seasonNumber}",
-                        date = seasons.airDate,
-                        episodesNum = seasons.episodeCount,
-                        description = seasons.description,
-                        rate = seasons.rate,
-                        id = 0,
-                        seriesId = 0
-                    ) { seriesId, seasonId -> }
-                }
+            items(state.seasons.size) { index ->
+                val seasons = state.seasons[index]
+                ItemSeason(
+                    image = rememberAsyncImagePainter(
+                        model = seasons.imageUrl,
+                        placeholder = painterResource(id = R.drawable.image_placeholder),
+                        error = painterResource(id = R.drawable.image_placeholder)
+                    ),
+                    name = "Season ${seasons.seasonNumber}",
+                    date = seasons.airDate,
+                    episodesNum = seasons.episodeCount,
+                    description = seasons.description,
+                    rate = seasons.rate,
+                    id = 0,
+                    seriesId = 0
+                ) { seriesId, seasonId -> }
             }
         }
     }

@@ -23,7 +23,7 @@ class SeeAllMovieReviewsViewModel @Inject constructor(
 
     private fun getMovieReviews(movieId: Int) {
         tryToExecute(
-            execute = { getMovieFullDetailsUseCase.getMovieReviewsByID(movieId) },
+            execute = { getMovieFullDetailsUseCase.getReviewsByID(movieId) },
             onSuccessWithData = ::onSuccess,
             onError = ::onError
         )
