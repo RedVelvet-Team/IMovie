@@ -39,12 +39,12 @@ fun ItemBasicCardForDetailsScreens(
     hasDateAndCountry: Boolean = false,
     date: String = "",
     country: String = "",
-    onClick: (id: Int) -> Unit = {},
+    onClick: (String) -> Unit = {},
     isMediaInfoCard: Boolean = false
 ) {
     Column(
         modifier = if (isMediaInfoCard) Modifier else Modifier
-            .clickable { onClick(id) },
+            .clickable { onClick(id.toString()) },
         horizontalAlignment = AbsoluteAlignment.Left
     ) {
         Image(

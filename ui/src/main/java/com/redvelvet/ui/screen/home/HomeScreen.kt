@@ -28,9 +28,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.redvelvet.ui.LocalNavController
-import com.redvelvet.ui.composable.MovieScaffold
+import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.composable.TabContentDisplay
-import com.redvelvet.ui.composable.rememberAsyncFlixImage
 import com.redvelvet.ui.screen.movieDetails.navigateToMovieDetails
 import com.redvelvet.ui.screen.seeall.navigateToSeeAllMovie
 import com.redvelvet.ui.screen.seealltv.navigateSeeAllTvShow
@@ -49,14 +48,14 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    MovieScaffold(
+    FlixMovieScaffold(
         title = "FlixMovie", isLoading = state.isLoading,
         hasTopBar = true,
         hasBackArrow = false,
     ) {
         HomeScreenContent(
             state = state,
-          )
+            )
     }
 }
 
@@ -83,7 +82,6 @@ fun HomeScreenContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = MaterialTheme.spacing.spacing16)
-                .padding(top = 16.dp)
         ) {
             TabRow(
                 selectedTabIndex = page,
@@ -173,29 +171,8 @@ fun MovieContent(
         label = label,
         viewpagerList = viewpagerList,
         categories = state.movieCategories,
-        titles = state.movieCategories.map { movieCategoryUiState -> movieCategoryUiState.title },
-        imagePainters = state.movieCategories.map { movieCategoryUiState ->
-            movieCategoryUiState.items.map { movieUiState ->
-                rememberAsyncFlixImage(image = movieUiState.image)
-            }
-        },
         hasName = true,
         hasDateAndCountry = true,
-        names = state.movieCategories.map { movieCategoryUiState ->
-            movieCategoryUiState.items.map { movieUiState ->
-                movieUiState.name
-            }
-        },
-        dates = state.movieCategories.map { movieCategoryUiState ->
-            movieCategoryUiState.items.map { movieUiState ->
-                movieUiState.date
-            }
-        },
-        countries = state.movieCategories.map { movieCategoryUiState ->
-            movieCategoryUiState.items.map { movieUiState ->
-                movieUiState.country
-            }
-        },
         onClickSeeAll = { seeAllMovie ->
             navController.navigateToSeeAllMovie(
                 id = null,
@@ -222,29 +199,8 @@ fun SeriesContent(
         viewpagerList = viewpagerList,
         label = label,
         categories = state.tvShowCategories,
-        titles = state.tvShowCategories.map { tvShowCategory -> tvShowCategory.title },
-        imagePainters = state.tvShowCategories.map { tvShowCategoryUiState ->
-            tvShowCategoryUiState.items.map { tvShowUiState ->
-                rememberAsyncFlixImage(image = tvShowUiState.image)
-            }
-        },
-        names = state.tvShowCategories.map { tvShowCategoryUiState ->
-            tvShowCategoryUiState.items.map { tvShowUiState ->
-                tvShowUiState.name
-            }
-        },
         hasName = true,
         hasDateAndCountry = true,
-        dates = state.tvShowCategories.map { tvShowCategoryUiState ->
-            tvShowCategoryUiState.items.map { tvShowUiState ->
-                tvShowUiState.date
-            }
-        },
-        countries = state.tvShowCategories.map { tvShowCategoryUiState ->
-            tvShowCategoryUiState.items.map { tvShowUiState ->
-                tvShowUiState.country
-            }
-        },
         onClickSeeAll = {
             navController.navigateSeeAllTvShow(id=null, type = SeeAllTvShows.TOP_RATED)
         },

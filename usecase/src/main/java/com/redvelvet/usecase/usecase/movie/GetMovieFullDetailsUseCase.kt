@@ -22,7 +22,7 @@ class GetMovieFullDetailsUseCase @Inject constructor(
             val imagesDeferred = async { getMovieImagesByID(movieId) }
             val keyWordsDeferred = async { getMovieKeyWordsByID(movieId) }
             val recommendationsDeferred = async { getMovieRecommendationsByID(movieId) }
-            val reviewsDeferred = async { getMovieReviewsByID(movieId) }
+            val reviewsDeferred = async { getReviewsByID(movieId) }
             val similarDeferred = async { getMovieSimilarByID(movieId) }
             val topCastDeferred = async { getMovieTopCastByID(movieId) }
 
@@ -58,7 +58,7 @@ class GetMovieFullDetailsUseCase @Inject constructor(
     private suspend fun getMovieRecommendationsByID(movieId:Int): MovieRecommendations {
         return movieRepository.getMovieRecommendationsByID(movieId)
     }
-    suspend fun getMovieReviewsByID(movieId:Int): MovieReviews {
+    suspend fun getReviewsByID(movieId:Int): MovieReviews {
         return movieRepository.getMovieReviewsByID(movieId)
     }
     private suspend fun getMovieSimilarByID(movieId:Int): MovieSimilar {

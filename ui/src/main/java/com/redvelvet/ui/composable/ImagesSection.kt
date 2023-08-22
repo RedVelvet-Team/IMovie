@@ -13,7 +13,8 @@ import com.redvelvet.ui.theme.spacing
 @Composable
 fun ImagesSection(
     it: List<String> = emptyList(),
-    onClickSeeAll: () -> Unit = {},
+    onClickSeeAll: (String) -> Unit = {},
+    mediaId: Int
 ) {
     if (it.isNotEmpty())
         Column(
@@ -32,6 +33,7 @@ fun ImagesSection(
                 cardModifier = Modifier
                     .width(MaterialTheme.dimens.dimens112)
                     .height(MaterialTheme.dimens.dimens112),
+                itemId = mediaId.toString()
             )
         }
 }
