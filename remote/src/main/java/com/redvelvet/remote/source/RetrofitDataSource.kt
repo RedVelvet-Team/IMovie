@@ -8,6 +8,7 @@ import com.redvelvet.entities.error.ServerException
 import com.redvelvet.entities.error.ValidationException
 import com.redvelvet.remote.service.MovieApiService
 import com.redvelvet.repository.dto.ActorKnownForDto
+import com.redvelvet.repository.dto.EpisodeSingleItemDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
@@ -52,9 +53,7 @@ class RetrofitDataSource @Inject constructor(
     }
 
     override suspend fun validateUserWithLogin(
-        userName: String,
-        password: String,
-        requestToken: String
+        userName: String, password: String, requestToken: String
     ): TokenDto {
         return wrapApiResponse {
             movieApiService.validateRequestTokenWithLogin(
@@ -170,8 +169,7 @@ class RetrofitDataSource @Inject constructor(
     override suspend fun seeAllRecommendedTv(page: Int?, id: Int): List<TvShowDto> {
         return wrapApiResponse {
             movieApiService.seeAllRecommendedMovieTv(
-                id = id,
-                page = page
+                id = id, page = page
             )
         }.result ?: throw NullResultException("There is no data")
     }
@@ -256,17 +254,12 @@ class RetrofitDataSource @Inject constructor(
 
 
     override suspend fun addTvShowRating(
-        seriesRating: Double,
-        seriesId: Int,
-        sessionId: String
-    ): String =
-        wrapApiResponse {
-            movieApiService.addTvShowRating(
-                seriesRating,
-                seriesId,
-                sessionId
-            )
-        }.statusMessage.toString()
+        seriesRating: Double, seriesId: Int, sessionId: String
+    ): String = wrapApiResponse {
+        movieApiService.addTvShowRating(
+            seriesRating, seriesId, sessionId
+        )
+    }.statusMessage.toString()
 
     override suspend fun getTvShowVideosByID(seriesId: Int): TvShowVideosDto =
         wrapApiResponse { movieApiService.getTvShowVideosByID(seriesId) }
@@ -278,8 +271,7 @@ class RetrofitDataSource @Inject constructor(
     override suspend fun deleteTvShowRating(seriesId: Int, sessionId: String): String =
         wrapApiResponse {
             movieApiService.deleteTvShowRating(
-                seriesId,
-                sessionId
+                seriesId, sessionId
             )
         }.statusMessage.toString()
 
@@ -330,6 +322,58 @@ class RetrofitDataSource @Inject constructor(
         return wrapApiResponse { movieApiService.getTopRatedTv() }.result.orEmpty()
     }
     //endregion
+
+    // region Episode Details
+    override suspend fun getEpisodeDetails(
+        tvId: Int, seasonNumber: Int, episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeDetails {
+        return wrapApiResponse {
+            movieApiService.getEpisodeDetails(
+                tvId, seasonNumber, episodeNumber
+            )
+        }
+    }
+
+    override suspend fun getEpisodeMovies(
+        tvId: Int, seasonNumber: Int, episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeMovies {
+        return wrapApiResponse {
+            movieApiService.getEpisodeMovies(
+                tvId, seasonNumber, episodeNumber
+            )
+        }
+    }
+
+    override suspend fun getEpisodeAccountStates(
+        tvId: Int, seasonNumber: Int, episodeNumber: Int, sessionId: String
+    ): EpisodeSingleItemDto.EpisodeAccountStatus {
+        return wrapApiResponse {
+            movieApiService.getEpisodeAccountStates(
+                tvId, seasonNumber, episodeNumber, sessionId
+            )
+        }
+    }
+
+    override suspend fun getEpisodeCast(
+        tvId: Int, seasonNumber: Int, episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeCast {
+        return wrapApiResponse {
+            movieApiService.getEpisodeCast(
+                tvId, seasonNumber, episodeNumber
+            )
+        }
+    }
+
+    override suspend fun getEpisodeImages(
+        tvId: Int, seasonNumber: Int, episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeImages {
+        return wrapApiResponse {
+            movieApiService.getEpisodeImages(
+                tvId, seasonNumber, episodeNumber
+            )
+        }
+    }
+    // endregion
 
 }
 
