@@ -3,6 +3,7 @@ package com.redvelvet.remote.service
 
 import com.redvelvet.repository.dto.ActorKnownForDto
 import com.redvelvet.repository.dto.BaseResponse
+import com.redvelvet.repository.dto.EpisodeSingleItemDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
@@ -120,6 +121,7 @@ interface MovieApiService {
     suspend fun seeAllPopularTv(
         @Query("page") page: Int? = 1,
     ): Response<BaseResponse<List<TvShowDto>>>
+
     @GET("tv/top_rated")
     suspend fun seeAllTopRatedTv(
         @Query("page") page: Int? = 1,
@@ -127,8 +129,7 @@ interface MovieApiService {
 
     @GET("tv/{tv_id}/recommendations")
     suspend fun seeAllRecommendedMovieTv(
-        @Path("tv_id") id: Int,
-        @Query("page") page: Int? = 1
+        @Path("tv_id") id: Int, @Query("page") page: Int? = 1
     ): Response<BaseResponse<List<TvShowDto>>>
 
     //endregion
@@ -136,8 +137,7 @@ interface MovieApiService {
     /// region see all episodes
     @GET("tv/{tv_id}/season/{season_number}")
     suspend fun getAllEpisodes(
-        @Path("tv_id") tvId: String,
-        @Path("season_number") seasonNumber: Int
+        @Path("tv_id") tvId: String, @Path("season_number") seasonNumber: Int
     ): Response<SeasonDetailsDto>
     // endregion
 
@@ -188,7 +188,42 @@ interface MovieApiService {
     ): Response<StatusResponse>
     // endregion
 
+    // region Episode Details
+    @GET("tv/{tv_id}/season/{season_number}/episode/{episode_number}")
+    suspend fun getEpisodeDetails(
+        @Path("tv_id") tvID: Int,
+        @Path("season_number") seasonNumber: Int,
+        @Path("episode_number") episodeNumber: Int,
+    ): Response<EpisodeSingleItemDto.EpisodeDetails>
 
+    @GET("tv/{tv_id}/season/{season_number}/episode/{episode_number}/videos")
+    suspend fun getEpisodeMovies(
+        @Path("tv_id") tvID: Int,
+        @Path("season_number") seasonNumber: Int,
+        @Path("episode_number") episodeNumber: Int,
+    ): Response<EpisodeSingleItemDto.EpisodeMovies>
+
+    @GET("tv/{tv_id}/season/{season_number}/episode/{episode_number}/account_states")
+    suspend fun getEpisodeAccountStates(
+        @Path("tv_id") tvId: Int,
+        @Path("season_number") seasonNumber: Int,
+        @Path("episode_number") episodeNumber: Int,
+        @Query("session_id") sessionId: String
+    ): Response<EpisodeSingleItemDto.EpisodeAccountStatus>
+
+    @GET("tv/{tv_id}/season/{season_number}/episode/{episode_number}/credits")
+    suspend fun getEpisodeCast(
+        @Path("tv_id") tvId: Int,
+        @Path("season_number") seasonNumber: Int,
+        @Path("episode_number") episodeNumber: Int,
+    ): Response<EpisodeSingleItemDto.EpisodeCast>
+
+    @GET("tv/{tv_id}/season/{season_number}/episode/{episode_number}/images")
+    suspend fun getEpisodeImages(
+        @Path("tv_id") tvId: Int,
+        @Path("season_number") seasonNumber: Int,
+        @Path("episode_number") episodeNumber: Int,
+    ): Response<EpisodeSingleItemDto.EpisodeImages>
     //endregion
 
     //region see all
@@ -214,14 +249,12 @@ interface MovieApiService {
 
     @GET("movie/{movie_id}/similar")
     suspend fun seeAllSimilarMovie(
-        @Path("movie_id") id: Int,
-        @Query("page") page: Int? = 1
+        @Path("movie_id") id: Int, @Query("page") page: Int? = 1
     ): Response<BaseResponse<List<MovieDetailsDTO>>>
 
     @GET("movie/{movie_id}/recommendations")
     suspend fun seeAllRecommendedMovie(
-        @Path("movie_id") id: Int,
-        @Query("page") page: Int? = 1
+        @Path("movie_id") id: Int, @Query("page") page: Int? = 1
     ): Response<BaseResponse<List<MovieDetailsDTO>>>
     //endregion
 
@@ -262,6 +295,7 @@ interface MovieApiService {
     suspend fun getPopularTv(
         @Query("page") page: Int? = 1,
     ): Response<BaseResponse<List<TvShowDto>>>
+
     @GET("tv/top_rated")
     suspend fun getTopRatedTv(
         @Query("page") page: Int? = 1,

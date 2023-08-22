@@ -1,6 +1,7 @@
 package com.redvelvet.repository.source
 
 import com.redvelvet.repository.dto.ActorKnownForDto
+import com.redvelvet.repository.dto.EpisodeSingleItemDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
@@ -28,9 +29,7 @@ interface RemoteDataSource {
     suspend fun createGuestSession(): GuestSessionDto
     suspend fun createToken(): TokenDto
     suspend fun validateUserWithLogin(
-        userName: String,
-        password: String,
-        requestToken: String
+        userName: String, password: String, requestToken: String
     ): TokenDto
 
     suspend fun createUserSession(token: String): SessionDto
@@ -80,14 +79,44 @@ interface RemoteDataSource {
     suspend fun seeAllRecommendedMovie(page: Int?, id: Int): List<MovieDetailsDTO>
     //endregion
 
+    // region Episode Details
+    suspend fun getEpisodeDetails(
+        tvId: Int,
+        seasonNumber: Int,
+        episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeDetails
+
+    suspend fun getEpisodeMovies(
+        tvId: Int,
+        seasonNumber: Int,
+        episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeMovies
+
+    suspend fun getEpisodeAccountStates(
+        tvId: Int,
+        seasonNumber: Int,
+        episodeNumber: Int,
+        sessionId: String
+    ): EpisodeSingleItemDto.EpisodeAccountStatus
+
+    suspend fun getEpisodeCast(
+        tvId: Int,
+        seasonNumber: Int,
+        episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeCast
+
+    suspend fun getEpisodeImages(
+        tvId: Int,
+        seasonNumber: Int,
+        episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeImages
+    // endregion
 
     //region tvShow
     suspend fun getTvShowKeyWordsByID(seriesId: Int): TvShowKeywordsDto
     suspend fun getTvShowTopCastByID(seriesId: Int): TvShowTopCastDto
     suspend fun addTvShowRating(
-        seriesRating: Double,
-        seriesId: Int,
-        sessionId: String
+        seriesRating: Double, seriesId: Int, sessionId: String
     ): String
 
     suspend fun getTvShowVideosByID(seriesId: Int): TvShowVideosDto
