@@ -13,8 +13,7 @@ import javax.inject.Inject
 class SeeAllEpisodesViewModel @Inject constructor(
     private val getAllEpisodesUseCase: GetAllEpisodesUseCase,
     savedStateHandle: SavedStateHandle
-) : BaseViewModel<EpisodeUiState, SeeAllEpisodesUiEffect>(EpisodeUiState()),
-    SeeAllEpisodesInteractionListener {
+) : BaseViewModel<SeeAllEpisodeUiState, Unit>(SeeAllEpisodeUiState()){
 
     private val args: EpisodesArgs = EpisodesArgs(savedStateHandle)
 
@@ -44,23 +43,4 @@ class SeeAllEpisodesViewModel @Inject constructor(
         _state.update { it.copy(error = errorUiState, isLoading = false) }
     }
 
-    private fun episode(tvId: Int, seasonId: Int, episodeId: Int, sessionId: String) {
-//        _state.update {
-//            it.copy(
-//                isLoading = true,
-//                error = null,
-//            )
-//        }
-//        tryToExecute(
-//
-//        )
-    }
-
-    override fun onClickEpisode() {
-//        sendUiEffect(
-////            SeeAllEpisodesUiEffect.NavigateToEpisodeDetailsScreen(
-////                state.value.episodes., seasonId, episodeId, sessionId
-////            )
-//        )
-    }
 }
