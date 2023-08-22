@@ -14,7 +14,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.ItemBasicCard
-import com.redvelvet.ui.composable.MovieScaffold
+import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.movie_details_seeall.SeeAllImagesUiState
 import com.redvelvet.viewmodel.movie_details_seeall.SeeAllMovieImagesViewModel
@@ -32,7 +32,7 @@ fun SeeAllMovieImaesScreen(
 @Composable
 private fun SeeAllMovieImaesContent(state: SeeAllImagesUiState) {
 
-    MovieScaffold(
+    FlixMovieScaffold(
         title = state.title,
         isLoading = state.isLoading,
         error = state.error,

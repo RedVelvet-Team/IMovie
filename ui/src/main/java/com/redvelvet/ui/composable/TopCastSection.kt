@@ -13,11 +13,12 @@ import com.redvelvet.ui.theme.spacing
 @Composable
 fun TopCastSection(
     isNotListEmpty: Boolean = false,
-    onClickSeeAll: () -> Unit = {},
+    onClickSeeAll: (id: String) -> Unit = {},
     onClickItem: (id: Int) -> Unit = {},
     castIds: List<Int> = emptyList(),
     images: List<String> = emptyList(),
     names: List<String> = emptyList(),
+    mediaId: String,
 ) {
     if (isNotListEmpty)
         Column(
@@ -35,10 +36,11 @@ fun TopCastSection(
                 customListItemComposable = { index ->
                     TopCast(castId = castIds[index], names[index], onClickItem, images[index])
                 },
-                onClickSeeAll = onClickSeeAll,
+                onClickSeeAll = {onClickSeeAll(mediaId)},
                 cardModifier = Modifier
                     .width(MaterialTheme.dimens.dimens104)
                     .height(MaterialTheme.dimens.dimens130),
+                itemId = mediaId
             )
         }
 }

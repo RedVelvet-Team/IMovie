@@ -1,11 +1,10 @@
 package com.redvelvet.ui.composable
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -19,6 +18,10 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import coil.compose.rememberAsyncImagePainter
+import com.redvelvet.ui.LocalNavController
+import com.redvelvet.ui.screen.actor_details.navigateToActorDetails
+import com.redvelvet.ui.screen.movieDetails.navigateToMovieDetails
+import com.redvelvet.ui.screen.tvshowdetails.navigateToTvShowDetails
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.search.SearchCardUiState
@@ -30,6 +33,7 @@ fun CustomLazyGrid(
     searchCardUiStates: LazyPagingItems<SearchCardUiState>,
     modifier: Modifier = Modifier
 ) {
+    val navController = LocalNavController.current
     LazyVerticalGrid(
         modifier = modifier,
         contentPadding = PaddingValues(
@@ -49,30 +53,37 @@ fun CustomLazyGrid(
         )
     ) {
         items(searchCardUiStates.itemCount) {
-            val mediaUiState = searchCardUiStates[it]
+            val mediaItem = searchCardUiStates[it]
             ItemBasicCard(
-                imagePainter = rememberAsyncImagePainter(model = mediaUiState!!.getFullImage()),
+                imagePainter = rememberAsyncImagePainter(model = mediaItem!!.getFullImage()),
                 modifier = Modifier
                     .width(MaterialTheme.dimens.dimens104)
-                    .height(MaterialTheme.dimens.dimens176),
+                    .height(MaterialTheme.dimens.dimens176)
+                    .clickable {
+                        when (mediaItem.type) {
+                            "movie" -> navController.navigateToMovieDetails(mediaItem.id.toString())
+                            "tv" -> navController.navigateToTvShowDetails(mediaItem.id.toString())
+                            "person" -> navController.navigateToActorDetails(mediaItem.id.toString())
+                        }
+                    },
                 hasName = true,
-                name = mediaUiState.name,
-                hasDateAndCountry = !mediaUiState.isPerson(),
-                date = mediaUiState.releaseDate,
-                country = mediaUiState.country
+                name = mediaItem.name,
+                hasDateAndCountry = !mediaItem.isPerson(),
+                date = mediaItem.releaseDate,
+                country = mediaItem.country
             )
         }
         if (searchCardUiStates.loadState.append is LoadState.Loading) {
-        item(
-            span = { GridItemSpan(3) }
-        ) {
-            LoadingPage(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(42.dp)
-                    .wrapContentWidth(Alignment.CenterHorizontally),
-            )
+            item(
+                span = { GridItemSpan(3) }
+            ) {
+                LoadingPage(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(42.dp)
+                        .wrapContentWidth(Alignment.CenterHorizontally),
+                )
+            }
         }
-    }
     }
 }

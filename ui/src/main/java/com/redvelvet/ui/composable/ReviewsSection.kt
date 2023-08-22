@@ -18,8 +18,9 @@ fun ReviewsSection(
     reviewStars: List<Double> = emptyList(),
     reviewDates: List<String> = emptyList(),
     reviewDescriptions: List<String> = emptyList(),
-    onClickSeeAllReviews: () -> Unit = {},
-    onClickReview: (id: Int) -> Unit = {},
+    onClickSeeAllReviews: (String) -> Unit = {},
+    onClickReview: (id: String) -> Unit = {},
+    itemId: String
 ) {
     if (isNotListEmpty)
         Column(
@@ -47,11 +48,12 @@ fun ReviewsSection(
                                 .height(MaterialTheme.dimens.dimens143),
                         )
                 },
-                onClickSeeAll = { onClickSeeAllReviews },
+                onClickSeeAll = onClickSeeAllReviews,
                 cardModifier = Modifier
                     .width(MaterialTheme.dimens.dimens104)
                     .height(MaterialTheme.dimens.dimens130),
-                onClickItem = onClickReview
+                onClickItem = onClickReview,
+                itemId = itemId
             )
         }
 
