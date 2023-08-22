@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -31,7 +30,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.ItemBasicCard
 import com.redvelvet.ui.composable.LoadingPage
-import com.redvelvet.ui.composable.MovieScaffold
+import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.screen.tvshowdetails.navigateToTvShowDetails
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
@@ -47,7 +46,7 @@ fun SeeAllTvScreen(
     val navController = LocalNavController.current
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
-    MovieScaffold(
+    FlixMovieScaffold(
         modifier = Modifier.fillMaxSize(),
         title = state.title,
         isLoading = false,

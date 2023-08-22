@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.composable.EpisodeItem
-import com.redvelvet.ui.composable.MovieScaffold
+import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.episode.EpisodeUiState
@@ -29,7 +29,7 @@ fun SeeAllEpisodeScreen(
     val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
-    MovieScaffold(
+    FlixMovieScaffold(
         title = state.title,
         isLoading = state.isLoading,
         error = state.error,

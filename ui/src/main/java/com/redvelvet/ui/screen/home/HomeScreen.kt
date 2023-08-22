@@ -28,7 +28,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.redvelvet.ui.LocalNavController
-import com.redvelvet.ui.composable.MovieScaffold
+import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.composable.TabContentDisplay
 import com.redvelvet.ui.screen.movieDetails.navigateToMovieDetails
 import com.redvelvet.ui.screen.seeall.navigateToSeeAllMovie
@@ -48,7 +48,7 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    MovieScaffold(
+    FlixMovieScaffold(
         title = "FlixMovie", isLoading = state.isLoading,
         hasTopBar = true,
         hasBackArrow = false,

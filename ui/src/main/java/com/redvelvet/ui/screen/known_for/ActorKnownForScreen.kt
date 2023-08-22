@@ -21,7 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.ItemBasicCard
-import com.redvelvet.ui.composable.MovieScaffold
+import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.screen.movieDetails.navigateToMovieDetails
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.knownFor.ActorWorksUiState
@@ -46,7 +46,7 @@ private fun ActorKnownForContent(
     state: ActorWorksUiState,
     onClickItem: (String, String) -> Unit
 ) {
-    MovieScaffold(
+    FlixMovieScaffold(
         title = state.title,
         isLoading = state.isLoading,
         error = state.error,

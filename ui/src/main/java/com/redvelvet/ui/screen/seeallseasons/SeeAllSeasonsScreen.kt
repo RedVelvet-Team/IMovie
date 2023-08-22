@@ -20,7 +20,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.ItemSeason
-import com.redvelvet.ui.composable.MovieScaffold
+import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.seeall.seasons.SeeAllSeasonsUiState
@@ -33,7 +33,7 @@ fun SeeAllSeasonsScreen(
     val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
-    MovieScaffold(
+    FlixMovieScaffold(
         title = "Seasons",
         isLoading = state.isLoading,
         error = state.error,
@@ -47,7 +47,7 @@ fun SeeAllSeasonsScreen(
 
 @Composable
 fun SeeAllSeasonsContent(state: SeeAllSeasonsUiState) {
-    MovieScaffold(
+    FlixMovieScaffold(
         title = "Seasons",
         isLoading = state.isLoading,
         hasTopBar = true
@@ -87,9 +87,8 @@ fun SeeAllSeasonsContent(state: SeeAllSeasonsUiState) {
                         description = seasons.description,
                         rate = seasons.rate,
                         id = 0,
-                        seriesId = 0,
-                        onClickItem = {seriesId, seasonId ->  }
-                    )
+                        seriesId = 0
+                    ) { seriesId, seasonId -> }
                 }
             }
         }

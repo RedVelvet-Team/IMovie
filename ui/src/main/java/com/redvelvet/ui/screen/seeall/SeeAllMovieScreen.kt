@@ -30,7 +30,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.ItemBasicCard
 import com.redvelvet.ui.composable.LoadingPage
-import com.redvelvet.ui.composable.MovieScaffold
+import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.composable.rememberAsyncFlixImage
 import com.redvelvet.ui.screen.movieDetails.navigateToMovieDetails
 import com.redvelvet.ui.theme.color
@@ -48,7 +48,7 @@ fun SeeAllMovieScreen(
     val navController = LocalNavController.current
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
-    MovieScaffold(
+    FlixMovieScaffold(
         title = state.title,
         isLoading = state.isLoading,
         error = state.error,

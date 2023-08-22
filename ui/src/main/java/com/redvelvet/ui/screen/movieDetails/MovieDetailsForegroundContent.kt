@@ -44,7 +44,10 @@ fun MovieDetailsForegroundContent(
                     interaction::onClickCast,
                     castIds = topcasts.map { it2 -> it2.castId },
                     topcasts.map { it2 -> it2.castImage },
-                    topcasts.map { it2 -> it2.castName })
+                    topcasts.map { it2 -> it2.castName },
+                    mediaId = state.data!!.details.id.toString()
+                )
+
             }
             MovieDetailsMoreInfoSection(it.details)
             KeyWordsSection(it.keyWords)
@@ -56,10 +59,14 @@ fun MovieDetailsForegroundContent(
                     names = similarMovies.map { it.mediaName },
                     movieIds = similarMovies.map { it.mediaId },
                     onClickSeeAll = interaction::onClickSimilarMoviesSeeAll,
-                    onClickItem = interaction::onClickMovie
+                    onClickItem = interaction::onClickMovie,
+                    mediaId = state.data!!.details.id
                 )
             }
-            ImagesSection(it.images.map { it.mediaImage }, interaction::onClickMovieImagesSeeAll)
+            ImagesSection(
+                it.images.map { it.mediaImage },
+                interaction::onClickMovieImagesSeeAll,
+                mediaId = it.details.id)
             it.reviews.let { reviews ->
                 ReviewsSection(
                     isNotListEmpty = reviews.isNotEmpty(),
@@ -69,7 +76,8 @@ fun MovieDetailsForegroundContent(
                     reviewDates = reviews.map { it.reviewDate },
                     reviewDescriptions = reviews.map { it.reviewDescription },
                     onClickSeeAllReviews = interaction::onClickReviewsSeeAll,
-                    onClickReview = interaction::onClickReview
+                    onClickReview = interaction::onClickReview,
+                    itemId = it.details.id.toString()
                 )
             }
             it.recommendations.let { recommendedMovies ->
@@ -80,7 +88,8 @@ fun MovieDetailsForegroundContent(
                     names = recommendedMovies.map { it.mediaName },
                     movieIds = recommendedMovies.map { it.mediaId },
                     onClickSeeAll = interaction::onClickRecommendationsMoviesSeeAll,
-                    onClickItem = interaction::onClickMovie
+                    onClickItem = interaction::onClickMovie,
+                    mediaId = state.data!!.details.id
                 )
             }
         }

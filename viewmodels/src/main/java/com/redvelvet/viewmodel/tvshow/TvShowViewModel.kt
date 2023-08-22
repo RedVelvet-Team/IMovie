@@ -93,48 +93,48 @@ class TvShowViewModel @Inject constructor(
 
     }
 
-    override fun onClickTopCastSeeAll() {
-
+    override fun onClickTopCastSeeAll(id: String) {
+        sendUiEffect(TvShowUiEffect.NavigateToTopCastSeeAllScreen(id))
     }
 
     override fun onClickCast(castId: Int) {
-
+        sendUiEffect(TvShowUiEffect.NavigateToActorDetailsScreen(castId.toString()))
     }
 
     override fun onClickKeyword(seriesId: Int) {
 
     }
 
-    override fun onClickSeasonSeaAll() {
-
+    override fun onClickSeasonSeaAll(seriesId: String) {
+        sendUiEffect(TvShowUiEffect.NavigateToSeasonSeeAllScreen(seriesId))
     }
 
-    override fun onClickSeason(seriesId: Int, seasonId: Int) {
-
+    override fun onClickSeason(seriesId: String, seasonId: Int) {
+        sendUiEffect(TvShowUiEffect.NavigateToSeasonDetailsScreen(seriesId, seasonId))
     }
 
-    override fun onClickPosterSeaAll() {
-
+    override fun onClickPosterSeaAll(seriesId: String) {
+        sendUiEffect(TvShowUiEffect.NavigateToTvShowPosterSeeAllScreen(seriesId))
     }
 
     override fun onClickPoster(seriesId: Int, seasonNumber: Int) {
 
     }
 
-    override fun onClickReviewsSeeAll() {
+    override fun onClickReviewsSeeAll(seriesId: String) {
+        sendUiEffect(TvShowUiEffect.NavigateToReviewSeeAllScreen(seriesId))
+    }
+
+    override fun onClickReview(reviewId: String) {
 
     }
 
-    override fun onClickReview(reviewId: Int) {
-
+    override fun onClickRecommendationsSeriesSeeAll(seriesId: String) {
+        sendUiEffect(TvShowUiEffect.NavigateToTvShowRecommendationSeeAllScreen(seriesId))
     }
 
-    override fun onClickRecommendationsSeriesSeeAll() {
-
-    }
-
-    override fun onClickRecommendation(seriesId: Int) {
-
+    override fun onClickSeries(seriesId: String) {
+        sendUiEffect(TvShowUiEffect.NavigateToTvShowDetails(seriesId))
     }
 
 }

@@ -1,5 +1,6 @@
 package com.redvelvet.viewmodel.movie_details_seeall
 
+import androidx.lifecycle.SavedStateHandle
 import com.redvelvet.entities.movie.details.MovieReviews
 import com.redvelvet.usecase.usecase.movie.GetMovieFullDetailsUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
@@ -10,13 +11,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SeeAllMovieReviewsViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
     private val getMovieFullDetailsUseCase: GetMovieFullDetailsUseCase
 ) : BaseViewModel<SeeAllReviewsUiState, Unit>(SeeAllReviewsUiState()) {
-    private val movieId: Int = 222
 
+    private val args: AllReviewArgs = AllReviewArgs(savedStateHandle)
 
     init {
-        getMovieReviews(movieId)
+        getMovieReviews(args.id.toInt())
     }
 
     private fun getMovieReviews(movieId: Int) {

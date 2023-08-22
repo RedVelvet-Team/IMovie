@@ -23,19 +23,20 @@ fun ItemsSectionForDetailsScreens(
     movieIds: List<Int> = emptyList(),
     hasCustomList: Boolean = false,
     customListItemComposable: @Composable ((index: Int) -> Unit)? = null,
-    onClickSeeAll: () -> Unit = {},
+    onClickSeeAll: (String) -> Unit = {},
     cardModifier: Modifier? = null,
     headerModifier: Modifier = Modifier,
     hasDateAndCountry: Boolean = false,
     date: List<String> = emptyList(),
     country: List<String> = emptyList(),
-    onClickItem: (id: Int) -> Unit = {},
+    onClickItem: (String) -> Unit = {},
+    itemId: String
 ) {
     SectionHeader(
         label = label,
         modifier = headerModifier,
         seeAllMovie = SeeAllMovie.POPULAR,
-        onClickSeeAll = { onClickSeeAll() }
+        onClickSeeAll = { onClickSeeAll(itemId) }
     )
     LazyRow(
         modifier = Modifier.padding(top = MaterialTheme.spacing.spacing8),
@@ -61,7 +62,7 @@ fun ItemsSectionForDetailsScreens(
                         .height(MaterialTheme.dimens.dimens130),
                     hasName = hasName,
                     name = if (hasName) name[it] else "",
-                    id = 298618,
+                    id = if (movieIds.isNotEmpty()) movieIds[it] else 9999,
                     hasDateAndCountry = hasDateAndCountry,
                     date = if (hasDateAndCountry) date[it] else "",
                     country = if (hasDateAndCountry) country[it] else "",

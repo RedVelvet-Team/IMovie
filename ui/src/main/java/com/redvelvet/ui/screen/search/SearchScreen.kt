@@ -25,7 +25,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.CategoriesChips
 import com.redvelvet.ui.composable.CustomLazyGrid
-import com.redvelvet.ui.composable.MovieScaffold
+import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.composable.PrimaryTextField
 import com.redvelvet.ui.composable.SpacerVertical
 import com.redvelvet.ui.theme.BackgroundPrimary
@@ -47,7 +47,7 @@ fun SearchScreen(
     systemUiController.setSystemBarsColor(BackgroundPrimary, darkIcons = false)
 
     val state by viewModel.state.collectAsState()
-    MovieScaffold(
+    FlixMovieScaffold(
         isLoading = state.isLoading,
         error = state.error
     ) {

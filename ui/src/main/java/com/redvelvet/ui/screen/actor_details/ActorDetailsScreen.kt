@@ -33,7 +33,7 @@ import com.redvelvet.ui.composable.BirthCard
 import com.redvelvet.ui.composable.DisplayCard
 import com.redvelvet.ui.composable.ExpandableText
 import com.redvelvet.ui.composable.ItemBasicCard
-import com.redvelvet.ui.composable.MovieScaffold
+import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.composable.PosterImage
 import com.redvelvet.ui.composable.SeeMoreList
 import com.redvelvet.ui.screen.known_for.navigateToActorKnownFor
@@ -70,7 +70,7 @@ private fun ActorDetailsContent(
     onClickSeeAll: () -> Unit,
     onClickItem: (String, String) -> Unit
 ) {
-    MovieScaffold(
+    FlixMovieScaffold(
         isLoading = state.isLoading,
         error = state.error,
     ) {
