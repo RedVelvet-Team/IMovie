@@ -9,8 +9,9 @@ data class MovieDetailsScreenUiState(
     val error: ErrorUiState? = null,
     val favoriteActionState: FavoriteActionUiState = FavoriteActionUiState(),
     val addToWatchListActionUiState: AddToWatchListActionUiState = AddToWatchListActionUiState(),
+    val rateActionUiState: RateActionUiState = RateActionUiState(),
 
-) : BaseUiState {
+    ) : BaseUiState {
     data class MovieFullDetailsUiState(
         val details: MovieDetailsUiState,
         val topCast: List<MovieTopCastUiState>,
@@ -75,11 +76,19 @@ data class MovieDetailsScreenUiState(
         val isLoading: Boolean = true,
         val error: ErrorUiState? = null
     )
+
     data class AddToWatchListActionUiState(
         var data: String? = null,
         val isLoading: Boolean = true,
         val error: ErrorUiState? = null
     )
+
+    data class RateActionUiState(
+        var data: String? = null,
+        val isLoading: Boolean = true,
+        val error: ErrorUiState? = null
+    )
+
 
 }
 

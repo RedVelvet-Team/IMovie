@@ -104,9 +104,7 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-
     override fun onClickSave(movieId: Int) {
-
         _state.update {
             it.copy(
                 addToWatchListActionUiState = MovieDetailsScreenUiState.AddToWatchListActionUiState(
@@ -149,6 +147,49 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
+    override fun onClickRateMovie(movieId: Int, rate: Double) {
+        _state.update {
+            it.copy(
+                rateActionUiState = MovieDetailsScreenUiState.RateActionUiState(
+                    isLoading = true
+                )
+            )
+        }
+        tryToExecute(
+            execute = {
+                addMovieRating(
+                    movieRating = rate,
+                    movieId = movieId,
+                )
+            },
+            onSuccessWithData = ::onRateSuccess,
+            onError = ::onRateError,
+        )
+
+    }
+
+    private fun onRateSuccess(response: String) {
+        _state.update {
+            it.copy(
+                rateActionUiState = MovieDetailsScreenUiState.RateActionUiState(
+                    isLoading = false,
+                    data = response
+                )
+            )
+        }
+    }
+
+    private fun onRateError(error: ErrorUiState) {
+        _state.update {
+            it.copy(
+                rateActionUiState = MovieDetailsScreenUiState.RateActionUiState(
+                    isLoading = false,
+                    error = error
+                )
+            )
+        }
+    }
+
 
     override fun onClickPlayTrailer(movieUrl: String) {
 
@@ -158,8 +199,6 @@ class MovieDetailsViewModel @Inject constructor(
 
     }
 
-    override fun onClickRateMovie(movieId: Int, rate: Double) {
-    }
 
     override fun onClickTopCastSeeAll() {
         sendUiEffect(MovieDetailsUiEffect.NavigateToTopCastSeeAllScreen)
