@@ -6,17 +6,17 @@ interface MovieDetailsInteraction {
     fun onClickPlayTrailer(movieUrl: String)
     fun onClickGenre(genre: String)
     fun onClickRateMovie(movieId: Int, rate: Double)
-    fun onClickTopCastSeeAll()
+    fun onClickTopCastSeeAll(movieId: String)
     fun onClickCast(castId: Int)
 
-    fun onClickSimilarMoviesSeeAll()
+    fun onClickSimilarMoviesSeeAll(movieId: String)
 
-    fun onClickMovie(movieId: Int)
+    fun onClickMovie(movieId: String)
 
-    fun onClickMovieImagesSeeAll()
-    fun onClickPreviewImage(movieImageId: Int)
+    fun onClickMovieImagesSeeAll(movieId: String)
+    fun onClickPreviewImage(movieImageId: String)
 
-    fun onClickReviewsSeeAll()
-    fun onClickReview(reviewId: Int)
-    fun onClickRecommendationsMoviesSeeAll()
+    fun onClickReviewsSeeAll(movieId: String)
+    fun onClickReview(reviewId: String)
+    fun onClickRecommendationsMoviesSeeAll(movieId: String)
 }

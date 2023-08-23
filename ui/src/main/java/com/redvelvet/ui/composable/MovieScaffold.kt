@@ -33,7 +33,7 @@ import com.redvelvet.viewmodel.base.NullResultErrorState
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MovieScaffold(
+fun FlixMovieScaffold(
     modifier: Modifier = Modifier,
     title: String = "",
     isLoading: Boolean,

@@ -1,6 +1,5 @@
 package com.redvelvet.viewmodel.movieDetails
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import com.redvelvet.entities.movie.details.MovieFullDetails
 import com.redvelvet.usecase.usecase.detailsActions.AddMovieRatingUseCase
@@ -200,42 +199,40 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
 
-    override fun onClickTopCastSeeAll() {
-        sendUiEffect(MovieDetailsUiEffect.NavigateToTopCastSeeAllScreen)
+    override fun onClickTopCastSeeAll(movieId: String) {
+        sendUiEffect(MovieDetailsUiEffect.NavigateToTopCastSeeAllScreen(movieId))
     }
 
     override fun onClickCast(castId: Int) {
         sendUiEffect(MovieDetailsUiEffect.NavigateToTopCastDetailsScreen(castId.toString()))
     }
 
-    override fun onClickSimilarMoviesSeeAll() {
-        sendUiEffect(MovieDetailsUiEffect.NavigateToSimilarMoviesSeeAllScreen)
+    override fun onClickSimilarMoviesSeeAll(movieId: String) {
+        sendUiEffect(MovieDetailsUiEffect.NavigateToSimilarMoviesSeeAllScreen(movieId))
+    }
+
+    override fun onClickMovie(movieId: String) {
+        sendUiEffect(MovieDetailsUiEffect.NavigateToMovieDetailsScreen(movieId))
+    }
+
+    override fun onClickMovieImagesSeeAll(movieId: String) {
+        sendUiEffect(MovieDetailsUiEffect.NavigateToMovieImagesSeeAllScreen(movieId))
+    }
+
+    override fun onClickPreviewImage(movieImageId: String) {
 
     }
 
-    override fun onClickMovie(movieId: Int) {
-        sendUiEffect(MovieDetailsUiEffect.NavigateToMovieDetailsScreen(movieId.toString()))
+    override fun onClickReviewsSeeAll(movieId: String) {
+        sendUiEffect(MovieDetailsUiEffect.NavigateToReviewSeeAllScreen(movieId))
     }
 
-    override fun onClickMovieImagesSeeAll() {
-
+    override fun onClickReview(reviewId: String) {
+        sendUiEffect(MovieDetailsUiEffect.NavigateToReviewDetailsScreen(reviewId))
     }
 
-    override fun onClickPreviewImage(movieImageId: Int) {
-
-    }
-
-    override fun onClickReviewsSeeAll() {
-
-    }
-
-    override fun onClickReview(reviewId: Int) {
-
-    }
-
-    override fun onClickRecommendationsMoviesSeeAll() {
-        sendUiEffect(MovieDetailsUiEffect.NavigateToRecommendedMoviesSeeAllScreen)
-
+    override fun onClickRecommendationsMoviesSeeAll(movieId: String) {
+        sendUiEffect(MovieDetailsUiEffect.NavigateToRecommendedMoviesSeeAllScreen(movieId))
     }
 
     fun refresh() {

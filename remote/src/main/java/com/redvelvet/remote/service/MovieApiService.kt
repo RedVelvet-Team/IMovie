@@ -1,8 +1,16 @@
 package com.redvelvet.remote.service
 
 import com.redvelvet.repository.dto.ActorKnownForDto
+import com.redvelvet.repository.dto.listAndFavorites.AddMediaToListDto
 import com.redvelvet.repository.dto.BaseResponse
+import com.redvelvet.repository.dto.listAndFavorites.CreateUserListDto
+import com.redvelvet.repository.dto.listAndFavorites.DeleteMovieFromListDto
+import com.redvelvet.repository.dto.listAndFavorites.FavoriteRequestDto
+import com.redvelvet.repository.dto.listAndFavorites.ListRemoteDto
+import com.redvelvet.repository.dto.listAndFavorites.ListResponseDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
+import com.redvelvet.repository.dto.listAndFavorites.UserListDto
+import com.redvelvet.repository.dto.listAndFavorites.WatchlistDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
@@ -300,5 +308,59 @@ interface MovieApiService {
     ): Response<StatusResponse>
 
 
+    //endregion
+
+    //region my list
+    @GET("account/account_id/lists")
+    suspend fun getUserLists(): Response<BaseResponse<UserListDto>>
+
+    @POST("list/{list_id}/add_item")
+    suspend fun postUserMedia(
+        @Path("list_id") listId: Int,
+        @Body mediaId: AddMediaToListDto
+    ): Response<StatusResponse>
+
+    @POST("list")
+    suspend fun createUserList(@Body name: CreateUserListDto): Response<StatusResponse>
+
+    @GET("account/{account_id}/favorite/movies")
+    suspend fun getFavoriteMovies(): Response<BaseResponse<MovieDetailsDTO>>
+
+    @GET("account/{account_id}/favorite/tv")
+    suspend fun getFavoriteTv(): Response<BaseResponse<TvShowDto>>
+
+    @GET("account/{account_id}/watchlist/movies")
+    suspend fun getWatchlist(): Response<BaseResponse<MovieDetailsDTO>>
+
+    @GET("account/{account_id}/watchlist/tv")
+    suspend fun getWatchlistTv(): Response<BaseResponse<TvShowDto>>
+
+    @POST("account/{account_id}/watchlist")
+    suspend fun addWatchlist(
+        @Body watchlistRequest: WatchlistDto,
+    ): Response<StatusResponse>
+
+    @POST("list")
+    suspend fun addList(@Body listRequest: CreateUserListDto): Response<ListResponseDto>
+
+    @DELETE("list/{list_id}")
+    suspend fun deleteList(@Path("list_id") listId: Int): Response<StatusResponse>
+
+    @GET("account/{account_id}/lists")
+    suspend fun getLists(): Response<BaseResponse<ListRemoteDto>>
+
+    @GET("list/{list_id}")
+    suspend fun getDetailsList(@Path("list_id") listId: Int)
+            : Response<BaseResponse<MovieDetailsDTO>>
+
+    @POST("list/{list_id}/remove_item")
+    suspend fun deleteMovieDetailsList(
+        @Path("list_id") listId: Int,
+        @Body movieRequest: DeleteMovieFromListDto,
+    ): Response<StatusResponse>
+
+    @POST("account/account_id/favorite")
+    suspend fun addFavorite(@Body markAsFavorite: FavoriteRequestDto): Response<StatusResponse>
+    //endregion
     // endregion
 }

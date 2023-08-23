@@ -24,8 +24,8 @@ fun SeasonsSection(
     seasonDates: List<String> = emptyList(),
     seasonDescriptions: List<String> = emptyList(),
     seasonEpisodes: List<Int> = emptyList(),
-    onClickSeeAllSeasons: () -> Unit = {},
-    onClickSeason: (seriesId: Int, seasonId: Int) -> Unit,
+    onClickSeeAllSeasons: (String) -> Unit = {},
+    onClickSeason: (String, Int) -> Unit,
 ) {
     if (isNotListEmpty)
         Column(
@@ -57,10 +57,11 @@ fun SeasonsSection(
                         )
                     )
                 },
-                onClickSeeAll = { onClickSeeAllSeasons() },
+                onClickSeeAll = { onClickSeeAllSeasons(seriesId.toString()) },
                 cardModifier = Modifier
                     .width(MaterialTheme.dimens.dimens104)
                     .height(MaterialTheme.dimens.dimens130),
+                itemId = seriesId.toString()
             )
         }
 }
