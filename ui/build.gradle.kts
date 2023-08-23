@@ -96,5 +96,7 @@ dependencies {
     implementation(Deps.exoPlayer)
     //youtubePlayer
     implementation(Deps.youtubePlayer)
+    //ratingbar
+    implementation(Deps.ratingbar)
 }
 
