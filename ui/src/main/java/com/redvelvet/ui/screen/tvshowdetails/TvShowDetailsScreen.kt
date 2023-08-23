@@ -15,9 +15,19 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.CustomMediaDetailsTopAppBar
 import com.redvelvet.ui.composable.MediaDetailsBackgroundContent
-import com.redvelvet.ui.composable.MovieScaffold
+import com.redvelvet.ui.composable.FlixMovieScaffold
+import com.redvelvet.ui.composable.NavigationHandler
+import com.redvelvet.ui.screen.actor_details.navigateToActorDetails
+import com.redvelvet.ui.screen.episodes.navigateToSeeAllEpisode
+import com.redvelvet.ui.screen.seeAllMovieImages.navigateToSeeAllImages
+import com.redvelvet.ui.screen.seeAllReviews.navigateToSeeAllReviews
+import com.redvelvet.ui.screen.seeallseasons.navigateToSeasonDetails
+import com.redvelvet.ui.screen.seealltv.navigateSeeAllTvShow
+import com.redvelvet.ui.screen.sellAllTopCast.navigateToSeeAllTopCast
 import com.redvelvet.ui.theme.color
+import com.redvelvet.viewmodel.tvshow.TvShowUiEffect
 import com.redvelvet.viewmodel.tvshow.TvShowViewModel
+import com.redvelvet.viewmodel.utils.SeeAllTvShows
 
 @Composable
 fun TvShowDetailsScreen(
@@ -28,24 +38,22 @@ fun TvShowDetailsScreen(
     val navController = LocalNavController.current
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
-//    NavigationHandler(
-//        effects = viewModel.effect,
-//        handleEffect = { effect, navController ->
-//            when (effect) {
-//                TvShowUiEffect.NavigateToSeasonDetailsScreen -> navController.navigateToTvShowDetails()
-//                TvShowUiEffect.NavigateToSeasonSeeAllScreen -> navController.navigateToTvShowDetails()
-//                TvShowUiEffect.NavigateToTvShowPosterSeeAllScreen -> navController.navigateToTvShowDetails()
-//                TvShowUiEffect.NavigateToTvShowRecommendationDetailsScreen -> navController.navigateToTvShowDetails()
-//                TvShowUiEffect.NavigateToTvShowRecommendationSeeAllScreen -> navController.navigateToTvShowDetails()
-//                TvShowUiEffect.NavigateToTvShowReviewDetailsScreen -> navController.navigateToTvShowDetails()
-//                TvShowUiEffect.NavigateToTvShowReviewSeeAllScreen -> navController.navigateToTvShowDetails()
-//                TvShowUiEffect.NavigateToTvShowTopCastDetailsScreen -> navController.navigateToTvShowDetails()
-//                TvShowUiEffect.NavigateTvShowToTopCastSeeAllScreen -> navController.navigateToTvShowDetails()
-//                else -> {}
-//            }
-//        }
-//    )
-    MovieScaffold(
+    NavigationHandler(
+        effects = viewModel.effect,
+        handleEffect = { effect, navController ->
+            when (effect) {
+                is TvShowUiEffect.NavigateToSeasonDetailsScreen -> {}
+                is TvShowUiEffect.NavigateToSeasonSeeAllScreen -> navController.navigateToSeasonDetails(effect.id)
+                is TvShowUiEffect.NavigateToTvShowPosterSeeAllScreen -> navController.navigateToSeeAllImages()
+                is TvShowUiEffect.NavigateToTvShowRecommendationSeeAllScreen -> navController.navigateSeeAllTvShow(effect.id, SeeAllTvShows.RECOMMEND)
+                is TvShowUiEffect.NavigateToTopCastSeeAllScreen -> navController.navigateToSeeAllTopCast(id = effect.id)
+                is TvShowUiEffect.NavigateToActorDetailsScreen -> navController.navigateToActorDetails(effect.id)
+                is TvShowUiEffect.NavigateToReviewSeeAllScreen -> navController.navigateToSeeAllReviews(effect.id)
+                else -> {}
+            }
+        }
+    )
+    FlixMovieScaffold(
         isLoading = state.isLoading,
         error = state.error,
         onClick = viewModel::refresh

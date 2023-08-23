@@ -42,7 +42,9 @@ fun TvShowDetailsForegroundContent(
                 interaction::onClickCast,
                 castIds = topcasts.map { it2 -> it2.id },
                 topcasts.map { it2 -> it2.image },
-                topcasts.map { it2 -> it2.name })
+                topcasts.map { it2 -> it2.name },
+                mediaId = state.tvShowId.toString(),
+            )
         }
         KeyWordsSection(state.keywords)
         state.seasons.let { seasons ->
@@ -61,7 +63,11 @@ fun TvShowDetailsForegroundContent(
                 onClickSeason = interaction::onClickSeason
             )
         }
-        ImagesSection(state.posters, interaction::onClickPosterSeaAll)
+        ImagesSection(
+            state.posters,
+            interaction::onClickPosterSeaAll,
+            mediaId = state.tvShowId
+        )
         state.reviews.let { reviews ->
             ReviewsSection(
                 isNotListEmpty = reviews.isNotEmpty(),
@@ -71,7 +77,8 @@ fun TvShowDetailsForegroundContent(
                 reviewDates = reviews.map { it.createdAt },
                 reviewDescriptions = reviews.map { it.content },
                 onClickSeeAllReviews = interaction::onClickReviewsSeeAll,
-                onClickReview = interaction::onClickReview
+                onClickReview = interaction::onClickReview,
+                itemId = state.tvShowId.toString()
             )
         }
         state.recommendations.let { recommendedTvShows ->
@@ -81,7 +88,8 @@ fun TvShowDetailsForegroundContent(
                 images = recommendedTvShows.map { it.poster },
                 names = recommendedTvShows.map { it.seriesName },
                 onClickSeeAll = interaction::onClickRecommendationsSeriesSeeAll,
-                onClickItem = interaction::onClickRecommendation
+                onClickItem = interaction::onClickSeries,
+                mediaId = state.tvShowId
             )
         }
     }
