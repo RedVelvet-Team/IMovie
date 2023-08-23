@@ -1,5 +1,6 @@
 package com.redvelvet.viewmodel.onboarding
 
+import com.redvelvet.usecase.usecase.auth.GetAccountDetailsUsecase
 import com.redvelvet.usecase.usecase.user.CheckUserLoggedInUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
@@ -10,6 +11,7 @@ import javax.inject.Inject
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
     private val checkUserLoggedInUseCase: CheckUserLoggedInUseCase,
+    private val getAccountDetails: GetAccountDetailsUsecase,
 ) : BaseViewModel<OnBoardingUiState, Unit>(OnBoardingUiState()) {
 
     init {
@@ -27,6 +29,7 @@ class OnBoardingViewModel @Inject constructor(
 
     private fun onCheckedSuccess(checkedLoggedIn: Boolean) {
         if (checkedLoggedIn) {
+            getAccountDetails::invoke
             _state.update {
                 it.copy(
                     loggedIn = true,
