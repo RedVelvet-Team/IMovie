@@ -3,6 +3,7 @@ package com.redvelvet.viewmodel.tvshow
 import com.redvelvet.entities.tv.SeasonTvShow
 import com.redvelvet.entities.tv.TvShowCast
 import com.redvelvet.entities.tv.TvShowRecommendation
+import com.redvelvet.entities.tv.TvShowResultVideo
 import com.redvelvet.entities.tv.TvShowReview
 import com.redvelvet.viewmodel.base.BaseUiState
 import com.redvelvet.viewmodel.base.ErrorUiState
@@ -27,6 +28,7 @@ data class SeriesDetailsUiState(
     val reviews: List<TvShowReviewUiState> = emptyList(),
     val posters: List<String> = emptyList(),
     val recommendations: List<TvShowRecommendationUiState> = emptyList(),
+    val videos: List<TvShowVideoUiState> = emptyList(),
     val myRating: Int = 0,
     val isLoading: Boolean = true,
     val error: ErrorUiState? = null,
@@ -67,6 +69,11 @@ data class TvShowTopCastUiState(
     val knownFoDepartment: String = "",
 )
 
+data class TvShowVideoUiState(
+    val site: String = "",
+    val key: String = ""
+)
+
 
 fun TvShowCast.toTvShowTopCastUiState(): TvShowTopCastUiState {
     return TvShowTopCastUiState(
@@ -102,5 +109,12 @@ fun TvShowRecommendation.toTvShowRecommendationUiState(): TvShowRecommendationUi
     return TvShowRecommendationUiState(
         poster = Constants.BASE_IMAGE_URL + poster,
         seriesName = seriesName,
+    )
+}
+
+fun TvShowResultVideo.toTvShowVideoUiState(): TvShowVideoUiState{
+    return TvShowVideoUiState(
+        key = key,
+        site = site,
     )
 }

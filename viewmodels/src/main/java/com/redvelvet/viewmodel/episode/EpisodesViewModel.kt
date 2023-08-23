@@ -15,7 +15,7 @@ import javax.inject.Inject
 class EpisodesViewModel @Inject constructor(
     private val getAllEpisodesUseCase: GetAllEpisodesUseCase,
     savedStateHandle: SavedStateHandle
-    ) : BaseViewModel<EpisodeUiState, BaseUiEffect>(EpisodeUiState()){
+    ) : BaseViewModel<EpisodeUiState, Unit>(EpisodeUiState()){
 
     private val args: EpisodesArgs = EpisodesArgs(savedStateHandle)
 

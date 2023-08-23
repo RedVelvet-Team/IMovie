@@ -16,15 +16,18 @@ sealed class MovieDestination(
     data object SeeAllMovie : MovieDestination("seeAllMovie")
     data object SeeAllUpcoming : MovieDestination("seeAllUpcoming")
     data object SeeAllSeasons : MovieDestination("seeAllSeasons")
+    data object Room : MovieDestination("room")
     data object SeeAllTvShow : MovieDestination("seeAllTvShow")
     data object ForgotPassword : MovieDestination("forgotPassword")
     data object SeeAllEpisodes : MovieDestination("seeAllEpisodes")
     data object SeeAllTopCast : MovieDestination("seeAllTopCast")
     data object SeeAllMovieImages : MovieDestination("seeAllMovieImages")
     data object SeeAllMovieReviews : MovieDestination("seeAllMovieReviews")
-    data object MovieDetails : MovieDestination("movie_details")
-    data object TvShowDetails : MovieDestination("tvshow_details")
+    data object MovieDetails : MovieDestination("movieDetails")
+    data object TvShowDetails : MovieDestination("tvShowDetails")
     data object Upcoming : MovieDestination("upcoming")
+    data object MoviePlayer:MovieDestination("moviePlayer")
+    data object YoutubePlayer : MovieDestination("youtubePlayer")
 
     data object Home : MovieDestination(
         "home",
@@ -55,5 +58,4 @@ sealed class MovieDestination(
         R.drawable.icon_game_filled,
         R.drawable.icon_game
     )
-
 }
