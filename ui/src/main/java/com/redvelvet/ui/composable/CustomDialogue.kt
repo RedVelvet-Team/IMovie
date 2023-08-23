@@ -13,12 +13,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,8 +30,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,14 +49,14 @@ import org.w3c.dom.Text
 @Composable
 fun CustomDialogue(
     hasDefaultBox: Boolean = false,
-    hasLinkBox: Boolean = false,
+    hasLinkBox: Boolean = true,
     hasRateBox: Boolean = false,
-    hasCreateNewListBox: Boolean = true
+    hasCreateNewListBox: Boolean = false
 
 ) {
     Box(
         modifier = Modifier
-            .size(260.dp)
+            .wrapContentSize()
             .clip(RoundedCornerShape(MaterialTheme.spacing.spacing16))
             .background(MaterialTheme.color.backgroundPrimary)
     ) {
@@ -64,7 +69,8 @@ fun CustomDialogue(
                         vertical = MaterialTheme.spacing.spacing24
                     )
             ) {
-                LinkBox()
+                LinkBox(value = "",
+                    onTextChange = {})
             }
         }
         AnimatedVisibility(visible = hasRateBox) {
@@ -119,12 +125,15 @@ fun PreviewScreen() {
 
 @Composable
 fun CreateNewListBox() {
-    LinkBox(headText = "Create a new list",
+    LinkBox(
+        headText = "Create a new list",
         secondaryText = "Create a new list and keep track of \n" +
                 "your movies that you want to\n" +
                 "access easily",
         boxTitle = "Title",
-        buttonText = "Create"
+        buttonText = "Create",
+        value = "",
+        onTextChange = {}
     )
 
 }
@@ -180,8 +189,11 @@ fun DefaultBox() {
 fun LinkBox(
     headText: String = "Create cinema room",
     secondaryText: String = "You can share the room with friends  ",
-    boxTitle:String="Movie Link",
-    buttonText:String="Share Room"
+    boxTitle: String = "Movie Link",
+    buttonText: String = "Share Room",
+    textColor: Color = MaterialTheme.color.fontSecondary,
+    value: String,
+    onTextChange: (String) -> Unit
 ) {
     Text(
         modifier = Modifier.padding(
@@ -201,23 +213,38 @@ fun LinkBox(
         color = MaterialTheme.color.fontPrimary,
     )
     SpacerVertical(height = MaterialTheme.spacing.spacing16)
-    Row(
+    TextField(
+        value = value, onValueChange = onTextChange,
         modifier = Modifier
             .size(width = 228.dp, height = 40.dp)
             .clip(RoundedCornerShape(16.dp))
-            .background(MaterialTheme.color.backgroundSecondary)
-
-    ) {
-        SpacerVertical(height = MaterialTheme.spacing.spacing16)
-        Text(
-            modifier = Modifier.padding(
-                all = MaterialTheme.spacing.spacing12
-            ),
-            textAlign = TextAlign.Center,
-            text = boxTitle,
-            color = MaterialTheme.color.fontSecondary
+            .background(MaterialTheme.color.backgroundSecondary),
+        textStyle = TextStyle(
+            color = MaterialTheme.color.fontPrimary,
+        ),
+        placeholder = {
+            Text(
+                text = boxTitle, style = Typography.bodyMedium,
+                color = MaterialTheme.color.fontSecondary,
+            )
+        },
+        singleLine = true,
+        shape = RoundedCornerShape(MaterialTheme.radius.radius16),
+        colors = TextFieldDefaults.colors(
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
+            errorContainerColor = MaterialTheme.color.backgroundSecondary,
+            errorIndicatorColor = Color.Transparent,
+            focusedTextColor = textColor,
+            unfocusedTextColor = textColor,
+            disabledTextColor = textColor,
+            focusedContainerColor = MaterialTheme.color.backgroundSecondary,
+            unfocusedContainerColor = MaterialTheme.color.backgroundSecondary,
+            disabledContainerColor = MaterialTheme.color.backgroundSecondary,
+            cursorColor = Color.White,
         )
-    }
+    )
     SpacerVertical(height = MaterialTheme.spacing.spacing32)
     Row {
         PrimaryOutlinedButton(
