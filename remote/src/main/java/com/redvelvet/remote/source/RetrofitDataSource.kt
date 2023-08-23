@@ -13,6 +13,8 @@ import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
+import com.redvelvet.repository.dto.detailsRequests.AddToWatchListRequest
+import com.redvelvet.repository.dto.detailsRequests.MarkAsFavoriteRequest
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -255,33 +257,12 @@ class RetrofitDataSource @Inject constructor(
         wrapApiResponse { movieApiService.getTvShowTopCastByID(seriesId) }
 
 
-    override suspend fun addTvShowRating(
-        seriesRating: Double,
-        seriesId: Int,
-        sessionId: String
-    ): String =
-        wrapApiResponse {
-            movieApiService.addTvShowRating(
-                seriesRating,
-                seriesId,
-                sessionId
-            )
-        }.statusMessage.toString()
-
     override suspend fun getTvShowVideosByID(seriesId: Int): TvShowVideosDto =
         wrapApiResponse { movieApiService.getTvShowVideosByID(seriesId) }
 
     override suspend fun getTvShowImagesByID(seriesId: Int): TvShowImagesDto =
         wrapApiResponse { movieApiService.getTvShowImagesByID(seriesId) }
 
-
-    override suspend fun deleteTvShowRating(seriesId: Int, sessionId: String): String =
-        wrapApiResponse {
-            movieApiService.deleteTvShowRating(
-                seriesId,
-                sessionId
-            )
-        }.statusMessage.toString()
 
     override suspend fun getTvShowDetailsByID(seriesId: Int) =
         wrapApiResponse { movieApiService.getTvShowDetailsById(seriesId) }
@@ -330,6 +311,88 @@ class RetrofitDataSource @Inject constructor(
         return wrapApiResponse { movieApiService.getTopRatedTv() }.result.orEmpty()
     }
     //endregion
+
+
+    override suspend fun deleteTvShowRating(seriesId: Int, sessionId: String): String =
+        wrapApiResponse {
+            movieApiService.deleteTvShowRating(
+                seriesId,
+                sessionId
+            )
+        }.statusMessage.toString()
+
+    override suspend fun addTvShowRating(
+        seriesRating: Double,
+        seriesId: Int,
+        sessionId: String
+    ): String =
+        wrapApiResponse {
+            movieApiService.addTvShowRating(
+                seriesRating,
+                seriesId,
+                sessionId
+            )
+        }.statusMessage.toString()
+
+    override suspend fun deleteMovieRating(movieId: Int, sessionId: String): String =
+        wrapApiResponse {
+            movieApiService.deleteMovieRating(
+                movieId,
+                sessionId
+            )
+        }.statusMessage.toString()
+
+
+    override suspend fun addMovieRating(
+        movieRating: Double,
+        movieId: Int,
+        sessionId: String
+    ): String =
+        wrapApiResponse {
+            movieApiService.addMovieRating(
+                movieRating,
+                movieId,
+                sessionId
+            )
+        }.statusMessage.toString()
+
+
+    override suspend fun toggleMediaInWatchlist(
+        mediaType: String,
+        mediaId: Int,
+        watchlist: Boolean,
+        sessionId: String,
+        accountId: Int,
+    ): String = wrapApiResponse {
+        movieApiService.toggleMediaInWatchlist(
+            addToWatchListRequest = AddToWatchListRequest(
+                watchlist = watchlist,
+                mediaId = mediaId,
+                mediaType = mediaType
+            ),
+            accountId = accountId,
+            sessionId = sessionId,
+        )
+    }.statusMessage.toString()
+
+
+    override suspend fun toggleMediaInFavorite(
+        mediaType: String,
+        mediaId: Int,
+        favorite: Boolean,
+        sessionId: String,
+        accountId: Int,
+    ): String = wrapApiResponse {
+        movieApiService.toggleMediaInFavoriteList(
+            markAsFavoriteRequest = MarkAsFavoriteRequest(
+                favorite = favorite,
+                mediaId = mediaId,
+                mediaType = mediaType
+            ),
+            accountId = accountId,
+            sessionId = sessionId,
+        )
+    }.statusMessage.toString()
 
 }
 

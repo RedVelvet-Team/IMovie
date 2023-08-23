@@ -35,13 +35,6 @@ class TvShowRepositoryImp @Inject constructor(
         remoteDataSource.getTvShowImagesByID(seriesId).toTvShowImages()
 
 
-    override suspend fun addTvShowRating(seriesRating: Double, seriesId: Int, sessionId: String) =
-        remoteDataSource.addTvShowRating(seriesRating, seriesId, sessionId)
-
-
-    override suspend fun deleteTvShowRating(seriesId: Int, sessionId: String) =
-        remoteDataSource.deleteTvShowRating(seriesId, sessionId)
-
     override suspend fun getTvShowDetailsByID(seriesId: Int) =
         remoteDataSource.getTvShowDetailsByID(seriesId).toTvShowDetails()
 

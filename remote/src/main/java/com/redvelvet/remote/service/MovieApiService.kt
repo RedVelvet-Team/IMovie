@@ -1,6 +1,5 @@
 package com.redvelvet.remote.service
 
-
 import com.redvelvet.repository.dto.ActorKnownForDto
 import com.redvelvet.repository.dto.BaseResponse
 import com.redvelvet.repository.dto.SeasonDetailsDto
@@ -8,6 +7,8 @@ import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
+import com.redvelvet.repository.dto.detailsRequests.AddToWatchListRequest
+import com.redvelvet.repository.dto.detailsRequests.MarkAsFavoriteRequest
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -120,6 +121,7 @@ interface MovieApiService {
     suspend fun seeAllPopularTv(
         @Query("page") page: Int? = 1,
     ): Response<BaseResponse<List<TvShowDto>>>
+
     @GET("tv/top_rated")
     suspend fun seeAllTopRatedTv(
         @Query("page") page: Int? = 1,
@@ -141,7 +143,7 @@ interface MovieApiService {
     ): Response<SeasonDetailsDto>
     // endregion
 
-
+    // region person
     @GET("person/{person_id}")
     suspend fun getActorDetails(
         @Path("person_id") id: String
@@ -151,6 +153,8 @@ interface MovieApiService {
     suspend fun getActorKnownFor(
         @Path("person_id") id: String
     ): Response<ActorKnownForDto>
+
+    // endregion
 
     // region TvShow
     @GET("tv/{tv_id}")
@@ -173,23 +177,7 @@ interface MovieApiService {
 
     @GET("tv/{tv_id}/credits")
     suspend fun getTvShowTopCastByID(@Path("tv_id") seriesId: Int): Response<TvShowTopCastDto>
-
-    @POST("tv/{tv_id}/rating")
-    suspend fun addTvShowRating(
-        @Field("value") seriesRating: Double,
-        @Path("tv_id") seriesId: Int,
-        @Query("session_id") sessionId: String,
-    ): Response<StatusResponse>
-
-    @DELETE("tv/{tv_id}/rating")
-    suspend fun deleteTvShowRating(
-        @Path("tv_id") seriesId: Int,
-        @Query("session_id") sessionId: String,
-    ): Response<StatusResponse>
     // endregion
-
-
-    //endregion
 
     //region see all
     @GET("movie/popular")
@@ -262,10 +250,54 @@ interface MovieApiService {
     suspend fun getPopularTv(
         @Query("page") page: Int? = 1,
     ): Response<BaseResponse<List<TvShowDto>>>
+
     @GET("tv/top_rated")
     suspend fun getTopRatedTv(
         @Query("page") page: Int? = 1,
     ): Response<BaseResponse<List<TvShowDto>>>
-
     //endregion
+
+    // region details actions
+    @POST("tv/{tv_id}/rating")
+    suspend fun addTvShowRating(
+        @Field("value") seriesRating: Double,
+        @Path("tv_id") seriesId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<StatusResponse>
+
+    @DELETE("tv/{tv_id}/rating")
+    suspend fun deleteTvShowRating(
+        @Path("tv_id") seriesId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<StatusResponse>
+
+    @POST("movie/{movie_id}/rating")
+    suspend fun addMovieRating(
+        @Field("value") movieRating: Double,
+        @Path("movie_id") movieId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<StatusResponse>
+
+    @DELETE("movie/{movie_id}/rating")
+    suspend fun deleteMovieRating(
+        @Path("movie_id") movieId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<StatusResponse>
+
+    @POST("account/{account_id}/watchlist")
+    suspend fun toggleMediaInWatchlist(
+        @Body addToWatchListRequest: AddToWatchListRequest,
+        @Path("account_id") accountId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<StatusResponse>
+
+    @POST("account/{account_id}/favorite")
+    suspend fun toggleMediaInFavoriteList(
+        @Body markAsFavoriteRequest: MarkAsFavoriteRequest,
+        @Path("account_id") accountId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<StatusResponse>
+
+
+    // endregion
 }

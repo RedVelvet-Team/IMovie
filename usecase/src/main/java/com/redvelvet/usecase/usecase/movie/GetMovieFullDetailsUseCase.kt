@@ -35,8 +35,8 @@ class GetMovieFullDetailsUseCase @Inject constructor(
             val topCast = topCastDeferred.await()
 
             MovieFullDetails(
-                details =details,
-                images =images,
+                details = details,
+                images = images,
                 keyWords = keyWords,
                 recommendations = recommendations,
                 reviews = reviews,
@@ -44,27 +44,32 @@ class GetMovieFullDetailsUseCase @Inject constructor(
                 topCast = topCast
             )
         }
-    private suspend fun getMovieDetailsById(movieId:Int): MovieDetails {
+
+    private suspend fun getMovieDetailsById(movieId: Int): MovieDetails {
         return movieRepository.getMovieDetailsById(movieId)
     }
 
-    suspend fun getMovieImagesByID(movieId:Int): MovieImages {
+    suspend fun getMovieImagesByID(movieId: Int): MovieImages {
         return movieRepository.getMovieImagesByID(movieId)
     }
 
-    private suspend fun getMovieKeyWordsByID(movieId:Int): MovieKeyWords {
+    private suspend fun getMovieKeyWordsByID(movieId: Int): MovieKeyWords {
         return movieRepository.getMovieKeyWordsByID(movieId)
     }
-    private suspend fun getMovieRecommendationsByID(movieId:Int): MovieRecommendations {
+
+    private suspend fun getMovieRecommendationsByID(movieId: Int): MovieRecommendations {
         return movieRepository.getMovieRecommendationsByID(movieId)
     }
-    suspend fun getMovieReviewsByID(movieId:Int): MovieReviews {
+
+    suspend fun getMovieReviewsByID(movieId: Int): MovieReviews {
         return movieRepository.getMovieReviewsByID(movieId)
     }
-    private suspend fun getMovieSimilarByID(movieId:Int): MovieSimilar {
+
+    private suspend fun getMovieSimilarByID(movieId: Int): MovieSimilar {
         return movieRepository.getMovieSimilarByID(movieId)
     }
-    suspend fun getMovieTopCastByID(movieId:Int): MovieTopCast {
+
+    suspend fun getMovieTopCastByID(movieId: Int): MovieTopCast {
         return movieRepository.getMovieTopCastByID(movieId)
     }
 }

@@ -7,7 +7,13 @@ import com.redvelvet.entities.movie.details.MovieRecommendations
 import com.redvelvet.entities.movie.details.MovieReviews
 import com.redvelvet.entities.movie.details.MovieSimilar
 import com.redvelvet.entities.movie.details.MovieTopCast
-import com.redvelvet.repository.dto.movie.details.*
+import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
+import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
+import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
+import com.redvelvet.repository.dto.movie.details.MovieRecommendationsDTO
+import com.redvelvet.repository.dto.movie.details.MovieReviewsDTO
+import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
+import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
 
 fun MovieImagesDTO.toDomain(): MovieImages {
     return MovieImages(backdrops = this.backdrops.map { MovieImages.Backdrop(it.filePath ?: "N/A") },

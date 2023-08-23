@@ -6,7 +6,10 @@ import com.redvelvet.viewmodel.base.ErrorUiState
 data class MovieDetailsScreenUiState(
     val data: MovieFullDetailsUiState? = null,
     val isLoading: Boolean = true,
-    val error: ErrorUiState? = null
+    val error: ErrorUiState? = null,
+    val favoriteActionState: FavoriteActionUiState = FavoriteActionUiState(),
+    val addToWatchListActionUiState: AddToWatchListActionUiState = AddToWatchListActionUiState(),
+
 ) : BaseUiState {
     data class MovieFullDetailsUiState(
         val details: MovieDetailsUiState,
@@ -15,7 +18,7 @@ data class MovieDetailsScreenUiState(
         val similar: List<MovieSimilarUiState>,
         val images: List<MovieImagesUiState>,
         val reviews: List<MovieReviewsUiState>,
-        val recommendations: List<MovieRecommendationsUiState>,
+        val recommendations: List<MovieRecommendationsUiState>
     )
 
     data class MovieDetailsUiState(
@@ -66,8 +69,19 @@ data class MovieDetailsScreenUiState(
         val mediaName: String = "",
         val mediaImage: String = "",
     )
-}
 
+    data class FavoriteActionUiState(
+        var data: String? = null,
+        val isLoading: Boolean = true,
+        val error: ErrorUiState? = null
+    )
+    data class AddToWatchListActionUiState(
+        var data: String? = null,
+        val isLoading: Boolean = true,
+        val error: ErrorUiState? = null
+    )
+
+}
 
 
 

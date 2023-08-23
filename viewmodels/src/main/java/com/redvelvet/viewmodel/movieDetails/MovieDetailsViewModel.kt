@@ -3,6 +3,10 @@ package com.redvelvet.viewmodel.movieDetails
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import com.redvelvet.entities.movie.details.MovieFullDetails
+import com.redvelvet.usecase.usecase.detailsActions.AddMovieRatingUseCase
+import com.redvelvet.usecase.usecase.detailsActions.DeleteMovieRatingUseCase
+import com.redvelvet.usecase.usecase.detailsActions.ToggleMediaInFavoritesUsecase
+import com.redvelvet.usecase.usecase.detailsActions.ToggleMediaInWatchListUsecase
 import com.redvelvet.usecase.usecase.movie.GetMovieFullDetailsUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
@@ -13,8 +17,14 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getMovieFullDetails: GetMovieFullDetailsUseCase
-) : BaseViewModel<MovieDetailsScreenUiState, MovieDetailsUiEffect>(MovieDetailsScreenUiState()),
+    private val getMovieFullDetails: GetMovieFullDetailsUseCase,
+    private val addMovieRating: AddMovieRatingUseCase,
+    private val deleteMovieRating: DeleteMovieRatingUseCase,
+    private val toggleMediaInFavorites: ToggleMediaInFavoritesUsecase,
+    private val toggleMediaInWatchList: ToggleMediaInWatchListUsecase,
+
+
+    ) : BaseViewModel<MovieDetailsScreenUiState, MovieDetailsUiEffect>(MovieDetailsScreenUiState()),
     MovieDetailsInteraction {
 
     private val args: MovieDetailsArgs = MovieDetailsArgs(savedStateHandle)
@@ -51,17 +61,94 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    override fun onClickBack() {
-
-    }
-
     override fun onClickFavorite(movieId: Int, mediaType: String) {
-
+        _state.update {
+            it.copy(
+                favoriteActionState = MovieDetailsScreenUiState.FavoriteActionUiState(
+                    isLoading = true
+                )
+            )
+        }
+        tryToExecute(
+            execute = {
+                toggleMediaInFavorites(
+                    mediaType = "movie",
+                    mediaId = movieId,
+                    isSavedInFavorites = true
+                )
+            },
+            onSuccessWithData = ::onFavoriteSuccess,
+            onError = ::onFavoriteError,
+        )
     }
+
+    private fun onFavoriteSuccess(response: String) {
+        _state.update {
+            it.copy(
+                favoriteActionState = MovieDetailsScreenUiState.FavoriteActionUiState(
+                    isLoading = false,
+                    data = response
+                )
+            )
+        }
+    }
+
+    private fun onFavoriteError(error: ErrorUiState) {
+        _state.update {
+            it.copy(
+                favoriteActionState = MovieDetailsScreenUiState.FavoriteActionUiState(
+                    isLoading = false,
+                    error = error
+                )
+            )
+        }
+    }
+
 
     override fun onClickSave(movieId: Int) {
 
+        _state.update {
+            it.copy(
+                addToWatchListActionUiState = MovieDetailsScreenUiState.AddToWatchListActionUiState(
+                    isLoading = true
+                )
+            )
+        }
+        tryToExecute(
+            execute = {
+                toggleMediaInWatchList(
+                    mediaType = "movie",
+                    mediaId = movieId,
+                    isSavedInWatchList = true
+                )
+            },
+            onSuccessWithData = ::onSaveSuccess,
+            onError = ::onSaveError,
+        )
     }
+
+    private fun onSaveSuccess(response: String) {
+        _state.update {
+            it.copy(
+                addToWatchListActionUiState = MovieDetailsScreenUiState.AddToWatchListActionUiState(
+                    isLoading = false,
+                    data = response
+                )
+            )
+        }
+    }
+
+    private fun onSaveError(error: ErrorUiState) {
+        _state.update {
+            it.copy(
+                addToWatchListActionUiState = MovieDetailsScreenUiState.AddToWatchListActionUiState(
+                    isLoading = false,
+                    error = error
+                )
+            )
+        }
+    }
+
 
     override fun onClickPlayTrailer(movieUrl: String) {
 
@@ -72,7 +159,6 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun onClickRateMovie(movieId: Int, rate: Double) {
-        sendUiEffect(MovieDetailsUiEffect.NavigateToMovieDetailsScreen(movieId.toString()))
     }
 
     override fun onClickTopCastSeeAll() {
@@ -80,7 +166,6 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun onClickCast(castId: Int) {
-        Log.i("Taha", "castId = $castId")
         sendUiEffect(MovieDetailsUiEffect.NavigateToTopCastDetailsScreen(castId.toString()))
     }
 
@@ -90,6 +175,7 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun onClickMovie(movieId: Int) {
+        sendUiEffect(MovieDetailsUiEffect.NavigateToMovieDetailsScreen(movieId.toString()))
     }
 
     override fun onClickMovieImagesSeeAll() {
