@@ -1,13 +1,7 @@
 package com.redvelvet.remote.service
 
 import com.redvelvet.repository.dto.ActorKnownForDto
-import com.redvelvet.repository.dto.listAndFavorites.AddMediaToListDto
 import com.redvelvet.repository.dto.BaseResponse
-import com.redvelvet.repository.dto.listAndFavorites.CreateUserListDto
-import com.redvelvet.repository.dto.listAndFavorites.DeleteMovieFromListDto
-import com.redvelvet.repository.dto.listAndFavorites.FavoriteRequestDto
-import com.redvelvet.repository.dto.listAndFavorites.ListRemoteDto
-import com.redvelvet.repository.dto.listAndFavorites.ListResponseDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.listAndFavorites.UserListDto
 import com.redvelvet.repository.dto.listAndFavorites.WatchlistDto
@@ -18,6 +12,12 @@ import com.redvelvet.repository.dto.auth.response.TokenDto
 import com.redvelvet.repository.dto.detailsRequests.AddToWatchListRequest
 import com.redvelvet.repository.dto.detailsRequests.MarkAsFavoriteRequest
 import com.redvelvet.repository.dto.detailsRequests.RateRequest
+import com.redvelvet.repository.dto.listAndFavorites.AddMediaToListDto
+import com.redvelvet.repository.dto.listAndFavorites.CreateUserListDto
+import com.redvelvet.repository.dto.listAndFavorites.DeleteMovieFromListDto
+import com.redvelvet.repository.dto.listAndFavorites.FavoriteRequestDto
+import com.redvelvet.repository.dto.listAndFavorites.ListRemoteDto
+import com.redvelvet.repository.dto.listAndFavorites.ListResponseDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
