@@ -3,9 +3,16 @@ package com.redvelvet.viewmodel.tvshow
 
 import androidx.lifecycle.SavedStateHandle
 import com.redvelvet.entities.tv.TvShowAllDetails
+import com.redvelvet.usecase.usecase.detailsActions.AddTvShowRatingUseCase
+import com.redvelvet.usecase.usecase.detailsActions.DeleteTvShowRatingUseCase
+import com.redvelvet.usecase.usecase.detailsActions.ToggleMediaInFavoritesUsecase
+import com.redvelvet.usecase.usecase.detailsActions.ToggleMediaInWatchListUsecase
 import com.redvelvet.usecase.usecase.tvshow.GetAllTvShowDetailsUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
+import com.redvelvet.viewmodel.movieDetails.AddToWatchListActionUiState
+import com.redvelvet.viewmodel.movieDetails.FavoriteActionUiState
+import com.redvelvet.viewmodel.movieDetails.RateActionUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
@@ -14,7 +21,11 @@ import javax.inject.Inject
 class TvShowViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getTvShSowDetails: GetAllTvShowDetailsUseCase,
-) : BaseViewModel<SeriesDetailsUiState, TvShowUiEffect>(SeriesDetailsUiState()),
+    private val addTvShowRating: AddTvShowRatingUseCase,
+    private val deleteTvShowRating: DeleteTvShowRatingUseCase,
+    private val toggleMediaInFavorites: ToggleMediaInFavoritesUsecase,
+    private val toggleMediaInWatchList: ToggleMediaInWatchListUsecase,
+    ) : BaseViewModel<SeriesDetailsUiState, TvShowUiEffect>(SeriesDetailsUiState()),
     TvShowDetailsInteraction {
 
     private val args: TvDetailsArgs = TvDetailsArgs(savedStateHandle)
@@ -38,6 +49,7 @@ class TvShowViewModel @Inject constructor(
     private fun onSuccess(tvShowAllDetails: TvShowAllDetails) {
         _state.update {
             it.copy(
+                tvShowId = tvShowAllDetails.tvShowId,
                 tvShowName = tvShowAllDetails.tvShowName,
                 tvShowImage = tvShowAllDetails.tvShowImage,
                 tvShowLanguage = tvShowAllDetails.tvShowLanguage,
@@ -69,17 +81,138 @@ class TvShowViewModel @Inject constructor(
     }
 
 
-    override fun onClickBack() {
-
+    override fun onClickFavorite(seriesId: Int) {
+        _state.update {
+            it.copy(
+                favoriteActionState = FavoriteActionUiState(
+                    isLoading = true
+                )
+            )
+        }
+        tryToExecute(
+            execute = {
+                toggleMediaInFavorites(
+                    mediaType = "tv",
+                    mediaId = seriesId,
+                    isSavedInFavorites = true
+                )
+            },
+            onSuccessWithData = ::onFavoriteSuccess,
+            onError = ::onFavoriteError,
+        )
     }
 
-    override fun onClickFavorite(seriesId: Int) {
+    private fun onFavoriteSuccess(response: String) {
+        _state.update {
+            it.copy(
+                favoriteActionState = FavoriteActionUiState(
+                    isLoading = false,
+                    data = response
+                )
+            )
+        }
+    }
 
+    private fun onFavoriteError(error: ErrorUiState) {
+        _state.update {
+            it.copy(
+                favoriteActionState = FavoriteActionUiState(
+                    isLoading = false,
+                    error = error
+                )
+            )
+        }
     }
 
     override fun onClickSave(seriesId: Int) {
+        _state.update {
+            it.copy(
+                addToWatchListActionUiState = AddToWatchListActionUiState(
+                    isLoading = true
+                )
+            )
+        }
+        tryToExecute(
+            execute = {
+                toggleMediaInWatchList(
+                    mediaType = "tv",
+                    mediaId = seriesId,
+                    isSavedInWatchList = true
+                )
+            },
+            onSuccessWithData = ::onSaveSuccess,
+            onError = ::onSaveError,
+        )
+    }
+
+    private fun onSaveSuccess(response: String) {
+        _state.update {
+            it.copy(
+                addToWatchListActionUiState = AddToWatchListActionUiState(
+                    isLoading = false,
+                    data = response
+                )
+            )
+        }
+    }
+
+    private fun onSaveError(error: ErrorUiState) {
+        _state.update {
+            it.copy(
+                addToWatchListActionUiState = AddToWatchListActionUiState(
+                    isLoading = false,
+                    error = error
+                )
+            )
+        }
+    }
+
+    override fun onClickRateSeries(seriesId: Int, rate: Double) {
+        _state.update {
+            it.copy(
+                rateActionUiState = RateActionUiState(
+                    isLoading = true
+                )
+            )
+        }
+//        deleteTvShowRating(
+//            movieId = movieId,
+//        )
+        tryToExecute(
+            execute = {
+                addTvShowRating(
+                    seriesRating = rate,
+                    seriesId = seriesId,
+                )
+            },
+            onSuccessWithData = ::onRateSuccess,
+            onError = ::onRateError,
+        )
 
     }
+
+    private fun onRateSuccess(response: String) {
+        _state.update {
+            it.copy(
+                rateActionUiState = RateActionUiState(
+                    isLoading = false,
+                    data = response
+                )
+            )
+        }
+    }
+
+    private fun onRateError(error: ErrorUiState) {
+        _state.update {
+            it.copy(
+                rateActionUiState = RateActionUiState(
+                    isLoading = false,
+                    error = error
+                )
+            )
+        }
+    }
+
 
     override fun onClickPlayTrailer(seriesUrl: String) {
 
@@ -89,9 +222,6 @@ class TvShowViewModel @Inject constructor(
 
     }
 
-    override fun onClickRateSeries(seriesId: Int, rate: Double) {
-
-    }
 
     override fun onClickTopCastSeeAll(id: String) {
         sendUiEffect(TvShowUiEffect.NavigateToTopCastSeeAllScreen(id))
@@ -99,10 +229,6 @@ class TvShowViewModel @Inject constructor(
 
     override fun onClickCast(castId: Int) {
         sendUiEffect(TvShowUiEffect.NavigateToActorDetailsScreen(castId.toString()))
-    }
-
-    override fun onClickKeyword(seriesId: Int) {
-
     }
 
     override fun onClickSeasonSeaAll(seriesId: String) {
