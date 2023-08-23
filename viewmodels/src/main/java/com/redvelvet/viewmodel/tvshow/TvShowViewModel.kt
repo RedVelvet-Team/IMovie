@@ -52,6 +52,7 @@ class TvShowViewModel @Inject constructor(
                 reviews = tvShowAllDetails.reviews.map { it.toTvShowReviewUiState() },
                 posters = tvShowAllDetails.posters,
                 recommendations = tvShowAllDetails.recommendations.map { it.toTvShowRecommendationUiState() },
+                videos = tvShowAllDetails.videos.map { it.toTvShowVideoUiState() },
                 myRating = 0,
                 isLoading = false,
                 error = null,

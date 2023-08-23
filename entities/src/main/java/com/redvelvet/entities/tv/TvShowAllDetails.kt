@@ -14,5 +14,6 @@ data class TvShowAllDetails(
     val seasons : List<SeasonTvShow> = emptyList(),
     val reviews: List<TvShowReview> = emptyList(),
     val posters: List<String> = emptyList(),
+    val videos: List<TvShowResultVideo> = emptyList(),
     val recommendations: List<TvShowRecommendation> = emptyList(),
 )
