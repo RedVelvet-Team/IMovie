@@ -6,6 +6,9 @@ import com.redvelvet.entities.tv.TvShowRecommendation
 import com.redvelvet.entities.tv.TvShowReview
 import com.redvelvet.viewmodel.base.BaseUiState
 import com.redvelvet.viewmodel.base.ErrorUiState
+import com.redvelvet.viewmodel.movieDetails.AddToWatchListActionUiState
+import com.redvelvet.viewmodel.movieDetails.FavoriteActionUiState
+import com.redvelvet.viewmodel.movieDetails.RateActionUiState
 import com.redvelvet.viewmodel.utils.Constants
 
 data class SeriesDetailsUiState(
@@ -27,7 +30,10 @@ data class SeriesDetailsUiState(
     val myRating: Int = 0,
     val isLoading: Boolean = true,
     val error: ErrorUiState? = null,
-) : BaseUiState
+    val favoriteActionState: FavoriteActionUiState = FavoriteActionUiState(),
+    val addToWatchListActionUiState: AddToWatchListActionUiState = AddToWatchListActionUiState(),
+    val rateActionUiState: RateActionUiState = RateActionUiState(),
+    ) : BaseUiState
 
 
 data class SeasonUiState(

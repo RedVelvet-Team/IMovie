@@ -71,28 +71,25 @@ data class MovieDetailsScreenUiState(
         val mediaImage: String = "",
     )
 
-    data class FavoriteActionUiState(
-        var data: String? = null,
-        val isLoading: Boolean = true,
-        val error: ErrorUiState? = null
-    )
-
-    data class AddToWatchListActionUiState(
-        var data: String? = null,
-        val isLoading: Boolean = true,
-        val error: ErrorUiState? = null
-    )
-
-    data class RateActionUiState(
-        var data: String? = null,
-        val isLoading: Boolean = true,
-        val error: ErrorUiState? = null
-    )
-
-
 }
 
 
+data class FavoriteActionUiState(
+    var data: String? = null,
+    val isLoading: Boolean = true,
+    val error: ErrorUiState? = null
+)
 
+data class AddToWatchListActionUiState(
+    var data: String? = null,
+    val isLoading: Boolean = true,
+    val error: ErrorUiState? = null
+)
+
+data class RateActionUiState(
+    var data: String? = null,
+    val isLoading: Boolean = true,
+    val error: ErrorUiState? = null
+)
 
 
