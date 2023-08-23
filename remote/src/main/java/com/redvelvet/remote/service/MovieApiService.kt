@@ -6,6 +6,7 @@ import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.listAndFavorites.UserListDto
 import com.redvelvet.repository.dto.listAndFavorites.WatchlistDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
+import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
@@ -87,6 +88,12 @@ interface MovieApiService {
     //endregion
     @HTTP(method = "DELETE", path = "authentication/session", hasBody = true)
     suspend fun deleteUserSession(@Field("session_id") sessionId: String): Response<SessionDto>
+
+    @GET("account")
+    suspend fun getAccountDetails(
+        @Query("session_id") sessionId: String,
+    ): Response<AccountDetailsDto>
+
     //endregion
 
     // region search

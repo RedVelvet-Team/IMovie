@@ -3,6 +3,7 @@ package com.redvelvet.repository.source
 import com.google.gson.annotations.SerializedName
 import com.redvelvet.repository.dto.ActorKnownForDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
+import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
@@ -134,6 +135,10 @@ interface RemoteDataSource {
         accountId: Int,
     ): String
 
+    suspend fun getAccountDetails(
+        sessionId: String,
+    ): AccountDetailsDto
+
     suspend fun toggleMediaInFavorite(
         mediaType: String,
         mediaId: Int,
@@ -143,4 +148,6 @@ interface RemoteDataSource {
     ): String
 
     // endregion
+
+
 }

@@ -1,6 +1,7 @@
 package com.redvelvet.entities.tv
 
 data class TvShowDetails(
+    val tvShowId: Int = 0,
     val tvShowName: String = "",
     val tvShowImage: String = "",
     val tvShowLanguage: String = "",

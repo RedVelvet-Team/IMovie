@@ -10,6 +10,7 @@ import com.redvelvet.remote.service.MovieApiService
 import com.redvelvet.repository.dto.ActorKnownForDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
+import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
@@ -178,6 +179,7 @@ class RetrofitDataSource @Inject constructor(
             )
         }.result ?: throw NullResultException("There is no data")
     }
+
 
     override suspend fun getActorDetails(id: String): ActorDto {
         return wrapApiResponse { movieApiService.getActorDetails(id) }
@@ -394,6 +396,13 @@ class RetrofitDataSource @Inject constructor(
             sessionId = sessionId,
         )
     }.statusMessage.toString()
+
+    override suspend fun getAccountDetails(
+        sessionId: String,
+    ): AccountDetailsDto {
+        return wrapApiResponse { movieApiService.getAccountDetails(sessionId) }
+    }
+
 
 }
 
