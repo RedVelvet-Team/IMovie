@@ -63,7 +63,7 @@ class MovieDetailsViewModel @Inject constructor(
     override fun onClickFavorite(movieId: Int, mediaType: String) {
         _state.update {
             it.copy(
-                favoriteActionState = MovieDetailsScreenUiState.FavoriteActionUiState(
+                favoriteActionState = FavoriteActionUiState(
                     isLoading = true
                 )
             )
@@ -84,7 +84,7 @@ class MovieDetailsViewModel @Inject constructor(
     private fun onFavoriteSuccess(response: String) {
         _state.update {
             it.copy(
-                favoriteActionState = MovieDetailsScreenUiState.FavoriteActionUiState(
+                favoriteActionState = FavoriteActionUiState(
                     isLoading = false,
                     data = response
                 )
@@ -95,7 +95,7 @@ class MovieDetailsViewModel @Inject constructor(
     private fun onFavoriteError(error: ErrorUiState) {
         _state.update {
             it.copy(
-                favoriteActionState = MovieDetailsScreenUiState.FavoriteActionUiState(
+                favoriteActionState = FavoriteActionUiState(
                     isLoading = false,
                     error = error
                 )
@@ -106,7 +106,7 @@ class MovieDetailsViewModel @Inject constructor(
     override fun onClickSave(movieId: Int) {
         _state.update {
             it.copy(
-                addToWatchListActionUiState = MovieDetailsScreenUiState.AddToWatchListActionUiState(
+                addToWatchListActionUiState = AddToWatchListActionUiState(
                     isLoading = true
                 )
             )
@@ -127,7 +127,7 @@ class MovieDetailsViewModel @Inject constructor(
     private fun onSaveSuccess(response: String) {
         _state.update {
             it.copy(
-                addToWatchListActionUiState = MovieDetailsScreenUiState.AddToWatchListActionUiState(
+                addToWatchListActionUiState = AddToWatchListActionUiState(
                     isLoading = false,
                     data = response
                 )
@@ -138,7 +138,7 @@ class MovieDetailsViewModel @Inject constructor(
     private fun onSaveError(error: ErrorUiState) {
         _state.update {
             it.copy(
-                addToWatchListActionUiState = MovieDetailsScreenUiState.AddToWatchListActionUiState(
+                addToWatchListActionUiState = AddToWatchListActionUiState(
                     isLoading = false,
                     error = error
                 )
@@ -149,11 +149,14 @@ class MovieDetailsViewModel @Inject constructor(
     override fun onClickRateMovie(movieId: Int, rate: Double) {
         _state.update {
             it.copy(
-                rateActionUiState = MovieDetailsScreenUiState.RateActionUiState(
+                rateActionUiState = RateActionUiState(
                     isLoading = true
                 )
             )
         }
+//        deleteMovieRating(
+//            movieId = movieId,
+//        )
         tryToExecute(
             execute = {
                 addMovieRating(
@@ -170,7 +173,7 @@ class MovieDetailsViewModel @Inject constructor(
     private fun onRateSuccess(response: String) {
         _state.update {
             it.copy(
-                rateActionUiState = MovieDetailsScreenUiState.RateActionUiState(
+                rateActionUiState = RateActionUiState(
                     isLoading = false,
                     data = response
                 )
@@ -181,7 +184,7 @@ class MovieDetailsViewModel @Inject constructor(
     private fun onRateError(error: ErrorUiState) {
         _state.update {
             it.copy(
-                rateActionUiState = MovieDetailsScreenUiState.RateActionUiState(
+                rateActionUiState = RateActionUiState(
                     isLoading = false,
                     error = error
                 )
