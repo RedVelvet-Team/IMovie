@@ -9,6 +9,7 @@ import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
 import com.redvelvet.repository.dto.detailsRequests.AddToWatchListRequest
 import com.redvelvet.repository.dto.detailsRequests.MarkAsFavoriteRequest
+import com.redvelvet.repository.dto.detailsRequests.RateRequest
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -260,7 +261,7 @@ interface MovieApiService {
     // region details actions
     @POST("tv/{tv_id}/rating")
     suspend fun addTvShowRating(
-        @Field("value") seriesRating: Double,
+        @Body rateRequest: RateRequest,
         @Path("tv_id") seriesId: Int,
         @Query("session_id") sessionId: String,
     ): Response<StatusResponse>
@@ -273,7 +274,7 @@ interface MovieApiService {
 
     @POST("movie/{movie_id}/rating")
     suspend fun addMovieRating(
-        @Field("value") movieRating: Double,
+        @Body rateRequest: RateRequest,
         @Path("movie_id") movieId: Int,
         @Query("session_id") sessionId: String,
     ): Response<StatusResponse>

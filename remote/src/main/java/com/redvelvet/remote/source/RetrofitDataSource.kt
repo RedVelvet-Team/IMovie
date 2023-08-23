@@ -15,6 +15,7 @@ import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
 import com.redvelvet.repository.dto.detailsRequests.AddToWatchListRequest
 import com.redvelvet.repository.dto.detailsRequests.MarkAsFavoriteRequest
+import com.redvelvet.repository.dto.detailsRequests.RateRequest
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -328,7 +329,7 @@ class RetrofitDataSource @Inject constructor(
     ): String =
         wrapApiResponse {
             movieApiService.addTvShowRating(
-                seriesRating,
+                rateRequest = RateRequest(rate = seriesRating),
                 seriesId,
                 sessionId
             )
@@ -350,7 +351,7 @@ class RetrofitDataSource @Inject constructor(
     ): String =
         wrapApiResponse {
             movieApiService.addMovieRating(
-                movieRating,
+                rateRequest = RateRequest(rate = movieRating),
                 movieId,
                 sessionId
             )
