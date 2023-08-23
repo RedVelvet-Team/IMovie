@@ -24,6 +24,7 @@ fun TvShowDetailsForegroundContent(
     ) {
         DetailsInfoSection(
             image = state.tvShowImage,
+            id = state.tvShowId,
             name = state.tvShowName,
             genres = state.genres,
             hasTime = false,

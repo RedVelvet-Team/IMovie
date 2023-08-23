@@ -29,6 +29,7 @@ fun SeasonDto.toSeasonTvShowLocalDto() = SeasonTvShowLocalDto(
 )
 
 fun TvShowDetailsDto.toTvShowDetails() = TvShowDetails(
+    tvShowId = id ?: 0,
     tvShowName = name ?: "",
     tvShowImage = backdropPath ?: "",
     tvShowLanguage = originalLanguage ?: "",

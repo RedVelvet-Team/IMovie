@@ -1,10 +1,14 @@
 package com.redvelvet.repository.source
 
+import com.google.gson.annotations.SerializedName
 import com.redvelvet.repository.dto.ActorKnownForDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
+import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
+import com.redvelvet.repository.dto.detailsRequests.AddToWatchListRequest
+import com.redvelvet.repository.dto.detailsRequests.MarkAsFavoriteRequest
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -14,6 +18,7 @@ import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
 import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
 import com.redvelvet.repository.dto.person.ActorDto
 import com.redvelvet.repository.dto.search.CombinedResultDto
+import com.redvelvet.repository.dto.tvShow.StatusResponse
 import com.redvelvet.repository.dto.tvShow.TvShowDetailsDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.dto.tvShow.TvShowImagesDto
@@ -84,15 +89,8 @@ interface RemoteDataSource {
     //region tvShow
     suspend fun getTvShowKeyWordsByID(seriesId: Int): TvShowKeywordsDto
     suspend fun getTvShowTopCastByID(seriesId: Int): TvShowTopCastDto
-    suspend fun addTvShowRating(
-        seriesRating: Double,
-        seriesId: Int,
-        sessionId: String
-    ): String
-
     suspend fun getTvShowVideosByID(seriesId: Int): TvShowVideosDto
     suspend fun getTvShowImagesByID(seriesId: Int): TvShowImagesDto
-    suspend fun deleteTvShowRating(seriesId: Int, sessionId: String): String
 
     suspend fun getTvShowDetailsByID(seriesId: Int): TvShowDetailsDto
     suspend fun getTvShowRecommendationsByID(seriesId: Int): TvShowRecommendationsDto
@@ -111,4 +109,45 @@ interface RemoteDataSource {
     suspend fun getOnTheAir(): List<TvShowDto>
     suspend fun getPopularTv(): List<TvShowDto>
     suspend fun getTopRatedTv(): List<TvShowDto>
+
+
+    // region details actions
+
+    suspend fun deleteTvShowRating(seriesId: Int, sessionId: String): String
+    suspend fun addTvShowRating(
+        seriesRating: Double,
+        seriesId: Int,
+        sessionId: String
+    ): String
+
+    suspend fun deleteMovieRating(movieId: Int, sessionId: String): String
+    suspend fun addMovieRating(
+        movieRating: Double,
+        movieId: Int,
+        sessionId: String
+    ): String
+
+    suspend fun toggleMediaInWatchlist(
+        mediaType: String,
+        mediaId: Int,
+        watchlist: Boolean,
+        sessionId: String,
+        accountId: Int,
+    ): String
+
+    suspend fun getAccountDetails(
+        sessionId: String,
+    ): AccountDetailsDto
+
+    suspend fun toggleMediaInFavorite(
+        mediaType: String,
+        mediaId: Int,
+        favorite: Boolean,
+        sessionId: String,
+        accountId: Int,
+    ): String
+
+    // endregion
+
+
 }

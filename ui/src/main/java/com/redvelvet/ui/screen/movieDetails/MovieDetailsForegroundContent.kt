@@ -24,6 +24,7 @@ fun MovieDetailsForegroundContent(
             it.details.let { det ->
                 DetailsInfoSection(
                     image = det.posterPath,
+                    id = det.id,
                     name = det.originalTitle,
                     genres = det.genres,
                     hasTime = true,
