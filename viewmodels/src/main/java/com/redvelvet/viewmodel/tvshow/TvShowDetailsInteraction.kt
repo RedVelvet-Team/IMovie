@@ -13,7 +13,6 @@ interface TvShowDetailsInteraction {
     fun onClickPosterSeaAll(seriesId: String)
     fun onClickPoster(seriesId: Int, seasonNumber: Int)
     fun onClickReviewsSeeAll(seriesId: String)
-    fun onClickReview(reviewId: String)
     fun onClickRecommendationsSeriesSeeAll(seriesId: String)
     fun onClickSeries(seriesId: String)
 }

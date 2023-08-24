@@ -397,6 +397,42 @@ class RetrofitDataSource @Inject constructor(
         )
     }.statusMessage.toString()
 
+    override suspend fun getFavoriteMovies(
+        accountId: Int,
+        sessionId: String
+    ): List<MovieDetailsDTO> {
+        return wrapApiResponse { movieApiService.getFavoriteMovies(accountId, sessionId) }.result
+            ?: throw NullResultException("There is no data")
+    }
+
+    override suspend fun getFavoriteTv(accountId: Int, sessionId: String): List<TvShowDto> {
+        return wrapApiResponse { movieApiService.getFavoriteTv(accountId, sessionId) }.result
+            ?: throw NullResultException("There is no data")
+    }
+
+    override suspend fun getWatchlistMovie(
+        accountId: Int,
+        sessionId: String
+    ): List<MovieDetailsDTO> {
+        return wrapApiResponse { movieApiService.getWatchlistMovie(accountId, sessionId) }.result
+            ?: throw NullResultException("There is no data")
+    }
+
+    override suspend fun getWatchlistTv(accountId: Int, sessionId: String): List<TvShowDto> {
+        return wrapApiResponse { movieApiService.getWatchlistTv(accountId, sessionId) }.result
+            ?: throw NullResultException("There is no data")
+    }
+
+    override suspend fun getRatedMovies(accountId: Int, sessionId: String): List<MovieDetailsDTO> {
+        return wrapApiResponse { movieApiService.getRatedMovies(accountId, sessionId) }.result
+            ?: throw NullResultException("There is no data")
+    }
+
+    override suspend fun getRatedTv(accountId: Int, sessionId: String): List<TvShowDto> {
+        return wrapApiResponse { movieApiService.getRatedTv(accountId, sessionId) }.result
+            ?: throw NullResultException("There is no data")
+    }
+
     override suspend fun getAccountDetails(
         sessionId: String,
     ): AccountDetailsDto {

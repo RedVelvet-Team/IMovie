@@ -78,7 +78,6 @@ fun TvShowDetailsForegroundContent(
                 reviewDates = reviews.map { it.createdAt },
                 reviewDescriptions = reviews.map { it.content },
                 onClickSeeAllReviews = interaction::onClickReviewsSeeAll,
-                onClickReview = interaction::onClickReview,
                 itemId = state.tvShowId.toString()
             )
         }

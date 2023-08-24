@@ -331,16 +331,42 @@ interface MovieApiService {
     suspend fun createUserList(@Body name: CreateUserListDto): Response<StatusResponse>
 
     @GET("account/{account_id}/favorite/movies")
-    suspend fun getFavoriteMovies(): Response<BaseResponse<MovieDetailsDTO>>
+    suspend fun getFavoriteMovies(
+        @Path("account_id") accountId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
 
     @GET("account/{account_id}/favorite/tv")
-    suspend fun getFavoriteTv(): Response<BaseResponse<TvShowDto>>
+    suspend fun getFavoriteTv(
+        @Path("account_id") accountId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<BaseResponse<List<TvShowDto>>>
+
 
     @GET("account/{account_id}/watchlist/movies")
-    suspend fun getWatchlist(): Response<BaseResponse<MovieDetailsDTO>>
+    suspend fun getWatchlistMovie(
+        @Path("account_id") accountId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
 
     @GET("account/{account_id}/watchlist/tv")
-    suspend fun getWatchlistTv(): Response<BaseResponse<TvShowDto>>
+    suspend fun getWatchlistTv(
+        @Path("account_id") accountId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<BaseResponse<List<TvShowDto>>>
+
+    @GET("account/{account_id}/rated/movies")
+    suspend fun getRatedMovies(
+        @Path("account_id") accountId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+
+    @GET("account/{account_id}/rated/tv")
+    suspend fun getRatedTv(
+        @Path("account_id") accountId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<BaseResponse<List<TvShowDto>>>
+
 
     @POST("account/{account_id}/watchlist")
     suspend fun addWatchlist(
@@ -367,7 +393,10 @@ interface MovieApiService {
     ): Response<StatusResponse>
 
     @POST("account/account_id/favorite")
-    suspend fun addFavorite(@Body markAsFavorite: FavoriteRequestDto): Response<StatusResponse>
+    suspend fun addFavorite(
+        @Body markAsFavorite: FavoriteRequestDto,
+        @Path("account_id") accountId: Int,
+    ): Response<StatusResponse>
     //endregion
     // endregion
 }
