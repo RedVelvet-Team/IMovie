@@ -13,16 +13,17 @@ private val ROUTE = MovieDestination.MoviePlayer.route
 
 fun NavGraphBuilder.moviePlayerRoute() {
     composable(
-        route = "$ROUTE/${YoutubePlayerArgs.PRODUCTION_CODE}",
-        arguments = listOf(navArgument(YoutubePlayerArgs.PRODUCTION_CODE) { NavType.StringType })
+        route = "$ROUTE",
+       /*//*${YoutubePlayerArgs.PRODUCTION_CODE}*/
+        arguments = listOf(navArgument(YoutubePlayerArgs.PRODUCTION_CODE) { NavType.StringType })*/
     ) {
         MoviePlayer()
     }
 }
 
-fun NavController.navigateMoviePlayer(movieId:String,builder: NavOptionsBuilder.() -> Unit = {}) {
-    navigate(
-        route = "$ROUTE/${movieId}",
-        builder = builder
-    )
-}
+//fun NavController.navigateMoviePlayer(movieId:String,builder: NavOptionsBuilder.() -> Unit = {}) {
+//    navigate(
+//        route = "$ROUTE/${movieId}",
+//        builder = builder
+//    )
+//}

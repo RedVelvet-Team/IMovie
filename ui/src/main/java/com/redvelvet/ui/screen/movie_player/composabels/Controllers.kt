@@ -47,10 +47,9 @@ fun PlayerControls(
     totalDuration: () -> Long,
     currentTime: () -> Long,
     bufferedPercentage: () -> Int,
-    onFullClick: () -> Unit,
+    onFullClickScreen: () -> Unit,
     onSeekChanged: (timeMs: Float) -> Unit
 ) {
-
     val visible = remember(isVisible()) { isVisible() }
 
     AnimatedVisibility(
@@ -61,40 +60,34 @@ fun PlayerControls(
     ) {
         Box(modifier = Modifier.background(Color.Black.copy(alpha = 0.6f))) {
             TopControl(
-                modifier = Modifier.align(Alignment.TopStart).fillMaxWidth(),
-                title = title
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .fillMaxWidth(), title = title
             )
-
             CenterControls(
-                modifier = Modifier.align(Alignment.Center).fillMaxWidth(),
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .fillMaxWidth(),
                 isPlaying = isPlaying,
                 onReplayClick = onReplayClick,
                 onForwardClick = onForwardClick,
                 onPauseToggle = onPauseToggle,
             )
-
             BottomControls(
                 modifier =
-                Modifier.align(Alignment.BottomCenter)
+                Modifier
+                    .align(Alignment.BottomCenter)
                     .fillMaxWidth()
                     .animateEnterExit(
                         enter = slideInVertically(
-                            initialOffsetY = { fullHeight: Int ->
-                                fullHeight
-                            }
-                        ),
-                        exit =
-                        slideOutVertically(
-                            targetOffsetY = { fullHeight: Int ->
-                                fullHeight
-                            }
-                        )
+                            initialOffsetY = { fullHeight: Int -> fullHeight }),
+                        exit = slideOutVertically(targetOffsetY = { fullHeight: Int -> fullHeight })
                     ),
                 totalDuration = totalDuration,
                 currentTime = currentTime,
                 bufferedPercentage = bufferedPercentage,
                 onSeekChanged = onSeekChanged,
-                onFullClick=onFullClick
+                onFullClick = onFullClickScreen
             )
         }
     }
@@ -104,7 +97,6 @@ fun PlayerControls(
 @Composable
 private fun TopControl(modifier: Modifier = Modifier, title: () -> String) {
     val videoTitle = remember(title()) { title() }
-
     Text(
         modifier = modifier,
         text = videoTitle,
@@ -124,7 +116,6 @@ private fun CenterControls(
     onForwardClick: () -> Unit
 ) {
     val isVideoPlaying = remember(isPlaying()) { isPlaying() }
-
     Row(modifier = modifier, horizontalArrangement = Arrangement.SpaceEvenly) {
         IconButton(modifier = Modifier.size(40.dp), onClick = onReplayClick) {
             Image(
@@ -134,7 +125,6 @@ private fun CenterControls(
                 contentDescription = "Replay 5 seconds"
             )
         }
-
         IconButton(modifier = Modifier.size(40.dp), onClick = onPauseToggle) {
             Image(
                 modifier = Modifier.fillMaxSize(),
@@ -144,11 +134,9 @@ private fun CenterControls(
                     painterResource(id = R.drawable.icon_pause)
                 } else {
                     painterResource(id = R.drawable.icon_play)
-                },
-                contentDescription = "Play/Pause"
+                }, contentDescription = "Play/Pause"
             )
         }
-
         IconButton(modifier = Modifier.size(40.dp), onClick = onForwardClick) {
             Image(
                 modifier = Modifier.fillMaxSize(),
@@ -171,11 +159,8 @@ private fun BottomControls(
     onSeekChanged: (timeMs: Float) -> Unit,
     onFullClick: () -> Unit
 ) {
-
     val duration = remember(totalDuration()) { totalDuration() }
-
     val videoTime = remember(currentTime()) { currentTime() }
-
     val buffer = remember(bufferedPercentage()) { bufferedPercentage() }
 
     Column(modifier = modifier.padding(bottom = 32.dp)) {
@@ -191,7 +176,6 @@ private fun BottomControls(
                     disabledActiveTrackColor = Color.Gray
                 )
             )
-
             Slider(
                 modifier = Modifier.fillMaxWidth(),
                 value = videoTime.toFloat(),
@@ -204,7 +188,6 @@ private fun BottomControls(
                 )
             )
         }
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -216,7 +199,6 @@ private fun BottomControls(
                 text = duration.formatDuration(),
                 color = MaterialTheme.color.backgroundOnPrimary
             )
-
             IconButton(
                 modifier = Modifier.padding(horizontal = MaterialTheme.spacing.spacing16),
                 onClick = onFullClick
