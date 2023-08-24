@@ -2,19 +2,21 @@ package com.redvelvet.remote.service
 
 
 import com.redvelvet.repository.dto.ActorKnownForDto
-import com.redvelvet.repository.dto.listAndFavorites.AddMediaToListDto
 import com.redvelvet.repository.dto.BaseResponse
 import com.redvelvet.repository.dto.EpisodeSingleItemDto
-import com.redvelvet.repository.dto.listAndFavorites.CreateUserListDto
-import com.redvelvet.repository.dto.listAndFavorites.DeleteMovieFromListDto
-import com.redvelvet.repository.dto.listAndFavorites.FavoriteRequestDto
-import com.redvelvet.repository.dto.listAndFavorites.ListRemoteDto
-import com.redvelvet.repository.dto.listAndFavorites.ListResponseDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
+import com.redvelvet.repository.dto.listAndFavorites.AddMediaToListDto
+import com.redvelvet.repository.dto.listAndFavorites.CreateUserListDto
+import com.redvelvet.repository.dto.listAndFavorites.DeleteMovieFromListDto
+import com.redvelvet.repository.dto.listAndFavorites.FavoriteRequestDto
+import com.redvelvet.repository.dto.listAndFavorites.ListRemoteDto
+import com.redvelvet.repository.dto.listAndFavorites.ListResponseDto
+import com.redvelvet.repository.dto.listAndFavorites.UserListDto
+import com.redvelvet.repository.dto.listAndFavorites.WatchlistDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -209,6 +211,28 @@ interface MovieApiService {
         @Path("season_number") seasonNumber: Int,
         @Path("episode_number") episodeNumber: Int,
     ): Response<EpisodeSingleItemDto.EpisodeMovies>
+
+    @GET("tv/{tv_id}/season/{season_number}/episode/{episode_number}/account_states?session_id={{session_id}}")
+    suspend fun getEpisodeAccountStatus(
+        @Path("tv_id") tvID: Int,
+        @Path("season_number") seasonNumber: Int,
+        @Path("episode_number") episodeNumber: Int,
+        @Query("session_id") sessionID: String
+    ): Response<EpisodeSingleItemDto.EpisodeAccountStatus>
+
+    @GET("tv/{tv_id}/season/{season_number}/episode/{episode_number}/credits")
+    suspend fun getEpisodeTopCast(
+        @Path("tv_id") tvID: Int,
+        @Path("season_number") seasonNumber: Int,
+        @Path("episode_number") episodeNumber: Int,
+    ): Response<EpisodeSingleItemDto.EpisodeCast>
+
+    @GET("tv/{tv_id}/season/{season_number}/episode/{episode_number}/images")
+    suspend fun getEpisodeImages(
+        @Path("tv_id") tvID: Int,
+        @Path("season_number") seasonNumber: Int,
+        @Path("episode_number") episodeNumber: Int,
+    ): Response<EpisodeSingleItemDto.EpisodeImages>
 
     //endregion
 

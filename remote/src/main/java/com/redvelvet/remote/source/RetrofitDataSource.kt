@@ -348,7 +348,7 @@ class RetrofitDataSource @Inject constructor(
         tvId: Int, seasonNumber: Int, episodeNumber: Int, sessionId: String
     ): EpisodeSingleItemDto.EpisodeAccountStatus {
         return wrapApiResponse {
-            movieApiService.getEpisodeAccountStates(
+            movieApiService.getEpisodeAccountStatus(
                 tvId, seasonNumber, episodeNumber, sessionId
             )
         }
@@ -358,7 +358,7 @@ class RetrofitDataSource @Inject constructor(
         tvId: Int, seasonNumber: Int, episodeNumber: Int
     ): EpisodeSingleItemDto.EpisodeCast {
         return wrapApiResponse {
-            movieApiService.getEpisodeCast(
+            movieApiService.getEpisodeTopCast(
                 tvId, seasonNumber, episodeNumber
             )
         }
