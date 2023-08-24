@@ -40,7 +40,7 @@ fun TabContentDisplay(
         }
         items(3) { index ->
             ItemsSection(
-                items = categories[index+1],
+                items = if (categories.isNotEmpty()) categories[index + 1] else ItemsUiState(),
                 hasName = hasName,
                 hasDateAndCountry = hasDateAndCountry,
                 onClickSeeAll = onClickSeeAll,

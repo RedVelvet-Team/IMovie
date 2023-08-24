@@ -30,10 +30,10 @@ class MediaActionsRepositoryImpl @Inject constructor(
         accountId: Int,
         sessionId: String
     ) =
-        remoteDataSource.toggleMediaInWatchlist(
+        remoteDataSource.toggleMediaInFavorite(
             mediaType = mediaType,
             mediaId = mediaId,
-            watchlist = isSavedInFavorites,
+            favorite = isSavedInFavorites,
             sessionId = sessionId,
             accountId = accountId,
 

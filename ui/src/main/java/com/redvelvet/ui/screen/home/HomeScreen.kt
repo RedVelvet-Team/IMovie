@@ -55,7 +55,7 @@ fun HomeScreen(
     ) {
         HomeScreenContent(
             state = state,
-            )
+        )
     }
 }
 
@@ -74,8 +74,12 @@ fun HomeScreenContent(
 
         var page by remember { mutableIntStateOf(0) }
         val pagerState = rememberPagerState(initialPage = 0) {
-            if (page == 0) state.movieCategories[0].items.size
-            else state.tvShowCategories[0].items.size
+            if (state.movieCategories.isNotEmpty()) {
+                if (page == 0) state.movieCategories[0].items.size
+                else state.tvShowCategories[0].items.size
+            } else {
+                0
+            }
         }
 
         Column(
@@ -132,7 +136,7 @@ fun HomeScreenContent(
                         state = state,
                         pagerState = pagerState,
                         "Popular Movies",
-                        viewpagerList = state.movieCategories[0].items,
+                        viewpagerList = if (state.movieCategories.isNotEmpty()) state.movieCategories[0].items else listOf(),
                     )
                 }
             }
@@ -179,7 +183,7 @@ fun MovieContent(
                 type = seeAllMovie
             )
         },
-        onClickItem = {id ->
+        onClickItem = { id ->
             navController.navigateToMovieDetails(id)
         }
     )
@@ -202,7 +206,7 @@ fun SeriesContent(
         hasName = true,
         hasDateAndCountry = true,
         onClickSeeAll = {
-            navController.navigateSeeAllTvShow(id=null, type = SeeAllTvShows.TOP_RATED)
+            navController.navigateSeeAllTvShow(id = null, type = SeeAllTvShows.TOP_RATED)
         },
         onClickItem = { id ->
             navController.navigateToTvShowDetails(id)

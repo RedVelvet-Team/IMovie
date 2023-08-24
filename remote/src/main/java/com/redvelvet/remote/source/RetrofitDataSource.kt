@@ -386,6 +386,7 @@ class RetrofitDataSource @Inject constructor(
         sessionId: String,
         accountId: Int,
     ): String = wrapApiResponse {
+
         movieApiService.toggleMediaInFavoriteList(
             markAsFavoriteRequest = MarkAsFavoriteRequest(
                 favorite = favorite,
