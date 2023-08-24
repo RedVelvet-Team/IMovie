@@ -12,17 +12,17 @@ import com.redvelvet.viewmodel.episode.EpisodesArgs
 private val ROUTE = MovieDestination.SeeAllEpisodes.route
 fun NavGraphBuilder.seeAllEpisodeRoute() {
     composable(
-        route = "$ROUTE/${EpisodesArgs.TV_ID}/${EpisodesArgs.SEASON_Number}",
+        route = "$ROUTE/{${EpisodesArgs.TV_ID}}/{${EpisodesArgs.SEASON_Number}}",
         arguments = listOf(
             navArgument(EpisodesArgs.TV_ID) { NavType.StringType },
-            navArgument(EpisodesArgs.SEASON_Number) { NavType.IntType }
+            navArgument(EpisodesArgs.SEASON_Number) { NavType.StringType }
         )
     ) {
         SeeAllEpisodeScreen()
     }
 }
 
-fun NavController.navigateToSeeAllEpisode(tvId: String,seasonNumber:Int,builder: NavOptionsBuilder.() -> Unit = {}) {
+fun NavController.navigateToSeeAllEpisode(tvId: String,seasonNumber:String,builder: NavOptionsBuilder.() -> Unit = {}) {
     navigate(
         route = "$ROUTE/${tvId}/${seasonNumber}",
         builder = builder

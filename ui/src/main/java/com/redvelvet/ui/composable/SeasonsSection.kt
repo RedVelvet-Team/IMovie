@@ -1,5 +1,6 @@
 package com.redvelvet.ui.composable
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -41,9 +42,10 @@ fun SeasonsSection(
                 hasCustomList = true,
                 hasDateAndCountry = false,
                 customListItemComposable = { index ->
+
                     ItemSeason(
-                        id = seasonIds[index],
-                        seriesId = seriesId,
+                        seasonNumber = seasonIds[index],
+                        seriesId = seriesId.toString(),
                         name = seasonNames[index],
                         date = seasonDates[index],
                         episodesNum = seasonEpisodes[index],
