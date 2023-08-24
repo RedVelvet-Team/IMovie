@@ -19,5 +19,7 @@ interface UserPreferencesDataSource {
     suspend fun getGuestSessionId(): String?
 
     suspend fun getGuestSessionExpDate(): String?
+    suspend fun getUserName() : String?
+    suspend fun setUserName(userName: String)
     //endregion
 }

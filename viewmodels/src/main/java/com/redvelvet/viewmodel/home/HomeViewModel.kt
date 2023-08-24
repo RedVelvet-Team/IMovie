@@ -1,27 +1,37 @@
 package com.redvelvet.viewmodel.home
 
 import android.util.Log
+import androidx.lifecycle.viewModelScope
 import com.redvelvet.entities.movie.Movie
-import com.redvelvet.entities.movie.details.MovieDetails
 import com.redvelvet.entities.tv.TvShow
+import com.redvelvet.usecase.usecase.CreateRoomUseCase
 import com.redvelvet.usecase.usecase.GetTvShowsCategoriesUseCase
 import com.redvelvet.usecase.usecase.movie.GetMoviesCategories
+import com.redvelvet.usecase.usecase.user.ManageUserDetailsUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
 import com.redvelvet.viewmodel.seeall.tv.toTvShowUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getMoviesCategories: GetMoviesCategories,
-    private val getSeriesCategories: GetTvShowsCategoriesUseCase
+    private val getSeriesCategories: GetTvShowsCategoriesUseCase,
+    private val getUserDetailsUseCase: ManageUserDetailsUseCase,
+    private val createRoomUseCase: CreateRoomUseCase,
 ) : BaseViewModel<HomeUiState, Unit>(HomeUiState()) {
 
     init {
         getPopularMovies()
         getTvCategories()
+        viewModelScope.launch {
+            val data = getUserDetailsUseCase.invoke()
+            val data2 = createRoomUseCase.invoke()
+        }
+
     }
 
     private fun getPopularMovies() {

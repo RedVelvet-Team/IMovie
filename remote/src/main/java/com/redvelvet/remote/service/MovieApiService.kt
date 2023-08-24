@@ -8,6 +8,7 @@ import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
+import com.redvelvet.repository.dto.auth.response.UserDetailsDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -51,6 +52,11 @@ interface MovieApiService {
 
     @GET("authentication/guest_session/new")
     suspend fun createGuestSession(): Response<GuestSessionDto>
+
+    @GET("account")
+    suspend fun getUserDetails(
+        @Query("session_id") sessionId: String
+    ): Response<UserDetailsDto>
 
     //region Movie Details
     @GET("movie/{movie_id}")
@@ -120,6 +126,7 @@ interface MovieApiService {
     suspend fun seeAllPopularTv(
         @Query("page") page: Int? = 1,
     ): Response<BaseResponse<List<TvShowDto>>>
+
     @GET("tv/top_rated")
     suspend fun seeAllTopRatedTv(
         @Query("page") page: Int? = 1,
@@ -262,6 +269,7 @@ interface MovieApiService {
     suspend fun getPopularTv(
         @Query("page") page: Int? = 1,
     ): Response<BaseResponse<List<TvShowDto>>>
+
     @GET("tv/top_rated")
     suspend fun getTopRatedTv(
         @Query("page") page: Int? = 1,

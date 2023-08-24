@@ -40,6 +40,7 @@ android {
 
 dependencies {
     implementation(project(":repository"))
+    implementation(project(":entities"))
     // core + testing
     implementation(Deps.coreKtx)
     implementation(Deps.junitExt)

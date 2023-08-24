@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
@@ -42,7 +43,7 @@ fun RoomScreen(
         Color.Transparent
     )
     RoomContent(state = state,
-        onClickCreateRoom = {},
+        onClickCreateRoom = {viewModel.createRoom()},
         onClickJoinRoom = {}
     )
 }
@@ -100,4 +101,14 @@ fun RoomContent(
             }
         }
     }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun PreviewA(){
+    RoomContent(
+        state = RoomUiState(),
+        onClickCreateRoom = {},
+        onClickJoinRoom = {}
+    )
 }

@@ -1,18 +1,23 @@
 package com.redvelvet.viewmodel.login
 
 
+import androidx.lifecycle.viewModelScope
 import com.redvelvet.usecase.usecase.auth.AuthenticationUserLoginUseCase
 import com.redvelvet.usecase.usecase.auth.ValidationLoginUseCase
+import com.redvelvet.usecase.usecase.user.ManageUserDetailsUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val authenticationUserLoginUseCase: AuthenticationUserLoginUseCase,
     private val validation: ValidationLoginUseCase,
+    private val manageUserDetailsUseCase: ManageUserDetailsUseCase,
 ) : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState()), LoginInteraction {
 
     //region guest
@@ -75,10 +80,15 @@ class LoginViewModel @Inject constructor(
             it.copy(
                 isLoading = false,
                 error = null,
-            )
+                )
+
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            manageUserDetailsUseCase.setUserName(_state.value.userName)
         }
         sendUiEffect(LoginUiEffect.NavigateTomHomeScreen)
     }
+
 
     private fun onLoginByNameAndPasswordFailed(error: ErrorUiState) {
         _state.update {

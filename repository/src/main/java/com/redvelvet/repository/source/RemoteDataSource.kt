@@ -5,6 +5,7 @@ import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
+import com.redvelvet.repository.dto.auth.response.UserDetailsDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -35,6 +36,7 @@ interface RemoteDataSource {
 
     suspend fun createUserSession(token: String): SessionDto
     suspend fun deleteUserSession(sessionId: String): SessionDto
+    suspend fun getUserDetails(sessionId: String): UserDetailsDto
     //endregion
 
     //region Search

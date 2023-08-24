@@ -58,5 +58,15 @@ class UserDataStoreDataSource @Inject constructor(
     override suspend fun getGuestSessionExpDate(): String? {
         return dataStore.get()[PreferencesKeys.GuestSessionExpDate]
     }
+
+    override suspend fun getUserName(): String? {
+        return dataStore.get()[PreferencesKeys.UserName]
+    }
+
+    override suspend fun setUserName(userName: String) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.UserName] = userName
+        }
+    }
     //endregion
 }
