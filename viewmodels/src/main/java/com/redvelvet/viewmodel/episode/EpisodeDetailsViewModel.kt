@@ -1,13 +1,27 @@
 package com.redvelvet.viewmodel.episode
 
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.redvelvet.entities.episode.EpisodeDetails
+import com.redvelvet.entities.error.MovieException
+import com.redvelvet.entities.error.NetworkException
+import com.redvelvet.entities.error.NoInternetException
+import com.redvelvet.entities.error.NullResultException
+import com.redvelvet.entities.error.ValidationException
 import com.redvelvet.usecase.usecase.auth.GetUserSessionIdUseCase
 import com.redvelvet.usecase.usecase.episode.GetEpisodeDetailsUseCase
-import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
+import com.redvelvet.viewmodel.base.InvalidationErrorState
+import com.redvelvet.viewmodel.base.NetworkErrorState
+import com.redvelvet.viewmodel.base.NullResultErrorState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -15,32 +29,24 @@ class EpisodeDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getEpisodeDetailsUseCase: GetEpisodeDetailsUseCase,
     private val getUserSessionIdUseCase: GetUserSessionIdUseCase
-) : BaseViewModel<EpisodeDetailsUiState, EpisodeDetailsUiEffect>(EpisodeDetailsUiState()) {
+) : ViewModel() {
 
     private val args: EpisodeDetailsArgs = EpisodeDetailsArgs(savedStateHandle = savedStateHandle)
+    private val _state = MutableStateFlow(EpisodeDetailsUiState())
+    val state = _state.asStateFlow()
 
     init {
         getData()
     }
 
     private fun getData() {
-//        tryToExecute(
-//            execute = { getEpisodeDetailsUseCase(
-//                tvId = args.tvId,
-//                seasonNumber = args.seasonId,
-//                episodeNumber = args.episodeId,
-//                sessionId = "c6318ed5d979bdec77cbb027a0cbaa3ef8f8df34"//getUserSessionIdUseCase()
-//            ) },
-//            onSuccessWithData = ::onSuccess,
-//            onError = ::onError,
-//        )
         tryToExecute(
             execute = {
                 getEpisodeDetailsUseCase(
-                    tvId = 1396,
-                    seasonNumber = 1,
-                    episodeNumber = 1,
-                    sessionId = "c6318ed5d979bdec77cbb027a0cbaa3ef8f8df34"
+                    tvId = args.tvId,
+                    seasonNumber = args.seasonId,
+                    episodeNumber = args.episodeId,
+                    sessionId = getUserSessionIdUseCase()
                 )
             },
             onSuccessWithData = ::onSuccess,
@@ -64,6 +70,39 @@ class EpisodeDetailsViewModel @Inject constructor(
                 isLoading = false,
                 isError = error,
             )
+        }
+    }
+
+    fun refresh() {
+        getData()
+    }
+
+
+    fun <T> tryToExecute(
+        execute: suspend () -> T,
+        onSuccessWithData: (T) -> Unit = {},
+        onSuccessWithoutData: () -> Unit = {},
+        onError: (error: ErrorUiState) -> Unit,
+        dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ) {
+        viewModelScope.launch(dispatcher) {
+            try {
+                val result = execute()
+                onSuccessWithData(result)
+                onSuccessWithoutData()
+            } catch (e: ValidationException) {
+                onError(InvalidationErrorState(e.message.toString()))
+            } catch (e: NullResultException) {
+                onError(NullResultErrorState(e.message.toString()))
+            } catch (e: NetworkException) {
+                onError(NetworkErrorState(e.message.toString()))
+            } catch (e: MovieException) {
+                onError(ErrorUiState(e.message.toString()))
+            } catch (e: NoInternetException) {
+                onError(NetworkErrorState(e.message.toString()))
+            } catch (e: Exception) {
+                onError(ErrorUiState(e.message.toString()))
+            }
         }
     }
 }
