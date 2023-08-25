@@ -19,7 +19,7 @@ fun NavGraphBuilder.categoryRoute() {
     }
 }
 fun NavGraphBuilder.gameRoute() {
-    composable(route = MovieDestination.Game.route) {
+    composable(route = MovieDestination.FunActivity.route) {
         ComingScreen()
     }
 }

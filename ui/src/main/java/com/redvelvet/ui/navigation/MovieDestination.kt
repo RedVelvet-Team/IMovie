@@ -29,6 +29,8 @@ sealed class MovieDestination(
     data object MoviePlayer:MovieDestination("moviePlayer")
     data object YoutubePlayer : MovieDestination("youtubePlayer")
 
+    data object Game : MovieDestination("gameScreen")
+
     data object Home : MovieDestination(
         "home",
         R.drawable.icon_home_filled,
@@ -53,7 +55,7 @@ sealed class MovieDestination(
         R.drawable.icon_library
     )
 
-    data object Game : MovieDestination(
+    data object FunActivity : MovieDestination(
         "game",
         R.drawable.icon_game_filled,
         R.drawable.icon_game
