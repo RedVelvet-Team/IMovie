@@ -2,20 +2,21 @@ package com.redvelvet.remote.service
 
 
 import com.redvelvet.repository.dto.ActorKnownForDto
-import com.redvelvet.repository.dto.listAndFavorites.AddMediaToListDto
 import com.redvelvet.repository.dto.BaseResponse
+import com.redvelvet.repository.dto.SeasonDetailsDto
+import com.redvelvet.repository.dto.auth.request.LoginRequest
+import com.redvelvet.repository.dto.auth.response.GuestSessionDto
+import com.redvelvet.repository.dto.auth.response.SessionDto
+import com.redvelvet.repository.dto.auth.response.TokenDto
+import com.redvelvet.repository.dto.listAndFavorites.AddMediaToListDto
 import com.redvelvet.repository.dto.listAndFavorites.CreateUserListDto
 import com.redvelvet.repository.dto.listAndFavorites.DeleteMovieFromListDto
 import com.redvelvet.repository.dto.listAndFavorites.FavoriteRequestDto
 import com.redvelvet.repository.dto.listAndFavorites.ListRemoteDto
 import com.redvelvet.repository.dto.listAndFavorites.ListResponseDto
-import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.listAndFavorites.UserListDto
 import com.redvelvet.repository.dto.listAndFavorites.WatchlistDto
-import com.redvelvet.repository.dto.auth.request.LoginRequest
-import com.redvelvet.repository.dto.auth.response.GuestSessionDto
-import com.redvelvet.repository.dto.auth.response.SessionDto
-import com.redvelvet.repository.dto.auth.response.TokenDto
+import com.redvelvet.repository.dto.GenreDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -328,5 +329,29 @@ interface MovieApiService {
 
     @POST("account/account_id/favorite")
     suspend fun addFavorite(@Body markAsFavorite: FavoriteRequestDto): Response<StatusResponse>
+    //endregion
+
+    //region Category
+    @GET("genre/movie/list")
+    suspend fun genreListMovie(
+        @Query("page") page: Int? = 1,
+    ): Response<List<GenreDto>>
+
+    @GET("genre/tv/list")
+    suspend fun genreListTv(
+        @Query("page") page: Int? = 1,
+    ): Response<List<GenreDto>>
+
+    @GET("discover/tv")
+    suspend fun discoverListTv(
+        @Path("id") id: Int,
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<TvShowDto>>>
+
+    @GET("discover/movie")
+    suspend fun discoverListMovie(
+        @Path("id") id: Int,
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
     //endregion
 }

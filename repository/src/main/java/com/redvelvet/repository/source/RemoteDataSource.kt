@@ -5,6 +5,7 @@ import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
+import com.redvelvet.repository.dto.GenreDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -111,4 +112,11 @@ interface RemoteDataSource {
     suspend fun getOnTheAir(): List<TvShowDto>
     suspend fun getPopularTv(): List<TvShowDto>
     suspend fun getTopRatedTv(): List<TvShowDto>
+
+    //region Category
+    suspend fun getMovieCategory(): List<GenreDto>
+    suspend fun getTvCategory(): List<GenreDto>
+    suspend fun getMovieCategoryById(page: Int?, id: Int): List<MovieDetailsDTO>
+    suspend fun getTvCategoryById(page: Int?, id: Int): List<TvShowDto>
+    //endregion
 }
