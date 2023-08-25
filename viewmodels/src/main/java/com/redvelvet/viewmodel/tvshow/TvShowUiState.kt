@@ -86,7 +86,7 @@ fun TvShowCast.toTvShowTopCastUiState(): TvShowTopCastUiState {
 
 fun SeasonTvShow.toSeasonUiState(): SeasonUiState {
     return SeasonUiState(
-        seasonId = seasonId,
+        seasonId = seasonNumber,
         airDate = airDate,
         posterSeason = Constants.BASE_IMAGE_URL + posterSeason,
         voteSeasonAverage = voteSeasonAverage,

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -49,6 +50,10 @@ fun SeeAllEpisodeContent(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.color.backgroundPrimary)
+            .padding(
+                top = MaterialTheme.spacing.spacing72,
+                bottom = MaterialTheme.spacing.spacing28
+            )
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
