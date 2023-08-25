@@ -50,6 +50,7 @@ dependencies {
     implementation(Deps.cloudy)
     // core + testing
     implementation(Deps.coreKtx)
+    implementation("androidx.media3:media3-ui:1.1.1")
     testImplementation(Deps.junit)
     implementation(Deps.activityCompose)
     androidTestImplementation(Deps.junitExt)
@@ -91,5 +92,11 @@ dependencies {
     implementation(Deps.pagingCommon)
     implementation(Deps.pagingRuntime)
     implementation(Deps.pagingCompose)
+    //exoPlayer
+    implementation(Deps.exoPlayer)
+    //youtubePlayer
+    implementation(Deps.youtubePlayer)
+    //ratingbar
+    implementation(Deps.ratingbar)
 }
 

@@ -1,5 +1,7 @@
 package com.redvelvet.repository.repository
 
+import com.redvelvet.entities.user.AccountDetails
+import com.redvelvet.repository.mapper.toDomain
 import com.redvelvet.repository.source.RemoteDataSource
 import com.redvelvet.repository.source.UserPreferencesDataSource
 import com.redvelvet.usecase.repository.AuthRepository
@@ -74,6 +76,7 @@ class AuthRepositoryImpl @Inject constructor(
             }
         }
     }
+
     //endregion
 
     //region user status
@@ -85,7 +88,33 @@ class AuthRepositoryImpl @Inject constructor(
     private suspend fun setIsLoggedInByAccount(isLogged: Boolean) {
         userPreferencesDataSource.setIsLoggedInByAccount(isLogged)
     }
+
+    private suspend fun setAccountDetailsId(accountId: Int) {
+        userPreferencesDataSource.setAccountDetailsId(accountId)
+    }
+
+    private suspend fun setAccountDetailsUsername(accountUsername: String) {
+        userPreferencesDataSource.setAccountDetailsUsername(accountUsername)
+    }
+
     //endregion
+
+    override suspend fun getAccountDetails(sessionId: String): AccountDetails {
+        return wrapRemoteResponse {
+            remoteDataSource.getAccountDetails(sessionId).toDomain().also {
+                setAccountDetailsId(it.id)
+                setAccountDetailsUsername(it.username)
+            }
+        }
+    }
+
+    override suspend fun getAccountDetailsIdFromLocal(): Int? {
+        return userPreferencesDataSource.getAccountDetailsIdFromLocal()
+    }
+
+    override suspend fun getAccountDetailsUsernameFromLocal(): String? {
+        return userPreferencesDataSource.getAccountDetailsUsernameFromLocal()
+    }
 
     //endregion
 }

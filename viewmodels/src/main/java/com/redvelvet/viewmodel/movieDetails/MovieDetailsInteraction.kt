@@ -1,7 +1,6 @@
 package com.redvelvet.viewmodel.movieDetails
 
 interface MovieDetailsInteraction {
-    fun onClickBack()
     fun onClickFavorite(movieId: Int, mediaType: String)
     fun onClickSave(movieId: Int)
     fun onClickPlayTrailer(movieUrl: String)

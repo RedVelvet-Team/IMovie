@@ -11,14 +11,16 @@ import com.redvelvet.ui.screen.known_for.actorKnownForRoute
 import com.redvelvet.ui.screen.library.libraryRoute
 import com.redvelvet.ui.screen.login.loginRoute
 import com.redvelvet.ui.screen.movieDetails.movieDetailsRoute
+import com.redvelvet.ui.screen.movie_player.moviePlayerRoute
 import com.redvelvet.ui.screen.onboarding.onBoardingRoute
+import com.redvelvet.ui.screen.room.roomRoute
 import com.redvelvet.ui.screen.search.searchRoute
 import com.redvelvet.ui.screen.seeAllMovieImages.seeAllMovieImaesRoute
 import com.redvelvet.ui.screen.seeAllReviews.seeAllMovieReviewsRoute
 import com.redvelvet.ui.screen.see_all_episodes.seeAllEpisodeRoute
 import com.redvelvet.ui.screen.seeall.seeAllMovieListRoute
-import com.redvelvet.ui.screen.seeallseasons.seeAllSeasonsRoute
 import com.redvelvet.ui.screen.seealltv.seeAllTvListRoute
+import com.redvelvet.ui.screen.seeallseasons.seeAllSeasonsRoute
 import com.redvelvet.ui.screen.sellAllTopCast.seeAllTopCastRoute
 import com.redvelvet.ui.screen.signup.signupRoute
 import com.redvelvet.ui.screen.splash.splashRoute
@@ -26,10 +28,11 @@ import com.redvelvet.ui.screen.tvshowdetails.tvShowDetailsRoute
 import com.redvelvet.ui.screen.upcoming.categoryRoute
 import com.redvelvet.ui.screen.upcoming.gameRoute
 import com.redvelvet.ui.screen.upcoming.upcomingRoute
+import com.redvelvet.ui.screen.youtube_player.youtubePlayerRoute
 
 @Composable
 fun MovieNavGraph() {
-    NavHost(LocalNavController.current, startDestination = MovieDestination.Home.route) {
+    NavHost(LocalNavController.current, startDestination = MovieDestination.Splash.route) {
         splashRoute()
         onBoardingRoute()
         actorDetailsRoute()
@@ -52,6 +55,9 @@ fun MovieNavGraph() {
         categoryRoute()
         libraryRoute()
         gameRoute()
+        roomRoute()
+        moviePlayerRoute()
+        youtubePlayerRoute()
         episodeDetailsRoute()
     }
 }

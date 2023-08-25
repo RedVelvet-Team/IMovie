@@ -10,6 +10,7 @@ import com.redvelvet.ui.theme.spacing
 
 @Composable
 fun DetailsInfoSection(
+    id: Int = 0,
     image: String = "",
     name: String = "",
     genres: List<String> = emptyList(),
@@ -39,7 +40,7 @@ fun DetailsInfoSection(
             spokenLanguages = spokenLanguages,
             onClickGenre = onClickGenre,
         )
-        MediaRateRow(voteAverage.toString()) { onClickRate }
+        MediaRateRow(voteAverage.toString()) { onClickRate(id, 5.5) }
         if (description.isNotEmpty())
             Box(
                 modifier = Modifier

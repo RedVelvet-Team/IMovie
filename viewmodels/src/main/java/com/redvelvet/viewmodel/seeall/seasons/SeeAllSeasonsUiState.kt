@@ -4,6 +4,7 @@ import com.redvelvet.viewmodel.base.BaseUiState
 import com.redvelvet.viewmodel.base.ErrorUiState
 
 data class SeeAllSeasonsUiState(
+    val seriesId: String = "",
     val seasons: List<SeasonUiState> = emptyList(),
     val isLoading: Boolean = true,
     val error: ErrorUiState? = null

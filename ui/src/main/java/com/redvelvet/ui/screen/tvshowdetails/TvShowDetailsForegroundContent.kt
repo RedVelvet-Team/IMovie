@@ -24,6 +24,7 @@ fun TvShowDetailsForegroundContent(
     ) {
         DetailsInfoSection(
             image = state.tvShowImage,
+            id = state.tvShowId,
             name = state.tvShowName,
             genres = state.genres,
             hasTime = false,
@@ -77,7 +78,6 @@ fun TvShowDetailsForegroundContent(
                 reviewDates = reviews.map { it.createdAt },
                 reviewDescriptions = reviews.map { it.content },
                 onClickSeeAllReviews = interaction::onClickReviewsSeeAll,
-                onClickReview = interaction::onClickReview,
                 itemId = state.tvShowId.toString()
             )
         }

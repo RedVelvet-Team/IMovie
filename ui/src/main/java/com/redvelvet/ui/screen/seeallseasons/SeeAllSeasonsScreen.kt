@@ -18,9 +18,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.ItemSeason
 import com.redvelvet.ui.composable.FlixMovieScaffold
+import com.redvelvet.ui.screen.episodes.navigateToSeeAllEpisode
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.seeall.seasons.SeeAllSeasonsUiState
@@ -33,6 +35,8 @@ fun SeeAllSeasonsScreen(
     val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
+    val navController = LocalNavController.current
+
     FlixMovieScaffold(
         title = "Seasons",
         isLoading = state.isLoading,
@@ -41,12 +45,18 @@ fun SeeAllSeasonsScreen(
         hasBackArrow = true,
         hasTopBar = true
     ) {
-        SeeAllSeasonsContent(state)
+        SeeAllSeasonsContent(
+            onClickSeason = {seriesId, seasonId -> navController.navigateToSeeAllEpisode(seriesId, seasonId.toString())},
+            state
+        )
     }
 }
 
 @Composable
-fun SeeAllSeasonsContent(state: SeeAllSeasonsUiState) {
+fun SeeAllSeasonsContent(
+    onClickSeason: (String, Int) -> Unit,
+    state: SeeAllSeasonsUiState
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -76,14 +86,15 @@ fun SeeAllSeasonsContent(state: SeeAllSeasonsUiState) {
                         placeholder = painterResource(id = R.drawable.image_placeholder),
                         error = painterResource(id = R.drawable.image_placeholder)
                     ),
-                    name = "Season ${seasons.seasonNumber}",
+                    onClickItem = onClickSeason,
+                    name = seasons.seasonNumber.toString(),
                     date = seasons.airDate,
                     episodesNum = seasons.episodeCount,
                     description = seasons.description,
                     rate = seasons.rate,
-                    id = 0,
-                    seriesId = 0
-                ) { seriesId, seasonId -> }
+                    seasonNumber = seasons.seasonNumber,
+                    seriesId = state.seriesId
+                )
             }
         }
     }
