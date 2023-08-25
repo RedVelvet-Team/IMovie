@@ -41,7 +41,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -50,9 +49,14 @@ import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
-import com.redvelvet.ui.composable.ErrorAnimatedHandler
 import com.redvelvet.ui.composable.LoadingState
+import com.redvelvet.ui.composable.LoginRequired
+import com.redvelvet.ui.composable.NetworkView
+import com.redvelvet.ui.composable.NoContent
 import com.redvelvet.ui.composable.SectionHeader
+import com.redvelvet.ui.screen.actor_details.navigateToActorDetails
+import com.redvelvet.ui.screen.login.navigateToLogin
+import com.redvelvet.ui.screen.sellAllTopCast.navigateToSeeAllTopCast
 import com.redvelvet.ui.theme.FontSecondary
 import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.Secondary
@@ -60,7 +64,10 @@ import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.radius
 import com.redvelvet.ui.theme.spacing
-import com.redvelvet.viewmodel.base.ErrorUiState
+import com.redvelvet.viewmodel.base.InvalidationErrorState
+import com.redvelvet.viewmodel.base.NetworkErrorState
+import com.redvelvet.viewmodel.base.NullResultErrorState
+import com.redvelvet.viewmodel.episode.EpisodeDetailsInteraction
 import com.redvelvet.viewmodel.episode.EpisodeDetailsUiState
 import com.redvelvet.viewmodel.episode.EpisodeDetailsViewModel
 import com.redvelvet.viewmodel.utils.SeeAllMovie
@@ -68,17 +75,53 @@ import com.redvelvet.viewmodel.utils.SeeAllMovie
 @Composable
 fun EpisodeDetailsScreen(episodeDetailsViewModel: EpisodeDetailsViewModel = hiltViewModel()) {
     val navController = LocalNavController.current
-    val context = LocalContext.current
     val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
+    systemUiController.setSystemBarsColor(Primary, darkIcons = false)
     val state by episodeDetailsViewModel.state.collectAsState()
-    EpisodeDetailsContent(state)
+    EpisodeDetailsContent(state, object : EpisodeDetailsInteraction {
+        override fun onClickBack() {
+            navController.navigateUp()
+        }
+
+        override fun onClickFavorite(episodeID: Int) {
+            /*TODO("Not yet implemented")*/
+        }
+
+        override fun onClickSave(episodeID: Int) {
+            /*TODO("Not yet implemented")*/
+        }
+
+        override fun onClickTopCastSeeAll(topCastId: Int) {
+            navController.navigateToSeeAllTopCast(topCastId.toString())
+        }
+
+        override fun onCLickImagesSeeAll(imagesId: Int) {
+            /*TODO("Not yet implemented")*/
+        }
+
+        override fun onClickCast(castId: Int) {
+            navController.navigateToActorDetails(castId.toString())
+        }
+
+        override fun onClickVideo(videoKey: String) {
+            /*TODO("Not yet implemented")*/
+        }
+
+
+        override fun onCLickRefresh() {
+            episodeDetailsViewModel.refresh()
+        }
+
+        override fun onLoginRequired() {
+            navController.navigateToLogin()
+        }
+    })
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EpisodeDetailsContent(state: EpisodeDetailsUiState) {
+fun EpisodeDetailsContent(state: EpisodeDetailsUiState, interaction: EpisodeDetailsInteraction) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -93,21 +136,29 @@ fun EpisodeDetailsContent(state: EpisodeDetailsUiState) {
                         Icon(
                             painter = painterResource(id = R.drawable.icon_back),
                             contentDescription = "Back",
-                            modifier = Modifier.clickable { /*TODO*/ },
+                            modifier = Modifier.clickable { interaction.onClickBack() },
                             tint = Color.White
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Icon(
                             painter = painterResource(id = R.drawable.icon_favorite),
                             contentDescription = "Favorite",
-                            modifier = Modifier.clickable { /*TODO*/ },
+                            modifier = Modifier.clickable {
+                                interaction.onClickFavorite(
+                                    state.data?.episodeDetails?.id ?: -1
+                                )
+                            },
                             tint = Color.White
                         )
                         Spacer(modifier = Modifier.width(MaterialTheme.spacing.spacing24))
                         Icon(
                             painter = painterResource(id = R.drawable.icon_save),
                             contentDescription = "Save",
-                            modifier = Modifier.clickable { /*TODO*/ },
+                            modifier = Modifier.clickable {
+                                interaction.onClickSave(
+                                    state.data?.episodeDetails?.id ?: -1
+                                )
+                            },
                             tint = Color.White
                         )
                     }
@@ -126,11 +177,18 @@ fun EpisodeDetailsContent(state: EpisodeDetailsUiState) {
             enter = fadeIn(),
             exit = fadeOut()
         ) {
-            ErrorAnimatedHandler(
-                state.isError ?: ErrorUiState(""),
-                {}/*TODO onError*/,
-                {}/*TODO onRetry*/,
-                {} /*TODO onClick*/)
+            when (state.isError) {
+                is NullResultErrorState -> NoContent(retryButton = { interaction.onCLickRefresh() })
+                is InvalidationErrorState -> LoginRequired(retryButton = { interaction.onLoginRequired() })
+                is NetworkErrorState -> NetworkView(onClick = { interaction.onCLickRefresh() })
+                else -> {}
+            }
+            NoContent(
+                title = "Error Happen",
+                description = state.isError?.message ?: ""
+            ) {
+                interaction.onCLickRefresh()
+            }
         }
         val systemUiController = rememberSystemUiController()
         systemUiController.setSystemBarsColor(
@@ -160,7 +218,7 @@ fun EpisodeDetailsContent(state: EpisodeDetailsUiState) {
                         label = "TopCast",
                         seeAllMovie = SeeAllMovie.TOP_CAST,
                         onClickSeeAll = {
-                            /*TODO*/
+                            interaction.onClickTopCastSeeAll(state.data?.episodeCast?.id ?: 0)
                         }, modifier = Modifier.padding(top = 16.dp)
                     )
                 }
@@ -182,7 +240,7 @@ fun EpisodeDetailsContent(state: EpisodeDetailsUiState) {
                                         .size(70.dp)
                                         .clip(CircleShape)
                                         .padding(bottom = 4.dp)
-                                        .clickable {/*TODO*/ })
+                                        .clickable { interaction.onClickCast(it.id) })
                                 Text(
                                     text = it.name,
                                     style = MaterialTheme.typography.bodyMedium,
@@ -199,7 +257,7 @@ fun EpisodeDetailsContent(state: EpisodeDetailsUiState) {
                         label = "Episode Images",
                         seeAllMovie = SeeAllMovie.TOP_CAST,
                         onClickSeeAll = {
-                            /*TODO*/
+                            interaction.onCLickImagesSeeAll(0)
                         },
                         modifier = Modifier.padding(top = 16.dp)
                     )
@@ -212,17 +270,18 @@ fun EpisodeDetailsContent(state: EpisodeDetailsUiState) {
                     ) {
                         items(state.data!!.episodeImages.stills) {
                             Column(modifier = Modifier.width(112.dp)) {
-                                Image(painter = rememberAsyncImagePainter(
-                                    model = it.filePath,
-                                    placeholder = painterResource(id = R.drawable.image_placeholder)
-                                ),
+                                Image(
+                                    painter = rememberAsyncImagePainter(
+                                        model = it.filePath,
+                                        placeholder = painterResource(id = R.drawable.image_placeholder)
+                                    ),
                                     contentDescription = "avatar",
                                     contentScale = ContentScale.Crop,
                                     modifier = Modifier
                                         .size(112.dp)
                                         .clip(RoundedCornerShape(CornerSize(16.dp)))
                                         .padding(bottom = 4.dp)
-                                        .clickable { /*TODO*/ })
+                                )
                             }
                         }
                     }
@@ -248,7 +307,7 @@ fun EpisodeDetailsContent(state: EpisodeDetailsUiState) {
                                 horizontal = 16.dp,
                                 vertical = 4.dp
                             )
-                            .clickable { /*TODO*/ },
+                            .clickable { interaction.onClickVideo(it.key) },
                         colors = CardDefaults.cardColors(containerColor = Secondary)
                     ) {
                         Row(
@@ -378,5 +437,3 @@ fun Details(
         )
     }
 }
-
-
