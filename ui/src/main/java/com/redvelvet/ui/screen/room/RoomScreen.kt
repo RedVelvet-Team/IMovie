@@ -19,7 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
-import com.redvelvet.ui.composable.MovieScaffold
+import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.PrimaryOutlinedButton
 import com.redvelvet.ui.composable.SpacerVertical
@@ -53,7 +53,7 @@ fun RoomContent(
     onClickCreateRoom: () -> Unit,
     onClickJoinRoom: () -> Unit,
 ) {
-    MovieScaffold(
+    FlixMovieScaffold(
         isLoading = state.isLoading,
         hasBackArrow = true,
     ) {

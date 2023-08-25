@@ -22,6 +22,7 @@ class SeeAllSeasonsViewModel @Inject constructor(
 
     init {
         getAllSeasons(args.id.toInt())
+        _state.update { it.copy(seriesId = args.id) }
     }
 
     private fun getAllSeasons(seriesId: Int) {
