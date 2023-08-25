@@ -2,10 +2,9 @@ package com.redvelvet.viewmodel.movieDetails
 
 import androidx.lifecycle.SavedStateHandle
 import com.redvelvet.entities.movie.details.MovieFullDetails
-import com.redvelvet.usecase.usecase.detailsActions.AddMovieRatingUseCase
-import com.redvelvet.usecase.usecase.detailsActions.DeleteMovieRatingUseCase
-import com.redvelvet.usecase.usecase.detailsActions.ToggleMediaInFavoritesUsecase
-import com.redvelvet.usecase.usecase.detailsActions.ToggleMediaInWatchListUsecase
+import com.redvelvet.usecase.usecase.detailsActions.HandleFavoriteUsecase
+import com.redvelvet.usecase.usecase.detailsActions.HandleMovieRateUsecase
+import com.redvelvet.usecase.usecase.detailsActions.HandleWatchlistUsecase
 import com.redvelvet.usecase.usecase.movie.GetMovieFullDetailsUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
@@ -17,13 +16,10 @@ import javax.inject.Inject
 class MovieDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getMovieFullDetails: GetMovieFullDetailsUseCase,
-    private val addMovieRating: AddMovieRatingUseCase,
-    private val deleteMovieRating: DeleteMovieRatingUseCase,
-    private val toggleMediaInFavorites: ToggleMediaInFavoritesUsecase,
-    private val toggleMediaInWatchList: ToggleMediaInWatchListUsecase,
-
-
-    ) : BaseViewModel<MovieDetailsScreenUiState, MovieDetailsUiEffect>(MovieDetailsScreenUiState()),
+    private val handleMovieRate: HandleMovieRateUsecase,
+    private val handleFavorite: HandleFavoriteUsecase,
+    private val handleWatchlist: HandleWatchlistUsecase,
+) : BaseViewModel<MovieDetailsScreenUiState, MovieDetailsUiEffect>(MovieDetailsScreenUiState()),
     MovieDetailsInteraction {
 
     private val args: MovieDetailsArgs = MovieDetailsArgs(savedStateHandle)
@@ -70,10 +66,9 @@ class MovieDetailsViewModel @Inject constructor(
         }
         tryToExecute(
             execute = {
-                toggleMediaInFavorites(
+                handleFavorite(
                     mediaType = "movie",
                     mediaId = movieId,
-                    isSavedInFavorites = true
                 )
             },
             onSuccessWithData = ::onFavoriteSuccess,
@@ -113,10 +108,9 @@ class MovieDetailsViewModel @Inject constructor(
         }
         tryToExecute(
             execute = {
-                toggleMediaInWatchList(
+                handleWatchlist(
                     mediaType = "movie",
                     mediaId = movieId,
-                    isSavedInWatchList = true
                 )
             },
             onSuccessWithData = ::onSaveSuccess,
@@ -159,7 +153,7 @@ class MovieDetailsViewModel @Inject constructor(
 //        )
         tryToExecute(
             execute = {
-                addMovieRating(
+                handleMovieRate(
                     movieRating = rate,
                     movieId = movieId,
                 )

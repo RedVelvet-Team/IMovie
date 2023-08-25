@@ -1,14 +1,13 @@
 package com.redvelvet.repository.source
 
-import com.google.gson.annotations.SerializedName
 import com.redvelvet.repository.dto.ActorKnownForDto
+import com.redvelvet.repository.dto.BaseResponse
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
-import com.redvelvet.repository.dto.detailsRequests.AddToWatchListRequest
-import com.redvelvet.repository.dto.detailsRequests.MarkAsFavoriteRequest
+import com.redvelvet.repository.dto.listAndFavorites.ListRemoteDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -18,7 +17,6 @@ import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
 import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
 import com.redvelvet.repository.dto.person.ActorDto
 import com.redvelvet.repository.dto.search.CombinedResultDto
-import com.redvelvet.repository.dto.tvShow.StatusResponse
 import com.redvelvet.repository.dto.tvShow.TvShowDetailsDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.dto.tvShow.TvShowImagesDto
@@ -148,6 +146,38 @@ interface RemoteDataSource {
     ): String
 
     // endregion
+
+
+    suspend fun getFavoriteMovies(
+        accountId: Int,
+        sessionId: String,
+    ): List<MovieDetailsDTO>
+
+    suspend fun getFavoriteTv(
+        accountId: Int,
+        sessionId: String,
+    ): List<TvShowDto>
+
+
+    suspend fun getWatchlistMovie(
+        accountId: Int,
+        sessionId: String,
+    ): List<MovieDetailsDTO>
+
+    suspend fun getWatchlistTv(
+        accountId: Int,
+        sessionId: String,
+    ): List<TvShowDto>
+
+    suspend fun getRatedMovies(
+        accountId: Int,
+        sessionId: String,
+    ): List<MovieDetailsDTO>
+
+    suspend fun getRatedTv(
+        accountId: Int,
+        sessionId: String,
+    ): List<TvShowDto>
 
 
 }

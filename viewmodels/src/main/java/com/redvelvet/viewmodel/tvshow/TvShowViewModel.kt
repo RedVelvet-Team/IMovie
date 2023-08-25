@@ -3,10 +3,9 @@ package com.redvelvet.viewmodel.tvshow
 
 import androidx.lifecycle.SavedStateHandle
 import com.redvelvet.entities.tv.TvShowAllDetails
-import com.redvelvet.usecase.usecase.detailsActions.AddTvShowRatingUseCase
-import com.redvelvet.usecase.usecase.detailsActions.DeleteTvShowRatingUseCase
-import com.redvelvet.usecase.usecase.detailsActions.ToggleMediaInFavoritesUsecase
-import com.redvelvet.usecase.usecase.detailsActions.ToggleMediaInWatchListUsecase
+import com.redvelvet.usecase.usecase.detailsActions.HandleFavoriteUsecase
+import com.redvelvet.usecase.usecase.detailsActions.HandleTvRateUsecase
+import com.redvelvet.usecase.usecase.detailsActions.HandleWatchlistUsecase
 import com.redvelvet.usecase.usecase.tvshow.GetAllTvShowDetailsUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
@@ -21,11 +20,10 @@ import javax.inject.Inject
 class TvShowViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getTvShSowDetails: GetAllTvShowDetailsUseCase,
-    private val addTvShowRating: AddTvShowRatingUseCase,
-    private val deleteTvShowRating: DeleteTvShowRatingUseCase,
-    private val toggleMediaInFavorites: ToggleMediaInFavoritesUsecase,
-    private val toggleMediaInWatchList: ToggleMediaInWatchListUsecase,
-    ) : BaseViewModel<SeriesDetailsUiState, TvShowUiEffect>(SeriesDetailsUiState()),
+    private val handleTvRate: HandleTvRateUsecase,
+    private val handleFavorite: HandleFavoriteUsecase,
+    private val handleWatchlist: HandleWatchlistUsecase,
+) : BaseViewModel<SeriesDetailsUiState, TvShowUiEffect>(SeriesDetailsUiState()),
     TvShowDetailsInteraction {
 
     private val args: TvDetailsArgs = TvDetailsArgs(savedStateHandle)
@@ -92,10 +90,9 @@ class TvShowViewModel @Inject constructor(
         }
         tryToExecute(
             execute = {
-                toggleMediaInFavorites(
+                handleFavorite(
                     mediaType = "tv",
                     mediaId = seriesId,
-                    isSavedInFavorites = true
                 )
             },
             onSuccessWithData = ::onFavoriteSuccess,
@@ -135,10 +132,9 @@ class TvShowViewModel @Inject constructor(
         }
         tryToExecute(
             execute = {
-                toggleMediaInWatchList(
+                handleWatchlist(
                     mediaType = "tv",
                     mediaId = seriesId,
-                    isSavedInWatchList = true
                 )
             },
             onSuccessWithData = ::onSaveSuccess,
@@ -181,7 +177,7 @@ class TvShowViewModel @Inject constructor(
 //        )
         tryToExecute(
             execute = {
-                addTvShowRating(
+                handleTvRate(
                     seriesRating = rate,
                     seriesId = seriesId,
                 )
@@ -250,10 +246,6 @@ class TvShowViewModel @Inject constructor(
 
     override fun onClickReviewsSeeAll(seriesId: String) {
         sendUiEffect(TvShowUiEffect.NavigateToReviewSeeAllScreen(seriesId))
-    }
-
-    override fun onClickReview(reviewId: String) {
-
     }
 
     override fun onClickRecommendationsSeriesSeeAll(seriesId: String) {
