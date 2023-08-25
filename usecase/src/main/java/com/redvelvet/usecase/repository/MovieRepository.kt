@@ -2,6 +2,7 @@ package com.redvelvet.usecase.repository
 
 import androidx.paging.PagingData
 import com.redvelvet.entities.EpisodeDetails
+import com.redvelvet.entities.Genre
 import com.redvelvet.entities.actor.Actor
 import com.redvelvet.entities.movie.Movie
 import com.redvelvet.entities.movie.details.MovieDetails
@@ -49,11 +50,11 @@ interface MovieRepository {
     //region Movie Details
     suspend fun getMovieDetailsById(movieId: Int): MovieDetails
     suspend fun getMovieImagesByID(movieId: Int): MovieImages
-    suspend fun getMovieKeyWordsByID(movieId: Int):MovieKeyWords
-    suspend fun getMovieRecommendationsByID(movieId: Int):MovieRecommendations
-    suspend fun getMovieReviewsByID(movieId: Int):MovieReviews
-    suspend fun getMovieSimilarByID(movieId: Int):MovieSimilar
-    suspend fun getMovieTopCastByID(movieId: Int):MovieTopCast
+    suspend fun getMovieKeyWordsByID(movieId: Int): MovieKeyWords
+    suspend fun getMovieRecommendationsByID(movieId: Int): MovieRecommendations
+    suspend fun getMovieReviewsByID(movieId: Int): MovieReviews
+    suspend fun getMovieSimilarByID(movieId: Int): MovieSimilar
+    suspend fun getMovieTopCastByID(movieId: Int): MovieTopCast
     suspend fun getAllSeasons(seriesId: Int): List<SeasonTvShow>
 
     //endregion
@@ -68,4 +69,10 @@ interface MovieRepository {
     suspend fun getPopularTv(): List<TvShow>
     suspend fun getOnTheAir(): List<TvShow>
     suspend fun getTopRatedTv(): List<TvShow>
+    //region category
+    suspend fun getMovieCategory(): List<Genre>
+    suspend fun getTvCategory(): List<Genre>
+    suspend fun getMovieCategoryById(id: Int): Flow<PagingData<Movie>>
+    suspend fun getTvCategoryById(id: Int): Flow<PagingData<TvShow>>
+    //endregion
 }

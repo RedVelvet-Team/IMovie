@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import androidx.paging.map
 import com.redvelvet.entities.EpisodeDetails
+import com.redvelvet.entities.Genre
 import com.redvelvet.entities.actor.Actor
 import com.redvelvet.entities.movie.Movie
 import com.redvelvet.entities.movie.details.MovieDetails
@@ -25,6 +26,7 @@ import com.redvelvet.repository.mapper.toActor
 import com.redvelvet.repository.mapper.toCombinedResult
 import com.redvelvet.repository.mapper.toDomain
 import com.redvelvet.repository.mapper.toEpisodeDetails
+import com.redvelvet.repository.mapper.toGenre
 import com.redvelvet.repository.mapper.toMovie
 import com.redvelvet.repository.mapper.toSeasonTvShow
 import com.redvelvet.repository.mapper.toTvShow
@@ -32,6 +34,8 @@ import com.redvelvet.repository.pagingSource.ActorSearchPageSource
 import com.redvelvet.repository.pagingSource.MoviesSearchPageSource
 import com.redvelvet.repository.pagingSource.MultiSearchPageSource
 import com.redvelvet.repository.pagingSource.TvShowSearchPageSource
+import com.redvelvet.repository.pagingSource.category.MovieCategoryByIdPageSource
+import com.redvelvet.repository.pagingSource.category.TvCategoryByIdPageSource
 import com.redvelvet.repository.pagingSource.seeall.SeeAllNowPlayingMoviesPageSource
 import com.redvelvet.repository.pagingSource.seeall.SeeAllPopularMoviesPageSource
 import com.redvelvet.repository.pagingSource.seeall.SeeAllRecommendedMoviesPageSource
@@ -241,25 +245,50 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAiringTodayTv(): List<TvShow> {
-        return remoteDataSource.getAiringTodayTv().map{it.toTvShow()}
+        return remoteDataSource.getAiringTodayTv().map { it.toTvShow() }
     }
 
     override suspend fun getPopularTv(): List<TvShow> {
-        return remoteDataSource.getPopularTv().map{it.toTvShow()}
+        return remoteDataSource.getPopularTv().map { it.toTvShow() }
     }
 
     override suspend fun getOnTheAir(): List<TvShow> {
-        return remoteDataSource.getOnTheAir().map{it.toTvShow()}
+        return remoteDataSource.getOnTheAir().map { it.toTvShow() }
     }
 
     override suspend fun getTopRatedTv(): List<TvShow> {
-        return remoteDataSource.getTopRatedTv().map{it.toTvShow()}
+        return remoteDataSource.getTopRatedTv().map { it.toTvShow() }
     }
-
     override suspend fun getAllSeasons(seriesId: Int): List<SeasonTvShow> {
         return remoteDataSource.getAllSeasons(
             seriesId
         ).seasonDtos!!.map { it!!.toSeasonTvShow() }
+    }
+    //endregion
+
+    //region category
+    override suspend fun getMovieCategory(): List<Genre> {
+        return remoteDataSource.getMovieCategory().map { it.toGenre() }
+    }
+
+    override suspend fun getTvCategory(): List<Genre> {
+        return remoteDataSource.getTvCategory().map { it.toGenre() }
+    }
+
+    override suspend fun getMovieCategoryById(id: Int): Flow<PagingData<Movie>> {
+        return seeAllWithId(
+            id = id,
+            mapper = MovieDetailsDTO::toMovie,
+            sourceFactory = ::MovieCategoryByIdPageSource
+        )
+    }
+
+    override suspend fun getTvCategoryById(id: Int): Flow<PagingData<TvShow>> {
+        return seeAllWithId(
+            id = id,
+            mapper = TvShowDto::toTvShow,
+            sourceFactory = ::TvCategoryByIdPageSource
+        )
     }
     //endregion
 
