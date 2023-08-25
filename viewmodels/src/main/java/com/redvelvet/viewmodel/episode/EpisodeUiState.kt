@@ -5,6 +5,7 @@ import com.redvelvet.viewmodel.base.ErrorUiState
 
 data class EpisodeUiState(
     val title : String="Episodes",
+    val seriesId: String = "",
     val episodes: List<EpisodeCardUiState> = emptyList(),
     val isLoading: Boolean = true,
     val error: ErrorUiState? = null

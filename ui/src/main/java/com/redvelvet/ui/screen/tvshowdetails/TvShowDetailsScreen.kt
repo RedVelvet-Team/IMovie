@@ -18,6 +18,7 @@ import com.redvelvet.ui.composable.MediaDetailsBackgroundContent
 import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.composable.NavigationHandler
 import com.redvelvet.ui.screen.actor_details.navigateToActorDetails
+import com.redvelvet.ui.screen.episodes.navigateToSeeAllEpisode
 import com.redvelvet.ui.screen.seeAllMovieImages.navigateToSeeAllImages
 import com.redvelvet.ui.screen.seeAllReviews.navigateToSeeAllReviews
 import com.redvelvet.ui.screen.seeallseasons.navigateToSeasonDetails
@@ -41,7 +42,7 @@ fun TvShowDetailsScreen(
         effects = viewModel.effect,
         handleEffect = { effect, navController ->
             when (effect) {
-                is TvShowUiEffect.NavigateToSeasonDetailsScreen -> {}
+                is TvShowUiEffect.NavigateToSeasonDetailsScreen -> navController.navigateToSeeAllEpisode(effect.id, effect.seasonId.toString())
                 is TvShowUiEffect.NavigateToSeasonSeeAllScreen -> navController.navigateToSeasonDetails(
                     effect.id
                 )
