@@ -47,7 +47,7 @@ fun EpisodeSingleItemDto.EpisodeAccountStatus.mapTODomain(): EpisodeDetails.Epis
 }
 
 fun EpisodeSingleItemDto.EpisodeCast.mapTODomain(): EpisodeDetails.EpisodeCast {
-    return EpisodeDetails.EpisodeCast(cast = this.cast.map { castDto ->
+    return EpisodeDetails.EpisodeCast(id = this.id ?: 0, cast = this.cast.map { castDto ->
         EpisodeDetails.EpisodeCast.Cast(
             id = castDto.id ?: 0,
             name = castDto.name ?: NO_DATA,

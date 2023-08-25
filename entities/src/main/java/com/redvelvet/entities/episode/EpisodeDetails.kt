@@ -46,6 +46,7 @@ data class EpisodeDetails(
     }
 
     data class EpisodeCast(
+        val id: Int,
         val cast: List<Cast>,
     ) {
         data class Cast(

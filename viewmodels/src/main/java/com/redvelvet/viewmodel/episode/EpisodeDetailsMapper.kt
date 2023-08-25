@@ -33,7 +33,7 @@ fun EpisodeDetails.toUiState(): Episode {
         episodeAccountStatus = Episode.Status(
             id = this.episodeAccountStatus.id, rated = this.episodeAccountStatus.rated.value
         ),
-        episodeCast = Episode.Cast(cast = this.episodeCast.cast.map {
+        episodeCast = Episode.Cast(id = this.episodeCast.id, cast = this.episodeCast.cast.map {
             Episode.Cast.Cast(
                 id = it.id, name = it.name, profilePath = it.profilePath
             )
@@ -86,6 +86,7 @@ data class Episode(
     )
 
     data class Cast(
+        val id: Int,
         val cast: List<Cast>,
     ) {
         data class Cast(
