@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.redvelvet.ui.screen.movieDetails.Item
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 
@@ -14,9 +15,7 @@ import com.redvelvet.ui.theme.spacing
 fun MediaListSection(
     label: String = "",
     isNotListEmpty: Boolean = false,
-    images: List<String> = emptyList(),
-    names: List<String> = emptyList(),
-    movieIds: List<Int> = emptyList(),
+    items: List<Item> = emptyList(),
     onClickSeeAll: (String) -> Unit = {},
     onClickItem: (String) -> Unit = {},
     mediaId: Int,
@@ -30,10 +29,8 @@ fun MediaListSection(
         ) {
             ItemsSectionForDetailsScreens(
                 label = label,
-                images = images,
+                items = items,
                 hasName = true,
-                name = names,
-                movieIds = movieIds,
                 hasCustomList = false,
                 hasDateAndCountry = false,
                 onClickSeeAll = { onClickSeeAll(mediaId.toString()) },
