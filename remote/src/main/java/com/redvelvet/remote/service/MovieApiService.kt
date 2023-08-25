@@ -215,7 +215,7 @@ interface MovieApiService {
         @Query("api_key") apiKey: String = BuildConfig.API_KEY
     ): Response<EpisodeSingleItemDto.EpisodeMovies>
 
-    @GET("tv/{tv_id}/season/{season_number}/episode/{episode_number}/account_states?session_id={{session_id}}")
+    @GET("tv/{tv_id}/season/{season_number}/episode/{episode_number}/account_states?session_id=session_id")
     suspend fun getEpisodeAccountStatus(
         @Path("tv_id") tvID: Int,
         @Path("season_number") seasonNumber: Int,
