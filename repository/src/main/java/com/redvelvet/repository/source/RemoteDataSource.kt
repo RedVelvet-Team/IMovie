@@ -7,6 +7,8 @@ import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
+import com.redvelvet.repository.dto.library.LibraryMovieDto
+import com.redvelvet.repository.dto.library.LibraryTvDto
 import com.redvelvet.repository.dto.listAndFavorites.ListRemoteDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
@@ -151,33 +153,33 @@ interface RemoteDataSource {
     suspend fun getFavoriteMovies(
         accountId: Int,
         sessionId: String,
-    ): List<MovieDetailsDTO>
+    ): List<LibraryMovieDto>
 
     suspend fun getFavoriteTv(
         accountId: Int,
         sessionId: String,
-    ): List<TvShowDto>
+    ): List<LibraryTvDto>
 
 
     suspend fun getWatchlistMovie(
         accountId: Int,
         sessionId: String,
-    ): List<MovieDetailsDTO>
+    ): List<LibraryMovieDto>
 
     suspend fun getWatchlistTv(
         accountId: Int,
         sessionId: String,
-    ): List<TvShowDto>
+    ): List<LibraryTvDto>
 
     suspend fun getRatedMovies(
         accountId: Int,
         sessionId: String,
-    ): List<MovieDetailsDTO>
+    ): List<LibraryMovieDto>
 
     suspend fun getRatedTv(
         accountId: Int,
         sessionId: String,
-    ): List<TvShowDto>
+    ): List<LibraryTvDto>
 
 
 }

@@ -1,19 +1,20 @@
 package com.redvelvet.usecase.usecase.detailsActions
 
-import com.redvelvet.usecase.usecase.library.GetRatedMovieUsecase
+import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
 
 class HandleMovieRateUsecase @Inject constructor(
-    private val getRatedMovieUsecase: GetRatedMovieUsecase,
+    private val handleItemCheckUsecase: HandleItemCheckUsecase,
     private val addMovieRateUsecase: AddMovieRatingUseCase,
     private val deleteMovieRatingUseCase: DeleteMovieRatingUseCase,
 ) {
     suspend operator fun invoke(movieRating: Double, movieId: Int): String {
-        val isListHasItem = getRatedMovieUsecase.invoke().any { it.id == movieId }
-        return if (isListHasItem) {
-            deleteMovieRatingUseCase.invoke(movieId)
-        } else {
-            addMovieRateUsecase.invoke(movieRating, movieId)
+        return coroutineScope {
+            if (handleItemCheckUsecase.invoke(movieId, TypeOfData.RATED_MOVIE)) {
+                deleteMovieRatingUseCase.invoke(movieId)
+            } else {
+                addMovieRateUsecase.invoke(movieRating, movieId)
+            }
         }
     }
 }
