@@ -43,9 +43,13 @@ fun MovieDetailsForegroundContent(
                     topcasts.isNotEmpty(),
                     interaction::onClickTopCastSeeAll,
                     interaction::onClickCast,
-                    castIds = topcasts.map { it2 -> it2.castId },
-                    topcasts.map { it2 -> it2.castImage },
-                    topcasts.map { it2 -> it2.castName },
+                    items = topcasts.map { it2 ->
+                        Item(
+                            image = it2.castImage,
+                            name = it2.castName,
+                            id = it2.castId,
+                        )
+                    },
                     mediaId = state.data!!.details.id.toString()
                 )
 
@@ -56,26 +60,39 @@ fun MovieDetailsForegroundContent(
                 MediaListSection(
                     label = "Similar Movies",
                     isNotListEmpty = similarMovies.isNotEmpty(),
-                    images = similarMovies.map { it.mediaImage },
-                    names = similarMovies.map { it.mediaName },
-                    movieIds = similarMovies.map { it.mediaId },
+                    items = similarMovies.map { it ->
+                        Item(
+                            image = it.mediaImage,
+                            id = it.mediaId,
+                            name = it.mediaName,
+                        )
+                    },
                     onClickSeeAll = interaction::onClickSimilarMoviesSeeAll,
                     onClickItem = interaction::onClickMovie,
                     mediaId = state.data!!.details.id
                 )
             }
             ImagesSection(
-                it.images.map { it.mediaImage },
+                items = it.images.map { it ->
+                    Item(
+                        image = it.mediaImage,
+                    )
+                },
                 interaction::onClickMovieImagesSeeAll,
-                mediaId = it.details.id)
+                mediaId = it.details.id
+            )
             it.reviews.let { reviews ->
                 ReviewsSection(
                     isNotListEmpty = reviews.isNotEmpty(),
-                    reviewNames = reviews.map { it.reviewAuthor },
-                    reviewIds = reviews.map { it.reviewId },
-                    reviewStars = reviews.map { it.reviewStars },
-                    reviewDates = reviews.map { it.reviewDate },
-                    reviewDescriptions = reviews.map { it.reviewDescription },
+                    items = reviews.map { it2 ->
+                        Item(
+                            name = it2.reviewAuthor,
+                            strId = it2.reviewId,
+                            stars = it2.reviewStars,
+                            date = it2.reviewDate,
+                            discription = it2.reviewDescription,
+                        )
+                    },
                     onClickSeeAllReviews = interaction::onClickReviewsSeeAll,
                     onClickReview = interaction::onClickReview,
                     itemId = it.details.id.toString()
@@ -85,9 +102,13 @@ fun MovieDetailsForegroundContent(
                 MediaListSection(
                     label = "Recommendations",
                     isNotListEmpty = recommendedMovies.isNotEmpty(),
-                    images = recommendedMovies.map { it.mediaImage },
-                    names = recommendedMovies.map { it.mediaName },
-                    movieIds = recommendedMovies.map { it.mediaId },
+                    items = recommendedMovies.map { it2 ->
+                        Item(
+                            image = it2.mediaImage,
+                            name = it2.mediaName,
+                            id = it2.mediaId,
+                        )
+                    },
                     onClickSeeAll = interaction::onClickRecommendationsMoviesSeeAll,
                     onClickItem = interaction::onClickMovie,
                     mediaId = state.data!!.details.id
