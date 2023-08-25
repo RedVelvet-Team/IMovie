@@ -1,5 +1,6 @@
 package com.redvelvet.usecase.usecase.library
 
+import com.redvelvet.entities.library.LibraryTv
 import com.redvelvet.entities.tv.TvShow
 import com.redvelvet.usecase.repository.LibraryRepository
 import com.redvelvet.usecase.repository.UserRepository
@@ -11,7 +12,7 @@ class GetTvWatchListUsecase @Inject constructor(
     private val getAccountId: GetSavedAccountDetailsIdUsecase,
     private val userRepository: UserRepository,
 ) {
-    suspend operator fun invoke(): List<TvShow> {
+    suspend operator fun invoke(): List<LibraryTv> {
         return libraryRepository.getWatchlistTv(
             accountId = getAccountId.invoke(),
             userRepository.getUserSessionIdFromLocal()
