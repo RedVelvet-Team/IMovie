@@ -1,7 +1,7 @@
 package com.redvelvet.repository.source
 
 import com.redvelvet.repository.dto.ActorKnownForDto
-import com.redvelvet.repository.dto.BaseResponse
+import com.redvelvet.repository.dto.GenreDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
@@ -9,8 +9,6 @@ import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
 import com.redvelvet.repository.dto.library.LibraryMovieDto
 import com.redvelvet.repository.dto.library.LibraryTvDto
-import com.redvelvet.repository.dto.listAndFavorites.ListRemoteDto
-import com.redvelvet.repository.dto.GenreDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
