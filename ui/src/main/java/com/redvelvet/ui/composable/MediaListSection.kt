@@ -7,18 +7,18 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.redvelvet.ui.screen.movieDetails.Item
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 
 @Composable
 fun MediaListSection(
-    label:String = "",
+    label: String = "",
     isNotListEmpty: Boolean = false,
-    images: List<String> = emptyList(),
-    names: List<String> = emptyList(),
-    movieIds: List<Int> = emptyList(),
-    onClickSeeAll: () -> Unit = {},
-    onClickItem: (id: Int) -> Unit = {},
+    items: List<Item> = emptyList(),
+    onClickSeeAll: (String) -> Unit = {},
+    onClickItem: (String) -> Unit = {},
+    mediaId: Int,
 ) {
     if (isNotListEmpty)
         Column(
@@ -29,17 +29,16 @@ fun MediaListSection(
         ) {
             ItemsSectionForDetailsScreens(
                 label = label,
-                images = images,
+                items = items,
                 hasName = true,
-                name = names,
-                movieIds = movieIds,
                 hasCustomList = false,
                 hasDateAndCountry = false,
-                onClickSeeAll = { onClickSeeAll() },
+                onClickSeeAll = { onClickSeeAll(mediaId.toString()) },
                 cardModifier = Modifier
                     .width(MaterialTheme.dimens.dimens104)
                     .height(MaterialTheme.dimens.dimens130),
                 onClickItem = onClickItem,
+                itemId = mediaId.toString()
             )
         }
 }

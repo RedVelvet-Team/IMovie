@@ -18,9 +18,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.ItemSeason
-import com.redvelvet.ui.composable.MovieScaffold
+import com.redvelvet.ui.composable.FlixMovieScaffold
+import com.redvelvet.ui.screen.episodes.navigateToSeeAllEpisode
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.seeall.seasons.SeeAllSeasonsUiState
@@ -33,7 +35,9 @@ fun SeeAllSeasonsScreen(
     val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
-    MovieScaffold(
+    val navController = LocalNavController.current
+
+    FlixMovieScaffold(
         title = "Seasons",
         isLoading = state.isLoading,
         error = state.error,
@@ -41,56 +45,56 @@ fun SeeAllSeasonsScreen(
         hasBackArrow = true,
         hasTopBar = true
     ) {
-        SeeAllSeasonsContent(state)
+        SeeAllSeasonsContent(
+            onClickSeason = {seriesId, seasonId -> navController.navigateToSeeAllEpisode(seriesId, seasonId.toString())},
+            state
+        )
     }
 }
 
 @Composable
-fun SeeAllSeasonsContent(state: SeeAllSeasonsUiState) {
-    MovieScaffold(
-        title = "Seasons",
-        isLoading = state.isLoading,
-        hasTopBar = true
+fun SeeAllSeasonsContent(
+    onClickSeason: (String, Int) -> Unit,
+    state: SeeAllSeasonsUiState
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.color.backgroundPrimary)
+            .padding(
+                top = MaterialTheme.spacing.spacing72,
+                bottom = MaterialTheme.spacing.spacing28
+            )
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.color.backgroundPrimary)
-                .padding(
-                    top = MaterialTheme.spacing.spacing72,
-                    bottom = MaterialTheme.spacing.spacing28
-                )
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(
+                horizontal = MaterialTheme.spacing.spacing16,
+                vertical = MaterialTheme.spacing.spacing16
+            ),
+            verticalArrangement = Arrangement.spacedBy(
+                MaterialTheme.spacing.spacing16,
+                Alignment.Top
+            ),
+            horizontalAlignment = Alignment.Start,
         ) {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(
-                    horizontal = MaterialTheme.spacing.spacing16,
-                    vertical = MaterialTheme.spacing.spacing16
-                ),
-                verticalArrangement = Arrangement.spacedBy(
-                    MaterialTheme.spacing.spacing16,
-                    Alignment.Top
-                ),
-                horizontalAlignment = Alignment.Start,
-            ) {
-                items(state.seasons.size) { index ->
-                    val seasons = state.seasons[index]
-                    ItemSeason(
-                        image = rememberAsyncImagePainter(
-                            model = seasons.imageUrl,
-                            placeholder = painterResource(id = R.drawable.image_placeholder),
-                            error = painterResource(id = R.drawable.image_placeholder)
-                        ),
-                        name = "Season ${seasons.seasonNumber}",
-                        date = seasons.airDate,
-                        episodesNum = seasons.episodeCount,
-                        description = seasons.description,
-                        rate = seasons.rate,
-                        id = 0,
-                        seriesId = 0,
-                        onClickItem = {seriesId, seasonId ->  }
-                    )
-                }
+            items(state.seasons.size) { index ->
+                val seasons = state.seasons[index]
+                ItemSeason(
+                    image = rememberAsyncImagePainter(
+                        model = seasons.imageUrl,
+                        placeholder = painterResource(id = R.drawable.image_placeholder),
+                        error = painterResource(id = R.drawable.image_placeholder)
+                    ),
+                    onClickItem = onClickSeason,
+                    name = seasons.seasonNumber.toString(),
+                    date = seasons.airDate,
+                    episodesNum = seasons.episodeCount,
+                    description = seasons.description,
+                    rate = seasons.rate,
+                    seasonNumber = seasons.seasonNumber,
+                    seriesId = state.seriesId
+                )
             }
         }
     }

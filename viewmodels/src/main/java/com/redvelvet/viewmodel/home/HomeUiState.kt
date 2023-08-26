@@ -16,7 +16,7 @@ data class HomeUiState(
 
 data class ItemsUiState(
     val title: String = "",
-    val items: List<ItemUiState>,
+    val items: List<ItemUiState> = emptyList(),
     val hasMore: Boolean = true
 )
 

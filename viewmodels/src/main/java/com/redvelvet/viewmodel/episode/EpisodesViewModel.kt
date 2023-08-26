@@ -19,12 +19,13 @@ class EpisodesViewModel @Inject constructor(
 
     init {
         getAllEpisodes()
+        _state.update { it.copy(seriesId = args.tvId) }
     }
 
     private fun getAllEpisodes() {
         _state.update { it.copy(isLoading = true) }
         tryToExecute(
-            execute = { getAllEpisodesUseCase(tvId = args.tvId, seasonNumber = args.seasonNumber) },
+            execute = { getAllEpisodesUseCase(tvId = args.tvId, seasonNumber = args.seasonNumber.toInt()) },
             onSuccessWithData = ::onGetAllEpisodesOnSuccess,
             onError = ::onGetAllEpisodesOnError
         )

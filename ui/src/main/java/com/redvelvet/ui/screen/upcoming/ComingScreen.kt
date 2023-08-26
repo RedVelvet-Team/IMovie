@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.redvelvet.ui.composable.MovieScaffold
+import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.theme.FontSecondary
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
@@ -17,7 +17,7 @@ import com.redvelvet.ui.theme.color
 @Preview(showSystemUi = true)
 @Composable
 fun ComingScreen(){
-    MovieScaffold(isLoading = false,title="Coming Soon") {
+    FlixMovieScaffold(isLoading = false,title="Coming Soon") {
         Box(
             modifier = Modifier
                 .fillMaxSize()

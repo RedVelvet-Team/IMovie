@@ -10,6 +10,7 @@ import com.redvelvet.ui.composable.TopCastSection
 import com.redvelvet.ui.composable.MediaListSection
 import com.redvelvet.ui.composable.ReviewsSection
 import com.redvelvet.ui.composable.SeasonsSection
+import com.redvelvet.ui.screen.movieDetails.Item
 import com.redvelvet.viewmodel.tvshow.SeriesDetailsUiState
 import com.redvelvet.viewmodel.tvshow.TvShowDetailsInteraction
 
@@ -24,6 +25,7 @@ fun TvShowDetailsForegroundContent(
     ) {
         DetailsInfoSection(
             image = state.tvShowImage,
+            id = state.tvShowId,
             name = state.tvShowName,
             genres = state.genres,
             hasTime = false,
@@ -40,9 +42,15 @@ fun TvShowDetailsForegroundContent(
                 topcasts.isNotEmpty(),
                 interaction::onClickTopCastSeeAll,
                 interaction::onClickCast,
-                castIds = topcasts.map { it2 -> it2.id },
-                topcasts.map { it2 -> it2.image },
-                topcasts.map { it2 -> it2.name })
+                items = topcasts.map { it2 ->
+                    Item(
+                        id = it2.id,
+                        image = it2.image,
+                        name = it2.name,
+                    )
+                },
+                mediaId = state.tvShowId.toString(),
+            )
         }
         KeyWordsSection(state.keywords)
         state.seasons.let { seasons ->
@@ -50,38 +58,50 @@ fun TvShowDetailsForegroundContent(
             SeasonsSection(
                 isNotListEmpty = seasons.isNotEmpty(),
                 seriesId = state.tvShowId,
-                seasonImages = seasons.map { it.posterSeason },
-                seasonNames = seasons.map { it.seasonNumber },
-                seasonIds = seasons.map { it.seasonId },
-                seasonStars = seasons.map { it.voteSeasonAverage },
-                seasonDates = seasons.map { it.airDate },
-                seasonDescriptions = seasons.map { it.seasonDescription },
-                seasonEpisodes = seasons.map { it.episodeNumber },
+                items = seasons.map {
+                    Item(
+                        image = it.posterSeason,
+                        name = it.seasonNumber,
+                        id = it.seasonId,
+                        stars = it.voteSeasonAverage,
+                        date = it.airDate,
+                        discription = it.seasonDescription,
+                        episodeNum = it.episodeNumber,
+                    )
+                },
                 onClickSeeAllSeasons = interaction::onClickSeasonSeaAll,
                 onClickSeason = interaction::onClickSeason
             )
         }
-        ImagesSection(state.posters, interaction::onClickPosterSeaAll)
+        ImagesSection(
+            items = state.posters.map { Item(image = it) },
+            interaction::onClickPosterSeaAll,
+            mediaId = state.tvShowId
+        )
         state.reviews.let { reviews ->
             ReviewsSection(
                 isNotListEmpty = reviews.isNotEmpty(),
-                reviewNames = reviews.map { it.author },
-                reviewIds = reviews.map { it.id },
-                reviewStars = reviews.map { it.rating },
-                reviewDates = reviews.map { it.createdAt },
-                reviewDescriptions = reviews.map { it.content },
+                items = reviews.map {
+                    Item(
+                        name = it.author,
+                        id = it.id.toInt(),
+                        stars = it.rating,
+                        date = it.createdAt,
+                        discription = it.content,
+                    )
+                },
                 onClickSeeAllReviews = interaction::onClickReviewsSeeAll,
-                onClickReview = interaction::onClickReview
+                itemId = state.tvShowId.toString()
             )
         }
         state.recommendations.let { recommendedTvShows ->
             MediaListSection(
                 label = "Recommendations",
                 isNotListEmpty = recommendedTvShows.isNotEmpty(),
-                images = recommendedTvShows.map { it.poster },
-                names = recommendedTvShows.map { it.seriesName },
+                items = recommendedTvShows.map { Item(image = it.poster, name = it.seriesName) },
                 onClickSeeAll = interaction::onClickRecommendationsSeriesSeeAll,
-                onClickItem = interaction::onClickRecommendation
+                onClickItem = interaction::onClickSeries,
+                mediaId = state.tvShowId
             )
         }
     }
