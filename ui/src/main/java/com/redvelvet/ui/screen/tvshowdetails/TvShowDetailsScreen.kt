@@ -20,6 +20,7 @@ import com.redvelvet.ui.composable.NavigationHandler
 import com.redvelvet.ui.screen.actor_details.navigateToActorDetails
 import com.redvelvet.ui.screen.seeAllMovieImages.navigateToSeeAllImages
 import com.redvelvet.ui.screen.seeAllReviews.navigateToSeeAllReviews
+import com.redvelvet.ui.screen.see_all_episodes.navigateToSeeAllEpisode
 import com.redvelvet.ui.screen.seeallseasons.navigateToSeasonDetails
 import com.redvelvet.ui.screen.seealltv.navigateSeeAllTvShow
 import com.redvelvet.ui.screen.sellAllTopCast.navigateToSeeAllTopCast

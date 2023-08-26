@@ -21,12 +21,12 @@ import com.redvelvet.ui.composable.EpisodeItem
 import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
+import com.redvelvet.viewmodel.see_all_episode.EpisodesViewModel
 import com.redvelvet.viewmodel.see_all_episode.SeeAllEpisodeUiState
-import com.redvelvet.viewmodel.see_all_episode.SeeAllEpisodesViewModel
 
 @Composable
 fun SeeAllEpisodeScreen(
-    viewModel: SeeAllEpisodesViewModel = hiltViewModel()
+    viewModel: EpisodesViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
