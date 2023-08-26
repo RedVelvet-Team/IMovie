@@ -2,6 +2,7 @@ package com.redvelvet.usecase.repository
 
 import androidx.paging.PagingData
 import com.redvelvet.entities.EpisodeDetails
+import com.redvelvet.entities.Question
 import com.redvelvet.entities.actor.Actor
 import com.redvelvet.entities.movie.Movie
 import com.redvelvet.entities.movie.details.MovieDetails
@@ -19,6 +20,10 @@ import kotlinx.coroutines.flow.Flow
 
 
 interface MovieRepository {
+
+    suspend fun getMovieQuestions(): List<Question>
+    suspend fun getTvQuestions(): List<Question>
+    suspend fun getActingQuestions(): List<Question>
     fun multiSearch(query: String, page: Int? = 1): Flow<PagingData<SearchResult>>
     fun searchPeople(query: String, page: Int? = 1): Flow<PagingData<Actor>>
     fun searchMovie(query: String, page: Int? = 1): Flow<PagingData<Movie>>

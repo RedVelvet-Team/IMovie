@@ -1,11 +1,13 @@
 package com.redvelvet.repository.repository
 
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import androidx.paging.map
 import com.redvelvet.entities.EpisodeDetails
+import com.redvelvet.entities.Question
 import com.redvelvet.entities.actor.Actor
 import com.redvelvet.entities.movie.Movie
 import com.redvelvet.entities.movie.details.MovieDetails
@@ -24,6 +26,7 @@ import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.mapper.toActor
 import com.redvelvet.repository.mapper.toCombinedResult
 import com.redvelvet.repository.mapper.toDomain
+import com.redvelvet.repository.mapper.toEntity
 import com.redvelvet.repository.mapper.toEpisodeDetails
 import com.redvelvet.repository.mapper.toMovie
 import com.redvelvet.repository.mapper.toSeasonTvShow
@@ -65,6 +68,20 @@ class MovieRepositoryImpl @Inject constructor(
             config = PagingConfig(pageSize = page ?: DEFAULT_PAGE_SIZE),
             pagingSourceFactory = { sourceFactory(remoteDataSource, query) }
         ).flow
+    }
+
+    override suspend fun getMovieQuestions(): List<Question> {
+        Log.v("hass", "strt")
+        return remoteDataSource.getMovieQuestions().map { it.toEntity() }
+            .also { Log.v("hass", it.toString()) }
+    }
+
+    override suspend fun getTvQuestions(): List<Question> {
+        return remoteDataSource.getTvQuestions().map { it.toEntity() }
+    }
+
+    override suspend fun getActingQuestions(): List<Question> {
+        return remoteDataSource.getActingQuestions().map { it.toEntity() }
     }
 
     override fun multiSearch(query: String, page: Int?): Flow<PagingData<SearchResult>> {
