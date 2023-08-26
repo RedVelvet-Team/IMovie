@@ -3,6 +3,7 @@ package com.redvelvet.viewmodel.movieDetails
 import androidx.lifecycle.SavedStateHandle
 import com.redvelvet.entities.movie.details.MovieFullDetails
 import com.redvelvet.usecase.usecase.detailsActions.HandleFavoriteUsecase
+import com.redvelvet.usecase.usecase.detailsActions.HandleItemCheckUsecase
 import com.redvelvet.usecase.usecase.detailsActions.HandleMovieRateUsecase
 import com.redvelvet.usecase.usecase.detailsActions.HandleWatchlistUsecase
 import com.redvelvet.usecase.usecase.movie.GetMovieFullDetailsUseCase
@@ -21,6 +22,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val handleMovieRate: HandleMovieRateUsecase,
     private val handleFavorite: HandleFavoriteUsecase,
     private val handleWatchlist: HandleWatchlistUsecase,
+    private val handleItemCheck: HandleItemCheckUsecase,
 ) : BaseViewModel<MediaDetailsScreenUiState, MovieDetailsUiEffect>(MediaDetailsScreenUiState()),
     MovieDetailsInteraction {
 
@@ -45,6 +47,18 @@ class MovieDetailsViewModel @Inject constructor(
                 data = movieAllDetails.toUiState(),
                 isLoading = false,
                 error = null,
+                isFavorite = handleItemCheck.isItemInMovieList(
+                    movieList = movieAllDetails.moviesFavorites,
+                    itemId = movieAllDetails.details.id,
+                ),
+                isSavedToList = handleItemCheck.isItemInMovieList(
+                    movieList = movieAllDetails.moviesWatchlist,
+                    itemId = movieAllDetails.details.id,
+                ),
+                isRated = handleItemCheck.isItemInMovieList(
+                    movieList = movieAllDetails.ratedMovie,
+                    itemId = movieAllDetails.details.id,
+                ),
             )
         }
     }
