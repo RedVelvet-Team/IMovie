@@ -37,22 +37,22 @@ class HandleItemCheckUsecase @Inject constructor(
         }
     }
 
-    private fun isItemInMovieList(
-        useCase: List<LibraryMovie>,
+    fun isItemInMovieList(
+        movieList: List<LibraryMovie>,
         itemId: Int
     ): Boolean {
-        return useCase.run { isNotEmpty() && any { it.id == itemId } }
+        return movieList.run { isNotEmpty() && any { it.id == itemId } }
     }
 
     private fun isItemInTvList(
-        useCase: List<LibraryTv>,
+        tvList: List<LibraryTv>,
         itemId: Int
     ): Boolean {
-        return useCase.run { isNotEmpty() && any { it.id == itemId } }
+        return tvList.run { isNotEmpty() && any { it.id == itemId } }
     }
 
 
-    private suspend fun getTvWatchList(): List<LibraryTv> {
+    suspend fun getTvWatchList(): List<LibraryTv> {
         return libraryRepository.getWatchlistTv(
             accountId = getAccountId.invoke(),
             userRepository.getUserSessionIdFromLocal()
@@ -60,14 +60,14 @@ class HandleItemCheckUsecase @Inject constructor(
         )
     }
 
-    private suspend fun getTvFavorites(): List<LibraryTv> {
+    suspend fun getTvFavorites(): List<LibraryTv> {
         return libraryRepository.getFavoriteTv(
             accountId = getAccountId.invoke(),
             userRepository.getUserSessionIdFromLocal()
         )
     }
 
-    private suspend fun getMovieFavorites(): List<LibraryMovie> {
+    suspend fun getMovieFavorites(): List<LibraryMovie> {
         return libraryRepository.getFavoriteMovies(
             accountId = getAccountId.invoke(),
             userRepository.getUserSessionIdFromLocal()
@@ -75,27 +75,24 @@ class HandleItemCheckUsecase @Inject constructor(
         )
     }
 
-    private suspend fun getMovieWatchList(): List<LibraryMovie> {
+    suspend fun getMovieWatchList(): List<LibraryMovie> {
         return libraryRepository.getWatchlistMovie(
             accountId = getAccountId.invoke(),
             userRepository.getUserSessionIdFromLocal()
-
         )
     }
 
-    private suspend fun getRatedMovie(): List<LibraryMovie> {
+    suspend fun getRatedMovie(): List<LibraryMovie> {
         return libraryRepository.getRatedMovies(
             accountId = getAccountId.invoke(),
             userRepository.getUserSessionIdFromLocal()
-
         )
     }
 
-    private suspend fun getRatedTv(): List<LibraryTv> {
+    suspend fun getRatedTv(): List<LibraryTv> {
         return libraryRepository.getRatedTv(
             accountId = getAccountId.invoke(),
             userRepository.getUserSessionIdFromLocal()
-
         )
     }
 
