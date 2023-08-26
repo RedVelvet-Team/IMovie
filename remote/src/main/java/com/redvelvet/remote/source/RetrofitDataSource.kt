@@ -7,7 +7,9 @@ import com.redvelvet.entities.error.NullResultException
 import com.redvelvet.entities.error.ServerException
 import com.redvelvet.entities.error.ValidationException
 import com.redvelvet.remote.service.MovieApiService
+import com.redvelvet.remote.service.TriviaService
 import com.redvelvet.repository.dto.ActorKnownForDto
+import com.redvelvet.repository.dto.QuestionDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
@@ -40,7 +42,24 @@ import javax.inject.Inject
 
 class RetrofitDataSource @Inject constructor(
     private val movieApiService: MovieApiService,
+    private val triviaService: TriviaService
 ) : RemoteDataSource {
+    override suspend fun getMovieQuestions(): List<QuestionDto> {
+        return wrapApiResponse { triviaService.getQuestions(TriviaService.MOVIE) }
+    }
+
+    override suspend fun getTvQuestions(): List<QuestionDto> {
+        return wrapApiResponse { triviaService.getQuestions(TriviaService.TV) }
+    }
+
+    override suspend fun getActingQuestions(): List<QuestionDto> {
+        return wrapApiResponse { triviaService.getQuestions(TriviaService.ACTING) }
+    }
+
+    //region game
+
+
+    //endregion
 
     //region auth
     override suspend fun createGuestSession(): GuestSessionDto {

@@ -1,13 +1,12 @@
 package com.redvelvet.repository.source
 
 import com.redvelvet.repository.dto.ActorKnownForDto
-import com.redvelvet.repository.dto.BaseResponse
+import com.redvelvet.repository.dto.QuestionDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
-import com.redvelvet.repository.dto.listAndFavorites.ListRemoteDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -27,6 +26,10 @@ import com.redvelvet.repository.dto.tvShow.TvShowTopCastDto
 import com.redvelvet.repository.dto.tvShow.TvShowVideosDto
 
 interface RemoteDataSource {
+
+    suspend fun getMovieQuestions(): List<QuestionDto>
+    suspend fun getTvQuestions(): List<QuestionDto>
+    suspend fun getActingQuestions(): List<QuestionDto>
     //region auth
     suspend fun createGuestSession(): GuestSessionDto
     suspend fun createToken(): TokenDto
