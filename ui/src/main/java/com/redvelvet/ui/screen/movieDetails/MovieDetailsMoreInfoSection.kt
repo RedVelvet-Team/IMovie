@@ -10,12 +10,12 @@ import androidx.compose.ui.Modifier
 import com.redvelvet.ui.composable.LabeledValueVertical
 import com.redvelvet.ui.composable.SpacerVertical
 import com.redvelvet.ui.theme.spacing
-import com.redvelvet.viewmodel.movieDetails.MovieDetailsScreenUiState
+import com.redvelvet.viewmodel.details_ui_states.MediaDetailsScreenUiState
 
 
 @Composable
 fun MovieDetailsMoreInfoSection(
-    it: MovieDetailsScreenUiState.MovieDetailsUiState,
+    it: MediaDetailsScreenUiState.MediaDetailsUiState,
 ) {
     Column(
         verticalArrangement = Arrangement.Center,

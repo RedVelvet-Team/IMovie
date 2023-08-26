@@ -24,6 +24,7 @@ fun TvShowRecommendationsDto.toTvShowRecommendations() = TvShowRecommendations(
 )
 
 fun TvShowRecommendationResult.toTvShowRecommendation() = TvShowRecommendation(
+    id = id ?: 0,
     poster = posterPath ?: "",
     seriesName = name ?: ""
 )

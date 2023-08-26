@@ -1,32 +1,31 @@
-package com.redvelvet.viewmodel.movieDetails
+package com.redvelvet.viewmodel.details_ui_states
 
 import com.redvelvet.viewmodel.base.BaseUiState
 import com.redvelvet.viewmodel.base.ErrorUiState
 
-data class MovieDetailsScreenUiState(
-    val data: MovieFullDetailsUiState? = null,
+data class MediaDetailsScreenUiState(
+    val data: AllMediaDetailsUiState? = null,
     val isLoading: Boolean = true,
     val error: ErrorUiState? = null,
     val favoriteActionState: FavoriteActionUiState = FavoriteActionUiState(),
     val addToWatchListActionUiState: AddToWatchListActionUiState = AddToWatchListActionUiState(),
     val rateActionUiState: RateActionUiState = RateActionUiState(),
-
-    ) : BaseUiState {
-    data class MovieFullDetailsUiState(
-        val details: MovieDetailsUiState,
-        val topCast: List<MovieTopCastUiState>,
+) : BaseUiState {
+    data class AllMediaDetailsUiState(
+        val details: MediaDetailsUiState,
+        val topCast: List<MediaTopCastUiState>,
         val keyWords: List<String>,
         val similar: List<MovieSimilarUiState>,
-        val images: List<MovieImagesUiState>,
-        val reviews: List<MovieReviewsUiState>,
-        val recommendations: List<MovieRecommendationsUiState>
+        val tvSeasons: List<TVSeriesSeasonsUiState>,
+        val images: List<String>,
+        val reviews: List<MediaReviewsUiState>,
+        val recommendations: List<MediaRecommendationsUiState>
     )
 
-    data class MovieDetailsUiState(
+    data class MediaDetailsUiState(
         val genres: List<String> = emptyList(),
-        val homepage: String = "",
         val id: Int = 0,
-        val originalTitle: String = "",
+        val mediaTrailerUrl: String = "",
         val overview: String = "",
         val posterPath: String = "",
         val productionCountries: List<String> = emptyList(),
@@ -37,11 +36,10 @@ data class MovieDetailsScreenUiState(
         val status: String = "",
         val tagline: String = "",
         val title: String = "",
-        val video: Boolean = false,
         val voteAverage: Double = 0.0,
     )
 
-    data class MovieTopCastUiState(
+    data class MediaTopCastUiState(
         val castId: Int = 0,
         val castName: String = "",
         val castImage: String = ""
@@ -53,11 +51,7 @@ data class MovieDetailsScreenUiState(
         val mediaImage: String = "",
     )
 
-    data class MovieImagesUiState(
-        val mediaImage: String = ""
-    )
-
-    data class MovieReviewsUiState(
+    data class MediaReviewsUiState(
         val reviewId: String = "",
         val reviewAuthor: String = "",
         val reviewDate: String = "",
@@ -65,31 +59,37 @@ data class MovieDetailsScreenUiState(
         val reviewDescription: String = "",
     )
 
-    data class MovieRecommendationsUiState(
+    data class MediaRecommendationsUiState(
         val mediaId: Int = 0,
         val mediaName: String = "",
         val mediaImage: String = "",
     )
 
+    data class TVSeriesSeasonsUiState(
+        val seasonId: Int = 0,
+        val airDate: String = "",
+        val posterSeason: String = "",
+        val voteSeasonAverage: Double = 0.0,
+        val seasonNumber: String = "",
+        val episodeNumber: Int = 0,
+        val seasonDescription: String = "",
+    )
+
+    data class FavoriteActionUiState(
+        var data: String? = null,
+        val isLoading: Boolean = true,
+        val error: ErrorUiState? = null
+    )
+
+    data class AddToWatchListActionUiState(
+        var data: String? = null,
+        val isLoading: Boolean = true,
+        val error: ErrorUiState? = null
+    )
+
+    data class RateActionUiState(
+        var data: String? = null,
+        val isLoading: Boolean = true,
+        val error: ErrorUiState? = null
+    )
 }
-
-
-data class FavoriteActionUiState(
-    var data: String? = null,
-    val isLoading: Boolean = true,
-    val error: ErrorUiState? = null
-)
-
-data class AddToWatchListActionUiState(
-    var data: String? = null,
-    val isLoading: Boolean = true,
-    val error: ErrorUiState? = null
-)
-
-data class RateActionUiState(
-    var data: String? = null,
-    val isLoading: Boolean = true,
-    val error: ErrorUiState? = null
-)
-
-
