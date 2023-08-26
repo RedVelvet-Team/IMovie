@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import coil.compose.rememberAsyncImagePainter
+import com.redvelvet.ui.screen.movieDetails.Item
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.utils.SeeAllMovie
@@ -17,18 +18,14 @@ import com.redvelvet.viewmodel.utils.SeeAllMovie
 @Composable
 fun ItemsSectionForDetailsScreens(
     label: String = "",
-    images: List<String> = emptyList(),
+    items: List<Item> = emptyList(),
     hasName: Boolean = false,
-    name: List<String> = emptyList(),
-    movieIds: List<Int> = emptyList(),
     hasCustomList: Boolean = false,
     customListItemComposable: @Composable ((index: Int) -> Unit)? = null,
     onClickSeeAll: (String) -> Unit = {},
     cardModifier: Modifier? = null,
     headerModifier: Modifier = Modifier,
     hasDateAndCountry: Boolean = false,
-    date: List<String> = emptyList(),
-    country: List<String> = emptyList(),
     onClickItem: (String) -> Unit = {},
     itemId: String
 ) {
@@ -44,28 +41,29 @@ fun ItemsSectionForDetailsScreens(
         contentPadding = PaddingValues(horizontal = MaterialTheme.spacing.spacing16)
     ) {
         if (hasCustomList && (label == "Reviews" || label == "Seasons")) {
-            items(name.size) {
+            items(items.size) {
                 customListItemComposable!!(it)
             }
         }
-        items(images.size) {
+        items(items.size) {
+            val item = items[it]
             if (hasCustomList) {
                 customListItemComposable!!(it)
             }
             if (!hasCustomList) {
                 ItemBasicCardForDetailsScreens(
                     imagePainter = rememberAsyncImagePainter(
-                        model = images[it]
+                        model = item.image
                     ),
                     modifier = cardModifier ?: Modifier
                         .width(MaterialTheme.dimens.dimens104)
                         .height(MaterialTheme.dimens.dimens130),
                     hasName = hasName,
-                    name = if (hasName) name[it] else "",
-                    id = if (movieIds.isNotEmpty()) movieIds[it] else 9999,
+                    name = if (hasName) item.name else "",
+                    id = if (items.isNotEmpty()) item.id else 9999,
                     hasDateAndCountry = hasDateAndCountry,
-                    date = if (hasDateAndCountry) date[it] else "",
-                    country = if (hasDateAndCountry) country[it] else "",
+                    date = if (hasDateAndCountry) item.date else "",
+                    country = if (hasDateAndCountry) item.country else "",
                     onClick = onClickItem,
                 )
             }

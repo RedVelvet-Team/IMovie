@@ -2,6 +2,9 @@ package com.redvelvet.viewmodel.movieDetails
 
 import androidx.lifecycle.SavedStateHandle
 import com.redvelvet.entities.movie.details.MovieFullDetails
+import com.redvelvet.usecase.usecase.detailsActions.HandleFavoriteUsecase
+import com.redvelvet.usecase.usecase.detailsActions.HandleMovieRateUsecase
+import com.redvelvet.usecase.usecase.detailsActions.HandleWatchlistUsecase
 import com.redvelvet.usecase.usecase.movie.GetMovieFullDetailsUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
@@ -12,7 +15,10 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getMovieFullDetails: GetMovieFullDetailsUseCase
+    private val getMovieFullDetails: GetMovieFullDetailsUseCase,
+    private val handleMovieRate: HandleMovieRateUsecase,
+    private val handleFavorite: HandleFavoriteUsecase,
+    private val handleWatchlist: HandleWatchlistUsecase,
 ) : BaseViewModel<MovieDetailsScreenUiState, MovieDetailsUiEffect>(MovieDetailsScreenUiState()),
     MovieDetailsInteraction {
 
@@ -50,17 +56,136 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    override fun onClickBack() {
-
+    override fun onClickFavorite(movieId: Int, mediaType: String) {
+        _state.update {
+            it.copy(
+                favoriteActionState = FavoriteActionUiState(
+                    isLoading = true
+                )
+            )
+        }
+        tryToExecute(
+            execute = {
+                handleFavorite(
+                    mediaType = "movie",
+                    mediaId = movieId,
+                )
+            },
+            onSuccessWithData = ::onFavoriteSuccess,
+            onError = ::onFavoriteError,
+        )
     }
 
-    override fun onClickFavorite(movieId: Int, mediaType: String) {
+    private fun onFavoriteSuccess(response: String) {
+        _state.update {
+            it.copy(
+                favoriteActionState = FavoriteActionUiState(
+                    isLoading = false,
+                    data = response
+                )
+            )
+        }
+    }
 
+    private fun onFavoriteError(error: ErrorUiState) {
+        _state.update {
+            it.copy(
+                favoriteActionState = FavoriteActionUiState(
+                    isLoading = false,
+                    error = error
+                )
+            )
+        }
     }
 
     override fun onClickSave(movieId: Int) {
+        _state.update {
+            it.copy(
+                addToWatchListActionUiState = AddToWatchListActionUiState(
+                    isLoading = true
+                )
+            )
+        }
+        tryToExecute(
+            execute = {
+                handleWatchlist(
+                    mediaType = "movie",
+                    mediaId = movieId,
+                )
+            },
+            onSuccessWithData = ::onSaveSuccess,
+            onError = ::onSaveError,
+        )
+    }
+
+    private fun onSaveSuccess(response: String) {
+        _state.update {
+            it.copy(
+                addToWatchListActionUiState = AddToWatchListActionUiState(
+                    isLoading = false,
+                    data = response
+                )
+            )
+        }
+    }
+
+    private fun onSaveError(error: ErrorUiState) {
+        _state.update {
+            it.copy(
+                addToWatchListActionUiState = AddToWatchListActionUiState(
+                    isLoading = false,
+                    error = error
+                )
+            )
+        }
+    }
+
+    override fun onClickRateMovie(movieId: Int, rate: Double) {
+        _state.update {
+            it.copy(
+                rateActionUiState = RateActionUiState(
+                    isLoading = true
+                )
+            )
+        }
+//        deleteMovieRating(
+//            movieId = movieId,
+//        )
+        tryToExecute(
+            execute = {
+                handleMovieRate(
+                    movieRating = rate,
+                    movieId = movieId,
+                )
+            },
+            onSuccessWithData = ::onRateSuccess,
+            onError = ::onRateError,
+        )
 
     }
+
+    private fun onRateSuccess(response: String) {
+        _state.update {
+            it.copy(
+                rateActionUiState = RateActionUiState(
+                    isLoading = false,
+                    data = response
+                )
+            )
+        }
+    }
+
+    private fun onRateError(error: ErrorUiState) {
+        _state.update {
+            it.copy(
+                rateActionUiState = RateActionUiState(
+                    isLoading = false,
+                    error = error
+                )
+            )
+        }
+    }
+
 
     override fun onClickPlayTrailer(movieUrl: String) {
 
@@ -70,9 +195,6 @@ class MovieDetailsViewModel @Inject constructor(
 
     }
 
-    override fun onClickRateMovie(movieId: Int, rate: Double) {
-        sendUiEffect(MovieDetailsUiEffect.NavigateToMovieDetailsScreen(movieId.toString()))
-    }
 
     override fun onClickTopCastSeeAll(movieId: String) {
         sendUiEffect(MovieDetailsUiEffect.NavigateToTopCastSeeAllScreen(movieId))

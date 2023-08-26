@@ -16,6 +16,7 @@ class GetAllTvShowDetailsUseCase @Inject constructor(
         val videos = getTvShowVideos(seriesId).videos
         val details = getTvShowDetails(seriesId)
         return TvShowAllDetails(
+            tvShowId = details.tvShowId,
             tvShowName = details.tvShowName,
             tvShowImage = IMAGE_URL.plus(details.tvShowImage),
             keywords = keywords.map { it.name },

@@ -22,6 +22,7 @@ fun MovieFullDetails.toMovieFullDetailsScreenUiState(): MovieDetailsScreenUiStat
         recommendations = this.recommendations.results.toMovieRecommendationsUiState(),
     )
 
+
 }
 
 fun MovieDetails.toMovieDetailsUiState(): MovieDetailsScreenUiState.MovieDetailsUiState {

@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -30,18 +31,19 @@ import com.redvelvet.ui.theme.spacing
 
 @Composable
 fun ItemSeason(
-    id: Int,
-    seriesId: Int,
+    onClickItem: (String, Int) -> Unit,
+    seasonNumber: Int,
+    seriesId: String,
     image: Painter,
     name: String,
     date: String,
     episodesNum: Int,
     description: String,
     rate: Double,
-    onClickItem: (String, Int) -> Unit
 ) {
     Row(modifier = Modifier
-        .clickable { onClickItem(seriesId.toString(), id) }
+        .fillMaxWidth()
+        .clickable { onClickItem(seriesId.toString(), seasonNumber) }
         .padding(end = MaterialTheme.spacing.spacing8)) {
         Image(
             painter = image,

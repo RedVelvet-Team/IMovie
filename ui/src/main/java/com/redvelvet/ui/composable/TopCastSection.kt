@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.redvelvet.ui.screen.movieDetails.Item
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 
@@ -15,9 +16,7 @@ fun TopCastSection(
     isNotListEmpty: Boolean = false,
     onClickSeeAll: (id: String) -> Unit = {},
     onClickItem: (id: Int) -> Unit = {},
-    castIds: List<Int> = emptyList(),
-    images: List<String> = emptyList(),
-    names: List<String> = emptyList(),
+    items: List<Item> = emptyList(),
     mediaId: String,
 ) {
     if (isNotListEmpty)
@@ -29,14 +28,18 @@ fun TopCastSection(
         ) {
             ItemsSectionForDetailsScreens(
                 label = "Top Cast",
-                images = images,
+                items = items,
                 hasName = true,
-                name = names,
                 hasCustomList = true,
                 customListItemComposable = { index ->
-                    TopCast(castId = castIds[index], names[index], onClickItem, images[index])
+                    TopCast(
+                        castId = items[index].id,
+                        items[index].name,
+                        onClickItem,
+                        items[index].image
+                    )
                 },
-                onClickSeeAll = {onClickSeeAll(mediaId)},
+                onClickSeeAll = { onClickSeeAll(mediaId) },
                 cardModifier = Modifier
                     .width(MaterialTheme.dimens.dimens104)
                     .height(MaterialTheme.dimens.dimens130),

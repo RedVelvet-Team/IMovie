@@ -42,13 +42,29 @@ fun TvShowDetailsScreen(
         effects = viewModel.effect,
         handleEffect = { effect, navController ->
             when (effect) {
-                is TvShowUiEffect.NavigateToSeasonDetailsScreen -> {}
-                is TvShowUiEffect.NavigateToSeasonSeeAllScreen -> navController.navigateToSeasonDetails(effect.id)
+                is TvShowUiEffect.NavigateToSeasonDetailsScreen -> navController.navigateToSeeAllEpisode(effect.id, effect.seasonId.toString())
+                is TvShowUiEffect.NavigateToSeasonSeeAllScreen -> navController.navigateToSeasonDetails(
+                    effect.id
+                )
+
                 is TvShowUiEffect.NavigateToTvShowPosterSeeAllScreen -> navController.navigateToSeeAllImages()
-                is TvShowUiEffect.NavigateToTvShowRecommendationSeeAllScreen -> navController.navigateSeeAllTvShow(effect.id, SeeAllTvShows.RECOMMEND)
-                is TvShowUiEffect.NavigateToTopCastSeeAllScreen -> navController.navigateToSeeAllTopCast(id = effect.id)
-                is TvShowUiEffect.NavigateToActorDetailsScreen -> navController.navigateToActorDetails(effect.id)
-                is TvShowUiEffect.NavigateToReviewSeeAllScreen -> navController.navigateToSeeAllReviews(effect.id)
+                is TvShowUiEffect.NavigateToTvShowRecommendationSeeAllScreen -> navController.navigateSeeAllTvShow(
+                    effect.id,
+                    SeeAllTvShows.RECOMMEND
+                )
+
+                is TvShowUiEffect.NavigateToTopCastSeeAllScreen -> navController.navigateToSeeAllTopCast(
+                    id = effect.id
+                )
+
+                is TvShowUiEffect.NavigateToActorDetailsScreen -> navController.navigateToActorDetails(
+                    effect.id
+                )
+
+                is TvShowUiEffect.NavigateToReviewSeeAllScreen -> navController.navigateToSeeAllReviews(
+                    effect.id
+                )
+
                 else -> {}
             }
         }
@@ -72,8 +88,8 @@ fun TvShowDetailsScreen(
             }
             CustomMediaDetailsTopAppBar(
                 onBackClicked = { navController.popBackStack() },
-                onFavoriteClicked = { /* Handle favorite clicked */ },
-                onSaveClicked = { /* Handle save clicked */ },
+                onFavoriteClicked = { viewModel.onClickFavorite(state.tvShowId) },
+                onSaveClicked = { viewModel.onClickSave(state.tvShowId) },
                 isScrolled = isScrolled
             )
         }
