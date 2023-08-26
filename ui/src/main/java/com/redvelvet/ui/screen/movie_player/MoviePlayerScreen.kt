@@ -42,7 +42,7 @@ fun MoviePlayerScreen(
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
 
-    ShowGameVideos(
+    ShowVideo(
         videoUrl= state.videoUrl ,
         onFullScreenToggle={}
     )
@@ -50,7 +50,7 @@ fun MoviePlayerScreen(
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 @SuppressLint("RememberReturnType")
 @Composable
-private fun ShowGameVideos(
+private fun ShowVideo(
     onFullScreenToggle: (isFullScreen: Boolean) -> Unit,
     videoUrl:String
 ) {
@@ -93,14 +93,14 @@ private fun ShowGameVideos(
         }
     }
 
-    GameVideos(
+    Video(
         playerWrapper = exoPlayer,
         onFullScreenToggle = onFullScreenToggle,
     )
 }
 
 @Composable
-private fun GameVideos(
+private fun Video(
     playerWrapper: Player,
     onFullScreenToggle: (isFullScreen: Boolean) -> Unit,
 ) {
@@ -154,7 +154,6 @@ private fun LandscapeView(
     playerWrapper: Player,
     onFullScreenToggle: (isFullScreen: Boolean) -> Unit
 ) {
-
     Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.color.backgroundPrimary)) {
         CustomPlayerView(
             modifier = Modifier.fillMaxSize(),
