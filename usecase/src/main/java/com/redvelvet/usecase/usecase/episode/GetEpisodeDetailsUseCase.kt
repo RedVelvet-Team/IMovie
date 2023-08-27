@@ -14,25 +14,25 @@ class GetEpisodeDetailsUseCase @Inject constructor(
         tvId: Int, seasonNumber: Int, episodeNumber: Int, sessionId: String
     ): EpisodeDetails = coroutineScope {
 
-        val episodeDetailsDef = async { getEpisodeDetails(tvId, seasonNumber, episodeNumber) }
-        val episodeMoviesDef = async { getEpisodeMovies(tvId, seasonNumber, episodeNumber) }
-        val episodeAccountStatusDef =
-            async { getEpisodeAccountStates(tvId, seasonNumber, episodeNumber, sessionId) }
-        val episodeCastDef = async { getEpisodeCast(tvId, seasonNumber, episodeNumber) }
-        val episodeImagesDef = async { getEpisodeImages(tvId, seasonNumber, episodeNumber) }
+        try {
+            val episodeDetailsDef = async { getEpisodeDetails(tvId, seasonNumber, episodeNumber) }
+            val episodeMoviesDef = async { getEpisodeMovies(tvId, seasonNumber, episodeNumber) }
+            val episodeCastDef = async { getEpisodeCast(tvId, seasonNumber, episodeNumber) }
+            val episodeImagesDef = async { getEpisodeImages(tvId, seasonNumber, episodeNumber) }
 
-        val episodeDetails = episodeDetailsDef.await()
-        val episodeMovies = episodeMoviesDef.await()
-        val episodeAccountStatus = episodeAccountStatusDef.await()
-        val episodeCast = episodeCastDef.await()
-        val episodeImages = episodeImagesDef.await()
-        EpisodeDetails(
-            episodeDetails = episodeDetails,
-            episodeMovies = episodeMovies,
-            episodeAccountStatus = episodeAccountStatus,
-            episodeCast = episodeCast,
-            episodeImages = episodeImages
-        )
+            val episodeDetails = episodeDetailsDef.await()
+            val episodeMovies = episodeMoviesDef.await()
+            val episodeCast = episodeCastDef.await()
+            val episodeImages = episodeImagesDef.await()
+            EpisodeDetails(
+                episodeDetails = episodeDetails,
+                episodeMovies = episodeMovies,
+                episodeCast = episodeCast,
+                episodeImages = episodeImages
+            )
+        } catch (e: Exception) {
+            throw e
+        }
     }
 
     private suspend fun getEpisodeDetails(
@@ -45,14 +45,6 @@ class GetEpisodeDetailsUseCase @Inject constructor(
         tvId: Int, seasonNumber: Int, episodeNumber: Int
     ): EpisodeDetails.EpisodeMovies {
         return episodeRepository.getEpisodeMovies(tvId, seasonNumber, episodeNumber)
-    }
-
-    private suspend fun getEpisodeAccountStates(
-        tvId: Int, seasonNumber: Int, episodeNumber: Int, sessionId: String
-    ): EpisodeDetails.EpisodeAccountStatus {
-        return episodeRepository.getEpisodeAccountStates(
-            tvId, seasonNumber, episodeNumber, sessionId
-        )
     }
 
     private suspend fun getEpisodeCast(
