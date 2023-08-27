@@ -23,6 +23,17 @@ class EpisodeRepositoryImpl @Inject constructor(
         return remoteDataSource.getEpisodeMovies(tvId, seasonNumber, episodeNumber).mapToDomain()
     }
 
+    override suspend fun getEpisodeAccountStates(
+        tvId: Int, seasonNumber: Int, episodeNumber: Int, sessionId: String
+    ): EpisodeDetails.EpisodeAccountStatus {
+        return remoteDataSource.getEpisodeAccountStates(
+            tvId,
+            seasonNumber,
+            episodeNumber,
+            sessionId
+        ).mapTODomain()
+    }
+
     override suspend fun getEpisodeCast(
         tvId: Int, seasonNumber: Int, episodeNumber: Int
     ): EpisodeDetails.EpisodeCast {

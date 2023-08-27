@@ -37,6 +37,15 @@ fun EpisodeSingleItemDto.EpisodeMovies.mapToDomain(): EpisodeDetails.EpisodeMovi
         })
 }
 
+fun EpisodeSingleItemDto.EpisodeAccountStatus.mapTODomain(): EpisodeDetails.EpisodeAccountStatus {
+    return EpisodeDetails.EpisodeAccountStatus(
+        id = this.id ?: 0,
+        rated = EpisodeDetails.EpisodeAccountStatus.Rated(
+            value = this.rated.value ?: 0.0
+        )
+    )
+}
+
 fun EpisodeSingleItemDto.EpisodeCast.mapTODomain(): EpisodeDetails.EpisodeCast {
     return EpisodeDetails.EpisodeCast(id = this.id ?: 0, cast = this.cast.map { castDto ->
         EpisodeDetails.EpisodeCast.Cast(
@@ -61,6 +70,7 @@ fun EpisodeSingleItemDto.mapToDomain(): EpisodeDetails {
     return EpisodeDetails(
         episodeDetails = this.episodeDetails.mapToDomain(),
         episodeMovies = this.episodeMovies.mapToDomain(),
+        episodeAccountStatus = this.episodeAccountStatus.mapTODomain(),
         episodeCast = this.episodeCast.mapTODomain(),
         episodeImages = this.episodeImages.mapTODomain()
     )

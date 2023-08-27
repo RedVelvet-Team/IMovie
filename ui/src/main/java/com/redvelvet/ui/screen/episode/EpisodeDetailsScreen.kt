@@ -416,6 +416,18 @@ fun Details(
                 style = MaterialTheme.typography.bodyMedium,
                 color = FontSecondary,
             )
+            Icon(
+                painter = painterResource(id = R.drawable.icon_star_filled),
+                contentDescription = "",
+                modifier = Modifier.padding(end = 4.dp),
+                tint = Color.Yellow
+            )
+            Text(
+                modifier = Modifier.padding(start = 4.dp),
+                text = "${state.data!!.episodeAccountStatus.rated}",
+                style = MaterialTheme.typography.bodyMedium,
+                color = FontSecondary,
+            )
         }
         Text(
             text = state.data!!.episodeDetails.overview,

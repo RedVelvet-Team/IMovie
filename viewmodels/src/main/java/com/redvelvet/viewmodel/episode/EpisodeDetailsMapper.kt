@@ -30,6 +30,9 @@ fun EpisodeDetails.toUiState(): Episode {
                     publishedAt = it.publishedAt
                 )
             }),
+        episodeAccountStatus = Episode.Status(
+            id = this.episodeAccountStatus.id, rated = this.episodeAccountStatus.rated.value
+        ),
         episodeCast = Episode.Cast(id = this.episodeCast.id, cast = this.episodeCast.cast.map {
             Episode.Cast.Cast(
                 id = it.id, name = it.name, profilePath = it.profilePath
@@ -46,6 +49,7 @@ fun EpisodeDetails.toUiState(): Episode {
 data class Episode(
     val episodeDetails: Details,
     val episodeMovies: Movies,
+    val episodeAccountStatus: Status,
     val episodeCast: Cast,
     val episodeImages: Images
 ) {
@@ -76,6 +80,10 @@ data class Episode(
             val publishedAt: String,
         )
     }
+
+    data class Status(
+        val id: Int, val rated: Double
+    )
 
     data class Cast(
         val id: Int,

@@ -17,6 +17,13 @@ interface EpisodeRepository {
         episodeNumber: Int
     ): EpisodeDetails.EpisodeMovies
 
+    suspend fun getEpisodeAccountStates(
+        tvId: Int,
+        seasonNumber: Int,
+        episodeNumber: Int,
+        sessionId: String
+    ): EpisodeDetails.EpisodeAccountStatus
+
     suspend fun getEpisodeCast(
         tvId: Int,
         seasonNumber: Int,

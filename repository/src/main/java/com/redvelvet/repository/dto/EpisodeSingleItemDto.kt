@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class EpisodeSingleItemDto(
     val episodeDetails: EpisodeDetails,
     val episodeMovies: EpisodeMovies,
+    val episodeAccountStatus: EpisodeAccountStatus,
     val episodeCast: EpisodeCast,
     val episodeImages: EpisodeImages
 ) {
@@ -114,6 +115,18 @@ data class EpisodeSingleItemDto(
             val publishedAt: String?,
             @SerializedName("id")
             val id: String?
+        )
+    }
+
+    data class EpisodeAccountStatus(
+        @SerializedName("id")
+        val id: Int?,
+        @SerializedName("rated")
+        val rated: Rated
+    ) {
+        data class Rated(
+            @SerializedName("value")
+            val value: Double?
         )
     }
 
