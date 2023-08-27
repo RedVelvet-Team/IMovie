@@ -44,7 +44,7 @@ class HandleItemCheckUsecase @Inject constructor(
         return movieList.run { isNotEmpty() && any { it.id == itemId } }
     }
 
-    private fun isItemInTvList(
+    fun isItemInTvList(
         tvList: List<LibraryTv>,
         itemId: Int
     ): Boolean {

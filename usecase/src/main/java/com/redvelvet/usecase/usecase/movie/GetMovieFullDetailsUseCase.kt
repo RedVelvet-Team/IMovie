@@ -27,6 +27,7 @@ class GetMovieFullDetailsUseCase @Inject constructor(
         val topCast = getMovieTopCastByID(movieId)
         val moviesFavorites = getMoviesFavorites()
         val moviesWatchlist = getMoviesWatchlist()
+        val ratedMovies = getRatedMovie()
 
         return MovieFullDetails(
             details = details,
@@ -38,7 +39,7 @@ class GetMovieFullDetailsUseCase @Inject constructor(
             topCast = topCast,
             moviesFavorites = moviesFavorites,
             moviesWatchlist = moviesWatchlist,
-            ratedMovie = getRatedMovie(),
+            ratedMovie = ratedMovies,
         )
     }
 

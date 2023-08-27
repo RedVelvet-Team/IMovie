@@ -72,7 +72,7 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    override fun onClickFavorite(movieId: Int, mediaType: String) {
+    override fun onClickFavorite(movieId: Int) {
         _state.update {
             it.copy(
                 favoriteActionState = MediaDetailsScreenUiState.FavoriteActionUiState(
@@ -98,7 +98,8 @@ class MovieDetailsViewModel @Inject constructor(
                 favoriteActionState = MediaDetailsScreenUiState.FavoriteActionUiState(
                     isLoading = false,
                     data = response
-                )
+                ),
+                isFavorite = !response.contains("deleted")
             )
         }
     }
@@ -109,7 +110,7 @@ class MovieDetailsViewModel @Inject constructor(
                 favoriteActionState = MediaDetailsScreenUiState.FavoriteActionUiState(
                     isLoading = false,
                     error = error
-                )
+                ),
             )
         }
     }
@@ -140,7 +141,9 @@ class MovieDetailsViewModel @Inject constructor(
                 addToWatchListActionUiState = MediaDetailsScreenUiState.AddToWatchListActionUiState(
                     isLoading = false,
                     data = response
-                )
+                ),
+                isSavedToList = !response.contains("deleted")
+
             )
         }
     }
@@ -183,7 +186,9 @@ class MovieDetailsViewModel @Inject constructor(
                 rateActionUiState = MediaDetailsScreenUiState.RateActionUiState(
                     isLoading = false,
                     data = response
-                )
+                ),
+                isRated = !response.contains("deleted")
+
             )
         }
     }

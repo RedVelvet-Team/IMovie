@@ -22,6 +22,7 @@ fun DetailsInfoSection(
     onClickRate: (id: Int, rate: Double) -> Unit,
     voteAverage: Double = 0.0,
     description: String = "",
+    isRated: Boolean
 ) {
     Column(
         modifier = Modifier
@@ -40,7 +41,9 @@ fun DetailsInfoSection(
             spokenLanguages = spokenLanguages,
             onClickGenre = onClickGenre,
         )
-        MediaRateRow(voteAverage.toString()) { onClickRate(id, 5.5) }
+        MediaRateRow(
+            isRated, voteAverage.toString()
+        ) { onClickRate(id, 5.5) }
         if (description.isNotEmpty())
             Box(
                 modifier = Modifier

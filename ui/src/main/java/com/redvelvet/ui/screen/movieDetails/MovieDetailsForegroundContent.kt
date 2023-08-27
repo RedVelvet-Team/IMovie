@@ -15,7 +15,8 @@ import com.redvelvet.viewmodel.movieDetails.MovieDetailsInteraction
 fun MovieDetailsForegroundContent(
     state: MediaDetailsScreenUiState,
     interaction: MovieDetailsInteraction,
-    onScroll: (offset: Int) -> Unit
+    isRated: Boolean,
+    onScroll: (offset: Int) -> Unit,
 ) {
     MediaDetailsForegroundContent(
         onScroll = onScroll
@@ -35,7 +36,8 @@ fun MovieDetailsForegroundContent(
                     onClickRate = interaction::onClickRateMovie,
                     voteAverage = det.voteAverage,
                     description = det.overview,
-                )
+                    isRated = isRated,
+                    )
             }
 
             it.topCast.let { topcasts ->
@@ -52,9 +54,12 @@ fun MovieDetailsForegroundContent(
                     },
                     mediaId = state.data!!.details.id.toString()
                 )
-
             }
-            MovieDetailsMoreInfoSection(it.details)
+            MovieDetailsMoreInfoSection(
+                it.details.productionCountries,
+                it.details.status,
+                it.details.releaseDate
+            )
             KeyWordsSection(it.keyWords)
             it.similar.let { similarMovies ->
                 MediaListSection(

@@ -88,14 +88,16 @@ fun TvShowDetailsScreen(
                     viewModel::onClickPlayTrailer,
                     it.mediaTrailerUrl
                 )
-                TvShowDetailsForegroundContent(state, viewModel) { offset ->
+                TvShowDetailsForegroundContent(state, viewModel, isRated = state.isRated) { offset ->
                     isScrolled = offset > 1000
                 }
                 CustomMediaDetailsTopAppBar(
                     onBackClicked = { navController.popBackStack() },
                     onFavoriteClicked = { viewModel.onClickFavorite(it.id) },
                     onSaveClicked = { viewModel.onClickSave(it.id) },
-                    isScrolled = isScrolled
+                    isScrolled = isScrolled,
+                    isFavorite = state.isFavorite,
+                    isSavedToList = state.isSavedToList
                 )
             }
         }

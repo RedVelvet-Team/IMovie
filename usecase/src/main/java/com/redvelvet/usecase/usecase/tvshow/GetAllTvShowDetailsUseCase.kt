@@ -1,11 +1,14 @@
 package com.redvelvet.usecase.usecase.tvshow
 
+import com.redvelvet.entities.library.LibraryTv
 import com.redvelvet.entities.tv.TvShowAllDetails
 import com.redvelvet.usecase.repository.TvShowRepository
+import com.redvelvet.usecase.usecase.detailsActions.HandleItemCheckUsecase
 import javax.inject.Inject
 
 class GetAllTvShowDetailsUseCase @Inject constructor(
-    private val repository: TvShowRepository
+    private val repository: TvShowRepository,
+    private val getActionsLists: HandleItemCheckUsecase,
 ) {
     suspend operator fun invoke(seriesId: Int): TvShowAllDetails {
         val recommendation = getTvShowRecommendations(seriesId).tvShowRecommendation
@@ -13,8 +16,12 @@ class GetAllTvShowDetailsUseCase @Inject constructor(
         val topCast = getTvShowTopCast(seriesId).cast
         val keywords = getTvShowKeywords(seriesId).tvShowKeywords
         val images = getTvShowImages(seriesId).posters
-        val videos = getTvShowVideos(seriesId).videos
         val details = getTvShowDetails(seriesId)
+
+        val tvFavorites = getTvFavorites()
+        val tvWatchlist = getTvWatchlist()
+        val ratedTv = getRatedTv()
+
         return TvShowAllDetails(
             tvShowId = details.tvShowId,
             tvShowName = details.tvShowName,
@@ -30,15 +37,17 @@ class GetAllTvShowDetailsUseCase @Inject constructor(
             tvShowDescription = details.tvShowDescription,
             tvShowLanguage = details.tvShowLanguage,
             seasons = details.seasons,
-            tvShowTrailerUrl = VIDEO_URL.plus("watch?v=-MZ2My-6-Lc")
-        )
+            tvShowTrailerUrl = VIDEO_URL.plus("watch?v=-MZ2My-6-Lc"),
+            tvFavorites = tvFavorites,
+            tvWatchlist = tvWatchlist,
+            ratedTv = ratedTv,
+
+            )
     }
 
     private suspend fun getTvShowDetails(seriesId: Int) = repository.getTvShowDetailsByID(seriesId)
 
     private suspend fun getTvShowImages(seriesId: Int) = repository.getTvShowImages(seriesId)
-
-    private suspend fun getTvShowVideos(seriesId: Int) = repository.getTvShowVideos(seriesId)
 
     private suspend fun getTvShowKeywords(seriesId: Int) =
         repository.getTvShowKeyWordsByID(seriesId)
@@ -49,6 +58,19 @@ class GetAllTvShowDetailsUseCase @Inject constructor(
     private suspend fun getTvShowReviews(seriesId: Int) = repository.getTvShowReviewsByID(seriesId)
 
     private suspend fun getTvShowTopCast(seriesId: Int) = repository.getTvShowTopCastByID(seriesId)
+
+    suspend fun getTvFavorites(): List<LibraryTv> {
+        return getActionsLists.getTvFavorites();
+    }
+
+    suspend fun getTvWatchlist(): List<LibraryTv> {
+        return getActionsLists.getTvWatchList();
+    }
+
+    suspend fun getRatedTv(): List<LibraryTv> {
+        return getActionsLists.getRatedTv();
+    }
+
 
     companion object {
         const val IMAGE_URL = "https://image.tmdb.org/t/p/w500"

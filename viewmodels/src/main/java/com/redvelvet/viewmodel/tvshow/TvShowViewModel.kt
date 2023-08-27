@@ -4,6 +4,7 @@ package com.redvelvet.viewmodel.tvshow
 import androidx.lifecycle.SavedStateHandle
 import com.redvelvet.entities.tv.TvShowAllDetails
 import com.redvelvet.usecase.usecase.detailsActions.HandleFavoriteUsecase
+import com.redvelvet.usecase.usecase.detailsActions.HandleItemCheckUsecase
 import com.redvelvet.usecase.usecase.detailsActions.HandleTvRateUsecase
 import com.redvelvet.usecase.usecase.detailsActions.HandleWatchlistUsecase
 import com.redvelvet.usecase.usecase.tvshow.GetAllTvShowDetailsUseCase
@@ -20,6 +21,7 @@ class TvShowViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getTvShSowDetails: GetAllTvShowDetailsUseCase,
     private val handleTvRate: HandleTvRateUsecase,
+    private val handleItemCheck: HandleItemCheckUsecase,
     private val handleFavorite: HandleFavoriteUsecase,
     private val handleWatchlist: HandleWatchlistUsecase,
 ) : BaseViewModel<MediaDetailsScreenUiState, TvShowUiEffect>(MediaDetailsScreenUiState()),
@@ -49,7 +51,20 @@ class TvShowViewModel @Inject constructor(
                 data = tvShowAllDetails.toUiState(),
                 isLoading = false,
                 error = null,
-            )
+                isFavorite = handleItemCheck.isItemInTvList(
+                    tvList = tvShowAllDetails.tvFavorites,
+                    itemId = tvShowAllDetails.tvShowId,
+                ),
+                isSavedToList = handleItemCheck.isItemInTvList(
+                    tvList = tvShowAllDetails.tvWatchlist,
+                    itemId = tvShowAllDetails.tvShowId,
+                ),
+                isRated = handleItemCheck.isItemInTvList(
+                    tvList = tvShowAllDetails.ratedTv,
+                    itemId = tvShowAllDetails.tvShowId,
+                ),
+
+                )
         }
     }
 
@@ -89,7 +104,8 @@ class TvShowViewModel @Inject constructor(
                 favoriteActionState = MediaDetailsScreenUiState.FavoriteActionUiState(
                     isLoading = false,
                     data = response
-                )
+                ),
+                isFavorite = !response.contains("deleted")
             )
         }
     }
@@ -131,7 +147,8 @@ class TvShowViewModel @Inject constructor(
                 addToWatchListActionUiState = MediaDetailsScreenUiState.AddToWatchListActionUiState(
                     isLoading = false,
                     data = response
-                )
+                ),
+                isSavedToList = !response.contains("deleted")
             )
         }
     }
@@ -174,7 +191,8 @@ class TvShowViewModel @Inject constructor(
                 rateActionUiState = MediaDetailsScreenUiState.RateActionUiState(
                     isLoading = false,
                     data = response
-                )
+                ),
+                isRated = !response.contains("deleted")
             )
         }
     }

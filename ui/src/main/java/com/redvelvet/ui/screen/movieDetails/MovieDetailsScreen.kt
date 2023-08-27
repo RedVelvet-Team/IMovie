@@ -87,15 +87,17 @@ fun MovieDetailsScreen(
                     it.mediaTrailerUrl
                 )
             }
-            MovieDetailsForegroundContent(state, viewModel) { offset ->
+            MovieDetailsForegroundContent(state, viewModel, isRated = state.isRated) { offset ->
                 isScrolled = offset > 1000
             }
             state.data?.details?.let {
                 CustomMediaDetailsTopAppBar(
                     onBackClicked = { navController.popBackStack() },
-                    onFavoriteClicked = { viewModel.onClickFavorite(it.id, "movie") },
-                    onSaveClicked = { viewModel.onClickFavorite(it.id, "movie") },
-                    isScrolled = isScrolled
+                    onFavoriteClicked = { viewModel.onClickFavorite(it.id) },
+                    onSaveClicked = { viewModel.onClickSave(it.id) },
+                    isScrolled = isScrolled,
+                    isFavorite = state.isFavorite,
+                    isSavedToList = state.isSavedToList
                 )
             }
         }

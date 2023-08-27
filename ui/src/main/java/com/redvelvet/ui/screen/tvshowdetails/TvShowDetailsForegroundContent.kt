@@ -18,7 +18,8 @@ import com.redvelvet.viewmodel.tvshow.TvShowDetailsInteraction
 fun TvShowDetailsForegroundContent(
     state: MediaDetailsScreenUiState,
     interaction: TvShowDetailsInteraction,
-    onScroll: (offset: Int) -> Unit
+    isRated: Boolean,
+    onScroll: (offset: Int) -> Unit,
 ) {
     MediaDetailsForegroundContent(
         onScroll = onScroll
@@ -38,6 +39,7 @@ fun TvShowDetailsForegroundContent(
                     onClickRate = interaction::onClickRateSeries,
                     voteAverage = det.voteAverage,
                     description = det.overview,
+                    isRated = isRated,
                 )
             }
             it.topCast.let { topcasts ->
