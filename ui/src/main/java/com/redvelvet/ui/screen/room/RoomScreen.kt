@@ -44,7 +44,7 @@ fun RoomScreen(
     )
     RoomContent(state = state,
         onClickCreateRoom = {viewModel.createRoom()},
-        onClickJoinRoom = {}
+        onClickJoinRoom = {viewModel.joinRoom(id = "1692939172828")}
     )
 }
 
@@ -53,6 +53,7 @@ fun RoomContent(
     state: RoomUiState,
     onClickCreateRoom: () -> Unit,
     onClickJoinRoom: () -> Unit,
+    
 ) {
     MovieScaffold(
         isLoading = state.isLoading,
@@ -73,7 +74,7 @@ fun RoomContent(
             ) {
                 PrimaryButton(
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = { onClickCreateRoom },
+                    onClick = { onClickCreateRoom() },
                     buttonColor = MaterialTheme.color.brand60,
                     text = "Create Room",
                     textColor = MaterialTheme.color.fontSecondary
@@ -82,7 +83,7 @@ fun RoomContent(
                 PrimaryOutlinedButton(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    onClick = { onClickJoinRoom },
+                    onClick = { onClickJoinRoom() },
                     enabled = !state.isLoading,
                     border = BorderStroke(
                         width = MaterialTheme.dimens.dimens1,

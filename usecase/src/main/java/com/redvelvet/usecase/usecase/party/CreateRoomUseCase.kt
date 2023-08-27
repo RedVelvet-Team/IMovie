@@ -1,7 +1,6 @@
-package com.redvelvet.usecase.usecase
+package com.redvelvet.usecase.usecase.party
 
 import com.redvelvet.usecase.repository.PartyRepository
-import com.redvelvet.usecase.repository.UserRepository
 import com.redvelvet.usecase.usecase.user.ManageUserDetailsUseCase
 import javax.inject.Inject
 

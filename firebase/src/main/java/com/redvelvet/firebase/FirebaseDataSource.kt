@@ -1,6 +1,9 @@
 package com.redvelvet.firebase
 
+import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
+import com.redvelvet.entities.error.MovieException
+import com.redvelvet.entities.error.NullResultException
 import com.redvelvet.firebase.util.Constants
 import com.redvelvet.firebase.util.getRandomId
 import com.redvelvet.firebase.util.wrapRealTimeCall
@@ -21,6 +24,12 @@ class FirebaseDataSource @Inject constructor(
         )
         wrapRealTimeCall {
             fireStore.collection(Constants.COLLECTION_NAME).document(partyId).set(partyRoom).await()
+        }
+    }
+
+    override suspend fun joinRoom(id: String) {
+        wrapRealTimeCall {
+            fireStore.collection(Constants.COLLECTION_NAME).document(id).get().await().data?:throw NullResultException(message = "Wrong room id")
         }
     }
 }

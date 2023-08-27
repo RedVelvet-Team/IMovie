@@ -13,4 +13,8 @@ class PartyRepositoryImpl @Inject constructor(
     override suspend fun createRoom(userName: String) {
         return realTimeDataSource.createRoom(userPreferencesDataSource.getUserName().toString())
     }
+
+    override suspend fun joinRoom(id: String) {
+        return realTimeDataSource.joinRoom(id)
+    }
 }

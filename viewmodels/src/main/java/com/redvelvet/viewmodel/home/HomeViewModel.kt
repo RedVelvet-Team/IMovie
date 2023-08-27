@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.redvelvet.entities.movie.Movie
 import com.redvelvet.entities.tv.TvShow
-import com.redvelvet.usecase.usecase.CreateRoomUseCase
+import com.redvelvet.usecase.usecase.party.CreateRoomUseCase
 import com.redvelvet.usecase.usecase.GetTvShowsCategoriesUseCase
 import com.redvelvet.usecase.usecase.movie.GetMoviesCategories
 import com.redvelvet.usecase.usecase.user.ManageUserDetailsUseCase

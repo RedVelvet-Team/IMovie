@@ -1,6 +1,8 @@
 package com.redvelvet.viewmodel.room
 
-import com.redvelvet.usecase.usecase.CreateRoomUseCase
+import android.util.Log
+import com.redvelvet.usecase.usecase.party.CreateRoomUseCase
+import com.redvelvet.usecase.usecase.party.JoinRoomUseCase
 import com.redvelvet.viewmodel.base.BaseUiEffect
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
@@ -11,7 +13,10 @@ import javax.inject.Inject
 @HiltViewModel
 class RoomViewModel @Inject constructor(
     private val createRoomUseCase: CreateRoomUseCase,
-) : BaseViewModel<RoomUiState, BaseUiEffect>(RoomUiState()) {
+    private val joinRoomUseCase: JoinRoomUseCase,
+) : BaseViewModel<RoomUiState, BaseUiEffect>(RoomUiState()){
+
+
 
     fun createRoom() {
         _state.update {
@@ -27,6 +32,21 @@ class RoomViewModel @Inject constructor(
         )
     }
 
+    fun joinRoom(id: String) {
+        _state.update {
+            it.copy(
+                isLoading = true,
+                error = null,
+            )
+        }
+        tryToExecute(
+            execute = {joinRoomUseCase(id = id)},
+            onSuccessWithoutData = ::onSuccess,
+            onError = ::onError,
+        )
+
+    }
+
     private fun onSuccess() {
         _state.update {
             it.copy(
@@ -34,6 +54,7 @@ class RoomViewModel @Inject constructor(
                 error = null,
             )
         }
+        Log.d("Kamel","dfdsgvvgdfsgbfg")
     }
 
     private fun onError(e: ErrorUiState) {
@@ -43,5 +64,8 @@ class RoomViewModel @Inject constructor(
                 error = e,
             )
         }
+        Log.d("Kamel","a7a")
     }
+
+
 }

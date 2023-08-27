@@ -5,5 +5,6 @@ import com.redvelvet.viewmodel.base.ErrorUiState
 
 data class RoomUiState(
     val isLoading: Boolean = false,
-    val error: ErrorUiState? = null
+    val error: ErrorUiState? = null,
+    val isVisible: Boolean = false,
 ) : BaseUiState

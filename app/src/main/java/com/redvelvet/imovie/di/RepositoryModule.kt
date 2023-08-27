@@ -2,10 +2,12 @@ package com.redvelvet.imovie.di
 
 import com.redvelvet.repository.repository.AuthRepositoryImpl
 import com.redvelvet.repository.repository.MovieRepositoryImpl
+import com.redvelvet.repository.repository.PartyRepositoryImpl
 import com.redvelvet.repository.repository.TvShowRepositoryImp
 import com.redvelvet.repository.repository.UserRepositoryImpl
 import com.redvelvet.usecase.repository.AuthRepository
 import com.redvelvet.usecase.repository.MovieRepository
+import com.redvelvet.usecase.repository.PartyRepository
 import com.redvelvet.usecase.repository.TvShowRepository
 import com.redvelvet.usecase.repository.UserRepository
 import dagger.Binds
@@ -40,4 +42,10 @@ abstract class RepositoryModule {
     abstract fun bindTvShowRepository(
         tvShowRepositoryImp: TvShowRepositoryImp
     ): TvShowRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindPartyRepository(
+        partyRepositoryImp: PartyRepositoryImpl
+    ): PartyRepository
 }
