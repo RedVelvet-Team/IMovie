@@ -18,7 +18,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -48,7 +47,6 @@ fun RoomScreen(
     val navController = LocalNavController.current
     val systemUiController = rememberSystemUiController()
     val scope = rememberCoroutineScope()
-    val context = LocalContext.current
 
     systemUiController.setSystemBarsColor(Color.Transparent)
 
