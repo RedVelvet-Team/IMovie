@@ -64,6 +64,7 @@ import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.radius
 import com.redvelvet.ui.theme.spacing
+import com.redvelvet.ui.util.MovieWebViewUrls
 import com.redvelvet.viewmodel.base.InvalidationErrorState
 import com.redvelvet.viewmodel.base.NetworkErrorState
 import com.redvelvet.viewmodel.base.NullResultErrorState
@@ -204,7 +205,7 @@ fun EpisodeDetailsContent(state: EpisodeDetailsUiState, interaction: EpisodeDeta
                 item {
                     Image(
                         painter = rememberAsyncImagePainter(
-                            model = state.data!!.episodeDetails.stillPath,
+                            model = MovieWebViewUrls.IMAGES_URL + state.data!!.episodeDetails.stillPath,
                             placeholder = painterResource(id = R.drawable.image_placeholder)
                         ),
                         contentDescription = "",
@@ -231,7 +232,7 @@ fun EpisodeDetailsContent(state: EpisodeDetailsUiState, interaction: EpisodeDeta
                         items(state.data!!.episodeCast.cast) {
                             Column(modifier = Modifier.width(70.dp)) {
                                 Image(painter = rememberAsyncImagePainter(
-                                    model = it.profilePath,
+                                    model = MovieWebViewUrls.IMAGES_URL + it.profilePath,
                                     placeholder = painterResource(id = R.drawable.image_placeholder)
                                 ),
                                     contentDescription = "avatar",
@@ -272,7 +273,7 @@ fun EpisodeDetailsContent(state: EpisodeDetailsUiState, interaction: EpisodeDeta
                             Column(modifier = Modifier.width(112.dp)) {
                                 Image(
                                     painter = rememberAsyncImagePainter(
-                                        model = it.filePath,
+                                        model = MovieWebViewUrls.IMAGES_URL + it.filePath,
                                         placeholder = painterResource(id = R.drawable.image_placeholder)
                                     ),
                                     contentDescription = "avatar",
@@ -412,18 +413,6 @@ fun Details(
             Text(
                 modifier = Modifier.padding(start = 4.dp, end = 8.dp),
                 text = "${state.data!!.episodeDetails.voteAverage} Rating",
-                style = MaterialTheme.typography.bodyMedium,
-                color = FontSecondary,
-            )
-            Icon(
-                painter = painterResource(id = R.drawable.icon_star_filled),
-                contentDescription = "",
-                modifier = Modifier.padding(end = 4.dp),
-                tint = Color.Yellow
-            )
-            Text(
-                modifier = Modifier.padding(start = 4.dp),
-                text = "${state.data!!.episodeAccountStatus.rated}",
                 style = MaterialTheme.typography.bodyMedium,
                 color = FontSecondary,
             )

@@ -1,5 +1,6 @@
 package com.redvelvet.viewmodel.episode
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -55,6 +56,7 @@ class EpisodeDetailsViewModel @Inject constructor(
     }
 
     private fun onSuccess(episodeDetails: EpisodeDetails) {
+        Log.i("abaferas", episodeDetails.toString())
         _state.update {
             EpisodeDetailsUiState(
                 data = episodeDetails.toUiState(),
@@ -65,6 +67,7 @@ class EpisodeDetailsViewModel @Inject constructor(
     }
 
     private fun onError(error: ErrorUiState) {
+        Log.i("abaferas", error.message)
         _state.update {
             it.copy(
                 isLoading = false,
@@ -101,6 +104,8 @@ class EpisodeDetailsViewModel @Inject constructor(
             } catch (e: NoInternetException) {
                 onError(NetworkErrorState(e.message.toString()))
             } catch (e: Exception) {
+                onError(ErrorUiState(e.message.toString()))
+            } catch (e: IllegalStateException) {
                 onError(ErrorUiState(e.message.toString()))
             }
         }
