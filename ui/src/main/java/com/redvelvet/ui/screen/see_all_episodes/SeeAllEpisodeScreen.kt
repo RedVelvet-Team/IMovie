@@ -19,6 +19,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.EpisodeItem
 import com.redvelvet.ui.composable.FlixMovieScaffold
+import com.redvelvet.ui.screen.episode.navigateToEpisodeDetails
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.see_all_episode.EpisodesViewModel
@@ -42,7 +43,13 @@ fun SeeAllEpisodeScreen(
         hasTopBar = true
     ) {
         SeeAllEpisodeContent(seeAllEpisodeUiState = state,
-            onClickEpisode = { /*navController.navigateToEpisodeDetails(it)*/ }
+            onClickEpisode = {
+                navController.navigateToEpisodeDetails(
+                    tvId = (1396).toString(),
+                    seasonNumber = 1,
+                    episodeNumber = 1
+                )
+            }
         )
     }
 }
