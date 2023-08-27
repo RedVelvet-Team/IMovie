@@ -1,7 +1,5 @@
 package com.redvelvet.ui.screen.room
 
-import android.widget.Toast
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -21,14 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
-import com.redvelvet.ui.composable.CustomDialogue
-import com.redvelvet.ui.composable.MovieScaffold
+import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.PrimaryOutlinedButton
 import com.redvelvet.ui.composable.SpacerVertical
@@ -37,7 +32,6 @@ import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.ui.util.launchCollectLatest
-import com.redvelvet.viewmodel.room.RoomInteractions
 import com.redvelvet.viewmodel.room.RoomUiEffect
 import com.redvelvet.viewmodel.room.RoomUiState
 import com.redvelvet.viewmodel.room.RoomViewModel
@@ -79,7 +73,7 @@ fun RoomContent(
     onClickJoinRoom: () -> Unit,
     onClickCreateRoomLonely: () -> Unit,
 ) {
-    MovieScaffold(
+    FlixMovieScaffold(
         isLoading = state.isLoading,
         hasBackArrow = true,
     ) {

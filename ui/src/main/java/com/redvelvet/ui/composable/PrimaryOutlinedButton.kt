@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
@@ -62,4 +63,10 @@ fun PrimaryOutlinedButton(
             maxLines = 1
         )
     }
+}
+
+@Preview
+@Composable
+fun Preview(){
+    PrimaryOutlinedButton({},"Done")
 }
