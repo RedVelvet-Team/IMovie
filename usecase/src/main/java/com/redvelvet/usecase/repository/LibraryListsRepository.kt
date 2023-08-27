@@ -17,6 +17,11 @@ interface LibraryListsRepository {
         mediaId: Int
     ): StatusEntity
 
+    suspend fun removeMediaFromList(
+        listId: Int,
+        mediaId: Int
+    ):StatusEntity
+
     suspend fun deleteList(
         listId: Int
     ):StatusEntity

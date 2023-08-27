@@ -1,11 +1,9 @@
 package com.redvelvet.repository.mapper
 
-import com.redvelvet.entities.library.AddMediaToList
 import com.redvelvet.entities.library.CreateList
 import com.redvelvet.entities.library.StatusEntity
 import com.redvelvet.repository.dto.library.response.CreateListResponseDto
-import com.redvelvet.repository.dto.listAndFavorites.AddMediaToListDto
-import com.redvelvet.repository.dto.tvShow.StatusResponse
+import com.redvelvet.repository.dto.tvShow.StatusResponseDto
 
 fun CreateListResponseDto.toCreateList(): CreateList {
     return CreateList(
@@ -16,7 +14,7 @@ fun CreateListResponseDto.toCreateList(): CreateList {
     )
 }
 
-fun StatusResponse.toStatusEntity(): StatusEntity {
+fun StatusResponseDto.toStatusEntity(): StatusEntity {
     return StatusEntity(
         statusCode = this.statusCode ?: 0,
         statusMessage = this.statusMessage ?: " ",

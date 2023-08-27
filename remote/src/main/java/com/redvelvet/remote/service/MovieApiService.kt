@@ -19,7 +19,7 @@ import com.redvelvet.repository.dto.library.request.CreateListRequestDto
 import com.redvelvet.repository.dto.library.response.CreateListResponseDto
 import com.redvelvet.repository.dto.listAndFavorites.AddMediaToListDto
 import com.redvelvet.repository.dto.listAndFavorites.CreateUserListDto
-import com.redvelvet.repository.dto.listAndFavorites.DeleteMovieFromListDto
+import com.redvelvet.repository.dto.listAndFavorites.DeleteMediaFromListDto
 import com.redvelvet.repository.dto.listAndFavorites.FavoriteRequestDto
 import com.redvelvet.repository.dto.listAndFavorites.ListRemoteDto
 import com.redvelvet.repository.dto.listAndFavorites.ListResponseDto
@@ -32,7 +32,7 @@ import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
 import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
 import com.redvelvet.repository.dto.person.ActorDto
 import com.redvelvet.repository.dto.search.CombinedResultDto
-import com.redvelvet.repository.dto.tvShow.StatusResponse
+import com.redvelvet.repository.dto.tvShow.StatusResponseDto
 import com.redvelvet.repository.dto.tvShow.TvShowDetailsDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.dto.tvShow.TvShowImagesDto
@@ -283,40 +283,40 @@ interface MovieApiService {
         @Body rateRequest: RateRequest,
         @Path("tv_id") seriesId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<StatusResponse>
+    ): Response<StatusResponseDto>
 
     @DELETE("tv/{tv_id}/rating")
     suspend fun deleteTvShowRating(
         @Path("tv_id") seriesId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<StatusResponse>
+    ): Response<StatusResponseDto>
 
     @POST("movie/{movie_id}/rating")
     suspend fun addMovieRating(
         @Body rateRequest: RateRequest,
         @Path("movie_id") movieId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<StatusResponse>
+    ): Response<StatusResponseDto>
 
     @DELETE("movie/{movie_id}/rating")
     suspend fun deleteMovieRating(
         @Path("movie_id") movieId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<StatusResponse>
+    ): Response<StatusResponseDto>
 
     @POST("account/{account_id}/watchlist")
     suspend fun toggleMediaInWatchlist(
         @Body addToWatchListRequest: AddToWatchListRequest,
         @Path("account_id") accountId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<StatusResponse>
+    ): Response<StatusResponseDto>
 
     @POST("account/{account_id}/favorite")
     suspend fun toggleMediaInFavoriteList(
         @Body markAsFavoriteRequest: MarkAsFavoriteRequest,
         @Path("account_id") accountId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<StatusResponse>
+    ): Response<StatusResponseDto>
 
 
     //endregion
@@ -329,10 +329,10 @@ interface MovieApiService {
     suspend fun postUserMedia(
         @Path("list_id") listId: Int,
         @Body mediaId: AddMediaToListDto
-    ): Response<StatusResponse>
+    ): Response<StatusResponseDto>
 
     @POST("list")
-    suspend fun createUserList(@Body name: CreateUserListDto): Response<StatusResponse>
+    suspend fun createUserList(@Body name: CreateUserListDto): Response<StatusResponseDto>
 
     @GET("account/{account_id}/favorite/movies")
     suspend fun getFavoriteMovies(
@@ -375,13 +375,13 @@ interface MovieApiService {
     @POST("account/{account_id}/watchlist")
     suspend fun addWatchlist(
         @Body watchlistRequest: WatchlistDto,
-    ): Response<StatusResponse>
+    ): Response<StatusResponseDto>
 
     @POST("list")
     suspend fun addList(@Body listRequest: CreateUserListDto): Response<ListResponseDto>
 
     @DELETE("list/{list_id}")
-    suspend fun deleteList(@Path("list_id") listId: Int): Response<StatusResponse>
+    suspend fun deleteList(@Path("list_id") listId: Int): Response<StatusResponseDto>
 
     @GET("account/{account_id}/lists")
     suspend fun getLists(): Response<BaseResponse<ListRemoteDto>>
@@ -391,16 +391,16 @@ interface MovieApiService {
             : Response<BaseResponse<MovieDetailsDTO>>
 
     @POST("list/{list_id}/remove_item")
-    suspend fun deleteMovieDetailsList(
+    suspend fun deleteMediaFromList(
         @Path("list_id") listId: Int,
-        @Body movieRequest: DeleteMovieFromListDto,
-    ): Response<StatusResponse>
+        @Body mediaId: DeleteMediaFromListDto,
+    ): Response<StatusResponseDto>
 
     @POST("account/account_id/favorite")
     suspend fun addFavorite(
         @Body markAsFavorite: FavoriteRequestDto,
         @Path("account_id") accountId: Int,
-    ): Response<StatusResponse>
+    ): Response<StatusResponseDto>
     //endregion
     // endregion
 

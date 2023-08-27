@@ -6,8 +6,6 @@ import com.redvelvet.entities.error.NotFoundException
 import com.redvelvet.entities.error.NullResultException
 import com.redvelvet.entities.error.ServerException
 import com.redvelvet.entities.error.ValidationException
-import com.redvelvet.entities.library.AddMediaToList
-import com.redvelvet.entities.library.StatusEntity
 import com.redvelvet.remote.service.MovieApiService
 import com.redvelvet.repository.dto.ActorKnownForDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
@@ -24,6 +22,7 @@ import com.redvelvet.repository.dto.library.LibraryTvDto
 import com.redvelvet.repository.dto.library.request.CreateListRequestDto
 import com.redvelvet.repository.dto.library.response.CreateListResponseDto
 import com.redvelvet.repository.dto.listAndFavorites.AddMediaToListDto
+import com.redvelvet.repository.dto.listAndFavorites.DeleteMediaFromListDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -33,7 +32,7 @@ import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
 import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
 import com.redvelvet.repository.dto.person.ActorDto
 import com.redvelvet.repository.dto.search.CombinedResultDto
-import com.redvelvet.repository.dto.tvShow.StatusResponse
+import com.redvelvet.repository.dto.tvShow.StatusResponseDto
 import com.redvelvet.repository.dto.tvShow.TvShowDetailsDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.dto.tvShow.TvShowImagesDto
@@ -458,7 +457,7 @@ class RetrofitDataSource @Inject constructor(
         }
     }
 
-    override suspend fun addMediaToList(mediaId: Int, listId: Int): StatusResponse {
+    override suspend fun addMediaToList(mediaId: Int, listId: Int): StatusResponseDto {
         return wrapApiResponse {
             movieApiService.postUserMedia(
                 listId = listId,
@@ -467,9 +466,18 @@ class RetrofitDataSource @Inject constructor(
         }
     }
 
-    override suspend fun deleteList(listId: Int): StatusResponse {
+    override suspend fun deleteList(listId: Int): StatusResponseDto {
         return wrapApiResponse {
             movieApiService.deleteList(listId = listId)
+        }
+    }
+
+    override suspend fun deleteMediaFromList(mediaId: Int, listId: Int): StatusResponseDto {
+        return wrapApiResponse {
+            movieApiService.deleteMediaFromList(
+                listId = listId,
+                mediaId = DeleteMediaFromListDto(mediaId = mediaId)
+            )
         }
     }
 

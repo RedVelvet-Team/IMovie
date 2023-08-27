@@ -25,6 +25,10 @@ class LibraryListRepositoryImpl @Inject constructor(
         return remoteDataSource.addMediaToList(mediaId, listId).toStatusEntity()
     }
 
+    override suspend fun removeMediaFromList(listId: Int, mediaId: Int): StatusEntity {
+        return remoteDataSource.deleteMediaFromList(mediaId, listId).toStatusEntity()
+    }
+
     override suspend fun deleteList(listId: Int): StatusEntity {
         return remoteDataSource.deleteList(listId).toStatusEntity()
     }

@@ -1,8 +1,6 @@
 package com.redvelvet.repository.source
 
-import com.redvelvet.entities.library.StatusEntity
 import com.redvelvet.repository.dto.ActorKnownForDto
-import com.redvelvet.repository.dto.BaseResponse
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
@@ -11,8 +9,6 @@ import com.redvelvet.repository.dto.auth.response.TokenDto
 import com.redvelvet.repository.dto.library.LibraryMovieDto
 import com.redvelvet.repository.dto.library.LibraryTvDto
 import com.redvelvet.repository.dto.library.response.CreateListResponseDto
-import com.redvelvet.repository.dto.listAndFavorites.AddMediaToListDto
-import com.redvelvet.repository.dto.listAndFavorites.ListRemoteDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -22,7 +18,7 @@ import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
 import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
 import com.redvelvet.repository.dto.person.ActorDto
 import com.redvelvet.repository.dto.search.CombinedResultDto
-import com.redvelvet.repository.dto.tvShow.StatusResponse
+import com.redvelvet.repository.dto.tvShow.StatusResponseDto
 import com.redvelvet.repository.dto.tvShow.TvShowDetailsDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.dto.tvShow.TvShowImagesDto
@@ -195,9 +191,14 @@ interface RemoteDataSource {
     suspend fun addMediaToList(
         mediaId: Int,
         listId: Int
-    ): StatusResponse
+    ): StatusResponseDto
 
     suspend fun deleteList(
         listId: Int
-    ):StatusResponse
+    ): StatusResponseDto
+
+    suspend fun deleteMediaFromList(
+        mediaId: Int,
+        listId: Int
+    ): StatusResponseDto
 }
