@@ -6,6 +6,7 @@ import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.screen.actor_details.actorDetailsRoute
 import com.redvelvet.ui.screen.episodes.seeAllEpisodeRoute
 import com.redvelvet.ui.screen.forgot_password.forgotPasswordRoute
+import com.redvelvet.ui.screen.game.gameScoreRoute
 import com.redvelvet.ui.screen.game.gameScreenRoute
 import com.redvelvet.ui.screen.home.homeRoute
 import com.redvelvet.ui.screen.known_for.actorKnownForRoute
@@ -32,7 +33,7 @@ import com.redvelvet.ui.screen.youtube_player.youtubePlayerRoute
 
 @Composable
 fun MovieNavGraph() {
-    NavHost(LocalNavController.current, startDestination = MovieDestination.Game.route) {
+    NavHost(LocalNavController.current, startDestination = MovieDestination.OnBoarding.route) {
         splashRoute()
         onBoardingRoute()
         actorDetailsRoute()
@@ -59,5 +60,6 @@ fun MovieNavGraph() {
         moviePlayerRoute()
         youtubePlayerRoute()
         gameScreenRoute()
+        gameScoreRoute()
     }
 }
