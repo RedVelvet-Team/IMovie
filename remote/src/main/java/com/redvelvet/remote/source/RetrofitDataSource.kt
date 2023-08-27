@@ -19,6 +19,8 @@ import com.redvelvet.repository.dto.detailsRequests.MarkAsFavoriteRequest
 import com.redvelvet.repository.dto.detailsRequests.RateRequest
 import com.redvelvet.repository.dto.library.LibraryMovieDto
 import com.redvelvet.repository.dto.library.LibraryTvDto
+import com.redvelvet.repository.dto.library.request.CreateListRequestDto
+import com.redvelvet.repository.dto.library.response.CreateListResponseDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -436,11 +438,25 @@ class RetrofitDataSource @Inject constructor(
             ?: throw NullResultException("There is no data")
     }
 
+    override suspend fun createList(
+        sessionId: String,
+        name: String,
+        description: String?,
+        language: String?
+    ): CreateListResponseDto {
+        return wrapApiResponse { movieApiService.createList(
+            createListRequest = CreateListRequestDto(
+                name = name, description = description , language = language),
+            sessionId
+        ) }
+    }
+
     override suspend fun getAccountDetails(
         sessionId: String,
     ): AccountDetailsDto {
         return wrapApiResponse { movieApiService.getAccountDetails(sessionId) }
     }
+
 
 
 }

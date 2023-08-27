@@ -1,5 +1,6 @@
 package com.redvelvet.remote.service
 
+import com.redvelvet.entities.library.CreateList
 import com.redvelvet.repository.dto.ActorKnownForDto
 import com.redvelvet.repository.dto.BaseResponse
 import com.redvelvet.repository.dto.SeasonDetailsDto
@@ -15,6 +16,8 @@ import com.redvelvet.repository.dto.detailsRequests.MarkAsFavoriteRequest
 import com.redvelvet.repository.dto.detailsRequests.RateRequest
 import com.redvelvet.repository.dto.library.LibraryMovieDto
 import com.redvelvet.repository.dto.library.LibraryTvDto
+import com.redvelvet.repository.dto.library.request.CreateListRequestDto
+import com.redvelvet.repository.dto.library.response.CreateListResponseDto
 import com.redvelvet.repository.dto.listAndFavorites.AddMediaToListDto
 import com.redvelvet.repository.dto.listAndFavorites.CreateUserListDto
 import com.redvelvet.repository.dto.listAndFavorites.DeleteMovieFromListDto
@@ -401,4 +404,13 @@ interface MovieApiService {
     ): Response<StatusResponse>
     //endregion
     // endregion
+
+
+    @POST("list")
+    suspend fun createList(
+        @Body createListRequest: CreateListRequestDto,
+        @Query("session_id") sessionId: String,
+    ): Response<CreateListResponseDto>
+
+
 }
