@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -20,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
 import com.redvelvet.ui.theme.color
+import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.radius
 import com.redvelvet.ui.theme.spacing
 
@@ -61,16 +63,18 @@ fun BasicDialog(
                         onClick = { showDialog = false },
                         text = "Cancel",
                         textStyle = MaterialTheme.typography.bodyMedium,
-                        buttonShape = RoundedCornerShape(MaterialTheme.radius.radius8)
+                        buttonShape = RoundedCornerShape(MaterialTheme.radius.radius8),
+                        buttonHeight = MaterialTheme.dimens.dimens36
                     )
                     PrimaryButton(
                         modifier = modifier
-                            .weight(1f)
-                            .padding(start = MaterialTheme.spacing.spacing4),
+                            .padding(start = MaterialTheme.spacing.spacing4)
+                            .weight(1f),
                         onClick = onSubmitClick,
                         text = submitText,
                         textStyle = MaterialTheme.typography.bodyMedium,
-                        buttonShape = RoundedCornerShape(MaterialTheme.radius.radius8)
+                        buttonShape = RoundedCornerShape(MaterialTheme.radius.radius8),
+                        buttonHeight = MaterialTheme.dimens.dimens36
                     )
                 }
             }
@@ -83,3 +87,4 @@ fun BasicDialog(
 fun BasicDialogPreview() {
     BasicDialog(true, "Done", {}, content = {}, modifier = Modifier)
 }
+

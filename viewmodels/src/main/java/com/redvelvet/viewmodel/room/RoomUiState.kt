@@ -8,5 +8,15 @@ data class RoomUiState(
     val error: ErrorUiState? = null,
     val isCreateRoomClicked: Boolean = false,
     val isJoinRoomClicked: Boolean = false,
-    val isCreateRoomLonelyClicked: Boolean = false
-) : BaseUiState
+    val isCreateRoomLonelyClicked: Boolean = false,
+    val dialogState: DialogUiState = DialogUiState()
+) : BaseUiState {
+    data class DialogUiState(
+        val movieUrl: String = "",
+        val roomUrl: String = "",
+        val showDialog: Boolean = false,
+        val isError: Boolean = false,
+    )
+}
+
+

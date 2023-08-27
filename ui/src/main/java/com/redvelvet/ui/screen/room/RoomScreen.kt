@@ -1,5 +1,6 @@
 package com.redvelvet.ui.screen.room
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -19,15 +20,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
+import com.redvelvet.ui.composable.DialogWithLink
 import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.composable.PrimaryOutlinedButton
 import com.redvelvet.ui.composable.SpacerVertical
 import com.redvelvet.ui.composable.WallPaper
+import com.redvelvet.ui.screen.movie_player.navigateMoviePlayer
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
@@ -51,16 +55,44 @@ fun RoomScreen(
     LaunchedEffect(key1 = Unit) {
         scope.launchCollectLatest(viewModel.effect) { effect ->
             when (effect) {
-                is RoomUiEffect.ShowDialogToCreateRoom -> {}
-                is RoomUiEffect.ShowDialogToJoinRoom ->{}
-               is RoomUiEffect.ShowDialogToCreateRoomLonely->{}
+                is RoomUiEffect.NavigateToVideoPlayer->{
+                    navController.navigateMoviePlayer(state.dialogState.roomUrl)
+                }
             }
         }
     }
+
+    AnimatedVisibility(visible = state.isCreateRoomClicked|| state.isCreateRoomLonelyClicked) {
+        DialogWithLink(
+            headText = "Create cinema room",
+            bodyText = "You can share the room with friends",
+            placeHolderText = "Movie Link",
+            submitText = "Done",
+            isError = state.dialogState.isError,
+            showDialogState = true,
+            link = state.dialogState.roomUrl,
+            onTextChange = { newLink -> viewModel.onClickCreateRoom(newLink) },
+            onSubmitClick = { navController.navigateMoviePlayer(state.dialogState.roomUrl) }
+        )
+    }
+
+    AnimatedVisibility(visible = state.isJoinRoomClicked) {
+        DialogWithLink(
+            headText = "Join cinema room",
+            bodyText = "You can join room by adding the link of the room",
+            placeHolderText = "Room Link",
+            submitText = "Done",
+            isError = state.dialogState.isError,
+            showDialogState = true,
+            link = state.dialogState.roomUrl,
+            onTextChange = { newLink -> viewModel.onClickJoinRoom(newLink) },
+            onSubmitClick = { navController.navigateMoviePlayer(state.dialogState.roomUrl) }
+        )
+    }
     RoomContent(
         state = state,
-        onClickCreateRoom = viewModel::onClickCreateRoom,
-        onClickJoinRoom = viewModel::onClickJoinRoom,
+        onClickCreateRoom = { viewModel.onClickCreateRoom(state.dialogState.movieUrl) },
+        onClickJoinRoom = { viewModel.onClickJoinRoom(state.dialogState.roomUrl) },
         onClickCreateRoomLonely = viewModel::onClickCreateRoomLonely
     )
 
@@ -99,8 +131,7 @@ fun RoomContent(
                 )
                 SpacerVertical(height = MaterialTheme.spacing.spacing12)
                 PrimaryOutlinedButton(
-                    modifier = Modifier
-                        .fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
                     onClick = onClickJoinRoom,
                     enabled = !state.isLoading,
                     border = BorderStroke(
@@ -121,7 +152,13 @@ fun RoomContent(
             }
         }
     }
-
-
 }
+
+@Preview(showSystemUi = true)
+@Composable
+fun RoomPreview() {
+    RoomScreen()
+}
+
+
 

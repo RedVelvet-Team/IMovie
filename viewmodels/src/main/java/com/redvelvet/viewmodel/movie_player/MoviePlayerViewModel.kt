@@ -16,11 +16,16 @@ class MoviePlayerViewModel @Inject constructor(
     val moviePlayerArg = MoviePlayerArgs(savedStateHandle)
 
     init {
-        getVideo()
+        getVideoLink()
+        getRoomLink()
     }
 
-    fun getVideo() {
+    private fun getVideoLink() {
         _state.update { it.copy(videoUrl = moviePlayerArg.videoUrl) }
+    }
+
+    private fun getRoomLink() {
+        _state.update { it.copy(roomLink = moviePlayerArg.roomLink) }
     }
 
     fun updateIsPlaying() {
@@ -47,5 +52,6 @@ class MoviePlayerViewModel @Inject constructor(
     fun updatePlaybackState(playbackState: Int) {
         _state.update { it.copy(playbackState = playbackState) }
     }
+
 
 }

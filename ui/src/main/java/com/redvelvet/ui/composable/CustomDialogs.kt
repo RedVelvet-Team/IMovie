@@ -66,11 +66,11 @@ fun DialogWithLink(
     submitText: String,
     isError: Boolean,
     showDialogState: Boolean,
-    linkState: String,
+    link: String,
     onTextChange: (String) -> Unit,
     onSubmitClick: () -> Unit,
 ) {
-    var link by remember { mutableStateOf(linkState) }
+    var link by remember { mutableStateOf(link) }
     BasicDialog(
         modifier = modifier,
         showDialogState = showDialogState,
@@ -97,7 +97,10 @@ fun DialogWithLink(
                 errorMessage = "inCorrect Link please re write again, hello do it just keep going",
                 value = link,
                 isError = isError,
-                onTextChange = onTextChange
+                onTextChange = {
+                    link = it
+                    onTextChange(it)
+                }
             )
         }
     )
@@ -159,7 +162,7 @@ fun DialogWithLinkPreview() {
         isError = false,
         onSubmitClick = {},
         onTextChange = {},
-        linkState = "")
+        link = "")
 }
 @Preview
 @Composable
