@@ -51,8 +51,8 @@ abstract class RepositoryModule {
     @Singleton
     @Binds
     abstract fun bindLibraryListRepository(
-        libraryListRepository: LiberaryListRepositoryImp
-    ): LiberaryListsRepository
+        libraryListRepository: LibraryListRepositoryImpl
+    ): LibraryListsRepository
 
 
 }

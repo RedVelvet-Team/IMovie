@@ -1,6 +1,5 @@
 package com.redvelvet.remote.service
 
-import com.redvelvet.entities.library.CreateList
 import com.redvelvet.repository.dto.ActorKnownForDto
 import com.redvelvet.repository.dto.BaseResponse
 import com.redvelvet.repository.dto.SeasonDetailsDto
