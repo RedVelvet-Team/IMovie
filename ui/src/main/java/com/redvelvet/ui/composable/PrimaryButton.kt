@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
@@ -59,6 +60,7 @@ fun PrimaryButton(
             modifier = modifier.padding(MaterialTheme.spacing.spacing4),
             style = textStyle,
             color = textColor,
+            fontSize = 16.sp,
             maxLines = 1
         )
     }

@@ -114,28 +114,36 @@ private fun LibraryContent(paddingValues: PaddingValues) {
 
 @Composable
 fun LoginState() {
-    Image(
-        painter = painterResource(id = R.drawable.library_logo),
-        contentDescription = "library logo"
-    )
-    Text(
-        text = "Login Required",
-        style = Typography.headlineLarge.copy(color = MaterialTheme.color.fontPrimary),
-        modifier = Modifier.padding(top = MaterialTheme.spacing.spacing32),
-        textAlign = TextAlign.Center,
-    )
-    Text(
-        text = "Use your account to enjoy the best app experience.",
-        style = Typography.titleSmall.copy(color = MaterialTheme.color.fontSecondary),
-        modifier = Modifier.padding(top = MaterialTheme.spacing.spacing4),
-        textAlign = TextAlign.Center,
-    )
-
     Column(
-        modifier = Modifier.padding(top = MaterialTheme.spacing.spacing32)
+        //modifier = Modifier.padding(top = MaterialTheme.spacing.spacing32),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+
     ) {
+
+        Image(
+            painter = painterResource(id = R.drawable.library_logo),
+            contentDescription = "library logo"
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = "Login Required",
+            style = Typography.headlineLarge.copy(color = MaterialTheme.color.fontPrimary),
+            modifier = Modifier.padding(top = MaterialTheme.spacing.spacing32),
+            textAlign = TextAlign.Center,
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = "Use your account to enjoy the best app experience.",
+            style = Typography.titleSmall.copy(color = MaterialTheme.color.fontSecondary),
+            modifier = Modifier.padding(top = MaterialTheme.spacing.spacing4),
+            textAlign = TextAlign.Center,
+        )
+        Spacer(modifier = Modifier.height(16.dp))
         PrimaryButton(
             text = "Login",
+            modifier = Modifier.width(110.dp),
+
             onClick = { /*TODO*/ },
         )
     }
@@ -324,7 +332,6 @@ fun AddNewListDialog(
 
     }
 }
-
 
 @Composable
 fun SectionCard(
