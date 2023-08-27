@@ -26,7 +26,7 @@ class LibraryListRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteList(listId: Int): StatusEntity {
-        TODO("Not yet implemented")
+        return remoteDataSource.deleteList(listId).toStatusEntity()
     }
 
 }

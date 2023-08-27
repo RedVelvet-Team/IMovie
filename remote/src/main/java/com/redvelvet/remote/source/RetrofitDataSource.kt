@@ -448,11 +448,14 @@ class RetrofitDataSource @Inject constructor(
         description: String?,
         language: String?
     ): CreateListResponseDto {
-        return wrapApiResponse { movieApiService.createList(
-            createListRequest = CreateListRequestDto(
-                name = name, description = description , language = language),
-            sessionId
-        ) }
+        return wrapApiResponse {
+            movieApiService.createList(
+                createListRequest = CreateListRequestDto(
+                    name = name, description = description, language = language
+                ),
+                sessionId
+            )
+        }
     }
 
     override suspend fun addMediaToList(mediaId: Int, listId: Int): StatusResponse {
@@ -465,7 +468,9 @@ class RetrofitDataSource @Inject constructor(
     }
 
     override suspend fun deleteList(listId: Int): StatusResponse {
-        TODO("Not yet implemented")
+        return wrapApiResponse {
+            movieApiService.deleteList(listId = listId)
+        }
     }
 
     override suspend fun getAccountDetails(
@@ -473,7 +478,6 @@ class RetrofitDataSource @Inject constructor(
     ): AccountDetailsDto {
         return wrapApiResponse { movieApiService.getAccountDetails(sessionId) }
     }
-
 
 
 }
