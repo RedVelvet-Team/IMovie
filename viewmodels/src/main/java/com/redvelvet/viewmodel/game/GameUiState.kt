@@ -6,8 +6,11 @@ import com.redvelvet.viewmodel.base.ErrorUiState
 
 data class GameUiState(
     val isLoading: Boolean = true,
+    val isGameFinished: Boolean = false,
     val error: ErrorUiState? = null,
-    val question: QuestionUiState = QuestionUiState()
+    val question: QuestionUiState = QuestionUiState(),
+    val score: String = "100",
+    val isAnswered: Boolean = false
 ): BaseUiState
 
 

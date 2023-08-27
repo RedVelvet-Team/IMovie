@@ -1,8 +1,6 @@
 package com.redvelvet.viewmodel.game
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
-import androidx.paging.LOGGER
 import com.redvelvet.entities.Question
 import com.redvelvet.usecase.usecase.GetQuestionUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
@@ -17,8 +15,6 @@ import javax.inject.Inject
 class GameViewModel @Inject constructor(
     private val getQuestion: GetQuestionUseCase
 ) : BaseViewModel<GameUiState, Unit>(GameUiState()) {
-
-    private var questions = listOf<Pair<String, List<String>>>()
 
     init {
         getQuestion()
@@ -37,7 +33,7 @@ class GameViewModel @Inject constructor(
 
     private fun onGetQuestionSuccess(question: Question) {
         _state.update {
-            it.copy(isLoading = false, question = question.toUiState()) }
+            it.copy( isLoading = false, question = question.toUiState(), isAnswered = false) }
     }
 
     private fun onError(error: ErrorUiState) {
@@ -45,6 +41,8 @@ class GameViewModel @Inject constructor(
     }
 
     fun onClickAnswer(answer: AnswerUiState): Boolean {
-       return getQuestion.isCorrectAnswer(answer.text).also { getQuestion() }
+        _state.update { it.copy(isGameFinished = getQuestion.isQuestionsEnded(), isAnswered = true) }
+        val isCorrectAnswer = getQuestion.isCorrectAnswer(answer.text)
+        return isCorrectAnswer.also { getQuestion() }
     }
 }
