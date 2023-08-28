@@ -19,9 +19,9 @@ import com.redvelvet.repository.dto.detailsRequests.MarkAsFavoriteRequest
 import com.redvelvet.repository.dto.detailsRequests.RateRequest
 import com.redvelvet.repository.dto.library.LibraryMovieDto
 import com.redvelvet.repository.dto.library.LibraryTvDto
-import com.redvelvet.repository.dto.library.request.CreateListRequestDto
-import com.redvelvet.repository.dto.library.response.CreateListResponseDto
+import com.redvelvet.repository.dto.listAndFavorites.CreateListResponseDto
 import com.redvelvet.repository.dto.listAndFavorites.AddMediaToListDto
+import com.redvelvet.repository.dto.listAndFavorites.CreateListRequestDto
 import com.redvelvet.repository.dto.listAndFavorites.DeleteMediaFromListDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
@@ -442,17 +442,11 @@ class RetrofitDataSource @Inject constructor(
     }
 
     override suspend fun createList(
-        sessionId: String,
-        name: String,
-        description: String?,
-        language: String?
+        name: String
     ): CreateListResponseDto {
         return wrapApiResponse {
-            movieApiService.createList(
-                createListRequest = CreateListRequestDto(
-                    name = name, description = description, language = language
-                ),
-                sessionId
+            movieApiService.createUserList(
+                name = CreateListRequestDto(name)
             )
         }
     }
@@ -477,6 +471,14 @@ class RetrofitDataSource @Inject constructor(
             movieApiService.deleteMediaFromList(
                 listId = listId,
                 mediaId = DeleteMediaFromListDto(mediaId = mediaId)
+            )
+        }
+    }
+
+    override suspend fun clearList(listId: Int): StatusResponseDto {
+        return wrapApiResponse {
+            movieApiService.clearList(
+                listId = listId
             )
         }
     }

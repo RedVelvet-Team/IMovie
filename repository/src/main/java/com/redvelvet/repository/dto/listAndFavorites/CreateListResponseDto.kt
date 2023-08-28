@@ -1,4 +1,4 @@
-package com.redvelvet.repository.dto.library.response
+package com.redvelvet.repository.dto.listAndFavorites
 
 class CreateListResponseDto (
     val status_code: Long?,

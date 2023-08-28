@@ -15,10 +15,9 @@ import com.redvelvet.repository.dto.detailsRequests.MarkAsFavoriteRequest
 import com.redvelvet.repository.dto.detailsRequests.RateRequest
 import com.redvelvet.repository.dto.library.LibraryMovieDto
 import com.redvelvet.repository.dto.library.LibraryTvDto
-import com.redvelvet.repository.dto.library.request.CreateListRequestDto
-import com.redvelvet.repository.dto.library.response.CreateListResponseDto
+import com.redvelvet.repository.dto.listAndFavorites.CreateListResponseDto
 import com.redvelvet.repository.dto.listAndFavorites.AddMediaToListDto
-import com.redvelvet.repository.dto.listAndFavorites.CreateUserListDto
+import com.redvelvet.repository.dto.listAndFavorites.CreateListRequestDto
 import com.redvelvet.repository.dto.listAndFavorites.DeleteMediaFromListDto
 import com.redvelvet.repository.dto.listAndFavorites.FavoriteRequestDto
 import com.redvelvet.repository.dto.listAndFavorites.ListRemoteDto
@@ -331,8 +330,6 @@ interface MovieApiService {
         @Body mediaId: AddMediaToListDto
     ): Response<StatusResponseDto>
 
-    @POST("list")
-    suspend fun createUserList(@Body name: CreateUserListDto): Response<StatusResponseDto>
 
     @GET("account/{account_id}/favorite/movies")
     suspend fun getFavoriteMovies(
@@ -378,10 +375,21 @@ interface MovieApiService {
     ): Response<StatusResponseDto>
 
     @POST("list")
-    suspend fun addList(@Body listRequest: CreateUserListDto): Response<ListResponseDto>
+    suspend fun addList(@Body listRequest: CreateListRequestDto): Response<ListResponseDto>
+
+    @POST("list")
+    suspend fun createUserList(
+        @Body name: CreateListRequestDto
+    ): Response<CreateListResponseDto>
 
     @DELETE("list/{list_id}")
     suspend fun deleteList(@Path("list_id") listId: Int): Response<StatusResponseDto>
+
+    @POST("list/{list_id}/clear")
+    suspend fun clearList(
+        @Path("list_id") listId: Int,
+        @Query("confirm") confirm: Boolean = true
+    ): Response<StatusResponseDto>
 
     @GET("account/{account_id}/lists")
     suspend fun getLists(): Response<BaseResponse<ListRemoteDto>>
@@ -403,13 +411,5 @@ interface MovieApiService {
     ): Response<StatusResponseDto>
     //endregion
     // endregion
-
-
-    @POST("list")
-    suspend fun createList(
-        @Body createListRequest: CreateListRequestDto,
-        @Query("session_id") sessionId: String,
-    ): Response<CreateListResponseDto>
-
 
 }

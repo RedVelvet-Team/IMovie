@@ -8,13 +8,10 @@ class CreateListUseCase @Inject constructor(
     private val libraryRepository: LibraryListsRepository,
 ) {
 
-    suspend fun getTopRated(
-        sessionId: String,
+    suspend fun invoke(
         name: String,
-        description: String?,
-        language: String?
     ): CreateList {
-        return libraryRepository.createList(sessionId, name, description, language)
+        return libraryRepository.createList(name)
     }
 
 }

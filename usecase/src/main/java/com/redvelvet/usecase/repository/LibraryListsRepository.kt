@@ -6,10 +6,7 @@ import com.redvelvet.entities.library.StatusEntity
 interface LibraryListsRepository {
 
     suspend fun createList(
-        sessionId: String,
         name: String,
-        description: String?,
-        language: String?
     ): CreateList
 
     suspend fun addMediaToList(
@@ -20,9 +17,13 @@ interface LibraryListsRepository {
     suspend fun removeMediaFromList(
         listId: Int,
         mediaId: Int
-    ):StatusEntity
+    ): StatusEntity
 
     suspend fun deleteList(
         listId: Int
-    ):StatusEntity
+    ): StatusEntity
+
+    suspend fun clearList(
+        listId: Int
+    ): StatusEntity
 }

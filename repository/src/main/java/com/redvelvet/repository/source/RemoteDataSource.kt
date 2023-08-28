@@ -8,7 +8,7 @@ import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
 import com.redvelvet.repository.dto.library.LibraryMovieDto
 import com.redvelvet.repository.dto.library.LibraryTvDto
-import com.redvelvet.repository.dto.library.response.CreateListResponseDto
+import com.redvelvet.repository.dto.listAndFavorites.CreateListResponseDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -182,10 +182,7 @@ interface RemoteDataSource {
     ): List<LibraryTvDto>
 
     suspend fun createList(
-        sessionId: String,
         name: String,
-        description: String?,
-        language: String?
     ): CreateListResponseDto
 
     suspend fun addMediaToList(
@@ -201,4 +198,8 @@ interface RemoteDataSource {
         mediaId: Int,
         listId: Int
     ): StatusResponseDto
+
+    suspend fun clearList(
+        listId: Int
+    ):StatusResponseDto
 }

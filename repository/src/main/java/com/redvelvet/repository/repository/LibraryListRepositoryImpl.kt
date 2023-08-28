@@ -13,12 +13,9 @@ class LibraryListRepositoryImpl @Inject constructor(
 ) : LibraryListsRepository, BaseRepository() {
 
     override suspend fun createList(
-        sessionId: String,
         name: String,
-        description: String?,
-        language: String?
     ): CreateList {
-        return remoteDataSource.createList(sessionId, name, description, language).toCreateList()
+        return remoteDataSource.createList(name).toCreateList()
     }
 
     override suspend fun addMediaToList(listId: Int, mediaId: Int): StatusEntity {
@@ -31,6 +28,10 @@ class LibraryListRepositoryImpl @Inject constructor(
 
     override suspend fun deleteList(listId: Int): StatusEntity {
         return remoteDataSource.deleteList(listId).toStatusEntity()
+    }
+
+    override suspend fun clearList(listId: Int): StatusEntity {
+        return remoteDataSource.clearList(listId).toStatusEntity()
     }
 
 }

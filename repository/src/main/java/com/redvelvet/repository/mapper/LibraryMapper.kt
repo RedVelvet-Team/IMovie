@@ -2,7 +2,7 @@ package com.redvelvet.repository.mapper
 
 import com.redvelvet.entities.library.CreateList
 import com.redvelvet.entities.library.StatusEntity
-import com.redvelvet.repository.dto.library.response.CreateListResponseDto
+import com.redvelvet.repository.dto.listAndFavorites.CreateListResponseDto
 import com.redvelvet.repository.dto.tvShow.StatusResponseDto
 
 fun CreateListResponseDto.toCreateList(): CreateList {
