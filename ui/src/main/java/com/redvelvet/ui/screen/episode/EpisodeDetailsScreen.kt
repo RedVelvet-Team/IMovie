@@ -2,24 +2,28 @@ package com.redvelvet.ui.screen.episode
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,7 +38,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,87 +53,86 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.LoadingState
-import com.redvelvet.ui.composable.LoginRequired
+import com.redvelvet.ui.composable.NavigationHandler
 import com.redvelvet.ui.composable.NetworkView
 import com.redvelvet.ui.composable.NoContent
 import com.redvelvet.ui.composable.SectionHeader
 import com.redvelvet.ui.screen.actor_details.navigateToActorDetails
-import com.redvelvet.ui.screen.login.navigateToLogin
+import com.redvelvet.ui.screen.seeAllMovieImages.navigateToSeeAllImages
 import com.redvelvet.ui.screen.sellAllTopCast.navigateToSeeAllTopCast
+import com.redvelvet.ui.screen.youtube_player.navigateToYoutubePlayer
 import com.redvelvet.ui.theme.FontSecondary
 import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.Secondary
 import com.redvelvet.ui.theme.Typography
-import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.radius
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.ui.util.MovieWebViewUrls
-import com.redvelvet.viewmodel.base.InvalidationErrorState
 import com.redvelvet.viewmodel.base.NetworkErrorState
-import com.redvelvet.viewmodel.base.NullResultErrorState
 import com.redvelvet.viewmodel.episode.EpisodeDetailsInteraction
+import com.redvelvet.viewmodel.episode.EpisodeDetailsUiEffect
 import com.redvelvet.viewmodel.episode.EpisodeDetailsUiState
 import com.redvelvet.viewmodel.episode.EpisodeDetailsViewModel
 import com.redvelvet.viewmodel.utils.SeeAllMovie
 
+private const val IMAGE_HEIGHT = 250
 @Composable
 fun EpisodeDetailsScreen(episodeDetailsViewModel: EpisodeDetailsViewModel = hiltViewModel()) {
-    val navController = LocalNavController.current
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(Primary, darkIcons = false)
+    rememberSystemUiController().setSystemBarsColor(Primary, darkIcons = false)
     val state by episodeDetailsViewModel.state.collectAsState()
-    EpisodeDetailsContent(state, object : EpisodeDetailsInteraction {
-        override fun onClickBack() {
-            navController.navigateUp()
-        }
+    EpisodeDetailsContent(state, episodeDetailsViewModel)
+    NavigationHandler(
+        effects = episodeDetailsViewModel.effect,
+        handleEffect = { effect, navController ->
+            when (effect) {
+                is EpisodeDetailsUiEffect.NavigateUp -> {
+                    navController.popBackStack()
+                }
 
-        override fun onClickFavorite(episodeID: Int) {
-            /*TODO("Not yet implemented")*/
-        }
+                is EpisodeDetailsUiEffect.NavigateToCastDetailsScreen -> {
+                    navController.navigateToActorDetails(effect.id)
+                }
 
-        override fun onClickSave(episodeID: Int) {
-            /*TODO("Not yet implemented")*/
-        }
+                is EpisodeDetailsUiEffect.NavigateToImageScreen -> {}
+                is EpisodeDetailsUiEffect.NavigateToSeeAllCastDetailsScreen -> {
+                    navController.navigateToSeeAllTopCast(effect.id)
+                }
 
-        override fun onClickTopCastSeeAll(topCastId: Int) {
-            navController.navigateToSeeAllTopCast(topCastId.toString())
-        }
+                is EpisodeDetailsUiEffect.NavigateToSeeAllImagesScreen -> {
+                    navController.navigateToSeeAllImages()
+                }
 
-        override fun onCLickImagesSeeAll(imagesId: Int) {
-            /*TODO("Not yet implemented")*/
-        }
-
-        override fun onClickCast(castId: Int) {
-            navController.navigateToActorDetails(castId.toString())
-        }
-
-        override fun onClickVideo(videoKey: String) {
-            /*TODO("Not yet implemented")*/
-        }
-
-
-        override fun onCLickRefresh() {
-            episodeDetailsViewModel.refresh()
-        }
-
-        override fun onLoginRequired() {
-            navController.navigateToLogin()
-        }
-    })
+                is EpisodeDetailsUiEffect.NavigateToVideoScreen -> {
+                    navController.navigateToYoutubePlayer(effect.key)
+                }
+            }
+        })
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EpisodeDetailsContent(state: EpisodeDetailsUiState, interaction: EpisodeDetailsInteraction) {
+    val listState = rememberLazyListState()
+    val isScrolled by remember {
+        derivedStateOf {
+            listState.firstVisibleItemIndex > 0 ||
+                    listState.firstVisibleItemScrollOffset > 250
+        }
+    }
+    val topAppColor = animateColorAsState(
+        targetValue = if (isScrolled) Primary else Color.Transparent,
+        label = ""
+    )
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = topAppColor.value
+                ),
                 actions = {
                     Row(
                         modifier = Modifier
@@ -146,7 +151,7 @@ fun EpisodeDetailsContent(state: EpisodeDetailsUiState, interaction: EpisodeDeta
                             contentDescription = "Favorite",
                             modifier = Modifier.clickable {
                                 interaction.onClickFavorite(
-                                    state.data?.episodeDetails?.id ?: -1
+                                    "${state.data?.episodeDetails?.id}"
                                 )
                             },
                             tint = Color.White
@@ -157,7 +162,7 @@ fun EpisodeDetailsContent(state: EpisodeDetailsUiState, interaction: EpisodeDeta
                             contentDescription = "Save",
                             modifier = Modifier.clickable {
                                 interaction.onClickSave(
-                                    state.data?.episodeDetails?.id ?: -1
+                                    "${state.data?.episodeDetails?.id}"
                                 )
                             },
                             tint = Color.White
@@ -179,10 +184,10 @@ fun EpisodeDetailsContent(state: EpisodeDetailsUiState, interaction: EpisodeDeta
             exit = fadeOut()
         ) {
             when (state.isError) {
-                is NullResultErrorState -> NoContent(retryButton = { interaction.onCLickRefresh() })
-                is InvalidationErrorState -> LoginRequired(retryButton = { interaction.onLoginRequired() })
                 is NetworkErrorState -> NetworkView(onClick = { interaction.onCLickRefresh() })
-                else -> {}
+                else -> {
+                    NoContent()
+                }
             }
             NoContent(
                 title = "Error Happen",
@@ -191,158 +196,160 @@ fun EpisodeDetailsContent(state: EpisodeDetailsUiState, interaction: EpisodeDeta
                 interaction.onCLickRefresh()
             }
         }
-        val systemUiController = rememberSystemUiController()
-        systemUiController.setSystemBarsColor(
-            MaterialTheme.color.backgroundPrimary,
-            darkIcons = false
-        )
         AnimatedVisibility(
             visible = !state.isLoading && (state.isError == null),
             enter = fadeIn(),
             exit = fadeOut()
         ) {
-            LazyColumn(modifier = Modifier.fillMaxSize()) {
-                item {
-                    Image(
-                        painter = rememberAsyncImagePainter(
-                            model = MovieWebViewUrls.IMAGES_URL + state.data!!.episodeDetails.stillPath,
-                            placeholder = painterResource(id = R.drawable.image_placeholder)
-                        ),
-                        contentDescription = "",
-                        contentScale = ContentScale.FillBounds,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
-                item { Details(state) }
-                item {
-                    SectionHeader(
-                        label = "TopCast",
-                        seeAllMovie = SeeAllMovie.TOP_CAST,
-                        onClickSeeAll = {
-                            interaction.onClickTopCastSeeAll(state.data?.episodeCast?.id ?: 0)
-                        }, modifier = Modifier.padding(top = 16.dp)
-                    )
-                }
-                item {
-                    LazyRow(
-                        modifier = Modifier.padding(top = 8.dp),
-                        contentPadding = PaddingValues(8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        items(state.data!!.episodeCast.cast) {
-                            Column(modifier = Modifier.width(70.dp)) {
-                                Image(painter = rememberAsyncImagePainter(
-                                    model = MovieWebViewUrls.IMAGES_URL + it.profilePath,
-                                    placeholder = painterResource(id = R.drawable.image_placeholder)
-                                ),
-                                    contentDescription = "avatar",
-                                    contentScale = ContentScale.Crop,
-                                    modifier = Modifier
-                                        .size(70.dp)
-                                        .clip(CircleShape)
-                                        .padding(bottom = 4.dp)
-                                        .clickable { interaction.onClickCast(it.id) })
-                                Text(
-                                    text = it.name,
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = FontSecondary,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                            }
-                        }
+            Box(modifier = Modifier) {
+                Image(
+                    painter = rememberAsyncImagePainter(
+                        model = MovieWebViewUrls.IMAGES_URL + state.data!!.episodeDetails.stillPath,
+                        placeholder = painterResource(id = R.drawable.image_placeholder)
+                    ),
+                    contentDescription = "",
+                    contentScale = ContentScale.FillBounds,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(IMAGE_HEIGHT.dp)
+                )
+                LazyColumn(
+                    state = listState,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(color = if (isScrolled) Primary else Color.Transparent)
+                ) {
+                    item { Details(state) }
+                    item {
+                        SectionHeader(
+                            label = "TopCast",
+                            seeAllMovie = SeeAllMovie.TOP_CAST,
+                            onClickSeeAll = {
+                                interaction.onClickTopCastSeeAll("${state.data?.episodeCast?.id}")
+                            }, modifier = Modifier.padding(top = 16.dp)
+                        )
                     }
-                }
-                item {
-                    SectionHeader(
-                        label = "Episode Images",
-                        seeAllMovie = SeeAllMovie.TOP_CAST,
-                        onClickSeeAll = {
-                            interaction.onCLickImagesSeeAll(0)
-                        },
-                        modifier = Modifier.padding(top = 16.dp)
-                    )
-                }
-                item {
-                    LazyRow(
-                        modifier = Modifier.padding(top = 8.dp),
-                        contentPadding = PaddingValues(8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        items(state.data!!.episodeImages.stills) {
-                            Column(modifier = Modifier.width(112.dp)) {
-                                Image(
-                                    painter = rememberAsyncImagePainter(
-                                        model = MovieWebViewUrls.IMAGES_URL + it.filePath,
+                    item {
+                        LazyRow(
+                            modifier = Modifier.padding(top = 8.dp),
+                            contentPadding = PaddingValues(8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            items(state.data!!.episodeCast.cast) {
+                                Column(modifier = Modifier.width(70.dp)) {
+                                    Image(painter = rememberAsyncImagePainter(
+                                        model = MovieWebViewUrls.IMAGES_URL + it.profilePath,
                                         placeholder = painterResource(id = R.drawable.image_placeholder)
                                     ),
-                                    contentDescription = "avatar",
-                                    contentScale = ContentScale.Crop,
-                                    modifier = Modifier
-                                        .size(112.dp)
-                                        .clip(RoundedCornerShape(CornerSize(16.dp)))
-                                        .padding(bottom = 4.dp)
-                                )
+                                        contentDescription = "avatar",
+                                        contentScale = ContentScale.Crop,
+                                        modifier = Modifier
+                                            .size(70.dp)
+                                            .clip(CircleShape)
+                                            .padding(bottom = 4.dp)
+                                            .clickable { interaction.onClickCast("${it.id}") })
+                                    Text(
+                                        text = it.name,
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = FontSecondary,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                }
                             }
                         }
                     }
-                }
-                item {
-                    Text(
-                        text = "Videos",
-                        style = Typography.titleMedium,
-                        color = Color.White,
-                        modifier = Modifier.padding(
-                            start = 16.dp,
-                            bottom = 8.dp
+                    item {
+                        SectionHeader(
+                            label = "Episode Images",
+                            seeAllMovie = SeeAllMovie.TOP_CAST,
+                            onClickSeeAll = {
+                                interaction.onCLickImagesSeeAll("0")
+                            },
+                            modifier = Modifier.padding(top = 16.dp)
                         )
-                    )
-                }
-                items(
-                    state.data!!.episodeMovies.results
-                ) {
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                horizontal = 16.dp,
-                                vertical = 4.dp
+                    }
+                    item {
+                        LazyRow(
+                            modifier = Modifier.padding(top = 8.dp),
+                            contentPadding = PaddingValues(8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            items(state.data!!.episodeImages.stills) {
+                                Column(modifier = Modifier.width(112.dp)) {
+                                    Image(
+                                        painter = rememberAsyncImagePainter(
+                                            model = MovieWebViewUrls.IMAGES_URL + it.filePath,
+                                            placeholder = painterResource(id = R.drawable.image_placeholder)
+                                        ),
+                                        contentDescription = "avatar",
+                                        contentScale = ContentScale.Crop,
+                                        modifier = Modifier
+                                            .size(112.dp)
+                                            .clip(RoundedCornerShape(CornerSize(16.dp)))
+                                            .padding(bottom = 4.dp)
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    item {
+                        Text(
+                            text = "Videos",
+                            style = Typography.titleMedium,
+                            color = Color.White,
+                            modifier = Modifier.padding(
+                                start = 16.dp,
+                                bottom = 8.dp
                             )
-                            .clickable { interaction.onClickVideo(it.key) },
-                        colors = CardDefaults.cardColors(containerColor = Secondary)
+                        )
+                    }
+                    items(
+                        state.data!!.episodeMovies.results
                     ) {
-                        Row(
+                        Card(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = 16.dp, vertical = 16.dp),
-                            Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Column {
-                                Text(
-                                    text = it.name,
-                                    style = Typography.labelMedium,
-                                    color = Color.White,
-                                    modifier = Modifier.padding(
-                                    )
+                                .padding(
+                                    horizontal = 16.dp,
+                                    vertical = 4.dp
                                 )
-                                Text(
-                                    text = "${it.site}, ${it.type}",
-                                    style = Typography.labelSmall,
-                                    color = FontSecondary,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis,
-                                    modifier = Modifier.padding(
+                                .clickable { interaction.onClickVideo(it.key) },
+                            colors = CardDefaults.cardColors(containerColor = Secondary)
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp, vertical = 16.dp),
+                                Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Column {
+                                    Text(
+                                        text = it.name,
+                                        style = Typography.labelMedium,
+                                        color = Color.White,
+                                        modifier = Modifier.padding(
+                                        )
                                     )
+                                    Text(
+                                        text = "${it.site}, ${it.type}",
+                                        style = Typography.labelSmall,
+                                        color = FontSecondary,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                        modifier = Modifier.padding(
+                                        )
+                                    )
+                                }
+                                Icon(
+                                    painter = painterResource(id = R.drawable.icon_back),
+                                    contentDescription = "Back",
+                                    modifier = Modifier
+                                        .rotate(180f),
+                                    tint = Color.White
                                 )
                             }
-                            Icon(
-                                painter = painterResource(id = R.drawable.icon_back),
-                                contentDescription = "Back",
-                                modifier = Modifier
-                                    .rotate(180f),
-                                tint = Color.White
-                            )
                         }
                     }
                 }
@@ -363,6 +370,7 @@ fun Details(
             .padding(top = 16.dp),
         horizontalAlignment = Alignment.Start
     ) {
+        Spacer(modifier = Modifier.height(IMAGE_HEIGHT.dp))
         Row(
             horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()
         ) {
@@ -413,18 +421,6 @@ fun Details(
             Text(
                 modifier = Modifier.padding(start = 4.dp, end = 8.dp),
                 text = "${state.data!!.episodeDetails.voteAverage} Rating",
-                style = MaterialTheme.typography.bodyMedium,
-                color = FontSecondary,
-            )
-            Icon(
-                painter = painterResource(id = R.drawable.icon_star_filled),
-                contentDescription = "",
-                modifier = Modifier.padding(end = 4.dp),
-                tint = Color.Yellow
-            )
-            Text(
-                modifier = Modifier.padding(start = 4.dp),
-                text = "${state.data!!.episodeAccountStatus.rated}",
                 style = MaterialTheme.typography.bodyMedium,
                 color = FontSecondary,
             )
