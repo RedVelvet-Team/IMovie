@@ -11,7 +11,7 @@ class GetEpisodeDetailsUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(
-        tvId: Int, seasonNumber: Int, episodeNumber: Int, sessionId: String
+        tvId: Int, seasonNumber: Int, episodeNumber: Int
     ): EpisodeDetails = coroutineScope {
 
         try {

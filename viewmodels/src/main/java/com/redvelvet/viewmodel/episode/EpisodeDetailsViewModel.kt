@@ -3,7 +3,6 @@ package com.redvelvet.viewmodel.episode
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import com.redvelvet.entities.episode.EpisodeDetails
-import com.redvelvet.usecase.usecase.auth.GetUserSessionIdUseCase
 import com.redvelvet.usecase.usecase.episode.GetEpisodeDetailsUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
@@ -15,7 +14,6 @@ import javax.inject.Inject
 class EpisodeDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getEpisodeDetailsUseCase: GetEpisodeDetailsUseCase,
-    private val getUserSessionIdUseCase: GetUserSessionIdUseCase
 ) : BaseViewModel<EpisodeDetailsUiState, EpisodeDetailsUiEffect>(EpisodeDetailsUiState()),
     EpisodeDetailsInteraction {
 
@@ -69,7 +67,6 @@ class EpisodeDetailsViewModel @Inject constructor(
                     tvId = args.tvId,
                     seasonNumber = args.seasonId,
                     episodeNumber = args.episodeId,
-                    sessionId = getUserSessionIdUseCase()
                 )
             },
             onSuccessWithData = ::onSuccess,
