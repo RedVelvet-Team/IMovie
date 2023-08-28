@@ -16,8 +16,8 @@ class FirebaseDataSource @Inject constructor(
     private val auth: FirebaseAuth
 ) : RealTimeDataSource {
     override suspend fun getUserScore(accountId: Int): PlayerDto {
-      var result = PlayerDto()
-       fireStore.collection(GAME_COLLECTION).document(accountId.toString()).get()
+        var result = PlayerDto()
+        fireStore.collection(GAME_COLLECTION).document(accountId.toString()).get()
             .addOnSuccessListener {
                 result = it?.toObject(PlayerDto::class.java) ?: PlayerDto()
             }.addOnFailureListener {
@@ -43,8 +43,13 @@ class FirebaseDataSource @Inject constructor(
     }
 
     override suspend fun saveUserScore(score: Int, accountId: Int) {
-        fireStore.collection(GAME_COLLECTION).document(accountId.toString())
-            .update(hashMapOf(SCORE to score) as Map<String, Any>)
+        Log.v("mohamed", "score , $score")
+        val playerRef = fireStore.collection(GAME_COLLECTION).document(accountId.toString())
+        val currentScore = playerRef.get().await().getLong(SCORE) ?: 0L
+        Log.v("mohamed", "score lfeoegve")
+        Log.v("mohamed", "score $currentScore, $score")
+        playerRef.update(SCORE, currentScore + score)
+//            .update(hashMapOf(SCORE to score) as Map<String, Any>)
     }
 
     override suspend fun addPlayer(player: PlayerDto) {
@@ -52,7 +57,7 @@ class FirebaseDataSource @Inject constructor(
             .set(player)
     }
 
-    private companion object{
+    private companion object {
         const val GAME_COLLECTION = "game"
         const val SCORE = "score"
     }

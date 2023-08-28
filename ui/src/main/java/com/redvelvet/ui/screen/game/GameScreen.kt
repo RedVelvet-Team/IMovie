@@ -1,7 +1,6 @@
 package com.redvelvet.ui.screen.game
 
 import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -25,7 +24,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -52,9 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.FlixMovieScaffold
-import com.redvelvet.ui.theme.FontAccent
 import com.redvelvet.ui.theme.OnSecondary
-import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.Secondary
 import com.redvelvet.ui.theme.SecondaryCard2
 import com.redvelvet.ui.theme.SecondaryCard3
@@ -86,8 +82,8 @@ fun GameScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Finished",
-                    color = Color.White,
+                    text = state.currentScore.toString(),
+                    color = Color.Black,
                     style = MaterialTheme.typography.headlineLarge
                 )
             }
@@ -102,24 +98,25 @@ fun GameScreen(
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun GameContent(state: GameUiState, onClick: (AnswerUiState) -> Boolean) {
-    val questionSTate = rememberLazyListState()
-    val coroutineScore = rememberCoroutineScope()
+    val questionState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
+    coroutineScope.launch {
+        questionState.animateScrollToItem(state.currentQuestionNumber-1)
+    }
     Column(
         modifier = Modifier.fillMaxSize(),
     ) {
-        coroutineScore.launch {
-            questionSTate.animateScrollToItem(state.currentQuestionNumber)
-        }
-        DividerRow(number = 24)
+        DividerRow(number = 24, modifier = Modifier.padding(top = 16.dp))
         LazyRow(
-            contentPadding = PaddingValues(8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)
+            contentPadding = PaddingValues(8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp),
+            state = questionState
         ) {
-            items(state.number) {
-                QuestionNumber(question = it)
+            items(state.number.size) {
+                QuestionNumber(question = state.number[it])
             }
         }
         DividerRow(number = 24)
-        Spacer(modifier = Modifier.height(70.dp))
+        Spacer(modifier = Modifier.height(60.dp))
         RepeatableCardStack(
             state = state, onClick = onClick
         )
@@ -207,15 +204,15 @@ fun RepeatableCardStack(state: GameUiState, onClick: (AnswerUiState) -> Boolean)
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, top = 32.dp)
             .height(150.dp)
+            .padding(horizontal = 16.dp)
     ) {
 
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(120.dp)
-                .rotate(5f)
+                .rotate(4f)
                 .align(Alignment.Center)
                 .clip(RoundedCornerShape(8.dp))
                 .background(SecondaryCard3)
@@ -224,7 +221,7 @@ fun RepeatableCardStack(state: GameUiState, onClick: (AnswerUiState) -> Boolean)
             modifier = Modifier
                 .fillMaxWidth()
                 .height(120.dp)
-                .rotate(-5f)
+                .rotate(-4f)
                 .align(Alignment.Center)
                 .clip(RoundedCornerShape(8.dp))
                 .background(SecondaryCard2)
@@ -257,7 +254,7 @@ fun RepeatableCardStack(state: GameUiState, onClick: (AnswerUiState) -> Boolean)
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .clip(RoundedCornerShape(8.dp))
-                .background(Color.Green)
+                .background(Color(0xFF6C5DD3))
                 .padding(horizontal = 8.dp, vertical = 4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -267,15 +264,15 @@ fun RepeatableCardStack(state: GameUiState, onClick: (AnswerUiState) -> Boolean)
                     .padding(end = 8.dp),
                 painter = painterResource(id = R.drawable.ic_point),
                 contentDescription = "",
-                tint = Color.White
+                tint = Color(0xFFF8C33C)
             )
             Text(
-                text = state.score, style = Typography.bodySmall, color = Color.Black
+                text = state.question.score, style = Typography.bodySmall, color = Color(0xFFE9C03C)
             )
         }
     }
 
-    Spacer(modifier = Modifier.height(60.dp))
+    Spacer(modifier = Modifier.height(100.dp))
 
     repeat(state.question.answers.size) { index ->
         Answer(
@@ -299,7 +296,7 @@ fun Answer(answer: AnswerUiState, onClick: (AnswerUiState) -> Boolean, isAnswere
     val modifier = Modifier
         .fillMaxWidth()
         .padding(
-            horizontal = MaterialTheme.spacing.spacing16, vertical = MaterialTheme.spacing.spacing4
+            horizontal = MaterialTheme.spacing.spacing16, vertical = MaterialTheme.spacing.spacing8
         )
         .clip(RoundedCornerShape(16.dp))
         .background(backgroundColor)
@@ -308,15 +305,10 @@ fun Answer(answer: AnswerUiState, onClick: (AnswerUiState) -> Boolean, isAnswere
         modifier
             .clickable {
                 isSelected = answer.text
-                val isCorrect = onClick(answer)
-                Toast
-                    .makeText(
-                        context, if (isCorrect) "Correct" else "false", Toast.LENGTH_SHORT
-                    )
-                    .show()
+                onClick(answer)
             }
-            .padding(vertical = MaterialTheme.spacing.spacing16)
-    } else modifier.padding(vertical = MaterialTheme.spacing.spacing16),
+            .padding(vertical = MaterialTheme.spacing.spacing16, horizontal = 8.dp)
+    } else modifier.padding(vertical = MaterialTheme.spacing.spacing16, horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center) {
         AnimatedContent(

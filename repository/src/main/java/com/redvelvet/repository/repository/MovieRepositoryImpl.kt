@@ -80,8 +80,8 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getPlayerInfo(): Player {
-        val accountId = authRepository.getAccountDetailsIdFromLocal()
-        return realTimeDataSource.getUserScore(accountId ?: 0).toEntity()
+        val accountId = authRepository.getAccountDetailsIdFromLocal() ?: 123
+        return realTimeDataSource.getUserScore(accountId).toEntity()
     }
 
     override suspend fun addPlayer() {
@@ -95,8 +95,9 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun savePlayerScore(score: Int) {
-        val accountId = authRepository.getAccountDetailsIdFromLocal()
-        return realTimeDataSource.saveUserScore(score, accountId ?: 0)
+        val accountId = authRepository.getAccountDetailsIdFromLocal() ?: 123
+        Log.v("mohamed", "save from repo $score with $accountId")
+        realTimeDataSource.saveUserScore(score, accountId)
     }
     //endregion
 

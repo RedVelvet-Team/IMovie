@@ -2,7 +2,6 @@ package com.redvelvet.viewmodel.game
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import androidx.paging.LOGGER
 import com.redvelvet.entities.Question
 import com.redvelvet.usecase.usecase.GetQuestionUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
@@ -58,16 +57,35 @@ class GameViewModel @Inject constructor(
         val currentQuestion = _state.value.number
         val questionNumber = _state.value.currentQuestionNumber
         val isCorrectAnswer = getQuestion.isCorrectAnswer(answer.text)
-        currentQuestion[questionNumber-1] =
-            QuestionNumberState(questionNumber, if (isCorrectAnswer) Correctness.CORRECT else Correctness.WRONG)
-        _state.update { it.copy(isAnswered = true, number = currentQuestion) }
+        currentQuestion[questionNumber - 1] =
+            QuestionNumberState(
+                questionNumber,
+                if (isCorrectAnswer) Correctness.CORRECT else Correctness.WRONG
+            )
+        _state.update {
+            it.copy(
+                isAnswered = true,
+                number = currentQuestion,
+                currentScore = it.currentScore + if (isCorrectAnswer) it.question.score.toInt() else 0
+            )
+        }
         Log.v("hass", getQuestion.isQuestionsEnded().toString())
         return isCorrectAnswer.also {
             if (getQuestion.isQuestionsEnded()) {
+                savePlayerScore()
                 _state.update { it.copy(isGameFinished = true) }
             } else {
                 getQuestion()
             }
         }
+    }
+
+    private fun savePlayerScore(){
+        Log.v("mohamed", "save score")
+        tryToExecute(
+            execute = {getQuestion.updatePlayerScore(_state.value.currentScore)},
+            onSuccessWithoutData = {Log.v("hass", "success")},
+            onError = ::onError
+        )
     }
 }
