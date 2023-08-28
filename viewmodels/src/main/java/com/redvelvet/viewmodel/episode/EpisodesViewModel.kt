@@ -5,7 +5,6 @@ import com.redvelvet.entities.EpisodeDetails
 import com.redvelvet.usecase.usecase.GetAllEpisodesUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
-import com.redvelvet.viewmodel.seeall.episode.toEpisodeCardUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
