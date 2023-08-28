@@ -1,7 +1,7 @@
 package com.redvelvet.repository.source
 
 import com.redvelvet.repository.dto.ActorKnownForDto
-import com.redvelvet.repository.dto.BaseResponse
+import com.redvelvet.repository.dto.EpisodeSingleItemDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
@@ -9,7 +9,6 @@ import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
 import com.redvelvet.repository.dto.library.LibraryMovieDto
 import com.redvelvet.repository.dto.library.LibraryTvDto
-import com.redvelvet.repository.dto.listAndFavorites.ListRemoteDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -85,6 +84,31 @@ interface RemoteDataSource {
     suspend fun seeAllRecommendedMovie(page: Int?, id: Int): List<MovieDetailsDTO>
     //endregion
 
+    // region Episode Details
+    suspend fun getEpisodeDetails(
+        tvId: Int,
+        seasonNumber: Int,
+        episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeDetails
+
+    suspend fun getEpisodeMovies(
+        tvId: Int,
+        seasonNumber: Int,
+        episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeMovies
+
+    suspend fun getEpisodeCast(
+        tvId: Int,
+        seasonNumber: Int,
+        episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeCast
+
+    suspend fun getEpisodeImages(
+        tvId: Int,
+        seasonNumber: Int,
+        episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeImages
+    // endregion
 
     //region tvShow
     suspend fun getTvShowKeyWordsByID(seriesId: Int): TvShowKeywordsDto

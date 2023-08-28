@@ -1,9 +1,9 @@
-package com.redvelvet.viewmodel.episode
+package com.redvelvet.viewmodel.see_all_episode
 
 import com.redvelvet.viewmodel.base.BaseUiState
 import com.redvelvet.viewmodel.base.ErrorUiState
 
-data class EpisodeUiState(
+data class SeeAllEpisodeUiState(
     val title : String="Episodes",
     val seriesId: String = "",
     val episodes: List<EpisodeCardUiState> = emptyList(),

@@ -8,6 +8,7 @@ import com.redvelvet.entities.error.ServerException
 import com.redvelvet.entities.error.ValidationException
 import com.redvelvet.remote.service.MovieApiService
 import com.redvelvet.repository.dto.ActorKnownForDto
+import com.redvelvet.repository.dto.EpisodeSingleItemDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
@@ -316,6 +317,48 @@ class RetrofitDataSource @Inject constructor(
         return wrapApiResponse { movieApiService.getTopRatedTv() }.result.orEmpty()
     }
     //endregion
+
+    // region Episode Details
+    override suspend fun getEpisodeDetails(
+        tvId: Int, seasonNumber: Int, episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeDetails {
+        return wrapApiResponse {
+            movieApiService.getEpisodeDetails(
+                tvId, seasonNumber, episodeNumber
+            )
+        }
+    }
+
+    override suspend fun getEpisodeMovies(
+        tvId: Int, seasonNumber: Int, episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeMovies {
+        return wrapApiResponse {
+            movieApiService.getEpisodeMovies(
+                tvId, seasonNumber, episodeNumber
+            )
+        }
+    }
+
+    override suspend fun getEpisodeCast(
+        tvId: Int, seasonNumber: Int, episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeCast {
+        return wrapApiResponse {
+            movieApiService.getEpisodeTopCast(
+                tvId, seasonNumber, episodeNumber
+            )
+        }
+    }
+
+    override suspend fun getEpisodeImages(
+        tvId: Int, seasonNumber: Int, episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeImages {
+        return wrapApiResponse {
+            movieApiService.getEpisodeImages(
+                tvId, seasonNumber, episodeNumber
+            )
+        }
+    }
+    // endregion
 
 
     override suspend fun deleteTvShowRating(seriesId: Int, sessionId: String): String =
