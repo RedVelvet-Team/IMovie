@@ -1,7 +1,6 @@
 package com.redvelvet.viewmodel.category
 
 import android.util.Log
-import androidx.lifecycle.SavedStateHandle
 import com.redvelvet.entities.Genre
 import com.redvelvet.usecase.usecase.category.GetCategoryUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
@@ -13,12 +12,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
     private val getCategory: GetCategoryUseCase,
 ) : BaseViewModel<MediaTypeUiState, CategoryUiEffect>(MediaTypeUiState()),
     CategoryInteraction {
 
-    private val args: CategoryArgs = CategoryArgs(savedStateHandle)
 
     init {
         getMovieCategory()
