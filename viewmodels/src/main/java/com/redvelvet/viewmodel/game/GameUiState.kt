@@ -11,14 +11,14 @@ data class GameUiState(
     val currentQuestionNumber: Int = 0,
     val question: QuestionUiState = QuestionUiState(),
     val number: MutableList<QuestionNumberState> = MutableList(10) {QuestionNumberState(number = it  +1)},
-    val score: String = "100",
-    val isAnswered: Boolean = false
+    val isAnswered: Boolean = false,
+    val currentScore: Int = 0
 ): BaseUiState
 
 data class QuestionUiState(
+    val score: String = "",
     val question: String = "",
     val answers: List<AnswerUiState> = emptyList(),
-    val questionScore: String = "",
 )
 data class AnswerUiState(
     val isCorrect: Boolean = false,
@@ -39,5 +39,6 @@ enum class Correctness{
 
 fun Question.toUiState() = QuestionUiState(
     question = this.question,
-    answers = this.answers.map { AnswerUiState(text = it) }
+    answers = this.answers.map { AnswerUiState(text = it) },
+    score = this.score.toString()
 )

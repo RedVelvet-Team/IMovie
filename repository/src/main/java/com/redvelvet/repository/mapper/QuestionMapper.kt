@@ -14,6 +14,7 @@ fun QuestionDto.toEntity(): Question{
     return Question(
         question = this.question?.text ?: "",
         answers = answers,
-        correctAnswer = this.correctAnswer ?: ""
+        correctAnswer = this.correctAnswer ?: "",
+        score = listOf(25, 50, 75, 100, 125, 150, 175, 200).shuffled().first()
     )
 }
