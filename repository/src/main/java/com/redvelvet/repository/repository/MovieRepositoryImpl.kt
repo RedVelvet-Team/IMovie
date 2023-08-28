@@ -26,7 +26,7 @@ import com.redvelvet.repository.mapper.toActor
 import com.redvelvet.repository.mapper.toCombinedResult
 import com.redvelvet.repository.mapper.toDomain
 import com.redvelvet.repository.mapper.toEpisodeDetails
-import com.redvelvet.repository.mapper.toGenre
+import com.redvelvet.repository.mapper.toGenreList
 import com.redvelvet.repository.mapper.toMovie
 import com.redvelvet.repository.mapper.toSeasonTvShow
 import com.redvelvet.repository.mapper.toTvShow
@@ -268,11 +268,11 @@ class MovieRepositoryImpl @Inject constructor(
 
     //region category
     override suspend fun getMovieCategory(): List<Genre> {
-        return remoteDataSource.getMovieCategory().map { it.toGenre() }
+        return remoteDataSource.getMovieCategory().toGenreList()
     }
 
     override suspend fun getTvCategory(): List<Genre> {
-        return remoteDataSource.getTvCategory().map { it.toGenre() }
+        return remoteDataSource.getTvCategory().toGenreList()
     }
 
     override suspend fun getMovieCategoryById(id: Int): Flow<PagingData<Movie>> {

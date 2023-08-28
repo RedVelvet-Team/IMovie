@@ -2,7 +2,7 @@ package com.redvelvet.remote.service
 
 import com.redvelvet.repository.dto.ActorKnownForDto
 import com.redvelvet.repository.dto.BaseResponse
-import com.redvelvet.repository.dto.GenreDto
+import com.redvelvet.repository.dto.GenresDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
@@ -405,12 +405,12 @@ interface MovieApiService {
     @GET("genre/movie/list")
     suspend fun genreListMovie(
         @Query("page") page: Int? = 1,
-    ): Response<List<GenreDto>>
+    ): Response<GenresDto>
 
     @GET("genre/tv/list")
     suspend fun genreListTv(
         @Query("page") page: Int? = 1,
-    ): Response<List<GenreDto>>
+    ): Response<GenresDto>
 
     @GET("discover/tv")
     suspend fun discoverListTv(

@@ -1,9 +1,13 @@
 package com.redvelvet.repository.mapper
 
 import com.redvelvet.entities.Genre
-import com.redvelvet.repository.dto.GenreDto
+import com.redvelvet.repository.dto.GenresDto
 
-fun GenreDto.toGenre() = Genre(
-    id = this.id ?: 0,
-    name = this.name ?: ""
-)
+fun GenresDto.toGenreList(): List<Genre> {
+    return genres.map { genre ->
+        Genre(
+            id = genre.id ?: 0,
+            name = genre.name ?: ""
+        )
+    }
+}

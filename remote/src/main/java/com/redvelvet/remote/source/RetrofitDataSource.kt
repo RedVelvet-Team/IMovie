@@ -8,7 +8,7 @@ import com.redvelvet.entities.error.ServerException
 import com.redvelvet.entities.error.ValidationException
 import com.redvelvet.remote.service.MovieApiService
 import com.redvelvet.repository.dto.ActorKnownForDto
-import com.redvelvet.repository.dto.GenreDto
+import com.redvelvet.repository.dto.GenresDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
@@ -318,11 +318,11 @@ class RetrofitDataSource @Inject constructor(
     }
     //region category
 
-    override suspend fun getMovieCategory(): List<GenreDto> {
+    override suspend fun getMovieCategory(): GenresDto {
         return wrapApiResponse { movieApiService.genreListMovie() }
     }
 
-    override suspend fun getTvCategory(): List<GenreDto> {
+    override suspend fun getTvCategory(): GenresDto {
         return wrapApiResponse { movieApiService.genreListTv() }
     }
 
