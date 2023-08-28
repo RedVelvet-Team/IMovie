@@ -32,5 +32,5 @@ class GetQuestionUseCase @Inject constructor(
 
     fun isCorrectAnswer(answer: String) = questions[questionIndex - 1].correctAnswer == answer
 
-    fun isQuestionsEnded() = (questionIndex - 1)  >= questions.size
+    fun isQuestionsEnded() = (questionIndex)  >= questions.size
 }
