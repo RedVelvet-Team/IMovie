@@ -1,5 +1,7 @@
 package com.redvelvet.repository.mapper
 
+import com.redvelvet.entities.library.LibraryMovie
+import com.redvelvet.entities.library.LibraryTv
 import com.redvelvet.entities.movie.details.MovieDetails
 import com.redvelvet.entities.movie.details.MovieImages
 import com.redvelvet.entities.movie.details.MovieKeyWords
@@ -7,6 +9,8 @@ import com.redvelvet.entities.movie.details.MovieRecommendations
 import com.redvelvet.entities.movie.details.MovieReviews
 import com.redvelvet.entities.movie.details.MovieSimilar
 import com.redvelvet.entities.movie.details.MovieTopCast
+import com.redvelvet.repository.dto.library.LibraryMovieDto
+import com.redvelvet.repository.dto.library.LibraryTvDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -16,7 +20,11 @@ import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
 import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
 
 fun MovieImagesDTO.toDomain(): MovieImages {
-    return MovieImages(backdrops = this.backdrops.map { MovieImages.Backdrop(it.filePath ?: "N/A") },
+    return MovieImages(backdrops = this.backdrops.map {
+        MovieImages.Backdrop(
+            it.filePath ?: "N/A"
+        )
+    },
         id = this.id ?: 0,
         logos = this.logos.map { MovieImages.Logo(it.filePath ?: "N/A") },
         posters = this.posters.map { MovieImages.Poster(it.filePath ?: "N/A") })
@@ -24,7 +32,7 @@ fun MovieImagesDTO.toDomain(): MovieImages {
 
 fun MovieKeyWordsDTO.toDomain(): MovieKeyWords {
     return MovieKeyWords(id = this.id ?: 0,
-        keywords = this.keywords.map { MovieKeyWords.Keyword(it.id ?: 0, it.name?: "N/A") })
+        keywords = this.keywords.map { MovieKeyWords.Keyword(it.id ?: 0, it.name ?: "N/A") })
 }
 
 fun MovieRecommendationsDTO.toDomain(): MovieRecommendations {
@@ -40,14 +48,14 @@ fun MovieRecommendationsDTO.toDomain(): MovieRecommendations {
 fun MovieReviewsDTO.toDomain(): MovieReviews {
     return MovieReviews(id = this.id ?: 0, results = this.results.map {
         MovieReviews.Result(
-                id = it.id ?: "N/A",
-                name = it.authorDetails?.name ?: "N/A",
-                username = it.authorDetails?.username ?: "N/A",
-                content = it.content ?: "N/A",
-                createdAt = it.createdAt ?: "N/A",
-                url = it.url?: "N/A",
-                rating = it.authorDetails?.rating ?: 0.0
-            )
+            id = it.id ?: "N/A",
+            name = it.authorDetails?.name ?: "N/A",
+            username = it.authorDetails?.username ?: "N/A",
+            content = it.content ?: "N/A",
+            createdAt = it.createdAt ?: "N/A",
+            url = it.url ?: "N/A",
+            rating = it.authorDetails?.rating ?: 0.0
+        )
     })
 }
 
@@ -71,6 +79,29 @@ fun MovieTopCastDto.toDomain(): MovieTopCast {
     )
 }
 
+fun LibraryMovieDto.toDomain(): LibraryMovie {
+    return LibraryMovie(
+        backdropPath = backdropPath ?: "",
+        id = id ?: 0,
+        overview = overview ?: "",
+        posterPath = posterPath ?: "",
+        releaseDate = releaseDate ?: "",
+        title = title ?: "",
+    )
+}
+
+fun LibraryTvDto.toDomain(): LibraryTv {
+    return LibraryTv(
+        backdropPath = backdropPath ?: "",
+        id = id ?: 0,
+        overview = overview ?: "",
+        posterPath = posterPath ?: "",
+        firstAirDate = firstAirDate ?: "",
+        name = name ?: "",
+    )
+}
+
+
 fun MovieDetailsDTO.toDomain(): MovieDetails {
     return MovieDetails(
         genres = genres.map { MovieDetails.Genre(it.id ?: 0, it.name ?: "N/A") },
@@ -81,14 +112,18 @@ fun MovieDetailsDTO.toDomain(): MovieDetails {
         posterPath = ("https://image.tmdb.org/t/p/w500$posterPath") ?: "N/A",
         productionCountries = productionCountries.map {
             MovieDetails.ProductionCountry(
-                it.iso31661  ?: "N/A",
-                it.name  ?: "N/A"
+                it.iso31661 ?: "N/A",
+                it.name ?: "N/A"
             )
         },
         releaseDate = releaseDate ?: "N/A",
         revenue = revenue ?: 0,
         runtime = "$runtime min",
-        spokenLanguages = spokenLanguages.map { MovieDetails.SpokenLanguage(it.englishName  ?: "N/A") },
+        spokenLanguages = spokenLanguages.map {
+            MovieDetails.SpokenLanguage(
+                it.englishName ?: "N/A"
+            )
+        },
         status = status ?: "N/A",
         tagline = tagline ?: "N/A",
         title = title ?: "N/A",

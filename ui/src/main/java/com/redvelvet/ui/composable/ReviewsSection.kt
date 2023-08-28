@@ -7,17 +7,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.redvelvet.ui.screen.movieDetails.Item
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 
 @Composable
 fun ReviewsSection(
     isNotListEmpty: Boolean = false,
-    reviewNames: List<String> = emptyList(),
-    reviewIds: List<String> = emptyList(),
-    reviewStars: List<Double> = emptyList(),
-    reviewDates: List<String> = emptyList(),
-    reviewDescriptions: List<String> = emptyList(),
+    items: List<Item> = emptyList(),
     onClickSeeAllReviews: (String) -> Unit = {},
     onClickReview: (id: String) -> Unit = {},
     itemId: String
@@ -32,17 +29,18 @@ fun ReviewsSection(
             ItemsSectionForDetailsScreens(
                 label = "Reviews",
                 hasName = false,
-                name = reviewNames,
+                items = items,
                 hasCustomList = true,
                 hasDateAndCountry = false,
                 customListItemComposable = { index ->
-                    if (reviewDescriptions[index].isNotEmpty())
+                    val item = items[index]
+                    if (item.discription.isNotEmpty())
                         ItemReview(
-                            id = reviewIds[index],
-                            name = reviewNames[index],
-                            rating = reviewStars[index],
-                            date = reviewDates[index],
-                            content = reviewDescriptions[index],
+                            id = item.strId,
+                            name = item.name,
+                            rating = item.stars,
+                            date = item.date,
+                            content = item.discription,
                             modifier = Modifier
                                 .width(MaterialTheme.dimens.dimens270)
                                 .height(MaterialTheme.dimens.dimens143),

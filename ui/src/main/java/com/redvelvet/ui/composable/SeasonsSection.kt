@@ -1,6 +1,5 @@
 package com.redvelvet.ui.composable
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -11,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.R
+import com.redvelvet.ui.screen.movieDetails.Item
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 
@@ -18,13 +18,7 @@ import com.redvelvet.ui.theme.spacing
 fun SeasonsSection(
     isNotListEmpty: Boolean = false,
     seriesId: Int,
-    seasonImages: List<String> = emptyList(),
-    seasonNames: List<String> = emptyList(),
-    seasonIds: List<Int> = emptyList(),
-    seasonStars: List<Double> = emptyList(),
-    seasonDates: List<String> = emptyList(),
-    seasonDescriptions: List<String> = emptyList(),
-    seasonEpisodes: List<Int> = emptyList(),
+    items: List<Item> = emptyList(),
     onClickSeeAllSeasons: (String) -> Unit = {},
     onClickSeason: (String, Int) -> Unit,
 ) {
@@ -38,22 +32,22 @@ fun SeasonsSection(
             ItemsSectionForDetailsScreens(
                 label = "Seasons",
                 hasName = false,
-                name = seasonNames,
+                items = items,
                 hasCustomList = true,
                 hasDateAndCountry = false,
                 customListItemComposable = { index ->
-
+                    val item = items[index]
                     ItemSeason(
-                        seasonNumber = seasonIds[index],
-                        seriesId = seriesId.toString(),
-                        name = seasonNames[index],
-                        date = seasonDates[index],
-                        episodesNum = seasonEpisodes[index],
-                        description = seasonDescriptions[index],
-                        rate = seasonStars[index],
+                        id = item.id,
+                        seriesId = seriesId,
+                        name = item.name,
+                        date = item.date,
+                        episodesNum = item.episodeNum,
+                        description = item.discription,
+                        rate = item.stars,
                         onClickItem = onClickSeason,
                         image = rememberAsyncImagePainter(
-                            model = seasonImages[index],
+                            model = item.image,
                             placeholder = painterResource(id = R.drawable.image_placeholder),
                             error = painterResource(id = R.drawable.image_placeholder),
                         )

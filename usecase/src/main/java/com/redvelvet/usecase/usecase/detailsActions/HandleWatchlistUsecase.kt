@@ -1,21 +1,27 @@
 package com.redvelvet.usecase.usecase.detailsActions
 
-import com.redvelvet.usecase.usecase.library.GetMovieWatchListUsecase
+import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
 
 class HandleWatchlistUsecase @Inject constructor(
-    private val getMovieWatchListUsecase: GetMovieWatchListUsecase,
+    private val handleItemCheckUsecase: HandleItemCheckUsecase,
     private val toggleMediaInWatchListUsecase: ToggleMediaInWatchListUsecase,
 ) {
     suspend operator fun invoke(
         mediaType: String,
         mediaId: Int,
     ): String {
-        val isListHasItem = getMovieWatchListUsecase.invoke().any { it.id == mediaId }
-        return if (isListHasItem) {
-            toggleMediaInWatchListUsecase.invoke(mediaType, mediaId, false)
-        } else {
-            toggleMediaInWatchListUsecase.invoke(mediaType, mediaId, true)
+        return coroutineScope {
+            val dataType = when (mediaType) {
+                "movie" -> TypeOfData.MOVIE_WATCHLIST
+                "tv" -> TypeOfData.TV_WATCHLIST
+                else -> throw IllegalArgumentException("Invalid mediaType")
+            }
+            if (handleItemCheckUsecase.invoke(mediaId, dataType)) {
+                toggleMediaInWatchListUsecase.invoke(mediaType, mediaId, false)
+            } else {
+                toggleMediaInWatchListUsecase.invoke(mediaType, mediaId, true)
+            }
         }
     }
 }

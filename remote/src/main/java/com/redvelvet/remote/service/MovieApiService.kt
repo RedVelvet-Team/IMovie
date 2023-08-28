@@ -13,6 +13,8 @@ import com.redvelvet.repository.dto.auth.response.TokenDto
 import com.redvelvet.repository.dto.detailsRequests.AddToWatchListRequest
 import com.redvelvet.repository.dto.detailsRequests.MarkAsFavoriteRequest
 import com.redvelvet.repository.dto.detailsRequests.RateRequest
+import com.redvelvet.repository.dto.library.LibraryMovieDto
+import com.redvelvet.repository.dto.library.LibraryTvDto
 import com.redvelvet.repository.dto.listAndFavorites.AddMediaToListDto
 import com.redvelvet.repository.dto.listAndFavorites.CreateUserListDto
 import com.redvelvet.repository.dto.listAndFavorites.DeleteMovieFromListDto
@@ -334,38 +336,38 @@ interface MovieApiService {
     suspend fun getFavoriteMovies(
         @Path("account_id") accountId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+    ): Response<BaseResponse<List<LibraryMovieDto>>>
 
     @GET("account/{account_id}/favorite/tv")
     suspend fun getFavoriteTv(
         @Path("account_id") accountId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<BaseResponse<List<TvShowDto>>>
+    ): Response<BaseResponse<List<LibraryTvDto>>>
 
 
     @GET("account/{account_id}/watchlist/movies")
     suspend fun getWatchlistMovie(
         @Path("account_id") accountId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+    ): Response<BaseResponse<List<LibraryMovieDto>>>
 
     @GET("account/{account_id}/watchlist/tv")
     suspend fun getWatchlistTv(
         @Path("account_id") accountId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<BaseResponse<List<TvShowDto>>>
+    ): Response<BaseResponse<List<LibraryTvDto>>>
 
     @GET("account/{account_id}/rated/movies")
     suspend fun getRatedMovies(
         @Path("account_id") accountId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+    ): Response<BaseResponse<List<LibraryMovieDto>>>
 
     @GET("account/{account_id}/rated/tv")
     suspend fun getRatedTv(
         @Path("account_id") accountId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<BaseResponse<List<TvShowDto>>>
+    ): Response<BaseResponse<List<LibraryTvDto>>>
 
 
     @POST("account/{account_id}/watchlist")
