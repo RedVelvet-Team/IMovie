@@ -8,14 +8,14 @@ data class GameUiState(
     val isLoading: Boolean = true,
     val isGameFinished: Boolean = false,
     val error: ErrorUiState? = null,
+    val currentQuestionNumber: Int = 0,
     val question: QuestionUiState = QuestionUiState(),
+    val number: MutableList<QuestionNumberState> = MutableList(10) {QuestionNumberState(number = it  +1)},
     val score: String = "100",
     val isAnswered: Boolean = false
 ): BaseUiState
 
-
 data class QuestionUiState(
-    val number: Int = 0,
     val question: String = "",
     val answers: List<AnswerUiState> = emptyList(),
     val questionScore: String = "",
@@ -25,8 +25,19 @@ data class AnswerUiState(
     val text: String = ""
 )
 
+data class QuestionNumberState(
+    val number: Int = 1,
+    val correctness: Correctness = Correctness.NOT_ANSWERED
+)
+
+enum class Correctness{
+    CORRECT,
+    WRONG,
+    NOT_ANSWERED,
+    CURRENT_ANSWERED
+}
+
 fun Question.toUiState() = QuestionUiState(
-    number = 0,
     question = this.question,
     answers = this.answers.map { AnswerUiState(text = it) }
 )
