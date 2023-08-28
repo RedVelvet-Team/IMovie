@@ -17,20 +17,15 @@ class GetEpisodeDetailsUseCase @Inject constructor(
         try {
             val episodeDetailsDef = async { getEpisodeDetails(tvId, seasonNumber, episodeNumber) }
             val episodeMoviesDef = async { getEpisodeMovies(tvId, seasonNumber, episodeNumber) }
-            val episodeAccountStatusDef =
-                async { getEpisodeAccountStates(tvId, seasonNumber, episodeNumber, sessionId) }
             val episodeCastDef = async { getEpisodeCast(tvId, seasonNumber, episodeNumber) }
             val episodeImagesDef = async { getEpisodeImages(tvId, seasonNumber, episodeNumber) }
-
             val episodeDetails = episodeDetailsDef.await()
             val episodeMovies = episodeMoviesDef.await()
-            val episodeAccountStatus = episodeAccountStatusDef.await()
             val episodeCast = episodeCastDef.await()
             val episodeImages = episodeImagesDef.await()
             EpisodeDetails(
                 episodeDetails = episodeDetails,
                 episodeMovies = episodeMovies,
-                episodeAccountStatus = episodeAccountStatus,
                 episodeCast = episodeCast,
                 episodeImages = episodeImages
             )
@@ -62,13 +57,5 @@ class GetEpisodeDetailsUseCase @Inject constructor(
         tvId: Int, seasonNumber: Int, episodeNumber: Int
     ): EpisodeDetails.EpisodeImages {
         return episodeRepository.getEpisodeImages(tvId, seasonNumber, episodeNumber)
-    }
-
-    private suspend fun getEpisodeAccountStates(
-        tvId: Int, seasonNumber: Int, episodeNumber: Int, sessionId: String
-    ): EpisodeDetails.EpisodeAccountStatus {
-        return episodeRepository.getEpisodeAccountStates(
-            tvId, seasonNumber, episodeNumber, sessionId
-        )
     }
 }

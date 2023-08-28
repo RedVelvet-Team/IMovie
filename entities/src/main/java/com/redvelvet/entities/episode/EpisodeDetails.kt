@@ -3,7 +3,6 @@ package com.redvelvet.entities.episode
 data class EpisodeDetails(
     val episodeDetails: EpisodeDetails,
     val episodeMovies: EpisodeMovies,
-    val episodeAccountStatus: EpisodeAccountStatus,
     val episodeCast: EpisodeCast,
     val episodeImages: EpisodeImages
 ) {
@@ -33,15 +32,6 @@ data class EpisodeDetails(
             val type: String,
             val official: Boolean,
             val publishedAt: String,
-        )
-    }
-
-    data class EpisodeAccountStatus(
-        val id: Int,
-        val rated: Rated
-    ) {
-        data class Rated(
-            val value: Double
         )
     }
 

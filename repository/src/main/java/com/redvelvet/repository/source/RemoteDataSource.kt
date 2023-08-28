@@ -97,14 +97,6 @@ interface RemoteDataSource {
         episodeNumber: Int
     ): EpisodeSingleItemDto.EpisodeMovies
 
-
-    suspend fun getEpisodeAccountStates(
-        tvId: Int,
-        seasonNumber: Int,
-        episodeNumber: Int,
-        sessionId: String
-    ): EpisodeSingleItemDto.EpisodeAccountStatus
-
     suspend fun getEpisodeCast(
         tvId: Int,
         seasonNumber: Int,

@@ -339,16 +339,6 @@ class RetrofitDataSource @Inject constructor(
         }
     }
 
-    override suspend fun getEpisodeAccountStates(
-        tvId: Int, seasonNumber: Int, episodeNumber: Int, sessionId: String
-    ): EpisodeSingleItemDto.EpisodeAccountStatus {
-        return wrapApiResponse {
-            movieApiService.getEpisodeAccountStatus(
-                tvId, seasonNumber, episodeNumber, sessionId
-            )
-        }
-    }
-
     override suspend fun getEpisodeCast(
         tvId: Int, seasonNumber: Int, episodeNumber: Int
     ): EpisodeSingleItemDto.EpisodeCast {
