@@ -3,6 +3,7 @@ package com.redvelvet.ui.screen.category
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.pager.PagerState
@@ -22,32 +22,60 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
+import com.redvelvet.ui.composable.CategoryItem
 import com.redvelvet.ui.composable.FlixMovieScaffold
+import com.redvelvet.ui.composable.NavigationHandler
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
+import com.redvelvet.viewmodel.category.CategoryInteraction
+import com.redvelvet.viewmodel.category.CategoryUiEffect
+import com.redvelvet.viewmodel.category.CategoryViewModel
 import com.redvelvet.viewmodel.category.GenreUiState
 import com.redvelvet.viewmodel.category.MediaTypeUiState
+import com.redvelvet.viewmodel.utils.MediaType
 
 @Composable
-fun CategoryScreen() {
+fun CategoryScreen(categoryViewModel: CategoryViewModel = hiltViewModel()) {
+
+    val state by categoryViewModel.state.collectAsState()
+    val navController = LocalNavController.current
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
+    NavigationHandler(
+        effects = categoryViewModel.effect,
+        handleEffect = { effect, navController ->
+            when (effect) {
+                is CategoryUiEffect.NavigateUp -> {
+                    navController.popBackStack()
+                }
+
+//                is CategoryUiEffect.NavigateToSeeAllCategoryScreen -> {
+//                    navController.navigateToSeeAllCategory(effect.id)
+//                }
+            }
+        }
+    )
     FlixMovieScaffold(
         title = "Category",
         isLoading = false,
         hasTopBar = true,
         hasBackArrow = false
     ) {
-        CategoryContent(state = MediaTypeUiState())
+        CategoryContent(state = MediaTypeUiState(), interaction = categoryViewModel)
     }
 }
 
@@ -55,6 +83,7 @@ fun CategoryScreen() {
 @Composable
 fun CategoryContent(
     state: MediaTypeUiState,
+    interaction: CategoryInteraction,
 ) {
     Column(
         modifier = Modifier
@@ -64,41 +93,48 @@ fun CategoryContent(
             )
             .fillMaxWidth()
     ) {
-        var page by remember { mutableIntStateOf(0) }
-        val pagerState = rememberPagerState(initialPage = 0) {
-            if (page == 0) state.genreList.size
-            else state.genreList.size
+        var selectedCategory by remember { mutableStateOf(MediaType.MOVIE) }
+        val pagerState = rememberPagerState(
+            initialPage = selectedCategory.ordinal,
+        ) {
+            if (state.genreMovieList.isNotEmpty()) {
+                if (selectedCategory == MediaType.MOVIE) state.genreMovieList.size
+                else state.genreTvList.size
+            } else {
+                0
+            }
         }
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = MaterialTheme.spacing.spacing16)
         ) {
             TabRow(
-                selectedTabIndex = page,
+                selectedTabIndex = selectedCategory.ordinal,
                 containerColor = MaterialTheme.color.backgroundPrimary,
-                indicator = {
-                },
+                indicator = {},
                 divider = {}
             ) {
-                state.type.forEachIndexed { index, title ->
+                MediaType.values().forEachIndexed { index, category ->
                     Box {
                         Tab(
-                            selected = page == index,
+                            selected = selectedCategory == category,
                             onClick = {
-                                page = index
+                                selectedCategory = category
                             },
                             text = {
                                 Text(
-                                    text = title,
+                                    text = category.name,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
                                     color = Color.White,
                                     style = Typography.headlineSmall
                                 )
-                            })
+                            }
+                        )
                         this@Column.AnimatedVisibility(
-                            visible = page == index,
+                            visible = selectedCategory == category,
                             modifier = Modifier.align(Alignment.BottomCenter)
                         ) {
                             Box(
@@ -115,72 +151,43 @@ fun CategoryContent(
                     }
                 }
             }
-            val selectedTabContent: @Composable () -> Unit = when (page) {
-                0 -> {
-                    {
 
-                    }
-                }
+            val selectedTabContent: @Composable () -> Unit = {
+                when (selectedCategory) {
+                    MediaType.MOVIE -> CategoryContent(
+                        viewPaperList = state.genreMovieList,
+                        interaction,
+                        pagerState = pagerState
+                    )
 
-                1 -> {
-                    {
-                        //TODO
-                    }
-                }
+                    MediaType.TV -> CategoryContent(
+                        viewPaperList = state.genreTvList,
+                        interaction,
+                        pagerState = pagerState
+                    )
 
-                else -> {
-                    {}
+                    else -> {}
                 }
             }
             selectedTabContent()
         }
     }
-
-}
-
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun MovieCategoryContent(
-    state: MediaTypeUiState,
-    pagerState: PagerState,
-    viewPaperList: List<GenreUiState>
-) {
-    val navController = LocalNavController.current
-
-
-}
-
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun TvShowCategoryContent(
-    state: MediaTypeUiState,
-    pagerState: PagerState,
-    viewPaperList: List<GenreUiState>
-) {
-    val navController = LocalNavController.current
-
 }
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TabCategoryDisplay(
-    pagerState: PagerState,
+fun CategoryContent(
     viewPaperList: List<GenreUiState>,
-    category: List<GenreUiState>,
-    onClickItem: (String) -> Unit
+    interaction: CategoryInteraction,
+    pagerState: PagerState,
 ) {
-//    LazyRow(
-//        contentPadding = PaddingValues(vertical = MaterialTheme.spacing.spacing16),
-//        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing24)
-//    ) {}
-
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.color.backgroundPrimary)
             .padding(top = MaterialTheme.spacing.spacing32)
-    ){
+    ) {
         LazyVerticalGrid(
             contentPadding = PaddingValues(
                 horizontal = MaterialTheme.spacing.spacing16,
@@ -195,9 +202,21 @@ fun TabCategoryDisplay(
                 MaterialTheme.spacing.spacing16,
                 Alignment.CenterVertically
             )
-        ){
-
+        ) {
+            items(viewPaperList.size) {
+                CategoryItem(
+                    media = viewPaperList[it].name,
+                    genreId = viewPaperList[it].id.toInt(),
+                    modifier = Modifier
+                        .clickable {
+                            interaction.onClickCard(viewPaperList[it].id, viewPaperList[it].name)
+                        }
+                )
+            }
         }
     }
-
 }
+
+
+
+
