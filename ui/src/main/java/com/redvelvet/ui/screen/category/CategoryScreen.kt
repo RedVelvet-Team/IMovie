@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -48,6 +47,7 @@ import com.redvelvet.viewmodel.category.GenreUiState
 import com.redvelvet.viewmodel.category.MediaTypeUiState
 import com.redvelvet.viewmodel.utils.MediaType
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CategoryScreen(categoryViewModel: CategoryViewModel = hiltViewModel()) {
 
@@ -75,43 +75,36 @@ fun CategoryScreen(categoryViewModel: CategoryViewModel = hiltViewModel()) {
         hasTopBar = true,
         hasBackArrow = false
     ) {
-        CategoryContent(state = MediaTypeUiState(), interaction = categoryViewModel)
+//        CategoryContent(viewPaperList = state.genreTvList, interaction = categoryViewModel)
+        CategoriesContent(state = MediaTypeUiState(), interaction = categoryViewModel)
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun CategoryContent(
+fun CategoriesContent(
     state: MediaTypeUiState,
     interaction: CategoryInteraction,
 ) {
     Column(
         modifier = Modifier
+            .fillMaxSize()
             .padding(
                 top = MaterialTheme.dimens.dimens88,
                 bottom = MaterialTheme.dimens.dimens70
             )
-            .fillMaxWidth()
+
     ) {
         var selectedCategory by remember { mutableStateOf(MediaType.MOVIE) }
-        val pagerState = rememberPagerState(
-            initialPage = selectedCategory.ordinal,
-        ) {
-            if (state.genreMovieList.isNotEmpty()) {
-                if (selectedCategory == MediaType.MOVIE) state.genreMovieList.size
-                else state.genreTvList.size
-            } else {
-                0
-            }
+        val pagerState = rememberPagerState {
+            2
         }
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = MaterialTheme.spacing.spacing16)
         ) {
             TabRow(
-                selectedTabIndex = selectedCategory.ordinal,
+                selectedTabIndex = pagerState.currentPage,
                 containerColor = MaterialTheme.color.backgroundPrimary,
                 indicator = {},
                 divider = {}
@@ -157,13 +150,11 @@ fun CategoryContent(
                     MediaType.MOVIE -> CategoryContent(
                         viewPaperList = state.genreMovieList,
                         interaction,
-                        pagerState = pagerState
                     )
 
                     MediaType.TV -> CategoryContent(
                         viewPaperList = state.genreTvList,
                         interaction,
-                        pagerState = pagerState
                     )
 
                     else -> {}
@@ -175,44 +166,36 @@ fun CategoryContent(
 }
 
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CategoryContent(
     viewPaperList: List<GenreUiState>,
     interaction: CategoryInteraction,
-    pagerState: PagerState,
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.color.backgroundPrimary)
-            .padding(top = MaterialTheme.spacing.spacing32)
+
+    LazyVerticalGrid(
+        contentPadding = PaddingValues(
+            horizontal = MaterialTheme.spacing.spacing16,
+            vertical = MaterialTheme.spacing.spacing64
+        ),
+        columns = GridCells.Fixed(2),
+        horizontalArrangement = Arrangement.spacedBy(
+            MaterialTheme.spacing.spacing8,
+            Alignment.CenterHorizontally
+        ),
+        verticalArrangement = Arrangement.spacedBy(
+            MaterialTheme.spacing.spacing16,
+            Alignment.CenterVertically
+        )
     ) {
-        LazyVerticalGrid(
-            contentPadding = PaddingValues(
-                horizontal = MaterialTheme.spacing.spacing16,
-                vertical = MaterialTheme.spacing.spacing64
-            ),
-            columns = GridCells.Fixed(2),
-            horizontalArrangement = Arrangement.spacedBy(
-                MaterialTheme.spacing.spacing8,
-                Alignment.CenterHorizontally
-            ),
-            verticalArrangement = Arrangement.spacedBy(
-                MaterialTheme.spacing.spacing16,
-                Alignment.CenterVertically
+        items(viewPaperList.size) {
+            CategoryItem(
+                media = viewPaperList[it].name,
+                genreId = viewPaperList[it].id.toInt(),
+                modifier = Modifier
+                    .clickable {
+                        interaction.onClickCard(viewPaperList[it].id, viewPaperList[it].name)
+                    }
             )
-        ) {
-            items(viewPaperList.size) {
-                CategoryItem(
-                    media = viewPaperList[it].name,
-                    genreId = viewPaperList[it].id.toInt(),
-                    modifier = Modifier
-                        .clickable {
-                            interaction.onClickCard(viewPaperList[it].id, viewPaperList[it].name)
-                        }
-                )
-            }
         }
     }
 }
