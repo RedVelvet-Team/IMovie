@@ -8,7 +8,7 @@ data class RoomUiState(
     val error: ErrorUiState? = null,
     val isCreateRoomClicked: Boolean = false,
     val isJoinRoomClicked: Boolean = false,
-    val isCreateRoomLonelyClicked: Boolean = false,
+    val buttonClicked:Clicked=Clicked.None,
     val dialogState: DialogUiState = DialogUiState()
 ) : BaseUiState {
     data class DialogUiState(
@@ -18,5 +18,7 @@ data class RoomUiState(
         val isError: Boolean = false,
     )
 }
+enum class Clicked{JOIN,CREATE,None}
+
 
 

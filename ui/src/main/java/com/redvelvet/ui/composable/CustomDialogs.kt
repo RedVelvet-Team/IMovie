@@ -27,13 +27,15 @@ fun DialogWithIcon(
     modifier: Modifier = Modifier,
     showDialogState: Boolean,
     submitText: String,
-    onSubmitClick: () -> Unit
+    onSubmitClick: () -> Unit,
+    onClickCancel: () -> Unit,
 ) {
     BasicDialog(
         modifier = modifier,
         showDialogState = showDialogState,
         submitText = submitText,
         onSubmitClick = onSubmitClick,
+        onClickCancel = onClickCancel,
         content = {
             Image(
                 painter = painterResource(R.drawable.vector_logo),
@@ -69,13 +71,15 @@ fun DialogWithLink(
     link: String,
     onTextChange: (String) -> Unit,
     onSubmitClick: () -> Unit,
+    onClickCancel: () -> Unit,
 ) {
-    var link by remember { mutableStateOf(link) }
+    var movieLink by remember { mutableStateOf(link) }
     BasicDialog(
         modifier = modifier,
         showDialogState = showDialogState,
         submitText = submitText,
         onSubmitClick = onSubmitClick,
+        onClickCancel = onClickCancel,
         content = {
             Text(
                 modifier = Modifier.padding(bottom = MaterialTheme.spacing.spacing8),
@@ -98,7 +102,7 @@ fun DialogWithLink(
                 value = link,
                 isError = isError,
                 onTextChange = {
-                    link = it
+                    movieLink = it
                     onTextChange(it)
                 }
             )
@@ -114,6 +118,7 @@ fun RatingDialog(
     showDialogState: Boolean,
     ratingState: Float,
     onSubmitClick: () -> Unit,
+    onClickCancel: () -> Unit,
     onRatingChanged: (rating: Float) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -123,6 +128,7 @@ fun RatingDialog(
         showDialogState = showDialogState,
         submitText = "Rate",
         onSubmitClick = onSubmitClick,
+        onClickCancel = onClickCancel,
         content = {
             Text(
                 modifier = Modifier.padding(bottom = MaterialTheme.spacing.spacing24),
@@ -148,8 +154,11 @@ fun RatingDialog(
 @Preview
 @Composable
 fun DialogWithIconPreview() {
-    DialogWithIcon(onSubmitClick = {}, submitText = "Login", showDialogState = true)
+    DialogWithIcon(
+        onSubmitClick = {}, submitText = "Login", showDialogState = true, onClickCancel = {},
+    )
 }
+
 @Preview
 @Composable
 fun DialogWithLinkPreview() {
@@ -162,8 +171,11 @@ fun DialogWithLinkPreview() {
         isError = false,
         onSubmitClick = {},
         onTextChange = {},
-        link = "")
+        onClickCancel = {},
+        link = ""
+    )
 }
+
 @Preview
 @Composable
 fun RateDialogPreview() {
@@ -172,5 +184,7 @@ fun RateDialogPreview() {
         showDialogState = true,
         ratingState = 4f,
         movieName = "SuperWoman njnerj ns nsnfn s nkndfkjn  lkslk ",
-        onRatingChanged = {})
+        onRatingChanged = {},
+        onClickCancel = {},
+    )
 }

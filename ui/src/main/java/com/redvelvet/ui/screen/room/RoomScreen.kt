@@ -1,15 +1,14 @@
 package com.redvelvet.ui.screen.room
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -18,7 +17,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -35,6 +33,8 @@ import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.ui.util.launchCollectLatest
+import com.redvelvet.viewmodel.room.Clicked
+import com.redvelvet.viewmodel.room.RoomInteractions
 import com.redvelvet.viewmodel.room.RoomUiEffect
 import com.redvelvet.viewmodel.room.RoomUiState
 import com.redvelvet.viewmodel.room.RoomViewModel
@@ -53,56 +53,52 @@ fun RoomScreen(
     LaunchedEffect(key1 = Unit) {
         scope.launchCollectLatest(viewModel.effect) { effect ->
             when (effect) {
-                is RoomUiEffect.NavigateToVideoPlayer->{
-                    navController.navigateMoviePlayer(state.dialogState.roomUrl)
+                is RoomUiEffect.NavigateToVideoPlayer -> {
+                    navController.navigateMoviePlayer(state.dialogState.movieUrl)
                 }
             }
         }
     }
 
-    AnimatedVisibility(visible = state.isCreateRoomClicked|| state.isCreateRoomLonelyClicked) {
+    AnimatedVisibility(visible = state.buttonClicked == Clicked.CREATE) {
         DialogWithLink(
             headText = "Create cinema room",
             bodyText = "You can share the room with friends",
             placeHolderText = "Movie Link",
             submitText = "Done",
             isError = state.dialogState.isError,
-            showDialogState = true,
-            link = state.dialogState.roomUrl,
-            onTextChange = { newLink -> viewModel.onClickCreateRoom(newLink) },
-            onSubmitClick = { navController.navigateMoviePlayer(state.dialogState.roomUrl) }
+            showDialogState = state.dialogState.showDialog,
+            link = state.dialogState.movieUrl,
+            onTextChange = { newLink -> viewModel.updateMovieUrl(newLink) },
+            onSubmitClick = viewModel::onClickSubmit,
+            onClickCancel = viewModel::onClickCancel
         )
+        Log.e("test", "Create cinema${state.dialogState.showDialog}")
+
     }
 
-    AnimatedVisibility(visible = state.isJoinRoomClicked) {
+    AnimatedVisibility(visible = state.buttonClicked == Clicked.JOIN) {
         DialogWithLink(
             headText = "Join cinema room",
             bodyText = "You can join room by adding the link of the room",
             placeHolderText = "Room Link",
             submitText = "Done",
             isError = state.dialogState.isError,
-            showDialogState = true,
+            showDialogState = state.dialogState.showDialog,
             link = state.dialogState.roomUrl,
-            onTextChange = { newLink -> viewModel.onClickJoinRoom(newLink) },
-            onSubmitClick = { navController.navigateMoviePlayer(state.dialogState.roomUrl) }
+            onTextChange = { newLink -> viewModel.updateRoomUrl(newLink) },
+            onSubmitClick = viewModel::onClickSubmit,
+            onClickCancel = viewModel::onClickCancel
         )
+        Log.e("test", "Join cinema${state.dialogState.showDialog}")
     }
-    RoomContent(
-        state = state,
-        onClickCreateRoom = { viewModel.onClickCreateRoom(state.dialogState.movieUrl) },
-        onClickJoinRoom = { viewModel.onClickJoinRoom(state.dialogState.roomUrl) },
-        onClickCreateRoomLonely = viewModel::onClickCreateRoomLonely
-    )
+
+    RoomContent(state, viewModel)
 
 }
 
 @Composable
-fun RoomContent(
-    state: RoomUiState,
-    onClickCreateRoom: () -> Unit,
-    onClickJoinRoom: () -> Unit,
-    onClickCreateRoomLonely: () -> Unit,
-) {
+fun RoomContent(state: RoomUiState, listener: RoomInteractions) {
     FlixMovieScaffold(
         isLoading = state.isLoading,
         hasBackArrow = true,
@@ -122,7 +118,10 @@ fun RoomContent(
             ) {
                 PrimaryButton(
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = onClickCreateRoom,
+                    onClick = {
+                        listener.onClickCreateRoom()
+                        Log.e("test", "PrimaryButton${state.dialogState.showDialog}")
+                    },
                     buttonColor = MaterialTheme.color.brand60,
                     text = "Create Room",
                     textColor = MaterialTheme.color.fontSecondary
@@ -130,7 +129,10 @@ fun RoomContent(
                 SpacerVertical(height = MaterialTheme.spacing.spacing12)
                 PrimaryOutlinedButton(
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = onClickJoinRoom,
+                    onClick = {
+                        listener.onClickJoinRoom()
+                        Log.e("test", "PrimaryOutlinedButton${state.dialogState.showDialog}")
+                    },
                     enabled = !state.isLoading,
                     border = BorderStroke(
                         width = MaterialTheme.dimens.dimens1,
@@ -138,14 +140,6 @@ fun RoomContent(
                     ),
                     text = "Join Room",
                     textColor = MaterialTheme.color.brand100
-                )
-                SpacerVertical(height = MaterialTheme.spacing.spacing24)
-                Text(
-                    modifier = Modifier.clickable { onClickCreateRoomLonely },
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.color.fontSecondary,
-                    text = "You can also enter the room alone",
                 )
             }
         }

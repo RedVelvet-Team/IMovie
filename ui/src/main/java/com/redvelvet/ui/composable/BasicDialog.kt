@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,16 +27,19 @@ import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.radius
 import com.redvelvet.ui.theme.spacing
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BasicDialog(
     showDialogState: Boolean,
     submitText: String,
     onSubmitClick: () -> Unit,
+    onClickCancel:()->Unit,
     modifier: Modifier = Modifier,
     content: @Composable (() -> Unit),
 ) {
-    var showDialog by remember { mutableStateOf(showDialogState) }
-    Dialog(onDismissRequest = { showDialog = false }) {
+    var showDialog by remember {  mutableStateOf(true) }
+
+    AlertDialog(onDismissRequest =  onClickCancel ) {
         Box(
             modifier = modifier
                 .clip(RoundedCornerShape(MaterialTheme.spacing.spacing16))
@@ -60,7 +65,7 @@ fun BasicDialog(
                         modifier = modifier
                             .weight(1f)
                             .padding(end = MaterialTheme.spacing.spacing4),
-                        onClick = { showDialog = false },
+                        onClick = onClickCancel,
                         text = "Cancel",
                         textStyle = MaterialTheme.typography.bodyMedium,
                         buttonShape = RoundedCornerShape(MaterialTheme.radius.radius8),
@@ -85,6 +90,6 @@ fun BasicDialog(
 @Preview
 @Composable
 fun BasicDialogPreview() {
-    BasicDialog(true, "Done", {}, content = {}, modifier = Modifier)
+    BasicDialog(true, "Done", {}, content = {}, onClickCancel = {},modifier = Modifier)
 }
 

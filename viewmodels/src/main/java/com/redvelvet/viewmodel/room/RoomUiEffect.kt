@@ -6,7 +6,5 @@ sealed class  RoomUiEffect: BaseUiEffect {
 
     data object ShowDialogToCreateRoom : RoomUiEffect()
     data object ShowDialogToJoinRoom : RoomUiEffect()
-    data object ShowDialogToCreateRoomLonely : RoomUiEffect()
     data object NavigateToVideoPlayer : RoomUiEffect()
-
 }

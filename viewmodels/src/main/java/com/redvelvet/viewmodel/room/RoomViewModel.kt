@@ -1,5 +1,6 @@
 package com.redvelvet.viewmodel.room
 
+import android.util.Log
 import com.redvelvet.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
@@ -9,54 +10,65 @@ import javax.inject.Inject
 class RoomViewModel @Inject constructor() : BaseViewModel<RoomUiState, RoomUiEffect>(RoomUiState()),
     RoomInteractions {
 
-    init {
-        onClickCreateRoom(state.value.dialogState.movieUrl)
-        onClickJoinRoom(state.value.dialogState.roomUrl)
-    }
-
-    override fun onClickCreateRoom(newMovieUrl: String) {
+    override fun onClickCreateRoom() {
         _state.update {
             it.copy(
                 isCreateRoomClicked = true,
-                dialogState = it.dialogState.copy(movieUrl = newMovieUrl, showDialog = true)
+                buttonClicked=Clicked.CREATE,
+                dialogState = it.dialogState.copy(showDialog = true)
             )
         }
         sendUiEffect(RoomUiEffect.ShowDialogToCreateRoom)
+        Log.e("test", "onClickCreateRoom${ state.value.dialogState.showDialog}")
+
     }
 
-    override fun onClickJoinRoom(newRoomUrl: String) {
+    override fun onClickJoinRoom() {
         _state.update {
             it.copy(
                 isJoinRoomClicked = true,
-                dialogState = it.dialogState.copy(roomUrl = newRoomUrl,showDialog = true)
+                buttonClicked=Clicked.JOIN,
+                dialogState = it.dialogState.copy(showDialog = true)
             )
         }
         sendUiEffect(RoomUiEffect.ShowDialogToJoinRoom)
+        Log.e("test","onClickJoinRoom ${state.value.dialogState.showDialog}")
     }
 
-    override fun onClickCreateRoomLonely() {
-        _state.update { it.copy(isCreateRoomLonelyClicked = true) }
-        sendUiEffect(RoomUiEffect.ShowDialogToCreateRoomLonely)
+    override fun onClickSubmit() {
+        sendUiEffect(RoomUiEffect.NavigateToVideoPlayer)
     }
 
-   /* fun updateMovieUrl(newMovieUrl: String) {
-        try {
-            _state.update { it.copy(dialogState = it.dialogState.copy(movieUrl = newMovieUrl)) }
-        } catch (message: Throwable) {
-            onMovieUrlError()
+    override fun onClickCancel() {
+        _state.update {
+            it.copy(
+                buttonClicked=Clicked.None,
+                dialogState = it.dialogState.copy(showDialog = false
+                )
+            )
         }
+        Log.e("test","onClickCancel${state.value.dialogState.showDialog}")
+
     }
 
-    fun updateRoomUrl(newRoomUrl: String) {
-        try {
-            _state.update { it.copy(dialogState = it.dialogState.copy(roomUrl = newRoomUrl)) }
-        } catch (message: Throwable) {
-            onMovieUrlError()
-        }
-    }
+     fun updateMovieUrl(newMovieUrl: String) {
+         try {
+             _state.update { it.copy(dialogState = it.dialogState.copy(movieUrl = newMovieUrl)) }
+         } catch (message: Throwable) {
+             onMovieUrlError()
+         }
+     }
 
-    fun onMovieUrlError() {
-        _state.update { it.copy(dialogState = it.dialogState.copy(isError = true)) }
-    }*/
+     fun updateRoomUrl(newRoomUrl: String) {
+         try {
+             _state.update { it.copy(dialogState = it.dialogState.copy(roomUrl = newRoomUrl)) }
+         } catch (message: Throwable) {
+             onMovieUrlError()
+         }
+     }
+
+     fun onMovieUrlError() {
+         _state.update { it.copy(dialogState = it.dialogState.copy(isError = true)) }
+     }
 
 }
