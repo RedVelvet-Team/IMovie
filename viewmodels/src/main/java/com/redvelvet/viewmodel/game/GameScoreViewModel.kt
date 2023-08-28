@@ -1,13 +1,16 @@
 package com.redvelvet.viewmodel.game
 
 import android.util.Log
+import androidx.lifecycle.viewModelScope
 import androidx.paging.LOGGER
 import com.redvelvet.entities.Player
 import com.redvelvet.usecase.usecase.GetPlayerInfoUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -45,5 +48,15 @@ class GameScoreViewModel @Inject constructor(
 
     private fun onError(error: ErrorUiState){
         _state.update { it.copy(error = error) }
+    }
+
+    fun onClickPlay(){
+        viewModelScope.launch {
+            tryToExecute(
+                execute = {getPlayerInfo.addPlayer()},
+                onSuccessWithoutData = {},
+                onError = ::onError
+            )
+        }
     }
 }

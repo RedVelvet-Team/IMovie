@@ -25,17 +25,21 @@ import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.viewmodel.game.GameScoreUiState
 import com.redvelvet.viewmodel.game.GameScoreViewModel
+import kotlin.reflect.KFunction0
 
 @Composable
 fun ScoreScreen(
     viewModel: GameScoreViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    ScoreContent(state)
+    ScoreContent(
+        state = state,
+        onClickPlay = viewModel::onClickPlay
+    )
 }
 
 @Composable
-private fun ScoreContent(state: GameScoreUiState) {
+private fun ScoreContent(state: GameScoreUiState, onClickPlay: () -> Unit) {
 
     val navController = LocalNavController.current
     FlixMovieScaffold(
@@ -47,7 +51,7 @@ private fun ScoreContent(state: GameScoreUiState) {
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            if (state.userInfo.name.isNotEmpty()){
+            if (state.userInfo.name.isNotEmpty()) {
                 Text(
                     modifier = Modifier.padding(bottom = 16.dp),
                     text = "Your Score",
@@ -66,12 +70,15 @@ private fun ScoreContent(state: GameScoreUiState) {
                 style = Typography.headlineLarge,
                 color = MaterialTheme.color.fontPrimary
             )
-            repeat(state.highestScorePlayer.size){
+            repeat(state.highestScorePlayer.size) {
                 val player = state.highestScorePlayer[it]
                 PlayerCard(name = player.name, score = player.score)
             }
 
-            PrimaryButton(onClick = {navController.navigateToGameScreen()}, text = "Play Now")
+            PrimaryButton(onClick = {
+                onClickPlay()
+                navController.navigateToGameScreen()
+            }, text = "Play Now")
 
         }
     }
