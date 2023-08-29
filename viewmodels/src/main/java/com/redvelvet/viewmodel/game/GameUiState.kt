@@ -17,7 +17,7 @@ data class GameUiState(
 
 data class QuestionUiState(
     val score: String = "",
-    val question: String = "",
+    val text: String = "",
     val answers: List<AnswerUiState> = emptyList(),
 )
 data class AnswerUiState(
@@ -38,7 +38,7 @@ enum class Correctness{
 }
 
 fun Question.toUiState() = QuestionUiState(
-    question = this.question,
+    text = this.question,
     answers = this.answers.map { AnswerUiState(text = it) },
     score = this.score.toString()
 )

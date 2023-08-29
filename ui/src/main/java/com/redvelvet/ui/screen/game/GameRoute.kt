@@ -9,7 +9,7 @@ import com.redvelvet.ui.navigation.MovieDestination
 
 fun NavGraphBuilder.gameScreenRoute() {
     composable(route = MovieDestination.Game.route) {
-        GameScreen()
+        QuestionsScreen()
     }
 }
 
