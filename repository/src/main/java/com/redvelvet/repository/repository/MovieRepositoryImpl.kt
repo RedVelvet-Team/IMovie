@@ -88,8 +88,7 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getActorKnownFor(id: String): List<CombinedResult> {
-        return wrapRemoteResponse { remoteDataSource.getActorKnownFor(id) }
-            .result.map { it.toCombinedResult() }
+        return wrapRemoteResponse { remoteDataSource.getActorKnownFor(id) }.map { it.toCombinedResult() }
     }
 
     //endregion
@@ -175,7 +174,7 @@ class MovieRepositoryImpl @Inject constructor(
         return remoteDataSource.getAllEpisodes(
             tvId,
             seasonNumber
-        ).episodeDto!!.map { it.toEpisodeDetails() }
+        ).episodeDto.map { it.toEpisodeDetails() }
     }
 
     override suspend fun seeAllTopRatedTv(): Flow<PagingData<TvShow>> {
