@@ -25,21 +25,20 @@ import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.viewmodel.game.GameScoreUiState
 import com.redvelvet.viewmodel.game.GameScoreViewModel
-import kotlin.reflect.KFunction0
 
 @Composable
-fun ScoreScreen(
+fun GameDetailsScreen(
     viewModel: GameScoreViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    ScoreContent(
+    GameDetailsContent(
         state = state,
         onClickPlay = viewModel::onClickPlay
     )
 }
 
 @Composable
-private fun ScoreContent(state: GameScoreUiState, onClickPlay: () -> Unit) {
+private fun GameDetailsContent(state: GameScoreUiState, onClickPlay: () -> Unit) {
 
     val navController = LocalNavController.current
     FlixMovieScaffold(
@@ -77,7 +76,7 @@ private fun ScoreContent(state: GameScoreUiState, onClickPlay: () -> Unit) {
 
             PrimaryButton(onClick = {
                 onClickPlay()
-                navController.navigateToGameScreen()
+                navController.navigateToQuestionsScreen()
             }, text = "Play Now")
 
         }

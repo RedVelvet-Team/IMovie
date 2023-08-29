@@ -7,12 +7,12 @@ import androidx.navigation.compose.composable
 import com.redvelvet.ui.navigation.MovieDestination
 
 
-fun NavGraphBuilder.gameScreenRoute() {
-    composable(route = MovieDestination.Game.route) {
+fun NavGraphBuilder.questionsScreenRoute() {
+    composable(route = MovieDestination.Questions.route) {
         QuestionsScreen()
     }
 }
 
-fun NavController.navigateToGameScreen(builder: NavOptionsBuilder.() -> Unit = {}) {
-    navigate(MovieDestination.Game.route, builder)
+fun NavController.navigateToQuestionsScreen(builder: NavOptionsBuilder.() -> Unit = {}) {
+    navigate(MovieDestination.Questions.route, builder)
 }
