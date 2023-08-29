@@ -10,4 +10,6 @@ object PreferencesKeys {
     val GuestSessionId = stringPreferencesKey("guest_session_id")
     val GuestSessionExpDate = stringPreferencesKey("guest_exp_date_session")
     val UserName = stringPreferencesKey("user_name")
+    val AccountDetailsId = stringPreferencesKey("account_details_id")
+    val AccountDetailsUsername = stringPreferencesKey("account_details_username")
 }

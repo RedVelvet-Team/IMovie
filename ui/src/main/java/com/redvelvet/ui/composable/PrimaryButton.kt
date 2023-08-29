@@ -15,10 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import com.redvelvet.ui.R
-import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.radius
@@ -33,15 +34,19 @@ fun PrimaryButton(
     iconPainter: Painter = painterResource(id = R.drawable.icon_profile),
     buttonColor: Color = MaterialTheme.color.brand100,
     textColor: Color = MaterialTheme.color.fontSecondary,
+    textStyle: TextStyle = MaterialTheme.typography.headlineMedium,
     enabled: Boolean = true,
-) {
+    buttonShape: RoundedCornerShape=RoundedCornerShape(MaterialTheme.radius.radius16),
+    buttonHeight: Dp =MaterialTheme.dimens.dimens56,
+
+    ) {
     Button(
         modifier = modifier
-            .height(MaterialTheme.dimens.dimens56)
+            .height(buttonHeight)
             .fillMaxWidth(),
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(buttonColor),
-        shape = RoundedCornerShape(MaterialTheme.radius.radius16),
+        shape =buttonShape,
         enabled = enabled
     ) {
         AnimatedVisibility(hasIcon) {
@@ -54,8 +59,9 @@ fun PrimaryButton(
         Text(
             text = text,
             textAlign = TextAlign.Center,
-            modifier = modifier.padding(MaterialTheme.spacing.spacing4),
-            style = Typography.headlineMedium.copy(color = textColor)
+            style = textStyle,
+            color = textColor,
+            maxLines = 1
         )
     }
 }

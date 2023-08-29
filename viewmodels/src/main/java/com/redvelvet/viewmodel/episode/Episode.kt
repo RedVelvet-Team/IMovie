@@ -1,4 +1,4 @@
-package com.redvelvet.viewmodel.seeall.episode
+package com.redvelvet.viewmodel.episode
 
 import com.redvelvet.entities.EpisodeDetails
 import com.redvelvet.viewmodel.episode.EpisodeCardUiState

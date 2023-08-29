@@ -14,7 +14,7 @@ import javax.inject.Inject
 class RoomViewModel @Inject constructor(
     private val createRoomUseCase: CreateRoomUseCase,
     private val joinRoomUseCase: JoinRoomUseCase,
-) : BaseViewModel<RoomUiState, BaseUiEffect>(RoomUiState()){
+) : BaseViewModel<RoomUiState, RoomUiEffect>(RoomUiState()),RoomInteractions{
 
 
 
@@ -65,6 +65,67 @@ class RoomViewModel @Inject constructor(
             )
         }
         Log.d("Kamel","a7a")
+    }
+
+    override fun onClickCreateRoom() {
+        _state.update {
+            it.copy(
+                isCreateRoomClicked = true,
+                buttonClicked=Clicked.CREATE,
+                dialogState = it.dialogState.copy(showDialog = true)
+            )
+        }
+        sendUiEffect(RoomUiEffect.ShowDialogToCreateRoom)
+        Log.e("test", "onClickCreateRoom${ state.value.dialogState.showDialog}")
+
+    }
+
+    override fun onClickJoinRoom() {
+        _state.update {
+            it.copy(
+                isJoinRoomClicked = true,
+                buttonClicked=Clicked.JOIN,
+                dialogState = it.dialogState.copy(showDialog = true)
+            )
+        }
+        sendUiEffect(RoomUiEffect.ShowDialogToJoinRoom)
+        Log.e("test","onClickJoinRoom ${state.value.dialogState.showDialog}")
+    }
+
+    override fun onClickSubmit() {
+        sendUiEffect(RoomUiEffect.NavigateToVideoPlayer)
+    }
+
+    override fun onClickCancel() {
+        _state.update {
+            it.copy(
+                buttonClicked=Clicked.None,
+                dialogState = it.dialogState.copy(showDialog = false
+                )
+            )
+        }
+        Log.e("test","onClickCancel${state.value.dialogState.showDialog}")
+
+    }
+
+    fun updateMovieUrl(newMovieUrl: String) {
+        try {
+            _state.update { it.copy(dialogState = it.dialogState.copy(movieUrl = newMovieUrl)) }
+        } catch (message: Throwable) {
+            onMovieUrlError()
+        }
+    }
+
+    fun updateRoomUrl(newRoomUrl: String) {
+        try {
+            _state.update { it.copy(dialogState = it.dialogState.copy(roomUrl = newRoomUrl)) }
+        } catch (message: Throwable) {
+            onMovieUrlError()
+        }
+    }
+
+    fun onMovieUrlError() {
+        _state.update { it.copy(dialogState = it.dialogState.copy(isError = true)) }
     }
 
 

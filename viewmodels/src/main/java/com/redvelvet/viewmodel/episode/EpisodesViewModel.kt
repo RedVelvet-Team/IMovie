@@ -3,10 +3,8 @@ package com.redvelvet.viewmodel.episode
 import androidx.lifecycle.SavedStateHandle
 import com.redvelvet.entities.EpisodeDetails
 import com.redvelvet.usecase.usecase.GetAllEpisodesUseCase
-import com.redvelvet.viewmodel.base.BaseUiEffect
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
-import com.redvelvet.viewmodel.seeall.episode.toEpisodeCardUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
@@ -21,12 +19,13 @@ class EpisodesViewModel @Inject constructor(
 
     init {
         getAllEpisodes()
+        _state.update { it.copy(seriesId = args.tvId) }
     }
 
     private fun getAllEpisodes() {
         _state.update { it.copy(isLoading = true) }
         tryToExecute(
-            execute = { getAllEpisodesUseCase(tvId = args.tvId, seasonNumber = args.seasonNumber) },
+            execute = { getAllEpisodesUseCase(tvId = args.tvId, seasonNumber = args.seasonNumber.toInt()) },
             onSuccessWithData = ::onGetAllEpisodesOnSuccess,
             onError = ::onGetAllEpisodesOnError
         )

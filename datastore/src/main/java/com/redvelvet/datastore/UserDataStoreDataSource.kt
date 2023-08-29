@@ -68,5 +68,25 @@ class UserDataStoreDataSource @Inject constructor(
             preferences[PreferencesKeys.UserName] = userName
         }
     }
+
+    override suspend fun setAccountDetailsId(accountId: Int) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.AccountDetailsId] = accountId.toString()
+        }
+    }
+
+    override suspend fun setAccountDetailsUsername(accountUsername: String) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.AccountDetailsUsername] = accountUsername
+        }
+    }
+
+    override suspend fun getAccountDetailsIdFromLocal(): Int? {
+        return dataStore.get()[PreferencesKeys.AccountDetailsId]?.toInt()
+    }
+
+    override suspend fun getAccountDetailsUsernameFromLocal(): String? {
+        return dataStore.get()[PreferencesKeys.AccountDetailsUsername]
+    }
     //endregion
 }

@@ -13,8 +13,6 @@ interface TvShowRepository {
     suspend fun getTvShowTopCastByID(seriesId: Int): TvShowTopCast
     suspend fun getTvShowVideos(seriesId: Int): TvShowVideos
     suspend fun getTvShowImages(seriesId: Int): TvShowImages
-    suspend fun addTvShowRating(seriesRating: Double, seriesId: Int, sessionId: String): String
-    suspend fun deleteTvShowRating(seriesId: Int, sessionId: String): String
     suspend fun getTvShowDetailsByID(seriesId: Int): TvShowDetails
     suspend fun getTvShowRecommendationsByID(seriesId: Int): TvShowRecommendations
     suspend fun getTvShowReviewsByID(seriesId: Int): TvShowReviews

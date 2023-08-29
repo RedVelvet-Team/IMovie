@@ -1,10 +1,15 @@
 package com.redvelvet.repository.source
 
 import com.redvelvet.repository.dto.ActorKnownForDto
+import com.redvelvet.repository.dto.BaseResponse
 import com.redvelvet.repository.dto.SeasonDetailsDto
+import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
+import com.redvelvet.repository.dto.library.LibraryMovieDto
+import com.redvelvet.repository.dto.library.LibraryTvDto
+import com.redvelvet.repository.dto.listAndFavorites.ListRemoteDto
 import com.redvelvet.repository.dto.auth.response.UserDetailsDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
@@ -86,15 +91,8 @@ interface RemoteDataSource {
     //region tvShow
     suspend fun getTvShowKeyWordsByID(seriesId: Int): TvShowKeywordsDto
     suspend fun getTvShowTopCastByID(seriesId: Int): TvShowTopCastDto
-    suspend fun addTvShowRating(
-        seriesRating: Double,
-        seriesId: Int,
-        sessionId: String
-    ): String
-
     suspend fun getTvShowVideosByID(seriesId: Int): TvShowVideosDto
     suspend fun getTvShowImagesByID(seriesId: Int): TvShowImagesDto
-    suspend fun deleteTvShowRating(seriesId: Int, sessionId: String): String
 
     suspend fun getTvShowDetailsByID(seriesId: Int): TvShowDetailsDto
     suspend fun getTvShowRecommendationsByID(seriesId: Int): TvShowRecommendationsDto
@@ -113,4 +111,77 @@ interface RemoteDataSource {
     suspend fun getOnTheAir(): List<TvShowDto>
     suspend fun getPopularTv(): List<TvShowDto>
     suspend fun getTopRatedTv(): List<TvShowDto>
+
+
+    // region details actions
+
+    suspend fun deleteTvShowRating(seriesId: Int, sessionId: String): String
+    suspend fun addTvShowRating(
+        seriesRating: Double,
+        seriesId: Int,
+        sessionId: String
+    ): String
+
+    suspend fun deleteMovieRating(movieId: Int, sessionId: String): String
+    suspend fun addMovieRating(
+        movieRating: Double,
+        movieId: Int,
+        sessionId: String
+    ): String
+
+    suspend fun toggleMediaInWatchlist(
+        mediaType: String,
+        mediaId: Int,
+        watchlist: Boolean,
+        sessionId: String,
+        accountId: Int,
+    ): String
+
+    suspend fun getAccountDetails(
+        sessionId: String,
+    ): AccountDetailsDto
+
+    suspend fun toggleMediaInFavorite(
+        mediaType: String,
+        mediaId: Int,
+        favorite: Boolean,
+        sessionId: String,
+        accountId: Int,
+    ): String
+
+    // endregion
+
+
+    suspend fun getFavoriteMovies(
+        accountId: Int,
+        sessionId: String,
+    ): List<LibraryMovieDto>
+
+    suspend fun getFavoriteTv(
+        accountId: Int,
+        sessionId: String,
+    ): List<LibraryTvDto>
+
+
+    suspend fun getWatchlistMovie(
+        accountId: Int,
+        sessionId: String,
+    ): List<LibraryMovieDto>
+
+    suspend fun getWatchlistTv(
+        accountId: Int,
+        sessionId: String,
+    ): List<LibraryTvDto>
+
+    suspend fun getRatedMovies(
+        accountId: Int,
+        sessionId: String,
+    ): List<LibraryMovieDto>
+
+    suspend fun getRatedTv(
+        accountId: Int,
+        sessionId: String,
+    ): List<LibraryTvDto>
+
+
 }

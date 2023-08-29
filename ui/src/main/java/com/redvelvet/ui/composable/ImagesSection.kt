@@ -7,15 +7,17 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.redvelvet.ui.screen.movieDetails.Item
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 
 @Composable
 fun ImagesSection(
-    it: List<String> = emptyList(),
-    onClickSeeAll: () -> Unit = {},
+    items: List<Item> = emptyList(),
+    onClickSeeAll: (String) -> Unit = {},
+    mediaId: Int
 ) {
-    if (it.isNotEmpty())
+    if (items.isNotEmpty())
         Column(
             modifier = Modifier
                 .padding(
@@ -24,7 +26,7 @@ fun ImagesSection(
         ) {
             ItemsSectionForDetailsScreens(
                 label = "Images belong a movie",
-                images = it,
+                items = items,
                 hasName = false,
                 hasCustomList = false,
                 hasDateAndCountry = false,
@@ -32,6 +34,7 @@ fun ImagesSection(
                 cardModifier = Modifier
                     .width(MaterialTheme.dimens.dimens112)
                     .height(MaterialTheme.dimens.dimens112),
+                itemId = mediaId.toString()
             )
         }
 }

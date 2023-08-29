@@ -49,6 +49,8 @@ abstract class BaseViewModel<UiState : BaseUiState, UiEffect>(state: UiState) :
                 onError(ErrorUiState(e.message.toString()))
             } catch (e: NoInternetException) {
                 onError(NetworkErrorState(e.message.toString()))
+            }catch (e: Exception){
+                onError(ErrorUiState(e.message.toString()))
             }
         }
     }

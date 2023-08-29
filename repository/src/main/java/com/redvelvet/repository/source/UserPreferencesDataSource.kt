@@ -22,4 +22,10 @@ interface UserPreferencesDataSource {
     suspend fun getUserName() : String?
     suspend fun setUserName(userName: String)
     //endregion
+
+    suspend fun setAccountDetailsId(accountId: Int)
+    suspend fun setAccountDetailsUsername(accountUsername: String)
+
+    suspend fun getAccountDetailsIdFromLocal(): Int?
+    suspend fun getAccountDetailsUsernameFromLocal(): String?
 }

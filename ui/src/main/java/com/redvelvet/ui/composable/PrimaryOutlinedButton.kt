@@ -5,6 +5,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -14,10 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import com.redvelvet.ui.R
-import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
+import com.redvelvet.ui.theme.radius
 import com.redvelvet.ui.theme.spacing
 
 @Composable
@@ -31,15 +35,18 @@ fun PrimaryOutlinedButton(
         width = MaterialTheme.dimens.dimens1,
         color = MaterialTheme.color.brand100
     ),
+    buttonHeight: Dp =MaterialTheme.dimens.dimens56,
     enabled: Boolean = true,
     textColor: Color = MaterialTheme.color.fontSecondary,
+    textStyle:TextStyle= MaterialTheme.typography.headlineMedium,
+    buttonShape:RoundedCornerShape= RoundedCornerShape(MaterialTheme.radius.radius16)
 ) {
     OutlinedButton(
         onClick = onClick,
         border = border,
-        shape = MaterialTheme.shapes.medium,
+        shape = buttonShape,
         modifier = modifier
-            .height(MaterialTheme.dimens.dimens56)
+            .height(buttonHeight)
             .fillMaxWidth(),
         enabled = enabled
     ) {
@@ -52,9 +59,15 @@ fun PrimaryOutlinedButton(
         }
         Text(
             text = text,
-            modifier = Modifier.padding(end = MaterialTheme.spacing.spacing8),
-            style = Typography.headlineMedium,
-            color = textColor
+            style = textStyle,
+            color = textColor,
+            maxLines = 1
         )
     }
+}
+
+@Preview
+@Composable
+fun Preview(){
+    PrimaryOutlinedButton({},"Done")
 }

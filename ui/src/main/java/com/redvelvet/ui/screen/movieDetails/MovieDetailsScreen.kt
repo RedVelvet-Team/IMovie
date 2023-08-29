@@ -15,9 +15,11 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.CustomMediaDetailsTopAppBar
 import com.redvelvet.ui.composable.MediaDetailsBackgroundContent
-import com.redvelvet.ui.composable.MovieScaffold
+import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.composable.NavigationHandler
 import com.redvelvet.ui.screen.actor_details.navigateToActorDetails
+import com.redvelvet.ui.screen.seeAllMovieImages.navigateToSeeAllImages
+import com.redvelvet.ui.screen.seeAllReviews.navigateToSeeAllReviews
 import com.redvelvet.ui.screen.seeall.navigateToSeeAllMovie
 import com.redvelvet.ui.screen.sellAllTopCast.navigateToSeeAllTopCast
 import com.redvelvet.ui.theme.color
@@ -39,20 +41,14 @@ fun MovieDetailsScreen(
         handleEffect = { effect, navController ->
             when (effect) {
                 is MovieDetailsUiEffect.NavigateToGenreScreen -> {}
-                is MovieDetailsUiEffect.NavigateToMovieImagesSeeAllScreen -> {}
+                is MovieDetailsUiEffect.NavigateToMovieImagesSeeAllScreen -> navController.navigateToSeeAllImages()
                 is MovieDetailsUiEffect.NavigateToReviewDetailsScreen -> {}
-                is MovieDetailsUiEffect.NavigateToReviewSeeAllScreen -> {}
-                is MovieDetailsUiEffect.NavigateToMovieDetailsScreen -> navController.navigateToMovieDetails(
-                    effect.id
-                )
-
-                is MovieDetailsUiEffect.NavigateToSimilarMoviesSeeAllScreen -> navController.navigateToSeeAllMovie(
-                    "",
-                    SeeAllMovie.SIMILAR
-                )
+                is MovieDetailsUiEffect.NavigateToReviewSeeAllScreen -> navController.navigateToSeeAllReviews(effect.id)
+                is MovieDetailsUiEffect.NavigateToMovieDetailsScreen -> navController.navigateToMovieDetails(effect.id)
+                is MovieDetailsUiEffect.NavigateToSimilarMoviesSeeAllScreen -> navController.navigateToSeeAllMovie(effect.id, SeeAllMovie.SIMILAR)
 
                 is MovieDetailsUiEffect.NavigateToRecommendedMoviesSeeAllScreen -> navController.navigateToSeeAllMovie(
-                    "",
+                    effect.id,
                     SeeAllMovie.RECOMMEND
                 )
 
@@ -60,11 +56,11 @@ fun MovieDetailsScreen(
                     effect.id
                 )
 
-                is MovieDetailsUiEffect.NavigateToTopCastSeeAllScreen -> navController.navigateToSeeAllTopCast()
+                is MovieDetailsUiEffect.NavigateToTopCastSeeAllScreen -> navController.navigateToSeeAllTopCast(effect.id)
             }
         }
     )
-    MovieScaffold(
+    FlixMovieScaffold(
         isLoading = state.isLoading,
         error = state.error,
         onClick = viewModel::refresh
@@ -83,13 +79,14 @@ fun MovieDetailsScreen(
             MovieDetailsForegroundContent(state, viewModel) { offset ->
                 isScrolled = offset > 1000
             }
-            CustomMediaDetailsTopAppBar(
-                // TODO: HANDLE THESE INTERACTIONS
-                onBackClicked = { navController.popBackStack() },
-                onFavoriteClicked = { /* Handle favorite clicked */ },
-                onSaveClicked = { /* Handle save clicked */ },
-                isScrolled = isScrolled
-            )
+            state.data?.details?.let {
+                CustomMediaDetailsTopAppBar(
+                    onBackClicked = { navController.popBackStack() },
+                    onFavoriteClicked = { viewModel.onClickFavorite(it.id, "movie") },
+                    onSaveClicked = { viewModel.onClickFavorite(it.id, "movie") },
+                    isScrolled = isScrolled
+                )
+            }
         }
 
     }
