@@ -85,14 +85,13 @@ class CategoryViewModel @Inject constructor(
         }
     }
 
-    override fun onClickCard(categoryId: String, categoryType: String) {
-//        sendUiEffect(
-//            CategoryUiEffect.NavigateToSeeAllCategoryScreen(
-//                id = categoryId,
-//                title = "",
-//                type = categoryType
-//            )
-//        )
+    override fun onClickCard(categoryId: String, categoryName: String) {
+        sendUiEffect(
+            CategoryUiEffect.NavigateToSeeAllCategoryScreen(
+                id = categoryId,
+                name = categoryName,
+            )
+        )
     }
 
 

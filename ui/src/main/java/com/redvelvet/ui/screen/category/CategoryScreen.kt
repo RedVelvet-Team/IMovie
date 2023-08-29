@@ -1,7 +1,6 @@
 package com.redvelvet.ui.screen.category
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
@@ -32,10 +30,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.CategoryItem
 import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.composable.NavigationHandler
+import com.redvelvet.ui.screen.categorySeeAll.navigateToSeeAllCategoryRoute
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
@@ -47,12 +45,10 @@ import com.redvelvet.viewmodel.category.GenreUiState
 import com.redvelvet.viewmodel.category.MediaTypeUiState
 import com.redvelvet.viewmodel.utils.MediaType
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CategoryScreen(categoryViewModel: CategoryViewModel = hiltViewModel()) {
 
     val state by categoryViewModel.state.collectAsState()
-    val navController = LocalNavController.current
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
     NavigationHandler(
@@ -63,9 +59,9 @@ fun CategoryScreen(categoryViewModel: CategoryViewModel = hiltViewModel()) {
                     navController.popBackStack()
                 }
 
-//                is CategoryUiEffect.NavigateToSeeAllCategoryScreen -> {
-//                    navController.navigateToSeeAllCategory(effect.id)
-//                }
+                is CategoryUiEffect.NavigateToSeeAllCategoryScreen -> {
+                    navController.navigateToSeeAllCategoryRoute(effect.id, effect.name, "movie")
+                }
             }
         }
     )
@@ -75,12 +71,10 @@ fun CategoryScreen(categoryViewModel: CategoryViewModel = hiltViewModel()) {
         hasTopBar = true,
         hasBackArrow = false
     ) {
-//        CategoryContent(viewPaperList = state.genreTvList, interaction = categoryViewModel)
-        CategoriesContent(state = MediaTypeUiState(), interaction = categoryViewModel)
+        CategoriesContent(state = state, interaction = categoryViewModel)
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CategoriesContent(
     state: MediaTypeUiState,
@@ -91,20 +85,16 @@ fun CategoriesContent(
             .fillMaxSize()
             .padding(
                 top = MaterialTheme.dimens.dimens88,
-                bottom = MaterialTheme.dimens.dimens70
             )
 
     ) {
         var selectedCategory by remember { mutableStateOf(MediaType.MOVIE) }
-        val pagerState = rememberPagerState {
-            2
-        }
         Column(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
             TabRow(
-                selectedTabIndex = pagerState.currentPage,
+                selectedTabIndex = selectedCategory.ordinal,
                 containerColor = MaterialTheme.color.backgroundPrimary,
                 indicator = {},
                 divider = {}
@@ -113,9 +103,7 @@ fun CategoriesContent(
                     Box {
                         Tab(
                             selected = selectedCategory == category,
-                            onClick = {
-                                selectedCategory = category
-                            },
+                            onClick = { selectedCategory = category },
                             text = {
                                 Text(
                                     text = category.name,
@@ -151,12 +139,10 @@ fun CategoriesContent(
                         viewPaperList = state.genreMovieList,
                         interaction,
                     )
-
                     MediaType.TV -> CategoryContent(
                         viewPaperList = state.genreTvList,
                         interaction,
                     )
-
                     else -> {}
                 }
             }
@@ -171,11 +157,10 @@ fun CategoryContent(
     viewPaperList: List<GenreUiState>,
     interaction: CategoryInteraction,
 ) {
-
     LazyVerticalGrid(
         contentPadding = PaddingValues(
-            horizontal = MaterialTheme.spacing.spacing16,
-            vertical = MaterialTheme.spacing.spacing64
+            top = MaterialTheme.spacing.spacing16,
+            bottom = MaterialTheme.spacing.spacing72
         ),
         columns = GridCells.Fixed(2),
         horizontalArrangement = Arrangement.spacedBy(
@@ -199,7 +184,3 @@ fun CategoryContent(
         }
     }
 }
-
-
-
-
