@@ -1,10 +1,10 @@
 package com.redvelvet.remote.service
 
-import com.redvelvet.repository.dto.ActorKnownForDto
+
+import com.redvelvet.remote.BuildConfig
 import com.redvelvet.repository.dto.BaseResponse
+import com.redvelvet.repository.dto.EpisodeSingleItemDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
-import com.redvelvet.repository.dto.listAndFavorites.UserListDto
-import com.redvelvet.repository.dto.listAndFavorites.WatchlistDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
@@ -22,23 +22,21 @@ import com.redvelvet.repository.dto.listAndFavorites.DeleteMediaFromListDto
 import com.redvelvet.repository.dto.listAndFavorites.FavoriteRequestDto
 import com.redvelvet.repository.dto.listAndFavorites.ListRemoteDto
 import com.redvelvet.repository.dto.listAndFavorites.ListResponseDto
+import com.redvelvet.repository.dto.listAndFavorites.UserListDto
+import com.redvelvet.repository.dto.listAndFavorites.WatchlistDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
-import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
-import com.redvelvet.repository.dto.movie.details.MovieRecommendationsDTO
-import com.redvelvet.repository.dto.movie.details.MovieReviewsDTO
 import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
-import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
 import com.redvelvet.repository.dto.person.ActorDto
+import com.redvelvet.repository.dto.schema.ImagesDto
+import com.redvelvet.repository.dto.schema.RecommendationsDto
+import com.redvelvet.repository.dto.schema.ReviewDto
+import com.redvelvet.repository.dto.schema.TopCastDto
 import com.redvelvet.repository.dto.search.CombinedResultDto
 import com.redvelvet.repository.dto.tvShow.StatusResponseDto
 import com.redvelvet.repository.dto.tvShow.TvShowDetailsDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
-import com.redvelvet.repository.dto.tvShow.TvShowImagesDto
 import com.redvelvet.repository.dto.tvShow.TvShowKeywordsDto
-import com.redvelvet.repository.dto.tvShow.TvShowRecommendationsDto
-import com.redvelvet.repository.dto.tvShow.TvShowReviewsDto
-import com.redvelvet.repository.dto.tvShow.TvShowTopCastDto
 import com.redvelvet.repository.dto.tvShow.TvShowVideosDto
 import retrofit2.Response
 import retrofit2.http.Body
@@ -71,22 +69,22 @@ interface MovieApiService {
     suspend fun getMovieDetailsById(@Path("movie_id") movieId: Int): Response<MovieDetailsDTO>
 
     @GET("movie/{movie_id}/images")
-    suspend fun getMovieImagesByID(@Path("movie_id") movieId: Int): Response<MovieImagesDTO>
+    suspend fun getMovieImagesByID(@Path("movie_id") movieId: Int): Response<ImagesDto>
 
     @GET("movie/{movie_id}/keywords")
     suspend fun getMovieKeyWordsByID(@Path("movie_id") movieId: Int): Response<MovieKeyWordsDTO>
 
     @GET("movie/{movie_id}/recommendations")
-    suspend fun getMovieRecommendationsByID(@Path("movie_id") movieId: Int): Response<MovieRecommendationsDTO>
+    suspend fun getMovieRecommendationsByID(@Path("movie_id") movieId: Int): Response<RecommendationsDto>
 
     @GET("movie/{movie_id}/reviews")
-    suspend fun getMovieReviewsByID(@Path("movie_id") movieId: Int): Response<MovieReviewsDTO>
+    suspend fun getMovieReviewsByID(@Path("movie_id") movieId: Int): Response<ReviewDto>
 
     @GET("movie/{movie_id}/similar")
     suspend fun getMovieSimilarByID(@Path("movie_id") movieId: Int): Response<MovieSimilarDTO>
 
     @GET("movie/{movie_id}/credits")
-    suspend fun getMovieTopCastByID(@Path("movie_id") movieId: Int): Response<MovieTopCastDto>
+    suspend fun getMovieTopCastByID(@Path("movie_id") movieId: Int): Response<TopCastDto>
 
     //endregion
     @HTTP(method = "DELETE", path = "authentication/session", hasBody = true)
@@ -171,7 +169,7 @@ interface MovieApiService {
     @GET("person/{person_id}/combined_credits")
     suspend fun getActorKnownFor(
         @Path("person_id") id: String
-    ): Response<ActorKnownForDto>
+    ): Response<List<CombinedResultDto>>
 
     // endregion
 
@@ -180,23 +178,58 @@ interface MovieApiService {
     suspend fun getTvShowDetailsById(@Path("tv_id") seriesId: Int): Response<TvShowDetailsDto>
 
     @GET("tv/{tv_id}/recommendations")
-    suspend fun getTvShowRecommendationsByID(@Path("tv_id") seriesId: Int): Response<TvShowRecommendationsDto>
+    suspend fun getTvShowRecommendationsByID(@Path("tv_id") seriesId: Int): Response<RecommendationsDto>
 
     @GET("tv/{tv_id}/images")
-    suspend fun getTvShowImagesByID(@Path("tv_id") seriesId: Int): Response<TvShowImagesDto>
+    suspend fun getTvShowImagesByID(@Path("tv_id") seriesId: Int): Response<ImagesDto>
 
     @GET("tv/{tv_id}/videos")
     suspend fun getTvShowVideosByID(@Path("tv_id") seriesId: Int): Response<TvShowVideosDto>
 
     @GET("tv/{tv_id}/reviews")
-    suspend fun getTvShowReviewsByID(@Path("tv_id") seriesId: Int): Response<TvShowReviewsDto>
+    suspend fun getTvShowReviewsByID(@Path("tv_id") seriesId: Int): Response<ReviewDto>
 
     @GET("tv/{tv_id}/keywords")
     suspend fun getTvShowKeyWordsByID(@Path("tv_id") seriesId: Int): Response<TvShowKeywordsDto>
 
     @GET("tv/{tv_id}/credits")
-    suspend fun getTvShowTopCastByID(@Path("tv_id") seriesId: Int): Response<TvShowTopCastDto>
+    suspend fun getTvShowTopCastByID(@Path("tv_id") seriesId: Int): Response<TopCastDto>
     // endregion
+
+    // region Episode Details
+    @GET("tv/{tv_id}/season/{season_number}/episode/{episode_number}")
+    suspend fun getEpisodeDetails(
+        @Path("tv_id") tvID: Int,
+        @Path("season_number") seasonNumber: Int,
+        @Path("episode_number") episodeNumber: Int,
+        @Query("api_key") apiKey: String = BuildConfig.API_KEY
+    ): Response<EpisodeSingleItemDto.EpisodeDetails>
+
+    @GET("tv/{tv_id}/season/{season_number}/episode/{episode_number}/videos")
+    suspend fun getEpisodeMovies(
+        @Path("tv_id") tvID: Int,
+        @Path("season_number") seasonNumber: Int,
+        @Path("episode_number") episodeNumber: Int,
+        @Query("api_key") apiKey: String = BuildConfig.API_KEY
+    ): Response<EpisodeSingleItemDto.EpisodeMovies>
+
+    @GET("tv/{tv_id}/season/{season_number}/episode/{episode_number}/credits")
+    suspend fun getEpisodeTopCast(
+        @Path("tv_id") tvID: Int,
+        @Path("season_number") seasonNumber: Int,
+        @Path("episode_number") episodeNumber: Int,
+        @Query("api_key") apiKey: String = BuildConfig.API_KEY
+    ): Response<EpisodeSingleItemDto.EpisodeCast>
+
+    @GET("tv/{tv_id}/season/{season_number}/episode/{episode_number}/images")
+    suspend fun getEpisodeImages(
+        @Path("tv_id") tvID: Int,
+        @Path("season_number") seasonNumber: Int,
+        @Path("episode_number") episodeNumber: Int,
+        @Query("api_key") apiKey: String = BuildConfig.API_KEY
+    ): Response<EpisodeSingleItemDto.EpisodeImages>
+
+    //endregion
 
     //region see all
     @GET("movie/popular")

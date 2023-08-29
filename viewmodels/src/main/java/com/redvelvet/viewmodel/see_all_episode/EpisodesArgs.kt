@@ -1,4 +1,4 @@
-package com.redvelvet.viewmodel.episode
+package com.redvelvet.viewmodel.see_all_episode
 
 import androidx.lifecycle.SavedStateHandle
 

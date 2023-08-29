@@ -1,9 +1,8 @@
-package com.redvelvet.repository.dto.movie.details
-
+package com.redvelvet.repository.dto.schema
 
 import com.google.gson.annotations.SerializedName
 
-data class MovieRecommendationsDTO(
+data class RecommendationsDto(
     @SerializedName("page")
     val page: Int?,
     @SerializedName("results")
