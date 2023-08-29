@@ -25,16 +25,21 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.composable.ItemBasicCard
 import com.redvelvet.ui.composable.LoadingPage
+import com.redvelvet.ui.composable.NavigationHandler
 import com.redvelvet.ui.composable.rememberAsyncFlixImage
+import com.redvelvet.ui.screen.movieDetails.navigateToMovieDetails
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.seeall.category.MediaUiState
+import com.redvelvet.viewmodel.seeall.category.SeeAllCategoriesInteraction
+import com.redvelvet.viewmodel.seeall.category.SeeAllCategoriesUiEffect
 import com.redvelvet.viewmodel.seeall.category.SeeAllMediaViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -46,19 +51,36 @@ fun SeeAllCategoryScreen(
     val navController = LocalNavController.current
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
+    NavigationHandler(
+        effects = viewModel.effect,
+        handleEffect = { effect, navController ->
+            when (effect) {
+                is SeeAllCategoriesUiEffect.NavigateUp -> {
+                    navController.popBackStack()
+                }
+
+                is SeeAllCategoriesUiEffect.NavigateToDetailsScreen -> {
+                    navController.navigateToMovieDetails(effect.id)
+                }
+            }
+        }
+    )
     FlixMovieScaffold(
         title = state.title,
         isLoading = state.isLoading,
         error = state.error,
     ) {
-
+        SeeAllCategoryContent(
+            category = state.media.collectAsLazyPagingItems(),
+            interaction = viewModel
+        )
     }
 }
 
 @Composable
 private fun SeeAllCategoryContent(
     category: LazyPagingItems<MediaUiState>,
-    onClickCard: (String) -> Unit
+    interaction: SeeAllCategoriesInteraction,
 ) {
     Column(
         modifier = Modifier
@@ -92,7 +114,7 @@ private fun SeeAllCategoryContent(
                     modifier = Modifier
                         .height(MaterialTheme.dimens.dimens176)
                         .width(MaterialTheme.dimens.dimens104)
-                        .clickable { onClickCard(category[it]!!.id) },
+                        .clickable { interaction.onClickCard(category[it]!!.id) },
                 )
             }
             if (category.loadState.append is LoadState.Loading) {
