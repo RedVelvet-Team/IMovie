@@ -20,9 +20,9 @@ import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
-import com.redvelvet.ui.composable.ItemSeason
 import com.redvelvet.ui.composable.FlixMovieScaffold
-import com.redvelvet.ui.screen.episodes.navigateToSeeAllEpisode
+import com.redvelvet.ui.composable.ItemSeason
+import com.redvelvet.ui.screen.see_all_episodes.navigateToSeeAllEpisode
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.seeall.seasons.SeeAllSeasonsUiState

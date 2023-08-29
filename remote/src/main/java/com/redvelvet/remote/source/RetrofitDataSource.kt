@@ -7,7 +7,7 @@ import com.redvelvet.entities.error.NullResultException
 import com.redvelvet.entities.error.ServerException
 import com.redvelvet.entities.error.ValidationException
 import com.redvelvet.remote.service.MovieApiService
-import com.redvelvet.repository.dto.ActorKnownForDto
+import com.redvelvet.repository.dto.EpisodeSingleItemDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
@@ -20,19 +20,17 @@ import com.redvelvet.repository.dto.detailsRequests.RateRequest
 import com.redvelvet.repository.dto.library.LibraryMovieDto
 import com.redvelvet.repository.dto.library.LibraryTvDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
-import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
-import com.redvelvet.repository.dto.movie.details.MovieRecommendationsDTO
-import com.redvelvet.repository.dto.movie.details.MovieReviewsDTO
 import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
-import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
 import com.redvelvet.repository.dto.person.ActorDto
+import com.redvelvet.repository.dto.schema.ImagesDto
+import com.redvelvet.repository.dto.schema.RecommendationsDto
+import com.redvelvet.repository.dto.schema.ReviewDto
+import com.redvelvet.repository.dto.schema.TopCastDto
 import com.redvelvet.repository.dto.search.CombinedResultDto
 import com.redvelvet.repository.dto.tvShow.TvShowDetailsDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
-import com.redvelvet.repository.dto.tvShow.TvShowImagesDto
 import com.redvelvet.repository.dto.tvShow.TvShowKeywordsDto
-import com.redvelvet.repository.dto.tvShow.TvShowTopCastDto
 import com.redvelvet.repository.dto.tvShow.TvShowVideosDto
 import com.redvelvet.repository.source.RemoteDataSource
 import okio.IOException
@@ -93,7 +91,7 @@ class RetrofitDataSource @Inject constructor(
         }
     }
 
-    override suspend fun getMovieImagesByID(movieId: Int): MovieImagesDTO {
+    override suspend fun getMovieImagesByID(movieId: Int): ImagesDto {
         return wrapApiResponse {
             movieApiService.getMovieImagesByID(movieId)
         }
@@ -105,13 +103,13 @@ class RetrofitDataSource @Inject constructor(
         }
     }
 
-    override suspend fun getMovieRecommendationsByID(movieId: Int): MovieRecommendationsDTO {
+    override suspend fun getMovieRecommendationsByID(movieId: Int): RecommendationsDto {
         return wrapApiResponse {
             movieApiService.getMovieRecommendationsByID(movieId)
         }
     }
 
-    override suspend fun getMovieReviewsByID(movieId: Int): MovieReviewsDTO {
+    override suspend fun getMovieReviewsByID(movieId: Int): ReviewDto {
         return wrapApiResponse {
             movieApiService.getMovieReviewsByID(movieId)
         }
@@ -123,7 +121,7 @@ class RetrofitDataSource @Inject constructor(
         }
     }
 
-    override suspend fun getMovieTopCastByID(movieId: Int): MovieTopCastDto {
+    override suspend fun getMovieTopCastByID(movieId: Int): TopCastDto {
         return wrapApiResponse {
             movieApiService.getMovieTopCastByID(movieId)
         }
@@ -187,7 +185,7 @@ class RetrofitDataSource @Inject constructor(
         return wrapApiResponse { movieApiService.getActorDetails(id) }
     }
 
-    override suspend fun getActorKnownFor(id: String): ActorKnownForDto {
+    override suspend fun getActorKnownFor(id: String): List<CombinedResultDto> {
         return wrapApiResponse { movieApiService.getActorKnownFor(id) }
     }
 
@@ -258,14 +256,14 @@ class RetrofitDataSource @Inject constructor(
         wrapApiResponse { movieApiService.getTvShowKeyWordsByID(seriesId) }
 
 
-    override suspend fun getTvShowTopCastByID(seriesId: Int): TvShowTopCastDto =
+    override suspend fun getTvShowTopCastByID(seriesId: Int): TopCastDto =
         wrapApiResponse { movieApiService.getTvShowTopCastByID(seriesId) }
 
 
     override suspend fun getTvShowVideosByID(seriesId: Int): TvShowVideosDto =
         wrapApiResponse { movieApiService.getTvShowVideosByID(seriesId) }
 
-    override suspend fun getTvShowImagesByID(seriesId: Int): TvShowImagesDto =
+    override suspend fun getTvShowImagesByID(seriesId: Int): ImagesDto =
         wrapApiResponse { movieApiService.getTvShowImagesByID(seriesId) }
 
 
@@ -316,6 +314,48 @@ class RetrofitDataSource @Inject constructor(
         return wrapApiResponse { movieApiService.getTopRatedTv() }.result.orEmpty()
     }
     //endregion
+
+    // region Episode Details
+    override suspend fun getEpisodeDetails(
+        tvId: Int, seasonNumber: Int, episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeDetails {
+        return wrapApiResponse {
+            movieApiService.getEpisodeDetails(
+                tvId, seasonNumber, episodeNumber
+            )
+        }
+    }
+
+    override suspend fun getEpisodeMovies(
+        tvId: Int, seasonNumber: Int, episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeMovies {
+        return wrapApiResponse {
+            movieApiService.getEpisodeMovies(
+                tvId, seasonNumber, episodeNumber
+            )
+        }
+    }
+
+    override suspend fun getEpisodeCast(
+        tvId: Int, seasonNumber: Int, episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeCast {
+        return wrapApiResponse {
+            movieApiService.getEpisodeTopCast(
+                tvId, seasonNumber, episodeNumber
+            )
+        }
+    }
+
+    override suspend fun getEpisodeImages(
+        tvId: Int, seasonNumber: Int, episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeImages {
+        return wrapApiResponse {
+            movieApiService.getEpisodeImages(
+                tvId, seasonNumber, episodeNumber
+            )
+        }
+    }
+    // endregion
 
 
     override suspend fun deleteTvShowRating(seriesId: Int, sessionId: String): String =

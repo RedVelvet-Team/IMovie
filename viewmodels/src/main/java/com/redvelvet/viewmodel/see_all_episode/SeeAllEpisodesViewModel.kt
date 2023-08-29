@@ -1,4 +1,4 @@
-package com.redvelvet.viewmodel.episode
+package com.redvelvet.viewmodel.see_all_episode
 
 import androidx.lifecycle.SavedStateHandle
 import com.redvelvet.entities.EpisodeDetails
@@ -13,7 +13,7 @@ import javax.inject.Inject
 class EpisodesViewModel @Inject constructor(
     private val getAllEpisodesUseCase: GetAllEpisodesUseCase,
     savedStateHandle: SavedStateHandle
-    ) : BaseViewModel<EpisodeUiState, Unit>(EpisodeUiState()){
+) : BaseViewModel<SeeAllEpisodeUiState, Unit>(SeeAllEpisodeUiState()) {
 
     private val args: EpisodesArgs = EpisodesArgs(savedStateHandle)
 

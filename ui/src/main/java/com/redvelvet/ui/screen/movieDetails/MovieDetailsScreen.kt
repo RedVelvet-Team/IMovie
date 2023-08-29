@@ -14,8 +14,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.CustomMediaDetailsTopAppBar
-import com.redvelvet.ui.composable.MediaDetailsBackgroundContent
 import com.redvelvet.ui.composable.FlixMovieScaffold
+import com.redvelvet.ui.composable.MediaDetailsBackgroundContent
 import com.redvelvet.ui.composable.NavigationHandler
 import com.redvelvet.ui.screen.actor_details.navigateToActorDetails
 import com.redvelvet.ui.screen.seeAllMovieImages.navigateToSeeAllImages
@@ -40,10 +40,16 @@ fun MovieDetailsScreen(
         effects = viewModel.effect,
         handleEffect = { effect, navController ->
             when (effect) {
-                is MovieDetailsUiEffect.NavigateToGenreScreen -> {}
+                is MovieDetailsUiEffect.NavigateToGenreScreen -> {/*TODO*/
+                }
+
                 is MovieDetailsUiEffect.NavigateToMovieImagesSeeAllScreen -> navController.navigateToSeeAllImages()
-                is MovieDetailsUiEffect.NavigateToReviewDetailsScreen -> {}
-                is MovieDetailsUiEffect.NavigateToReviewSeeAllScreen -> navController.navigateToSeeAllReviews(effect.id)
+                is MovieDetailsUiEffect.NavigateToReviewDetailsScreen -> {/*TODO*/
+                }
+
+                is MovieDetailsUiEffect.NavigateToReviewSeeAllScreen -> navController.navigateToSeeAllReviews(
+                    effect.id
+                )
                 is MovieDetailsUiEffect.NavigateToMovieDetailsScreen -> navController.navigateToMovieDetails(effect.id)
                 is MovieDetailsUiEffect.NavigateToSimilarMoviesSeeAllScreen -> navController.navigateToSeeAllMovie(effect.id, SeeAllMovie.SIMILAR)
 

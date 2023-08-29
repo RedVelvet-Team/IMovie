@@ -1,4 +1,4 @@
-package com.redvelvet.ui.screen.episodes
+package com.redvelvet.ui.screen.see_all_episodes
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,12 +16,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.EpisodeItem
 import com.redvelvet.ui.composable.FlixMovieScaffold
+import com.redvelvet.ui.screen.episode.navigateToEpisodeDetails
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
-import com.redvelvet.viewmodel.episode.EpisodeUiState
-import com.redvelvet.viewmodel.episode.EpisodesViewModel
+import com.redvelvet.viewmodel.see_all_episode.EpisodesViewModel
+import com.redvelvet.viewmodel.see_all_episode.SeeAllEpisodeUiState
 
 @Composable
 fun SeeAllEpisodeScreen(
@@ -30,6 +32,8 @@ fun SeeAllEpisodeScreen(
     val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
+    val navController = LocalNavController.current
+
     FlixMovieScaffold(
         title = state.title,
         isLoading = state.isLoading,
@@ -38,13 +42,23 @@ fun SeeAllEpisodeScreen(
         hasBackArrow = true,
         hasTopBar = true
     ) {
-        SeeAllEpisodeContent(episodeUiState = state)
+        SeeAllEpisodeContent(seeAllEpisodeUiState = state,
+            onClickEpisode = {
+                navController.navigateToEpisodeDetails(
+                    tvId = (1396).toString(),
+                    seasonNumber = 1,
+                    episodeNumber = 1
+                )
+            }
+        )
     }
 }
 
+
 @Composable
 fun SeeAllEpisodeContent(
-    episodeUiState: EpisodeUiState
+    seeAllEpisodeUiState: SeeAllEpisodeUiState,
+    onClickEpisode: (id: String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -67,14 +81,16 @@ fun SeeAllEpisodeContent(
             ),
             horizontalAlignment = Alignment.Start,
         ) {
-            items(episodeUiState.episodes.size) { index ->
-                val episode = episodeUiState.episodes[index]
+            items(seeAllEpisodeUiState.episodes.size) { index ->
+                val episode = seeAllEpisodeUiState.episodes[index]
                 EpisodeItem(
                     name = episode.name,
                     rate = episode.voteAverage,
                     date = episode.airDate,
                     durationTime = episode.runtime,
                     image = episode.image,
+                   onClickEpisode= onClickEpisode,
+                    id = episode.id.toString()
                 )
             }
         }

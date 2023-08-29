@@ -28,6 +28,7 @@ sealed class MovieDestination(
     data object Upcoming : MovieDestination("upcoming")
     data object MoviePlayer:MovieDestination("moviePlayer")
     data object YoutubePlayer : MovieDestination("youtubePlayer")
+    data object EpisodeDetails : MovieDestination("episode_details")
 
 
     data object Home : MovieDestination(
