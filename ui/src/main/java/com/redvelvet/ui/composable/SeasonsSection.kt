@@ -38,14 +38,14 @@ fun SeasonsSection(
                 customListItemComposable = { index ->
                     val item = items[index]
                     ItemSeason(
-                        seriesId = seriesId.toString(),
+                        seriesId = item.id.toString(),
                         name = item.name,
                         date = item.date,
                         episodesNum = item.episodeNum,
                         description = item.discription,
-                        seasonNumber = item.id,
                         rate = item.stars,
                         onClickItem = onClickSeason,
+                        seasonNumber = 0,
                         image = rememberAsyncImagePainter(
                             model = item.image,
                             placeholder = painterResource(id = R.drawable.image_placeholder),
