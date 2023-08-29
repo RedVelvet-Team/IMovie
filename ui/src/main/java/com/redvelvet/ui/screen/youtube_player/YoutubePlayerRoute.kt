@@ -7,7 +7,6 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.redvelvet.ui.navigation.MovieDestination
-import com.redvelvet.ui.screen.movie_player.MoviePlayer
 import com.redvelvet.viewmodel.youtube_player.YoutubePlayerArgs
 
 private val ROUTE = MovieDestination.YoutubePlayer.route

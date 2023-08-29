@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.color
@@ -36,11 +37,13 @@ fun PrimaryButton(
     textColor: Color = MaterialTheme.color.fontSecondary,
     textStyle: TextStyle = MaterialTheme.typography.headlineMedium,
     enabled: Boolean = true,
-    buttonShape: RoundedCornerShape=RoundedCornerShape(MaterialTheme.radius.radius16)
-) {
+    buttonShape: RoundedCornerShape=RoundedCornerShape(MaterialTheme.radius.radius16),
+    buttonHeight: Dp =MaterialTheme.dimens.dimens56,
+
+    ) {
     Button(
         modifier = modifier
-            .height(MaterialTheme.dimens.dimens56)
+            .height(buttonHeight)
             .fillMaxWidth(),
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(buttonColor),

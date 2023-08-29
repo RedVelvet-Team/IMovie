@@ -18,13 +18,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import com.redvelvet.ui.theme.Typography
+import androidx.compose.ui.tooling.preview.Preview
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.radius
 
 @Composable
 fun PrimaryTextField(
-    onTextChange: (String) -> Unit,
     value: String,
     isError: Boolean,
     placeHolderText: String,
@@ -32,23 +31,23 @@ fun PrimaryTextField(
     errorMessage: String = "",
     isPassword: Boolean = false,
     isPasswordVisible: Boolean = false,
-    onClickTrailingIcon: () -> Unit = {},
     leadingIcon: Painter? = null,
     trailingIcon: Painter? = null,
     iconTint: Color = MaterialTheme.color.fontSecondary,
     textColor: Color = MaterialTheme.color.fontSecondary,
     placeHolderColor: Color = MaterialTheme.color.fontSecondary,
+    onTextChange: (String) -> Unit,
+    onClickTrailingIcon: () -> Unit = {},
 ) {
     TextField(
         value = value,
         onValueChange = onTextChange,
         modifier = modifier.fillMaxWidth(),
-        textStyle = TextStyle(
-            color = MaterialTheme.color.fontPrimary,
-        ),
+        textStyle = TextStyle(color = MaterialTheme.color.fontPrimary),
         placeholder = {
             Text(
-                text = placeHolderText, style = Typography.bodyMedium,
+                text = placeHolderText,
+                style = MaterialTheme.typography.bodyMedium,
                 color = placeHolderColor,
             )
         },
@@ -94,5 +93,16 @@ fun PrimaryTextField(
             disabledContainerColor = MaterialTheme.color.backgroundSecondary,
             cursorColor = Color.White,
         ),
+    )
+}
+
+@Preview
+@Composable
+fun TextFieldPreview() {
+    PrimaryTextField(
+        onTextChange = {},
+        value = "Hello Banan",
+        isError = false,
+        placeHolderText = "Ya welcome be l7elween",
     )
 }
