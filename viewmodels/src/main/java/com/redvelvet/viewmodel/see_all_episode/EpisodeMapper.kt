@@ -1,5 +1,4 @@
 package com.redvelvet.viewmodel.see_all_episode
-package com.redvelvet.viewmodel.episode
 
 import com.redvelvet.entities.EpisodeDetails
 
