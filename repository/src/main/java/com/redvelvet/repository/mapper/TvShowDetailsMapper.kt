@@ -2,7 +2,7 @@ package com.redvelvet.repository.mapper
 
 import com.redvelvet.entities.tv.SeasonTvShow
 import com.redvelvet.entities.tv.TvShowDetails
-import com.redvelvet.repository.dto.tvShow.SeasonDto
+import com.redvelvet.repository.dto.schema.SeasonDto
 import com.redvelvet.repository.dto.tvShow.TvShowDetailsDto
 import com.redvelvet.repository.localDto.SeasonTvShowLocalDto
 import com.redvelvet.repository.localDto.TvShowDetailsLocalDto

@@ -137,7 +137,7 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun getActorKnownFor(id: String): List<CombinedResult> {
         return wrapRemoteResponse { remoteDataSource.getActorKnownFor(id) }
-            .result.map { it.toCombinedResult() }
+            .map { it.toCombinedResult() }
     }
 
     //endregion
