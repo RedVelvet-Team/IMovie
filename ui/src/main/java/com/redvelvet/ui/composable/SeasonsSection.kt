@@ -38,8 +38,8 @@ fun SeasonsSection(
                 customListItemComposable = { index ->
                     val item = items[index]
                     ItemSeason(
-                        id = item.id,
-                        seriesId = seriesId,
+                        seriesId = seriesId.toString(),
+                        seasonNumber = 0,
                         name = item.name,
                         date = item.date,
                         episodesNum = item.episodeNum,

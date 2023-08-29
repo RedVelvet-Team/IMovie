@@ -2,11 +2,13 @@ package com.redvelvet.usecase.usecase
 
 import com.redvelvet.entities.Question
 import com.redvelvet.usecase.repository.MovieRepository
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class GetQuestionUseCase @Inject constructor(
    private val repository: MovieRepository
 ) {
+
     private var questions = listOf<Question>()
     private var questionIndex = 0
 
@@ -23,16 +25,10 @@ class GetQuestionUseCase @Inject constructor(
         }
         return questions[questionIndex].also { questionIndex++ }
     }
-    suspend fun getActingQuestion(): Question{
-        if (questions.isEmpty()){
-            questions = repository.getActingQuestions()
-        }
-        return questions[questionIndex].also { questionIndex++ }
-    }
 
     fun isCorrectAnswer(answer: String) = questions[questionIndex - 1].correctAnswer == answer
 
-    fun isQuestionsEnded() = (questionIndex)  >= questions.size
+    fun areAllQuestionsAnswered() = (questionIndex)  >= questions.size
 
     suspend fun updatePlayerScore(score: Int){
         repository.savePlayerScore(score)
