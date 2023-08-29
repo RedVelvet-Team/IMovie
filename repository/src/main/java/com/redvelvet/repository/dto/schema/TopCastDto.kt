@@ -1,9 +1,8 @@
-package com.redvelvet.repository.dto.movie.details
-
+package com.redvelvet.repository.dto.schema
 
 import com.google.gson.annotations.SerializedName
 
-data class MovieTopCastDto(
+data class TopCastDto(
     @SerializedName("id")
     val id: Int?,
     @SerializedName("cast")
