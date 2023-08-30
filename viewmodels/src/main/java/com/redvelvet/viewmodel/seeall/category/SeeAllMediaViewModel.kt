@@ -1,6 +1,5 @@
 package com.redvelvet.viewmodel.seeall.category
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.paging.PagingData
 import androidx.paging.map
@@ -58,7 +57,6 @@ class SeeAllMediaViewModel @Inject constructor(
     }
 
     private fun onGetTvSuccess(result: PagingData<TvShow>) {
-        Log.v("Abanoub", result.toString())
         _state.update {
             it.copy(
                 isLoading = false,
@@ -68,7 +66,6 @@ class SeeAllMediaViewModel @Inject constructor(
     }
 
     private fun onGetError(error: ErrorUiState) {
-        Log.v("AAA", error.message)
         _state.update {
             it.copy(
                 isLoading = false,
@@ -89,11 +86,22 @@ class SeeAllMediaViewModel @Inject constructor(
         sendUiEffect(SeeAllCategoriesUiEffect.NavigateUp)
     }
 
-    override fun onClickCard(categoryId: String) {
-        sendUiEffect(
-            SeeAllCategoriesUiEffect.NavigateToDetailsScreen(
-                id = categoryId
+    override fun onClickItem(id: String) {
+        when (args.media) {
+            MediaType.MOVIE.name -> sendUiEffect(
+                SeeAllCategoriesUiEffect.NavigateToMovieDetailsScreen(
+                    id = id
+                )
             )
-        )
+
+            MediaType.TV.name -> sendUiEffect(
+                SeeAllCategoriesUiEffect.NavigateToTvDetailsScreen(
+                    id = id
+                )
+            )
+        }
+
     }
+
+
 }

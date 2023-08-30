@@ -27,13 +27,13 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.composable.ItemBasicCard
 import com.redvelvet.ui.composable.LoadingPage
 import com.redvelvet.ui.composable.NavigationHandler
 import com.redvelvet.ui.composable.rememberAsyncFlixImage
 import com.redvelvet.ui.screen.movieDetails.navigateToMovieDetails
+import com.redvelvet.ui.screen.tvshowdetails.navigateToTvShowDetails
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
@@ -48,7 +48,6 @@ fun SeeAllCategoryScreen(
     viewModel: SeeAllMediaViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    val navController = LocalNavController.current
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
     NavigationHandler(
@@ -59,9 +58,15 @@ fun SeeAllCategoryScreen(
                     navController.popBackStack()
                 }
 
-                is SeeAllCategoriesUiEffect.NavigateToDetailsScreen -> {
+                is SeeAllCategoriesUiEffect.NavigateToMovieDetailsScreen -> {
                     navController.navigateToMovieDetails(effect.id)
                 }
+
+                is SeeAllCategoriesUiEffect.NavigateToTvDetailsScreen -> {
+                    navController.navigateToTvShowDetails(effect.id)
+                }
+
+                else -> {}
             }
         }
     )
@@ -69,6 +74,7 @@ fun SeeAllCategoryScreen(
         title = state.title,
         isLoading = state.isLoading,
         error = state.error,
+        hasTopBar = true,
     ) {
         SeeAllCategoryContent(
             category = state.media.collectAsLazyPagingItems(),
@@ -114,7 +120,7 @@ private fun SeeAllCategoryContent(
                     modifier = Modifier
                         .height(MaterialTheme.dimens.dimens176)
                         .width(MaterialTheme.dimens.dimens104)
-                        .clickable { interaction.onClickCard(category[it]!!.id) },
+                        .clickable { interaction.onClickItem(category[it]!!.id) },
                 )
             }
             if (category.loadState.append is LoadState.Loading) {
