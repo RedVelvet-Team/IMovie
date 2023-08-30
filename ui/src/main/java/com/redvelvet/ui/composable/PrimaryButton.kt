@@ -19,12 +19,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.radius
-import com.redvelvet.ui.theme.spacing
 
 @Composable
 fun PrimaryButton(
@@ -54,13 +54,13 @@ fun PrimaryButton(
             Icon(
                 iconPainter,
                 contentDescription = "$iconPainter icon",
-                modifier.padding(end = MaterialTheme.spacing.spacing4)
+                modifier.padding(end = 4.dp)
             )
         }
         Text(
             text = text,
             textAlign = TextAlign.Center,
-            modifier = modifier.padding(MaterialTheme.spacing.spacing4),
+            modifier = modifier.padding(4.dp),
             style = textStyle,
             color = textColor,
             fontSize = 16.sp,
