@@ -11,8 +11,8 @@ interface AuthRepository {
     suspend fun deleteUserSession(sessionId: String)
 
     suspend fun getAccountDetails(sessionId: String): AccountDetails
-    suspend fun getAccountDetailsIdFromLocal(): Int?
-    suspend fun getAccountDetailsUsernameFromLocal(): String?
+    suspend fun getAccountId(): Int?
+    suspend fun getAccountUsername(): String?
 
     //endregion
 }
