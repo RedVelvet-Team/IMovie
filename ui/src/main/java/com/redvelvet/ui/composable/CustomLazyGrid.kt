@@ -31,8 +31,9 @@ import com.redvelvet.viewmodel.utils.isPerson
 @Composable
 fun CustomLazyGrid(
     searchCardUiStates: LazyPagingItems<SearchCardUiState>,
-    modifier: Modifier = Modifier
-) {
+    modifier: Modifier = Modifier,
+
+    ) {
     val navController = LocalNavController.current
     LazyVerticalGrid(
         modifier = modifier,
