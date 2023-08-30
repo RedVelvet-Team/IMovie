@@ -1,6 +1,5 @@
 package com.redvelvet.viewmodel.category
 
-import android.util.Log
 import com.redvelvet.entities.Genre
 import com.redvelvet.usecase.usecase.category.GetCategoryUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
@@ -22,14 +21,6 @@ class CategoryViewModel @Inject constructor(
         getTvCategory()
     }
 
-    private fun onMediaTypeChange(mediaType: MediaType) {
-        _state.update {
-            it.copy(
-                type = mediaType,
-            )
-        }
-    }
-
     private fun getMovieCategory() {
         tryToExecute(
             execute = { getCategory.getCategoryMovie() },
@@ -42,17 +33,11 @@ class CategoryViewModel @Inject constructor(
         tryToExecute(
             execute = { getCategory.getCategoryTv() },
             onSuccessWithData = ::onSuccessGetCategoryGenreTv,
-            onError = ::onError,
-
-            )
-
+            onError = ::onError
+        )
     }
 
     private fun onSuccessGetCategoryGenreTv(mediaType: List<Genre>) {
-        mediaType.forEach {
-            Log.v("AAA", it.toString())
-        }
-
         _state.update {
             it.copy(
                 isLoading = false,
@@ -62,10 +47,6 @@ class CategoryViewModel @Inject constructor(
     }
 
     private fun onSuccessGetCategoryGenreMovie(mediaType: List<Genre>) {
-        mediaType.forEach {
-            Log.v("AAA", it.toString())
-        }
-
         _state.update {
             it.copy(
                 isLoading = false,
@@ -75,8 +56,6 @@ class CategoryViewModel @Inject constructor(
     }
 
     private fun onError(error: ErrorUiState) {
-        Log.v("AAA", error.message)
-
         _state.update {
             it.copy(
                 isLoading = false,
@@ -95,13 +74,14 @@ class CategoryViewModel @Inject constructor(
     }
 
 
-    override fun onClickMovieCategoryTab() {
-        getMovieCategory()
+    override fun onChangeCategoryTab(mediaType: MediaType) {
+        _state.update {
+            it.copy(
+                type = mediaType,
+            )
+        }
     }
 
-    override fun onClickTvCategoryTab() {
-        getTvCategory()
-    }
 
     override fun onCLickRefresh() {
         getMovieCategory()

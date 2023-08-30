@@ -21,9 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -51,6 +48,7 @@ fun CategoryScreen(categoryViewModel: CategoryViewModel = hiltViewModel()) {
     val state by categoryViewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
+
     NavigationHandler(
         effects = categoryViewModel.effect,
         handleEffect = { effect, navController ->
@@ -60,7 +58,11 @@ fun CategoryScreen(categoryViewModel: CategoryViewModel = hiltViewModel()) {
                 }
 
                 is CategoryUiEffect.NavigateToSeeAllCategoryScreen -> {
-                    navController.navigateToSeeAllCategoryRoute(effect.id, effect.name, "movie")
+                    navController.navigateToSeeAllCategoryRoute(
+                        effect.id,
+                        effect.name,
+                        state.type
+                    )
                 }
             }
         }
@@ -88,13 +90,12 @@ fun CategoriesContent(
             )
 
     ) {
-        var selectedCategory by remember { mutableStateOf(MediaType.MOVIE) }
         Column(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
             TabRow(
-                selectedTabIndex = selectedCategory.ordinal,
+                selectedTabIndex = state.type.ordinal,
                 containerColor = MaterialTheme.color.backgroundPrimary,
                 indicator = {},
                 divider = {}
@@ -102,8 +103,8 @@ fun CategoriesContent(
                 MediaType.values().forEachIndexed { index, category ->
                     Box {
                         Tab(
-                            selected = selectedCategory == category,
-                            onClick = { selectedCategory = category },
+                            selected = state.type == category,
+                            onClick = { interaction.onChangeCategoryTab(category) },
                             text = {
                                 Text(
                                     text = category.name,
@@ -115,7 +116,7 @@ fun CategoriesContent(
                             }
                         )
                         this@Column.AnimatedVisibility(
-                            visible = selectedCategory == category,
+                            visible = state.type == category,
                             modifier = Modifier.align(Alignment.BottomCenter)
                         ) {
                             Box(
@@ -134,15 +135,17 @@ fun CategoriesContent(
             }
 
             val selectedTabContent: @Composable () -> Unit = {
-                when (selectedCategory) {
+                when (state.type) {
                     MediaType.MOVIE -> CategoryContent(
                         viewPaperList = state.genreMovieList,
                         interaction,
                     )
+
                     MediaType.TV -> CategoryContent(
                         viewPaperList = state.genreTvList,
                         interaction,
                     )
+
                     else -> {}
                 }
             }
