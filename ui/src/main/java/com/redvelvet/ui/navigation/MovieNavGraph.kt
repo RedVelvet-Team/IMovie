@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.screen.actor_details.actorDetailsRoute
 import com.redvelvet.ui.screen.category.categoryRoute
+import com.redvelvet.ui.screen.categorySeeAll.seeAllCategoryRoute
 import com.redvelvet.ui.screen.episodes.seeAllEpisodeRoute
 import com.redvelvet.ui.screen.forgot_password.forgotPasswordRoute
 import com.redvelvet.ui.screen.home.homeRoute
@@ -60,5 +61,6 @@ fun MovieNavGraph() {
         roomRoute()
         moviePlayerRoute()
         youtubePlayerRoute()
+        seeAllCategoryRoute()
     }
 }
