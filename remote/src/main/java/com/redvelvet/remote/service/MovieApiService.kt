@@ -414,13 +414,13 @@ interface MovieApiService {
 
     @GET("discover/tv")
     suspend fun discoverListTv(
-        @Path("id") id: Int,
+        @Query("with_genres") id: Int,
         @Query("page") page: Int? = 1,
     ): Response<BaseResponse<List<TvShowDto>>>
 
     @GET("discover/movie")
     suspend fun discoverListMovie(
-        @Path("id") id: Int,
+        @Query("with_genres") id: Int,
         @Query("page") page: Int? = 1,
     ): Response<BaseResponse<List<MovieDetailsDTO>>>
     //endregion
