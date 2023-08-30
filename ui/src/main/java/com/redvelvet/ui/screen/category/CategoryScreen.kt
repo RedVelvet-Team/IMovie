@@ -69,7 +69,7 @@ fun CategoryScreen(categoryViewModel: CategoryViewModel = hiltViewModel()) {
     )
     FlixMovieScaffold(
         title = "Category",
-        isLoading = false,
+        isLoading = state.isLoading,
         hasTopBar = true,
         hasBackArrow = false
     ) {
