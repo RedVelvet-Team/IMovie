@@ -21,9 +21,9 @@ interface UserPreferencesDataSource {
     suspend fun getGuestSessionExpDate(): String?
     //endregion
 
-    suspend fun setAccountDetailsId(accountId: Int)
-    suspend fun setAccountDetailsUsername(accountUsername: String)
+    suspend fun setAccountId(accountId: Int)
+    suspend fun setAccountUsername(accountUsername: String)
 
-    suspend fun getAccountDetailsIdFromLocal(): Int?
-    suspend fun getAccountDetailsUsernameFromLocal(): String?
+    suspend fun getAccountIdFromLocal(): Int?
+    suspend fun getAccountUsernameFromLocal(): String?
 }

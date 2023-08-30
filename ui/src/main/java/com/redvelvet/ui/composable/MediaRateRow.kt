@@ -20,7 +20,9 @@ import com.redvelvet.ui.theme.spacing
 
 
 @Composable
-fun MediaRateRow(mediaRate: String, onRateMedia: () -> Unit) {
+fun MediaRateRow(
+    isRated: Boolean, mediaRate: String, onRateMedia: () -> Unit
+) {
     Row(
         modifier = Modifier
             .padding(bottom = MaterialTheme.spacing.spacing24)
@@ -53,7 +55,7 @@ fun MediaRateRow(mediaRate: String, onRateMedia: () -> Unit) {
                 .clickable { onRateMedia() }
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.rate_action_star),
+                painter = painterResource(id = if (isRated) R.drawable.rated_star else R.drawable.rate_action_star),
                 contentDescription = stringResource(R.string.rated_star),
                 tint = RateStarColor,
                 modifier = Modifier.padding(end = MaterialTheme.spacing.spacing4)
