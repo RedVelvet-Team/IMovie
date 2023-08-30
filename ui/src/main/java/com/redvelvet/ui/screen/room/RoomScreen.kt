@@ -18,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
@@ -55,7 +54,7 @@ fun RoomScreen(
         scope.launchCollectLatest(viewModel.effect) { effect ->
             when (effect) {
                 is RoomUiEffect.NavigateToVideoPlayer -> {
-                    navController.navigateMoviePlayer(state.dialogState.movieUrl)
+                    navController.navigateMoviePlayer()
                 }
             }
         }
@@ -74,8 +73,6 @@ fun RoomScreen(
             onSubmitClick = viewModel::onClickSubmit,
             onClickCancel = viewModel::onClickCancel
         )
-        Log.e("test", "Create cinema${state.dialogState.showDialog}")
-
     }
 
     AnimatedVisibility(visible = state.buttonClicked == Clicked.JOIN) {
@@ -91,7 +88,6 @@ fun RoomScreen(
             onSubmitClick = viewModel::onClickSubmit,
             onClickCancel = viewModel::onClickCancel
         )
-        Log.e("test", "Join cinema${state.dialogState.showDialog}")
     }
 
     RoomContent(state, viewModel)
@@ -121,7 +117,6 @@ fun RoomContent(state: RoomUiState, listener: RoomInteractions) {
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
                         listener.onClickCreateRoom()
-                        Log.e("test", "PrimaryButton${state.dialogState.showDialog}")
                     },
                     buttonColor = MaterialTheme.color.brand60,
                     text = "Create Room",
@@ -132,7 +127,6 @@ fun RoomContent(state: RoomUiState, listener: RoomInteractions) {
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
                         listener.onClickJoinRoom()
-                        Log.e("test", "PrimaryOutlinedButton${state.dialogState.showDialog}")
                     },
                     enabled = !state.isLoading,
                     border = BorderStroke(

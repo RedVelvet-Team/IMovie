@@ -7,35 +7,33 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.redvelvet.ui.navigation.MovieDestination
+import com.redvelvet.ui.screen.tvshowdetails.TvShowDetailsScreen
 import com.redvelvet.viewmodel.movie_player.MoviePlayerArgs
+import com.redvelvet.viewmodel.seeall.tv.SeeAllTvArgs
+import com.redvelvet.viewmodel.tvshow.TvDetailsArgs
 
 private val ROUTE = MovieDestination.MoviePlayer.route
 
 fun NavGraphBuilder.moviePlayerRoute() {
     composable(
-        route = "$ROUTE /{${MoviePlayerArgs.VIDEO_URL}}/{${MoviePlayerArgs.ROOM_URL}}",
-        arguments = listOf(
-            navArgument(MoviePlayerArgs.VIDEO_URL) {
-                NavType.StringType
-                nullable = true
-            },
-            navArgument(MoviePlayerArgs.ROOM_URL) {
-                NavType.StringType
-                nullable = true
-            },
-        )
-    ) {
+        route = ROUTE,
+            )
+    {
         MoviePlayerScreen()
     }
 }
 
 fun NavController.navigateMoviePlayer(
-    movieUrl: String ?= null,
-    roomUrl: String?= null,
+//    movieUrl: String ?= null,
     builder: NavOptionsBuilder.() -> Unit = {}
 ) {
     navigate(
-        route = "$ROUTE/${movieUrl}/${roomUrl}",
+        route = ROUTE,
         builder = builder
     )
 }
+
+
+
+
+

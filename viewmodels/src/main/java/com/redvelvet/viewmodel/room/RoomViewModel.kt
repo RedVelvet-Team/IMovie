@@ -54,7 +54,7 @@ class RoomViewModel @Inject constructor(
                 error = null,
             )
         }
-        Log.d("Kamel","dfdsgvvgdfsgbfg")
+        sendUiEffect(RoomUiEffect.NavigateToVideoPlayer)
     }
 
     private fun onError(e: ErrorUiState) {
@@ -64,20 +64,11 @@ class RoomViewModel @Inject constructor(
                 error = e,
             )
         }
-        Log.d("Kamel","a7a")
+
     }
 
     override fun onClickCreateRoom() {
-        _state.update {
-            it.copy(
-                isCreateRoomClicked = true,
-                buttonClicked=Clicked.CREATE,
-                dialogState = it.dialogState.copy(showDialog = true)
-            )
-        }
-        sendUiEffect(RoomUiEffect.ShowDialogToCreateRoom)
-        Log.e("test", "onClickCreateRoom${ state.value.dialogState.showDialog}")
-
+        createRoom()
     }
 
     override fun onClickJoinRoom() {

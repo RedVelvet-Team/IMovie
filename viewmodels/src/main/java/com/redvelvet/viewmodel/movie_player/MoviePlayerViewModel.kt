@@ -1,15 +1,21 @@
 package com.redvelvet.viewmodel.movie_player
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
+import com.redvelvet.usecase.usecase.party.StreamMovieUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsUiEffect
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MoviePlayerViewModel @Inject constructor(
-    val savedStateHandle: SavedStateHandle
+    val savedStateHandle: SavedStateHandle,
+    private val streamMovieUseCase: StreamMovieUseCase,
 ) :
     BaseViewModel<MoviePlayerUiState, MovieDetailsUiEffect>(MoviePlayerUiState()) {
 
@@ -20,12 +26,18 @@ class MoviePlayerViewModel @Inject constructor(
         getRoomLink()
     }
 
+
     private fun getVideoLink() {
-        _state.update { it.copy(videoUrl = moviePlayerArg.videoUrl) }
+        viewModelScope.launch {
+            streamMovieUseCase.invoke("1693378945056").collect{ movieParty ->
+                _state.update { it.copy(videoUrl = movieParty.movieLink) }
+                Log.d("Kamel",_state.value.toString())
+            }
+        }
     }
 
     private fun getRoomLink() {
-        _state.update { it.copy(roomLink = moviePlayerArg.roomLink) }
+        _state.update { it.copy(roomLink = " ") }
     }
 
     fun updateIsPlaying() {

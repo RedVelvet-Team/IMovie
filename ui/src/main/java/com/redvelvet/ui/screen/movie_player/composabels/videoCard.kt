@@ -39,7 +39,7 @@ fun CustomPlayerView(
     isFullScreen: Boolean,
     onTrailerChange: ((Int) -> Unit)? = null,
     onFullScreenToggle: (isFullScreen: Boolean) -> Unit,
-    shouldShowControls:Boolean = false
+    shouldShowControls:Boolean = true
 ) {
     val context = LocalContext.current
 

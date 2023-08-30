@@ -2,6 +2,7 @@ package com.redvelvet.ui.screen.movie_player
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -67,6 +69,9 @@ private fun ShowVideo(
                 this.playWhenReady = true
             }
     }
+
+    exoPlayer.setMediaItem(fromUri(videoUrl))
+    Log.d("Kosomk",videoUrl)
 
     val lifecycle = LocalLifecycleOwner.current.lifecycle
 
@@ -139,7 +144,9 @@ private fun PortraitView(
     onTrailerChange: (Int) -> Unit,
     onFullScreenToggle: (isFullScreen: Boolean) -> Unit,
 ) {
-    Column(modifier = Modifier.systemBarsPadding().background(MaterialTheme.color.backgroundPrimary)) {
+    Column(modifier = Modifier
+        .systemBarsPadding()
+        .background(MaterialTheme.color.backgroundPrimary)) {
         CustomPlayerView(
             playerWrapper = playerWrapper,
             isFullScreen = false,
@@ -154,7 +161,9 @@ private fun LandscapeView(
     playerWrapper: Player,
     onFullScreenToggle: (isFullScreen: Boolean) -> Unit
 ) {
-    Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.color.backgroundPrimary)) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(MaterialTheme.color.backgroundPrimary)) {
         CustomPlayerView(
             modifier = Modifier.fillMaxSize(),
             playerWrapper = playerWrapper,

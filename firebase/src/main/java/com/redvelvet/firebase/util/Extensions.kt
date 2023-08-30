@@ -2,6 +2,7 @@ package com.redvelvet.firebase.util
 
 import com.redvelvet.entities.error.MovieException
 import com.redvelvet.entities.error.NetworkException
+import com.redvelvet.entities.error.NullResultException
 import java.io.IOException
 import java.net.UnknownHostException
 import java.util.concurrent.CancellationException
