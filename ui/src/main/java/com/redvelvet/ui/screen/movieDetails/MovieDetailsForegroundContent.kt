@@ -8,14 +8,15 @@ import com.redvelvet.ui.composable.MediaDetailsForegroundContent
 import com.redvelvet.ui.composable.MediaListSection
 import com.redvelvet.ui.composable.ReviewsSection
 import com.redvelvet.ui.composable.TopCastSection
+import com.redvelvet.viewmodel.details_ui_states.MediaDetailsScreenUiState
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsInteraction
-import com.redvelvet.viewmodel.movieDetails.MovieDetailsScreenUiState
 
 @Composable
 fun MovieDetailsForegroundContent(
-    state: MovieDetailsScreenUiState,
+    state: MediaDetailsScreenUiState,
     interaction: MovieDetailsInteraction,
-    onScroll: (offset: Int) -> Unit
+    isRated: Boolean,
+    onScroll: (offset: Int) -> Unit,
 ) {
     MediaDetailsForegroundContent(
         onScroll = onScroll
@@ -25,7 +26,7 @@ fun MovieDetailsForegroundContent(
                 DetailsInfoSection(
                     image = det.posterPath,
                     id = det.id,
-                    name = det.originalTitle,
+                    name = det.title,
                     genres = det.genres,
                     hasTime = true,
                     hasDate = false,
@@ -35,7 +36,8 @@ fun MovieDetailsForegroundContent(
                     onClickRate = interaction::onClickRateMovie,
                     voteAverage = det.voteAverage,
                     description = det.overview,
-                )
+                    isRated = isRated,
+                    )
             }
 
             it.topCast.let { topcasts ->
@@ -52,9 +54,12 @@ fun MovieDetailsForegroundContent(
                     },
                     mediaId = state.data!!.details.id.toString()
                 )
-
             }
-            MovieDetailsMoreInfoSection(it.details)
+            MovieDetailsMoreInfoSection(
+                it.details.productionCountries,
+                it.details.status,
+                it.details.releaseDate
+            )
             KeyWordsSection(it.keyWords)
             it.similar.let { similarMovies ->
                 MediaListSection(
@@ -73,11 +78,7 @@ fun MovieDetailsForegroundContent(
                 )
             }
             ImagesSection(
-                items = it.images.map { it ->
-                    Item(
-                        image = it.mediaImage,
-                    )
-                },
+                items = it.images.map { Item(image = it) },
                 interaction::onClickMovieImagesSeeAll,
                 mediaId = it.details.id
             )

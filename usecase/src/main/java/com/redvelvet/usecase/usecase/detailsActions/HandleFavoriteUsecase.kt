@@ -1,27 +1,43 @@
 package com.redvelvet.usecase.usecase.detailsActions
 
-import kotlinx.coroutines.coroutineScope
+import com.redvelvet.usecase.repository.MediaActionsRepository
+import com.redvelvet.usecase.repository.UserRepository
+import com.redvelvet.usecase.usecase.auth.GetSavedAccountDetailsIdUsecase
 import javax.inject.Inject
 
 class HandleFavoriteUsecase @Inject constructor(
-    private val toggleMediaInFavoritesUsecase: ToggleMediaInFavoritesUsecase,
     private val handleItemCheckUsecase: HandleItemCheckUsecase,
-) {
+    private val repository: MediaActionsRepository,
+    private val getAccountId: GetSavedAccountDetailsIdUsecase,
+    private val userRepository: UserRepository,
+
+    ) {
     suspend operator fun invoke(
         mediaType: String,
         mediaId: Int,
     ): String {
-        return coroutineScope {
-            val dataType = when (mediaType) {
-                "movie" -> TypeOfData.MOVIE_FAVORITES
-                "tv" -> TypeOfData.TV_FAVORITES
-                else -> throw IllegalArgumentException("Invalid mediaType")
-            }
-            if (handleItemCheckUsecase.invoke(mediaId, dataType)) {
-                toggleMediaInFavoritesUsecase.invoke(mediaType, mediaId, false)
-            } else {
-                toggleMediaInFavoritesUsecase.invoke(mediaType, mediaId, true)
-            }
+        val dataType = when (mediaType) {
+            "movie" -> DetailsActionsTypes.MOVIE_FAVORITES
+            "tv" -> DetailsActionsTypes.TV_FAVORITES
+            else -> DetailsActionsTypes.UNKNOWN
+        }
+        return if (handleItemCheckUsecase.invoke(mediaId, dataType)) {
+            toggleMediaInFavorites(mediaType, mediaId, false)
+        } else {
+            toggleMediaInFavorites(mediaType, mediaId, true)
         }
     }
+
+    private suspend fun toggleMediaInFavorites(
+        mediaType: String,
+        mediaId: Int,
+        isSavedInFavorites: Boolean
+    ): String =
+        repository.toggleMediaInFavorites(
+            mediaType = mediaType,
+            mediaId = mediaId,
+            isSavedInFavorites = isSavedInFavorites,
+            accountId = getAccountId.invoke(),
+            userRepository.getUserSessionIdFromLocal()
+        )
 }

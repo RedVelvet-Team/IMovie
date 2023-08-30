@@ -4,14 +4,14 @@ package com.redvelvet.viewmodel.tvshow
 import androidx.lifecycle.SavedStateHandle
 import com.redvelvet.entities.tv.TvShowAllDetails
 import com.redvelvet.usecase.usecase.detailsActions.HandleFavoriteUsecase
+import com.redvelvet.usecase.usecase.detailsActions.HandleItemCheckUsecase
 import com.redvelvet.usecase.usecase.detailsActions.HandleTvRateUsecase
 import com.redvelvet.usecase.usecase.detailsActions.HandleWatchlistUsecase
 import com.redvelvet.usecase.usecase.tvshow.GetAllTvShowDetailsUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
-import com.redvelvet.viewmodel.movieDetails.AddToWatchListActionUiState
-import com.redvelvet.viewmodel.movieDetails.FavoriteActionUiState
-import com.redvelvet.viewmodel.movieDetails.RateActionUiState
+import com.redvelvet.viewmodel.details_ui_states.MediaDetailsScreenUiState
+import com.redvelvet.viewmodel.details_ui_states.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
@@ -21,9 +21,10 @@ class TvShowViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getTvShSowDetails: GetAllTvShowDetailsUseCase,
     private val handleTvRate: HandleTvRateUsecase,
+    private val handleItemCheck: HandleItemCheckUsecase,
     private val handleFavorite: HandleFavoriteUsecase,
     private val handleWatchlist: HandleWatchlistUsecase,
-) : BaseViewModel<SeriesDetailsUiState, TvShowUiEffect>(SeriesDetailsUiState()),
+) : BaseViewModel<MediaDetailsScreenUiState, TvShowUiEffect>(MediaDetailsScreenUiState()),
     TvShowDetailsInteraction {
 
     private val args: TvDetailsArgs = TvDetailsArgs(savedStateHandle)
@@ -46,27 +47,24 @@ class TvShowViewModel @Inject constructor(
 
     private fun onSuccess(tvShowAllDetails: TvShowAllDetails) {
         _state.update {
-            it.copy(
-                tvShowId = tvShowAllDetails.tvShowId,
-                tvShowName = tvShowAllDetails.tvShowName,
-                tvShowImage = tvShowAllDetails.tvShowImage,
-                tvShowLanguage = tvShowAllDetails.tvShowLanguage,
-                tvShowTrailerUrl = tvShowAllDetails.tvShowTrailerUrl,
-                tvShowDescription = tvShowAllDetails.tvShowDescription,
-                genres = tvShowAllDetails.genres,
-                voteAverage = tvShowAllDetails.voteAverage,
-                firstAirDate = tvShowAllDetails.firstAirDate,
-                topCast = tvShowAllDetails.topCast.map { it.toTvShowTopCastUiState() },
-                keywords = tvShowAllDetails.keywords,
-                seasons = tvShowAllDetails.seasons.map { it.toSeasonUiState() },
-                reviews = tvShowAllDetails.reviews.map { it.toTvShowReviewUiState() },
-                posters = tvShowAllDetails.posters,
-                recommendations = tvShowAllDetails.recommendations.map { it.toTvShowRecommendationUiState() },
-                videos = tvShowAllDetails.videos.map { it.toTvShowVideoUiState() },
-                myRating = 0,
+            MediaDetailsScreenUiState(
+                data = tvShowAllDetails.toUiState(),
                 isLoading = false,
                 error = null,
-            )
+                isFavorite = handleItemCheck.isItemInTvList(
+                    tvList = tvShowAllDetails.tvFavorites,
+                    itemId = tvShowAllDetails.tvShowId,
+                ),
+                isSavedToList = handleItemCheck.isItemInTvList(
+                    tvList = tvShowAllDetails.tvWatchlist,
+                    itemId = tvShowAllDetails.tvShowId,
+                ),
+                isRated = handleItemCheck.isItemInTvList(
+                    tvList = tvShowAllDetails.ratedTv,
+                    itemId = tvShowAllDetails.tvShowId,
+                ),
+
+                )
         }
     }
 
@@ -83,7 +81,7 @@ class TvShowViewModel @Inject constructor(
     override fun onClickFavorite(seriesId: Int) {
         _state.update {
             it.copy(
-                favoriteActionState = FavoriteActionUiState(
+                favoriteActionState = MediaDetailsScreenUiState.FavoriteActionUiState(
                     isLoading = true
                 )
             )
@@ -103,10 +101,11 @@ class TvShowViewModel @Inject constructor(
     private fun onFavoriteSuccess(response: String) {
         _state.update {
             it.copy(
-                favoriteActionState = FavoriteActionUiState(
+                favoriteActionState = MediaDetailsScreenUiState.FavoriteActionUiState(
                     isLoading = false,
                     data = response
-                )
+                ),
+                isFavorite = !response.contains("deleted")
             )
         }
     }
@@ -114,7 +113,7 @@ class TvShowViewModel @Inject constructor(
     private fun onFavoriteError(error: ErrorUiState) {
         _state.update {
             it.copy(
-                favoriteActionState = FavoriteActionUiState(
+                favoriteActionState = MediaDetailsScreenUiState.FavoriteActionUiState(
                     isLoading = false,
                     error = error
                 )
@@ -125,7 +124,7 @@ class TvShowViewModel @Inject constructor(
     override fun onClickSave(seriesId: Int) {
         _state.update {
             it.copy(
-                addToWatchListActionUiState = AddToWatchListActionUiState(
+                addToWatchListActionUiState = MediaDetailsScreenUiState.AddToWatchListActionUiState(
                     isLoading = true
                 )
             )
@@ -145,10 +144,11 @@ class TvShowViewModel @Inject constructor(
     private fun onSaveSuccess(response: String) {
         _state.update {
             it.copy(
-                addToWatchListActionUiState = AddToWatchListActionUiState(
+                addToWatchListActionUiState = MediaDetailsScreenUiState.AddToWatchListActionUiState(
                     isLoading = false,
                     data = response
-                )
+                ),
+                isSavedToList = !response.contains("deleted")
             )
         }
     }
@@ -156,7 +156,7 @@ class TvShowViewModel @Inject constructor(
     private fun onSaveError(error: ErrorUiState) {
         _state.update {
             it.copy(
-                addToWatchListActionUiState = AddToWatchListActionUiState(
+                addToWatchListActionUiState = MediaDetailsScreenUiState.AddToWatchListActionUiState(
                     isLoading = false,
                     error = error
                 )
@@ -167,14 +167,11 @@ class TvShowViewModel @Inject constructor(
     override fun onClickRateSeries(seriesId: Int, rate: Double) {
         _state.update {
             it.copy(
-                rateActionUiState = RateActionUiState(
+                rateActionUiState = MediaDetailsScreenUiState.RateActionUiState(
                     isLoading = true
                 )
             )
         }
-//        deleteTvShowRating(
-//            movieId = movieId,
-//        )
         tryToExecute(
             execute = {
                 handleTvRate(
@@ -191,10 +188,11 @@ class TvShowViewModel @Inject constructor(
     private fun onRateSuccess(response: String) {
         _state.update {
             it.copy(
-                rateActionUiState = RateActionUiState(
+                rateActionUiState = MediaDetailsScreenUiState.RateActionUiState(
                     isLoading = false,
                     data = response
-                )
+                ),
+                isRated = !response.contains("deleted")
             )
         }
     }
@@ -202,7 +200,7 @@ class TvShowViewModel @Inject constructor(
     private fun onRateError(error: ErrorUiState) {
         _state.update {
             it.copy(
-                rateActionUiState = RateActionUiState(
+                rateActionUiState = MediaDetailsScreenUiState.RateActionUiState(
                     isLoading = false,
                     error = error
                 )

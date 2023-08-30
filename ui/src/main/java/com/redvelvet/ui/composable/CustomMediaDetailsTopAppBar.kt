@@ -1,5 +1,6 @@
 package com.redvelvet.ui.composable
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -28,7 +29,9 @@ fun CustomMediaDetailsTopAppBar(
     onBackClicked: () -> Unit,
     onFavoriteClicked: () -> Unit,
     onSaveClicked: () -> Unit,
-    isScrolled: Boolean
+    isScrolled: Boolean,
+    isFavorite: Boolean,
+    isSavedToList: Boolean,
 ) {
     val background = if (isScrolled) Primary else Color.Transparent
     Row(
@@ -60,14 +63,15 @@ fun CustomMediaDetailsTopAppBar(
         )
         Spacer(modifier = Modifier.weight(1f))
         Icon(
-            painter = painterResource(id = R.drawable.icon_favorite),
+            painter = painterResource(id = if (isFavorite) R.drawable.heart_filled else R.drawable.icon_favorite),
             contentDescription = "Favorite",
             modifier = Modifier.clickable { onFavoriteClicked() },
             tint = Color.White
         )
         Spacer(modifier = Modifier.width(MaterialTheme.spacing.spacing24))
+        Log.d("TAG", "isSavedToList = $isSavedToList")
         Icon(
-            painter = painterResource(id = R.drawable.icon_save),
+            painter = painterResource(id = if (isSavedToList) R.drawable.save_filled else R.drawable.icon_save),
             contentDescription = "Save",
             modifier = Modifier.clickable { onSaveClicked() },
             tint = Color.White

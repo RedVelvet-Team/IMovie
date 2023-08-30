@@ -7,6 +7,6 @@ class GetSavedAccountDetailsUsernameUsecase @Inject constructor(
     private val authRepository: AuthRepository,
 ) {
     suspend operator fun invoke(): String {
-        return authRepository.getAccountDetailsUsernameFromLocal() ?: ""
+        return authRepository.getAccountUsername() ?: ""
     }
 }
