@@ -13,11 +13,6 @@ fun NavGraphBuilder.upcomingRoute() {
         ComingScreen()
     }
 }
-fun NavGraphBuilder.gameRoute() {
-    composable(route = MovieDestination.Game.route) {
-        ComingScreen()
-    }
-}
 fun NavController.navigateToUpcoming(builder: NavOptionsBuilder.() -> Unit = {}) {
     navigate(route = ROUTE, builder = builder)
 }

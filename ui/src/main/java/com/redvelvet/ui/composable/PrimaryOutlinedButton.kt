@@ -16,6 +16,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
@@ -33,6 +35,7 @@ fun PrimaryOutlinedButton(
         width = MaterialTheme.dimens.dimens1,
         color = MaterialTheme.color.brand100
     ),
+    buttonHeight: Dp =MaterialTheme.dimens.dimens56,
     enabled: Boolean = true,
     textColor: Color = MaterialTheme.color.fontSecondary,
     textStyle:TextStyle= MaterialTheme.typography.headlineMedium,
@@ -43,7 +46,7 @@ fun PrimaryOutlinedButton(
         border = border,
         shape = buttonShape,
         modifier = modifier
-            .height(MaterialTheme.dimens.dimens56)
+            .height(buttonHeight)
             .fillMaxWidth(),
         enabled = enabled
     ) {
@@ -56,10 +59,15 @@ fun PrimaryOutlinedButton(
         }
         Text(
             text = text,
-            modifier = Modifier.padding(end = MaterialTheme.spacing.spacing8),
             style = textStyle,
             color = textColor,
             maxLines = 1
         )
     }
+}
+
+@Preview
+@Composable
+fun Preview(){
+    PrimaryOutlinedButton({},"Done")
 }

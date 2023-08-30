@@ -6,5 +6,6 @@ enum class SeeAllMovie {
     UPCOMING,
     TOP_RATED,
     SIMILAR,
-    RECOMMEND
+    RECOMMEND,
+    TOP_CAST
 }
