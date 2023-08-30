@@ -1,7 +1,7 @@
 package com.redvelvet.repository.source
 
-import com.redvelvet.repository.dto.ActorKnownForDto
-import com.redvelvet.repository.dto.BaseResponse
+import com.redvelvet.repository.dto.EpisodeSingleItemDto
+import com.redvelvet.repository.dto.GenresDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
@@ -9,23 +9,18 @@ import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
 import com.redvelvet.repository.dto.library.LibraryMovieDto
 import com.redvelvet.repository.dto.library.LibraryTvDto
-import com.redvelvet.repository.dto.listAndFavorites.ListRemoteDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
-import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
-import com.redvelvet.repository.dto.movie.details.MovieRecommendationsDTO
-import com.redvelvet.repository.dto.movie.details.MovieReviewsDTO
 import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
-import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
 import com.redvelvet.repository.dto.person.ActorDto
+import com.redvelvet.repository.dto.schema.ImagesDto
+import com.redvelvet.repository.dto.schema.RecommendationsDto
+import com.redvelvet.repository.dto.schema.ReviewDto
+import com.redvelvet.repository.dto.schema.TopCastDto
 import com.redvelvet.repository.dto.search.CombinedResultDto
 import com.redvelvet.repository.dto.tvShow.TvShowDetailsDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
-import com.redvelvet.repository.dto.tvShow.TvShowImagesDto
 import com.redvelvet.repository.dto.tvShow.TvShowKeywordsDto
-import com.redvelvet.repository.dto.tvShow.TvShowRecommendationsDto
-import com.redvelvet.repository.dto.tvShow.TvShowReviewsDto
-import com.redvelvet.repository.dto.tvShow.TvShowTopCastDto
 import com.redvelvet.repository.dto.tvShow.TvShowVideosDto
 
 interface RemoteDataSource {
@@ -62,17 +57,17 @@ interface RemoteDataSource {
 
     //region Movie Details
     suspend fun getMovieDetailsById(movieId: Int): MovieDetailsDTO
-    suspend fun getMovieImagesByID(movieId: Int): MovieImagesDTO
+    suspend fun getMovieImagesByID(movieId: Int): ImagesDto
     suspend fun getMovieKeyWordsByID(movieId: Int): MovieKeyWordsDTO
-    suspend fun getMovieRecommendationsByID(movieId: Int): MovieRecommendationsDTO
-    suspend fun getMovieReviewsByID(movieId: Int): MovieReviewsDTO
+    suspend fun getMovieRecommendationsByID(movieId: Int): RecommendationsDto
+    suspend fun getMovieReviewsByID(movieId: Int): ReviewDto
     suspend fun getMovieSimilarByID(movieId: Int): MovieSimilarDTO
-    suspend fun getMovieTopCastByID(movieId: Int): MovieTopCastDto
+    suspend fun getMovieTopCastByID(movieId: Int): TopCastDto
     //endregion
 
     suspend fun getActorDetails(id: String): ActorDto
 
-    suspend fun getActorKnownFor(id: String): ActorKnownForDto
+    suspend fun getActorKnownFor(id: String): List<CombinedResultDto>
     suspend fun getAllEpisodes(tvId: String, seasonNumber: Int): SeasonDetailsDto
 
 
@@ -85,16 +80,41 @@ interface RemoteDataSource {
     suspend fun seeAllRecommendedMovie(page: Int?, id: Int): List<MovieDetailsDTO>
     //endregion
 
+    // region Episode Details
+    suspend fun getEpisodeDetails(
+        tvId: Int,
+        seasonNumber: Int,
+        episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeDetails
+
+    suspend fun getEpisodeMovies(
+        tvId: Int,
+        seasonNumber: Int,
+        episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeMovies
+
+    suspend fun getEpisodeCast(
+        tvId: Int,
+        seasonNumber: Int,
+        episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeCast
+
+    suspend fun getEpisodeImages(
+        tvId: Int,
+        seasonNumber: Int,
+        episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeImages
+    // endregion
 
     //region tvShow
     suspend fun getTvShowKeyWordsByID(seriesId: Int): TvShowKeywordsDto
-    suspend fun getTvShowTopCastByID(seriesId: Int): TvShowTopCastDto
+    suspend fun getTvShowTopCastByID(seriesId: Int): TopCastDto
     suspend fun getTvShowVideosByID(seriesId: Int): TvShowVideosDto
-    suspend fun getTvShowImagesByID(seriesId: Int): TvShowImagesDto
+    suspend fun getTvShowImagesByID(seriesId: Int): ImagesDto
 
     suspend fun getTvShowDetailsByID(seriesId: Int): TvShowDetailsDto
-    suspend fun getTvShowRecommendationsByID(seriesId: Int): TvShowRecommendationsDto
-    suspend fun getTvShowReviewsByID(seriesId: Int): TvShowReviewsDto
+    suspend fun getTvShowRecommendationsByID(seriesId: Int): RecommendationsDto
+    suspend fun getTvShowReviewsByID(seriesId: Int): ReviewDto
     suspend fun getAllSeasons(seriesId: Int): TvShowDetailsDto
     //endregion
 
@@ -109,6 +129,13 @@ interface RemoteDataSource {
     suspend fun getOnTheAir(): List<TvShowDto>
     suspend fun getPopularTv(): List<TvShowDto>
     suspend fun getTopRatedTv(): List<TvShowDto>
+
+    //region Category
+    suspend fun getMovieCategory(): GenresDto
+    suspend fun getTvCategory(): GenresDto
+    suspend fun getMovieCategoryById(page: Int?, id: Int): List<MovieDetailsDTO>
+    suspend fun getTvCategoryById(page: Int?, id: Int): List<TvShowDto>
+    //endregion
 
 
     // region details actions

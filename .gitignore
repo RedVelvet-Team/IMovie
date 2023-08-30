@@ -52,3 +52,5 @@ buildSrc/build/kotlin/compileKotlin/cacheable/caches-jvm/inputs/source-to-output
 *.properties
 *.jar
 *.MF
+/buildSrc/build/kotlin/compileKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.values
+/buildSrc/build/kotlin/compileKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.values.s
