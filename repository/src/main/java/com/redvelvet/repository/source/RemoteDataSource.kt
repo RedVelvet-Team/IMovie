@@ -9,8 +9,9 @@ import com.redvelvet.repository.dto.auth.response.TokenDto
 import com.redvelvet.repository.dto.library.favorite.MovieFavoriteListDto
 import com.redvelvet.repository.dto.library.favorite.TvFavoriteListDto
 import com.redvelvet.repository.dto.library.list.CreateListResponseDto
+import com.redvelvet.repository.dto.library.rated.user.UserRatedMoviesDto
+import com.redvelvet.repository.dto.library.rated.user.UserRatedTvDto
 import com.redvelvet.repository.dto.library.watchlist.WatchListMovieDto
-import com.redvelvet.repository.dto.library.watchlist.WatchListMovieDtos
 import com.redvelvet.repository.dto.library.watchlist.WatchListTvDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -193,17 +194,17 @@ interface RemoteDataSource {
     suspend fun getWatchlistTv(
         accountId: Int,
         sessionId: String,
-    ): List<WatchListTvDto>
+    ): WatchListTvDto
 
     suspend fun getRatedMovies(
         accountId: Int,
         sessionId: String,
-    ): List<WatchListMovieDtos>
+    ): UserRatedMoviesDto
 
     suspend fun getRatedTv(
         accountId: Int,
         sessionId: String,
-    ): List<WatchListTvDto>
+    ): UserRatedTvDto
 
     suspend fun createList(
         name: String,

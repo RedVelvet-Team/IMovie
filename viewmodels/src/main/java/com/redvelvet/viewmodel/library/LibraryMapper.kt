@@ -1,18 +1,17 @@
 package com.redvelvet.viewmodel.library
 
-import com.redvelvet.entities.library.LibraryMovie
-import com.redvelvet.entities.library.LibraryTv
+import com.redvelvet.entities.library.WatchListMedia
 
-fun LibraryMovie.toUiState(): LibraryUiState.LibraryData.LibraryItems {
+fun WatchListMedia.Data.toUiStateModel(): LibraryUiState.LibraryData.LibraryItems {
     return LibraryUiState.LibraryData.LibraryItems(
         id = this.id.toString(),
-        name = this.title,
+        name = this.name,
         poster = this.posterPath,
         type = Type.MOVIE
     )
 }
 
-fun LibraryTv.toUiState(): LibraryUiState.LibraryData.LibraryItems {
+fun WatchListMedia.Data.toUiState(): LibraryUiState.LibraryData.LibraryItems {
     return LibraryUiState.LibraryData.LibraryItems(
         id = this.id.toString(),
         name = this.name,

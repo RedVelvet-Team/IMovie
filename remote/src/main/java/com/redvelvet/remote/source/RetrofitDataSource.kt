@@ -22,8 +22,9 @@ import com.redvelvet.repository.dto.library.favorite.TvFavoriteListDto
 import com.redvelvet.repository.dto.library.list.CreateListRequestDto
 import com.redvelvet.repository.dto.library.list.CreateListResponseDto
 import com.redvelvet.repository.dto.library.list.ToggleMediaInListDto
+import com.redvelvet.repository.dto.library.rated.user.UserRatedMoviesDto
+import com.redvelvet.repository.dto.library.rated.user.UserRatedTvDto
 import com.redvelvet.repository.dto.library.watchlist.WatchListMovieDto
-import com.redvelvet.repository.dto.library.watchlist.WatchListMovieDtos
 import com.redvelvet.repository.dto.library.watchlist.WatchListTvDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -444,22 +445,19 @@ class RetrofitDataSource @Inject constructor(
         return wrapApiResponse { movieApiService.getWatchlistMovie(accountId, sessionId) }
     }
 
-    override suspend fun getWatchlistTv(accountId: Int, sessionId: String): List<WatchListTvDto> {
-        return wrapApiResponse { movieApiService.getWatchlistTv(accountId, sessionId) }.result
-            ?: throw NullResultException("There is no data")
+    override suspend fun getWatchlistTv(accountId: Int, sessionId: String): WatchListTvDto {
+        return wrapApiResponse { movieApiService.getWatchlistTv(accountId, sessionId) }
     }
 
     override suspend fun getRatedMovies(
         accountId: Int,
         sessionId: String
-    ): List<WatchListMovieDtos> {
-        return wrapApiResponse { movieApiService.getRatedMovies(accountId, sessionId) }.result
-            ?: throw NullResultException("There is no data")
+    ): UserRatedMoviesDto {
+        return wrapApiResponse { movieApiService.getRatedMovies(accountId, sessionId) }
     }
 
-    override suspend fun getRatedTv(accountId: Int, sessionId: String): List<WatchListTvDto> {
-        return wrapApiResponse { movieApiService.getRatedTv(accountId, sessionId) }.result
-            ?: throw NullResultException("There is no data")
+    override suspend fun getRatedTv(accountId: Int, sessionId: String): UserRatedTvDto {
+        return wrapApiResponse { movieApiService.getRatedTv(accountId, sessionId) }
     }
 
     override suspend fun createList(

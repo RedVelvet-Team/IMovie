@@ -2,6 +2,7 @@ package com.redvelvet.repository.mapper
 
 import com.redvelvet.entities.library.LibraryMovie
 import com.redvelvet.entities.library.LibraryTv
+import com.redvelvet.entities.library.StatusEntity
 import com.redvelvet.entities.movie.details.MovieDetails
 import com.redvelvet.entities.movie.details.MovieImages
 import com.redvelvet.entities.movie.details.MovieKeyWords
@@ -9,7 +10,7 @@ import com.redvelvet.entities.movie.details.MovieRecommendations
 import com.redvelvet.entities.movie.details.MovieReviews
 import com.redvelvet.entities.movie.details.MovieSimilar
 import com.redvelvet.entities.movie.details.MovieTopCast
-import com.redvelvet.repository.dto.library.watchlist.WatchListMovieDtos
+import com.redvelvet.repository.dto.library.watchlist.WatchListMovieDto
 import com.redvelvet.repository.dto.library.watchlist.WatchListTvDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -18,6 +19,7 @@ import com.redvelvet.repository.dto.schema.ImagesDto
 import com.redvelvet.repository.dto.schema.RecommendationsDto
 import com.redvelvet.repository.dto.schema.ReviewDto
 import com.redvelvet.repository.dto.schema.TopCastDto
+import com.redvelvet.repository.dto.tvShow.StatusResponseDto
 
 fun ImagesDto.toDomain(): MovieImages {
     return MovieImages(backdrops = this.backdrops.map {
@@ -79,7 +81,7 @@ fun TopCastDto.toDomain(): MovieTopCast {
     )
 }
 
-fun WatchListMovieDtos.toDomain(): LibraryMovie {
+fun WatchListMovieDto.Result.toDomain(): LibraryMovie {
     return LibraryMovie(
         backdropPath = backdropPath ?: "",
         id = id ?: 0,
@@ -90,7 +92,7 @@ fun WatchListMovieDtos.toDomain(): LibraryMovie {
     )
 }
 
-fun WatchListTvDto.toDomain(): LibraryTv {
+fun WatchListTvDto.Result.toDomain(): LibraryTv {
     return LibraryTv(
         backdropPath = backdropPath ?: "",
         id = id ?: 0,
@@ -129,5 +131,13 @@ fun MovieDetailsDTO.toDomain(): MovieDetails {
         title = title ?: "N/A",
         video = video ?: true,
         voteAverage = voteAverage ?: 0.0,
+    )
+}
+
+fun StatusResponseDto.toStatusEntity(): StatusEntity {
+    return StatusEntity(
+        statusCode = this.statusCode ?: 0,
+        statusMessage = this.statusMessage ?: "",
+        success = this.success
     )
 }

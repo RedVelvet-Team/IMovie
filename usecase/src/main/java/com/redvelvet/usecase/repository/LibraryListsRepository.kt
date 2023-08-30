@@ -1,13 +1,13 @@
 package com.redvelvet.usecase.repository
 
-import com.redvelvet.entities.library.CreateList
 import com.redvelvet.entities.library.StatusEntity
+import com.redvelvet.entities.library.list.CreateListResponse
 
 interface LibraryListsRepository {
 
     suspend fun createList(
         name: String,
-    ): CreateList
+    ): CreateListResponse
 
     suspend fun addMediaToList(
         listId: Int,
@@ -15,12 +15,11 @@ interface LibraryListsRepository {
     ): StatusEntity
 
     suspend fun removeMediaFromList(
-        listId: Int,
-        mediaId: Int
+        listId: Int, mediaId: Int, sessionId: String
     ): StatusEntity
 
     suspend fun deleteList(
-        listId: Int
+        listId: Int, sessionId: String
     ): StatusEntity
 
     suspend fun clearList(

@@ -1,7 +1,6 @@
 package com.redvelvet.usecase.usecase.library
 
-import com.redvelvet.entities.library.LibraryMovie
-import com.redvelvet.entities.movie.details.MovieDetails
+import com.redvelvet.entities.library.WatchListMedia
 import com.redvelvet.usecase.repository.LibraryRepository
 import com.redvelvet.usecase.repository.UserRepository
 import com.redvelvet.usecase.usecase.auth.GetSavedAccountDetailsIdUsecase
@@ -12,11 +11,10 @@ class GetRatedMovieUsecase @Inject constructor(
     private val getAccountId: GetSavedAccountDetailsIdUsecase,
     private val userRepository: UserRepository,
 ) {
-    suspend operator fun invoke(): List<LibraryMovie> {
+    suspend operator fun invoke(): WatchListMedia {
         return libraryRepository.getRatedMovies(
             accountId = getAccountId.invoke(),
             userRepository.getUserSessionIdFromLocal()
-
         )
     }
 }

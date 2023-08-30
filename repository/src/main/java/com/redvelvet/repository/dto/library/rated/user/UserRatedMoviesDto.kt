@@ -1,9 +1,9 @@
-package com.redvelvet.repository.dto.library.favorite
+package com.redvelvet.repository.dto.library.rated.user
 
 
 import com.google.gson.annotations.SerializedName
 
-data class MovieFavoriteListDto(
+data class UserRatedMoviesDto(
     @SerializedName("page")
     val page: Int?,
     @SerializedName("results")
@@ -41,6 +41,8 @@ data class MovieFavoriteListDto(
         @SerializedName("vote_average")
         val voteAverage: Double?,
         @SerializedName("vote_count")
-        val voteCount: Int?
+        val voteCount: Int?,
+        @SerializedName("rating")
+        val rating: Double?
     )
 }

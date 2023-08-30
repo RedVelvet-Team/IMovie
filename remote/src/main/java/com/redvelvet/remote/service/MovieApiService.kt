@@ -1,6 +1,7 @@
 package com.redvelvet.remote.service
 
 
+import com.redvelvet.entities.library.list.CreatedLists
 import com.redvelvet.remote.BuildConfig
 import com.redvelvet.repository.dto.BaseResponse
 import com.redvelvet.repository.dto.EpisodeSingleItemDto
@@ -17,11 +18,11 @@ import com.redvelvet.repository.dto.library.favorite.MovieFavoriteListDto
 import com.redvelvet.repository.dto.library.favorite.TvFavoriteListDto
 import com.redvelvet.repository.dto.library.list.CreateListRequestDto
 import com.redvelvet.repository.dto.library.list.CreateListResponseDto
-import com.redvelvet.repository.dto.library.list.CreatedListsDto
 import com.redvelvet.repository.dto.library.list.ListDetailsDto
 import com.redvelvet.repository.dto.library.list.ToggleMediaInListDto
+import com.redvelvet.repository.dto.library.rated.user.UserRatedMoviesDto
+import com.redvelvet.repository.dto.library.rated.user.UserRatedTvDto
 import com.redvelvet.repository.dto.library.watchlist.WatchListMovieDto
-import com.redvelvet.repository.dto.library.watchlist.WatchListMovieDtos
 import com.redvelvet.repository.dto.library.watchlist.WatchListTvDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
@@ -337,13 +338,13 @@ interface MovieApiService {
     suspend fun getRatedMovies(
         @Path("account_id") accountId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<BaseResponse<List<WatchListMovieDtos>>>
+    ): Response<UserRatedMoviesDto>
 
     @GET("account/{account_id}/rated/tv")
     suspend fun getRatedTv(
         @Path("account_id") accountId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<BaseResponse<List<WatchListTvDto>>>
+    ): Response<UserRatedTvDto>
     //endregion
 
     //region List
@@ -356,7 +357,7 @@ interface MovieApiService {
     suspend fun getCreatedLists(
         @Path("account_id") accountId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<CreatedListsDto>
+    ): Response<CreatedLists>
 
     @GET("list/{list_id}")
     suspend fun getListDetails(
@@ -401,7 +402,7 @@ interface MovieApiService {
     suspend fun getWatchlistTv(
         @Path("account_id") accountId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<BaseResponse<List<WatchListTvDto>>>
+    ): Response<WatchListTvDto>
 
     @GET("account/{account_id}/watchlist/movies")
     suspend fun getWatchlistMovie(

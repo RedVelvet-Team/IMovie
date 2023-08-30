@@ -1,9 +1,9 @@
-package com.redvelvet.repository.dto.library.favorite
+package com.redvelvet.repository.dto.library.rated.user
 
 
 import com.google.gson.annotations.SerializedName
 
-data class MovieFavoriteListDto(
+data class UserRatedTvDto(
     @SerializedName("page")
     val page: Int?,
     @SerializedName("results")
@@ -22,25 +22,27 @@ data class MovieFavoriteListDto(
         val genreIds: List<Int?>?,
         @SerializedName("id")
         val id: Int?,
+        @SerializedName("origin_country")
+        val originCountry: List<String?>?,
         @SerializedName("original_language")
         val originalLanguage: String?,
-        @SerializedName("original_title")
-        val originalTitle: String?,
+        @SerializedName("original_name")
+        val originalName: String?,
         @SerializedName("overview")
         val overview: String?,
         @SerializedName("popularity")
         val popularity: Double?,
         @SerializedName("poster_path")
         val posterPath: String?,
-        @SerializedName("release_date")
-        val releaseDate: String?,
-        @SerializedName("title")
-        val title: String?,
-        @SerializedName("video")
-        val video: Boolean?,
+        @SerializedName("first_air_date")
+        val firstAirDate: String?,
+        @SerializedName("name")
+        val name: String?,
         @SerializedName("vote_average")
         val voteAverage: Double?,
         @SerializedName("vote_count")
-        val voteCount: Int?
+        val voteCount: Int?,
+        @SerializedName("rating")
+        val rating: Double?
     )
 }

@@ -1,4 +1,4 @@
-package com.redvelvet.usecase.usecase.LibraryList
+package com.redvelvet.usecase.usecase.libraryList
 
 import com.redvelvet.usecase.repository.LibraryListsRepository
 import com.redvelvet.usecase.repository.UserRepository
