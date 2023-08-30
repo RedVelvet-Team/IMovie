@@ -6,7 +6,6 @@ import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.screen.actor_details.actorDetailsRoute
 import com.redvelvet.ui.screen.category.categoryRoute
 import com.redvelvet.ui.screen.categorySeeAll.seeAllCategoryRoute
-import com.redvelvet.ui.screen.episodes.seeAllEpisodeRoute
 import com.redvelvet.ui.screen.episode.episodeDetailsRoute
 import com.redvelvet.ui.screen.forgot_password.forgotPasswordRoute
 import com.redvelvet.ui.screen.fun_activites.funActivitiesRoute
@@ -29,8 +28,6 @@ import com.redvelvet.ui.screen.sellAllTopCast.seeAllTopCastRoute
 import com.redvelvet.ui.screen.signup.signupRoute
 import com.redvelvet.ui.screen.splash.splashRoute
 import com.redvelvet.ui.screen.tvshowdetails.tvShowDetailsRoute
-import com.redvelvet.ui.screen.upcoming.gameRoute
-import com.redvelvet.ui.screen.upcoming.categoryRoute
 import com.redvelvet.ui.screen.upcoming.upcomingRoute
 import com.redvelvet.ui.screen.youtube_player.youtubePlayerRoute
 

@@ -3,8 +3,8 @@ package com.redvelvet.remote.service
 
 import com.redvelvet.remote.BuildConfig
 import com.redvelvet.repository.dto.BaseResponse
-import com.redvelvet.repository.dto.GenresDto
 import com.redvelvet.repository.dto.EpisodeSingleItemDto
+import com.redvelvet.repository.dto.GenresDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
@@ -169,7 +169,7 @@ interface MovieApiService {
     @GET("person/{person_id}/combined_credits")
     suspend fun getActorKnownFor(
         @Path("person_id") id: String
-    ): Response<ActorKnownForDto>
+    ): Response<List<CombinedResultDto>>
 
     // endregion
 

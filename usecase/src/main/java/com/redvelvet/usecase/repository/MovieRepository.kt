@@ -64,11 +64,13 @@ interface MovieRepository {
     suspend fun getUpComingMovies(): List<Movie>
     suspend fun getTopRatedMovies(): List<Movie>
     suspend fun getNowPlayingMovies(): List<Movie>
+
     //endregion
     suspend fun getAiringTodayTv(): List<TvShow>
     suspend fun getPopularTv(): List<TvShow>
     suspend fun getOnTheAir(): List<TvShow>
     suspend fun getTopRatedTv(): List<TvShow>
+
     //region category
     suspend fun getMovieCategory(): List<Genre>
     suspend fun getTvCategory(): List<Genre>
