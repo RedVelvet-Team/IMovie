@@ -1,4 +1,4 @@
-package com.redvelvet.repository.dto.listAndFavorites
+package com.redvelvet.repository.dto.library.list
 
 import com.google.gson.annotations.SerializedName
 

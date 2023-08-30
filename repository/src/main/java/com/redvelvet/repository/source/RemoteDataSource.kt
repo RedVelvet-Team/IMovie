@@ -6,9 +6,12 @@ import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
-import com.redvelvet.repository.dto.library.LibraryMovieDto
-import com.redvelvet.repository.dto.library.LibraryTvDto
-import com.redvelvet.repository.dto.listAndFavorites.CreateListResponseDto
+import com.redvelvet.repository.dto.library.favorite.MovieFavoriteListDto
+import com.redvelvet.repository.dto.library.favorite.TvFavoriteListDto
+import com.redvelvet.repository.dto.library.list.CreateListResponseDto
+import com.redvelvet.repository.dto.library.watchlist.WatchListMovieDto
+import com.redvelvet.repository.dto.library.watchlist.WatchListMovieDtos
+import com.redvelvet.repository.dto.library.watchlist.WatchListTvDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
 import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
@@ -174,33 +177,33 @@ interface RemoteDataSource {
     suspend fun getFavoriteMovies(
         accountId: Int,
         sessionId: String,
-    ): List<LibraryMovieDto>
+    ): MovieFavoriteListDto
 
     suspend fun getFavoriteTv(
         accountId: Int,
         sessionId: String,
-    ): List<LibraryTvDto>
+    ): TvFavoriteListDto
 
 
     suspend fun getWatchlistMovie(
         accountId: Int,
         sessionId: String,
-    ): List<LibraryMovieDto>
+    ): WatchListMovieDto
 
     suspend fun getWatchlistTv(
         accountId: Int,
         sessionId: String,
-    ): List<LibraryTvDto>
+    ): List<WatchListTvDto>
 
     suspend fun getRatedMovies(
         accountId: Int,
         sessionId: String,
-    ): List<LibraryMovieDto>
+    ): List<WatchListMovieDtos>
 
     suspend fun getRatedTv(
         accountId: Int,
         sessionId: String,
-    ): List<LibraryTvDto>
+    ): List<WatchListTvDto>
 
     suspend fun createList(
         name: String,
@@ -212,12 +215,12 @@ interface RemoteDataSource {
     ): StatusResponseDto
 
     suspend fun deleteList(
-        listId: Int
+        listId: Int,
+        sessionId: String
     ): StatusResponseDto
 
     suspend fun deleteMediaFromList(
-        mediaId: Int,
-        listId: Int
+        mediaId: Int, listId: Int, sessionId: String
     ): StatusResponseDto
 
     suspend fun clearList(

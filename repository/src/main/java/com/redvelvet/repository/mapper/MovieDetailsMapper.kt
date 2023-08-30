@@ -9,8 +9,8 @@ import com.redvelvet.entities.movie.details.MovieRecommendations
 import com.redvelvet.entities.movie.details.MovieReviews
 import com.redvelvet.entities.movie.details.MovieSimilar
 import com.redvelvet.entities.movie.details.MovieTopCast
-import com.redvelvet.repository.dto.library.LibraryMovieDto
-import com.redvelvet.repository.dto.library.LibraryTvDto
+import com.redvelvet.repository.dto.library.watchlist.WatchListMovieDtos
+import com.redvelvet.repository.dto.library.watchlist.WatchListTvDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
 import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
@@ -79,7 +79,7 @@ fun TopCastDto.toDomain(): MovieTopCast {
     )
 }
 
-fun LibraryMovieDto.toDomain(): LibraryMovie {
+fun WatchListMovieDtos.toDomain(): LibraryMovie {
     return LibraryMovie(
         backdropPath = backdropPath ?: "",
         id = id ?: 0,
@@ -90,7 +90,7 @@ fun LibraryMovieDto.toDomain(): LibraryMovie {
     )
 }
 
-fun LibraryTvDto.toDomain(): LibraryTv {
+fun WatchListTvDto.toDomain(): LibraryTv {
     return LibraryTv(
         backdropPath = backdropPath ?: "",
         id = id ?: 0,

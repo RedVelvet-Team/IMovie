@@ -2,15 +2,15 @@ package com.redvelvet.repository.mapper
 
 import com.redvelvet.entities.library.CreateList
 import com.redvelvet.entities.library.StatusEntity
-import com.redvelvet.repository.dto.listAndFavorites.CreateListResponseDto
+import com.redvelvet.repository.dto.library.list.CreateListResponseDto
 import com.redvelvet.repository.dto.tvShow.StatusResponseDto
 
 fun CreateListResponseDto.toCreateList(): CreateList {
     return CreateList(
-        status_code = this.status_code,
-        status_message = this.status_message,
+        statusCode = this.statusCode,
+        statusMessage = this.statusMessage,
         success = this.success,
-        list_id = this.list_id
+        listId = this.listId ?: 0
     )
 }
 

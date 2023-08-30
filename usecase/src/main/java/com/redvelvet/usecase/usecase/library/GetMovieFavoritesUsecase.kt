@@ -1,7 +1,6 @@
 package com.redvelvet.usecase.usecase.library
 
 import com.redvelvet.entities.library.LibraryMovie
-import com.redvelvet.entities.movie.details.MovieDetails
 import com.redvelvet.usecase.repository.LibraryRepository
 import com.redvelvet.usecase.repository.UserRepository
 import com.redvelvet.usecase.usecase.auth.GetSavedAccountDetailsIdUsecase
@@ -16,7 +15,6 @@ class GetMovieFavoritesUsecase @Inject constructor(
         return libraryRepository.getFavoriteMovies(
             accountId = getAccountId.invoke(),
             userRepository.getUserSessionIdFromLocal()
-
         )
     }
 }

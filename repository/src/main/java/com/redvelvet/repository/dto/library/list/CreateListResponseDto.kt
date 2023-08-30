@@ -1,8 +1,8 @@
-package com.redvelvet.repository.dto.listAndFavorites
+package com.redvelvet.repository.dto.library.list
 
 import com.google.gson.annotations.SerializedName
 
-data class ListResponseDto(
+data class CreateListResponseDto(
     @SerializedName("list_id")
     val listId: Int? = null,
     @SerializedName("status_code")

@@ -1,9 +1,8 @@
-package com.redvelvet.repository.dto.library
+package com.redvelvet.repository.dto.library.watchlist
 
 import com.google.gson.annotations.SerializedName
-import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 
-data class LibraryMovieDto(
+data class WatchListTvDto(
     @SerializedName("backdrop_path")
     val backdropPath: String?,
     @SerializedName("id")
@@ -12,8 +11,8 @@ data class LibraryMovieDto(
     val overview: String?,
     @SerializedName("poster_path")
     val posterPath: String?,
-    @SerializedName("release_date")
-    val releaseDate: String?,
-    @SerializedName("title")
-    val title: String?,
+    @SerializedName("first_air_date")
+    val firstAirDate: String?,
+    @SerializedName("name")
+    val name: String?,
 )

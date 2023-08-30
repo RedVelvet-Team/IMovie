@@ -11,7 +11,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.redvelvet.ui.theme.dimens
-import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.home.ItemsUiState
 import com.redvelvet.viewmodel.utils.SeeAllMovie
 
@@ -32,9 +31,9 @@ fun ItemsSection(
         seeAllMovie = seeAllMovie
     )
     LazyRow(
-        modifier = Modifier.padding(top = MaterialTheme.spacing.spacing8),
-        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing8),
-        contentPadding = PaddingValues(horizontal = MaterialTheme.spacing.spacing16)
+        modifier = Modifier.padding(top = MaterialTheme.dimens.dimens8),
+        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.dimens8),
+        contentPadding = PaddingValues(horizontal = MaterialTheme.dimens.dimens16)
     ) {
         items(items.items.size) {
             val item = items.items[it]

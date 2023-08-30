@@ -1,10 +1,10 @@
-package com.redvelvet.repository.dto.listAndFavorites
+package com.redvelvet.repository.dto.library.favorite
 
 import com.google.gson.annotations.SerializedName
 
-data class WatchlistDto(
-    @SerializedName("watchlist")
-    val watchlist: Boolean? = null,
+data class FavoriteRequestDto(
+    @SerializedName("favorite")
+    val favorite: Boolean? = null,
     @SerializedName("media_id")
     val mediaId: Int? = null,
     @SerializedName("media_type")

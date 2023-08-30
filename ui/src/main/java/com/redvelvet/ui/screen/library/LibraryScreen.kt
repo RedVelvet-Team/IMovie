@@ -53,7 +53,6 @@ import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.viewmodel.base.InvalidationErrorState
-import com.redvelvet.viewmodel.base.NullResultErrorState
 import com.redvelvet.viewmodel.library.LibraryUiEffect
 import com.redvelvet.viewmodel.library.LibraryUiInteraction
 import com.redvelvet.viewmodel.library.LibraryUiState
@@ -98,59 +97,66 @@ fun LibraryScreenContent(state: LibraryUiState, interaction: LibraryUiInteractio
     }
     AnimatedVisibility(visible = !state.isLoading && state.error != null) {
         when (state.error) {
-            is NullResultErrorState -> NoContent(retryButton = {/*TODO*/ })
             is InvalidationErrorState -> LoginRequired(retryButton = {/*TODO*/ })
             else -> NoContent {
                 /*TODO*/
             }
         }
     }
-
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = MaterialTheme.dimens.dimens80)
-    ) {
-        item {
-            LibrarySectionsHeader(
-                onClickGo = { interaction.onClickSeeAllWatchLists() },
-                R.drawable.icon_laylist,
-                "WatchLists",
-                false,
-            )
-        }
-        item {
-            WatchListsSection(onClickPlayList = { interaction.onClickPlayList() },
-                onMenuClick = { interaction.onMenuClick() },
-                onClickAddPlayList = { interaction.onClickAddPlayList() })
-        }
-        item {
-            LibrarySectionsHeader(
-                onClickGo = { interaction.onClickSeeAllFavorites() },
-                R.drawable.icon_favorite,
-                "Favorites",
-                true,/*TODO List size > 0*/
-            )
-        }
-        item {
-            FavItem {
-                interaction.onClickFavItem()
+    AnimatedVisibility(visible = !state.isLoading && state.error == null) {
+        if (state.data != null) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = MaterialTheme.dimens.dimens80)
+            ) {
+                item {
+                    LibrarySectionsHeader(
+                        onClickGo = { interaction.onClickSeeAllWatchLists() },
+                        R.drawable.icon_laylist,
+                        "WatchLists",
+                        false,
+                    )
+                }
+                item {
+                    WatchListsSection(
+                        state.data!!.watchLists,
+                        onClickPlayList = { interaction.onClickPlayList() },
+                        onMenuClick = { interaction.onMenuClick() }
+                    ) { interaction.onClickAddPlayList() }
+                }
+                item {
+                    LibrarySectionsHeader(
+                        onClickGo = { interaction.onClickSeeAllFavorites() },
+                        R.drawable.icon_favorite,
+                        "Favorites",
+                        state.data!!.favoritesList.isEmpty(),
+                    )
+                }
+                item {
+                    FavItem(state.data!!.favoritesList) {
+                        interaction.onClickFavItem()
+                    }
+                }
+                item {
+                    LibrarySectionsHeader(
+                        onClickGo = { interaction.onClickSeeAllHistory() },
+                        R.drawable.icon_history,
+                        "History",
+                        state.data!!.historyList.isEmpty(),
+                    )
+                }
             }
-        }
-        item {
-            LibrarySectionsHeader(
-                onClickGo = { interaction.onClickSeeAllHistory() },
-                R.drawable.icon_history,
-                "History",
-                true,/*TODO List size > 0*/
-            )
         }
     }
 }
 
 @Composable
 fun WatchListsSection(
-    onClickPlayList: () -> Unit, onMenuClick: () -> Unit, onClickAddPlayList: () -> Unit
+    lists: List<LibraryUiState.LibraryData.WatchList>,
+    onClickPlayList: () -> Unit,
+    onMenuClick: () -> Unit,
+    onClickAddPlayList: () -> Unit
 ) {
     LazyRow(
         modifier = Modifier
@@ -159,9 +165,9 @@ fun WatchListsSection(
         contentPadding = PaddingValues(horizontal = MaterialTheme.dimens.dimens16),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.dimens8)
     ) {
-        items(0) {
-            AnimatedVisibility(visible = true) { /*TODO visible*/
-                PlayListItem(onClickPlayList, onMenuClick)
+        items(lists.size) {
+            AnimatedVisibility(visible = lists.isNotEmpty()) {
+                PlayListItem(lists[it], onClickPlayList, onMenuClick)
             }
         }
         item {
@@ -194,7 +200,11 @@ fun WatchListsSection(
 }
 
 @Composable
-fun PlayListItem(onClickPlayList: () -> Unit, onMenuClick: () -> Unit) {
+fun PlayListItem(
+    item: LibraryUiState.LibraryData.WatchList,
+    onClickPlayList: () -> Unit,
+    onMenuClick: () -> Unit
+) {
     Column(modifier = Modifier.width(MaterialTheme.dimens.dimens140)) {
         Card(
             modifier = Modifier
@@ -211,7 +221,11 @@ fun PlayListItem(onClickPlayList: () -> Unit, onMenuClick: () -> Unit) {
                 Image(
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.FillBounds,
-                    painter = painterResource(id = R.drawable.wallpaper),/*TODO ADD IMAGE*/
+                    painter = rememberAsyncImagePainter(
+                        model = item.poster, placeholder = painterResource(
+                            id = R.drawable.image_placeholder
+                        )
+                    ),
                     contentDescription = "",
                 )
                 Card(
@@ -229,7 +243,7 @@ fun PlayListItem(onClickPlayList: () -> Unit, onMenuClick: () -> Unit) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "8 video", style = Typography.displaySmall
+                        text = "${item.count} video", style = Typography.displaySmall
                     )
                     Image(
                         modifier = Modifier,
@@ -245,7 +259,7 @@ fun PlayListItem(onClickPlayList: () -> Unit, onMenuClick: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Adventure movies",
+                text = item.name,
                 style = Typography.labelMedium,
                 color = FontSecondary,
                 maxLines = 2,
@@ -263,7 +277,10 @@ fun PlayListItem(onClickPlayList: () -> Unit, onMenuClick: () -> Unit) {
 }
 
 @Composable
-fun FavItem(onClickFavItem: () -> Unit) {
+fun FavItem(
+    list: List<LibraryUiState.LibraryData.LibraryItems>,
+    onClickFavItem: () -> Unit
+) {
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
@@ -271,7 +288,7 @@ fun FavItem(onClickFavItem: () -> Unit) {
         contentPadding = PaddingValues(horizontal = MaterialTheme.dimens.dimens16),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.dimens8)
     ) {
-        items(2) {
+        items(list.size) {
             Column(modifier = Modifier.width(MaterialTheme.dimens.dimens140)) {
                 Card(
                     modifier = Modifier
@@ -284,14 +301,13 @@ fun FavItem(onClickFavItem: () -> Unit) {
                 ) {
                     Image(
                         contentScale = ContentScale.Crop, painter = rememberAsyncImagePainter(
-                            model = image, placeholder = painterResource(
-                                id = R.drawable.image_placeholder
-                            )
+                            model = list[it].poster,
+                            placeholder = painterResource(id = R.drawable.image_placeholder)
                         ), modifier = Modifier.fillMaxSize(), contentDescription = ""
                     )
                 }
                 Text(
-                    text = "Movie name",/*TODO MOVIE NAME*/
+                    text = list[it].name,
                     style = Typography.labelMedium,
                     color = FontSecondary
                 )
@@ -305,7 +321,7 @@ fun LibrarySectionsHeader(
     onClickGo: () -> Unit,
     icon: Int,
     head: String,
-    hasSub: Boolean = false,
+    hasSub: Boolean = true,
     subTitle: String = "This is EmptyList"
 ) {
     Row(
@@ -336,7 +352,7 @@ fun GoTOIcon(onClickGo: () -> Unit) {
 }
 
 @Composable
-fun HeaderLabel(icon: Int, head: String, hasSub: Boolean = false, subTitle: String = "") {
+fun HeaderLabel(icon: Int, head: String, hasSub: Boolean = false, subTitle: String) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Image(
             modifier = Modifier
@@ -349,7 +365,8 @@ fun HeaderLabel(icon: Int, head: String, hasSub: Boolean = false, subTitle: Stri
             horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = head, style = Typography.headlineMedium
+                text = head,
+                style = Typography.headlineMedium
             )
             AnimatedVisibility(visible = hasSub) {
                 Text(
