@@ -25,7 +25,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
-import com.redvelvet.ui.theme.spacing
+import com.redvelvet.ui.theme.dimens
 import com.redvelvet.viewmodel.base.ErrorUiState
 import com.redvelvet.viewmodel.base.InvalidationErrorState
 import com.redvelvet.viewmodel.base.NetworkErrorState
@@ -166,7 +166,7 @@ fun ErrorPage(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = MaterialTheme.spacing.spacing58),
+            .padding(horizontal = MaterialTheme.dimens.dimens58),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -176,15 +176,15 @@ fun ErrorPage(
             contentDescription = title
         )
         Text(
-            modifier = Modifier.padding(top = MaterialTheme.spacing.spacing32),
+            modifier = Modifier.padding(top = MaterialTheme.dimens.dimens32),
             text = title,
             style = Typography.labelLarge,
             color = MaterialTheme.color.fontSecondary
         )
         Text(
             modifier = Modifier.padding(
-                top = MaterialTheme.spacing.spacing4,
-                bottom = MaterialTheme.spacing.spacing48
+                top = MaterialTheme.dimens.dimens4,
+                bottom = MaterialTheme.dimens.dimens48
             ),
             text = description,
             style = Typography.displaySmall,

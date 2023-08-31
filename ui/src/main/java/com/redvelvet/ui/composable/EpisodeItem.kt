@@ -2,6 +2,7 @@ package com.redvelvet.ui.composable
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -31,12 +32,15 @@ fun EpisodeItem(
     date: String,
     durationTime: Int,
     image: String,
+    id:String,
     modifier: Modifier = Modifier,
+    onClickEpisode : (id:String) -> Unit
 ) {
     Row(
         modifier = modifier
             .background(Color.Transparent)
             .fillMaxWidth()
+            .clickable { onClickEpisode(id) }
     ) {
         Image(
             painter = rememberAsyncFlixImage(

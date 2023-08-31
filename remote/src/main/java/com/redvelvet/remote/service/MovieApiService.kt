@@ -1,7 +1,11 @@
 package com.redvelvet.remote.service
 
-import com.redvelvet.repository.dto.ActorKnownForDto
+
+import com.redvelvet.entities.library.list.CreatedLists
+import com.redvelvet.remote.BuildConfig
 import com.redvelvet.repository.dto.BaseResponse
+import com.redvelvet.repository.dto.EpisodeSingleItemDto
+import com.redvelvet.repository.dto.GenresDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.listAndFavorites.UserListDto
 import com.redvelvet.repository.dto.listAndFavorites.WatchlistDto
@@ -13,6 +17,16 @@ import com.redvelvet.repository.dto.auth.response.TokenDto
 import com.redvelvet.repository.dto.detailsRequests.AddToWatchListRequest
 import com.redvelvet.repository.dto.detailsRequests.MarkAsFavoriteRequest
 import com.redvelvet.repository.dto.detailsRequests.RateRequest
+import com.redvelvet.repository.dto.library.favorite.MovieFavoriteListDto
+import com.redvelvet.repository.dto.library.favorite.TvFavoriteListDto
+import com.redvelvet.repository.dto.library.list.CreateListRequestDto
+import com.redvelvet.repository.dto.library.list.CreateListResponseDto
+import com.redvelvet.repository.dto.library.list.ListDetailsDto
+import com.redvelvet.repository.dto.library.list.ToggleMediaInListDto
+import com.redvelvet.repository.dto.library.rated.user.UserRatedMoviesDto
+import com.redvelvet.repository.dto.library.rated.user.UserRatedTvDto
+import com.redvelvet.repository.dto.library.watchlist.WatchListMovieDto
+import com.redvelvet.repository.dto.library.watchlist.WatchListTvDto
 import com.redvelvet.repository.dto.library.LibraryMovieDto
 import com.redvelvet.repository.dto.library.LibraryTvDto
 import com.redvelvet.repository.dto.listAndFavorites.AddMediaToListDto
@@ -23,22 +37,18 @@ import com.redvelvet.repository.dto.listAndFavorites.ListRemoteDto
 import com.redvelvet.repository.dto.listAndFavorites.ListResponseDto
 import com.redvelvet.repository.dto.auth.response.UserDetailsDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
-import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
-import com.redvelvet.repository.dto.movie.details.MovieRecommendationsDTO
-import com.redvelvet.repository.dto.movie.details.MovieReviewsDTO
 import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
-import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
 import com.redvelvet.repository.dto.person.ActorDto
+import com.redvelvet.repository.dto.schema.ImagesDto
+import com.redvelvet.repository.dto.schema.RecommendationsDto
+import com.redvelvet.repository.dto.schema.ReviewDto
+import com.redvelvet.repository.dto.schema.TopCastDto
 import com.redvelvet.repository.dto.search.CombinedResultDto
-import com.redvelvet.repository.dto.tvShow.StatusResponse
+import com.redvelvet.repository.dto.tvShow.StatusResponseDto
 import com.redvelvet.repository.dto.tvShow.TvShowDetailsDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
-import com.redvelvet.repository.dto.tvShow.TvShowImagesDto
 import com.redvelvet.repository.dto.tvShow.TvShowKeywordsDto
-import com.redvelvet.repository.dto.tvShow.TvShowRecommendationsDto
-import com.redvelvet.repository.dto.tvShow.TvShowReviewsDto
-import com.redvelvet.repository.dto.tvShow.TvShowTopCastDto
 import com.redvelvet.repository.dto.tvShow.TvShowVideosDto
 import retrofit2.Response
 import retrofit2.http.Body
@@ -76,22 +86,22 @@ interface MovieApiService {
     suspend fun getMovieDetailsById(@Path("movie_id") movieId: Int): Response<MovieDetailsDTO>
 
     @GET("movie/{movie_id}/images")
-    suspend fun getMovieImagesByID(@Path("movie_id") movieId: Int): Response<MovieImagesDTO>
+    suspend fun getMovieImagesByID(@Path("movie_id") movieId: Int): Response<ImagesDto>
 
     @GET("movie/{movie_id}/keywords")
     suspend fun getMovieKeyWordsByID(@Path("movie_id") movieId: Int): Response<MovieKeyWordsDTO>
 
     @GET("movie/{movie_id}/recommendations")
-    suspend fun getMovieRecommendationsByID(@Path("movie_id") movieId: Int): Response<MovieRecommendationsDTO>
+    suspend fun getMovieRecommendationsByID(@Path("movie_id") movieId: Int): Response<RecommendationsDto>
 
     @GET("movie/{movie_id}/reviews")
-    suspend fun getMovieReviewsByID(@Path("movie_id") movieId: Int): Response<MovieReviewsDTO>
+    suspend fun getMovieReviewsByID(@Path("movie_id") movieId: Int): Response<ReviewDto>
 
     @GET("movie/{movie_id}/similar")
     suspend fun getMovieSimilarByID(@Path("movie_id") movieId: Int): Response<MovieSimilarDTO>
 
     @GET("movie/{movie_id}/credits")
-    suspend fun getMovieTopCastByID(@Path("movie_id") movieId: Int): Response<MovieTopCastDto>
+    suspend fun getMovieTopCastByID(@Path("movie_id") movieId: Int): Response<TopCastDto>
 
     //endregion
     @HTTP(method = "DELETE", path = "authentication/session", hasBody = true)
@@ -176,7 +186,7 @@ interface MovieApiService {
     @GET("person/{person_id}/combined_credits")
     suspend fun getActorKnownFor(
         @Path("person_id") id: String
-    ): Response<ActorKnownForDto>
+    ): Response<List<CombinedResultDto>>
 
     // endregion
 
@@ -185,23 +195,58 @@ interface MovieApiService {
     suspend fun getTvShowDetailsById(@Path("tv_id") seriesId: Int): Response<TvShowDetailsDto>
 
     @GET("tv/{tv_id}/recommendations")
-    suspend fun getTvShowRecommendationsByID(@Path("tv_id") seriesId: Int): Response<TvShowRecommendationsDto>
+    suspend fun getTvShowRecommendationsByID(@Path("tv_id") seriesId: Int): Response<RecommendationsDto>
 
     @GET("tv/{tv_id}/images")
-    suspend fun getTvShowImagesByID(@Path("tv_id") seriesId: Int): Response<TvShowImagesDto>
+    suspend fun getTvShowImagesByID(@Path("tv_id") seriesId: Int): Response<ImagesDto>
 
     @GET("tv/{tv_id}/videos")
     suspend fun getTvShowVideosByID(@Path("tv_id") seriesId: Int): Response<TvShowVideosDto>
 
     @GET("tv/{tv_id}/reviews")
-    suspend fun getTvShowReviewsByID(@Path("tv_id") seriesId: Int): Response<TvShowReviewsDto>
+    suspend fun getTvShowReviewsByID(@Path("tv_id") seriesId: Int): Response<ReviewDto>
 
     @GET("tv/{tv_id}/keywords")
     suspend fun getTvShowKeyWordsByID(@Path("tv_id") seriesId: Int): Response<TvShowKeywordsDto>
 
     @GET("tv/{tv_id}/credits")
-    suspend fun getTvShowTopCastByID(@Path("tv_id") seriesId: Int): Response<TvShowTopCastDto>
+    suspend fun getTvShowTopCastByID(@Path("tv_id") seriesId: Int): Response<TopCastDto>
     // endregion
+
+    // region Episode Details
+    @GET("tv/{tv_id}/season/{season_number}/episode/{episode_number}")
+    suspend fun getEpisodeDetails(
+        @Path("tv_id") tvID: Int,
+        @Path("season_number") seasonNumber: Int,
+        @Path("episode_number") episodeNumber: Int,
+        @Query("api_key") apiKey: String = BuildConfig.API_KEY
+    ): Response<EpisodeSingleItemDto.EpisodeDetails>
+
+    @GET("tv/{tv_id}/season/{season_number}/episode/{episode_number}/videos")
+    suspend fun getEpisodeMovies(
+        @Path("tv_id") tvID: Int,
+        @Path("season_number") seasonNumber: Int,
+        @Path("episode_number") episodeNumber: Int,
+        @Query("api_key") apiKey: String = BuildConfig.API_KEY
+    ): Response<EpisodeSingleItemDto.EpisodeMovies>
+
+    @GET("tv/{tv_id}/season/{season_number}/episode/{episode_number}/credits")
+    suspend fun getEpisodeTopCast(
+        @Path("tv_id") tvID: Int,
+        @Path("season_number") seasonNumber: Int,
+        @Path("episode_number") episodeNumber: Int,
+        @Query("api_key") apiKey: String = BuildConfig.API_KEY
+    ): Response<EpisodeSingleItemDto.EpisodeCast>
+
+    @GET("tv/{tv_id}/season/{season_number}/episode/{episode_number}/images")
+    suspend fun getEpisodeImages(
+        @Path("tv_id") tvID: Int,
+        @Path("season_number") seasonNumber: Int,
+        @Path("episode_number") episodeNumber: Int,
+        @Query("api_key") apiKey: String = BuildConfig.API_KEY
+    ): Response<EpisodeSingleItemDto.EpisodeImages>
+
+    //endregion
 
     //region see all
     @GET("movie/popular")
@@ -287,124 +332,148 @@ interface MovieApiService {
         @Body rateRequest: RateRequest,
         @Path("tv_id") seriesId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<StatusResponse>
+    ): Response<StatusResponseDto>
 
     @DELETE("tv/{tv_id}/rating")
     suspend fun deleteTvShowRating(
         @Path("tv_id") seriesId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<StatusResponse>
+    ): Response<StatusResponseDto>
 
     @POST("movie/{movie_id}/rating")
     suspend fun addMovieRating(
         @Body rateRequest: RateRequest,
         @Path("movie_id") movieId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<StatusResponse>
+    ): Response<StatusResponseDto>
 
     @DELETE("movie/{movie_id}/rating")
     suspend fun deleteMovieRating(
         @Path("movie_id") movieId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<StatusResponse>
-
-    @POST("account/{account_id}/watchlist")
-    suspend fun toggleMediaInWatchlist(
-        @Body addToWatchListRequest: AddToWatchListRequest,
-        @Path("account_id") accountId: Int,
-        @Query("session_id") sessionId: String,
-    ): Response<StatusResponse>
-
-    @POST("account/{account_id}/favorite")
-    suspend fun toggleMediaInFavoriteList(
-        @Body markAsFavoriteRequest: MarkAsFavoriteRequest,
-        @Path("account_id") accountId: Int,
-        @Query("session_id") sessionId: String,
-    ): Response<StatusResponse>
-
-
+    ): Response<StatusResponseDto>
     //endregion
 
-    //region my list
-    @GET("account/account_id/lists")
-    suspend fun getUserLists(): Response<BaseResponse<UserListDto>>
-
-    @POST("list/{list_id}/add_item")
-    suspend fun postUserMedia(
-        @Path("list_id") listId: Int,
-        @Body mediaId: AddMediaToListDto
-    ): Response<StatusResponse>
-
-    @POST("list")
-    suspend fun createUserList(@Body name: CreateUserListDto): Response<StatusResponse>
-
-    @GET("account/{account_id}/favorite/movies")
-    suspend fun getFavoriteMovies(
-        @Path("account_id") accountId: Int,
-        @Query("session_id") sessionId: String,
-    ): Response<BaseResponse<List<LibraryMovieDto>>>
-
-    @GET("account/{account_id}/favorite/tv")
-    suspend fun getFavoriteTv(
-        @Path("account_id") accountId: Int,
-        @Query("session_id") sessionId: String,
-    ): Response<BaseResponse<List<LibraryTvDto>>>
-
-
-    @GET("account/{account_id}/watchlist/movies")
-    suspend fun getWatchlistMovie(
-        @Path("account_id") accountId: Int,
-        @Query("session_id") sessionId: String,
-    ): Response<BaseResponse<List<LibraryMovieDto>>>
-
-    @GET("account/{account_id}/watchlist/tv")
-    suspend fun getWatchlistTv(
-        @Path("account_id") accountId: Int,
-        @Query("session_id") sessionId: String,
-    ): Response<BaseResponse<List<LibraryTvDto>>>
-
+    //region Rated
     @GET("account/{account_id}/rated/movies")
     suspend fun getRatedMovies(
         @Path("account_id") accountId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<BaseResponse<List<LibraryMovieDto>>>
+    ): Response<UserRatedMoviesDto>
 
     @GET("account/{account_id}/rated/tv")
     suspend fun getRatedTv(
         @Path("account_id") accountId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<BaseResponse<List<LibraryTvDto>>>
+    ): Response<UserRatedTvDto>
+    //endregion
 
-
-    @POST("account/{account_id}/watchlist")
-    suspend fun addWatchlist(
-        @Body watchlistRequest: WatchlistDto,
-    ): Response<StatusResponse>
-
+    //region List
     @POST("list")
-    suspend fun addList(@Body listRequest: CreateUserListDto): Response<ListResponseDto>
-
-    @DELETE("list/{list_id}")
-    suspend fun deleteList(@Path("list_id") listId: Int): Response<StatusResponse>
+    suspend fun createNewList(
+        @Body listRequest: CreateListRequestDto
+    ): Response<CreateListResponseDto>
 
     @GET("account/{account_id}/lists")
-    suspend fun getLists(): Response<BaseResponse<ListRemoteDto>>
+    suspend fun getCreatedLists(
+        @Path("account_id") accountId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<CreatedLists>
 
     @GET("list/{list_id}")
-    suspend fun getDetailsList(@Path("list_id") listId: Int)
-            : Response<BaseResponse<MovieDetailsDTO>>
+    suspend fun getListDetails(
+        @Path("list_id") listId: Int
+    ): Response<ListDetailsDto>
+
+    @DELETE("list/{list_id}")
+    suspend fun deleteList(
+        @Path("list_id") listId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<StatusResponseDto>
+
+    @POST("list/{list_id}/add_item")
+    suspend fun addMovieToList(
+        @Path("list_id") listId: Int,
+        @Body mediaId: ToggleMediaInListDto
+    ): Response<StatusResponseDto>
 
     @POST("list/{list_id}/remove_item")
-    suspend fun deleteMovieDetailsList(
+    suspend fun removeMovieFromList(
         @Path("list_id") listId: Int,
-        @Body movieRequest: DeleteMovieFromListDto,
-    ): Response<StatusResponse>
+        @Query("session_id") sessionId: String,
+        @Body mediaId: ToggleMediaInListDto
+    ): Response<StatusResponseDto>
 
-    @POST("account/account_id/favorite")
-    suspend fun addFavorite(
-        @Body markAsFavorite: FavoriteRequestDto,
-        @Path("account_id") accountId: Int,
-    ): Response<StatusResponse>
+    @POST("list/{list_id}/clear")
+    suspend fun clearList(
+        @Path("list_id") listId: Int,
+        @Query("confirm") confirm: Boolean = true
+    ): Response<StatusResponseDto>
     //endregion
-    // endregion
+
+    //region WatchList
+    @POST("account/{account_id}/watchlist")
+    suspend fun toggleMediaInWatchlist(
+        @Body addToWatchListRequest: AddToWatchListRequest,
+        @Path("account_id") accountId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<StatusResponseDto>
+
+    @GET("account/{account_id}/watchlist/tv")
+    suspend fun getWatchlistTv(
+        @Path("account_id") accountId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<WatchListTvDto>
+
+    @GET("account/{account_id}/watchlist/movies")
+    suspend fun getWatchlistMovie(
+        @Path("account_id") accountId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<WatchListMovieDto>
+    //endregion
+
+    //region Favorite
+    @POST("account/{account_id}/favorite")
+    suspend fun toggleMediaInFavoriteList(
+        @Body markAsFavoriteRequest: MarkAsFavoriteRequest,
+        @Path("account_id") accountId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<StatusResponseDto>
+
+    @GET("account/{account_id}/favorite/movies")
+    suspend fun getFavoriteMovies(
+        @Path("account_id") accountId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<MovieFavoriteListDto>
+
+    @GET("account/{account_id}/favorite/tv")
+    suspend fun getFavoriteTv(
+        @Path("account_id") accountId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<TvFavoriteListDto>
+    //endregion
+
+    //region Category
+    @GET("genre/movie/list")
+    suspend fun genreListMovie(
+        @Query("page") page: Int? = 1,
+    ): Response<GenresDto>
+
+    @GET("genre/tv/list")
+    suspend fun genreListTv(
+        @Query("page") page: Int? = 1,
+    ): Response<GenresDto>
+
+    @GET("discover/tv")
+    suspend fun discoverListTv(
+        @Query("with_genres") id: Int,
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<TvShowDto>>>
+
+    @GET("discover/movie")
+    suspend fun discoverListMovie(
+        @Query("with_genres") id: Int,
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
+    //endregion
 }

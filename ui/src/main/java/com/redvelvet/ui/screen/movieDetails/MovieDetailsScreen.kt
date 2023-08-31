@@ -43,9 +43,18 @@ fun MovieDetailsScreen(
                 is MovieDetailsUiEffect.NavigateToGenreScreen -> {}
                 is MovieDetailsUiEffect.NavigateToMovieImagesSeeAllScreen -> navController.navigateToSeeAllImages()
                 is MovieDetailsUiEffect.NavigateToReviewDetailsScreen -> {}
-                is MovieDetailsUiEffect.NavigateToReviewSeeAllScreen -> navController.navigateToSeeAllReviews(effect.id)
-                is MovieDetailsUiEffect.NavigateToMovieDetailsScreen -> navController.navigateToMovieDetails(effect.id)
-                is MovieDetailsUiEffect.NavigateToSimilarMoviesSeeAllScreen -> navController.navigateToSeeAllMovie(effect.id, SeeAllMovie.SIMILAR)
+                is MovieDetailsUiEffect.NavigateToReviewSeeAllScreen -> navController.navigateToSeeAllReviews(
+                    effect.id
+                )
+
+                is MovieDetailsUiEffect.NavigateToMovieDetailsScreen -> navController.navigateToMovieDetails(
+                    effect.id
+                )
+
+                is MovieDetailsUiEffect.NavigateToSimilarMoviesSeeAllScreen -> navController.navigateToSeeAllMovie(
+                    effect.id,
+                    SeeAllMovie.SIMILAR
+                )
 
                 is MovieDetailsUiEffect.NavigateToRecommendedMoviesSeeAllScreen -> navController.navigateToSeeAllMovie(
                     effect.id,
@@ -56,7 +65,9 @@ fun MovieDetailsScreen(
                     effect.id
                 )
 
-                is MovieDetailsUiEffect.NavigateToTopCastSeeAllScreen -> navController.navigateToSeeAllTopCast(effect.id)
+                is MovieDetailsUiEffect.NavigateToTopCastSeeAllScreen -> navController.navigateToSeeAllTopCast(
+                    effect.id
+                )
             }
         }
     )
@@ -73,18 +84,20 @@ fun MovieDetailsScreen(
                 MediaDetailsBackgroundContent(
                     "${state.data?.details?.posterPath}",
                     viewModel::onClickPlayTrailer,
-                    it.homepage
+                    it.mediaTrailerUrl
                 )
             }
-            MovieDetailsForegroundContent(state, viewModel) { offset ->
+            MovieDetailsForegroundContent(state, viewModel, isRated = state.isRated) { offset ->
                 isScrolled = offset > 1000
             }
             state.data?.details?.let {
                 CustomMediaDetailsTopAppBar(
                     onBackClicked = { navController.popBackStack() },
-                    onFavoriteClicked = { viewModel.onClickFavorite(it.id, "movie") },
-                    onSaveClicked = { viewModel.onClickFavorite(it.id, "movie") },
-                    isScrolled = isScrolled
+                    onFavoriteClicked = { viewModel.onClickFavorite(it.id) },
+                    onSaveClicked = { viewModel.onClickSave(it.id) },
+                    isScrolled = isScrolled,
+                    isFavorite = state.isFavorite,
+                    isSavedToList = state.isSavedToList
                 )
             }
         }

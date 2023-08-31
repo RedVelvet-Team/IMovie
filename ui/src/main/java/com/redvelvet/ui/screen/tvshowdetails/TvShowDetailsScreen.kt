@@ -14,13 +14,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.CustomMediaDetailsTopAppBar
-import com.redvelvet.ui.composable.MediaDetailsBackgroundContent
 import com.redvelvet.ui.composable.FlixMovieScaffold
+import com.redvelvet.ui.composable.MediaDetailsBackgroundContent
 import com.redvelvet.ui.composable.NavigationHandler
 import com.redvelvet.ui.screen.actor_details.navigateToActorDetails
-import com.redvelvet.ui.screen.episodes.navigateToSeeAllEpisode
 import com.redvelvet.ui.screen.seeAllMovieImages.navigateToSeeAllImages
 import com.redvelvet.ui.screen.seeAllReviews.navigateToSeeAllReviews
+import com.redvelvet.ui.screen.see_all_episodes.navigateToSeeAllEpisode
 import com.redvelvet.ui.screen.seeallseasons.navigateToSeasonDetails
 import com.redvelvet.ui.screen.seealltv.navigateSeeAllTvShow
 import com.redvelvet.ui.screen.sellAllTopCast.navigateToSeeAllTopCast
@@ -42,7 +42,11 @@ fun TvShowDetailsScreen(
         effects = viewModel.effect,
         handleEffect = { effect, navController ->
             when (effect) {
-                is TvShowUiEffect.NavigateToSeasonDetailsScreen -> navController.navigateToSeeAllEpisode(effect.id, effect.seasonId.toString())
+                is TvShowUiEffect.NavigateToSeasonDetailsScreen -> navController.navigateToSeeAllEpisode(
+                    effect.id,
+                    effect.seasonId.toString()
+                )
+
                 is TvShowUiEffect.NavigateToSeasonSeeAllScreen -> navController.navigateToSeasonDetails(
                     effect.id
                 )
@@ -78,20 +82,24 @@ fun TvShowDetailsScreen(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            MediaDetailsBackgroundContent(
-                state.tvShowImage,
-                viewModel::onClickPlayTrailer,
-                state.tvShowTrailerUrl
-            )
-            TvShowDetailsForegroundContent(state, viewModel) { offset ->
-                isScrolled = offset > 1000
+            state.data?.details?.let {
+                MediaDetailsBackgroundContent(
+                    it.posterPath,
+                    viewModel::onClickPlayTrailer,
+                    it.mediaTrailerUrl
+                )
+                TvShowDetailsForegroundContent(state, viewModel, isRated = state.isRated) { offset ->
+                    isScrolled = offset > 1000
+                }
+                CustomMediaDetailsTopAppBar(
+                    onBackClicked = { navController.popBackStack() },
+                    onFavoriteClicked = { viewModel.onClickFavorite(it.id) },
+                    onSaveClicked = { viewModel.onClickSave(it.id) },
+                    isScrolled = isScrolled,
+                    isFavorite = state.isFavorite,
+                    isSavedToList = state.isSavedToList
+                )
             }
-            CustomMediaDetailsTopAppBar(
-                onBackClicked = { navController.popBackStack() },
-                onFavoriteClicked = { viewModel.onClickFavorite(state.tvShowId) },
-                onSaveClicked = { viewModel.onClickSave(state.tvShowId) },
-                isScrolled = isScrolled
-            )
         }
     }
 

@@ -2,28 +2,26 @@ package com.redvelvet.repository.mapper
 
 import com.redvelvet.entities.tv.TvShowRecommendation
 import com.redvelvet.entities.tv.TvShowRecommendations
-import com.redvelvet.repository.dto.tvShow.TvShowRecommendationResult
-import com.redvelvet.repository.dto.tvShow.TvShowRecommendationsDto
+import com.redvelvet.repository.dto.schema.RecommendationsDto
 import com.redvelvet.repository.localDto.TvShowRecommendationLocalDto
 import com.redvelvet.repository.localDto.TvShowRecommendationsLocalDto
 
-fun TvShowRecommendationsDto.toTvShowRecommendationsLocalDto() = TvShowRecommendationsLocalDto(
-    tvShowRecommendation = results?.map {
-        it?.toTvShowRecommendationLocalDto() ?: TvShowRecommendationLocalDto()
-    } ?: emptyList()
+fun RecommendationsDto.toTvShowRecommendationsLocalDto() = TvShowRecommendationsLocalDto(
+    tvShowRecommendation = results.map { it.toTvShowRecommendationLocalDto() }
 )
 
-fun TvShowRecommendationResult.toTvShowRecommendationLocalDto() = TvShowRecommendationLocalDto(
+fun RecommendationsDto.Result.toTvShowRecommendationLocalDto() = TvShowRecommendationLocalDto(
     poster = posterPath ?: "",
-    seriesName = name ?: ""
+    seriesName = originalTitle ?: ""
 )
 
-fun TvShowRecommendationsDto.toTvShowRecommendations() = TvShowRecommendations(
-    tvShowRecommendation = results?.map { it?.toTvShowRecommendation() ?: TvShowRecommendation() }
+fun RecommendationsDto.toTvShowRecommendations() = TvShowRecommendations(
+    tvShowRecommendation = results.map { it.toTvShowRecommendation() }
         ?: emptyList()
 )
 
-fun TvShowRecommendationResult.toTvShowRecommendation() = TvShowRecommendation(
+fun RecommendationsDto.Result.toTvShowRecommendation() = TvShowRecommendation(
+    id = id ?: 0,
     poster = posterPath ?: "",
-    seriesName = name ?: ""
+    seriesName = originalTitle ?: ""
 )

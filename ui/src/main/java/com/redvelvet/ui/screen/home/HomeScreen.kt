@@ -37,7 +37,7 @@ import com.redvelvet.ui.screen.tvshowdetails.navigateToTvShowDetails
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
-import com.redvelvet.ui.theme.spacing
+
 import com.redvelvet.viewmodel.home.HomeUiState
 import com.redvelvet.viewmodel.home.HomeViewModel
 import com.redvelvet.viewmodel.home.ItemUiState
@@ -85,7 +85,7 @@ fun HomeScreenContent(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = MaterialTheme.spacing.spacing16)
+                .padding(horizontal = MaterialTheme.dimens.dimens16)
         ) {
             TabRow(
                 selectedTabIndex = page,

@@ -7,7 +7,8 @@ import com.redvelvet.entities.error.NullResultException
 import com.redvelvet.entities.error.ServerException
 import com.redvelvet.entities.error.ValidationException
 import com.redvelvet.remote.service.MovieApiService
-import com.redvelvet.repository.dto.ActorKnownForDto
+import com.redvelvet.repository.dto.EpisodeSingleItemDto
+import com.redvelvet.repository.dto.GenresDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
@@ -20,20 +21,28 @@ import com.redvelvet.repository.dto.detailsRequests.RateRequest
 import com.redvelvet.repository.dto.library.LibraryMovieDto
 import com.redvelvet.repository.dto.library.LibraryTvDto
 import com.redvelvet.repository.dto.auth.response.UserDetailsDto
+import com.redvelvet.repository.dto.library.favorite.MovieFavoriteListDto
+import com.redvelvet.repository.dto.library.favorite.TvFavoriteListDto
+import com.redvelvet.repository.dto.library.list.CreateListRequestDto
+import com.redvelvet.repository.dto.library.list.CreateListResponseDto
+import com.redvelvet.repository.dto.library.list.ToggleMediaInListDto
+import com.redvelvet.repository.dto.library.rated.user.UserRatedMoviesDto
+import com.redvelvet.repository.dto.library.rated.user.UserRatedTvDto
+import com.redvelvet.repository.dto.library.watchlist.WatchListMovieDto
+import com.redvelvet.repository.dto.library.watchlist.WatchListTvDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
-import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
-import com.redvelvet.repository.dto.movie.details.MovieRecommendationsDTO
-import com.redvelvet.repository.dto.movie.details.MovieReviewsDTO
 import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
-import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
 import com.redvelvet.repository.dto.person.ActorDto
+import com.redvelvet.repository.dto.schema.ImagesDto
+import com.redvelvet.repository.dto.schema.RecommendationsDto
+import com.redvelvet.repository.dto.schema.ReviewDto
+import com.redvelvet.repository.dto.schema.TopCastDto
 import com.redvelvet.repository.dto.search.CombinedResultDto
+import com.redvelvet.repository.dto.tvShow.StatusResponseDto
 import com.redvelvet.repository.dto.tvShow.TvShowDetailsDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
-import com.redvelvet.repository.dto.tvShow.TvShowImagesDto
 import com.redvelvet.repository.dto.tvShow.TvShowKeywordsDto
-import com.redvelvet.repository.dto.tvShow.TvShowTopCastDto
 import com.redvelvet.repository.dto.tvShow.TvShowVideosDto
 import com.redvelvet.repository.source.RemoteDataSource
 import okio.IOException
@@ -59,9 +68,7 @@ class RetrofitDataSource @Inject constructor(
     }
 
     override suspend fun validateUserWithLogin(
-        userName: String,
-        password: String,
-        requestToken: String
+        userName: String, password: String, requestToken: String
     ): TokenDto {
         return wrapApiResponse {
             movieApiService.validateRequestTokenWithLogin(
@@ -100,7 +107,7 @@ class RetrofitDataSource @Inject constructor(
         }
     }
 
-    override suspend fun getMovieImagesByID(movieId: Int): MovieImagesDTO {
+    override suspend fun getMovieImagesByID(movieId: Int): ImagesDto {
         return wrapApiResponse {
             movieApiService.getMovieImagesByID(movieId)
         }
@@ -112,13 +119,13 @@ class RetrofitDataSource @Inject constructor(
         }
     }
 
-    override suspend fun getMovieRecommendationsByID(movieId: Int): MovieRecommendationsDTO {
+    override suspend fun getMovieRecommendationsByID(movieId: Int): RecommendationsDto {
         return wrapApiResponse {
             movieApiService.getMovieRecommendationsByID(movieId)
         }
     }
 
-    override suspend fun getMovieReviewsByID(movieId: Int): MovieReviewsDTO {
+    override suspend fun getMovieReviewsByID(movieId: Int): ReviewDto {
         return wrapApiResponse {
             movieApiService.getMovieReviewsByID(movieId)
         }
@@ -130,7 +137,7 @@ class RetrofitDataSource @Inject constructor(
         }
     }
 
-    override suspend fun getMovieTopCastByID(movieId: Int): MovieTopCastDto {
+    override suspend fun getMovieTopCastByID(movieId: Int): TopCastDto {
         return wrapApiResponse {
             movieApiService.getMovieTopCastByID(movieId)
         }
@@ -183,8 +190,7 @@ class RetrofitDataSource @Inject constructor(
     override suspend fun seeAllRecommendedTv(page: Int?, id: Int): List<TvShowDto> {
         return wrapApiResponse {
             movieApiService.seeAllRecommendedMovieTv(
-                id = id,
-                page = page
+                id = id, page = page
             )
         }.result ?: throw NullResultException("There is no data")
     }
@@ -194,7 +200,7 @@ class RetrofitDataSource @Inject constructor(
         return wrapApiResponse { movieApiService.getActorDetails(id) }
     }
 
-    override suspend fun getActorKnownFor(id: String): ActorKnownForDto {
+    override suspend fun getActorKnownFor(id: String): List<CombinedResultDto> {
         return wrapApiResponse { movieApiService.getActorKnownFor(id) }
     }
 
@@ -265,14 +271,14 @@ class RetrofitDataSource @Inject constructor(
         wrapApiResponse { movieApiService.getTvShowKeyWordsByID(seriesId) }
 
 
-    override suspend fun getTvShowTopCastByID(seriesId: Int): TvShowTopCastDto =
+    override suspend fun getTvShowTopCastByID(seriesId: Int): TopCastDto =
         wrapApiResponse { movieApiService.getTvShowTopCastByID(seriesId) }
 
 
     override suspend fun getTvShowVideosByID(seriesId: Int): TvShowVideosDto =
         wrapApiResponse { movieApiService.getTvShowVideosByID(seriesId) }
 
-    override suspend fun getTvShowImagesByID(seriesId: Int): TvShowImagesDto =
+    override suspend fun getTvShowImagesByID(seriesId: Int): ImagesDto =
         wrapApiResponse { movieApiService.getTvShowImagesByID(seriesId) }
 
 
@@ -322,51 +328,100 @@ class RetrofitDataSource @Inject constructor(
     override suspend fun getTopRatedTv(): List<TvShowDto> {
         return wrapApiResponse { movieApiService.getTopRatedTv() }.result.orEmpty()
     }
+    //region category
+
+    override suspend fun getMovieCategory(): GenresDto {
+        return wrapApiResponse { movieApiService.genreListMovie() }
+    }
+
+    override suspend fun getTvCategory(): GenresDto {
+        return wrapApiResponse { movieApiService.genreListTv() }
+    }
+
+    override suspend fun getMovieCategoryById(page: Int?, id: Int): List<MovieDetailsDTO> {
+        return wrapApiResponse { movieApiService.discoverListMovie(id, page) }.result
+            ?: throw NullResultException("There is no data")
+    }
+
+    override suspend fun getTvCategoryById(page: Int?, id: Int): List<TvShowDto> {
+        return wrapApiResponse { movieApiService.discoverListTv(id, page) }.result
+            ?: throw NullResultException("There is no data")
+    }
     //endregion
+
+    // region Episode Details
+    override suspend fun getEpisodeDetails(
+        tvId: Int, seasonNumber: Int, episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeDetails {
+        return wrapApiResponse {
+            movieApiService.getEpisodeDetails(
+                tvId, seasonNumber, episodeNumber
+            )
+        }
+    }
+
+    override suspend fun getEpisodeMovies(
+        tvId: Int, seasonNumber: Int, episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeMovies {
+        return wrapApiResponse {
+            movieApiService.getEpisodeMovies(
+                tvId, seasonNumber, episodeNumber
+            )
+        }
+    }
+
+    override suspend fun getEpisodeCast(
+        tvId: Int, seasonNumber: Int, episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeCast {
+        return wrapApiResponse {
+            movieApiService.getEpisodeTopCast(
+                tvId, seasonNumber, episodeNumber
+            )
+        }
+    }
+
+    override suspend fun getEpisodeImages(
+        tvId: Int, seasonNumber: Int, episodeNumber: Int
+    ): EpisodeSingleItemDto.EpisodeImages {
+        return wrapApiResponse {
+            movieApiService.getEpisodeImages(
+                tvId, seasonNumber, episodeNumber
+            )
+        }
+    }
+    // endregion
 
 
     override suspend fun deleteTvShowRating(seriesId: Int, sessionId: String): String =
         wrapApiResponse {
             movieApiService.deleteTvShowRating(
-                seriesId,
-                sessionId
+                seriesId, sessionId
             )
         }.statusMessage.toString()
 
     override suspend fun addTvShowRating(
-        seriesRating: Double,
-        seriesId: Int,
-        sessionId: String
-    ): String =
-        wrapApiResponse {
-            movieApiService.addTvShowRating(
-                rateRequest = RateRequest(rate = seriesRating),
-                seriesId,
-                sessionId
-            )
-        }.statusMessage.toString()
+        seriesRating: Double, seriesId: Int, sessionId: String
+    ): String = wrapApiResponse {
+        movieApiService.addTvShowRating(
+            rateRequest = RateRequest(rate = seriesRating), seriesId, sessionId
+        )
+    }.statusMessage.toString()
 
     override suspend fun deleteMovieRating(movieId: Int, sessionId: String): String =
         wrapApiResponse {
             movieApiService.deleteMovieRating(
-                movieId,
-                sessionId
+                movieId, sessionId
             )
         }.statusMessage.toString()
 
 
     override suspend fun addMovieRating(
-        movieRating: Double,
-        movieId: Int,
-        sessionId: String
-    ): String =
-        wrapApiResponse {
-            movieApiService.addMovieRating(
-                rateRequest = RateRequest(rate = movieRating),
-                movieId,
-                sessionId
-            )
-        }.statusMessage.toString()
+        movieRating: Double, movieId: Int, sessionId: String
+    ): String = wrapApiResponse {
+        movieApiService.addMovieRating(
+            rateRequest = RateRequest(rate = movieRating), movieId, sessionId
+        )
+    }.statusMessage.toString()
 
 
     override suspend fun toggleMediaInWatchlist(
@@ -378,9 +433,7 @@ class RetrofitDataSource @Inject constructor(
     ): String = wrapApiResponse {
         movieApiService.toggleMediaInWatchlist(
             addToWatchListRequest = AddToWatchListRequest(
-                watchlist = watchlist,
-                mediaId = mediaId,
-                mediaType = mediaType
+                watchlist = watchlist, mediaId = mediaId, mediaType = mediaType
             ),
             accountId = accountId,
             sessionId = sessionId,
@@ -398,9 +451,7 @@ class RetrofitDataSource @Inject constructor(
 
         movieApiService.toggleMediaInFavoriteList(
             markAsFavoriteRequest = MarkAsFavoriteRequest(
-                favorite = favorite,
-                mediaId = mediaId,
-                mediaType = mediaType
+                favorite = favorite, mediaId = mediaId, mediaType = mediaType
             ),
             accountId = accountId,
             sessionId = sessionId,
@@ -408,39 +459,80 @@ class RetrofitDataSource @Inject constructor(
     }.statusMessage.toString()
 
     override suspend fun getFavoriteMovies(
-        accountId: Int,
-        sessionId: String
-    ): List<LibraryMovieDto> {
-        return wrapApiResponse { movieApiService.getFavoriteMovies(accountId, sessionId) }.result
-            ?: throw NullResultException("There is no data")
+        accountId: Int, sessionId: String
+    ): MovieFavoriteListDto {
+        return wrapApiResponse { movieApiService.getFavoriteMovies(accountId, sessionId) }
     }
 
-    override suspend fun getFavoriteTv(accountId: Int, sessionId: String): List<LibraryTvDto> {
-        return wrapApiResponse { movieApiService.getFavoriteTv(accountId, sessionId) }.result
-            ?: throw NullResultException("There is no data")
+    override suspend fun getFavoriteTv(accountId: Int, sessionId: String): TvFavoriteListDto {
+        return wrapApiResponse { movieApiService.getFavoriteTv(accountId, sessionId) }
     }
 
     override suspend fun getWatchlistMovie(
+        accountId: Int, sessionId: String
+    ): WatchListMovieDto {
+        return wrapApiResponse { movieApiService.getWatchlistMovie(accountId, sessionId) }
+    }
+
+    override suspend fun getWatchlistTv(accountId: Int, sessionId: String): WatchListTvDto {
+        return wrapApiResponse { movieApiService.getWatchlistTv(accountId, sessionId) }
+    }
+
+    override suspend fun getRatedMovies(
         accountId: Int,
         sessionId: String
-    ): List<LibraryMovieDto> {
-        return wrapApiResponse { movieApiService.getWatchlistMovie(accountId, sessionId) }.result
-            ?: throw NullResultException("There is no data")
+    ): UserRatedMoviesDto {
+        return wrapApiResponse { movieApiService.getRatedMovies(accountId, sessionId) }
     }
 
-    override suspend fun getWatchlistTv(accountId: Int, sessionId: String): List<LibraryTvDto> {
-        return wrapApiResponse { movieApiService.getWatchlistTv(accountId, sessionId) }.result
-            ?: throw NullResultException("There is no data")
+    override suspend fun getRatedTv(accountId: Int, sessionId: String): UserRatedTvDto {
+        return wrapApiResponse { movieApiService.getRatedTv(accountId, sessionId) }
     }
 
-    override suspend fun getRatedMovies(accountId: Int, sessionId: String): List<LibraryMovieDto> {
-        return wrapApiResponse { movieApiService.getRatedMovies(accountId, sessionId) }.result
-            ?: throw NullResultException("There is no data")
+    override suspend fun createList(
+        name: String
+    ): CreateListResponseDto {
+        return wrapApiResponse {
+            movieApiService.createNewList(
+                listRequest = CreateListRequestDto(name)
+            )
+        }
     }
 
-    override suspend fun getRatedTv(accountId: Int, sessionId: String): List<LibraryTvDto> {
-        return wrapApiResponse { movieApiService.getRatedTv(accountId, sessionId) }.result
-            ?: throw NullResultException("There is no data")
+    override suspend fun addMediaToList(mediaId: Int, listId: Int): StatusResponseDto {
+        return wrapApiResponse {
+            movieApiService.addMovieToList(
+                listId = listId, mediaId = ToggleMediaInListDto(mediaId)
+            )
+        }
+    }
+
+    override suspend fun deleteList(listId: Int, sessionId: String): StatusResponseDto {
+        return wrapApiResponse {
+            movieApiService.deleteList(listId = listId, sessionId)
+        }
+    }
+
+    override suspend fun deleteMediaFromList(
+        mediaId: Int,
+        listId: Int,
+        sessionId: String
+    ): StatusResponseDto {
+        return wrapApiResponse {
+            movieApiService.removeMovieFromList(
+                listId = listId,
+                sessionId = sessionId,
+                mediaId = ToggleMediaInListDto(mediaId = mediaId)
+            )
+        }
+    }
+
+    override suspend fun clearList(listId: Int): StatusResponseDto {
+        return wrapApiResponse {
+            movieApiService.clearList(
+                listId = listId
+            )
+        }
     }
 
     override suspend fun getAccountDetails(

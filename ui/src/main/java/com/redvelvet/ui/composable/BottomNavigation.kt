@@ -29,7 +29,6 @@ import com.redvelvet.ui.navigation.MovieDestination
 import com.redvelvet.ui.theme.BottomNavigationColor
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
-import com.redvelvet.ui.theme.spacing
 import kotlin.system.exitProcess
 
 @Composable
@@ -59,7 +58,7 @@ fun BottomNavBar(visibility: Boolean) {
                 .height(MaterialTheme.dimens.dimens70)
                 .background(MaterialTheme.color.backgroundPrimary)
                 .shadow(
-                    elevation = MaterialTheme.spacing.spacing2,
+                    elevation = MaterialTheme.dimens.dimens2,
                     clip = false,
                 )
                 .drawBehind {

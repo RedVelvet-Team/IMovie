@@ -10,12 +10,15 @@ import androidx.compose.ui.Modifier
 import com.redvelvet.ui.composable.LabeledValueVertical
 import com.redvelvet.ui.composable.SpacerVertical
 import com.redvelvet.ui.theme.spacing
-import com.redvelvet.viewmodel.movieDetails.MovieDetailsScreenUiState
+import com.redvelvet.viewmodel.details_ui_states.MediaDetailsScreenUiState
 
 
 @Composable
 fun MovieDetailsMoreInfoSection(
-    it: MovieDetailsScreenUiState.MovieDetailsUiState,
+    productionCountries: List<String>,
+    status: String,
+    releaseDate: String
+
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
@@ -26,13 +29,13 @@ fun MovieDetailsMoreInfoSection(
             bottom = MaterialTheme.spacing.spacing24,
         )
     ) {
-        LabeledValueVertical("Status", it.status)
+        LabeledValueVertical("Status", status)
         SpacerVertical(height = MaterialTheme.spacing.spacing8)
-        LabeledValueVertical("Release Date", it.releaseDate)
+        LabeledValueVertical("Release Date", releaseDate)
         SpacerVertical(height = MaterialTheme.spacing.spacing8)
         LabeledValueVertical(
             "Production Countries",
-            it.productionCountries.joinToString(",") { it }
+            productionCountries.joinToString(",") { it }
         )
     }
 

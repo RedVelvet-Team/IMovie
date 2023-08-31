@@ -2,6 +2,7 @@ package com.redvelvet.repository.mapper
 
 import com.redvelvet.entities.library.LibraryMovie
 import com.redvelvet.entities.library.LibraryTv
+import com.redvelvet.entities.library.StatusEntity
 import com.redvelvet.entities.movie.details.MovieDetails
 import com.redvelvet.entities.movie.details.MovieImages
 import com.redvelvet.entities.movie.details.MovieKeyWords
@@ -9,17 +10,18 @@ import com.redvelvet.entities.movie.details.MovieRecommendations
 import com.redvelvet.entities.movie.details.MovieReviews
 import com.redvelvet.entities.movie.details.MovieSimilar
 import com.redvelvet.entities.movie.details.MovieTopCast
-import com.redvelvet.repository.dto.library.LibraryMovieDto
-import com.redvelvet.repository.dto.library.LibraryTvDto
+import com.redvelvet.repository.dto.library.watchlist.WatchListMovieDto
+import com.redvelvet.repository.dto.library.watchlist.WatchListTvDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
-import com.redvelvet.repository.dto.movie.details.MovieImagesDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
-import com.redvelvet.repository.dto.movie.details.MovieRecommendationsDTO
-import com.redvelvet.repository.dto.movie.details.MovieReviewsDTO
 import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
-import com.redvelvet.repository.dto.movie.details.MovieTopCastDto
+import com.redvelvet.repository.dto.schema.ImagesDto
+import com.redvelvet.repository.dto.schema.RecommendationsDto
+import com.redvelvet.repository.dto.schema.ReviewDto
+import com.redvelvet.repository.dto.schema.TopCastDto
+import com.redvelvet.repository.dto.tvShow.StatusResponseDto
 
-fun MovieImagesDTO.toDomain(): MovieImages {
+fun ImagesDto.toDomain(): MovieImages {
     return MovieImages(backdrops = this.backdrops.map {
         MovieImages.Backdrop(
             it.filePath ?: "N/A"
@@ -35,7 +37,7 @@ fun MovieKeyWordsDTO.toDomain(): MovieKeyWords {
         keywords = this.keywords.map { MovieKeyWords.Keyword(it.id ?: 0, it.name ?: "N/A") })
 }
 
-fun MovieRecommendationsDTO.toDomain(): MovieRecommendations {
+fun RecommendationsDto.toDomain(): MovieRecommendations {
     return MovieRecommendations(results = this.results.map {
         MovieRecommendations.Result(
             it.id ?: 0,
@@ -45,7 +47,7 @@ fun MovieRecommendationsDTO.toDomain(): MovieRecommendations {
     })
 }
 
-fun MovieReviewsDTO.toDomain(): MovieReviews {
+fun ReviewDto.toDomain(): MovieReviews {
     return MovieReviews(id = this.id ?: 0, results = this.results.map {
         MovieReviews.Result(
             id = it.id ?: "N/A",
@@ -67,7 +69,7 @@ fun MovieSimilarDTO.toDomain(): MovieSimilar {
     })
 }
 
-fun MovieTopCastDto.toDomain(): MovieTopCast {
+fun TopCastDto.toDomain(): MovieTopCast {
     return MovieTopCast(id = this.id ?: 0,
         cast = this.cast.map {
             MovieTopCast.Cast(
@@ -79,7 +81,7 @@ fun MovieTopCastDto.toDomain(): MovieTopCast {
     )
 }
 
-fun LibraryMovieDto.toDomain(): LibraryMovie {
+fun WatchListMovieDto.Result.toDomain(): LibraryMovie {
     return LibraryMovie(
         backdropPath = backdropPath ?: "",
         id = id ?: 0,
@@ -90,7 +92,7 @@ fun LibraryMovieDto.toDomain(): LibraryMovie {
     )
 }
 
-fun LibraryTvDto.toDomain(): LibraryTv {
+fun WatchListTvDto.Result.toDomain(): LibraryTv {
     return LibraryTv(
         backdropPath = backdropPath ?: "",
         id = id ?: 0,
@@ -109,7 +111,7 @@ fun MovieDetailsDTO.toDomain(): MovieDetails {
         id = id ?: 0,
         originalTitle = originalTitle ?: "N/A",
         overview = overview ?: "N/A",
-        posterPath = ("https://image.tmdb.org/t/p/w500$posterPath") ?: "N/A",
+        posterPath = ("https://image.tmdb.org/t/p/w500$posterPath"),
         productionCountries = productionCountries.map {
             MovieDetails.ProductionCountry(
                 it.iso31661 ?: "N/A",
@@ -129,5 +131,13 @@ fun MovieDetailsDTO.toDomain(): MovieDetails {
         title = title ?: "N/A",
         video = video ?: true,
         voteAverage = voteAverage ?: 0.0,
+    )
+}
+
+fun StatusResponseDto.toStatusEntity(): StatusEntity {
+    return StatusEntity(
+        statusCode = this.statusCode ?: 0,
+        statusMessage = this.statusMessage ?: "",
+        success = this.success
     )
 }
