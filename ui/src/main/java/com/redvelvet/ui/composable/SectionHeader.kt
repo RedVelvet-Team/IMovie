@@ -14,14 +14,19 @@ import androidx.compose.ui.graphics.Color
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
+import com.redvelvet.viewmodel.utils.MediaType
 import com.redvelvet.viewmodel.utils.SeeAllMovie
+import com.redvelvet.viewmodel.utils.SeeAllTvShows
 
 @Composable
 fun SectionHeader(
     modifier: Modifier = Modifier,
     label: String,
-    onClickSeeAll: (SeeAllMovie) -> Unit = {},
+    onClickSeeAllMovie: (SeeAllMovie) -> Unit = {},
     seeAllMovie: SeeAllMovie,
+    onClickSeeAllTv: (SeeAllTvShows) -> Unit,
+    type: MediaType,
+    seeAllTv: SeeAllTvShows,
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -38,7 +43,12 @@ fun SectionHeader(
         Text(text = "see all",
             style = Typography.labelSmall,
             color = MaterialTheme.color.fontAccent,
-            modifier = Modifier.clickable { onClickSeeAll(seeAllMovie) }
+            modifier = Modifier.clickable {
+                when(type){
+                    MediaType.MOVIE -> onClickSeeAllMovie(seeAllMovie)
+                    MediaType.TV -> onClickSeeAllTv(seeAllTv)
+                }
+            }
         )
     }
 }

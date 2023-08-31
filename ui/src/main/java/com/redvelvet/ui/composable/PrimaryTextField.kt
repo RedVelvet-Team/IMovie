@@ -3,6 +3,7 @@ package com.redvelvet.ui.composable
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
@@ -19,7 +20,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
+import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.radius
 
 @Composable
@@ -28,11 +31,12 @@ fun PrimaryTextField(
     isError: Boolean,
     placeHolderText: String,
     modifier: Modifier = Modifier,
+    label: String?,
     errorMessage: String = "",
     isPassword: Boolean = false,
     isPasswordVisible: Boolean = false,
-    leadingIcon: Painter? = null,
-    trailingIcon: Painter? = null,
+    leadingIcon: Painter?,
+    trailingIcon: Painter?,
     iconTint: Color = MaterialTheme.color.fontSecondary,
     textColor: Color = MaterialTheme.color.fontSecondary,
     placeHolderColor: Color = MaterialTheme.color.fontSecondary,
@@ -42,7 +46,9 @@ fun PrimaryTextField(
     TextField(
         value = value,
         onValueChange = onTextChange,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .height(MaterialTheme.dimens.dimens56),
         textStyle = TextStyle(color = MaterialTheme.color.fontPrimary),
         placeholder = {
             Text(
@@ -70,6 +76,15 @@ fun PrimaryTextField(
                     contentDescription = "$trailingIcon icon",
                     tint = iconTint,
                     modifier = Modifier.clickable { onClickTrailingIcon() })
+            }
+        },
+        label = {
+            label?.let {
+                Text(
+                    text = it,
+                    style = Typography.displaySmall,
+                    color = Color(0xDEFFFFFF),
+                )
             }
         },
         keyboardOptions = if (isPassword) KeyboardOptions(keyboardType = KeyboardType.Password)
@@ -101,8 +116,11 @@ fun PrimaryTextField(
 fun TextFieldPreview() {
     PrimaryTextField(
         onTextChange = {},
-        value = "Hello Banan",
+        value = "Banan",
         isError = false,
+        label = "Hello",
         placeHolderText = "Ya welcome be l7elween",
+        leadingIcon = null,
+        trailingIcon = null
     )
 }

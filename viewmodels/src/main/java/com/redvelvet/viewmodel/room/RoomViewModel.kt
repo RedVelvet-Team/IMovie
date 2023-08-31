@@ -43,8 +43,7 @@ class RoomViewModel @Inject constructor() : BaseViewModel<RoomUiState, RoomUiEff
         _state.update {
             it.copy(
                 buttonClicked=Clicked.None,
-                dialogState = it.dialogState.copy(showDialog = false
-                )
+                dialogState = it.dialogState.copy(showDialog = false)
             )
         }
         Log.e("test","onClickCancel${state.value.dialogState.showDialog}")

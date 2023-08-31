@@ -6,6 +6,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -14,16 +15,9 @@ import coil.request.ImageRequest
 
 
 @Composable
-fun CircularImageAvatar(image: String) {
-    val painter = rememberAsyncImagePainter(
-        ImageRequest.Builder(LocalContext.current)
-            .data(data = image)
-            .apply(block = fun ImageRequest.Builder.() {
-                crossfade(true)
-            }).build()
-    )
+fun CircularImageAvatar(image: Painter) {
     Image(
-        painter = painter,
+        painter = image,
         contentDescription = "avatar",
         contentScale = ContentScale.Crop,
         modifier = Modifier

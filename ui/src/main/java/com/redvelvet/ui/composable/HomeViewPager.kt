@@ -2,7 +2,6 @@ package com.redvelvet.ui.composable
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -32,7 +31,9 @@ import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.viewmodel.home.ItemUiState
+import com.redvelvet.viewmodel.utils.MediaType
 import com.redvelvet.viewmodel.utils.SeeAllMovie
+import com.redvelvet.viewmodel.utils.SeeAllTvShows
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -40,24 +41,33 @@ fun HomeViewPager(
     state: PagerState,
     label: String = "Popular",
     items: List<ItemUiState>,
-    onClickSeeAll: (SeeAllMovie) -> Unit = {},
+    onClickSeeAllMovie: (SeeAllMovie) -> Unit = {},
     onClickItem: (String) -> Unit,
+    onClickSeeAllTv: (SeeAllTvShows) -> Unit,
+    type: MediaType,
 ) {
     Column {
-        SectionHeader(label = label, onClickSeeAll =onClickSeeAll, seeAllMovie = SeeAllMovie.POPULAR)
+        SectionHeader(
+            label = label,
+            onClickSeeAllMovie = onClickSeeAllMovie,
+            seeAllMovie = SeeAllMovie.POPULAR,
+            onClickSeeAllTv = onClickSeeAllTv,
+            seeAllTv = SeeAllTvShows.POPULAR,
+            type = type,
+        )
         HorizontalPager(state = state) {
             Card(
-                onClick = { /*TODO*/ },
+                onClick = { onClickItem(items[it].id) },
                 shape = RoundedCornerShape(CornerSize(16.dp)),
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth()
                     .height(210.dp)
-                    .clickable { onClickItem(items[it].id) }
                     .padding(top = 8.dp)
             ) {
                 Box(modifier = Modifier.fillMaxSize()) {
                     Image(
+                        modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop,
                         painter = rememberAsyncImagePainter(
                             model = items[it].image, placeholder = painterResource(

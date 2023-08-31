@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 data class Radius(
     val radius8: Dp = 8.dp,
     val radius10: Dp = 10.dp,
+    val radius12: Dp = 12.dp,
     val radius16: Dp = 16.dp,
     val radius20: Dp = 20.dp,
     val radius24: Dp = 24.dp,

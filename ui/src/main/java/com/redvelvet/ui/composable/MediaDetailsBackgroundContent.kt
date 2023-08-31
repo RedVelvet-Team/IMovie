@@ -21,7 +21,7 @@ fun MediaDetailsBackgroundContent(
             placeholder = R.drawable.login,
             contentDescription = R.string.movies_details_background_image,
             modifier = Modifier.fillMaxWidth(),
-            error = R.drawable.image_placeholder
+            error = R.drawable.login
         )
         PlayMedia(
             icon = R.drawable.play_media,

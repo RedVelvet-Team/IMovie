@@ -13,7 +13,9 @@ import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.screen.movieDetails.Item
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
+import com.redvelvet.viewmodel.utils.MediaType
 import com.redvelvet.viewmodel.utils.SeeAllMovie
+import com.redvelvet.viewmodel.utils.SeeAllTvShows
 
 @Composable
 fun ItemsSectionForDetailsScreens(
@@ -30,10 +32,13 @@ fun ItemsSectionForDetailsScreens(
     itemId: String
 ) {
     SectionHeader(
-        label = label,
         modifier = headerModifier,
+        label = label,
+        onClickSeeAllMovie = { onClickSeeAll(itemId) },
         seeAllMovie = SeeAllMovie.POPULAR,
-        onClickSeeAll = { onClickSeeAll(itemId) }
+        onClickSeeAllTv = {},
+        type = MediaType.MOVIE,
+        seeAllTv = SeeAllTvShows.POPULAR
     )
     LazyRow(
         modifier = Modifier.padding(top = MaterialTheme.spacing.spacing8),
@@ -52,9 +57,7 @@ fun ItemsSectionForDetailsScreens(
             }
             if (!hasCustomList) {
                 ItemBasicCardForDetailsScreens(
-                    imagePainter = rememberAsyncImagePainter(
-                        model = item.image
-                    ),
+                    imagePainter = rememberAsyncFlixImage(item.image),
                     modifier = cardModifier ?: Modifier
                         .width(MaterialTheme.dimens.dimens104)
                         .height(MaterialTheme.dimens.dimens130),

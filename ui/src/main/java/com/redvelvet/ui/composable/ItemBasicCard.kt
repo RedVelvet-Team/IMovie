@@ -23,7 +23,6 @@ import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 
-
 @Composable
 fun ItemBasicCard(
     imagePainter: Painter,

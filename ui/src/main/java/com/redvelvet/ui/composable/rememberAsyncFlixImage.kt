@@ -11,7 +11,7 @@ import com.redvelvet.ui.R
 fun rememberAsyncFlixImage(
     image: String,
     placeholderImage: Painter = painterResource(id = R.drawable.login),
-    errorImage: Painter = painterResource(id = R.drawable.image_placeholder),
+    errorImage: Painter = painterResource(id = R.drawable.login),
 ): AsyncImagePainter {
     return rememberAsyncImagePainter(
         model = image,

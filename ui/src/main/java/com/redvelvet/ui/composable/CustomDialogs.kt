@@ -106,7 +106,10 @@ fun DialogWithLink(
                 onTextChange = {
                     movieLink = it
                     onTextChange(it)
-                }
+                },
+                label = "",
+                leadingIcon = null,
+                trailingIcon = null
             )
         }
     )

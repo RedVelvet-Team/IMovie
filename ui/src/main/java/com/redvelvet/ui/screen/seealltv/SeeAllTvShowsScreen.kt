@@ -31,6 +31,7 @@ import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.ItemBasicCard
 import com.redvelvet.ui.composable.LoadingPage
 import com.redvelvet.ui.composable.FlixMovieScaffold
+import com.redvelvet.ui.composable.rememberAsyncFlixImage
 import com.redvelvet.ui.screen.tvshowdetails.navigateToTvShowDetails
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
@@ -87,7 +88,7 @@ private fun SeeAllTvShowsContent(
         ) {
             items(tvShow.itemCount) {
                 ItemBasicCard(
-                    imagePainter = rememberAsyncImagePainter(model = tvShow[it]!!.image),
+                    imagePainter = rememberAsyncFlixImage(tvShow[it]!!.image),
                     modifier = Modifier
                         .height(MaterialTheme.dimens.dimens176)
                         .width(MaterialTheme.dimens.dimens104)

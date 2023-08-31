@@ -14,14 +14,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
-import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.composable.ItemSeason
+import com.redvelvet.ui.composable.rememberAsyncFlixImage
 import com.redvelvet.ui.screen.see_all_episodes.navigateToSeeAllEpisode
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
@@ -81,11 +79,7 @@ fun SeeAllSeasonsContent(
             items(state.seasons.size) { index ->
                 val seasons = state.seasons[index]
                 ItemSeason(
-                    image = rememberAsyncImagePainter(
-                        model = seasons.imageUrl,
-                        placeholder = painterResource(id = R.drawable.image_placeholder),
-                        error = painterResource(id = R.drawable.image_placeholder)
-                    ),
+                    image = rememberAsyncFlixImage(seasons.imageUrl),
                     onClickItem = onClickSeason,
                     name = seasons.seasonNumber.toString(),
                     date = seasons.airDate,
