@@ -1,6 +1,7 @@
 package com.redvelvet.repository.source
 
 import com.redvelvet.repository.dto.EpisodeSingleItemDto
+import com.redvelvet.repository.dto.QuestionDto
 import com.redvelvet.repository.dto.GenresDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
@@ -31,6 +32,10 @@ import com.redvelvet.repository.dto.tvShow.TvShowKeywordsDto
 import com.redvelvet.repository.dto.tvShow.TvShowVideosDto
 
 interface RemoteDataSource {
+
+    suspend fun getMovieQuestions(): List<QuestionDto>
+    suspend fun getTvQuestions(): List<QuestionDto>
+    suspend fun getActingQuestions(): List<QuestionDto>
     //region auth
     suspend fun createGuestSession(): GuestSessionDto
     suspend fun createToken(): TokenDto
