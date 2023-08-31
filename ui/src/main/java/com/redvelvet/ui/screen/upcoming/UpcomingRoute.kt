@@ -13,12 +13,6 @@ fun NavGraphBuilder.upcomingRoute() {
         ComingScreen()
     }
 }
-fun NavGraphBuilder.categoryRoute() {
-    composable(route = MovieDestination.Category.route) {
-        ComingScreen()
-    }
-}
-
 fun NavController.navigateToUpcoming(builder: NavOptionsBuilder.() -> Unit = {}) {
     navigate(route = ROUTE, builder = builder)
 }
