@@ -24,6 +24,8 @@ sealed class MovieDestination(
     data object SeeAllMovieImages : MovieDestination("seeAllMovieImages")
     data object SeeAllMovieReviews : MovieDestination("seeAllMovieReviews")
     data object MovieDetails : MovieDestination("movieDetails")
+    data object Questions : MovieDestination("questions")
+    data object GameDetails : MovieDestination("gameDetails")
     data object TvShowDetails : MovieDestination("tvShowDetails")
     data object Upcoming : MovieDestination("upcoming")
     data object MoviePlayer:MovieDestination("moviePlayer")

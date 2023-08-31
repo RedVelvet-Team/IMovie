@@ -13,10 +13,13 @@ data class GameScoreUiState(
 
 data class PlayerInfoUiState(
     val name: String = "",
-    val score: String = ""
+    val score: String = "",
+    val avatarId: Int = 0,
+    val rank: Int = 0,
 )
 
 fun Player.toUiState() = PlayerInfoUiState(
     name = this.name,
-    score = this.score.toString()
+    score = this.score.toString(),
+    avatarId = this.avatarId.toInt()
 )

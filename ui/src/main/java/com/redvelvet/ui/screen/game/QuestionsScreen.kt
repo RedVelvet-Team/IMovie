@@ -42,11 +42,13 @@ fun QuestionsScreen(
     ) {
         AnimatedVisibility(
             visible = state.isGameFinished, enter = fadeIn(tween(1000))
-        ) { WinnerDialog(
-            onClickHome = {},
-            onClickPlayAgain = {},
-            score = state.currentScore
-        ) }
+        ) {
+            WinnerDialog(
+                onClickHome = {},
+                onClickPlayAgain = {},
+                score = state.currentScore
+            )
+        }
 
         QuestionsContent(
             state = state, onClickAnswer = viewModel::onClickAnswer
