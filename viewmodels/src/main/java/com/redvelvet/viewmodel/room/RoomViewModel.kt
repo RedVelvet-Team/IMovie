@@ -14,11 +14,9 @@ import javax.inject.Inject
 class RoomViewModel @Inject constructor(
     private val createRoomUseCase: CreateRoomUseCase,
     private val joinRoomUseCase: JoinRoomUseCase,
-) : BaseViewModel<RoomUiState, RoomUiEffect>(RoomUiState()),RoomInteractions{
+) : BaseViewModel<RoomUiState, RoomUiEffect>(RoomUiState()), RoomInteractions {
 
-
-
-    fun createRoom() {
+    private fun createRoom() {
         _state.update {
             it.copy(
                 isLoading = true,
@@ -27,12 +25,25 @@ class RoomViewModel @Inject constructor(
         }
         tryToExecute(
             execute = createRoomUseCase::invoke,
-            onSuccessWithoutData = ::onSuccess,
+            onSuccessWithData = ::onCreateRoomSucceed,
             onError = ::onError,
         )
     }
 
-    fun joinRoom(id: String) {
+    private fun onCreateRoomSucceed(partyId: String) {
+        _state.update {
+            it.copy(
+                isLoading = false,
+                error = null,
+                dialogState = RoomUiState.DialogUiState().copy(
+                    roomUrl = partyId
+                )
+            )
+        }
+        sendUiEffect(RoomUiEffect.NavigateToVideoPlayer(state.value.dialogState.roomUrl))
+    }
+
+    private fun joinRoom(id: String) {
         _state.update {
             it.copy(
                 isLoading = true,
@@ -40,7 +51,7 @@ class RoomViewModel @Inject constructor(
             )
         }
         tryToExecute(
-            execute = {joinRoomUseCase(id = id)},
+            execute = { joinRoomUseCase(id = id) },
             onSuccessWithoutData = ::onSuccess,
             onError = ::onError,
         )
@@ -52,9 +63,11 @@ class RoomViewModel @Inject constructor(
             it.copy(
                 isLoading = false,
                 error = null,
+                isJoinRoomClicked = false,
+                dialogState = it.dialogState.copy(showDialog = false)
             )
         }
-        sendUiEffect(RoomUiEffect.NavigateToVideoPlayer)
+        sendUiEffect(RoomUiEffect.NavigateToVideoPlayer(state.value.dialogState.roomUrl))
     }
 
     private fun onError(e: ErrorUiState) {
@@ -64,7 +77,7 @@ class RoomViewModel @Inject constructor(
                 error = e,
             )
         }
-
+        Log.e("KAMEL", e.message)
     }
 
     override fun onClickCreateRoom() {
@@ -75,28 +88,25 @@ class RoomViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isJoinRoomClicked = true,
-                buttonClicked=Clicked.JOIN,
-                dialogState = it.dialogState.copy(showDialog = true)
+                dialogState = it.dialogState.copy(showDialog = true, roomUrl = ""),
             )
         }
         sendUiEffect(RoomUiEffect.ShowDialogToJoinRoom)
-        Log.e("test","onClickJoinRoom ${state.value.dialogState.showDialog}")
     }
 
     override fun onClickSubmit() {
-        sendUiEffect(RoomUiEffect.NavigateToVideoPlayer)
+        joinRoom(state.value.dialogState.roomUrl)
     }
 
     override fun onClickCancel() {
         _state.update {
             it.copy(
-                buttonClicked=Clicked.None,
-                dialogState = it.dialogState.copy(showDialog = false
+                buttonClicked = Clicked.None,
+                dialogState = it.dialogState.copy(
+                    showDialog = false
                 )
             )
         }
-        Log.e("test","onClickCancel${state.value.dialogState.showDialog}")
-
     }
 
     fun updateMovieUrl(newMovieUrl: String) {

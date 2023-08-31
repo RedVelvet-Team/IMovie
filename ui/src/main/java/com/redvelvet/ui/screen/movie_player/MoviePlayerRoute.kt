@@ -16,19 +16,24 @@ private val ROUTE = MovieDestination.MoviePlayer.route
 
 fun NavGraphBuilder.moviePlayerRoute() {
     composable(
-        route = ROUTE,
-            )
+        route = "${ROUTE}/{${MoviePlayerArgs.ROOM_ID}}",
+        arguments = listOf(
+            navArgument(MoviePlayerArgs.ROOM_ID) {
+                type = NavType.StringType
+            }
+        )
+    )
     {
         MoviePlayerScreen()
     }
 }
 
 fun NavController.navigateMoviePlayer(
-//    movieUrl: String ?= null,
-    builder: NavOptionsBuilder.() -> Unit = {}
+    roomId: String,
+    builder: NavOptionsBuilder.() -> Unit = {},
 ) {
     navigate(
-        route = ROUTE,
+        route = "${ROUTE}/${roomId}",
         builder = builder
     )
 }

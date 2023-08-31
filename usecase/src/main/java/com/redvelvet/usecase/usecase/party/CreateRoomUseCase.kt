@@ -9,6 +9,9 @@ class CreateRoomUseCase @Inject constructor(
     private val manageUserDetailsUseCase: ManageUserDetailsUseCase,
 ) {
     suspend operator fun invoke() =
-        partyRepository.createRoom(manageUserDetailsUseCase())
+        getRandomId().apply {
+            partyRepository.createRoom(manageUserDetailsUseCase(), this)
+        }
 
+    private fun getRandomId() = System.currentTimeMillis().toString()
 }

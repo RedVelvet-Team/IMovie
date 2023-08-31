@@ -5,8 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 
 interface RealTimeDataSource {
-    suspend fun createRoom(userName: String)
+    suspend fun createRoom(userName: String, partyId: String)
     suspend fun joinRoom(id: String)
     suspend fun streamMovie(roomId: String): Flow<MoviePartyDto>
-
 }

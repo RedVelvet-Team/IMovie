@@ -41,7 +41,7 @@ import com.redvelvet.viewmodel.room.RoomViewModel
 
 @Composable
 fun RoomScreen(
-    viewModel: RoomViewModel = hiltViewModel()
+    viewModel: RoomViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
     val navController = LocalNavController.current
@@ -54,28 +54,12 @@ fun RoomScreen(
         scope.launchCollectLatest(viewModel.effect) { effect ->
             when (effect) {
                 is RoomUiEffect.NavigateToVideoPlayer -> {
-                    navController.navigateMoviePlayer()
+                    navController.navigateMoviePlayer(effect.roomUrl)
                 }
             }
         }
     }
-
-    AnimatedVisibility(visible = state.buttonClicked == Clicked.CREATE) {
-        DialogWithLink(
-            headText = "Create cinema room",
-            bodyText = "You can share the room with friends",
-            placeHolderText = "Movie Link",
-            submitText = "Done",
-            isError = state.dialogState.isError,
-            showDialogState = state.dialogState.showDialog,
-            link = state.dialogState.movieUrl,
-            onTextChange = { newLink -> viewModel.updateMovieUrl(newLink) },
-            onSubmitClick = viewModel::onClickSubmit,
-            onClickCancel = viewModel::onClickCancel
-        )
-    }
-
-    AnimatedVisibility(visible = state.buttonClicked == Clicked.JOIN) {
+    AnimatedVisibility(visible = state.dialogState.showDialog) {
         DialogWithLink(
             headText = "Join cinema room",
             bodyText = "You can join room by adding the link of the room",
@@ -91,7 +75,6 @@ fun RoomScreen(
     }
 
     RoomContent(state, viewModel)
-
 }
 
 @Composable
@@ -146,6 +129,5 @@ fun RoomContent(state: RoomUiState, listener: RoomInteractions) {
 fun RoomPreview() {
     RoomScreen()
 }
-
 
 

@@ -25,5 +25,4 @@ suspend fun wrapRealTimeCall(request:suspend () -> Unit){
     }
 }
 
-fun getRandomId() = System.currentTimeMillis().toString()
 

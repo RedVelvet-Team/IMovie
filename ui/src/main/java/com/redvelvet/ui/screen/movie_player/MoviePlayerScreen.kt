@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,23 +39,28 @@ import com.redvelvet.viewmodel.movie_player.MoviePlayerViewModel
 
 @Composable
 fun MoviePlayerScreen(
-    viewModel: MoviePlayerViewModel = hiltViewModel()
+    viewModel: MoviePlayerViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
 
     ShowVideo(
-        videoUrl= state.videoUrl ,
-        onFullScreenToggle={}
+        videoUrl = state.videoUrl,
+        onFullScreenToggle = {},
+        isStopped = state.isPlaying.not(),
+        isAdmin = state.isAdmin
     )
 }
+
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 @SuppressLint("RememberReturnType")
 @Composable
 private fun ShowVideo(
     onFullScreenToggle: (isFullScreen: Boolean) -> Unit,
-    videoUrl:String
+    videoUrl: String,
+    isStopped: Boolean,
+    isAdmin: Boolean,
 ) {
 
     val context = LocalContext.current
@@ -63,15 +69,20 @@ private fun ShowVideo(
         ExoPlayer.Builder(context)
             .setSeekBackIncrementMs(PLAYER_SEEK_BACK_INCREMENT)
             .setSeekForwardIncrementMs(PLAYER_SEEK_FORWARD_INCREMENT)
-            .build().apply {
-                this.setMediaItem(fromUri(videoUrl))
-                this.prepare()
-                this.playWhenReady = true
-            }
+            .build()
+    }
+    LaunchedEffect(key1 = videoUrl) {
+        exoPlayer.setMediaItem(fromUri(videoUrl))
+        exoPlayer.prepare()
+        exoPlayer.playWhenReady = true
     }
 
-    exoPlayer.setMediaItem(fromUri(videoUrl))
-    Log.d("Kosomk",videoUrl)
+    LaunchedEffect(key1 = isStopped) {
+        if (isStopped)
+            exoPlayer.pause()
+        else
+            exoPlayer.play()
+    }
 
     val lifecycle = LocalLifecycleOwner.current.lifecycle
 
@@ -101,6 +112,7 @@ private fun ShowVideo(
     Video(
         playerWrapper = exoPlayer,
         onFullScreenToggle = onFullScreenToggle,
+        isAdmin = isAdmin
     )
 }
 
@@ -108,6 +120,7 @@ private fun ShowVideo(
 private fun Video(
     playerWrapper: Player,
     onFullScreenToggle: (isFullScreen: Boolean) -> Unit,
+    isAdmin: Boolean,
 ) {
 
     val configuration = LocalConfiguration.current
@@ -128,30 +141,39 @@ private fun Video(
                 playerWrapper = playerWrapper,
                 onTrailerChange = { index -> onTrailerChange(index) },
                 onFullScreenToggle = onFullScreenToggle,
+                isAdmin = isAdmin
             )
         }
+
         else -> {
             LandscapeView(
                 playerWrapper = playerWrapper,
-                onFullScreenToggle = onFullScreenToggle
+                onFullScreenToggle = onFullScreenToggle,
+                isAdmin = isAdmin
             )
         }
     }
+    Log.i("BARHOMA", playingIndex.toString())
 }
+
 @Composable
 private fun PortraitView(
     playerWrapper: Player,
     onTrailerChange: (Int) -> Unit,
+    isAdmin: Boolean,
     onFullScreenToggle: (isFullScreen: Boolean) -> Unit,
 ) {
-    Column(modifier = Modifier
-        .systemBarsPadding()
-        .background(MaterialTheme.color.backgroundPrimary)) {
+    Column(
+        modifier = Modifier
+            .systemBarsPadding()
+            .background(MaterialTheme.color.backgroundPrimary)
+    ) {
         CustomPlayerView(
             playerWrapper = playerWrapper,
             isFullScreen = false,
             onTrailerChange = onTrailerChange,
             onFullScreenToggle = onFullScreenToggle,
+            isAdmin = isAdmin
         )
     }
 }
@@ -159,16 +181,20 @@ private fun PortraitView(
 @Composable
 private fun LandscapeView(
     playerWrapper: Player,
-    onFullScreenToggle: (isFullScreen: Boolean) -> Unit
+    isAdmin: Boolean,
+    onFullScreenToggle: (isFullScreen: Boolean) -> Unit,
 ) {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(MaterialTheme.color.backgroundPrimary)) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.color.backgroundPrimary)
+    ) {
         CustomPlayerView(
             modifier = Modifier.fillMaxSize(),
             playerWrapper = playerWrapper,
             isFullScreen = true,
-            onFullScreenToggle = onFullScreenToggle
+            onFullScreenToggle = onFullScreenToggle,
+            isAdmin = isAdmin
         )
     }
 }

@@ -4,9 +4,11 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.redvelvet.usecase.usecase.party.StreamMovieUseCase
+import com.redvelvet.usecase.usecase.user.ManageUserDetailsUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.movieDetails.MovieDetailsUiEffect
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -14,12 +16,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MoviePlayerViewModel @Inject constructor(
-    val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     private val streamMovieUseCase: StreamMovieUseCase,
+    private val manageUserDetailsUseCase: ManageUserDetailsUseCase,
 ) :
     BaseViewModel<MoviePlayerUiState, MovieDetailsUiEffect>(MoviePlayerUiState()) {
 
-    val moviePlayerArg = MoviePlayerArgs(savedStateHandle)
+    private val moviePlayerArg = MoviePlayerArgs(savedStateHandle)
 
     init {
         getVideoLink()
@@ -28,16 +31,20 @@ class MoviePlayerViewModel @Inject constructor(
 
 
     private fun getVideoLink() {
-        viewModelScope.launch {
-            streamMovieUseCase.invoke("1693378945056").collect{ movieParty ->
+        viewModelScope.launch(Dispatchers.IO) {
+            val currentUser = manageUserDetailsUseCase.invoke()
+            streamMovieUseCase.invoke(moviePlayerArg.roomId).collect { movieParty ->
+                if (currentUser == movieParty.adminName)
+                    _state.update { it.copy(isAdmin = true) }
+                else
+                    _state.update { it.copy(isAdmin = false) }
                 _state.update { it.copy(videoUrl = movieParty.movieLink) }
-                Log.d("Kamel",_state.value.toString())
             }
         }
     }
 
     private fun getRoomLink() {
-        _state.update { it.copy(roomLink = " ") }
+        _state.update { it.copy(roomLink = "") }
     }
 
     fun updateIsPlaying() {
@@ -64,6 +71,4 @@ class MoviePlayerViewModel @Inject constructor(
     fun updatePlaybackState(playbackState: Int) {
         _state.update { it.copy(playbackState = playbackState) }
     }
-
-
 }

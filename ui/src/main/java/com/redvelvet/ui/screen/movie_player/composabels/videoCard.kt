@@ -36,19 +36,20 @@ import kotlinx.coroutines.delay
 fun CustomPlayerView(
     modifier: Modifier = Modifier,
     playerWrapper: Player,
+    isAdmin: Boolean,
     isFullScreen: Boolean,
     onTrailerChange: ((Int) -> Unit)? = null,
     onFullScreenToggle: (isFullScreen: Boolean) -> Unit,
-    shouldShowControls:Boolean = true
+    shouldShowControls: Boolean = true,
 ) {
     val context = LocalContext.current
 
-    BackHandler {
-        if (isFullScreen) {
-            context.setPortrait()
-            onFullScreenToggle.invoke(false)
-        }
-    }
+//    BackHandler {
+//        if (isFullScreen) {
+//            context.setPortrait()
+//            onFullScreenToggle.invoke(false)
+//        }
+//    }
 
     Box(modifier = modifier) {
 
@@ -97,53 +98,56 @@ fun CustomPlayerView(
                 playerWrapper.removeListener(listener)
             }
         }
-
         VideoPlayer(
             modifier = Modifier.fillMaxSize(),
             playerWrapper = playerWrapper,
-            onPlayerClick = { shouldShowControls.not() }
+            onPlayerClick = { shouldShowControls.not() },
+            isAdmin = isAdmin
         )
 
-        PlayerControls(
-            modifier = Modifier.fillMaxSize(),
-            isVisible = { shouldShowControls },
-            isPlaying = { isPlaying },
-            playbackState = { playbackState },
-            totalDuration = { totalDuration },
-            bufferedPercentage = { bufferedPercentage },
-            getTitle = { title },
-            isFullScreen = isFullScreen,
-            onPrevious = { playerWrapper.seekToPrevious() },
-            onNext = { playerWrapper.seekToNext() },
-            onReplay = { playerWrapper.seekBack() },
-            onForward = { playerWrapper.seekForward() },
-            onPauseToggle = {
-                when {
-                    playerWrapper.isPlaying -> {
-                        playerWrapper.pause()
-                    }
-                    playerWrapper.isPlaying.not() && playbackState == STATE_ENDED -> {
-                        playerWrapper.seekTo(0, 0)
-                        playerWrapper.playWhenReady = true
-                    }
-                    else -> {
-                        playerWrapper.play()
-                    }
-                }
-                isPlaying = isPlaying.not()
-            },
-            onSeekChanged = { position -> playerWrapper.seekTo(position.toLong()) },
-            videoTimer = { videoTimer },
-            onFullScreenToggle = onFullScreenToggle
-        )
+
+//        PlayerControls(
+//            modifier = Modifier.fillMaxSize(),
+//            isVisible = { shouldShowControls },
+//            isPlaying = { isPlaying },
+//            playbackState = { playbackState },
+//            totalDuration = { totalDuration },
+//            bufferedPercentage = { bufferedPercentage },
+//            getTitle = { title },
+//            isFullScreen = isFullScreen,
+//            onPrevious = { playerWrapper.seekToPrevious() },
+//            onNext = { playerWrapper.seekToNext() },
+//            onReplay = { playerWrapper.seekBack() },
+//            onForward = { playerWrapper.seekForward() },
+//            onPauseToggle = {
+//                when {
+//                    playerWrapper.isPlaying -> {
+//                        playerWrapper.pause()
+//                    }
+//                    playerWrapper.isPlaying.not() && playbackState == STATE_ENDED -> {
+//                        playerWrapper.seekTo(0, 0)
+//                        playerWrapper.playWhenReady = true
+//                    }
+//                    else -> {
+//                        playerWrapper.play()
+//                    }
+//                }
+//                isPlaying = isPlaying.not()
+//            },
+//            onSeekChanged = { position -> playerWrapper.seekTo(position.toLong()) },
+//            videoTimer = { videoTimer },
+//            onFullScreenToggle = onFullScreenToggle
+//        )
     }
 }
 
+@androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 @Composable
 private fun VideoPlayer(
     modifier: Modifier = Modifier,
     playerWrapper: Player,
-    onPlayerClick: () -> Unit
+    isAdmin: Boolean,
+    onPlayerClick: () -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -161,13 +165,12 @@ private fun VideoPlayer(
             factory = {
                 PlayerView(context).apply {
                     player = playerWrapper
-                    useController = false
-                    layoutParams = FrameLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT
-                    )
                 }
-            })
+            },
+            update = {
+                it.useController = !isAdmin.not()
+            }
+        )
     }
 }
 
@@ -177,8 +180,9 @@ private fun PreviewPlayerView() {
     val context = LocalContext.current
     CustomPlayerView(
         modifier = Modifier.fillMaxSize(),
-        playerWrapper =ExoPlayer.Builder(context).build(),
+        playerWrapper = ExoPlayer.Builder(context).build(),
         isFullScreen = false,
-        onFullScreenToggle = {}
+        onFullScreenToggle = {},
+        isAdmin = false
     )
 }

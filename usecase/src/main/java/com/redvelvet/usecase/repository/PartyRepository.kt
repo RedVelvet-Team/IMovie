@@ -4,7 +4,7 @@ import com.redvelvet.entities.MovieParty
 import kotlinx.coroutines.flow.Flow
 
 interface PartyRepository {
-     suspend fun createRoom(userName: String)
+     suspend fun createRoom(userName: String, partyId: String)
 
      suspend fun joinRoom(id: String)
 

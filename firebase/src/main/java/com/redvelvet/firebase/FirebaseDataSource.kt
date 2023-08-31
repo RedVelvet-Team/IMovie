@@ -4,7 +4,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.redvelvet.entities.error.NullResultException
 import com.redvelvet.firebase.util.Constants
-import com.redvelvet.firebase.util.getRandomId
 import com.redvelvet.firebase.util.wrapRealTimeCall
 import com.redvelvet.repository.dto.party.MoviePartyDto
 import com.redvelvet.repository.source.RealTimeDataSource
@@ -18,8 +17,7 @@ import javax.inject.Inject
 class FirebaseDataSource @Inject constructor(
     private val fireStore: FirebaseFirestore,
 ) : RealTimeDataSource {
-    override suspend fun createRoom(userName: String) {
-        val partyId = getRandomId()
+    override suspend fun createRoom(userName: String,partyId:String) {
         val partyRoom = MoviePartyDto(
             id = partyId,
             adminName = userName,
@@ -28,6 +26,7 @@ class FirebaseDataSource @Inject constructor(
             fireStore.collection(Constants.COLLECTION_NAME).document(partyId).set(partyRoom).await()
         }
     }
+
 
     override suspend fun joinRoom(id: String) {
         wrapRealTimeCall {
