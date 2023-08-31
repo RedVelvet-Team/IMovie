@@ -27,7 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.redvelvet.ui.composable.CategoryItem
+import com.redvelvet.ui.composable.AllCategoryItem
 import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.composable.NavigationHandler
 import com.redvelvet.ui.screen.categorySeeAll.navigateToSeeAllCategoryRoute
@@ -160,10 +160,20 @@ fun CategoryContent(
     viewPaperList: List<GenreUiState>,
     interaction: CategoryInteraction,
 ) {
+    Text(
+        modifier = Modifier.padding(
+            top = MaterialTheme.spacing.spacing8,
+            start = MaterialTheme.spacing.spacing16
+        ),
+        text = "All Categories",
+        style = Typography.displayLarge.copy(color = MaterialTheme.color.fontSecondary),
+    )
     LazyVerticalGrid(
         contentPadding = PaddingValues(
+            end = MaterialTheme.spacing.spacing16,
+            start = MaterialTheme.spacing.spacing16,
             top = MaterialTheme.spacing.spacing16,
-            bottom = MaterialTheme.spacing.spacing72
+            bottom = MaterialTheme.spacing.spacing80
         ),
         columns = GridCells.Fixed(2),
         horizontalArrangement = Arrangement.spacedBy(
@@ -176,7 +186,7 @@ fun CategoryContent(
         )
     ) {
         items(viewPaperList.size) {
-            CategoryItem(
+            AllCategoryItem(
                 media = viewPaperList[it].name,
                 genreId = viewPaperList[it].id.toInt(),
                 modifier = Modifier
