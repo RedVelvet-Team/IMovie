@@ -47,8 +47,7 @@ fun DialogWithIcon(
             Text(
                 modifier = modifier.padding(bottom = MaterialTheme.spacing.spacing32),
                 text = "Hello! \n" +
-                        "Please log in to continue \n" +
-                        "and add content to your saved list",
+                        "Please log in to continue",
                 style = MaterialTheme.typography.labelMedium,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.color.fontPrimary

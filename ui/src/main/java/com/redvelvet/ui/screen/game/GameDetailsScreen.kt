@@ -1,6 +1,7 @@
 package com.redvelvet.ui.screen.game
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -30,44 +31,61 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
+import com.redvelvet.ui.composable.DialogWithIcon
 import com.redvelvet.ui.composable.FlixMovieScaffold
+import com.redvelvet.ui.composable.NavigationHandler
 import com.redvelvet.ui.composable.PrimaryButton
 import com.redvelvet.ui.screen.game.composable.InstructionCard
 import com.redvelvet.ui.screen.game.composable.PlayerCard
 import com.redvelvet.ui.screen.game.composable.UserInfoCard
+import com.redvelvet.ui.screen.login.navigateToLogin
 import com.redvelvet.ui.theme.Secondary
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
+import com.redvelvet.viewmodel.game.GameScoreUiEffect
 import com.redvelvet.viewmodel.game.GameScoreUiState
-import com.redvelvet.viewmodel.game.GameScoreViewModel
+import com.redvelvet.viewmodel.game.GameDetailsViewModel
 
 @Composable
 fun GameDetailsScreen(
-    viewModel: GameScoreViewModel = hiltViewModel()
+    viewModel: GameDetailsViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-
+    NavigationHandler(
+        effects = viewModel.effect,
+        handleEffect = { effect, navController ->
+            when (effect) {
+                is GameScoreUiEffect.NavigateToQuestionsScreen -> navController.navigateToQuestionsScreen()
+            }
+        }
+    )
     FlixMovieScaffold(
-        isLoading = state.isLoading,
-        error = state.error,
-        hasTopBar = true,
-        title = "Game Details"
+        isLoading = state.isLoading, error = state.error, hasTopBar = true, title = "Game Details"
     ) {
         GameDetailsContent(
             state = state,
-            onClickPlay = viewModel::onClickPlay
+            onClickPlay = viewModel::onClickPlay,
+            onClickCancel = viewModel::onClickCancel,
         )
     }
 }
 
 @SuppressLint("ResourceType")
 @Composable
-private fun GameDetailsContent(state: GameScoreUiState, onClickPlay: () -> Unit) {
-
+private fun GameDetailsContent(
+    state: GameScoreUiState, onClickPlay: () -> Unit, onClickCancel: () -> Unit
+) {
     val navController = LocalNavController.current
+    AnimatedVisibility(visible = !state.canJoinGame) {
+        DialogWithIcon(
+            showDialogState = true,
+            submitText = "Login",
+            onSubmitClick = { navController.navigateToLogin() },
+            onClickCancel = onClickCancel
+        )
+    }
     Box(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         Column(
             modifier = Modifier
@@ -78,33 +96,34 @@ private fun GameDetailsContent(state: GameScoreUiState, onClickPlay: () -> Unit)
         ) {
 
             Spacer(modifier = Modifier.height(80.dp))
-            Image(
-                modifier = Modifier
-                    .size(88.dp),
-                painter = painterResource(id = 2131230911),
-                contentDescription = ""
-            )
-            Text(
-                modifier = Modifier.padding(top = 8.dp, bottom = 12.dp),
-                text = "hassan",
-                style = Typography.titleMedium,
-                color = MaterialTheme.color.fontPrimary
-            )
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-            ) {
-                UserInfoCard(
-                    title = "Points",
-                    iconPainter = painterResource(id = R.drawable.ic_point),
-                    text = state.userInfo.score
+            AnimatedVisibility(visible = state.userInfo.name.isNotEmpty()) {
+                Image(
+                    modifier = Modifier.size(88.dp),
+                    painter = painterResource(id = 2131230911),
+                    contentDescription = ""
                 )
-                Spacer(modifier = Modifier.width(12.dp))
-                UserInfoCard(
-                    title = "Rank",
-                    iconPainter = painterResource(id = R.drawable.ic_medal),
-                    text = state.userInfo.rank.toString()
+                Text(
+                    modifier = Modifier.padding(top = 8.dp, bottom = 12.dp),
+                    text = state.userInfo.name,
+                    style = Typography.titleMedium,
+                    color = MaterialTheme.color.fontPrimary
                 )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    UserInfoCard(
+                        title = "Points",
+                        iconPainter = painterResource(id = R.drawable.ic_point),
+                        text = state.userInfo.score
+                    )
+                    Spacer(modifier = Modifier.width(12.dp))
+                    UserInfoCard(
+                        title = "Rank",
+                        iconPainter = painterResource(id = R.drawable.ic_medal),
+                        text = state.userInfo.rank.toString()
+                    )
+                }
             }
 
             Text(
@@ -118,8 +137,7 @@ private fun GameDetailsContent(state: GameScoreUiState, onClickPlay: () -> Unit)
 
             InstructionCard(
                 iconPainter = painterResource(id = R.drawable.ic_like),
-                instruction = "Correct answers earn points.\n" +
-                        "more levels = more points."
+                instruction = "Correct answers earn points.\n" + "more levels = more points."
             )
             InstructionCard(
                 iconPainter = painterResource(id = R.drawable.ic_dislike),
@@ -161,9 +179,7 @@ private fun GameDetailsContent(state: GameScoreUiState, onClickPlay: () -> Unit)
                 .align(Alignment.BottomCenter),
             onClick = {
                 onClickPlay()
-                navController.navigateToQuestionsScreen()
-            },
-            text = "Play Now"
+            }, text = "Play Now"
         )
     }
 }

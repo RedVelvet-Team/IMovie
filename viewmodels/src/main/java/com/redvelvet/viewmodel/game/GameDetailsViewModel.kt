@@ -1,18 +1,21 @@
 package com.redvelvet.viewmodel.game
 
 import android.util.Log
+import androidx.lifecycle.viewModelScope
 import com.redvelvet.entities.Player
+import com.redvelvet.entities.error.ValidationException
 import com.redvelvet.usecase.usecase.GetPlayerInfoUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class GameScoreViewModel @Inject constructor(
+class GameDetailsViewModel @Inject constructor(
     private val getPlayerInfo: GetPlayerInfoUseCase
-) : BaseViewModel<GameScoreUiState, Unit>(GameScoreUiState()) {
+) : BaseViewModel<GameScoreUiState, GameScoreUiEffect>(GameScoreUiState()) {
     init {
         getPlayerScore()
         getHighestPlayerScore()
@@ -52,11 +55,20 @@ class GameScoreViewModel @Inject constructor(
         _state.update { it.copy(error = error) }
     }
 
+    fun onClickCancel() {
+        _state.update { it.copy(canJoinGame = true) }
+    }
+
     fun onClickPlay() {
-        tryToExecute(
-            execute = { getPlayerInfo.addPlayer() },
-            onSuccessWithoutData = {},
-            onError = ::onError
-        )
+        viewModelScope.launch {
+            try {
+                getPlayerInfo.addPlayer()
+                sendUiEffect(GameScoreUiEffect.NavigateToQuestionsScreen)
+            } catch (e: ValidationException) {
+                _state.update { it.copy(canJoinGame = false) }
+            } catch (e: Exception) {
+                onError(ErrorUiState(e.message.toString()))
+            }
+        }
     }
 }

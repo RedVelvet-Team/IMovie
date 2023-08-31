@@ -24,7 +24,7 @@ class GetPlayerInfoUseCase @Inject constructor(
 
     suspend fun addPlayer(){
         if (checkUserLoggedIn.isLoggedInByAccount()){
-//            repository.addPlayer()
+            repository.addPlayer()
         }else{
             throw ValidationException("you don't have an account")
         }

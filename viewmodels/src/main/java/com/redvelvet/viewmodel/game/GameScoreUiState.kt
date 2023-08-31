@@ -6,6 +6,7 @@ import com.redvelvet.viewmodel.base.ErrorUiState
 
 data class GameScoreUiState(
     val isLoading: Boolean = true,
+    val canJoinGame: Boolean = true,
     val error: ErrorUiState? = null,
     val userInfo: PlayerInfoUiState = PlayerInfoUiState(),
     val highestScorePlayer: List<PlayerInfoUiState> = listOf()
