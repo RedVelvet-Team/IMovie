@@ -234,7 +234,7 @@ class MovieRepositoryImpl @Inject constructor(
         return remoteDataSource.getAllEpisodes(
             tvId,
             seasonNumber
-        ).episodeDto!!.map { it.toEpisodeDetails() }
+        ).episodeDto.map { it.toEpisodeDetails() }
     }
 
     override suspend fun seeAllTopRatedTv(): Flow<PagingData<TvShow>> {

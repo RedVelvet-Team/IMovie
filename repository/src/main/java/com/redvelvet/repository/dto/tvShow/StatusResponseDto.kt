@@ -2,7 +2,7 @@ package com.redvelvet.repository.dto.tvShow
 
 import com.google.gson.annotations.SerializedName
 
-data class StatusResponse(
+data class StatusResponseDto(
     @SerializedName("success")
     val success: Boolean,
     @SerializedName("status_code")

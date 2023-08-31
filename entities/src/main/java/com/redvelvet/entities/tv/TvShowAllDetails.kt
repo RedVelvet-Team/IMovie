@@ -1,6 +1,6 @@
 package com.redvelvet.entities.tv
 
-import com.redvelvet.entities.library.LibraryTv
+import com.redvelvet.entities.library.WatchListMedia
 
 data class TvShowAllDetails(
     val tvShowId: Int = 0,
@@ -19,7 +19,7 @@ data class TvShowAllDetails(
     val posters: List<String> = emptyList(),
     val videos: List<TvShowResultVideo> = emptyList(),
     val recommendations: List<TvShowRecommendation> = emptyList(),
-    val tvFavorites: List<LibraryTv>,
-    val tvWatchlist: List<LibraryTv>,
-    val ratedTv: List<LibraryTv>,
+    val tvFavorites: WatchListMedia,
+    val tvWatchlist: WatchListMedia,
+    val ratedTv: WatchListMedia,
 )

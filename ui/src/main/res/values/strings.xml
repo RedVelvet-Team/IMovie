@@ -51,4 +51,5 @@
     <string name="search_in_movie_screen">Search in Movie</string>
     <string name="search_for_your_favorite_movies_and_tv_shows_that_you_love">Search for your favorite movies and TV shows that you love.</string>
     <string name="search_empty">search empty</string>
+    <string name="addPl">Add PlayList</string>
 </resources>
