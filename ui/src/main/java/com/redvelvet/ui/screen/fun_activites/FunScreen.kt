@@ -115,13 +115,12 @@ fun FunContent(
                     modifier = Modifier
                         .clickable { true },
                     onClick = onClickGameItem,
-                    icon = ImageVector.vectorResource(R.drawable.ic_movie),
+                    icon = ImageVector.vectorResource(R.drawable.ic_tv),
                     title = "Guess The TV Show",
                     description = "In this game, we will show you a set of questions about Tv shows, and you will have multiple options, and you have to choose a correct answer from among them"
                 )
             }
         }
-
     }
 }
 
