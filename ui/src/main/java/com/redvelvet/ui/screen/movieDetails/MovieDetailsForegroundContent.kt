@@ -37,6 +37,7 @@ fun MovieDetailsForegroundContent(
                     voteAverage = det.voteAverage,
                     description = det.overview,
                     isRated = isRated,
+                    mediaType = "Movie"
                     )
             }
 
