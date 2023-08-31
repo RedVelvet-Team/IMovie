@@ -1,12 +1,22 @@
 package com.redvelvet.ui.screen.game
 
+import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,12 +24,17 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.redvelvet.ui.LocalNavController
+import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.composable.PrimaryButton
-import com.redvelvet.ui.theme.FontPrimary
+import com.redvelvet.ui.screen.game.composable.InstructionCard
+import com.redvelvet.ui.screen.game.composable.PlayerCard
+import com.redvelvet.ui.screen.game.composable.UserInfoCard
 import com.redvelvet.ui.theme.Secondary
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
@@ -31,83 +46,125 @@ fun GameDetailsScreen(
     viewModel: GameScoreViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    GameDetailsContent(
-        state = state,
-        onClickPlay = viewModel::onClickPlay
-    )
+
+    FlixMovieScaffold(
+        isLoading = state.isLoading,
+        error = state.error,
+        hasTopBar = true,
+        title = "Game Details"
+    ) {
+        GameDetailsContent(
+            state = state,
+            onClickPlay = viewModel::onClickPlay
+        )
+    }
 }
 
+@SuppressLint("ResourceType")
 @Composable
 private fun GameDetailsContent(state: GameScoreUiState, onClickPlay: () -> Unit) {
 
     val navController = LocalNavController.current
-    FlixMovieScaffold(
-        isLoading = state.isLoading,
-        error = state.error
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(start = 16.dp, end = 16.dp)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (state.userInfo.name.isNotEmpty()) {
-                Text(
-                    modifier = Modifier.padding(bottom = 16.dp),
-                    text = "Your Score",
-                    style = Typography.headlineLarge,
-                    color = MaterialTheme.color.fontPrimary
+
+            Spacer(modifier = Modifier.height(80.dp))
+            Image(
+                modifier = Modifier
+                    .size(88.dp),
+                painter = painterResource(id = 2131230911),
+                contentDescription = ""
+            )
+            Text(
+                modifier = Modifier.padding(top = 8.dp, bottom = 12.dp),
+                text = "hassan",
+                style = Typography.titleMedium,
+                color = MaterialTheme.color.fontPrimary
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+            ) {
+                UserInfoCard(
+                    title = "Points",
+                    iconPainter = painterResource(id = R.drawable.ic_point),
+                    text = state.userInfo.score
                 )
-                PlayerCard(
-                    name = state.userInfo.name,
-                    score = state.userInfo.score,
-                    modifier = Modifier.padding(bottom = 44.dp)
+                Spacer(modifier = Modifier.width(12.dp))
+                UserInfoCard(
+                    title = "Rank",
+                    iconPainter = painterResource(id = R.drawable.ic_medal),
+                    text = state.userInfo.rank.toString()
                 )
             }
+
             Text(
-                modifier = Modifier.padding(bottom = 16.dp),
-                text = "Highest Score",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp, bottom = 8.dp),
+                text = "Instructions",
+                style = Typography.headlineLarge,
+                color = MaterialTheme.color.fontPrimary
+            )
+
+            InstructionCard(
+                iconPainter = painterResource(id = R.drawable.ic_like),
+                instruction = "Correct answers earn points.\n" +
+                        "more levels = more points."
+            )
+            InstructionCard(
+                iconPainter = painterResource(id = R.drawable.ic_dislike),
+                instruction = "You have only 3 chances for wrong answers."
+            )
+            InstructionCard(
+                iconPainter = painterResource(id = R.drawable.ic_ranking),
+                instruction = "Earn more points to show up in ranking list!"
+            )
+            InstructionCard(
+                iconPainter = painterResource(id = R.drawable.ic_gamebad),
+                instruction = "Enjoy the challenge, and have fun!"
+            )
+
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp, bottom = 8.dp),
+                text = "Top ${state.highestScorePlayer.size}",
                 style = Typography.headlineLarge,
                 color = MaterialTheme.color.fontPrimary
             )
             repeat(state.highestScorePlayer.size) {
                 val player = state.highestScorePlayer[it]
-                PlayerCard(name = player.name, score = player.score)
+                PlayerCard(
+                    name = player.name,
+                    score = player.score,
+                    iconPainter = painterResource(id = player.avatarId),
+                )
             }
-
-            PrimaryButton(onClick = {
+            Spacer(modifier = Modifier.height(120.dp))
+        }
+        PrimaryButton(
+            modifier = Modifier
+                .height(90.dp)
+                .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
+                .background(Secondary)
+                .padding(16.dp)
+                .align(Alignment.BottomCenter),
+            onClick = {
                 onClickPlay()
                 navController.navigateToQuestionsScreen()
-            }, text = "Play Now")
-
-        }
-    }
-
-}
-
-@Composable
-fun PlayerCard(
-    name: String,
-    score: String,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp)
-            .background(Secondary)
-            .padding(horizontal = 16.dp, vertical = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            text = name,
-            style = MaterialTheme.typography.bodyMedium,
-            color = FontPrimary
-        )
-        Text(
-            text = score,
-            style = Typography.headlineSmall,
-            color = FontPrimary
+            },
+            text = "Play Now"
         )
     }
 }
+
