@@ -59,23 +59,23 @@ class UserDataStoreDataSource @Inject constructor(
         return dataStore.get()[PreferencesKeys.GuestSessionExpDate]
     }
 
-    override suspend fun setAccountDetailsId(accountId: Int) {
+    override suspend fun setAccountId(accountId: Int) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.AccountDetailsId] = accountId.toString()
         }
     }
 
-    override suspend fun setAccountDetailsUsername(accountUsername: String) {
+    override suspend fun setAccountUsername(accountUsername: String) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.AccountDetailsUsername] = accountUsername
         }
     }
 
-    override suspend fun getAccountDetailsIdFromLocal(): Int? {
+    override suspend fun getAccountIdFromLocal(): Int? {
         return dataStore.get()[PreferencesKeys.AccountDetailsId]?.toInt()
     }
 
-    override suspend fun getAccountDetailsUsernameFromLocal(): String? {
+    override suspend fun getAccountUsernameFromLocal(): String? {
         return dataStore.get()[PreferencesKeys.AccountDetailsUsername]
     }
     //endregion

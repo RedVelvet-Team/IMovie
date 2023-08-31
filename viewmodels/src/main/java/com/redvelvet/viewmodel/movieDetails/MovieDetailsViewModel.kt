@@ -3,11 +3,14 @@ package com.redvelvet.viewmodel.movieDetails
 import androidx.lifecycle.SavedStateHandle
 import com.redvelvet.entities.movie.details.MovieFullDetails
 import com.redvelvet.usecase.usecase.detailsActions.HandleFavoriteUsecase
+import com.redvelvet.usecase.usecase.detailsActions.HandleItemCheckUsecase
 import com.redvelvet.usecase.usecase.detailsActions.HandleMovieRateUsecase
 import com.redvelvet.usecase.usecase.detailsActions.HandleWatchlistUsecase
 import com.redvelvet.usecase.usecase.movie.GetMovieFullDetailsUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
+import com.redvelvet.viewmodel.details_ui_states.MediaDetailsScreenUiState
+import com.redvelvet.viewmodel.details_ui_states.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
@@ -19,7 +22,8 @@ class MovieDetailsViewModel @Inject constructor(
     private val handleMovieRate: HandleMovieRateUsecase,
     private val handleFavorite: HandleFavoriteUsecase,
     private val handleWatchlist: HandleWatchlistUsecase,
-) : BaseViewModel<MovieDetailsScreenUiState, MovieDetailsUiEffect>(MovieDetailsScreenUiState()),
+    private val handleItemCheck: HandleItemCheckUsecase,
+) : BaseViewModel<MediaDetailsScreenUiState, MovieDetailsUiEffect>(MediaDetailsScreenUiState()),
     MovieDetailsInteraction {
 
     private val args: MovieDetailsArgs = MovieDetailsArgs(savedStateHandle)
@@ -39,10 +43,22 @@ class MovieDetailsViewModel @Inject constructor(
 
     private fun onSuccess(movieAllDetails: MovieFullDetails) {
         _state.update {
-            MovieDetailsScreenUiState(
-                data = movieAllDetails.toMovieFullDetailsScreenUiState(),
+            MediaDetailsScreenUiState(
+                data = movieAllDetails.toUiState(),
                 isLoading = false,
                 error = null,
+                isFavorite = handleItemCheck.isItemInMovieList(
+                    movieList = movieAllDetails.moviesFavorites,
+                    itemId = movieAllDetails.details.id,
+                ),
+                isSavedToList = handleItemCheck.isItemInMovieList(
+                    movieList = movieAllDetails.moviesWatchlist,
+                    itemId = movieAllDetails.details.id,
+                ),
+                isRated = handleItemCheck.isItemInMovieList(
+                    movieList = movieAllDetails.ratedMovie,
+                    itemId = movieAllDetails.details.id,
+                ),
             )
         }
     }
@@ -56,10 +72,10 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    override fun onClickFavorite(movieId: Int, mediaType: String) {
+    override fun onClickFavorite(movieId: Int) {
         _state.update {
             it.copy(
-                favoriteActionState = FavoriteActionUiState(
+                favoriteActionState = MediaDetailsScreenUiState.FavoriteActionUiState(
                     isLoading = true
                 )
             )
@@ -79,10 +95,11 @@ class MovieDetailsViewModel @Inject constructor(
     private fun onFavoriteSuccess(response: String) {
         _state.update {
             it.copy(
-                favoriteActionState = FavoriteActionUiState(
+                favoriteActionState = MediaDetailsScreenUiState.FavoriteActionUiState(
                     isLoading = false,
                     data = response
-                )
+                ),
+                isFavorite = !response.contains("deleted")
             )
         }
     }
@@ -90,10 +107,10 @@ class MovieDetailsViewModel @Inject constructor(
     private fun onFavoriteError(error: ErrorUiState) {
         _state.update {
             it.copy(
-                favoriteActionState = FavoriteActionUiState(
+                favoriteActionState = MediaDetailsScreenUiState.FavoriteActionUiState(
                     isLoading = false,
                     error = error
-                )
+                ),
             )
         }
     }
@@ -101,7 +118,7 @@ class MovieDetailsViewModel @Inject constructor(
     override fun onClickSave(movieId: Int) {
         _state.update {
             it.copy(
-                addToWatchListActionUiState = AddToWatchListActionUiState(
+                addToWatchListActionUiState = MediaDetailsScreenUiState.AddToWatchListActionUiState(
                     isLoading = true
                 )
             )
@@ -121,10 +138,12 @@ class MovieDetailsViewModel @Inject constructor(
     private fun onSaveSuccess(response: String) {
         _state.update {
             it.copy(
-                addToWatchListActionUiState = AddToWatchListActionUiState(
+                addToWatchListActionUiState = MediaDetailsScreenUiState.AddToWatchListActionUiState(
                     isLoading = false,
                     data = response
-                )
+                ),
+                isSavedToList = !response.contains("deleted")
+
             )
         }
     }
@@ -132,7 +151,7 @@ class MovieDetailsViewModel @Inject constructor(
     private fun onSaveError(error: ErrorUiState) {
         _state.update {
             it.copy(
-                addToWatchListActionUiState = AddToWatchListActionUiState(
+                addToWatchListActionUiState = MediaDetailsScreenUiState.AddToWatchListActionUiState(
                     isLoading = false,
                     error = error
                 )
@@ -143,14 +162,11 @@ class MovieDetailsViewModel @Inject constructor(
     override fun onClickRateMovie(movieId: Int, rate: Double) {
         _state.update {
             it.copy(
-                rateActionUiState = RateActionUiState(
+                rateActionUiState = MediaDetailsScreenUiState.RateActionUiState(
                     isLoading = true
                 )
             )
         }
-//        deleteMovieRating(
-//            movieId = movieId,
-//        )
         tryToExecute(
             execute = {
                 handleMovieRate(
@@ -167,10 +183,12 @@ class MovieDetailsViewModel @Inject constructor(
     private fun onRateSuccess(response: String) {
         _state.update {
             it.copy(
-                rateActionUiState = RateActionUiState(
+                rateActionUiState = MediaDetailsScreenUiState.RateActionUiState(
                     isLoading = false,
                     data = response
-                )
+                ),
+                isRated = !response.contains("deleted")
+
             )
         }
     }
@@ -178,7 +196,7 @@ class MovieDetailsViewModel @Inject constructor(
     private fun onRateError(error: ErrorUiState) {
         _state.update {
             it.copy(
-                rateActionUiState = RateActionUiState(
+                rateActionUiState = MediaDetailsScreenUiState.RateActionUiState(
                     isLoading = false,
                     error = error
                 )

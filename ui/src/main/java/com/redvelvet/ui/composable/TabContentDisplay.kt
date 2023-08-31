@@ -7,7 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import com.redvelvet.ui.theme.spacing
+import com.redvelvet.ui.theme.dimens
 import com.redvelvet.viewmodel.home.ItemUiState
 import com.redvelvet.viewmodel.home.ItemsUiState
 import com.redvelvet.viewmodel.utils.MediaType
@@ -31,8 +31,8 @@ fun TabContentDisplay(
     val homeSeeAllMovie = listOf(SeeAllMovie.NOW_PLAYING, SeeAllMovie.UPCOMING, SeeAllMovie.TOP_RATED)
     val homeSeeAllTv = listOf(SeeAllTvShows.AIRING_TODAY, SeeAllTvShows.ON_TV, SeeAllTvShows.TOP_RATED)
     LazyColumn(
-        contentPadding = PaddingValues(vertical = MaterialTheme.spacing.spacing16),
-        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing24)
+        contentPadding = PaddingValues(vertical = MaterialTheme.dimens.dimens16),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.dimens24)
     ) {
         item {
             HomeViewPager(

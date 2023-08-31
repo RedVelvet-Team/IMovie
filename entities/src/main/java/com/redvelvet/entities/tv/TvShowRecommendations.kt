@@ -6,6 +6,7 @@ data class TvShowRecommendations(
 
 
 data class TvShowRecommendation(
+    val id: Int = 0,
     val poster: String = "",
     val seriesName: String = "",
 )

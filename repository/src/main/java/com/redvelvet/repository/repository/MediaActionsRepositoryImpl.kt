@@ -52,7 +52,7 @@ class MediaActionsRepositoryImpl @Inject constructor(
 
 
     override suspend fun deleteMovieRating(movieId: Int, sessionId: String): String =
-        remoteDataSource.deleteTvShowRating(movieId, sessionId)
+        remoteDataSource.deleteMovieRating(movieId, sessionId)
 
 
 }

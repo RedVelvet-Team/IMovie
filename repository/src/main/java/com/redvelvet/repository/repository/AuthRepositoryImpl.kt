@@ -90,11 +90,11 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     private suspend fun setAccountDetailsId(accountId: Int) {
-        userPreferencesDataSource.setAccountDetailsId(accountId)
+        userPreferencesDataSource.setAccountId(accountId)
     }
 
     private suspend fun setAccountDetailsUsername(accountUsername: String) {
-        userPreferencesDataSource.setAccountDetailsUsername(accountUsername)
+        userPreferencesDataSource.setAccountUsername(accountUsername)
     }
 
     //endregion
@@ -108,12 +108,12 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getAccountDetailsIdFromLocal(): Int? {
-        return userPreferencesDataSource.getAccountDetailsIdFromLocal()
+    override suspend fun getAccountId(): Int? {
+        return userPreferencesDataSource.getAccountIdFromLocal()
     }
 
-    override suspend fun getAccountDetailsUsernameFromLocal(): String? {
-        return userPreferencesDataSource.getAccountDetailsUsernameFromLocal()
+    override suspend fun getAccountUsername(): String? {
+        return userPreferencesDataSource.getAccountUsernameFromLocal()
     }
 
     //endregion

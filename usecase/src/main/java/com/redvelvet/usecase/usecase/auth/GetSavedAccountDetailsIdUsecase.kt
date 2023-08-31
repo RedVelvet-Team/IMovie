@@ -7,7 +7,7 @@ class GetSavedAccountDetailsIdUsecase @Inject constructor(
     private val authRepository: AuthRepository,
 ) {
     suspend operator fun invoke(): Int {
-        return authRepository.getAccountDetailsIdFromLocal() ?: 0
+        return authRepository.getAccountId() ?: 0
     }
 }
 
