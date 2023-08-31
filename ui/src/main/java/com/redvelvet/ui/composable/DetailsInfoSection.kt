@@ -1,10 +1,13 @@
 package com.redvelvet.ui.composable
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -30,6 +33,7 @@ fun DetailsInfoSection(
     voteAverage: Double = 0.0,
     description: String = "",
     isRated: Boolean,
+    mediaType: String,
 ) {
     var showDialog by remember { mutableStateOf(false) }
     var currentRating by remember { mutableFloatStateOf(0f) }
@@ -52,7 +56,7 @@ fun DetailsInfoSection(
             onClickGenre = onClickGenre,
         )
         MediaRateRow(
-            isRated, voteAverage.toString()
+            isRated, mediaType, voteAverage.toString()
         ) {
             onClickRate(
                 id, currentRating.toDouble()
@@ -61,6 +65,7 @@ fun DetailsInfoSection(
                 showDialog = true
             }
         }
+
         if (showDialog) {
             RatingDialog(
                 movieName = name,
