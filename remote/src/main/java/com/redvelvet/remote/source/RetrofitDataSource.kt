@@ -8,6 +8,7 @@ import com.redvelvet.entities.error.ServerException
 import com.redvelvet.entities.error.ValidationException
 import com.redvelvet.remote.service.MovieApiService
 import com.redvelvet.repository.dto.EpisodeSingleItemDto
+import com.redvelvet.repository.dto.GenresDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
@@ -312,6 +313,25 @@ class RetrofitDataSource @Inject constructor(
 
     override suspend fun getTopRatedTv(): List<TvShowDto> {
         return wrapApiResponse { movieApiService.getTopRatedTv() }.result.orEmpty()
+    }
+    //region category
+
+    override suspend fun getMovieCategory(): GenresDto {
+        return wrapApiResponse { movieApiService.genreListMovie() }
+    }
+
+    override suspend fun getTvCategory(): GenresDto {
+        return wrapApiResponse { movieApiService.genreListTv() }
+    }
+
+    override suspend fun getMovieCategoryById(page: Int?, id: Int): List<MovieDetailsDTO> {
+        return wrapApiResponse { movieApiService.discoverListMovie(id, page) }.result
+            ?: throw NullResultException("There is no data")
+    }
+
+    override suspend fun getTvCategoryById(page: Int?, id: Int): List<TvShowDto> {
+        return wrapApiResponse { movieApiService.discoverListTv(id, page) }.result
+            ?: throw NullResultException("There is no data")
     }
     //endregion
 
