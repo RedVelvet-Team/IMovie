@@ -8,9 +8,8 @@ import com.redvelvet.entities.error.ServerException
 import com.redvelvet.entities.error.ValidationException
 import com.redvelvet.remote.service.MovieApiService
 import com.redvelvet.remote.service.TriviaService
-import com.redvelvet.repository.dto.ActorKnownForDto
-import com.redvelvet.repository.dto.QuestionDto
 import com.redvelvet.repository.dto.EpisodeSingleItemDto
+import com.redvelvet.repository.dto.QuestionDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.AccountDetailsDto

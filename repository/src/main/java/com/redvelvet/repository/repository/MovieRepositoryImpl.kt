@@ -87,7 +87,14 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun addPlayer() {
         val accountId = authRepository.getAccountDetailsIdFromLocal() ?: 0
         val username = authRepository.getAccountDetailsUsernameFromLocal() ?: ""
-        realTimeDataSource.addPlayer(Player(accountId, username, 0).toDto())
+        realTimeDataSource.addPlayer(
+            Player(
+                accountId,
+                username,
+                0,
+                avatars.random().toString()
+            ).toDto()
+        )
     }
 
     override suspend fun getHighestScorePlayer(): List<Player> {
@@ -289,19 +296,19 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAiringTodayTv(): List<TvShow> {
-        return remoteDataSource.getAiringTodayTv().map{it.toTvShow()}
+        return remoteDataSource.getAiringTodayTv().map { it.toTvShow() }
     }
 
     override suspend fun getPopularTv(): List<TvShow> {
-        return remoteDataSource.getPopularTv().map{it.toTvShow()}
+        return remoteDataSource.getPopularTv().map { it.toTvShow() }
     }
 
     override suspend fun getOnTheAir(): List<TvShow> {
-        return remoteDataSource.getOnTheAir().map{it.toTvShow()}
+        return remoteDataSource.getOnTheAir().map { it.toTvShow() }
     }
 
     override suspend fun getTopRatedTv(): List<TvShow> {
-        return remoteDataSource.getTopRatedTv().map{it.toTvShow()}
+        return remoteDataSource.getTopRatedTv().map { it.toTvShow() }
     }
 
     override suspend fun getAllSeasons(seriesId: Int): List<SeasonTvShow> {
@@ -341,5 +348,6 @@ class MovieRepositoryImpl @Inject constructor(
     //endregion
     companion object {
         private const val DEFAULT_PAGE_SIZE = 100
+        private val avatars = listOf(2131230911, 2131230912, 2131230913, 2131230914, 2131230915)
     }
 }
