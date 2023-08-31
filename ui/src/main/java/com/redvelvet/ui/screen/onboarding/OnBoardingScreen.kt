@@ -56,7 +56,7 @@ fun OnBoardingScreen(
     }
 // (id = "100", type = SeeAllTvShows.TOP_RATED)
     OnBoardingContent(
-        onClickLogin = { navController.navigateToCinemaRoom() },
+        onClickLogin = { navController.navigateToLogin() },
         onClickSignUp = { navController.navigateToSignUp() }
     )
 }

@@ -7,8 +7,6 @@ import com.redvelvet.repository.dto.BaseResponse
 import com.redvelvet.repository.dto.EpisodeSingleItemDto
 import com.redvelvet.repository.dto.GenresDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
-import com.redvelvet.repository.dto.listAndFavorites.UserListDto
-import com.redvelvet.repository.dto.listAndFavorites.WatchlistDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
@@ -27,14 +25,6 @@ import com.redvelvet.repository.dto.library.rated.user.UserRatedMoviesDto
 import com.redvelvet.repository.dto.library.rated.user.UserRatedTvDto
 import com.redvelvet.repository.dto.library.watchlist.WatchListMovieDto
 import com.redvelvet.repository.dto.library.watchlist.WatchListTvDto
-import com.redvelvet.repository.dto.library.LibraryMovieDto
-import com.redvelvet.repository.dto.library.LibraryTvDto
-import com.redvelvet.repository.dto.listAndFavorites.AddMediaToListDto
-import com.redvelvet.repository.dto.listAndFavorites.CreateUserListDto
-import com.redvelvet.repository.dto.listAndFavorites.DeleteMovieFromListDto
-import com.redvelvet.repository.dto.listAndFavorites.FavoriteRequestDto
-import com.redvelvet.repository.dto.listAndFavorites.ListRemoteDto
-import com.redvelvet.repository.dto.listAndFavorites.ListResponseDto
 import com.redvelvet.repository.dto.auth.response.UserDetailsDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
