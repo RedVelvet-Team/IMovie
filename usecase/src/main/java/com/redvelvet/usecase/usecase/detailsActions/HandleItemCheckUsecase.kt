@@ -1,7 +1,7 @@
 package com.redvelvet.usecase.usecase.detailsActions
 
-import com.redvelvet.entities.library.LibraryMovie
-import com.redvelvet.entities.library.LibraryTv
+
+import com.redvelvet.entities.library.WatchListMedia
 import com.redvelvet.usecase.repository.LibraryRepository
 import com.redvelvet.usecase.repository.UserRepository
 import com.redvelvet.usecase.usecase.auth.GetSavedAccountDetailsIdUsecase
@@ -38,21 +38,21 @@ class HandleItemCheckUsecase @Inject constructor(
     }
 
     fun isItemInMovieList(
-        movieList: List<LibraryMovie>,
+        movieList: WatchListMedia,
         itemId: Int
     ): Boolean {
-        return movieList.run { isNotEmpty() && any { it.id == itemId } }
+        return movieList.data.run { isNotEmpty() && any { it.id == itemId } }
     }
 
     fun isItemInTvList(
-        tvList: List<LibraryTv>,
+        tvList: WatchListMedia,
         itemId: Int
     ): Boolean {
-        return tvList.run { isNotEmpty() && any { it.id == itemId } }
+        return tvList.data.run { isNotEmpty() && any { it.id == itemId } }
     }
 
 
-    suspend fun getTvWatchList(): List<LibraryTv> {
+    suspend fun getTvWatchList(): WatchListMedia {
         return libraryRepository.getWatchlistTv(
             accountId = getAccountId.invoke(),
             userRepository.getUserSessionIdFromLocal()
@@ -60,14 +60,14 @@ class HandleItemCheckUsecase @Inject constructor(
         )
     }
 
-    suspend fun getTvFavorites(): List<LibraryTv> {
+    suspend fun getTvFavorites(): WatchListMedia {
         return libraryRepository.getFavoriteTv(
             accountId = getAccountId.invoke(),
             userRepository.getUserSessionIdFromLocal()
         )
     }
 
-    suspend fun getMovieFavorites(): List<LibraryMovie> {
+    suspend fun getMovieFavorites(): WatchListMedia {
         return libraryRepository.getFavoriteMovies(
             accountId = getAccountId.invoke(),
             userRepository.getUserSessionIdFromLocal()
@@ -75,21 +75,21 @@ class HandleItemCheckUsecase @Inject constructor(
         )
     }
 
-    suspend fun getMovieWatchList(): List<LibraryMovie> {
+    suspend fun getMovieWatchList(): WatchListMedia {
         return libraryRepository.getWatchlistMovie(
             accountId = getAccountId.invoke(),
             userRepository.getUserSessionIdFromLocal()
         )
     }
 
-    suspend fun getRatedMovie(): List<LibraryMovie> {
+    suspend fun getRatedMovie(): WatchListMedia {
         return libraryRepository.getRatedMovies(
             accountId = getAccountId.invoke(),
             userRepository.getUserSessionIdFromLocal()
         )
     }
 
-    suspend fun getRatedTv(): List<LibraryTv> {
+    suspend fun getRatedTv(): WatchListMedia {
         return libraryRepository.getRatedTv(
             accountId = getAccountId.invoke(),
             userRepository.getUserSessionIdFromLocal()

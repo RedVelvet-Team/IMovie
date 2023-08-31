@@ -1,40 +1,39 @@
 package com.redvelvet.usecase.repository
 
-import com.redvelvet.entities.library.LibraryMovie
-import com.redvelvet.entities.library.LibraryTv
+import com.redvelvet.entities.library.WatchListMedia
 
 interface LibraryRepository {
 
     suspend fun getFavoriteMovies(
         accountId: Int,
         sessionId: String,
-    ): List<LibraryMovie>
+    ): WatchListMedia
 
     suspend fun getFavoriteTv(
         accountId: Int,
         sessionId: String,
-    ): List<LibraryTv>
+    ): WatchListMedia
 
 
     suspend fun getWatchlistMovie(
         accountId: Int,
         sessionId: String,
-    ): List<LibraryMovie>
+    ): WatchListMedia
 
     suspend fun getWatchlistTv(
         accountId: Int,
         sessionId: String,
-    ): List<LibraryTv>
+    ): WatchListMedia
 
     suspend fun getRatedMovies(
         accountId: Int,
         sessionId: String,
-    ): List<LibraryMovie>
+    ): WatchListMedia
 
     suspend fun getRatedTv(
         accountId: Int,
         sessionId: String,
-    ): List<LibraryTv>
+    ): WatchListMedia
 
 
 }
