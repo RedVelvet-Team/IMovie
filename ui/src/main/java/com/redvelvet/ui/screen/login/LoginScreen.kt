@@ -187,11 +187,13 @@ private fun LoginContentPortrait(
         )
         PrimaryTextField(
             value = uiState.userName,
+            label="Username",
             modifier = Modifier.padding(
                 top = MaterialTheme.spacing.spacing24, bottom = MaterialTheme.spacing.spacing8
             ),
             isError = uiState.isUserNameEmpty,
             leadingIcon = painterResource(id = R.drawable.icon_user),
+            trailingIcon = null,
             errorMessage = "Invalid Username",
             placeHolderText = "Username",
             onTextChange = interaction::onUserNameChanged
@@ -211,6 +213,7 @@ private fun LoginContentPortrait(
             isError = uiState.isPasswordEmpty,
             errorMessage = "Invalid password",
             placeHolderText = "Password",
+            label="Password",
             onTextChange = interaction::onPasswordChanged
         )
         Text(
@@ -289,7 +292,9 @@ private fun LoginContentLandscape(
             leadingIcon = painterResource(id = R.drawable.icon_user),
             placeHolderText = "Username",
             errorMessage = "Invalid Username",
-            onTextChange = interaction::onUserNameChanged
+            onTextChange = interaction::onUserNameChanged,
+            label = "Username",
+            trailingIcon = null
         )
         val iconPassword = if (uiState.isPasswordVisible) R.drawable.icon_visibility_off
         else R.drawable.icon_visibility_on
@@ -308,7 +313,8 @@ private fun LoginContentLandscape(
             isError = uiState.isPasswordEmpty,
             placeHolderText = "Password",
             errorMessage = "Invalid Password",
-            onTextChange = interaction::onPasswordChanged
+            onTextChange = interaction::onPasswordChanged,
+            label = "Password"
         )
         Text(
             text = "Forgot Password",
