@@ -3,20 +3,28 @@ package com.redvelvet.ui.screen.search
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,7 +35,6 @@ import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.CategoriesChips
 import com.redvelvet.ui.composable.CustomLazyGrid
 import com.redvelvet.ui.composable.FlixMovieScaffold
-import com.redvelvet.ui.composable.PrimaryTextField
 import com.redvelvet.ui.composable.SpacerVertical
 import com.redvelvet.ui.theme.BackgroundPrimary
 import com.redvelvet.ui.theme.FontAccent
@@ -35,6 +42,7 @@ import com.redvelvet.ui.theme.FontPrimary
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
+import com.redvelvet.ui.theme.radius
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.search.SearchUiState
 import com.redvelvet.viewmodel.search.SearchViewModel
@@ -58,7 +66,7 @@ fun SearchScreen(
                 .fillMaxSize()
         ) {
             SearchField(
-                value = state.inputText,
+                valueOfFiled = state.inputText,
                 onTextChange = viewModel::onChangeSearchTextFiled,
                 onClickClear = viewModel::onClickClear
             )
@@ -117,31 +125,55 @@ fun EmptyContent() {
 
 @Composable
 fun SearchField(
-    value: String,
+    valueOfFiled: String,
     onTextChange: (String) -> Unit,
     onClickClear: () -> Unit
 ) {
-    PrimaryTextField(
-        value = value,
-        onTextChange = onTextChange,
+    TextField(
+        value = valueOfFiled,
+        onValueChange = onTextChange,
+        singleLine = true,
+        placeholder = {
+            Text(
+                text = "What do you want to Watch?",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.color.fontSecondary,
+            )
+        },
+        textStyle = TextStyle(color = MaterialTheme.color.fontPrimary),
         modifier = Modifier
+            .fillMaxWidth()
             .focusable(enabled = true)
             .padding(
-            top = MaterialTheme.dimens.dimens36,
-            start = MaterialTheme.spacing.spacing16,
-            end = MaterialTheme.spacing.spacing16
+                top = MaterialTheme.dimens.dimens36,
+                start = MaterialTheme.spacing.spacing16,
+                end = MaterialTheme.spacing.spacing16
+            ),
+        leadingIcon = {
+            Icon(painterResource(id = R.drawable.icon_search), contentDescription = "")
+        },
+        trailingIcon = {
+            Icon(
+                painter = painterResource(R.drawable.icon_cancel),
+                contentDescription = "",
+                modifier = Modifier.clickable { onClickClear() }
+            )
+        },
+        shape = RoundedCornerShape(MaterialTheme.radius.radius16),
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = MaterialTheme.color.backgroundSecondary,
+            unfocusedContainerColor = MaterialTheme.color.backgroundSecondary,
+            disabledContainerColor = MaterialTheme.color.backgroundSecondary,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
         ),
-        leadingIcon = painterResource(id = R.drawable.icon_search),
-        placeHolderText = stringResource(id = R.string.search_place_holder),
-        trailingIcon = painterResource(R.drawable.icon_cancel),
-        onClickTrailingIcon = onClickClear,
-        isError = false,
-        label = null
     )
 }
 
+
 @Preview
 @Composable
-private fun searchPreview(){
-    SearchField("banan",{},{})
+private fun searchPreview() {
+    SearchField("banan", {}, {})
 }
