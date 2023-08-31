@@ -6,29 +6,28 @@ import com.redvelvet.viewmodel.base.ErrorUiState
 data class LibraryUiState(
     val isLoading: Boolean = true,
     val error: ErrorUiState? = null,
-    val data: LibraryData? = null
+    val data: LibraryData? = null,
+    val bottomSheet: Boolean = false
 ) : BaseUiState {
     data class LibraryData(
-        val watchLists: List<WatchList> = emptyList(),
-        val favoritesList: List<LibraryItems> = emptyList(),
-        val historyList: List<LibraryItems> = emptyList()
+        val watchLists: List<CreatedListUiState> = emptyList(),
+        val favoritesList: List<WatchListUiState> = emptyList(),
+        val historyList: List<WatchListUiState> = emptyList()
     ) {
-        data class WatchList(
-            val id: String = "",
-            val name: String = "",
-            val count: Int = 0,
-            val poster: String = ""
+        data class CreatedListUiState(
+            val favoriteCount: Int,
+            val id: Int,
+            val itemCount: Int,
+            val listType: String,
+            val name: String,
+            val posterPath: String
         )
 
-        data class LibraryItems(
-            val id: String = "",
-            val name: String = "",
-            val poster: String = "",
-            val type: Type = Type.MOVIE
+        data class WatchListUiState(
+            val id: Int,
+            val posterPath: String,
+            val name: String,
+            val type: String
         )
     }
-}
-
-enum class Type(val type: String) {
-    MOVIE("movie"), TV("tv")
 }

@@ -2,6 +2,8 @@ package com.redvelvet.ui.screen.library
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -23,16 +25,23 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -46,9 +55,14 @@ import com.redvelvet.ui.composable.LoadingState
 import com.redvelvet.ui.composable.LoginRequired
 import com.redvelvet.ui.composable.NavigationHandler
 import com.redvelvet.ui.composable.NoContent
+import com.redvelvet.ui.composable.PrimaryButton
+import com.redvelvet.ui.navigation.MovieDestination
+import com.redvelvet.ui.screen.login.navigateToLogin
+import com.redvelvet.ui.screen.movieDetails.navigateToMovieDetails
 import com.redvelvet.ui.theme.BackgroundCard
 import com.redvelvet.ui.theme.FontSecondary
 import com.redvelvet.ui.theme.Primary
+import com.redvelvet.ui.theme.Secondary
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
@@ -80,72 +94,119 @@ fun LibraryScreen(libraryViewModel: LibraryViewModel = hiltViewModel()) {
             effects = libraryViewModel.effect,
             handleEffect = { effect, navController ->
                 when (effect) {
-                    is LibraryUiEffect.NavigateToMovie -> {}
-                    is LibraryUiEffect.NavigateToSeeAllFavorites -> {}
-                    is LibraryUiEffect.NavigateToSeeAllHistory -> {}
-                    is LibraryUiEffect.NavigateToSeeAllWatchLists -> {}
+                    is LibraryUiEffect.NavigateToMovie -> {
+                        navController.navigateToMovieDetails("${effect.id}")
+                    }
+
                     is LibraryUiEffect.NavigateToTvShow -> {}
+                    is LibraryUiEffect.NavigateToLibrary -> navController.navigate(MovieDestination.Library.route)
+                    is LibraryUiEffect.NavigateToList -> {}
+                    is LibraryUiEffect.NavigateToLogin -> {
+                        navController.navigateToLogin()
+                    }
                 }
             })
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LibraryScreenContent(state: LibraryUiState, interaction: LibraryUiInteraction) {
-    AnimatedVisibility(visible = state.isLoading) {
+    val modalState = rememberModalBottomSheetState()
+    var isSheetOpen by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var listId by rememberSaveable {
+        mutableIntStateOf(0)
+    }
+    AnimatedVisibility(enter = fadeIn(), exit = fadeOut(), visible = state.isLoading) {
         LoadingState()
     }
-    AnimatedVisibility(visible = !state.isLoading && state.error != null) {
+    AnimatedVisibility(
+        enter = fadeIn(),
+        exit = fadeOut(),
+        visible = !state.isLoading && state.error != null
+    ) {
         when (state.error) {
-            is InvalidationErrorState -> LoginRequired(retryButton = {/*TODO*/ })
-            else -> NoContent {
-                /*TODO*/
+            is InvalidationErrorState -> LoginRequired(retryButton = {
+                PrimaryButton(
+                    onClick = { interaction.onClickLogin() },
+                    text = "Login"
+                )
+            })
+
+            else -> NoContent(
+                title = "Deleted Successfully",
+                "Navigate back to Library"
+            ) {
+                PrimaryButton(onClick = { interaction.onClickGotoLibrary() }, text = "Goto Library")
             }
         }
     }
-    AnimatedVisibility(visible = !state.isLoading && state.error == null) {
+    AnimatedVisibility(
+        enter = fadeIn(), exit = fadeOut(),
+        visible = !state.isLoading && state.error == null
+    ) {
         if (state.data != null) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = MaterialTheme.dimens.dimens80)
+                    .padding(
+                        top = MaterialTheme.dimens.dimens80,
+                        bottom = MaterialTheme.dimens.dimens70
+                    )
             ) {
                 item {
                     LibrarySectionsHeader(
-                        onClickGo = { interaction.onClickSeeAllWatchLists() },
-                        R.drawable.icon_laylist,
-                        "WatchLists",
-                        false,
+                        icon = R.drawable.icon_laylist,
+                        head = "WatchLists",
+                        hasSub = false,
                     )
                 }
                 item {
                     WatchListsSection(
                         state.data!!.watchLists,
-                        onClickPlayList = { interaction.onClickPlayList() },
-                        onMenuClick = { interaction.onMenuClick() }
-                    ) { interaction.onClickAddPlayList() }
+                        onClickPlayList = { interaction.onClickPlayList(it) },
+                        onMenuClick = {
+                            listId = it
+                            isSheetOpen = !isSheetOpen
+                        },
+                    ) { interaction.onClickAddPlayList("Action Movies") }
                 }
                 item {
                     LibrarySectionsHeader(
-                        onClickGo = { interaction.onClickSeeAllFavorites() },
-                        R.drawable.icon_favorite,
-                        "Favorites",
-                        state.data!!.favoritesList.isEmpty(),
+                        icon = R.drawable.icon_favorite,
+                        head = "Favorites",
+                        hasSub = state.data!!.favoritesList.isEmpty(),
                     )
                 }
                 item {
                     FavItem(state.data!!.favoritesList) {
-                        interaction.onClickFavItem()
+                        interaction.onClickFavItem(it)
                     }
                 }
-                item {
-                    LibrarySectionsHeader(
-                        onClickGo = { interaction.onClickSeeAllHistory() },
-                        R.drawable.icon_history,
-                        "History",
-                        state.data!!.historyList.isEmpty(),
-                    )
-                }
+            }
+        }
+    }
+    AnimatedVisibility(visible = isSheetOpen) {
+        ModalBottomSheet(
+            containerColor = Secondary,
+            sheetState = modalState,
+            onDismissRequest = { isSheetOpen = !isSheetOpen },
+            shape = RoundedCornerShape(
+                topStart = MaterialTheme.dimens.dimens16,
+                topEnd = MaterialTheme.dimens.dimens16
+            )
+        ) {
+            Column(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.dimens16)) {
+                BottomSheetItem(onClick = {
+                    interaction.onClearList(listId)
+                    isSheetOpen = false
+                }, title = "Clear List", Color.White, R.drawable.icon_delete)
+                BottomSheetItem(onClick = {
+                    interaction.onDeleteList(listId)
+                    isSheetOpen = false
+                }, title = "Delete List", Color.Red, R.drawable.icon_delete)
             }
         }
     }
@@ -153,9 +214,9 @@ fun LibraryScreenContent(state: LibraryUiState, interaction: LibraryUiInteractio
 
 @Composable
 fun WatchListsSection(
-    lists: List<LibraryUiState.LibraryData.WatchList>,
-    onClickPlayList: () -> Unit,
-    onMenuClick: () -> Unit,
+    lists: List<LibraryUiState.LibraryData.CreatedListUiState>,
+    onClickPlayList: (Int) -> Unit,
+    onMenuClick: (Int) -> Unit,
     onClickAddPlayList: () -> Unit
 ) {
     LazyRow(
@@ -167,7 +228,9 @@ fun WatchListsSection(
     ) {
         items(lists.size) {
             AnimatedVisibility(visible = lists.isNotEmpty()) {
-                PlayListItem(lists[it], onClickPlayList, onMenuClick)
+                PlayListItem(lists[it], { onClickPlayList(lists[it].id) }) { id ->
+                    onMenuClick(id)
+                }
             }
         }
         item {
@@ -201,76 +264,78 @@ fun WatchListsSection(
 
 @Composable
 fun PlayListItem(
-    item: LibraryUiState.LibraryData.WatchList,
-    onClickPlayList: () -> Unit,
-    onMenuClick: () -> Unit
+    item: LibraryUiState.LibraryData.CreatedListUiState,
+    onClickPlayList: (Int) -> Unit,
+    onMenuClick: (Int) -> Unit
 ) {
-    Column(modifier = Modifier.width(MaterialTheme.dimens.dimens140)) {
-        Card(
-            modifier = Modifier
-                .height(MaterialTheme.dimens.dimens100)
-                .width(MaterialTheme.dimens.dimens140)
-                .padding(bottom = MaterialTheme.dimens.dimens4)
-                .clickable { onClickPlayList() },
-            colors = CardDefaults.cardColors(containerColor = BackgroundCard),
-            shape = RoundedCornerShape(CornerSize(MaterialTheme.dimens.dimens16)),
-        ) {
-            Box(
-                modifier = Modifier.fillMaxSize()
+    AnimatedVisibility(visible = true, enter = fadeIn(), exit = fadeOut()) {
+        Column(modifier = Modifier.width(MaterialTheme.dimens.dimens140)) {
+            Card(
+                modifier = Modifier
+                    .height(MaterialTheme.dimens.dimens100)
+                    .width(MaterialTheme.dimens.dimens140)
+                    .padding(bottom = MaterialTheme.dimens.dimens4)
+                    .clickable { onClickPlayList(item.id) },
+                colors = CardDefaults.cardColors(containerColor = BackgroundCard),
+                shape = RoundedCornerShape(CornerSize(MaterialTheme.dimens.dimens16)),
             ) {
-                Image(
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.FillBounds,
-                    painter = rememberAsyncImagePainter(
-                        model = item.poster, placeholder = painterResource(
-                            id = R.drawable.image_placeholder
-                        )
-                    ),
-                    contentDescription = "",
-                )
-                Card(
-                    modifier = Modifier
-                        .background(Color.White)
-                        .fillMaxHeight(0.4f)
-                ) {}
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = MaterialTheme.dimens.dimens12)
-                        .padding(bottom = MaterialTheme.dimens.dimens4)
-                        .align(Alignment.BottomCenter),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                Box(
+                    modifier = Modifier.fillMaxSize()
                 ) {
-                    Text(
-                        text = "${item.count} video", style = Typography.displaySmall
+                    Image(
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.FillBounds,
+                        painter = rememberAsyncImagePainter(
+                            model = item.posterPath, placeholder = painterResource(
+                                id = R.drawable.image_placeholder
+                            )
+                        ),
+                        contentDescription = "",
                     )
+                    Card(
+                        modifier = Modifier
+                            .background(Color.White)
+                            .fillMaxHeight(0.4f)
+                    ) {}
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = MaterialTheme.dimens.dimens12)
+                            .padding(bottom = MaterialTheme.dimens.dimens4)
+                            .align(Alignment.BottomCenter),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "${item.itemCount} video", style = Typography.displaySmall
+                        )
+                        Image(
+                            modifier = Modifier,
+                            painter = painterResource(id = R.drawable.icon_laylist),
+                            contentDescription = ""
+                        )
+                    }
+                }
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = item.name,
+                    style = Typography.labelMedium,
+                    color = FontSecondary,
+                    maxLines = 2,
+                    modifier = Modifier.fillMaxWidth(0.9f)
+                )
+                IconButton(onClick = { onMenuClick(item.id) }) {
                     Image(
                         modifier = Modifier,
-                        painter = painterResource(id = R.drawable.icon_laylist),
+                        painter = painterResource(id = R.drawable.menu_dots),
                         contentDescription = ""
                     )
                 }
-            }
-        }
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = item.name,
-                style = Typography.labelMedium,
-                color = FontSecondary,
-                maxLines = 2,
-                modifier = Modifier.fillMaxWidth(0.9f)
-            )
-            IconButton(onClick = { onMenuClick() }) {
-                Image(
-                    modifier = Modifier,
-                    painter = painterResource(id = R.drawable.menu_dots),
-                    contentDescription = ""
-                )
             }
         }
     }
@@ -278,8 +343,8 @@ fun PlayListItem(
 
 @Composable
 fun FavItem(
-    list: List<LibraryUiState.LibraryData.LibraryItems>,
-    onClickFavItem: () -> Unit
+    list: List<LibraryUiState.LibraryData.WatchListUiState>,
+    onClickFavItem: (Int) -> Unit
 ) {
     LazyRow(
         modifier = Modifier
@@ -295,13 +360,13 @@ fun FavItem(
                         .height(MaterialTheme.dimens.dimens100)
                         .width(MaterialTheme.dimens.dimens140)
                         .padding(bottom = MaterialTheme.dimens.dimens4)
-                        .clickable { onClickFavItem() },
+                        .clickable { onClickFavItem(list[it].id) },
                     colors = CardDefaults.cardColors(containerColor = BackgroundCard),
                     shape = RoundedCornerShape(CornerSize(MaterialTheme.dimens.dimens16)),
                 ) {
                     Image(
                         contentScale = ContentScale.Crop, painter = rememberAsyncImagePainter(
-                            model = list[it].poster,
+                            model = list[it].posterPath,
                             placeholder = painterResource(id = R.drawable.image_placeholder)
                         ), modifier = Modifier.fillMaxSize(), contentDescription = ""
                     )
@@ -318,7 +383,6 @@ fun FavItem(
 
 @Composable
 fun LibrarySectionsHeader(
-    onClickGo: () -> Unit,
     icon: Int,
     head: String,
     hasSub: Boolean = true,
@@ -336,19 +400,7 @@ fun LibrarySectionsHeader(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         HeaderLabel(icon, head, hasSub, subTitle)
-        GoTOIcon { onClickGo() }
     }
-}
-
-@Composable
-fun GoTOIcon(onClickGo: () -> Unit) {
-    Image(
-        modifier = Modifier
-            .rotate(180f)
-            .clickable { onClickGo() },
-        painter = painterResource(id = R.drawable.icon_back),
-        contentDescription = ""
-    )
 }
 
 @Composable
@@ -373,6 +425,25 @@ fun HeaderLabel(icon: Int, head: String, hasSub: Boolean = false, subTitle: Stri
                     text = subTitle, style = Typography.titleSmall, color = FontSecondary
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun BottomSheetItem(onClick: () -> Unit, title: String, color: Color, icon: Int) {
+    Row(
+        modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(text = title, color = color)
+        IconButton(
+            onClick = { onClick() },
+            colors = IconButtonDefaults.iconButtonColors(contentColor = color)
+        ) {
+            Image(
+                painter = painterResource(id = icon),
+                contentDescription = ""
+            )
         }
     }
 }
