@@ -1,21 +1,22 @@
 package com.redvelvet.viewmodel.library
 
-import com.redvelvet.entities.library.WatchListMedia
+import com.redvelvet.entities.library.LibraryDetails
 
-fun WatchListMedia.Data.toUiStateModel(): LibraryUiState.LibraryData.LibraryItems {
-    return LibraryUiState.LibraryData.LibraryItems(
-        id = this.id.toString(),
-        name = this.name,
-        poster = this.posterPath,
-        type = Type.MOVIE
-    )
-}
-
-fun WatchListMedia.Data.toUiState(): LibraryUiState.LibraryData.LibraryItems {
-    return LibraryUiState.LibraryData.LibraryItems(
-        id = this.id.toString(),
-        name = this.name,
-        poster = this.posterPath,
-        type = Type.TV
+fun LibraryDetails.toUiState(): LibraryUiState {
+    return LibraryUiState(isLoading = true,
+        error = null,
+        data = LibraryUiState.LibraryData(watchLists = this.createdLists.results.map {
+            LibraryUiState.LibraryData.CreatedListUiState(
+                it.favoriteCount, it.id, it.itemCount, it.listType, it.name, it.posterPath
+            )
+        }, favoritesList = this.movieFavorites.data.map {
+            LibraryUiState.LibraryData.WatchListUiState(
+                it.id, it.posterPath, it.name, it.type.name
+            )
+        } + this.tvFavorites.data.map {
+            LibraryUiState.LibraryData.WatchListUiState(
+                it.id, it.posterPath, it.name, it.type.name
+            )
+        })
     )
 }

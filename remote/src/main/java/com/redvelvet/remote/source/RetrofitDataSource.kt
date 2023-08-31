@@ -2,6 +2,7 @@ package com.redvelvet.remote.source
 
 import android.util.Log
 import com.redvelvet.entities.error.BadRequestException
+import com.redvelvet.entities.error.DeleteException
 import com.redvelvet.entities.error.NoInternetException
 import com.redvelvet.entities.error.NotFoundException
 import com.redvelvet.entities.error.NullResultException
@@ -25,6 +26,7 @@ import com.redvelvet.repository.dto.library.favorite.MovieFavoriteListDto
 import com.redvelvet.repository.dto.library.favorite.TvFavoriteListDto
 import com.redvelvet.repository.dto.library.list.CreateListRequestDto
 import com.redvelvet.repository.dto.library.list.CreateListResponseDto
+import com.redvelvet.repository.dto.library.list.CreatedListsDto
 import com.redvelvet.repository.dto.library.list.ToggleMediaInListDto
 import com.redvelvet.repository.dto.library.rated.user.UserRatedMoviesDto
 import com.redvelvet.repository.dto.library.rated.user.UserRatedTvDto
@@ -265,6 +267,7 @@ class RetrofitDataSource @Inject constructor(
                     400 -> BadRequestException(response.message())
                     401 -> ValidationException("Invalid username or password")
                     404 -> NotFoundException("Not found")
+                    500 -> DeleteException("Deleted Successfully")
                     else -> ServerException("Server error")
                 }
             }
@@ -501,10 +504,12 @@ class RetrofitDataSource @Inject constructor(
     }
 
     override suspend fun createList(
-        name: String
+        name: String,
+        sessionId: String
     ): CreateListResponseDto {
         return wrapApiResponse {
             movieApiService.createNewList(
+                sessionId = sessionId,
                 listRequest = CreateListRequestDto(name)
             )
         }
@@ -560,6 +565,8 @@ class RetrofitDataSource @Inject constructor(
         return wrapApiResponse { movieApiService.getAccountDetails(sessionId) }
     }
 
-
+    override suspend fun getCreatedLists(accountId: Int, sessionId: String): CreatedListsDto {
+        return wrapApiResponse { movieApiService.getCreatedLists(accountId, sessionId) }
+    }
 }
 

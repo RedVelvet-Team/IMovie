@@ -2,7 +2,9 @@ package com.redvelvet.repository.repository
 
 import com.redvelvet.entities.library.StatusEntity
 import com.redvelvet.entities.library.list.CreateListResponse
+import com.redvelvet.entities.library.list.CreatedLists
 import com.redvelvet.repository.mapper.toCreateList
+import com.redvelvet.repository.mapper.toDomain
 import com.redvelvet.repository.mapper.toStatusEntity
 import com.redvelvet.repository.source.RemoteDataSource
 import com.redvelvet.usecase.repository.LibraryListsRepository
@@ -14,8 +16,9 @@ class LibraryListRepositoryImpl @Inject constructor(
 
     override suspend fun createList(
         name: String,
+        sessionId: String
     ): CreateListResponse {
-        return remoteDataSource.createList(name).toCreateList()
+        return remoteDataSource.createList(name, sessionId).toCreateList()
     }
 
     override suspend fun addMediaToList(listId: Int, mediaId: Int): StatusEntity {
@@ -38,4 +41,7 @@ class LibraryListRepositoryImpl @Inject constructor(
         return remoteDataSource.clearList(listId).toStatusEntity()
     }
 
+    override suspend fun getLists(accountId: Int, sessionId: String): CreatedLists {
+        return remoteDataSource.getCreatedLists(accountId, sessionId).toDomain()
+    }
 }
