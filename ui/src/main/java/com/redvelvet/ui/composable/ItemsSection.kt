@@ -13,7 +13,9 @@ import androidx.compose.ui.Modifier
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.home.ItemsUiState
+import com.redvelvet.viewmodel.utils.MediaType
 import com.redvelvet.viewmodel.utils.SeeAllMovie
+import com.redvelvet.viewmodel.utils.SeeAllTvShows
 
 @Composable
 fun ItemsSection(
@@ -21,15 +23,21 @@ fun ItemsSection(
     hasName: Boolean = false,
     hasDateAndCountry: Boolean = false,
     seeAllMovie: SeeAllMovie,
-    onClickSeeAll: (SeeAllMovie) -> Unit = {},
+    onClickSeeAllMovie: (SeeAllMovie) -> Unit = {},
     onClickItem: (String) -> Unit,
-    items: ItemsUiState
+    items: ItemsUiState,
+    onClickSeeAllTv: (SeeAllTvShows) -> Unit = {},
+    type: MediaType,
+    seeAllTv: SeeAllTvShows
 ) {
     SectionHeader(
         label = items.title,
         modifier = modifier,
-        onClickSeeAll = onClickSeeAll,
-        seeAllMovie = seeAllMovie
+        onClickSeeAllMovie = onClickSeeAllMovie,
+        onClickSeeAllTv = onClickSeeAllTv,
+        type = type,
+        seeAllMovie = seeAllMovie,
+        seeAllTv = seeAllTv,
     )
     LazyRow(
         modifier = Modifier.padding(top = MaterialTheme.spacing.spacing8),

@@ -5,6 +5,7 @@ import com.redvelvet.entities.movie.details.MovieDetails
 import com.redvelvet.viewmodel.base.BaseUiState
 import com.redvelvet.viewmodel.base.ErrorUiState
 import com.redvelvet.viewmodel.utils.Constants.BASE_IMAGE_URL
+import com.redvelvet.viewmodel.utils.MediaType
 
 data class HomeUiState(
     val movieCategories: List<ItemsUiState> = emptyList(),

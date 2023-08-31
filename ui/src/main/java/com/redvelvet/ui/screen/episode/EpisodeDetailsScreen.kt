@@ -75,7 +75,9 @@ import com.redvelvet.viewmodel.episode.EpisodeDetailsInteraction
 import com.redvelvet.viewmodel.episode.EpisodeDetailsUiEffect
 import com.redvelvet.viewmodel.episode.EpisodeDetailsUiState
 import com.redvelvet.viewmodel.episode.EpisodeDetailsViewModel
+import com.redvelvet.viewmodel.utils.MediaType
 import com.redvelvet.viewmodel.utils.SeeAllMovie
+import com.redvelvet.viewmodel.utils.SeeAllTvShows
 
 private const val IMAGE_HEIGHT = 250
 @Composable
@@ -222,11 +224,12 @@ fun EpisodeDetailsContent(state: EpisodeDetailsUiState, interaction: EpisodeDeta
                     item { Details(state) }
                     item {
                         SectionHeader(
+                            modifier = Modifier.padding(top = 16.dp),
                             label = "TopCast",
-                            seeAllMovie = SeeAllMovie.TOP_CAST,
-                            onClickSeeAll = {
+                            onClickSeeAllMovie = {
                                 interaction.onClickTopCastSeeAll("${state.data?.episodeCast?.id}")
-                            }, modifier = Modifier.padding(top = 16.dp)
+                            }, seeAllMovie = SeeAllMovie.TOP_CAST, onClickSeeAllTv = {  },
+                                    type = MediaType.MOVIE, seeAllTv = SeeAllTvShows.POPULAR
                         )
                     }
                     item {
@@ -261,12 +264,15 @@ fun EpisodeDetailsContent(state: EpisodeDetailsUiState, interaction: EpisodeDeta
                     }
                     item {
                         SectionHeader(
+                            modifier = Modifier.padding(top = 16.dp),
                             label = "Episode Images",
-                            seeAllMovie = SeeAllMovie.TOP_CAST,
-                            onClickSeeAll = {
+                            onClickSeeAllMovie = {
                                 interaction.onCLickImagesSeeAll("0")
                             },
-                            modifier = Modifier.padding(top = 16.dp)
+                            seeAllMovie = SeeAllMovie.TOP_CAST,
+                            onClickSeeAllTv = {},
+                            type = MediaType.MOVIE,
+                            seeAllTv = SeeAllTvShows.ON_TV
                         )
                     }
                     item {
