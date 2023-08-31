@@ -31,7 +31,7 @@ fun ImageAndText(
     contentDescription: String,
     title: String,
     description: String,
-    onClick:()->Unit
+    onClick:()->Unit = {}
 ) {
     val shape = RoundedCornerShape(MaterialTheme.radius.radius16)
     val height = MaterialTheme.spacing.spacing200

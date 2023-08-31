@@ -25,17 +25,18 @@ import com.redvelvet.ui.theme.spacing
 @Composable
 fun GameItem(
     modifier: Modifier,
-    onClick: () -> Unit,
+    onClick: () -> Unit = {},
     icon: ImageVector,
     title: String,
     description: String
 ) {
     Row(
         modifier = Modifier
-            .clip(RoundedCornerShape(MaterialTheme.radius.radius12))
-            .background(MaterialTheme.color.backgroundSecondary)
             .fillMaxWidth()
             .wrapContentHeight()
+            .clip(RoundedCornerShape(MaterialTheme.radius.radius12))
+            .background(MaterialTheme.color.backgroundSecondary)
+            .then(modifier)
     ) {
         Column(
             modifier = Modifier

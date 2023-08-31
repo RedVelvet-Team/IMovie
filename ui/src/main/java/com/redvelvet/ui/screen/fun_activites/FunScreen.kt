@@ -6,10 +6,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -24,12 +22,12 @@ import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.composable.GameItem
 import com.redvelvet.ui.composable.ImageAndText
 import com.redvelvet.ui.composable.SpacerVertical
-import com.redvelvet.ui.screen.room.navigateToCinemaRoom
+import com.redvelvet.ui.screen.game.navigateToGameDetailsScreen
+import com.redvelvet.ui.screen.upcoming.navigateToUpcoming
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
-import com.redvelvet.ui.util.launchCollectLatest
-import com.redvelvet.viewmodel.fun_activities.FunActivitiesUiEffect
 import com.redvelvet.viewmodel.fun_activities.FunActivitiesViewModel
+import com.redvelvet.viewmodel.utils.MediaType
 
 @Composable
 fun FunScreen(
@@ -39,24 +37,14 @@ fun FunScreen(
     val navController = LocalNavController.current
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(Color.Transparent)
-    val scope = rememberCoroutineScope()
-    LaunchedEffect(key1 = Unit) {
-        scope.launchCollectLatest(viewModel.effect) { effect ->
-            when (effect) {
-                is FunActivitiesUiEffect.NavigateToCinemaRoom -> {
-                    navController.navigateToCinemaRoom()
-                }
-            }
-        }
-    }
-    FunContent({}, {})
+    FunContent()
 }
 
 @Composable
 fun FunContent(
-    onClickRoomItem: () -> Unit,
-    onClickGameItem: () -> Unit
 ) {
+    val navController = LocalNavController.current
+
     FlixMovieScaffold(
         isLoading = false,
         title = "Fun Activities",
@@ -82,10 +70,9 @@ fun FunContent(
                 contentDescription = "room placeholder",
                 title = "Share the Entertainment!",
                 description = "You can create a room and invite your friends to watch movies together :)",
-                onClick = onClickRoomItem,
                 modifier = Modifier
                     .padding(top = MaterialTheme.spacing.spacing4)
-                    .clickable { true }
+                    .clickable { navController.navigateToUpcoming() }
             )
             Column(
                 modifier = Modifier.padding(
@@ -104,8 +91,7 @@ fun FunContent(
                         .padding(
                             top = MaterialTheme.spacing.spacing12,
                         )
-                        .clickable { true },
-                    onClick = onClickGameItem,
+                        .clickable { navController.navigateToGameDetailsScreen(MediaType.MOVIE) },
                     icon = ImageVector.vectorResource(R.drawable.ic_movie),
                     title = "Guess The Movie",
                     description = "In this game, we will show you a set of questions about movies, and you will have multiple options, and you have to choose a correct answer from among them"
@@ -113,8 +99,7 @@ fun FunContent(
                 SpacerVertical(height = MaterialTheme.spacing.spacing12)
                 GameItem(
                     modifier = Modifier
-                        .clickable { true },
-                    onClick = onClickGameItem,
+                        .clickable { navController.navigateToGameDetailsScreen(MediaType.TV) },
                     icon = ImageVector.vectorResource(R.drawable.ic_tv),
                     title = "Guess The TV Show",
                     description = "In this game, we will show you a set of questions about Tv shows, and you will have multiple options, and you have to choose a correct answer from among them"

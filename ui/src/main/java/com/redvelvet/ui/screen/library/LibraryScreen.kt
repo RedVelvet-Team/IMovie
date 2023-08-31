@@ -287,7 +287,7 @@ fun PlayListItem(
                         contentScale = ContentScale.FillBounds,
                         painter = rememberAsyncImagePainter(
                             model = item.posterPath, placeholder = painterResource(
-                                id = R.drawable.image_placeholder
+                                id = R.drawable.room_placeholder
                             )
                         ),
                         contentDescription = "",
@@ -367,7 +367,7 @@ fun FavItem(
                     Image(
                         contentScale = ContentScale.Crop, painter = rememberAsyncImagePainter(
                             model = list[it].posterPath,
-                            placeholder = painterResource(id = R.drawable.image_placeholder)
+                            placeholder = painterResource(id = R.drawable.room_placeholder)
                         ), modifier = Modifier.fillMaxSize(), contentDescription = ""
                     )
                 }
