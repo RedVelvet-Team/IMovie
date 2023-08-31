@@ -24,7 +24,8 @@ import com.redvelvet.ui.theme.spacing
 
 @Composable
 fun GameItem(
-    onClickItem: () -> Unit,
+    modifier: Modifier,
+    onClick: () -> Unit,
     icon: ImageVector,
     title: String,
     description: String
@@ -75,15 +76,4 @@ fun GameItem(
             )
         }
     }
-}
-
-@Preview()
-@Composable
-fun PreviewFunItem() {
-    GameItem(
-        {},
-        icon = ImageVector.vectorResource(R.drawable.ic_movie),
-        title = "dddddgggdgdgdhth",
-        description = "ijijojojiojiiiiiiiiiouhgtfrdtesessrsujrdfytgyhujkilohgsasdgfghjhjlk"
-    )
 }
