@@ -6,5 +6,5 @@ data class LibraryTv(
     val overview: String,
     val posterPath: String,
     val firstAirDate: String,
-    val name: String,
+    val name: String
 )

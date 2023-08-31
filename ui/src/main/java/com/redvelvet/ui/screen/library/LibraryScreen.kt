@@ -1,6 +1,9 @@
 package com.redvelvet.ui.screen.library
 
-import androidx.compose.foundation.BorderStroke
+import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -9,7 +12,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,417 +21,240 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowForwardIos
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.AbsoluteAlignment
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.FilxTopAppBar
+import com.redvelvet.ui.composable.LoadingState
+import com.redvelvet.ui.composable.LoginRequired
+import com.redvelvet.ui.composable.NavigationHandler
+import com.redvelvet.ui.composable.NoContent
 import com.redvelvet.ui.composable.PrimaryButton
-import com.redvelvet.ui.composable.PrimaryTextField
-import com.redvelvet.ui.theme.BackgroundOnSecondary
-import com.redvelvet.ui.theme.BackgroundSecondary
-import com.redvelvet.ui.theme.Montserrat
-import com.redvelvet.ui.theme.RoundedShape
+import com.redvelvet.ui.navigation.MovieDestination
+import com.redvelvet.ui.screen.login.navigateToLogin
+import com.redvelvet.ui.screen.movieDetails.navigateToMovieDetails
+import com.redvelvet.ui.theme.BackgroundCard
+import com.redvelvet.ui.theme.FontSecondary
+import com.redvelvet.ui.theme.Primary
+import com.redvelvet.ui.theme.Secondary
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
-import com.redvelvet.ui.theme.radius
-import com.redvelvet.ui.theme.spacing
+import com.redvelvet.viewmodel.base.InvalidationErrorState
+import com.redvelvet.viewmodel.library.LibraryUiEffect
+import com.redvelvet.viewmodel.library.LibraryUiInteraction
+import com.redvelvet.viewmodel.library.LibraryUiState
+import com.redvelvet.viewmodel.library.LibraryViewModel
 
+
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun LibraryScreen() {
+fun LibraryScreen(libraryViewModel: LibraryViewModel = hiltViewModel()) {
+    val state by libraryViewModel.state.collectAsState()
+    rememberSystemUiController().setSystemBarsColor(Primary, darkIcons = false)
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             FilxTopAppBar(
-                title = "Library", hasBackArrow = false, modifier = Modifier.fillMaxWidth()
+                title = stringResource(id = R.string.library_title_screen),
+                hasBackArrow = false,
+                modifier = Modifier.fillMaxWidth()
             )
         },
         containerColor = MaterialTheme.color.backgroundPrimary,
-    ) { paddingValues ->
-//        LibraryContent(paddingValues = paddingValues)
-        WatchListDetailsScreen(paddingValues = paddingValues)
-    }
+    ) { _ ->
+        LibraryScreenContent(state, libraryViewModel)
+        NavigationHandler(
+            effects = libraryViewModel.effect,
+            handleEffect = { effect, navController ->
+                when (effect) {
+                    is LibraryUiEffect.NavigateToMovie -> {
+                        navController.navigateToMovieDetails("${effect.id}")
+                    }
 
-}
-
-@Composable
-private fun LibraryContent(paddingValues: PaddingValues) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues)
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        WatchListScreen()
-//        SectionCard(
-//            title = "WatchList",
-//            iconId = R.drawable.icon_laylist,
-//            isWatchList = true,
-//            showBlur = true,
-//            isEmpty = false
-//        )
-//        SectionCard(
-//            title = "Favorites",
-//            iconId = R.drawable.icon_favorite,
-//            isEmpty = false
-//        )
-//        SectionCard(
-//            title = "History",
-//            iconId = R.drawable.icon_history,
-//            isEmpty = true
-//        )
-    }
-}
-
-@Composable
-fun LoginState() {
-    Image(
-        painter = painterResource(id = R.drawable.library_logo),
-        contentDescription = "library logo"
-    )
-    Text(
-        text = "Login Required",
-        style = Typography.headlineLarge.copy(color = MaterialTheme.color.fontPrimary),
-        modifier = Modifier.padding(top = MaterialTheme.spacing.spacing32),
-        textAlign = TextAlign.Center,
-    )
-    Text(
-        text = "Use your account to enjoy the best app experience.",
-        style = Typography.titleSmall.copy(color = MaterialTheme.color.fontSecondary),
-        modifier = Modifier.padding(top = MaterialTheme.spacing.spacing4),
-        textAlign = TextAlign.Center,
-    )
-
-    Column(
-        modifier = Modifier.padding(top = MaterialTheme.spacing.spacing32)
-    ) {
-        PrimaryButton(
-            text = "Login",
-            onClick = { /*TODO*/ },
-        )
-    }
-}
-
-@Composable
-fun WatchListScreen() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .align(Alignment.Center),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.library_logo),
-                contentDescription = "library Empty"
-            )
-            Text(
-                text = "Currently Empty",
-                style = Typography.headlineLarge.copy(color = MaterialTheme.color.fontPrimary),
-                modifier = Modifier.padding(top = MaterialTheme.spacing.spacing32),
-                textAlign = TextAlign.Center,
-            )
-            Text(
-                text = "Enjoy adding movies and TV shows to your Watchlist and get ready for an enjoyable viewing experience!",
-                style = Typography.titleSmall.copy(color = MaterialTheme.color.fontSecondary),
-                modifier = Modifier.padding(top = MaterialTheme.spacing.spacing4),
-                textAlign = TextAlign.Center,
-            )
-        }
-
-        FloatingActionButton(
-            onClick = { /*TODO*/ },
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .clip(RoundedCornerShape(32.dp)),
-            containerColor = MaterialTheme.color.brand100,
-            contentColor = Color.White
-        ) {
-            Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
-        }
-    }
-}
-
-@Composable
-fun WatchListDetailsScreen(paddingValues : PaddingValues) {
-    LazyColumn() {
-        items(10) {
-            MovieItemCard()
-        }
-    }
-}
-
-@Composable
-fun MovieItemCard() {
-    Row(
-        modifier = Modifier.padding(8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(modifier = Modifier.size(150.dp)) {
-            Image(
-                painter = rememberAsyncImagePainter(model = R.drawable.wallpaper),
-                contentDescription = stringResource(R.string.poster),
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
-            )
-            Icon(
-                imageVector = Icons.Default.PlayArrow,
-                contentDescription = "Play Icon",
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .size(32.dp)
-                    .background(Color.Black.copy(alpha = 0.5f), shape = CircleShape)
-            )
-            Text(
-                text = "03:20",
-                color = Color.White,
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(4.dp)
-                    .background(Color.Black.copy(alpha = 0.5f), shape = RoundedCornerShape(4.dp))
-                    .padding(horizontal = 4.dp, vertical = 2.dp)
-            )
-        }
-
-        Spacer(modifier = Modifier.width(8.dp))
-
-        Column(
-            modifier = Modifier
-                .padding(start = 8.dp)
-                .weight(1f)
-        ) {
-            Text(text = "Movie Title", fontWeight = FontWeight.Bold)
-            Text(
-                text = "Shaun Murphy, a young surgeon with autism and savant syndrome, relocates from a quiet country life to join a prestigious hospital's surgical unit. Unable to personally connect with those around him, ..",
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
-    }
-}
-
-@Composable
-fun AddNewListDialog(
-    value: String,
-    onTextChange: (String) -> Unit,
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .background(MaterialTheme.color.backgroundPrimary),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Create a new list",
-            fontFamily = Montserrat,
-            fontSize = 14.sp,
-            fontWeight = FontWeight.SemiBold,
-            color = Color.White,
-            textAlign = TextAlign.Center
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = "Create a new list and keep track of your movies that you want to access easily",
-            fontFamily = Montserrat,
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Normal,
-            color = MaterialTheme.color.fontSecondary,
-            textAlign = TextAlign.Center
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        PrimaryTextField(
-            value = value,
-            onTextChange = onTextChange,
-            placeHolderText = "Add new List",
-            isError = false
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Button(
-                modifier = Modifier
-                    .height(MaterialTheme.dimens.dimens56),
-                onClick = { },
-                colors = ButtonDefaults.buttonColors(MaterialTheme.color.backgroundPrimary),
-                shape = RoundedCornerShape(MaterialTheme.radius.radius16),
-                enabled = true,
-                border = BorderStroke(2.dp, MaterialTheme.color.brand100)
-            ) {
-                Text(
-                    text = "Cancel",
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(MaterialTheme.spacing.spacing4),
-                    style = Typography.headlineMedium.copy(color = MaterialTheme.color.fontSecondary)
-                )
-            }
-            Spacer(modifier = Modifier.width(8.dp))
-            Button(
-                modifier = Modifier
-                    .height(MaterialTheme.dimens.dimens56),
-                onClick = { },
-                colors = ButtonDefaults.buttonColors(MaterialTheme.color.brand100),
-                shape = RoundedCornerShape(MaterialTheme.radius.radius16),
-                enabled = true,
-            ) {
-                Text(
-                    text = "Confirm",
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(MaterialTheme.spacing.spacing4),
-                    style = Typography.headlineMedium.copy(color = MaterialTheme.color.fontSecondary)
-                )
-            }
-        }
-
-    }
-}
-
-
-@Composable
-fun SectionCard(
-    title: String,
-    iconId: Int,
-    isWatchList: Boolean = false,
-    showBlur: Boolean = false,
-    isEmpty: Boolean
-) {
-    Column(
-        modifier = Modifier.height(166.dp),
-
-        ) {
-        Row(
-            modifier = Modifier.height(24.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                modifier = Modifier.size(24.dp),
-                painter = painterResource(id = iconId),
-                contentDescription = null
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                text = title,
-                modifier = Modifier.weight(1f),
-                color = Color.White,
-                fontSize = 18.sp
-            )
-            Icon(
-                modifier = Modifier.size(16.dp),
-                imageVector = Icons.Default.ArrowForwardIos,
-                contentDescription = null
-            )
-        }
-        if (isEmpty) {
-            Row(
-                Modifier.padding(start = 32.dp)
-            ) {
-                Text(
-                    text = "The List Is Empty",
-                    fontFamily = Montserrat,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Medium,
-                )
-            }
-        } else {
-            LazyRow(
-                contentPadding = PaddingValues(
-                    top = MaterialTheme.spacing.spacing8,
-                    bottom = MaterialTheme.spacing.spacing8
-                ),
-                horizontalArrangement = Arrangement.spacedBy(
-                    MaterialTheme.spacing.spacing8,
-                    Alignment.CenterHorizontally
-                )
-            ) {
-                if (isWatchList) {
-                    item {
-                        Surface(
-                            modifier = Modifier
-                                .height(100.dp)
-                                .width(140.dp),
-                            shape = RoundedShape.medium,
-                            color = BackgroundSecondary
-                        ) {
-                            Column(
-                                modifier = Modifier.fillMaxSize(),
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center,
-                            ) {
-                                Surface(
-                                    modifier = Modifier.size(36.dp),
-                                    shape = RoundedShape.extraLarge
-                                ) {
-                                    Icon(
-                                        modifier = Modifier
-                                            .size(12.dp)
-                                            .background(BackgroundOnSecondary),
-                                        imageVector = Icons.Default.Add,
-                                        contentDescription = "Add",
-                                        tint = Color.White
-                                    )
-                                }
-                                Spacer(modifier = Modifier.height(4.dp))
-                                Text(
-                                    text = "Add Playlist", maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis,
-                                    color = MaterialTheme.color.fontSecondary,
-                                    style = Typography.labelSmall
-                                )
-                            }
-                        }
+                    is LibraryUiEffect.NavigateToTvShow -> {}
+                    is LibraryUiEffect.NavigateToLibrary -> navController.navigate(MovieDestination.Library.route)
+                    is LibraryUiEffect.NavigateToList -> {}
+                    is LibraryUiEffect.NavigateToLogin -> {
+                        navController.navigateToLogin()
                     }
                 }
+            })
+    }
+}
 
-                items(4) {
-                    ItemBasicCardForLibrary(
-                        imagePainter = rememberAsyncImagePainter(model = R.drawable.wallpaper),
-                        modifier = Modifier
-                            .width(MaterialTheme.dimens.dimens140)
-                            .height(MaterialTheme.dimens.dimens100),
-                        id = 1,
-                        name = "Ibrahim",
-                        showBlur = showBlur
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LibraryScreenContent(state: LibraryUiState, interaction: LibraryUiInteraction) {
+    val modalState = rememberModalBottomSheetState()
+    var isSheetOpen by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var listId by rememberSaveable {
+        mutableIntStateOf(0)
+    }
+    AnimatedVisibility(enter = fadeIn(), exit = fadeOut(), visible = state.isLoading) {
+        LoadingState()
+    }
+    AnimatedVisibility(
+        enter = fadeIn(),
+        exit = fadeOut(),
+        visible = !state.isLoading && state.error != null
+    ) {
+        when (state.error) {
+            is InvalidationErrorState -> LoginRequired(retryButton = {
+                PrimaryButton(
+                    onClick = { interaction.onClickLogin() },
+                    text = "Login"
+                )
+            })
+
+            else -> NoContent(
+                title = "Deleted Successfully",
+                "Navigate back to Library"
+            ) {
+                PrimaryButton(onClick = { interaction.onClickGotoLibrary() }, text = "Goto Library")
+            }
+        }
+    }
+    AnimatedVisibility(
+        enter = fadeIn(), exit = fadeOut(),
+        visible = !state.isLoading && state.error == null
+    ) {
+        if (state.data != null) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(
+                        top = MaterialTheme.dimens.dimens80,
+                        bottom = MaterialTheme.dimens.dimens70
+                    )
+            ) {
+                item {
+                    LibrarySectionsHeader(
+                        icon = R.drawable.icon_laylist,
+                        head = "WatchLists",
+                        hasSub = false,
+                    )
+                }
+                item {
+                    WatchListsSection(
+                        state.data!!.watchLists,
+                        onClickPlayList = { interaction.onClickPlayList(it) },
+                        onMenuClick = {
+                            listId = it
+                            isSheetOpen = !isSheetOpen
+                        },
+                    ) { interaction.onClickAddPlayList("Action Movies") }
+                }
+                item {
+                    LibrarySectionsHeader(
+                        icon = R.drawable.icon_favorite,
+                        head = "Favorites",
+                        hasSub = state.data!!.favoritesList.isEmpty(),
+                    )
+                }
+                item {
+                    FavItem(state.data!!.favoritesList) {
+                        interaction.onClickFavItem(it)
+                    }
+                }
+            }
+        }
+    }
+    AnimatedVisibility(visible = isSheetOpen) {
+        ModalBottomSheet(
+            containerColor = Secondary,
+            sheetState = modalState,
+            onDismissRequest = { isSheetOpen = !isSheetOpen },
+            shape = RoundedCornerShape(
+                topStart = MaterialTheme.dimens.dimens16,
+                topEnd = MaterialTheme.dimens.dimens16
+            )
+        ) {
+            Column(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.dimens16)) {
+                BottomSheetItem(onClick = {
+                    interaction.onClearList(listId)
+                    isSheetOpen = false
+                }, title = "Clear List", Color.White, R.drawable.icon_delete)
+                BottomSheetItem(onClick = {
+                    interaction.onDeleteList(listId)
+                    isSheetOpen = false
+                }, title = "Delete List", Color.Red, R.drawable.icon_delete)
+            }
+        }
+    }
+}
+
+@Composable
+fun WatchListsSection(
+    lists: List<LibraryUiState.LibraryData.CreatedListUiState>,
+    onClickPlayList: (Int) -> Unit,
+    onMenuClick: (Int) -> Unit,
+    onClickAddPlayList: () -> Unit
+) {
+    LazyRow(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = MaterialTheme.dimens.dimens24),
+        contentPadding = PaddingValues(horizontal = MaterialTheme.dimens.dimens16),
+        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.dimens8)
+    ) {
+        items(lists.size) {
+            AnimatedVisibility(visible = lists.isNotEmpty()) {
+                PlayListItem(lists[it], { onClickPlayList(lists[it].id) }) { id ->
+                    onMenuClick(id)
+                }
+            }
+        }
+        item {
+            Card(
+                modifier = Modifier
+                    .height(MaterialTheme.dimens.dimens100)
+                    .width(MaterialTheme.dimens.dimens140)
+                    .padding(bottom = MaterialTheme.dimens.dimens4)
+                    .clickable { onClickAddPlayList() },
+                colors = CardDefaults.cardColors(containerColor = BackgroundCard),
+                shape = RoundedCornerShape(CornerSize(MaterialTheme.dimens.dimens16)),
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.icon_add_to_list),
+                        contentDescription = "",
+                        modifier = Modifier.padding(bottom = MaterialTheme.dimens.dimens4)
+                    )
+                    Text(
+                        text = stringResource(id = R.string.addPl), style = Typography.displaySmall
                     )
                 }
             }
@@ -438,88 +263,191 @@ fun SectionCard(
 }
 
 @Composable
-fun ItemBasicCardForLibrary(
-    imagePainter: Painter,
-    modifier: Modifier = Modifier,
-    name: String = "",
-    showBlur: Boolean = false,
-    id: Int,
-    onClick: (id: Int) -> Unit = {},
-    isMediaInfoCard: Boolean = false
+fun PlayListItem(
+    item: LibraryUiState.LibraryData.CreatedListUiState,
+    onClickPlayList: (Int) -> Unit,
+    onMenuClick: (Int) -> Unit
 ) {
-    Column(
-        modifier = if (isMediaInfoCard) Modifier else Modifier
-            .clickable { onClick(id) },
-        horizontalAlignment = AbsoluteAlignment.Left
-    ) {
-        Box(
-            modifier = modifier.clip(RoundedCornerShape(16.dp))
-        ) {
-            // Image
-            Image(
-                painter = imagePainter,
-                contentDescription = stringResource(R.string.poster),
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
-            )
-            if (showBlur) {
+    AnimatedVisibility(visible = true, enter = fadeIn(), exit = fadeOut()) {
+        Column(modifier = Modifier.width(MaterialTheme.dimens.dimens140)) {
+            Card(
+                modifier = Modifier
+                    .height(MaterialTheme.dimens.dimens100)
+                    .width(MaterialTheme.dimens.dimens140)
+                    .padding(bottom = MaterialTheme.dimens.dimens4)
+                    .clickable { onClickPlayList(item.id) },
+                colors = CardDefaults.cardColors(containerColor = BackgroundCard),
+                shape = RoundedCornerShape(CornerSize(MaterialTheme.dimens.dimens16)),
+            ) {
                 Box(
-                    modifier = Modifier
-                        .fillMaxHeight(0.2f)
-                        .fillMaxWidth()
-                        .align(Alignment.BottomStart)
-                        .background(Color.White.copy(alpha = 0.3f))
+                    modifier = Modifier.fillMaxSize()
                 ) {
+                    Image(
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.FillBounds,
+                        painter = rememberAsyncImagePainter(
+                            model = item.posterPath, placeholder = painterResource(
+                                id = R.drawable.image_placeholder
+                            )
+                        ),
+                        contentDescription = "",
+                    )
+                    Card(
+                        modifier = Modifier
+                            .background(Color.White)
+                            .fillMaxHeight(0.4f)
+                    ) {}
                     Row(
-                        modifier = Modifier.padding(start = 8.dp, end = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-
-                        ) {
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = MaterialTheme.dimens.dimens12)
+                            .padding(bottom = MaterialTheme.dimens.dimens4)
+                            .align(Alignment.BottomCenter),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         Text(
-                            text = "10 Videos",
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            color = Color.White,
-                            fontSize = 12.sp,
-                            fontFamily = Montserrat,
-                            fontWeight = FontWeight.Medium,
-                            modifier = Modifier
-                                .width(MaterialTheme.dimens.dimens104)
-                                .padding(
-                                    bottom = MaterialTheme.spacing.spacing2,
-                                    top = MaterialTheme.spacing.spacing4
-                                )
+                            text = "${item.itemCount} video", style = Typography.displaySmall
                         )
-                        Icon(
-                            modifier = Modifier.size(16.dp),
+                        Image(
+                            modifier = Modifier,
                             painter = painterResource(id = R.drawable.icon_laylist),
-                            contentDescription = null,
-                            tint = Color.White
+                            contentDescription = ""
                         )
                     }
                 }
             }
-        }
-        Text(
-            text = name,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            color = MaterialTheme.color.fontSecondary,
-            style = Typography.labelMedium,
-            modifier = Modifier
-                .width(MaterialTheme.dimens.dimens104)
-                .padding(
-                    bottom = MaterialTheme.spacing.spacing2,
-                    top = MaterialTheme.spacing.spacing4
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = item.name,
+                    style = Typography.labelMedium,
+                    color = FontSecondary,
+                    maxLines = 2,
+                    modifier = Modifier.fillMaxWidth(0.9f)
                 )
-        )
+                IconButton(onClick = { onMenuClick(item.id) }) {
+                    Image(
+                        modifier = Modifier,
+                        painter = painterResource(id = R.drawable.menu_dots),
+                        contentDescription = ""
+                    )
+                }
+            }
+        }
+    }
+}
 
+@Composable
+fun FavItem(
+    list: List<LibraryUiState.LibraryData.WatchListUiState>,
+    onClickFavItem: (Int) -> Unit
+) {
+    LazyRow(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = MaterialTheme.dimens.dimens24),
+        contentPadding = PaddingValues(horizontal = MaterialTheme.dimens.dimens16),
+        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.dimens8)
+    ) {
+        items(list.size) {
+            Column(modifier = Modifier.width(MaterialTheme.dimens.dimens140)) {
+                Card(
+                    modifier = Modifier
+                        .height(MaterialTheme.dimens.dimens100)
+                        .width(MaterialTheme.dimens.dimens140)
+                        .padding(bottom = MaterialTheme.dimens.dimens4)
+                        .clickable { onClickFavItem(list[it].id) },
+                    colors = CardDefaults.cardColors(containerColor = BackgroundCard),
+                    shape = RoundedCornerShape(CornerSize(MaterialTheme.dimens.dimens16)),
+                ) {
+                    Image(
+                        contentScale = ContentScale.Crop, painter = rememberAsyncImagePainter(
+                            model = list[it].posterPath,
+                            placeholder = painterResource(id = R.drawable.image_placeholder)
+                        ), modifier = Modifier.fillMaxSize(), contentDescription = ""
+                    )
+                }
+                Text(
+                    text = list[it].name,
+                    style = Typography.labelMedium,
+                    color = FontSecondary
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun LibrarySectionsHeader(
+    icon: Int,
+    head: String,
+    hasSub: Boolean = true,
+    subTitle: String = "This is EmptyList"
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                bottom = MaterialTheme.dimens.dimens8,
+                start = MaterialTheme.dimens.dimens16,
+                end = MaterialTheme.dimens.dimens16
+            ),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        HeaderLabel(icon, head, hasSub, subTitle)
+    }
+}
+
+@Composable
+fun HeaderLabel(icon: Int, head: String, hasSub: Boolean = false, subTitle: String) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Image(
+            modifier = Modifier
+                .size(MaterialTheme.dimens.dimens32)
+                .padding(end = MaterialTheme.dimens.dimens8),
+            painter = painterResource(id = icon),
+            contentDescription = ""
+        )
+        Column(
+            horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = head,
+                style = Typography.headlineMedium
+            )
+            AnimatedVisibility(visible = hasSub) {
+                Text(
+                    text = subTitle, style = Typography.titleSmall, color = FontSecondary
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun BottomSheetItem(onClick: () -> Unit, title: String, color: Color, icon: Int) {
+    Row(
+        modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(text = title, color = color)
+        IconButton(
+            onClick = { onClick() },
+            colors = IconButtonDefaults.iconButtonColors(contentColor = color)
+        ) {
+            Image(
+                painter = painterResource(id = icon),
+                contentDescription = ""
+            )
+        }
     }
 }
 
 
-@Preview
-@Composable
-fun SectionCardPrev() {
-    MovieItemCard()
-}
+const val image =
+    "https://img.wattpad.com/135dde1bf493a253f15b1b95e20c12a0b0549bcc/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f776174747061642d6d656469612d736572766963652f53746f7279496d6167652f44656b78626e6f325278466148773d3d2d3535393531393331312e313532343063346236646431303861303338373333393438393037342e6a7067?s=fit&w=720&h=720"

@@ -13,11 +13,12 @@ class GetAccountDetailsUsecase @Inject constructor(
     private val checkUserLoggedInUseCase: CheckUserLoggedInUseCase,
 ) {
     suspend operator fun invoke(): Boolean {
-        if (!checkUserLoggedInUseCase.isLoggedInByAccount()) {
-            return false
+        return if (!checkUserLoggedInUseCase.isLoggedInByAccount()) {
+            false
+        } else {
+            getAccountDetailsIfUserIsLoggedIn()
+            true
         }
-        getAccountDetailsIfUserIsLoggedIn()
-        return true
     }
 
     private suspend fun getAccountDetailsIfUserIsLoggedIn(): AccountDetails {

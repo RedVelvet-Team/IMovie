@@ -17,10 +17,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
+import com.redvelvet.ui.screen.game.navigateToGameDetailsScreen
 import com.redvelvet.ui.screen.room.navigateToCinemaRoom
 import com.redvelvet.ui.util.launchCollectLatest
 import com.redvelvet.viewmodel.fun_activities.FunActivitiesUiEffect
 import com.redvelvet.viewmodel.fun_activities.FunActivitiesViewModel
+import com.redvelvet.viewmodel.utils.MediaType
 
 @Composable
 fun FunScreen(
@@ -40,7 +42,7 @@ fun FunScreen(
             }
         }
     }
-    FunContent({})
+    FunContent(onClickItem = {navController.navigateToGameDetailsScreen(MediaType.MOVIE)})
 }
 
 @Composable
@@ -51,9 +53,6 @@ fun FunContent(
     Column(
         modifier = Modifier.padding(16.dp)
     ) {
-        LazyColumn() {
-
-        }
 
         LazyColumn(
            // modifier = Modifier.background(color = MaterialTheme.colorScheme.secondary),
@@ -62,7 +61,7 @@ fun FunContent(
 
         ) {
             items(12) { position ->
-                FunItem( onClickItem = {  })
+                FunItem( onClickItem = onClickItem)
             }
         }
 

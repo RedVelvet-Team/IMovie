@@ -1,6 +1,6 @@
 package com.redvelvet.usecase.usecase.tvshow
 
-import com.redvelvet.entities.library.LibraryTv
+import com.redvelvet.entities.library.WatchListMedia
 import com.redvelvet.entities.tv.TvShowAllDetails
 import com.redvelvet.usecase.repository.TvShowRepository
 import com.redvelvet.usecase.usecase.detailsActions.HandleItemCheckUsecase
@@ -59,15 +59,15 @@ class GetAllTvShowDetailsUseCase @Inject constructor(
 
     private suspend fun getTvShowTopCast(seriesId: Int) = repository.getTvShowTopCastByID(seriesId)
 
-    suspend fun getTvFavorites(): List<LibraryTv> {
+    suspend fun getTvFavorites(): WatchListMedia {
         return getActionsLists.getTvFavorites();
     }
 
-    suspend fun getTvWatchlist(): List<LibraryTv> {
+    suspend fun getTvWatchlist(): WatchListMedia {
         return getActionsLists.getTvWatchList();
     }
 
-    suspend fun getRatedTv(): List<LibraryTv> {
+    suspend fun getRatedTv(): WatchListMedia {
         return getActionsLists.getRatedTv();
     }
 

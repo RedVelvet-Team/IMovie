@@ -1,6 +1,6 @@
 package com.redvelvet.usecase.usecase.movie
 
-import com.redvelvet.entities.library.LibraryMovie
+import com.redvelvet.entities.library.WatchListMedia
 import com.redvelvet.entities.movie.details.MovieDetails
 import com.redvelvet.entities.movie.details.MovieFullDetails
 import com.redvelvet.entities.movie.details.MovieImages
@@ -71,15 +71,15 @@ class GetMovieFullDetailsUseCase @Inject constructor(
         return movieRepository.getMovieTopCastByID(movieId)
     }
 
-    suspend fun getMoviesFavorites(): List<LibraryMovie> {
+    suspend fun getMoviesFavorites(): WatchListMedia {
         return getActionsLists.getMovieFavorites();
     }
 
-    suspend fun getMoviesWatchlist(): List<LibraryMovie> {
+    suspend fun getMoviesWatchlist(): WatchListMedia {
         return getActionsLists.getMovieWatchList();
     }
 
-    suspend fun getRatedMovie(): List<LibraryMovie> {
+    suspend fun getRatedMovie(): WatchListMedia {
         return getActionsLists.getRatedMovie();
     }
 

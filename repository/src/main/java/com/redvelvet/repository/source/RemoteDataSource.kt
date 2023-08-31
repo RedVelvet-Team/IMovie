@@ -1,14 +1,21 @@
 package com.redvelvet.repository.source
 
 import com.redvelvet.repository.dto.EpisodeSingleItemDto
+import com.redvelvet.repository.dto.QuestionDto
 import com.redvelvet.repository.dto.GenresDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
 import com.redvelvet.repository.dto.auth.response.GuestSessionDto
 import com.redvelvet.repository.dto.auth.response.SessionDto
 import com.redvelvet.repository.dto.auth.response.TokenDto
-import com.redvelvet.repository.dto.library.LibraryMovieDto
-import com.redvelvet.repository.dto.library.LibraryTvDto
+import com.redvelvet.repository.dto.library.favorite.MovieFavoriteListDto
+import com.redvelvet.repository.dto.library.favorite.TvFavoriteListDto
+import com.redvelvet.repository.dto.library.list.CreateListResponseDto
+import com.redvelvet.repository.dto.library.list.CreatedListsDto
+import com.redvelvet.repository.dto.library.rated.user.UserRatedMoviesDto
+import com.redvelvet.repository.dto.library.rated.user.UserRatedTvDto
+import com.redvelvet.repository.dto.library.watchlist.WatchListMovieDto
+import com.redvelvet.repository.dto.library.watchlist.WatchListTvDto
 import com.redvelvet.repository.dto.movie.details.MovieDetailsDTO
 import com.redvelvet.repository.dto.movie.details.MovieKeyWordsDTO
 import com.redvelvet.repository.dto.movie.details.MovieSimilarDTO
@@ -18,12 +25,17 @@ import com.redvelvet.repository.dto.schema.RecommendationsDto
 import com.redvelvet.repository.dto.schema.ReviewDto
 import com.redvelvet.repository.dto.schema.TopCastDto
 import com.redvelvet.repository.dto.search.CombinedResultDto
+import com.redvelvet.repository.dto.tvShow.StatusResponseDto
 import com.redvelvet.repository.dto.tvShow.TvShowDetailsDto
 import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.dto.tvShow.TvShowKeywordsDto
 import com.redvelvet.repository.dto.tvShow.TvShowVideosDto
 
 interface RemoteDataSource {
+
+    suspend fun getMovieQuestions(): List<QuestionDto>
+    suspend fun getTvQuestions(): List<QuestionDto>
+    suspend fun getActingQuestions(): List<QuestionDto>
     //region auth
     suspend fun createGuestSession(): GuestSessionDto
     suspend fun createToken(): TokenDto
@@ -180,33 +192,56 @@ interface RemoteDataSource {
     suspend fun getFavoriteMovies(
         accountId: Int,
         sessionId: String,
-    ): List<LibraryMovieDto>
+    ): MovieFavoriteListDto
 
     suspend fun getFavoriteTv(
         accountId: Int,
         sessionId: String,
-    ): List<LibraryTvDto>
+    ): TvFavoriteListDto
 
 
     suspend fun getWatchlistMovie(
         accountId: Int,
         sessionId: String,
-    ): List<LibraryMovieDto>
+    ): WatchListMovieDto
 
     suspend fun getWatchlistTv(
         accountId: Int,
         sessionId: String,
-    ): List<LibraryTvDto>
+    ): WatchListTvDto
 
     suspend fun getRatedMovies(
         accountId: Int,
         sessionId: String,
-    ): List<LibraryMovieDto>
+    ): UserRatedMoviesDto
 
     suspend fun getRatedTv(
         accountId: Int,
         sessionId: String,
-    ): List<LibraryTvDto>
+    ): UserRatedTvDto
 
+    suspend fun createList(
+        name: String,
+        sessionId: String
+    ): CreateListResponseDto
 
+    suspend fun addMediaToList(
+        mediaId: Int,
+        listId: Int
+    ): StatusResponseDto
+
+    suspend fun deleteList(
+        listId: Int,
+        sessionId: String
+    ): StatusResponseDto
+
+    suspend fun deleteMediaFromList(
+        mediaId: Int, listId: Int, sessionId: String
+    ): StatusResponseDto
+
+    suspend fun clearList(
+        listId: Int
+    ): StatusResponseDto
+
+    suspend fun getCreatedLists(accountId: Int, sessionId: String): CreatedListsDto
 }

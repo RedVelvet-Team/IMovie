@@ -26,9 +26,7 @@ fun FunItem(
             .fillMaxWidth()
             .clip(shape = RoundedCornerShape(16.dp))
             .height(212.dp)
-            .clickable(onClick = {
-                onClickItem()
-            }),
+            .clickable{onClickItem()},
 
         ) {
 
