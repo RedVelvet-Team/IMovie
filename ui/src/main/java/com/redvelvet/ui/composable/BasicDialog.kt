@@ -28,8 +28,9 @@ import com.redvelvet.ui.theme.spacing
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BasicDialog(
-    showDialogState: Boolean,
+    showDialogState: Boolean = true,
     submitText: String,
+    cancelText: String = "Cancel",
     onSubmitClick: () -> Unit,
     onClickCancel:()->Unit,
     modifier: Modifier = Modifier,
@@ -88,6 +89,6 @@ fun BasicDialog(
 @Preview
 @Composable
 fun BasicDialogPreview() {
-    BasicDialog(true, "Done", {}, content = {}, onClickCancel = {},modifier = Modifier)
+    BasicDialog(true, "Done", "Cancel", {}, content = {}, onClickCancel = {},modifier = Modifier)
 }
 

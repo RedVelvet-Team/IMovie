@@ -9,6 +9,8 @@ import com.redvelvet.ui.screen.categorySeeAll.seeAllCategoryRoute
 import com.redvelvet.ui.screen.episode.episodeDetailsRoute
 import com.redvelvet.ui.screen.forgot_password.forgotPasswordRoute
 import com.redvelvet.ui.screen.fun_activites.funActivitiesRoute
+import com.redvelvet.ui.screen.game.gameDetailsScreen
+import com.redvelvet.ui.screen.game.questionsScreenRoute
 import com.redvelvet.ui.screen.home.homeRoute
 import com.redvelvet.ui.screen.known_for.actorKnownForRoute
 import com.redvelvet.ui.screen.library.libraryRoute
@@ -60,6 +62,8 @@ fun MovieNavGraph() {
         youtubePlayerRoute()
         episodeDetailsRoute()
         funActivitiesRoute()
+        questionsScreenRoute()
+        gameDetailsScreen()
         seeAllCategoryRoute()
     }
 }

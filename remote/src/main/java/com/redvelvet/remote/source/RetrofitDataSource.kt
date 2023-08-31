@@ -1,5 +1,6 @@
 package com.redvelvet.remote.source
 
+import android.util.Log
 import com.redvelvet.entities.error.BadRequestException
 import com.redvelvet.entities.error.DeleteException
 import com.redvelvet.entities.error.NoInternetException
@@ -8,7 +9,9 @@ import com.redvelvet.entities.error.NullResultException
 import com.redvelvet.entities.error.ServerException
 import com.redvelvet.entities.error.ValidationException
 import com.redvelvet.remote.service.MovieApiService
+import com.redvelvet.remote.service.TriviaService
 import com.redvelvet.repository.dto.EpisodeSingleItemDto
+import com.redvelvet.repository.dto.QuestionDto
 import com.redvelvet.repository.dto.GenresDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
@@ -51,7 +54,24 @@ import javax.inject.Inject
 
 class RetrofitDataSource @Inject constructor(
     private val movieApiService: MovieApiService,
+    private val triviaService: TriviaService
 ) : RemoteDataSource {
+    override suspend fun getMovieQuestions(): List<QuestionDto> {
+        return wrapApiResponse { triviaService.getQuestions(TriviaService.MOVIE) }
+    }
+
+    override suspend fun getTvQuestions(): List<QuestionDto> {
+        return wrapApiResponse { triviaService.getQuestions(TriviaService.TV) }
+    }
+
+    override suspend fun getActingQuestions(): List<QuestionDto> {
+        return wrapApiResponse { triviaService.getQuestions(TriviaService.ACTING) }
+    }
+
+    //region game
+
+
+    //endregion
 
     //region auth
     override suspend fun createGuestSession(): GuestSessionDto {
@@ -534,6 +554,14 @@ class RetrofitDataSource @Inject constructor(
     override suspend fun getAccountDetails(
         sessionId: String,
     ): AccountDetailsDto {
+        Log.v(
+            "hass",
+            "movieApiService.getAccountDetails(sessionId) ${
+                movieApiService.getAccountDetails(
+                    sessionId
+                )
+            }"
+        )
         return wrapApiResponse { movieApiService.getAccountDetails(sessionId) }
     }
 
