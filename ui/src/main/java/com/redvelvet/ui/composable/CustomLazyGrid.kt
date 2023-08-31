@@ -56,7 +56,7 @@ fun CustomLazyGrid(
         items(searchCardUiStates.itemCount) {
             val mediaItem = searchCardUiStates[it]
             ItemBasicCard(
-                imagePainter = rememberAsyncImagePainter(model = mediaItem!!.getFullImage()),
+                imagePainter = rememberAsyncFlixImage(image = mediaItem!!.getFullImage()),
                 modifier = Modifier
                     .width(MaterialTheme.dimens.dimens104)
                     .height(MaterialTheme.dimens.dimens176)

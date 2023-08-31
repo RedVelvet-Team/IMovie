@@ -30,7 +30,7 @@ fun ImagesSection(
                 hasName = false,
                 hasCustomList = false,
                 hasDateAndCountry = false,
-                onClickSeeAll = { onClickSeeAll },
+                onClickSeeAll = onClickSeeAll,
                 cardModifier = Modifier
                     .width(MaterialTheme.dimens.dimens112)
                     .height(MaterialTheme.dimens.dimens112),

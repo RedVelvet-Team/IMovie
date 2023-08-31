@@ -1,6 +1,12 @@
 package com.redvelvet.ui.screen.sellAllTopCast
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.MaterialTheme
@@ -11,10 +17,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.LocalNavController
-import com.redvelvet.ui.composable.ItemBasicCard
 import com.redvelvet.ui.composable.FlixMovieScaffold
+import com.redvelvet.ui.composable.ItemBasicCard
+import com.redvelvet.ui.composable.rememberAsyncFlixImage
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.movie_details_seeall.SeeAllTopCastUiState
 import com.redvelvet.viewmodel.movie_details_seeall.SeeAllTopCastViewModel
@@ -59,7 +65,7 @@ private fun SeeAllTopCastContent(state: SeeAllTopCastUiState) {
                 items(state.topCast.size) {
                     val media = state.topCast[it]
                     ItemBasicCard(
-                        imagePainter = rememberAsyncImagePainter(model = media.castImage),
+                        imagePainter = rememberAsyncFlixImage(media.castImage),
                         hasName = true,
                         name = media.castName,
                         modifier = Modifier

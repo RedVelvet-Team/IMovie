@@ -46,11 +46,7 @@ fun SeasonsSection(
                         rate = item.stars,
                         onClickItem = onClickSeason,
                         seasonNumber = 0,
-                        image = rememberAsyncImagePainter(
-                            model = item.image,
-                            placeholder = painterResource(id = R.drawable.image_placeholder),
-                            error = painterResource(id = R.drawable.image_placeholder),
-                        )
+                        image = rememberAsyncFlixImage(item.image)
                     )
                 },
                 onClickSeeAll = { onClickSeeAllSeasons(seriesId.toString()) },

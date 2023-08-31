@@ -62,7 +62,7 @@ fun FunContent(
 
         ) {
             items(12) { position ->
-                FunItem( onClickItem = {  })
+                //FunItem( onClickItem = {  })
             }
         }
 

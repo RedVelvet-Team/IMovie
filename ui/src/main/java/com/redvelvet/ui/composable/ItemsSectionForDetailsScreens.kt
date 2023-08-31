@@ -52,9 +52,7 @@ fun ItemsSectionForDetailsScreens(
             }
             if (!hasCustomList) {
                 ItemBasicCardForDetailsScreens(
-                    imagePainter = rememberAsyncImagePainter(
-                        model = item.image
-                    ),
+                    imagePainter = rememberAsyncFlixImage(item.image),
                     modifier = cardModifier ?: Modifier
                         .width(MaterialTheme.dimens.dimens104)
                         .height(MaterialTheme.dimens.dimens130),

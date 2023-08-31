@@ -59,6 +59,7 @@ import com.redvelvet.ui.composable.NavigationHandler
 import com.redvelvet.ui.composable.NetworkView
 import com.redvelvet.ui.composable.NoContent
 import com.redvelvet.ui.composable.SectionHeader
+import com.redvelvet.ui.composable.rememberAsyncFlixImage
 import com.redvelvet.ui.screen.actor_details.navigateToActorDetails
 import com.redvelvet.ui.screen.seeAllMovieImages.navigateToSeeAllImages
 import com.redvelvet.ui.screen.sellAllTopCast.navigateToSeeAllTopCast
@@ -78,6 +79,7 @@ import com.redvelvet.viewmodel.episode.EpisodeDetailsViewModel
 import com.redvelvet.viewmodel.utils.SeeAllMovie
 
 private const val IMAGE_HEIGHT = 250
+
 @Composable
 fun EpisodeDetailsScreen(episodeDetailsViewModel: EpisodeDetailsViewModel = hiltViewModel()) {
     rememberSystemUiController().setSystemBarsColor(Primary, darkIcons = false)
@@ -203,9 +205,8 @@ fun EpisodeDetailsContent(state: EpisodeDetailsUiState, interaction: EpisodeDeta
         ) {
             Box(modifier = Modifier) {
                 Image(
-                    painter = rememberAsyncImagePainter(
-                        model = MovieWebViewUrls.IMAGES_URL + state.data!!.episodeDetails.stillPath,
-                        placeholder = painterResource(id = R.drawable.image_placeholder)
+                    painter = rememberAsyncFlixImage(
+                        MovieWebViewUrls.IMAGES_URL + state.data!!.episodeDetails.stillPath,
                     ),
                     contentDescription = "",
                     contentScale = ContentScale.FillBounds,
@@ -237,9 +238,8 @@ fun EpisodeDetailsContent(state: EpisodeDetailsUiState, interaction: EpisodeDeta
                         ) {
                             items(state.data!!.episodeCast.cast) {
                                 Column(modifier = Modifier.width(70.dp)) {
-                                    Image(painter = rememberAsyncImagePainter(
-                                        model = MovieWebViewUrls.IMAGES_URL + it.profilePath,
-                                        placeholder = painterResource(id = R.drawable.image_placeholder)
+                                    Image(painter = rememberAsyncFlixImage(
+                                        MovieWebViewUrls.IMAGES_URL + it.profilePath,
                                     ),
                                         contentDescription = "avatar",
                                         contentScale = ContentScale.Crop,
@@ -279,8 +279,7 @@ fun EpisodeDetailsContent(state: EpisodeDetailsUiState, interaction: EpisodeDeta
                                 Column(modifier = Modifier.width(112.dp)) {
                                     Image(
                                         painter = rememberAsyncImagePainter(
-                                            model = MovieWebViewUrls.IMAGES_URL + it.filePath,
-                                            placeholder = painterResource(id = R.drawable.image_placeholder)
+                                            MovieWebViewUrls.IMAGES_URL + it.filePath,
                                         ),
                                         contentDescription = "avatar",
                                         contentScale = ContentScale.Crop,
