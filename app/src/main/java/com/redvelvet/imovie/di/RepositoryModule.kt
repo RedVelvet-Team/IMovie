@@ -14,6 +14,8 @@ import com.redvelvet.usecase.repository.EpisodeRepository
 import com.redvelvet.usecase.repository.MovieRepository
 import com.redvelvet.usecase.repository.TvShowRepository
 import com.redvelvet.usecase.repository.UserRepository
+import com.redvelvet.repository.repository.*
+import com.redvelvet.usecase.repository.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -65,4 +67,12 @@ abstract class RepositoryModule {
     abstract fun binEpisodeRepository(
         episodeRepositoryImpl: EpisodeRepositoryImpl
     ): EpisodeRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindLibraryListRepository(
+        libraryListRepository: LibraryListRepositoryImpl
+    ): LibraryListsRepository
+
+
 }

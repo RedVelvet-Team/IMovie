@@ -37,11 +37,11 @@ import com.redvelvet.ui.screen.tvshowdetails.navigateToTvShowDetails
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
-import com.redvelvet.ui.theme.spacing
+
 import com.redvelvet.viewmodel.home.HomeUiState
 import com.redvelvet.viewmodel.home.HomeViewModel
 import com.redvelvet.viewmodel.home.ItemUiState
-import com.redvelvet.viewmodel.utils.SeeAllTvShows
+import com.redvelvet.viewmodel.utils.MediaType
 
 @Composable
 fun HomeScreen(
@@ -49,7 +49,9 @@ fun HomeScreen(
 ) {
     val state by viewModel.state.collectAsState()
     FlixMovieScaffold(
-        title = "FlixMovie", isLoading = state.isLoading,
+        title = "FlixMovie",
+        isLoading = state.isLoading,
+        error = state.isError,
         hasTopBar = true,
         hasBackArrow = false,
     ) {
@@ -85,7 +87,7 @@ fun HomeScreenContent(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = MaterialTheme.spacing.spacing16)
+                .padding(horizontal = MaterialTheme.dimens.dimens16)
         ) {
             TabRow(
                 selectedTabIndex = page,
@@ -172,12 +174,12 @@ fun MovieContent(
     val navController = LocalNavController.current
     TabContentDisplay(
         pagerState = pagerState,
-        label = label,
         viewpagerList = viewpagerList,
         categories = state.movieCategories,
+        label = label,
         hasName = true,
         hasDateAndCountry = true,
-        onClickSeeAll = { seeAllMovie ->
+        onClickSeeAllMovie = { seeAllMovie ->
             navController.navigateToSeeAllMovie(
                 id = null,
                 type = seeAllMovie
@@ -185,7 +187,9 @@ fun MovieContent(
         },
         onClickItem = { id ->
             navController.navigateToMovieDetails(id)
-        }
+        },
+        type = MediaType.MOVIE,
+        onClickSeeAllTv = {}
     )
 }
 
@@ -205,8 +209,10 @@ fun SeriesContent(
         categories = state.tvShowCategories,
         hasName = true,
         hasDateAndCountry = true,
-        onClickSeeAll = {
-            navController.navigateSeeAllTvShow(id = null, type = SeeAllTvShows.TOP_RATED)
+        type = MediaType.TV,
+        onClickSeeAllMovie = {},
+        onClickSeeAllTv = {
+            navController.navigateSeeAllTvShow(id = null, type = it)
         },
         onClickItem = { id ->
             navController.navigateToTvShowDetails(id)

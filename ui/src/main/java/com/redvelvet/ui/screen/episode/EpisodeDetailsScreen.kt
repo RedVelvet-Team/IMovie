@@ -68,15 +68,17 @@ import com.redvelvet.ui.theme.FontSecondary
 import com.redvelvet.ui.theme.Primary
 import com.redvelvet.ui.theme.Secondary
 import com.redvelvet.ui.theme.Typography
+import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.radius
-import com.redvelvet.ui.theme.spacing
 import com.redvelvet.ui.util.MovieWebViewUrls
 import com.redvelvet.viewmodel.base.NetworkErrorState
 import com.redvelvet.viewmodel.episode.EpisodeDetailsInteraction
 import com.redvelvet.viewmodel.episode.EpisodeDetailsUiEffect
 import com.redvelvet.viewmodel.episode.EpisodeDetailsUiState
 import com.redvelvet.viewmodel.episode.EpisodeDetailsViewModel
+import com.redvelvet.viewmodel.utils.MediaType
 import com.redvelvet.viewmodel.utils.SeeAllMovie
+import com.redvelvet.viewmodel.utils.SeeAllTvShows
 
 private const val IMAGE_HEIGHT = 250
 
@@ -97,7 +99,9 @@ fun EpisodeDetailsScreen(episodeDetailsViewModel: EpisodeDetailsViewModel = hilt
                     navController.navigateToActorDetails(effect.id)
                 }
 
-                is EpisodeDetailsUiEffect.NavigateToImageScreen -> {}
+                is EpisodeDetailsUiEffect.NavigateToImageScreen -> {/*TODO*/
+                }
+
                 is EpisodeDetailsUiEffect.NavigateToSeeAllCastDetailsScreen -> {
                     navController.navigateToSeeAllTopCast(effect.id)
                 }
@@ -145,28 +149,6 @@ fun EpisodeDetailsContent(state: EpisodeDetailsUiState, interaction: EpisodeDeta
                             painter = painterResource(id = R.drawable.icon_back),
                             contentDescription = "Back",
                             modifier = Modifier.clickable { interaction.onClickBack() },
-                            tint = Color.White
-                        )
-                        Spacer(modifier = Modifier.weight(1f))
-                        Icon(
-                            painter = painterResource(id = R.drawable.icon_favorite),
-                            contentDescription = "Favorite",
-                            modifier = Modifier.clickable {
-                                interaction.onClickFavorite(
-                                    "${state.data?.episodeDetails?.id}"
-                                )
-                            },
-                            tint = Color.White
-                        )
-                        Spacer(modifier = Modifier.width(MaterialTheme.spacing.spacing24))
-                        Icon(
-                            painter = painterResource(id = R.drawable.icon_save),
-                            contentDescription = "Save",
-                            modifier = Modifier.clickable {
-                                interaction.onClickSave(
-                                    "${state.data?.episodeDetails?.id}"
-                                )
-                            },
                             tint = Color.White
                         )
                     }
@@ -223,11 +205,12 @@ fun EpisodeDetailsContent(state: EpisodeDetailsUiState, interaction: EpisodeDeta
                     item { Details(state) }
                     item {
                         SectionHeader(
+                            modifier = Modifier.padding(top = 16.dp),
                             label = "TopCast",
-                            seeAllMovie = SeeAllMovie.TOP_CAST,
-                            onClickSeeAll = {
+                            onClickSeeAllMovie = {
                                 interaction.onClickTopCastSeeAll("${state.data?.episodeCast?.id}")
-                            }, modifier = Modifier.padding(top = 16.dp)
+                            }, seeAllMovie = SeeAllMovie.TOP_CAST, onClickSeeAllTv = {  },
+                                    type = MediaType.MOVIE, seeAllTv = SeeAllTvShows.POPULAR
                         )
                     }
                     item {
@@ -261,12 +244,15 @@ fun EpisodeDetailsContent(state: EpisodeDetailsUiState, interaction: EpisodeDeta
                     }
                     item {
                         SectionHeader(
+                            modifier = Modifier.padding(top = 16.dp),
                             label = "Episode Images",
-                            seeAllMovie = SeeAllMovie.TOP_CAST,
-                            onClickSeeAll = {
+                            onClickSeeAllMovie = {
                                 interaction.onCLickImagesSeeAll("0")
                             },
-                            modifier = Modifier.padding(top = 16.dp)
+                            seeAllMovie = SeeAllMovie.TOP_CAST,
+                            onClickSeeAllTv = {},
+                            type = MediaType.MOVIE,
+                            seeAllTv = SeeAllTvShows.ON_TV
                         )
                     }
                     item {
@@ -383,8 +369,8 @@ fun Details(
                     .clip(RoundedCornerShape(MaterialTheme.radius.radius8))
                     .background(color = Secondary)
                     .padding(
-                        vertical = MaterialTheme.spacing.spacing4,
-                        horizontal = MaterialTheme.spacing.spacing8
+                        vertical = MaterialTheme.dimens.dimens4,
+                        horizontal = MaterialTheme.dimens.dimens8
                     ),
                 text = "se ${state.data!!.episodeDetails.seasonNumber}, ep ${state.data!!.episodeDetails.episodeNumber}",
                 style = MaterialTheme.typography.bodyMedium,

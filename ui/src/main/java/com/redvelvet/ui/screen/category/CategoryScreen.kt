@@ -160,14 +160,6 @@ fun CategoryContent(
     viewPaperList: List<GenreUiState>,
     interaction: CategoryInteraction,
 ) {
-    Text(
-        modifier = Modifier.padding(
-            top = MaterialTheme.spacing.spacing8,
-            start = MaterialTheme.spacing.spacing16
-        ),
-        text = "All Categories",
-        style = Typography.displayLarge.copy(color = MaterialTheme.color.fontSecondary),
-    )
     LazyVerticalGrid(
         contentPadding = PaddingValues(
             end = MaterialTheme.spacing.spacing16,

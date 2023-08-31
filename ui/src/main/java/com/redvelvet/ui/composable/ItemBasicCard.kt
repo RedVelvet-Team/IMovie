@@ -21,7 +21,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
-import com.redvelvet.ui.theme.spacing
+import com.redvelvet.ui.theme.dimens
 
 @Composable
 fun ItemBasicCard(
@@ -41,7 +41,7 @@ fun ItemBasicCard(
                 .fillMaxWidth()
                 .height(132.dp)
                 .clip(RoundedCornerShape(16.dp)),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Fit
         )
         AnimatedVisibility(hasName) {
             Text(
@@ -50,7 +50,7 @@ fun ItemBasicCard(
                 maxLines = 1,
                 style = Typography.labelMedium.copy(color = MaterialTheme.color.fontSecondary),
                 modifier = Modifier.padding(
-                    bottom = MaterialTheme.spacing.spacing2, top = MaterialTheme.spacing.spacing4
+                    bottom = MaterialTheme.dimens.dimens2, top = MaterialTheme.dimens.dimens4
                 )
             )
         }

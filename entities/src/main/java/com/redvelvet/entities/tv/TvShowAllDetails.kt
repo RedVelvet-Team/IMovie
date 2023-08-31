@@ -1,5 +1,7 @@
 package com.redvelvet.entities.tv
 
+import com.redvelvet.entities.library.WatchListMedia
+
 data class TvShowAllDetails(
     val tvShowId: Int = 0,
     val tvShowName: String = "",
@@ -17,4 +19,7 @@ data class TvShowAllDetails(
     val posters: List<String> = emptyList(),
     val videos: List<TvShowResultVideo> = emptyList(),
     val recommendations: List<TvShowRecommendation> = emptyList(),
+    val tvFavorites: WatchListMedia,
+    val tvWatchlist: WatchListMedia,
+    val ratedTv: WatchListMedia,
 )

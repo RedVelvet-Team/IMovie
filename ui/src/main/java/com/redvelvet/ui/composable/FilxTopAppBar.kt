@@ -20,7 +20,7 @@ import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
-import com.redvelvet.ui.theme.spacing
+import com.redvelvet.ui.theme.dimens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,7 +32,7 @@ fun FilxTopAppBar(
     val navController = LocalNavController.current
     Surface(
         modifier = modifier.shadow(
-            elevation = MaterialTheme.spacing.spacing2,
+            elevation = MaterialTheme.dimens.dimens2,
             spotColor = MaterialTheme.color.backgroundOnPrimary,
             ambientColor = MaterialTheme.color.backgroundOnPrimary
         )

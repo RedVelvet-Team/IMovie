@@ -1,8 +1,10 @@
 package com.redvelvet.ui.composable
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,7 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -70,8 +72,6 @@ fun DialogWithLink(
     isError: Boolean,
     showDialogState: Boolean,
     link: String,
-    leadingIcon: Painter? = null,
-    trailingIcon: Painter? = null,
     onTextChange: (String) -> Unit,
     onSubmitClick: () -> Unit,
     onClickCancel: () -> Unit,
@@ -99,18 +99,15 @@ fun DialogWithLink(
                 color = MaterialTheme.color.fontSecondary,
             )
             PrimaryTextField(
-                modifier = modifier.padding(bottom = MaterialTheme.spacing.spacing24),
+                modifier = modifier.padding(bottom = MaterialTheme.spacing.spacing8),
                 placeHolderText = placeHolderText,
                 errorMessage = "inCorrect Link please re write again, hello do it just keep going",
                 value = link,
                 isError = isError,
-                label = placeHolderText,
                 onTextChange = {
                     movieLink = it
                     onTextChange(it)
-                },
-                leadingIcon = leadingIcon,
-                trailingIcon = trailingIcon
+                }
             )
         }
     )
@@ -156,9 +153,10 @@ fun RatingDialog(
 }
 //endregion
 
+
 @Preview
 @Composable
-private fun DialogWithIconPreview() {
+fun DialogWithIconPreview() {
     DialogWithIcon(
         onSubmitClick = {}, submitText = "Login", showDialogState = true, onClickCancel = {},
     )
@@ -166,7 +164,7 @@ private fun DialogWithIconPreview() {
 
 @Preview
 @Composable
-private fun DialogWithLinkPreview() {
+fun DialogWithLinkPreview() {
     DialogWithLink(
         headText = "Create a room",
         bodyText = "Try it by ur self",
@@ -177,15 +175,13 @@ private fun DialogWithLinkPreview() {
         onSubmitClick = {},
         onTextChange = {},
         onClickCancel = {},
-        link = "",
-        leadingIcon = painterResource(id = R.drawable.icon_user),
-        trailingIcon = painterResource(id = R.drawable.icon_user)
+        link = ""
     )
 }
 
 @Preview
 @Composable
-private fun RateDialogPreview() {
+fun RateDialogPreview() {
     RatingDialog(
         onSubmitClick = {},
         showDialogState = true,
