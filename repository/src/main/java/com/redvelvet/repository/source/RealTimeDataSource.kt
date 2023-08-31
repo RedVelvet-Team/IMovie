@@ -4,8 +4,8 @@ import com.redvelvet.repository.dto.PlayerDto
 
 interface RealTimeDataSource {
 
-    suspend fun getUserScore(accountId: Int): PlayerDto
-    suspend fun getHighestScore(): List<PlayerDto>
+    suspend fun getUserScore(accountId: Int): Pair<PlayerDto, Int>
+    suspend fun getHighestScorePlayers(): List<Pair<PlayerDto, Int>>
 
     suspend fun saveUserScore(score: Int, accountId: Int)
 

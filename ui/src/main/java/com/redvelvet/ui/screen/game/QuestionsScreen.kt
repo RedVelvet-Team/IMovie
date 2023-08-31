@@ -20,6 +20,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.screen.game.composable.AnswerCard
 import com.redvelvet.ui.screen.game.composable.DividerRow
@@ -36,7 +37,7 @@ fun QuestionsScreen(
     viewModel: QuestionsViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-
+    val navController = LocalNavController.current
     FlixMovieScaffold(
         isLoading = state.isLoading, error = state.error
     ) {
@@ -44,8 +45,8 @@ fun QuestionsScreen(
             visible = state.isGameFinished, enter = fadeIn(tween(1000))
         ) {
             WinnerDialog(
-                onClickHome = {},
-                onClickPlayAgain = {},
+                onClickHome = {navController.navigateToGameDetailsScreen(state.type)},
+                onClickPlayAgain = viewModel::onClickPlayAgain,
                 score = state.currentScore
             )
         }

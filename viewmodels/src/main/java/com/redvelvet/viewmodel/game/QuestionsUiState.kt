@@ -3,11 +3,13 @@ package com.redvelvet.viewmodel.game
 import com.redvelvet.entities.Question
 import com.redvelvet.viewmodel.base.BaseUiState
 import com.redvelvet.viewmodel.base.ErrorUiState
+import com.redvelvet.viewmodel.utils.MediaType
 
 data class QuestionsUiState(
     val isLoading: Boolean = true,
     val isGameFinished: Boolean = false,
     val error: ErrorUiState? = null,
+    val type: MediaType = MediaType.MOVIE,
     val currentQuestionNumber: Int = 0,
     val question: QuestionUiState = QuestionUiState(),
     val isAnswered: Boolean = false,

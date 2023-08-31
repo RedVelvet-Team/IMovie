@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.redvelvet.ui.R
 import com.redvelvet.ui.theme.FontPrimary
@@ -47,15 +48,16 @@ fun PlayerCard(
     ) {
         Image(
             modifier = Modifier
-                .size(42.dp),
+                .size(42.dp)
+                .padding(end = 4.dp),
             painter = iconPainter,
             contentDescription = ""
         )
         Text(
-            modifier = Modifier.padding(start = 4.dp),
             text = name,
             style = MaterialTheme.typography.bodyMedium,
-            color = FontPrimary
+            color = FontPrimary,
+            textAlign = TextAlign.Start
         )
 
         AnimatedVisibility(visible = rankIcon != null) {
@@ -66,11 +68,12 @@ fun PlayerCard(
             )
         }
 
-        Spacer(modifier = Modifier.width(100.dp))
+        Spacer(modifier = Modifier.width(110.dp))
         Text(
             text = score,
             style = Typography.headlineSmall,
-            color = Color(0xFFE9C03C)
+            color = Color(0xFFE9C03C),
+            textAlign = TextAlign.End
         )
         Icon(
             painter = painterResource(id = R.drawable.ic_point),

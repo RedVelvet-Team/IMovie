@@ -7,9 +7,9 @@ import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import androidx.paging.map
 import com.redvelvet.entities.EpisodeDetails
+import com.redvelvet.entities.Genre
 import com.redvelvet.entities.Player
 import com.redvelvet.entities.Question
-import com.redvelvet.entities.Genre
 import com.redvelvet.entities.actor.Actor
 import com.redvelvet.entities.movie.Movie
 import com.redvelvet.entities.movie.details.MovieDetails
@@ -70,9 +70,7 @@ class MovieRepositoryImpl @Inject constructor(
 
     //region game
     override suspend fun getMovieQuestions(): List<Question> {
-        Log.v("hass", "strt")
         return remoteDataSource.getMovieQuestions().map { it.toEntity() }
-            .also { Log.v("hass", it.toString()) }
     }
 
     override suspend fun getTvQuestions(): List<Question> {
@@ -84,29 +82,30 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getPlayerInfo(): Player {
-        val accountId = authRepository.getAccountDetailsIdFromLocal() ?: 123
+        val accountId = authRepository.getAccountId() ?: 0
         return realTimeDataSource.getUserScore(accountId).toEntity()
     }
 
     override suspend fun addPlayer() {
-        val accountId = authRepository.getAccountDetailsIdFromLocal() ?: 0
-        val username = authRepository.getAccountDetailsUsernameFromLocal() ?: ""
+        val accountId = authRepository.getAccountId() ?: 0
+        val username = authRepository.getAccountUsername() ?: ""
         realTimeDataSource.addPlayer(
             Player(
                 accountId,
                 username,
                 0,
-                avatars.random().toString()
-            ).toDto()
+                avatars.random(),
+                rank = 0
+            ).toDto().also { Log.v("hass", it.toString()) }
         )
     }
 
     override suspend fun getHighestScorePlayer(): List<Player> {
-        return realTimeDataSource.getHighestScore().map { it.toEntity() }
+        return realTimeDataSource.getHighestScorePlayers().map { it.toEntity() }
     }
 
     override suspend fun savePlayerScore(score: Int) {
-        val accountId = authRepository.getAccountDetailsIdFromLocal() ?: 123
+        val accountId = authRepository.getAccountId() ?: 0
         Log.v("mohamed", "save from repo $score with $accountId")
         realTimeDataSource.saveUserScore(score, accountId)
     }
@@ -314,6 +313,7 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun getTopRatedTv(): List<TvShow> {
         return remoteDataSource.getTopRatedTv().map { it.toTvShow() }
     }
+
     override suspend fun getAllSeasons(seriesId: Int): List<SeasonTvShow> {
         return remoteDataSource.getAllSeasons(
             seriesId
@@ -377,6 +377,14 @@ class MovieRepositoryImpl @Inject constructor(
     //endregion
     companion object {
         private const val DEFAULT_PAGE_SIZE = 100
-        private val avatars = listOf(2131230911, 2131230912, 2131230913, 2131230914, 2131230915)
+
+        // this is the list of avatars url
+        private val avatars = listOf(
+            "https://i.ibb.co/HVmP7Tk/avatar1.png",
+            "https://i.ibb.co/8PTQ9Gq/avatar2.png",
+            "https://i.ibb.co/JxD4Hfk/avatar3.png",
+            "https://i.ibb.co/XtdvRJL/avatar4.png",
+            "https://i.ibb.co/RpYT8f0/avatar5.png"
+        )
     }
 }

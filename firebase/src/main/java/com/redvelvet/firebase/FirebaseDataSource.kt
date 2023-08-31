@@ -15,31 +15,29 @@ class FirebaseDataSource @Inject constructor(
     private val fireStore: FirebaseFirestore,
     private val auth: FirebaseAuth
 ) : RealTimeDataSource {
-    override suspend fun getUserScore(accountId: Int): PlayerDto {
-        var result = PlayerDto()
-        fireStore.collection(GAME_COLLECTION).document(accountId.toString()).get()
-            .addOnSuccessListener {
-                result = it?.toObject(PlayerDto::class.java) ?: PlayerDto()
-            }.addOnFailureListener {
-                throw it
-            }
-        return result
+    override suspend fun getUserScore(accountId: Int): Pair<PlayerDto, Int> {
+        val result = getAllPlayers()
+        return ((result.find { it.accountId == accountId }
+            ?: PlayerDto()) to result.indexOfFirst { it.accountId == accountId })
     }
 
-    override suspend fun getHighestScore(): List<PlayerDto> {
+    override suspend fun getHighestScorePlayers(): List<Pair<PlayerDto, Int>> {
+        return getAllPlayers().take(5).mapIndexed{index, playerDto -> playerDto to index }
+    }
+
+    private suspend fun getAllPlayers(): List<PlayerDto> {
         val result = mutableListOf<PlayerDto>()
         fireStore.collection(GAME_COLLECTION)
-            .orderBy(SCORE, Query.Direction.DESCENDING).limit(3)
+            .orderBy(SCORE, Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener {
-                Log.v("hass", "firebase ${it.documents.size}")
                 it.documents.forEach { document ->
                     result.add(document?.toObject(PlayerDto::class.java) ?: PlayerDto())
                 }
             }.addOnFailureListener { throw it }
             .await()
         delay(2000)
-        return result.also { Log.v("hass", it.toString()) }
+        return result
     }
 
     override suspend fun saveUserScore(score: Int, accountId: Int) {
@@ -49,7 +47,6 @@ class FirebaseDataSource @Inject constructor(
         Log.v("mohamed", "score lfeoegve")
         Log.v("mohamed", "score $currentScore, $score")
         playerRef.update(SCORE, currentScore + score)
-//            .update(hashMapOf(SCORE to score) as Map<String, Any>)
     }
 
     override suspend fun addPlayer(player: PlayerDto) {

@@ -1,6 +1,7 @@
 package com.redvelvet.viewmodel.game
 
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.redvelvet.entities.Player
 import com.redvelvet.entities.error.ValidationException
@@ -14,9 +15,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GameDetailsViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
     private val getPlayerInfo: GetPlayerInfoUseCase
 ) : BaseViewModel<GameScoreUiState, GameScoreUiEffect>(GameScoreUiState()) {
+
+    private val args = GameArgs(savedStateHandle)
+
     init {
+        _state.update { it.copy(type = enumValueOf(args.media)) }
         getPlayerScore()
         getHighestPlayerScore()
     }

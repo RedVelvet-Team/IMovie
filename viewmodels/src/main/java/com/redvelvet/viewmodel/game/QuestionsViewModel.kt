@@ -1,10 +1,12 @@
 package com.redvelvet.viewmodel.game
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.redvelvet.entities.Question
 import com.redvelvet.usecase.usecase.GetQuestionUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
+import com.redvelvet.viewmodel.utils.MediaType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.update
@@ -13,17 +15,27 @@ import javax.inject.Inject
 
 @HiltViewModel
 class QuestionsViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
     private val getQuestion: GetQuestionUseCase
 ) : BaseViewModel<QuestionsUiState, Unit>(QuestionsUiState()) {
 
+    private val args = GameArgs(savedStateHandle)
+
     init {
+        _state.update { it.copy(type = enumValueOf(args.media)) }
         getQuestion()
     }
 
     private fun getQuestion() {
         viewModelScope.launch {
             tryToExecute(
-                execute = { getQuestion.getMovieQuestion() },
+                execute = {
+                    when (args.media) {
+                        MediaType.MOVIE.name -> getQuestion.getMovieQuestion()
+                        MediaType.TV.name -> getQuestion.getTvQuestion()
+                        else -> getQuestion.getMovieQuestion()
+                    }
+                },
                 onSuccessWithData = ::onGetQuestionSuccess,
                 onError = ::onError
             )
@@ -48,6 +60,11 @@ class QuestionsViewModel @Inject constructor(
 
     private fun onError(error: ErrorUiState) {
         _state.update { it.copy(isLoading = false, error = error) }
+    }
+
+    fun onClickPlayAgain() {
+        getQuestion.clearQuestions()
+        getQuestion()
     }
 
     fun onClickAnswer(answer: AnswerUiState) {
