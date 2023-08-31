@@ -30,6 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.redvelvet.ui.R
+import com.redvelvet.ui.theme.OnSecondary
 import com.redvelvet.ui.theme.Secondary
 import com.redvelvet.ui.theme.SecondaryCard2
 import com.redvelvet.ui.theme.SecondaryCard3
@@ -94,7 +95,7 @@ fun QuestionCard(question: String, score: String) {
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .clip(RoundedCornerShape(8.dp))
-                .background(Color(0xFF6C5DD3))
+                .background(OnSecondary)
                 .padding(horizontal = 8.dp, vertical = 4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
