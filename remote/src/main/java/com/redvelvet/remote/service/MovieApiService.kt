@@ -5,6 +5,7 @@ import com.redvelvet.entities.library.list.CreatedLists
 import com.redvelvet.remote.BuildConfig
 import com.redvelvet.repository.dto.BaseResponse
 import com.redvelvet.repository.dto.EpisodeSingleItemDto
+import com.redvelvet.repository.dto.GenresDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
 import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
@@ -430,5 +431,29 @@ interface MovieApiService {
         @Path("account_id") accountId: Int,
         @Query("session_id") sessionId: String,
     ): Response<TvFavoriteListDto>
+    //endregion
+
+    //region Category
+    @GET("genre/movie/list")
+    suspend fun genreListMovie(
+        @Query("page") page: Int? = 1,
+    ): Response<GenresDto>
+
+    @GET("genre/tv/list")
+    suspend fun genreListTv(
+        @Query("page") page: Int? = 1,
+    ): Response<GenresDto>
+
+    @GET("discover/tv")
+    suspend fun discoverListTv(
+        @Query("with_genres") id: Int,
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<TvShowDto>>>
+
+    @GET("discover/movie")
+    suspend fun discoverListMovie(
+        @Query("with_genres") id: Int,
+        @Query("page") page: Int? = 1,
+    ): Response<BaseResponse<List<MovieDetailsDTO>>>
     //endregion
 }

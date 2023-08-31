@@ -1,53 +1,99 @@
 package com.redvelvet.usecase.usecase.detailsActions
 
-import com.redvelvet.entities.library.WatchListMedia
-import com.redvelvet.usecase.usecase.library.GetMovieFavoritesUsecase
-import com.redvelvet.usecase.usecase.library.GetMovieWatchListUsecase
-import com.redvelvet.usecase.usecase.library.GetRatedMovieUsecase
-import com.redvelvet.usecase.usecase.library.GetRatedTvUsecase
-import com.redvelvet.usecase.usecase.library.GetTvFavoritesUsecase
-import com.redvelvet.usecase.usecase.library.GetTvWatchListUsecase
+import com.redvelvet.entities.library.LibraryMovie
+import com.redvelvet.entities.library.LibraryTv
+import com.redvelvet.usecase.repository.LibraryRepository
+import com.redvelvet.usecase.repository.UserRepository
+import com.redvelvet.usecase.usecase.auth.GetSavedAccountDetailsIdUsecase
 import javax.inject.Inject
 
 class HandleItemCheckUsecase @Inject constructor(
-    private val getMovieFavoritesUsecase: GetMovieFavoritesUsecase,
-    private val getRatedMovieUsecase: GetRatedMovieUsecase,
-    private val getTvFavoritesUsecase: GetTvFavoritesUsecase,
-    private val getMovieWatchListUsecase: GetMovieWatchListUsecase,
-    private val getTvWatchListUsecase: GetTvWatchListUsecase,
-    private val getRatedTvUsecase: GetRatedTvUsecase,
-) {
-    suspend operator fun invoke(itemId: Int, dataType: TypeOfData): Boolean {
+    private val libraryRepository: LibraryRepository,
+    private val getAccountId: GetSavedAccountDetailsIdUsecase,
+    private val userRepository: UserRepository,
+
+    ) {
+    suspend operator fun invoke(itemId: Int, dataType: DetailsActionsTypes): Boolean {
         return when (dataType) {
-            TypeOfData.MOVIE_FAVORITES -> isItemInMovieList(
-                getMovieFavoritesUsecase.invoke().data,
+            DetailsActionsTypes.MOVIE_FAVORITES -> isItemInMovieList(
+                getMovieFavorites(),
                 itemId
             )
 
-            TypeOfData.TV_FAVORITES -> isItemInTvList(getTvFavoritesUsecase.invoke().data, itemId)
-            TypeOfData.MOVIE_WATCHLIST -> isItemInMovieList(
-                getMovieWatchListUsecase.invoke().data,
+            DetailsActionsTypes.TV_FAVORITES -> isItemInTvList(getTvFavorites(), itemId)
+            DetailsActionsTypes.MOVIE_WATCHLIST -> isItemInMovieList(
+                getMovieWatchList(),
                 itemId
             )
 
-            TypeOfData.TV_WATCHLIST -> isItemInTvList(getTvWatchListUsecase.invoke().data, itemId)
-            TypeOfData.RATED_TV -> isItemInTvList(getRatedTvUsecase.invoke().data, itemId)
-            TypeOfData.RATED_MOVIE -> isItemInMovieList(getRatedMovieUsecase.invoke().data, itemId)
+            DetailsActionsTypes.TV_WATCHLIST -> isItemInTvList(getTvWatchList(), itemId)
+            DetailsActionsTypes.RATED_TV -> isItemInTvList(getRatedTv(), itemId)
+            DetailsActionsTypes.RATED_MOVIE -> isItemInMovieList(
+                getRatedMovie(),
+                itemId
+            )
+
+            else -> false
         }
     }
 
-    private fun isItemInMovieList(
-        useCase: List<WatchListMedia.Data>,
+    fun isItemInMovieList(
+        movieList: List<LibraryMovie>,
         itemId: Int
     ): Boolean {
-        return useCase.run { isNotEmpty() && any { it.id == itemId } }
+        return movieList.run { isNotEmpty() && any { it.id == itemId } }
     }
 
-    private fun isItemInTvList(
-        useCase: List<WatchListMedia.Data>,
+    fun isItemInTvList(
+        tvList: List<LibraryTv>,
         itemId: Int
     ): Boolean {
-        return useCase.run { isNotEmpty() && any { it.id == itemId } }
+        return tvList.run { isNotEmpty() && any { it.id == itemId } }
+    }
+
+
+    suspend fun getTvWatchList(): List<LibraryTv> {
+        return libraryRepository.getWatchlistTv(
+            accountId = getAccountId.invoke(),
+            userRepository.getUserSessionIdFromLocal()
+
+        )
+    }
+
+    suspend fun getTvFavorites(): List<LibraryTv> {
+        return libraryRepository.getFavoriteTv(
+            accountId = getAccountId.invoke(),
+            userRepository.getUserSessionIdFromLocal()
+        )
+    }
+
+    suspend fun getMovieFavorites(): List<LibraryMovie> {
+        return libraryRepository.getFavoriteMovies(
+            accountId = getAccountId.invoke(),
+            userRepository.getUserSessionIdFromLocal()
+
+        )
+    }
+
+    suspend fun getMovieWatchList(): List<LibraryMovie> {
+        return libraryRepository.getWatchlistMovie(
+            accountId = getAccountId.invoke(),
+            userRepository.getUserSessionIdFromLocal()
+        )
+    }
+
+    suspend fun getRatedMovie(): List<LibraryMovie> {
+        return libraryRepository.getRatedMovies(
+            accountId = getAccountId.invoke(),
+            userRepository.getUserSessionIdFromLocal()
+        )
+    }
+
+    suspend fun getRatedTv(): List<LibraryTv> {
+        return libraryRepository.getRatedTv(
+            accountId = getAccountId.invoke(),
+            userRepository.getUserSessionIdFromLocal()
+        )
     }
 
 }
