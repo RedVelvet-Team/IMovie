@@ -23,7 +23,6 @@ import com.redvelvet.ui.composable.GameItem
 import com.redvelvet.ui.composable.ImageAndText
 import com.redvelvet.ui.composable.SpacerVertical
 import com.redvelvet.ui.screen.game.navigateToGameDetailsScreen
-import com.redvelvet.ui.screen.upcoming.navigateToUpcoming
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.fun_activities.FunActivitiesViewModel
@@ -72,7 +71,7 @@ fun FunContent(
                 description = "You can create a room and invite your friends to watch movies together :)",
                 modifier = Modifier
                     .padding(top = MaterialTheme.spacing.spacing4)
-                    .clickable { navController.navigateToUpcoming() }
+                    .clickable { /*TODO*/ }
             )
             Column(
                 modifier = Modifier.padding(
