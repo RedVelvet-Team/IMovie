@@ -1,5 +1,6 @@
 package com.redvelvet.repository.repository
 
+import android.util.Log
 import com.redvelvet.entities.user.AccountDetails
 import com.redvelvet.repository.mapper.toDomain
 import com.redvelvet.repository.source.RemoteDataSource
@@ -102,6 +103,11 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun getAccountDetails(sessionId: String): AccountDetails {
         return wrapRemoteResponse {
             remoteDataSource.getAccountDetails(sessionId).toDomain().also {
+                Log.v(
+                    "hass",
+                    "getAccountDetails $it"
+                )
+
                 setAccountDetailsId(it.id)
                 setAccountDetailsUsername(it.username)
             }

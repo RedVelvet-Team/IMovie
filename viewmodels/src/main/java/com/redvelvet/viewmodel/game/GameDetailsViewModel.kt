@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.redvelvet.entities.Player
 import com.redvelvet.entities.error.ValidationException
 import com.redvelvet.usecase.usecase.GetPlayerInfoUseCase
+import com.redvelvet.usecase.usecase.auth.GetAccountDetailsUsecase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,12 +17,27 @@ import javax.inject.Inject
 @HiltViewModel
 class GameDetailsViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val getPlayerInfo: GetPlayerInfoUseCase
-) : BaseViewModel<GameScoreUiState, GameScoreUiEffect>(GameScoreUiState()) {
+    private val getPlayerInfo: GetPlayerInfoUseCase,
+    private val getAccountDetails: GetAccountDetailsUsecase,
+
+    ) : BaseViewModel<GameScoreUiState, GameScoreUiEffect>(GameScoreUiState()) {
 
     private val args = GameArgs(savedStateHandle)
+    private fun onCheckAccountDetailsIsSaved(isUserDetailsSaved: Boolean) {
+        Log.e("hass", "isUserDetailsSaved$isUserDetailsSaved")
+    }
+
+    private fun onCheckAccountDetailsNotSaved(error: ErrorUiState) {
+        Log.e("hass", "error${error.message}")
+    }
 
     init {
+        tryToExecute(
+            execute = getAccountDetails::invoke,
+            onSuccessWithData = ::onCheckAccountDetailsIsSaved,
+            onError = ::onCheckAccountDetailsNotSaved,
+        )
+
         _state.update { it.copy(type = enumValueOf(args.media)) }
         getPlayerScore()
         getHighestPlayerScore()
@@ -48,7 +64,6 @@ class GameDetailsViewModel @Inject constructor(
     }
 
     private fun onGetHighestPlayerInfoScoreSuccess(players: List<Player>) {
-        Log.v("hass", players.toString())
         _state.update {
             it.copy(
                 highestScorePlayer = players.map { it.toUiState() },

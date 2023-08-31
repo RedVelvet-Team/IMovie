@@ -53,9 +53,6 @@ class HomeViewModel @Inject constructor(
 
 
     private fun onSuccessMovies(movies: List<List<Movie>>) {
-        movies.forEach{
-            Log.v("hass", it.toString())
-        }
         _state.update {
             it.copy(
                 isLoading = false,
@@ -86,9 +83,6 @@ class HomeViewModel @Inject constructor(
         }
     }
     private fun onSuccesTv(movies: List<List<TvShow>>) {
-        movies.forEach{
-            Log.v("hass", it.toString())
-        }
         _state.update {
             it.copy(
                 isLoading = false,

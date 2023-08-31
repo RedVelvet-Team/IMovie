@@ -96,7 +96,7 @@ class MovieRepositoryImpl @Inject constructor(
                 0,
                 avatars.random(),
                 rank = 0
-            ).toDto().also { Log.v("hass", it.toString()) }
+            ).toDto()
         )
     }
 

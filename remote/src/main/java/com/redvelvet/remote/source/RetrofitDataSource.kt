@@ -1,5 +1,6 @@
 package com.redvelvet.remote.source
 
+import android.util.Log
 import com.redvelvet.entities.error.BadRequestException
 import com.redvelvet.entities.error.NoInternetException
 import com.redvelvet.entities.error.NotFoundException
@@ -548,6 +549,14 @@ class RetrofitDataSource @Inject constructor(
     override suspend fun getAccountDetails(
         sessionId: String,
     ): AccountDetailsDto {
+        Log.v(
+            "hass",
+            "movieApiService.getAccountDetails(sessionId) ${
+                movieApiService.getAccountDetails(
+                    sessionId
+                )
+            }"
+        )
         return wrapApiResponse { movieApiService.getAccountDetails(sessionId) }
     }
 

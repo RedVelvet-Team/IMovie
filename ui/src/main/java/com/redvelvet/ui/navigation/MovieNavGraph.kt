@@ -35,7 +35,7 @@ import com.redvelvet.ui.screen.youtube_player.youtubePlayerRoute
 
 @Composable
 fun MovieNavGraph() {
-    NavHost(LocalNavController.current, startDestination = MovieDestination.OnBoarding.route) {
+    NavHost(LocalNavController.current, startDestination = MovieDestination.Splash.route) {
         splashRoute()
         onBoardingRoute()
         actorDetailsRoute()
