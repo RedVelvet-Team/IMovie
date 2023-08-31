@@ -1,7 +1,6 @@
 package com.redvelvet.remote.service
 
 
-import com.redvelvet.entities.library.list.CreatedLists
 import com.redvelvet.remote.BuildConfig
 import com.redvelvet.repository.dto.BaseResponse
 import com.redvelvet.repository.dto.EpisodeSingleItemDto
@@ -19,6 +18,7 @@ import com.redvelvet.repository.dto.library.favorite.MovieFavoriteListDto
 import com.redvelvet.repository.dto.library.favorite.TvFavoriteListDto
 import com.redvelvet.repository.dto.library.list.CreateListRequestDto
 import com.redvelvet.repository.dto.library.list.CreateListResponseDto
+import com.redvelvet.repository.dto.library.list.CreatedListsDto
 import com.redvelvet.repository.dto.library.list.ListDetailsDto
 import com.redvelvet.repository.dto.library.list.ToggleMediaInListDto
 import com.redvelvet.repository.dto.library.rated.user.UserRatedMoviesDto
@@ -351,6 +351,7 @@ interface MovieApiService {
     //region List
     @POST("list")
     suspend fun createNewList(
+        @Query("session_id") sessionId: String,
         @Body listRequest: CreateListRequestDto
     ): Response<CreateListResponseDto>
 
@@ -358,7 +359,7 @@ interface MovieApiService {
     suspend fun getCreatedLists(
         @Path("account_id") accountId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<CreatedLists>
+    ): Response<CreatedListsDto>
 
     @GET("list/{list_id}")
     suspend fun getListDetails(
