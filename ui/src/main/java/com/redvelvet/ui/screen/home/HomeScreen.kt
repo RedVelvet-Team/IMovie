@@ -1,15 +1,14 @@
+@file:Suppress("LABEL_NAME_CLASH")
+
 package com.redvelvet.ui.screen.home
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.pager.PagerState
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
@@ -18,17 +17,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.LocalNavController
+import com.redvelvet.ui.R
+import com.redvelvet.ui.composable.ErrorPage
 import com.redvelvet.ui.composable.FlixMovieScaffold
+import com.redvelvet.ui.composable.NavigationHandler
 import com.redvelvet.ui.composable.TabContentDisplay
 import com.redvelvet.ui.screen.movieDetails.navigateToMovieDetails
 import com.redvelvet.ui.screen.seeall.navigateToSeeAllMovie
@@ -37,7 +38,8 @@ import com.redvelvet.ui.screen.tvshowdetails.navigateToTvShowDetails
 import com.redvelvet.ui.theme.Typography
 import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
-
+import com.redvelvet.viewmodel.home.HomeInteraction
+import com.redvelvet.viewmodel.home.HomeUiEffect
 import com.redvelvet.viewmodel.home.HomeUiState
 import com.redvelvet.viewmodel.home.HomeViewModel
 import com.redvelvet.viewmodel.home.ItemUiState
@@ -45,9 +47,21 @@ import com.redvelvet.viewmodel.utils.MediaType
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setSystemBarsColor(MaterialTheme.color.backgroundPrimary, darkIcons = false)
+    NavigationHandler(
+        effects = viewModel.effect,
+        handleEffect = { effect, navController ->
+            when (effect) {
+                is HomeUiEffect.NavigateUp -> {
+                    navController.popBackStack()
+                }
+            }
+        }
+    )
     FlixMovieScaffold(
         title = "FlixMovie",
         isLoading = state.isLoading,
@@ -55,16 +69,23 @@ fun HomeScreen(
         hasTopBar = true,
         hasBackArrow = false,
     ) {
-        HomeScreenContent(
-            state = state,
-        )
+        if (state.isEmpty) {
+            HomeContent(state = state, interaction = viewModel)
+        } else {
+            ErrorPage(
+                image = painterResource(id = R.drawable.vector_no_internet),
+                title = "Internet is not available",
+                description = "Please make sure you are connected to the internet and try again",
+                retryButton = { viewModel.onCLickRefresh() })
+        }
+
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreenContent(
+fun HomeContent(
     state: HomeUiState,
+    interaction: HomeInteraction,
 ) {
     Column(
         modifier = Modifier
@@ -73,39 +94,25 @@ fun HomeScreenContent(
             )
             .fillMaxWidth()
     ) {
-
-        var page by remember { mutableIntStateOf(0) }
-        val pagerState = rememberPagerState(initialPage = 0) {
-            if (state.movieCategories.isNotEmpty()) {
-                if (page == 0) state.movieCategories[0].items.size
-                else state.tvShowCategories[0].items.size
-            } else {
-                0
-            }
-        }
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = MaterialTheme.dimens.dimens16)
         ) {
             TabRow(
-                selectedTabIndex = page,
+                selectedTabIndex = state.type.ordinal,
                 containerColor = MaterialTheme.color.backgroundPrimary,
-                indicator = {
-                },
+                indicator = {},
                 divider = {}
             ) {
-                state.tabLayoutTitles.forEachIndexed { index, title ->
+                MediaType.entries.forEachIndexed { index, items ->
                     Box {
                         Tab(
-                            selected = page == index,
-                            onClick = {
-                                page = index
-                            },
+                            selected = state.type == items,
+                            onClick = { interaction.onChangeCategoryTab(items) },
                             text = {
                                 Text(
-                                    text = title,
+                                    text = items.name,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
                                     color = Color.White,
@@ -113,7 +120,7 @@ fun HomeScreenContent(
                                 )
                             })
                         this@Column.AnimatedVisibility(
-                            visible = page == index,
+                            visible = state.type == items,
                             modifier = Modifier.align(Alignment.BottomCenter)
                         ) {
                             Box(
@@ -131,52 +138,35 @@ fun HomeScreenContent(
                 }
             }
         }
-        val selectedTabContent: @Composable () -> Unit = when (page) {
-            0 -> {
-                {
-                    MovieContent(
-                        state = state,
-                        pagerState = pagerState,
-                        "Popular Movies",
-                        viewpagerList = if (state.movieCategories.isNotEmpty()) state.movieCategories[0].items else listOf(),
-                    )
-                }
-            }
+        val selectedTabContent: @Composable () -> Unit = {
+            when (state.type) {
+                MediaType.MOVIE -> MovieContent(
+                    state = state,
+                    viewpagerList = if (state.movieCategories.isNotEmpty()) state.movieCategories[0].items else listOf()
+                )
 
-            1 -> {
-                {
-                    SeriesContent(
-                        state = state,
-                        pagerState = pagerState,
-                        "Popular Series",
-                        state.tvShowCategories[0].items,
-                    )
-                }
-            }
+                MediaType.TV -> SeriesContent(
+                    state = state,
+                    viewpagerList = if (state.tvShowCategories.isNotEmpty()) state.tvShowCategories[0].items else listOf()
+                )
 
-            else -> {
-                {}
+                else -> {}
             }
         }
         selectedTabContent()
     }
 }
 
-
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MovieContent(
     state: HomeUiState,
-    pagerState: PagerState,
-    label: String,
     viewpagerList: List<ItemUiState>,
 ) {
     val navController = LocalNavController.current
     TabContentDisplay(
-        pagerState = pagerState,
         viewpagerList = viewpagerList,
         categories = state.movieCategories,
-        label = label,
+        label = state.label,
         hasName = true,
         hasDateAndCountry = true,
         onClickSeeAllMovie = { seeAllMovie ->
@@ -192,20 +182,15 @@ fun MovieContent(
         onClickSeeAllTv = {}
     )
 }
-
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SeriesContent(
     state: HomeUiState,
-    pagerState: PagerState,
-    label: String,
     viewpagerList: List<ItemUiState>,
 ) {
     val navController = LocalNavController.current
     TabContentDisplay(
-        pagerState = pagerState,
         viewpagerList = viewpagerList,
-        label = label,
+        label = state.label,
         categories = state.tvShowCategories,
         hasName = true,
         hasDateAndCountry = true,
@@ -219,4 +204,3 @@ fun SeriesContent(
         }
     )
 }
-

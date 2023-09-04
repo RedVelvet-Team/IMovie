@@ -1,10 +1,8 @@
 package com.redvelvet.ui.composable
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import com.redvelvet.ui.theme.dimens
@@ -14,10 +12,8 @@ import com.redvelvet.viewmodel.utils.MediaType
 import com.redvelvet.viewmodel.utils.SeeAllMovie
 import com.redvelvet.viewmodel.utils.SeeAllTvShows
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TabContentDisplay(
-    pagerState: PagerState,
     viewpagerList: List<ItemUiState>,
     categories: List<ItemsUiState>,
     label: String,
@@ -26,7 +22,7 @@ fun TabContentDisplay(
     onClickSeeAllMovie: (SeeAllMovie) -> Unit = {},
     onClickItem: (String) -> Unit,
     type: MediaType,
-    onClickSeeAllTv: (SeeAllTvShows) -> Unit
+    onClickSeeAllTv: (SeeAllTvShows) -> Unit = {}
 ) {
     val homeSeeAllMovie = listOf(SeeAllMovie.NOW_PLAYING, SeeAllMovie.UPCOMING, SeeAllMovie.TOP_RATED)
     val homeSeeAllTv = listOf(SeeAllTvShows.AIRING_TODAY, SeeAllTvShows.ON_TV, SeeAllTvShows.TOP_RATED)
@@ -36,7 +32,6 @@ fun TabContentDisplay(
     ) {
         item {
             HomeViewPager(
-                state = pagerState,
                 onClickSeeAllMovie = onClickSeeAllMovie,
                 onClickSeeAllTv = onClickSeeAllTv,
                 type = type,

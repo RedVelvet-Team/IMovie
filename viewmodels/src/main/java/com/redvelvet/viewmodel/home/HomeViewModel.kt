@@ -1,14 +1,13 @@
 package com.redvelvet.viewmodel.home
 
-import android.util.Log
 import com.redvelvet.entities.movie.Movie
-import com.redvelvet.entities.movie.details.MovieDetails
 import com.redvelvet.entities.tv.TvShow
 import com.redvelvet.usecase.usecase.GetTvShowsCategoriesUseCase
 import com.redvelvet.usecase.usecase.movie.GetMoviesCategories
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
 import com.redvelvet.viewmodel.seeall.tv.toTvShowUiState
+import com.redvelvet.viewmodel.utils.MediaType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
@@ -17,35 +16,37 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getMoviesCategories: GetMoviesCategories,
     private val getSeriesCategories: GetTvShowsCategoriesUseCase
-) : BaseViewModel<HomeUiState, Unit>(HomeUiState()) {
+) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()),
+    HomeInteraction {
 
     init {
-        getPopularMovies()
-        getTvCategories()
+        getMovies()
+        getTv()
     }
 
-    private fun getPopularMovies() {
+    private fun getMovies() {
         _state.update {
             it.copy(
-                isLoading = true,
+                isLoading = false,
                 isError = null
             )
         }
         tryToExecute(
-            execute = {getMoviesCategories()},
+            execute = { getMoviesCategories() },
             onSuccessWithData = ::onSuccessMovies,
             onError = ::onError,
         )
     }
-    private fun getTvCategories() {
+
+    private fun getTv() {
         _state.update {
             it.copy(
-                isLoading = true,
+                isLoading = false,
                 isError = null
             )
         }
         tryToExecute(
-            execute = {getSeriesCategories()},
+            execute = { getSeriesCategories() },
             onSuccessWithData = ::onSuccesTv,
             onError = ::onError,
         )
@@ -56,25 +57,24 @@ class HomeViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isLoading = false,
-                isError = null,
                 movieCategories = listOf(
                     ItemsUiState(
-                        title = "Popular Movies",
+                        title = POPULAR_MOVIES_TITLE,
                         items = movies[0].map { it.toItemUiState() },
                         hasMore = true
                     ),
                     ItemsUiState(
-                        title = "Now Playing",
+                        title = NOW_PLAYING_TITLE,
                         items = movies[1].map { it.toItemUiState() },
                         hasMore = true
                     ),
                     ItemsUiState(
-                        title = "Upcoming",
+                        title = UPCOMING_TITLE,
                         items = movies[2].map { it.toItemUiState() },
                         hasMore = true
                     ),
                     ItemsUiState(
-                        title = "Top Rated",
+                        title = TOP_RATED_TITLE,
                         items = movies[3].map { it.toItemUiState() },
                         hasMore = true
                     ),
@@ -86,25 +86,24 @@ class HomeViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isLoading = false,
-                isError = null,
                 tvShowCategories = listOf(
                     ItemsUiState(
-                        title = "Popular Series",
+                        title = POPULAR_SERIES_TITLE,
                         items = movies[0].map { it.toTvShowUiState() },
                         hasMore = true
                     ),
                     ItemsUiState(
-                        title = "Airing Today",
+                        title = AIRING_TODAY_TITLE,
                         items = movies[1].map { it.toTvShowUiState() },
                         hasMore = true
                     ),
                     ItemsUiState(
-                        title = "On TV",
+                        title = ON_TV_TITLE,
                         items = movies[2].map { it.toTvShowUiState() },
                         hasMore = true
                     ),
                     ItemsUiState(
-                        title = "Top Rated",
+                        title = TOP_RATED_TITLE,
                         items = movies[3].map { it.toTvShowUiState() },
                         hasMore = true
                     ),
@@ -122,150 +121,26 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    companion object {
+        private const val POPULAR_MOVIES_TITLE = "Popular Movies"
+        private const val NOW_PLAYING_TITLE = "Now Playing"
+        private const val UPCOMING_TITLE = "Upcoming"
+        private const val TOP_RATED_TITLE = "Top Rated"
+        private const val POPULAR_SERIES_TITLE = "Popular Series"
+        private const val AIRING_TODAY_TITLE = "Airing Today"
+        private const val ON_TV_TITLE = "On TV"
+    }
 
-    private fun fakeData() {
+    override fun onChangeCategoryTab(mediaType: MediaType) {
         _state.update {
             it.copy(
-                movieCategories = fakeMoviesCategories(),
-                tvShowCategories = fakeTvShowCategories(),
-                tabLayoutTitles = listOf("Movies", "TV Shows"),
+                type = mediaType
             )
         }
     }
 
-    private fun fakeMoviesCategories() =
-        listOf(
-            fakeMovieCategory("Now Playing"),
-            fakeMovieCategory("Upcoming"),
-            fakeMovieCategory("Top Rated"),
-        )
-
-    private fun fakeTvShowCategories() =
-        listOf(
-            fakeTvShowCategory("Airing Today"),
-            fakeTvShowCategory("On TV"),
-            fakeTvShowCategory("Top Rated"),
-        )
-
-    private fun fakeMovieCategory(title: String) =
-        ItemsUiState(
-            title = title,
-            items = fakeMoviesList()
-        )
-
-    private fun fakeTvShowCategory(title: String) =
-        ItemsUiState(
-            title = title,
-            items = fakeTvShowList()
-        )
-
-    private fun fakeMoviesList(): List<ItemUiState> {
-        return listOf(
-            ItemUiState(
-                image = "https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png",
-                date = "23/8/2001",
-                name = "Real Madrid",
-                country = "Espania"
-            ),
-            ItemUiState(
-                image = "https://th.bing.com/th/id/R.288a9cdbf8a965fba8a044e1aac9f2eb?rik=DBP9DF9RfFfb%2fw&riu=http%3a%2f%2fwww.barcelonaconnect.com%2fwp-content%2fuploads%2f2016%2f02%2f1389120212768861.jpg&ehk=r3LRNPFmRnje0DlkhtyOzcrbJ%2fRgrAjS1J882gOJj6U%3d&risl=&pid=ImgRaw&r=0",
-                date = "23/8/2001",
-                name = "Barcelona",
-                country = "Espania"
-            ),
-            ItemUiState(
-                image = "https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png",
-                date = "23/8/2001",
-                name = "Real Madrid",
-                country = "Espania"
-            ),
-            ItemUiState(
-                image = "https://th.bing.com/th/id/R.288a9cdbf8a965fba8a044e1aac9f2eb?rik=DBP9DF9RfFfb%2fw&riu=http%3a%2f%2fwww.barcelonaconnect.com%2fwp-content%2fuploads%2f2016%2f02%2f1389120212768861.jpg&ehk=r3LRNPFmRnje0DlkhtyOzcrbJ%2fRgrAjS1J882gOJj6U%3d&risl=&pid=ImgRaw&r=0",
-                date = "23/8/2001",
-                name = "Barcelona",
-                country = "Espania"
-            ),
-            ItemUiState(
-                image = "https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png",
-                date = "23/8/2001",
-                name = "Real Madrid",
-                country = "Espania"
-            ),
-            ItemUiState(
-                image = "https://th.bing.com/th/id/R.288a9cdbf8a965fba8a044e1aac9f2eb?rik=DBP9DF9RfFfb%2fw&riu=http%3a%2f%2fwww.barcelonaconnect.com%2fwp-content%2fuploads%2f2016%2f02%2f1389120212768861.jpg&ehk=r3LRNPFmRnje0DlkhtyOzcrbJ%2fRgrAjS1J882gOJj6U%3d&risl=&pid=ImgRaw&r=0",
-                date = "23/8/2001",
-                name = "Barcelona",
-                country = "Espania"
-            ),
-            ItemUiState(
-                image = "https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png",
-                date = "23/8/2001",
-                name = "Real Madrid",
-                country = "Espania"
-            ),
-            ItemUiState(
-                image = "https://th.bing.com/th/id/R.288a9cdbf8a965fba8a044e1aac9f2eb?rik=DBP9DF9RfFfb%2fw&riu=http%3a%2f%2fwww.barcelonaconnect.com%2fwp-content%2fuploads%2f2016%2f02%2f1389120212768861.jpg&ehk=r3LRNPFmRnje0DlkhtyOzcrbJ%2fRgrAjS1J882gOJj6U%3d&risl=&pid=ImgRaw&r=0",
-                date = "23/8/2001",
-                name = "Barcelona",
-                country = "Espania"
-            ),
-            ItemUiState(
-                image = "https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png",
-                date = "23/8/2001",
-                name = "Real Madrid",
-                country = "Espania"
-            ),
-            ItemUiState(
-                image = "https://th.bing.com/th/id/R.288a9cdbf8a965fba8a044e1aac9f2eb?rik=DBP9DF9RfFfb%2fw&riu=http%3a%2f%2fwww.barcelonaconnect.com%2fwp-content%2fuploads%2f2016%2f02%2f1389120212768861.jpg&ehk=r3LRNPFmRnje0DlkhtyOzcrbJ%2fRgrAjS1J882gOJj6U%3d&risl=&pid=ImgRaw&r=0",
-                date = "23/8/2001",
-                name = "Barcelona",
-                country = "Espania"
-            ),
-        )
+    override fun onCLickRefresh() {
+        getMovies()
+        getTv()
     }
-
-    private fun fakeTvShowList() =
-        listOf(
-            ItemUiState(
-                image = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
-                date = "25/9/2017",
-                name = "The good doctor",
-                country = "Us"
-            ),
-            ItemUiState(
-                image = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
-                date = "25/9/2017",
-                name = "The good doctor",
-                country = "Us"
-            ),
-            ItemUiState(
-                image = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
-                date = "25/9/2017",
-                name = "The good doctor",
-                country = "Us"
-            ),
-            ItemUiState(
-                image = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
-                date = "25/9/2017",
-                name = "The good doctor",
-                country = "Us"
-            ), ItemUiState(
-                image = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
-                date = "25/9/2017",
-                name = "The good doctor",
-                country = "Us"
-            ),
-            ItemUiState(
-                image = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
-                date = "25/9/2017",
-                name = "The good doctor",
-                country = "Us"
-            ),
-            ItemUiState(
-                image = "https://cdn1.edgedatg.com/aws/v2/abc/TheGoodDoctor/showimages/d970024e1e411bee6f4fef77b3ee6040/1200x627-Q80_d970024e1e411bee6f4fef77b3ee6040.jpg",
-                date = "25/9/2017",
-                name = "The good doctor",
-                country = "Us"
-            )
-        )
 }
