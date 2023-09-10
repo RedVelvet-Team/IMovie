@@ -1,5 +1,6 @@
 package com.redvelvet.viewmodel.onboarding
 
+import android.util.Log
 import com.redvelvet.usecase.usecase.auth.GetAccountDetailsUsecase
 import com.redvelvet.usecase.usecase.user.CheckUserLoggedInUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
@@ -27,15 +28,27 @@ class OnBoardingViewModel @Inject constructor(
         )
     }
 
+    private fun onCheckAccountDetailsIsSaved(isUserDetailsSaved: Boolean) {
+        Log.e("hass", "isUserDetailsSaved$isUserDetailsSaved")
+    }
+
+    private fun onCheckAccountDetailsNotSaved(error: ErrorUiState) {
+        Log.e("hass", "error${error.message}")
+    }
+
     private fun onCheckedSuccess(checkedLoggedIn: Boolean) {
         if (checkedLoggedIn) {
-            getAccountDetails::invoke
             _state.update {
                 it.copy(
                     loggedIn = true,
                     error = null,
                 )
             }
+            tryToExecute(
+                execute = getAccountDetails::invoke,
+                onSuccessWithData = ::onCheckAccountDetailsIsSaved,
+                onError = ::onCheckAccountDetailsNotSaved,
+            )
         }
     }
 
@@ -49,3 +62,4 @@ class OnBoardingViewModel @Inject constructor(
     }
     //endregion
 }
+

@@ -8,6 +8,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.redvelvet.remote.BuildConfig
 import com.redvelvet.remote.service.MovieApiService
+import com.redvelvet.remote.service.TriviaService
 import com.redvelvet.remote.util.interceptor.AuthorizationInterceptor
 import dagger.Module
 import dagger.Provides
@@ -23,6 +24,18 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
+    private const val TRIVIA_BASE_URL = "https://the-trivia-api.com/v2/"
+
+
+    @Provides
+    fun provideTriviaService(
+        okHttpClient: OkHttpClient,
+        gsonConverterFactory: GsonConverterFactory
+    ): TriviaService {
+        return provideRetrofit(TRIVIA_BASE_URL, okHttpClient, gsonConverterFactory)
+            .create(TriviaService::class.java)
+    }
 
     @Singleton
     @Provides
@@ -40,7 +53,7 @@ object NetworkModule {
         okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory
     ): MovieApiService {
-        return provideRetrofit(okHttpClient, gsonConverterFactory)
+        return provideRetrofit(BASE_URL,okHttpClient, gsonConverterFactory)
             .create(MovieApiService::class.java)
     }
 
@@ -49,11 +62,12 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideRetrofit(
+        url: String,
         client: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(url)
             .client(client)
             .addConverterFactory(gsonConverterFactory)
             .build()

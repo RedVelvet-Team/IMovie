@@ -3,9 +3,7 @@ package com.redvelvet.viewmodel.seeall.seasons
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import com.redvelvet.entities.tv.SeasonTvShow
-import com.redvelvet.usecase.usecase.seeall.GetAllSeasonsUseCase
 import com.redvelvet.usecase.usecase.tvshow.GetAllTvShowDetailsUseCase
-import com.redvelvet.viewmodel.actor_details.ActorDetailsArgs
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
 import dagger.hilt.android.lifecycle.HiltViewModel

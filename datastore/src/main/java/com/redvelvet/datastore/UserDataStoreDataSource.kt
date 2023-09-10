@@ -1,5 +1,6 @@
 package com.redvelvet.datastore
 
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -19,6 +20,7 @@ class UserDataStoreDataSource @Inject constructor(
     }
 
     override suspend fun getIsLoggedInByAccount(): Boolean {
+        println("hass dataStore.get()[PreferencesKeys.IsLoggedByAccount] ${dataStore.get()[PreferencesKeys.IsLoggedByAccount]}")
         return dataStore.get()[PreferencesKeys.IsLoggedByAccount] ?: false
     }
 
@@ -82,6 +84,11 @@ class UserDataStoreDataSource @Inject constructor(
     }
 
     override suspend fun getAccountIdFromLocal(): Int? {
+        Log.v(
+            "hass",
+            "dataStore.get()[PreferencesKeys.AccountDetailsId]?.toInt() ${dataStore.get()[PreferencesKeys.AccountDetailsId]?.toInt()}"
+        )
+
         return dataStore.get()[PreferencesKeys.AccountDetailsId]?.toInt()
     }
 

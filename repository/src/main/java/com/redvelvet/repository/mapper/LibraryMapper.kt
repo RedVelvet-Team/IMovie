@@ -3,9 +3,11 @@ package com.redvelvet.repository.mapper
 import com.redvelvet.entities.library.StatusEntity
 import com.redvelvet.entities.library.WatchListMedia
 import com.redvelvet.entities.library.list.CreateListResponse
+import com.redvelvet.entities.library.list.CreatedLists
 import com.redvelvet.repository.dto.library.favorite.MovieFavoriteListDto
 import com.redvelvet.repository.dto.library.favorite.TvFavoriteListDto
 import com.redvelvet.repository.dto.library.list.CreateListResponseDto
+import com.redvelvet.repository.dto.library.list.CreatedListsDto
 import com.redvelvet.repository.dto.library.rated.user.UserRatedMoviesDto
 import com.redvelvet.repository.dto.library.rated.user.UserRatedTvDto
 import com.redvelvet.repository.dto.library.watchlist.WatchListMovieDto
@@ -101,5 +103,22 @@ fun UserRatedTvDto.toDomain(): WatchListMedia {
 fun CreateListResponseDto.toCreateList(): CreateListResponse {
     return CreateListResponse(
         listId ?: 0, statusCode ?: 0, statusMessage ?: "", success ?: false
+    )
+}
+
+
+fun CreatedListsDto.toDomain(): CreatedLists {
+    return CreatedLists(
+        page = this.page ?: 0,
+        results = this.results.map {
+            CreatedLists.Result(
+                favoriteCount = it.favoriteCount ?: 0,
+                id = it.id ?: 0,
+                itemCount = it.itemCount ?: 0,
+                listType = it.listType ?: "",
+                name = it.name ?: "",
+                posterPath = "${Constants.ImageUrl}${it.name}"
+            )
+        }
     )
 }

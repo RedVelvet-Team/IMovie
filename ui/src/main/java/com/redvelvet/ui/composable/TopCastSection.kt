@@ -36,7 +36,7 @@ fun TopCastSection(
                         castId = items[index].id,
                         items[index].name,
                         onClickItem,
-                        items[index].image
+                       image = rememberAsyncFlixImage( items[index].image)
                     )
                 },
                 onClickSeeAll = { onClickSeeAll(mediaId) },

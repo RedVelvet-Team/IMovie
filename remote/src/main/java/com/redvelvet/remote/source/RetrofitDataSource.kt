@@ -1,13 +1,17 @@
 package com.redvelvet.remote.source
 
+import android.util.Log
 import com.redvelvet.entities.error.BadRequestException
+import com.redvelvet.entities.error.DeleteException
 import com.redvelvet.entities.error.NoInternetException
 import com.redvelvet.entities.error.NotFoundException
 import com.redvelvet.entities.error.NullResultException
 import com.redvelvet.entities.error.ServerException
 import com.redvelvet.entities.error.ValidationException
 import com.redvelvet.remote.service.MovieApiService
+import com.redvelvet.remote.service.TriviaService
 import com.redvelvet.repository.dto.EpisodeSingleItemDto
+import com.redvelvet.repository.dto.QuestionDto
 import com.redvelvet.repository.dto.GenresDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.request.LoginRequest
@@ -23,6 +27,7 @@ import com.redvelvet.repository.dto.library.favorite.MovieFavoriteListDto
 import com.redvelvet.repository.dto.library.favorite.TvFavoriteListDto
 import com.redvelvet.repository.dto.library.list.CreateListRequestDto
 import com.redvelvet.repository.dto.library.list.CreateListResponseDto
+import com.redvelvet.repository.dto.library.list.CreatedListsDto
 import com.redvelvet.repository.dto.library.list.ToggleMediaInListDto
 import com.redvelvet.repository.dto.library.rated.user.UserRatedMoviesDto
 import com.redvelvet.repository.dto.library.rated.user.UserRatedTvDto
@@ -50,7 +55,24 @@ import javax.inject.Inject
 
 class RetrofitDataSource @Inject constructor(
     private val movieApiService: MovieApiService,
+    private val triviaService: TriviaService
 ) : RemoteDataSource {
+    override suspend fun getMovieQuestions(): List<QuestionDto> {
+        return wrapApiResponse { triviaService.getQuestions(TriviaService.MOVIE) }
+    }
+
+    override suspend fun getTvQuestions(): List<QuestionDto> {
+        return wrapApiResponse { triviaService.getQuestions(TriviaService.TV) }
+    }
+
+    override suspend fun getActingQuestions(): List<QuestionDto> {
+        return wrapApiResponse { triviaService.getQuestions(TriviaService.ACTING) }
+    }
+
+    //region game
+
+
+    //endregion
 
     //region auth
     override suspend fun createGuestSession(): GuestSessionDto {
@@ -252,6 +274,7 @@ class RetrofitDataSource @Inject constructor(
                     400 -> BadRequestException(response.message())
                     401 -> ValidationException("Invalid username or password")
                     404 -> NotFoundException("Not found")
+                    500 -> DeleteException("Deleted Successfully")
                     else -> ServerException("Server error")
                 }
             }
@@ -488,10 +511,12 @@ class RetrofitDataSource @Inject constructor(
     }
 
     override suspend fun createList(
-        name: String
+        name: String,
+        sessionId: String
     ): CreateListResponseDto {
         return wrapApiResponse {
             movieApiService.createNewList(
+                sessionId = sessionId,
                 listRequest = CreateListRequestDto(name)
             )
         }
@@ -536,9 +561,19 @@ class RetrofitDataSource @Inject constructor(
     override suspend fun getAccountDetails(
         sessionId: String,
     ): AccountDetailsDto {
+        Log.v(
+            "hass",
+            "movieApiService.getAccountDetails(sessionId) ${
+                movieApiService.getAccountDetails(
+                    sessionId
+                )
+            }"
+        )
         return wrapApiResponse { movieApiService.getAccountDetails(sessionId) }
     }
 
-
+    override suspend fun getCreatedLists(accountId: Int, sessionId: String): CreatedListsDto {
+        return wrapApiResponse { movieApiService.getCreatedLists(accountId, sessionId) }
+    }
 }
 

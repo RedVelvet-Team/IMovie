@@ -1,15 +1,17 @@
 package com.redvelvet.viewmodel.home
 
 import com.redvelvet.entities.movie.Movie
-import com.redvelvet.entities.movie.details.MovieDetails
 import com.redvelvet.viewmodel.base.BaseUiState
 import com.redvelvet.viewmodel.base.ErrorUiState
 import com.redvelvet.viewmodel.utils.Constants.BASE_IMAGE_URL
+import com.redvelvet.viewmodel.utils.MediaType
 
 data class HomeUiState(
+    val type: MediaType = MediaType.MOVIE,
     val movieCategories: List<ItemsUiState> = emptyList(),
     val tvShowCategories: List<ItemsUiState> = emptyList(),
-    val tabLayoutTitles: List<String> = listOf("Movies", "TV Shows"),
+    val label: String = "Popular",
+    val isEmpty: Boolean = true,
     val isLoading: Boolean = true,
     val isError: ErrorUiState? = null,
 ) : BaseUiState

@@ -22,6 +22,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.ItemBasicCard
 import com.redvelvet.ui.composable.FlixMovieScaffold
+import com.redvelvet.ui.composable.rememberAsyncFlixImage
 import com.redvelvet.ui.screen.movieDetails.navigateToMovieDetails
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.knownFor.ActorWorksUiState
@@ -75,7 +76,7 @@ private fun ActorKnownForContent(
                 items(state.knownFor.size) {
                     val media = state.knownFor[it]
                     ItemBasicCard(
-                        imagePainter = rememberAsyncImagePainter(model = media.imageUrl),
+                        imagePainter = rememberAsyncFlixImage(media.imageUrl),
                         hasName = true,
                         name = media.name,
                         modifier = Modifier

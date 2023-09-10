@@ -7,10 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.redvelvet.ui.navigation.MovieDestination
-import com.redvelvet.ui.screen.seeall.SeeAllMovieScreen
-import com.redvelvet.viewmodel.seeall.movie.SeeAllMovieArgs
 import com.redvelvet.viewmodel.seeall.tv.SeeAllTvArgs
-import com.redvelvet.viewmodel.utils.SeeAllMovie
 import com.redvelvet.viewmodel.utils.SeeAllTvShows
 
 private val ROUTE = MovieDestination.SeeAllTvShow.route

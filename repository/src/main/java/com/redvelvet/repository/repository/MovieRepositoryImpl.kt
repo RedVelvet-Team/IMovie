@@ -1,5 +1,6 @@
 package com.redvelvet.repository.repository
 
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -7,6 +8,8 @@ import androidx.paging.PagingSource
 import androidx.paging.map
 import com.redvelvet.entities.EpisodeDetails
 import com.redvelvet.entities.Genre
+import com.redvelvet.entities.Player
+import com.redvelvet.entities.Question
 import com.redvelvet.entities.actor.Actor
 import com.redvelvet.entities.movie.Movie
 import com.redvelvet.entities.movie.details.MovieDetails
@@ -25,6 +28,8 @@ import com.redvelvet.repository.dto.tvShow.TvShowDto
 import com.redvelvet.repository.mapper.toActor
 import com.redvelvet.repository.mapper.toCombinedResult
 import com.redvelvet.repository.mapper.toDomain
+import com.redvelvet.repository.mapper.toDto
+import com.redvelvet.repository.mapper.toEntity
 import com.redvelvet.repository.mapper.toEpisodeDetails
 import com.redvelvet.repository.mapper.toGenreList
 import com.redvelvet.repository.mapper.toMovie
@@ -48,7 +53,9 @@ import com.redvelvet.repository.pagingSource.seealltv.SeeAllPopularTvPageSource
 import com.redvelvet.repository.pagingSource.seealltv.SeeAllRecommendedTvShowsPageSource
 import com.redvelvet.repository.pagingSource.seealltv.SeeAllTopRatedTvShowsPageSource
 import com.redvelvet.repository.source.LocalDataSource
+import com.redvelvet.repository.source.RealTimeDataSource
 import com.redvelvet.repository.source.RemoteDataSource
+import com.redvelvet.usecase.repository.AuthRepository
 import com.redvelvet.usecase.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -56,8 +63,54 @@ import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSource,
-    private val remoteDataSource: RemoteDataSource
+    private val remoteDataSource: RemoteDataSource,
+    private val realTimeDataSource: RealTimeDataSource,
+    private val authRepository: AuthRepository
 ) : MovieRepository, BaseRepository() {
+
+    //region game
+    override suspend fun getMovieQuestions(): List<Question> {
+        return remoteDataSource.getMovieQuestions().map { it.toEntity() }
+    }
+
+    override suspend fun getTvQuestions(): List<Question> {
+        return remoteDataSource.getTvQuestions().map { it.toEntity() }
+    }
+
+    override suspend fun getActingQuestions(): List<Question> {
+        return remoteDataSource.getActingQuestions().map { it.toEntity() }
+    }
+
+    override suspend fun getPlayerInfo(): Player {
+        val accountId = authRepository.getAccountId() ?: 0
+        return realTimeDataSource.getUserScore(accountId).toEntity()
+    }
+
+    override suspend fun addPlayer() {
+        val accountId = authRepository.getAccountId() ?: 0
+        val username = authRepository.getAccountUsername() ?: ""
+        realTimeDataSource.addPlayer(
+            Player(
+                accountId,
+                username,
+                0,
+                avatars.random(),
+                rank = 0
+            ).toDto()
+        )
+    }
+
+    override suspend fun getHighestScorePlayer(): List<Player> {
+        return realTimeDataSource.getHighestScorePlayers().map { it.toEntity() }
+    }
+
+    override suspend fun savePlayerScore(score: Int) {
+        val accountId = authRepository.getAccountId() ?: 0
+        Log.v("mohamed", "save from repo $score with $accountId")
+        realTimeDataSource.saveUserScore(score, accountId)
+    }
+    //endregion
+
 
     //region search
     private fun <T : Any> search(
@@ -70,6 +123,7 @@ class MovieRepositoryImpl @Inject constructor(
             pagingSourceFactory = { sourceFactory(remoteDataSource, query) }
         ).flow
     }
+
 
     override fun multiSearch(query: String, page: Int?): Flow<PagingData<SearchResult>> {
         return search(query, page, ::MultiSearchPageSource)
@@ -259,6 +313,7 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun getTopRatedTv(): List<TvShow> {
         return remoteDataSource.getTopRatedTv().map { it.toTvShow() }
     }
+
     override suspend fun getAllSeasons(seriesId: Int): List<SeasonTvShow> {
         return remoteDataSource.getAllSeasons(
             seriesId
@@ -322,5 +377,14 @@ class MovieRepositoryImpl @Inject constructor(
     //endregion
     companion object {
         private const val DEFAULT_PAGE_SIZE = 100
+
+        // this is the list of avatars url
+        private val avatars = listOf(
+            "https://i.ibb.co/HVmP7Tk/avatar1.png",
+            "https://i.ibb.co/8PTQ9Gq/avatar2.png",
+            "https://i.ibb.co/JxD4Hfk/avatar3.png",
+            "https://i.ibb.co/XtdvRJL/avatar4.png",
+            "https://i.ibb.co/RpYT8f0/avatar5.png"
+        )
     }
 }

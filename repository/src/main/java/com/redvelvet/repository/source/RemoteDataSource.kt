@@ -1,6 +1,7 @@
 package com.redvelvet.repository.source
 
 import com.redvelvet.repository.dto.EpisodeSingleItemDto
+import com.redvelvet.repository.dto.QuestionDto
 import com.redvelvet.repository.dto.GenresDto
 import com.redvelvet.repository.dto.SeasonDetailsDto
 import com.redvelvet.repository.dto.auth.response.AccountDetailsDto
@@ -11,6 +12,7 @@ import com.redvelvet.repository.dto.auth.response.UserDetailsDto
 import com.redvelvet.repository.dto.library.favorite.MovieFavoriteListDto
 import com.redvelvet.repository.dto.library.favorite.TvFavoriteListDto
 import com.redvelvet.repository.dto.library.list.CreateListResponseDto
+import com.redvelvet.repository.dto.library.list.CreatedListsDto
 import com.redvelvet.repository.dto.library.rated.user.UserRatedMoviesDto
 import com.redvelvet.repository.dto.library.rated.user.UserRatedTvDto
 import com.redvelvet.repository.dto.library.watchlist.WatchListMovieDto
@@ -31,6 +33,10 @@ import com.redvelvet.repository.dto.tvShow.TvShowKeywordsDto
 import com.redvelvet.repository.dto.tvShow.TvShowVideosDto
 
 interface RemoteDataSource {
+
+    suspend fun getMovieQuestions(): List<QuestionDto>
+    suspend fun getTvQuestions(): List<QuestionDto>
+    suspend fun getActingQuestions(): List<QuestionDto>
     //region auth
     suspend fun createGuestSession(): GuestSessionDto
     suspend fun createToken(): TokenDto
@@ -218,6 +224,7 @@ interface RemoteDataSource {
 
     suspend fun createList(
         name: String,
+        sessionId: String
     ): CreateListResponseDto
 
     suspend fun addMediaToList(
@@ -236,5 +243,7 @@ interface RemoteDataSource {
 
     suspend fun clearList(
         listId: Int
-    ):StatusResponseDto
+    ): StatusResponseDto
+
+    suspend fun getCreatedLists(accountId: Int, sessionId: String): CreatedListsDto
 }

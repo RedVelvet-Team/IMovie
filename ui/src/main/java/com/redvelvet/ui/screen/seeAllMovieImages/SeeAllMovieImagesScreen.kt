@@ -15,6 +15,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.composable.ItemBasicCard
 import com.redvelvet.ui.composable.FlixMovieScaffold
+import com.redvelvet.ui.composable.rememberAsyncFlixImage
 import com.redvelvet.ui.theme.spacing
 import com.redvelvet.viewmodel.movie_details_seeall.SeeAllImagesUiState
 import com.redvelvet.viewmodel.movie_details_seeall.SeeAllMovieImagesViewModel
@@ -60,7 +61,7 @@ private fun SeeAllMovieImaesContent(state: SeeAllImagesUiState) {
                 items(state.images.size) {
                     val media = state.images[it]
                     ItemBasicCard(
-                        imagePainter = rememberAsyncImagePainter(model = media.mediaImage),
+                        imagePainter = rememberAsyncFlixImage(media.mediaImage),
                         hasName = false,
                         modifier = Modifier
                             .width(104.dp)

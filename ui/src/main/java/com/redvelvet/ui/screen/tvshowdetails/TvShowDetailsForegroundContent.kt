@@ -40,6 +40,7 @@ fun TvShowDetailsForegroundContent(
                     voteAverage = det.voteAverage,
                     description = det.overview,
                     isRated = isRated,
+                    mediaType = "Tv Show"
                 )
             }
             it.topCast.let { topcasts ->

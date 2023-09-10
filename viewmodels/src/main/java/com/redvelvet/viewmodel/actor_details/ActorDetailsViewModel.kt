@@ -61,7 +61,6 @@ class ActorDetailsViewModel @Inject constructor(
     }
     
     private fun onError(error: ErrorUiState){
-        Log.v("hass", error.toString())
         _state.update { it.copy(isLoading = false, error = error) }
     }
 }

@@ -36,6 +36,7 @@ import com.redvelvet.ui.composable.ItemBasicCard
 import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.composable.PosterImage
 import com.redvelvet.ui.composable.SeeMoreList
+import com.redvelvet.ui.composable.rememberAsyncFlixImage
 import com.redvelvet.ui.screen.known_for.navigateToActorKnownFor
 import com.redvelvet.ui.screen.movieDetails.navigateToMovieDetails
 import com.redvelvet.ui.theme.BackgroundPrimary
@@ -133,7 +134,7 @@ private fun ActorDetailsContent(
                 items(count = state.knownFor.size) {
                     val media = state.knownFor[it]
                     ItemBasicCard(
-                        imagePainter = rememberAsyncImagePainter(media.imageUrl),
+                        imagePainter = rememberAsyncFlixImage(media.imageUrl),
                         hasName = true,
                         name = media.name,
                         modifier = Modifier
