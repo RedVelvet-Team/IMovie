@@ -13,11 +13,10 @@ import com.redvelvet.usecase.usecase.search.GetSearchPeopleUseCase
 import com.redvelvet.usecase.usecase.search.GetSearchTvShowUseCase
 import com.redvelvet.viewmodel.base.BaseViewModel
 import com.redvelvet.viewmodel.base.ErrorUiState
-import com.redvelvet.viewmodel.search.uiStateMappers.*
+import com.redvelvet.viewmodel.search.uiStateMappers.toSearchCardUiState
 import com.redvelvet.viewmodel.utils.SearchMedia
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
@@ -146,15 +145,15 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun onError(errorUiState: ErrorUiState) {
-        _state.update { it.copy(error = errorUiState, isLoading = false) }
-    }
-
     fun onChangeCategory(type: SearchMedia) {
         val currentState = _state.value
         if (currentState.selectedMediaType == type) return
         _state.update { it.copy(selectedMediaType = type) }
         onGetData(_state.value.inputText)
+    }
+
+    private fun onError(errorUiState: ErrorUiState) {
+        _state.update { it.copy(error = errorUiState, isLoading = false) }
     }
 
     /// region listeners
@@ -180,6 +179,18 @@ class SearchViewModel @Inject constructor(
 
     override fun onClickItem(id: Int) {
         TODO("Not yet implemented")
+    }
+
+    override fun onCLickRefresh() {
+        viewModelScope.launch {
+            _queryFlow
+                .debounce(1000)
+                .filter { it.isNotEmpty() }
+                .distinctUntilChanged()
+                .collect { query ->
+                    onGetData(query)
+                }
+        }
     }
     ///endregion
 }

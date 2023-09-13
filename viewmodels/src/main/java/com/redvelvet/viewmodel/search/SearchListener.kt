@@ -7,4 +7,5 @@ interface SearchListener {
     fun onClickTvShowChip()
     fun onClickActorChip()
     fun onClickItem(id: Int)
+    fun onCLickRefresh()
 }

@@ -26,7 +26,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -34,7 +33,9 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.CategoriesChips
 import com.redvelvet.ui.composable.CustomLazyGrid
+import com.redvelvet.ui.composable.ErrorPage
 import com.redvelvet.ui.composable.FlixMovieScaffold
+import com.redvelvet.ui.composable.LoadingPage
 import com.redvelvet.ui.composable.SpacerVertical
 import com.redvelvet.ui.theme.BackgroundPrimary
 import com.redvelvet.ui.theme.FontAccent
@@ -57,37 +58,48 @@ fun SearchScreen(
 
     val state by viewModel.state.collectAsState()
     FlixMovieScaffold(
-        isLoading = state.isLoading,
-        error = state.error
+        isLoading = state.isLoading, error = state.error
     ) {
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.color.backgroundPrimary)
-                .fillMaxSize()
-        ) {
-            SearchField(
-                valueOfFiled = state.inputText,
-                onTextChange = viewModel::onChangeSearchTextFiled,
-                onClickClear = viewModel::onClickClear
+        if (state.isEmpty) {
+            Column(
+                modifier = Modifier
+                    .background(MaterialTheme.color.backgroundPrimary)
+                    .fillMaxSize()
+            ) {
+                SearchField(
+                    valueOfFiled = state.inputText,
+                    onTextChange = viewModel::onChangeSearchTextFiled,
+                    onClickClear = viewModel::onClickClear
+                )
+                CategoriesChips(
+                    onChangeCategory = viewModel::onChangeCategory,
+                    selectedType = state.selectedMediaType,
+                    categories = state.categories,
+                    title = "Categories"
+                )
+                SearchContent(state)
+            }
+        } else {
+            ErrorPage(
+                image = painterResource(id = R.drawable.vector_no_internet),
+                title = "Internet is not available",
+                description = "Please make sure you are connected to the internet and try again",
+                retryButton = { viewModel.onCLickRefresh() }
             )
-            CategoriesChips(
-                onChangeCategory = viewModel::onChangeCategory,
-                selectedType = state.selectedMediaType,
-                categories = state.getCategories,
-                title = "Categories"
-            )
-            SearchContent(state)
         }
     }
 }
 
 @Composable
 fun SearchContent(state: SearchUiState) {
-    if (state.inputText.isEmpty()) {
+    if (state.isLoading) {
+        LoadingPage()
+    } else if (state.inputText.isEmpty()) {
         EmptyContent()
     } else {
         CustomLazyGrid(searchCardUiStates = state.searchResult.collectAsLazyPagingItems())
     }
+
 }
 
 @Composable
@@ -125,9 +137,7 @@ fun EmptyContent() {
 
 @Composable
 fun SearchField(
-    valueOfFiled: String,
-    onTextChange: (String) -> Unit,
-    onClickClear: () -> Unit
+    valueOfFiled: String, onTextChange: (String) -> Unit, onClickClear: () -> Unit
 ) {
     TextField(
         value = valueOfFiled,
@@ -153,11 +163,9 @@ fun SearchField(
             Icon(painterResource(id = R.drawable.icon_search), contentDescription = "")
         },
         trailingIcon = {
-            Icon(
-                painter = painterResource(R.drawable.icon_cancel),
+            Icon(painter = painterResource(R.drawable.icon_cancel),
                 contentDescription = "",
-                modifier = Modifier.clickable { onClickClear() }
-            )
+                modifier = Modifier.clickable { onClickClear() })
         },
         shape = RoundedCornerShape(MaterialTheme.radius.radius16),
         colors = TextFieldDefaults.colors(
@@ -169,11 +177,4 @@ fun SearchField(
             disabledIndicatorColor = Color.Transparent,
         ),
     )
-}
-
-
-@Preview
-@Composable
-private fun searchPreview() {
-    SearchField("banan", {}, {})
 }

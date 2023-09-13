@@ -9,7 +9,7 @@ fun TvShow.toSearchCardUiState(): SearchCardUiState {
         name = name,
         image = imageUrl,
         type = "TvShow",
-        releaseDate = releaseDate ?: "",
-        country = country ?: ""
+        releaseDate = releaseDate,
+        country = country
     )
 }

@@ -9,11 +9,11 @@ fun SearchResult.toSearchCardUiState(): SearchCardUiState {
     val date = firstAirDate.ifEmpty { releaseDate }
 
     return SearchCardUiState(
-        id = id ?: 0,
-        name = mediaName ?: "",
-        image = image ?: "",
-        type = mediaType ?: "",
-        releaseDate = date ?: "",
-        country = language ?: ""
+        id = id,
+        name = mediaName,
+        image = image,
+        type = mediaType,
+        releaseDate = date,
+        country = language
     )
 }

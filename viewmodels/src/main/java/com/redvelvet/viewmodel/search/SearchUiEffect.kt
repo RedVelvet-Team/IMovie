@@ -1,6 +1,8 @@
 package com.redvelvet.viewmodel.search
 
-sealed interface SearchUiEffect {
+import com.redvelvet.viewmodel.base.BaseUiEffect
+
+sealed class SearchUiEffect() : BaseUiEffect {
 
 
 }
