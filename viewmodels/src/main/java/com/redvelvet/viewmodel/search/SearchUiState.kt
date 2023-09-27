@@ -14,10 +14,10 @@ data class SearchUiState(
     val inputText: String = "",
     val searchResult: Flow<PagingData<SearchCardUiState>> = flow { },
     val isEmpty: Boolean = true,
-    val categories: List<CategoryUiState> = listOf(
-        CategoryUiState("Movie", SearchMedia.MOVIE),
-        CategoryUiState("Tv show", SearchMedia.TV),
-        CategoryUiState("Person", SearchMedia.PEOPLE),
+    val categories : List<CategoryUiState> = listOf(
+        CategoryUiState(text = "Movie", type = SearchMedia.MOVIE),
+        CategoryUiState(text = "Tv show", type = SearchMedia.TV),
+        CategoryUiState(text = "Person", type = SearchMedia.PEOPLE),
     )
 ) : BaseUiState
 
@@ -31,5 +31,6 @@ data class SearchCardUiState(
 )
 
 data class CategoryUiState(
-    val text: String = "", val type: SearchMedia = SearchMedia.MOVIE
+    val text: String = "",
+    val type: SearchMedia = SearchMedia.MOVIE
 )
