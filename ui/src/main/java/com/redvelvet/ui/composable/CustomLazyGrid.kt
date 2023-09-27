@@ -62,9 +62,9 @@ fun CustomLazyGrid(
                     .height(MaterialTheme.dimens.dimens176)
                     .clickable {
                         when (mediaItem.type) {
-                            "movie" -> navController.navigateToMovieDetails(mediaItem.id.toString())
-                            "tv" -> navController.navigateToTvShowDetails(mediaItem.id.toString())
-                            "person" -> navController.navigateToActorDetails(mediaItem.id.toString())
+                            "Movie" -> navController.navigateToMovieDetails(mediaItem.id.toString())
+                            "TvShow" -> navController.navigateToTvShowDetails(mediaItem.id.toString())
+                            "People" -> navController.navigateToActorDetails(mediaItem.id.toString())
                         }
                     },
                 hasName = true,
