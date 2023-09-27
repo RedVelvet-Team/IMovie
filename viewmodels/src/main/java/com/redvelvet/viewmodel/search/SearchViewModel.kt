@@ -5,9 +5,7 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.redvelvet.entities.actor.Actor
 import com.redvelvet.entities.movie.Movie
-import com.redvelvet.entities.search.SearchResult
 import com.redvelvet.entities.tv.TvShow
-import com.redvelvet.usecase.usecase.search.GetAllSearchResultUseCase
 import com.redvelvet.usecase.usecase.search.GetSearchMoviesUseCase
 import com.redvelvet.usecase.usecase.search.GetSearchPeopleUseCase
 import com.redvelvet.usecase.usecase.search.GetSearchTvShowUseCase
@@ -30,7 +28,6 @@ import javax.inject.Inject
 @OptIn(FlowPreview::class)
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val getAllSearchResultUseCase: GetAllSearchResultUseCase,
     private val getSearchMoviesUseCase: GetSearchMoviesUseCase,
     private val getSearchPeopleUseCase: GetSearchPeopleUseCase,
     private val getSearchTvShowUseCase: GetSearchTvShowUseCase,
@@ -58,9 +55,6 @@ class SearchViewModel @Inject constructor(
     private fun onGetData(query: String) {
         _state.update { it.copy(isLoading = true) }
         when (_state.value.selectedMediaType) {
-            SearchMedia.ALL -> fetchResults {
-                getAllSearchResultUseCase(query)
-            }
 
             SearchMedia.MOVIE -> fetchMoviesResults {
                 getSearchMoviesUseCase(query)
@@ -73,24 +67,6 @@ class SearchViewModel @Inject constructor(
             SearchMedia.TV -> fetchTvShowResults {
                 getSearchTvShowUseCase(query)
             }
-        }
-    }
-
-    private fun fetchResults(fetchFunction: suspend () -> Flow<PagingData<SearchResult>>) {
-        tryToExecutePaging(
-            call = fetchFunction,
-            onSuccess = ::onSuccessSearchResults,
-            onError = ::onError
-        )
-    }
-
-    private fun onSuccessSearchResults(pagingData: PagingData<SearchResult>) {
-        _state.update {
-            it.copy(
-                searchResult = flowOf(pagingData.map { it.toSearchCardUiState() }),
-                isLoading = false,
-                isEmpty = false
-            )
         }
     }
 
@@ -161,10 +137,6 @@ class SearchViewModel @Inject constructor(
         _state.value = SearchUiState()
     }
 
-    override fun onClickAllChip() {
-        onChangeCategory(SearchMedia.ALL)
-    }
-
     override fun onClickMovieChip() {
         onChangeCategory(SearchMedia.MOVIE)
     }
@@ -175,10 +147,6 @@ class SearchViewModel @Inject constructor(
 
     override fun onClickActorChip() {
         onChangeCategory(SearchMedia.PEOPLE)
-    }
-
-    override fun onClickItem(id: Int) {
-        TODO("Not yet implemented")
     }
 
     override fun onCLickRefresh() {

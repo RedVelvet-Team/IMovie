@@ -1,5 +1,6 @@
 package com.redvelvet.ui.composable
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -60,10 +61,11 @@ fun CustomLazyGrid(
                     .width(MaterialTheme.dimens.dimens104)
                     .height(MaterialTheme.dimens.dimens176)
                     .clickable {
+                        Log.d("AAA", mediaItem.type)
                         when (mediaItem.type) {
-                            "movie" -> navController.navigateToMovieDetails(mediaItem.id.toString())
-                            "tv" -> navController.navigateToTvShowDetails(mediaItem.id.toString())
-                            "person" -> navController.navigateToActorDetails(mediaItem.id.toString())
+                            "Movie" -> navController.navigateToMovieDetails(mediaItem.id.toString())
+                            "TvShow" -> navController.navigateToTvShowDetails(mediaItem.id.toString())
+                            "People" -> navController.navigateToActorDetails(mediaItem.id.toString())
                         }
                     },
                 hasName = true,

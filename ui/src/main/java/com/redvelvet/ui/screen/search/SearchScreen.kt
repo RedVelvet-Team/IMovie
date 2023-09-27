@@ -33,9 +33,9 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.CategoriesChips
 import com.redvelvet.ui.composable.CustomLazyGrid
-import com.redvelvet.ui.composable.ErrorPage
 import com.redvelvet.ui.composable.FlixMovieScaffold
 import com.redvelvet.ui.composable.LoadingPage
+import com.redvelvet.ui.composable.NavigationHandler
 import com.redvelvet.ui.composable.SpacerVertical
 import com.redvelvet.ui.theme.BackgroundPrimary
 import com.redvelvet.ui.theme.FontAccent
@@ -45,6 +45,7 @@ import com.redvelvet.ui.theme.color
 import com.redvelvet.ui.theme.dimens
 import com.redvelvet.ui.theme.radius
 import com.redvelvet.ui.theme.spacing
+import com.redvelvet.viewmodel.search.SearchUiEffect
 import com.redvelvet.viewmodel.search.SearchUiState
 import com.redvelvet.viewmodel.search.SearchViewModel
 
@@ -57,49 +58,50 @@ fun SearchScreen(
     systemUiController.setSystemBarsColor(BackgroundPrimary, darkIcons = false)
 
     val state by viewModel.state.collectAsState()
-    FlixMovieScaffold(
-        isLoading = state.isLoading, error = state.error
-    ) {
-        if (state.isEmpty) {
-            Column(
-                modifier = Modifier
-                    .background(MaterialTheme.color.backgroundPrimary)
-                    .fillMaxSize()
-            ) {
-                SearchField(
-                    valueOfFiled = state.inputText,
-                    onTextChange = viewModel::onChangeSearchTextFiled,
-                    onClickClear = viewModel::onClickClear
-                )
-                CategoriesChips(
-                    onChangeCategory = viewModel::onChangeCategory,
-                    selectedType = state.selectedMediaType,
-                    categories = state.categories,
-                    title = "Categories"
-                )
-                SearchContent(state)
+    NavigationHandler(
+        effects = viewModel.effect,
+        handleEffect = { effect, navController ->
+            when (effect) {
+                is SearchUiEffect.NavigateUp -> {
+                    navController.popBackStack()
+                }
             }
-        } else {
-            ErrorPage(
-                image = painterResource(id = R.drawable.vector_no_internet),
-                title = "Internet is not available",
-                description = "Please make sure you are connected to the internet and try again",
-                retryButton = { viewModel.onCLickRefresh() }
+        }
+    )
+    FlixMovieScaffold(
+        isLoading = state.isLoading,
+        error = state.error
+    ) {
+        Column(
+            modifier = Modifier
+                .background(MaterialTheme.color.backgroundPrimary)
+                .fillMaxSize()
+        ) {
+            SearchField(
+                valueOfFiled = state.inputText,
+                onTextChange = viewModel::onChangeSearchTextFiled,
+                onClickClear = viewModel::onClickClear
             )
+            CategoriesChips(
+                onChangeCategory = viewModel::onChangeCategory,
+                selectedType = state.selectedMediaType,
+                categories = state.categories,
+                title = "Categories"
+            )
+            SearchContent(state)
         }
     }
 }
 
 @Composable
 fun SearchContent(state: SearchUiState) {
-    if (state.isLoading) {
-        LoadingPage()
-    } else if (state.inputText.isEmpty()) {
+    if (state.inputText.isEmpty()) {
         EmptyContent()
+    } else if (state.isLoading) {
+        LoadingPage()
     } else {
         CustomLazyGrid(searchCardUiStates = state.searchResult.collectAsLazyPagingItems())
     }
-
 }
 
 @Composable

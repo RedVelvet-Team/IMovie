@@ -82,6 +82,7 @@ class HomeViewModel @Inject constructor(
             )
         }
     }
+
     private fun onSuccesTv(movies: List<List<TvShow>>) {
         _state.update {
             it.copy(

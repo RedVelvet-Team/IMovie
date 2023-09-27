@@ -60,7 +60,7 @@ fun ActorDetailsScreen(
         state = state,
         onClickSeeAll = { navController.navigateToActorKnownFor(state.id) },
         onClickItem = { type: String, id: String ->
-            if (type == "movie") navController.navigateToMovieDetails(id)
+            if (type == "Movie") navController.navigateToMovieDetails(id)
         }
     )
 }
