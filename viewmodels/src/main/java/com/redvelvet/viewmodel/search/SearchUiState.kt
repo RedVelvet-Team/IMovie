@@ -10,15 +10,14 @@ import kotlinx.coroutines.flow.flow
 data class SearchUiState(
     val isLoading: Boolean = false,
     val error: ErrorUiState? = null,
-    val selectedMediaType: SearchMedia = SearchMedia.ALL,
+    val selectedMediaType: SearchMedia = SearchMedia.MOVIE,
     val inputText: String = "",
     val searchResult: Flow<PagingData<SearchCardUiState>> = flow { },
     val isEmpty: Boolean = true,
-    val getCategories : List<CategoryUiState> = listOf(
-        CategoryUiState(text = "All", type = SearchMedia.ALL),
+    val categories : List<CategoryUiState> = listOf(
         CategoryUiState(text = "Movie", type = SearchMedia.MOVIE),
-        CategoryUiState(text = "Person", type = SearchMedia.PEOPLE),
         CategoryUiState(text = "Tv show", type = SearchMedia.TV),
+        CategoryUiState(text = "Person", type = SearchMedia.PEOPLE),
     )
 ) : BaseUiState
 
@@ -33,5 +32,5 @@ data class SearchCardUiState(
 
 data class CategoryUiState(
     val text: String = "",
-    val type: SearchMedia = SearchMedia.ALL
+    val type: SearchMedia = SearchMedia.MOVIE
 )

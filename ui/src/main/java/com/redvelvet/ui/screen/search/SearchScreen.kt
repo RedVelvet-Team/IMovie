@@ -35,6 +35,7 @@ import com.redvelvet.ui.R
 import com.redvelvet.ui.composable.CategoriesChips
 import com.redvelvet.ui.composable.CustomLazyGrid
 import com.redvelvet.ui.composable.FlixMovieScaffold
+import com.redvelvet.ui.composable.LoadingPage
 import com.redvelvet.ui.composable.SpacerVertical
 import com.redvelvet.ui.theme.BackgroundPrimary
 import com.redvelvet.ui.theme.FontAccent
@@ -73,7 +74,7 @@ fun SearchScreen(
             CategoriesChips(
                 onChangeCategory = viewModel::onChangeCategory,
                 selectedType = state.selectedMediaType,
-                categories = state.getCategories,
+                categories = state.categories,
                 title = "Categories"
             )
             SearchContent(state)
@@ -85,6 +86,8 @@ fun SearchScreen(
 fun SearchContent(state: SearchUiState) {
     if (state.inputText.isEmpty()) {
         EmptyContent()
+    } else if (state.isLoading) {
+        LoadingPage()
     } else {
         CustomLazyGrid(searchCardUiStates = state.searchResult.collectAsLazyPagingItems())
     }

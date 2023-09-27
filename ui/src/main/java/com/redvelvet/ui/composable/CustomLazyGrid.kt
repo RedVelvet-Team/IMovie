@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import coil.compose.rememberAsyncImagePainter
 import com.redvelvet.ui.LocalNavController
 import com.redvelvet.ui.screen.actor_details.navigateToActorDetails
 import com.redvelvet.ui.screen.movieDetails.navigateToMovieDetails
@@ -62,8 +61,8 @@ fun CustomLazyGrid(
                     .height(MaterialTheme.dimens.dimens176)
                     .clickable {
                         when (mediaItem.type) {
-                            "movie" -> navController.navigateToMovieDetails(mediaItem.id.toString())
-                            "tv" -> navController.navigateToTvShowDetails(mediaItem.id.toString())
+                            "Movie" -> navController.navigateToMovieDetails(mediaItem.id.toString())
+                            "TvShow" -> navController.navigateToTvShowDetails(mediaItem.id.toString())
                             "person" -> navController.navigateToActorDetails(mediaItem.id.toString())
                         }
                     },
